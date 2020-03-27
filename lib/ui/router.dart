@@ -1,5 +1,6 @@
 import 'package:compound/models/route_argument.dart';
 import 'package:compound/ui/views/home_view.dart';
+import 'package:compound/ui/views/map_view.dart';
 import 'package:compound/ui/views/search_view.dart';
 import 'package:compound/ui/views/verify_otp.dart';
 import 'package:flutter/material.dart';
@@ -62,6 +63,12 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     //       edittingPost: postToEdit,
     //     ),
     //   );
+    case MapViewRoute:
+      return _getPageRoute(
+          pageArguments: pageArguments,
+          routeName: settings.name,
+          viewToShow: MapView(),
+          pageTransitionType: transitionType);
     default:
       return MaterialPageRoute(
           builder: (_) => Scaffold(
@@ -78,10 +85,7 @@ PageRoute _getPageRoute({
   @required PageTransitionType pageTransitionType,
 }) {
   return PageTransition(
-    settings: RouteSettings(
-      name: routeName,
-      arguments: pageArguments
-    ),
+    settings: RouteSettings(name: routeName, arguments: pageArguments),
     child: viewToShow,
     type: pageTransitionType,
   );

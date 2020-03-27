@@ -3,6 +3,8 @@ import 'package:compound/constants/shared_pref.dart';
 import 'package:compound/locator.dart';
 import 'package:compound/models/post.dart';
 import 'package:compound/models/route_argument.dart';
+import 'package:compound/services/api/api_service.dart';
+import 'package:compound/services/location_service.dart';
 // import 'package:compound/services/dialog_service.dart';
 import 'package:compound/services/navigation_service.dart';
 import 'package:compound/viewmodels/base_model.dart';
@@ -11,11 +13,20 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeViewModel extends BaseModel {
   final NavigationService _navigationService = locator<NavigationService>();
+  final LocationService _locationService = locator<LocationService>();
+  final APIService _apiService = locator<APIService>();
   // final DialogService _dialogService = locator<DialogService>();
 
   List<Post> _posts;
   List<Post> get posts => _posts;
   Future init() {
+    // _locationService.getLocation();
+    
+    // _apiService.getProducts(); // -> Query from _locationServer
+    // _apiService.getPromotions();
+    // _apiService.getSellers();
+    // _apiService.getSubCategories();
+
     return null;
   }
 
@@ -50,6 +61,10 @@ class HomeViewModel extends BaseModel {
 
   Future navigateToCreateView() async {
     await _navigationService.navigateTo(CreatePostViewRoute);
+  }
+
+  Future openmap() async {
+    await _navigationService.navigateReplaceTo(MapViewRoute);
   }
 
   void editPost(int index) {

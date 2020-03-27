@@ -4,3 +4,4 @@ const String SignUpViewRoute = "SignUp";
 const String HomeViewRoute = "HomeView";
 const String SearchViewRoute = "SearchView";
 const String CreatePostViewRoute = "CreatePostView";
+const String MapViewRoute = "MapView";
