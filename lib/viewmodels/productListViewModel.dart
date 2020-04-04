@@ -11,9 +11,8 @@ import 'package:compound/viewmodels/base_model.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class HomeViewModel extends BaseModel {
+class ProductListViewModel extends BaseModel {
   final NavigationService _navigationService = locator<NavigationService>();
-  final LocationService _locationService = locator<LocationService>();
   final APIService _apiService = locator<APIService>();
   // final DialogService _dialogService = locator<DialogService>();
 

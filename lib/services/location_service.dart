@@ -27,7 +27,7 @@ class LocationService {
               latitude: locationData.latitude,
               longitude: locationData.longitude,
             ));
-            Fimber.d("location update-> " + locationData.toString());
+            // Fimber.d("location update-> " + locationData.toString());
           }
         });
       }

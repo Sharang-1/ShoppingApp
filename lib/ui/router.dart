@@ -1,12 +1,15 @@
+import 'package:compound/models/productPageArg.dart';
 import 'package:compound/models/route_argument.dart';
+import 'package:compound/ui/views/cart_view.dart';
+import 'package:compound/ui/views/categories_view.dart';
 import 'package:compound/ui/views/home_view.dart';
 import 'package:compound/ui/views/map_view.dart';
+import 'package:compound/ui/views/productListView.dart';
 import 'package:compound/ui/views/search_view.dart';
 import 'package:compound/ui/views/verify_otp.dart';
 import 'package:flutter/material.dart';
 import 'package:compound/constants/route_names.dart';
 import 'package:compound/ui/views/login_view.dart';
-import 'package:compound/ui/views/signup_view.dart';
 import 'package:page_transition/page_transition.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
@@ -52,6 +55,30 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return _getPageRoute(
         routeName: settings.name,
         viewToShow: SearchView(),
+        pageArguments: pageArguments,
+        pageTransitionType: transitionType,
+      );
+    case CartViewRoute:
+      return _getPageRoute(
+        routeName: settings.name,
+        viewToShow: CartView(),
+        pageArguments: pageArguments,
+        pageTransitionType: transitionType,
+      );
+    case ProductsListRoute:
+      return _getPageRoute(
+        routeName: settings.name,
+        viewToShow: ProductListView(
+          queryString: (pageArguments as ProductPageArg).queryString,
+          subCategory: (pageArguments as ProductPageArg).subCategory,
+        ),
+        pageArguments: pageArguments,
+        pageTransitionType: transitionType,
+      );
+    case CategoriesRoute:
+      return _getPageRoute(
+        routeName: settings.name,
+        viewToShow: CategoriesView(),
         pageArguments: pageArguments,
         pageTransitionType: transitionType,
       );

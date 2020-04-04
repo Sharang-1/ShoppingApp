@@ -112,8 +112,9 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
     minPrice = widget.oldFilter.minPrice ?? 0;
     maxPrice = widget.oldFilter.maxPrice ?? 50000;
     minDiscount = widget.oldFilter.minDiscount ?? 0;
-    sortField = widget.oldFilter.sortField;
+    sortByRadioValue = sortField = widget.oldFilter.sortField;
     isSortOrderDesc = widget.oldFilter.isSortOrderDesc;
+    sortOrderRadioValue = isSortOrderDesc == true ? 'desc' : 'asc';
 
     super.initState();
   }
@@ -145,8 +146,8 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
                   minPrice: minPrice,
                   maxPrice: maxPrice,
                   minDiscount: minDiscount,
-                  sortField: sortField,
-                  isSortOrderDesc: isSortOrderDesc,
+                  sortField: sortByRadioValue,
+                  isSortOrderDesc: sortOrderRadioValue == 'desc',
                 ),
               );
             },
@@ -226,7 +227,7 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
                     child: RangeSlider(
                       min: 0,
                       max: 50000,
-                      divisions: 1000,
+                      divisions: 100,
                       labels:
                           RangeLabels(minPrice.toString(), maxPrice.toString()),
                       values:
@@ -259,7 +260,7 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
                     child: Slider(
                       min: 0,
                       max: 100,
-                      divisions: 100,
+                      divisions: 20,
                       label: minDiscount.toString(),
                       value: minDiscount.toDouble(),
                       onChanged: (val) {
@@ -392,4 +393,4 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
 // / check and debug filters for products
 // / create sellers' grid view
 // / create sellers' tile ui
-// / search sellers's by name 
+// / search sellers's by name

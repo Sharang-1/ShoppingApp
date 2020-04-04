@@ -5,3 +5,6 @@ const String HomeViewRoute = "HomeView";
 const String SearchViewRoute = "SearchView";
 const String CreatePostViewRoute = "CreatePostView";
 const String MapViewRoute = "MapView";
+const String CartViewRoute = "CartView";
+const String CategoriesRoute = "CategoriesView";
+const String ProductsListRoute = "ProductsListView";

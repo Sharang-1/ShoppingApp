@@ -1,9 +1,12 @@
 import 'package:compound/models/grid_view_builder_filter_models/productFilter.dart';
+import 'package:compound/models/grid_view_builder_filter_models/sellerFilter.dart';
 import 'package:compound/models/products.dart';
+import 'package:compound/models/sellers.dart';
 import 'package:compound/ui/widgets/GridListWidget.dart';
 import 'package:compound/ui/widgets/ProductFilterDialog.dart';
 import 'package:compound/ui/widgets/ProductTileUI.dart';
 import 'package:compound/viewmodels/grid_view_builder_view_models/products_grid_view_builder_view_model.dart';
+import 'package:compound/viewmodels/grid_view_builder_view_models/sellers_grid_view_builder_view.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
 import 'package:provider_architecture/provider_architecture.dart';
@@ -37,6 +40,7 @@ class _SearchViewState extends State<SearchView>
 
   // Filter States
   ProductFilter productFilter;
+  SellerFilter sellerFilter;
 
   // These lists will be used for showing UI and filtering.
   List<String> productSearchHistoryList = [];
@@ -215,6 +219,7 @@ class _SearchViewState extends State<SearchView>
                 filter: productFilter,
                 gridCount: 2,
                 viewModel: ProductsGridViewBuilderViewModel(),
+                childAspectRatio: 0.7,
                 tileBuilder: (BuildContext context, data) {
                   Fimber.d("test");
                   print((data as Product).toJson());
@@ -224,16 +229,17 @@ class _SearchViewState extends State<SearchView>
                 },
               ),
             if (showResults && _tabController.index == 1)
-              GridListWidget<Products, Product>(
+              GridListWidget<Sellers, Seller>(
                 key: sellerGridKey,
                 context: context,
-                filter: productFilter,
+                filter: sellerFilter,
                 gridCount: 2,
-                viewModel: ProductsGridViewBuilderViewModel(),
+                viewModel: SellersGridViewBuilderViewModel(),
+                disablePagination: true,
                 tileBuilder: (BuildContext context, data) {
                   return Card(
                     child: Center(
-                      child: Text("seller"),
+                      child: Text(data.name),
                     ),
                   );
                 },
@@ -294,6 +300,7 @@ class _SearchViewState extends State<SearchView>
   void _searchAction(String searchKey) {
     // Checking tab controller index
     // If index is 0 then do search for product page else sellers page
+    print("dsfdfsdfsdfsdfssssssssssssssssssssssssssssssssssssssssssssssssssss");
 
     if (!_searchFilterRegex.hasMatch(searchKey)) return;
 
@@ -313,7 +320,7 @@ class _SearchViewState extends State<SearchView>
       // Seller Search Here
       setState(() {
         sellerGridKey = new UniqueKey();
-        productFilter = new ProductFilter(fullText: searchKey);
+        sellerFilter = new SellerFilter(name: searchKey);
         showResults = true;
         if (showRecents) showRecents = false;
         // Append to shared pref only when new element is inserted

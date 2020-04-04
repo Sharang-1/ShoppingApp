@@ -15,6 +15,8 @@ class GridListWidget<P, I> extends StatelessWidget {
   final BaseGridViewBuilderViewModel viewModel;
   final TileFunctionBuilder tileBuilder;
   final int gridCount;
+  final double childAspectRatio;
+  final bool disablePagination;
 
   const GridListWidget({
     Key key,
@@ -23,6 +25,8 @@ class GridListWidget<P, I> extends StatelessWidget {
     @required this.viewModel,
     @required this.gridCount,
     @required this.tileBuilder,
+    this.childAspectRatio = 1.0,
+    this.disablePagination = false,
   }) : super(key: key);
 
   final BuildContext context;
@@ -38,7 +42,8 @@ class GridListWidget<P, I> extends StatelessWidget {
               gridCount: gridCount,
               tileBuilder: tileBuilder,
               model: model,
-            )
+              childAspectRatio: childAspectRatio,
+              disablePagination: disablePagination)
           : Container(
               child: null,
             ),
@@ -53,12 +58,16 @@ class CustomGridViewFutureBuilder<P, I> extends StatefulWidget {
     @required this.gridCount,
     @required this.tileBuilder,
     @required this.model,
+    this.childAspectRatio = 1.0,
+    this.disablePagination,
   }) : super(key: key);
 
   final BaseFilterModel filter;
   final int gridCount;
   final TileFunctionBuilder tileBuilder;
   final BaseGridViewBuilderViewModel model;
+  final double childAspectRatio;
+  final bool disablePagination;
 
   @override
   _CustomGridViewFutureBuilderState<P, I> createState() =>
@@ -111,6 +120,8 @@ class _CustomGridViewFutureBuilderState<P, I>
               viewModel: widget.model,
               gridCount: widget.gridCount,
               tileBuilder: widget.tileBuilder,
+              childAspectRatio: widget.childAspectRatio,
+              disablePagination: widget.disablePagination,
             );
           default:
             return null;
@@ -126,6 +137,8 @@ class PaginatedGridView<P, I> extends StatefulWidget {
   final BaseFilterModel filter;
   final TileFunctionBuilder tileBuilder;
   final int gridCount;
+  final double childAspectRatio;
+  final bool disablePagination;
 
   const PaginatedGridView({
     Key key,
@@ -134,6 +147,8 @@ class PaginatedGridView<P, I> extends StatefulWidget {
     @required this.viewModel,
     @required this.gridCount,
     @required this.tileBuilder,
+    this.childAspectRatio = 1,
+    this.disablePagination,
   }) : super(key: key);
 
   @override
@@ -164,14 +179,15 @@ class _PaginatedGridViewState<I> extends State<PaginatedGridView> {
   @override
   Widget build(BuildContext context) {
     return NotificationListener(
-      onNotification: onNotification,
+      onNotification: !(widget.disablePagination) ? onNotification : null,
       child: items.length != 0
           ? GridView.builder(
               padding: EdgeInsets.only(
                 top: 5.0,
               ),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
+                childAspectRatio: widget.childAspectRatio,
               ),
               controller: _scrollController,
               itemCount: items.length,

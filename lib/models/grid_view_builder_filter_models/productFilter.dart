@@ -10,8 +10,9 @@ class ProductFilter implements BaseFilterModel {
   final int minDiscount;
   final String sortField;
   final bool isSortOrderDesc;
+  final String existingQueryString;
 
-  String _queryString;
+  String _queryString = "";
 
   ProductFilter({
     this.fullText,
@@ -23,14 +24,18 @@ class ProductFilter implements BaseFilterModel {
     this.minDiscount,
     this.sortField,
     this.isSortOrderDesc,
+    this.existingQueryString = "",
   }) {
-    _queryString = "";
+    if (existingQueryString != "") {
+      _queryString = existingQueryString;
+      return;
+    }
+
     if (fullText != null) _queryString += "freeText=$fullText;";
     if (categories != null) _queryString += "categories=$categories;";
     if (subCategories != null)
-      _queryString += subCategories
-          .map((String value) => "subCategories=$value;")
-          .join("");
+      _queryString +=
+          subCategories.map((String value) => "subCategories=$value;").join("");
     if (size != null)
       _queryString += size.map((String value) => "size=$size;").join("");
     if (minPrice != null) _queryString += "minPrice=$minPrice;";

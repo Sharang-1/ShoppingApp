@@ -12,27 +12,27 @@ class Subcategories {
     int records;
     int startIndex;
     int limit;
-    List<Category> categories;
+    List<Category> items;
 
     Subcategories({
         this.records,
         this.startIndex,
         this.limit,
-        this.categories,
+        this.items,
     });
 
     factory Subcategories.fromJson(Map<String, dynamic> json) => Subcategories(
         records: json["records"],
         startIndex: json["startIndex"],
         limit: json["limit"],
-        categories: List<Category>.from(json["categories"].map((x) => Category.fromJson(x))),
+        items: List<Category>.from(json["categories"].map((x) => Category.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
         "records": records,
         "startIndex": startIndex,
         "limit": limit,
-        "categories": List<dynamic>.from(categories.map((x) => x.toJson())),
+        "categories": List<dynamic>.from(items.map((x) => x.toJson())),
     };
 }
 

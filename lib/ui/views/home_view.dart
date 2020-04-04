@@ -38,7 +38,7 @@ class HomeView extends StatelessWidget {
                         actions: <Widget>[
                           IconButton(
                             icon: Icon(Icons.shopping_cart),
-                            onPressed: () {},
+                            onPressed: () => model.cart(),
                           ),
                         ],
 
@@ -47,52 +47,61 @@ class HomeView extends StatelessWidget {
                         expandedHeight: 2 * kToolbarHeight,
                         forceElevated: true,
                         flexibleSpace: Padding(
-                          padding: const EdgeInsets.only(top: 1.4*kToolbarHeight),
+                          padding: const EdgeInsets.only(
+                            top: 1.4 * kToolbarHeight,
+                          ),
                           child: PreferredSize(
-                              preferredSize: const Size.fromHeight(50),
-                              child: Container(
-                                  margin: const EdgeInsets.all(8.0),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Expanded(
-                                        child: InkWell(
-                                          onTap: () {
-                                            model.search();
-                                          },
-                                          child: Container(
-                                            width: double.infinity,
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(7),
-                                                color: Colors.white),
-                                            child: Padding(
-                                              padding: const EdgeInsets.symmetric(
-                                                horizontal: 12,
-                                                vertical: 8,
-                                              ),
-                                              child: Text("Search"),
-                                            ),
+                            preferredSize: const Size.fromHeight(50),
+                            child: Container(
+                              margin: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: <Widget>[
+                                  Expanded(
+                                    child: InkWell(
+                                      onTap: () {
+                                        model.search();
+                                      },
+                                      child: Container(
+                                        width: double.infinity,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(7),
+                                            color: Colors.white),
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 12,
+                                            vertical: 8,
                                           ),
+                                          child: Text("Search"),
                                         ),
                                       ),
-                                      IconButton(
-                                          tooltip: 'map',
-                                          icon: Icon(Icons.map,
-                                              color: Colors.white),
-                                          onPressed: () {
-                                            model.openmap();
-                                          })
-                                    ],
-                                  ))),
+                                    ),
+                                  ),
+                                  IconButton(
+                                    tooltip: 'map',
+                                    icon: Icon(
+                                      Icons.map,
+                                      color: Colors.white,
+                                    ),
+                                    onPressed: () {
+                                      model.openmap();
+                                    },
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                       SliverList(
-                          // Use a delegate to build items as they're scrolled on screen.
-                          delegate: SliverChildBuilderDelegate(
-                              // The builder function returns a ListTile with a title that
-                              // displays the index of the current item.
-                              (context, index) => HomeViewList(),
-                              childCount: 1)),
+                        // Use a delegate to build items as they're scrolled on screen.
+                        delegate: SliverChildBuilderDelegate(
+                          // The builder function returns a ListTile with a title that
+                          // displays the index of the current item.
+                          (context, index) => HomeViewList(),
+                          childCount: 1,
+                        ),
+                      ),
                     ],
                   )
                   // Builds 1000 ListTiles

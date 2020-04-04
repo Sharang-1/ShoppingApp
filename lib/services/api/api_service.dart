@@ -19,8 +19,8 @@ import '../dialog_service.dart';
 class APIService {
   final apiClient = Dio(BaseOptions(
       baseUrl: "http://52.66.141.191/api/",
-      connectTimeout: 5000,
-      receiveTimeout: 5000,
+      connectTimeout: 15000,
+      receiveTimeout: 15000,
       validateStatus: (status) {
         return status < 500;
       }
@@ -36,8 +36,6 @@ class APIService {
     apiClient..interceptors.addAll([AppInterceptors(), CustomLogInterceptor()]);
   }
 
-
-
   // Future<T> mApiWrapper<T>() async {
   //   var data = await apiWrapper("products");
   //   if (data != null) {
@@ -49,9 +47,11 @@ class APIService {
   // }
 
   Future apiWrapper(String path,
-      {data, Map<String, dynamic> queryParameters, Options options, bool authenticated = false}) async {
-        
-    if(authenticated){
+      {data,
+      Map<String, dynamic> queryParameters,
+      Options options,
+      bool authenticated = false}) async {
+    if (authenticated) {
       options.headers["excludeToken"] = true;
     }
     // Options tempOptions = options;
@@ -82,8 +82,7 @@ class APIService {
   }
 
   Future sendOTP({@required String phoneNo}) {
-    return apiWrapper("message/generateOtpToLogin",
-        data: {"mobile": phoneNo});
+    return apiWrapper("message/generateOtpToLogin", data: {"mobile": phoneNo});
   }
 
   Future verifyOTP({@required String phoneNo, @required String otp}) {
@@ -102,7 +101,7 @@ class APIService {
   //   return null;
   // }
 
-  Future<Products> getProducts({ String queryString = "" }) async {
+  Future<Products> getProducts({String queryString = ""}) async {
     var productData = await apiWrapper("products;$queryString");
     if (productData != null) {
       Products products = Products.fromJson(productData);
@@ -112,39 +111,38 @@ class APIService {
     return null;
   }
 
-  
   Future<Promotions> getPromotions() async {
     var promotionsData = await apiWrapper("promotions:active=true");
     if (promotionsData != null) {
       Promotions promotions = Promotions.fromJson(promotionsData);
-      Fimber.d("promotions : " + promotions.promotions.map((o) => o.name).toString());
+      Fimber.d("promotions : " +
+          promotions.promotions.map((o) => o.name).toString());
       return promotions;
     }
     return null;
   }
 
-  Future<Subcategories> getSubCategories() async {
+  Future<Subcategories> getSubCategories({String queryString = ""}) async {
     var subCategories = await apiWrapper("categories?context=subCategory");
     if (subCategories != null) {
       Subcategories subcategories = Subcategories.fromJson(subCategories);
-      Fimber.d("Subcategories : " + subcategories.categories.map((o) => o.name).toString());
+      Fimber.d("Subcategories : " +
+          subcategories.items.map((o) => o.name).toString());
       return subcategories;
     }
     return null;
   }
 
-
-  Future<Sellers> getSellers() async {
-    var sellersData = await apiWrapper("sellers");
+  Future<Sellers> getSellers({String queryString = ""}) async {
+    var sellersData = await apiWrapper("sellers;$queryString");
     if (sellersData != null) {
       Sellers sellers = Sellers.fromJson(sellersData);
-      Fimber.d("Sellers : " + sellers.sellers.map((o) => o.name).toString());
+      Fimber.d("Sellers : " + sellers.items.map((o) => o.name).toString());
       return sellers;
     }
     return null;
   }
 
-  
   Future<Seller> getSellerByID(String id) async {
     var sellersData = await apiWrapper("sellers/$id");
     if (sellersData != null) {
@@ -156,11 +154,27 @@ class APIService {
   }
 
   Future<Tailors> getTailors() async {
-    var tailorsData = await apiWrapper("tailors",authenticated: true);
+    var tailorsData = await apiWrapper("tailors", authenticated: true);
     if (tailorsData != null) {
       Tailors tailors = Tailors.fromJson(tailorsData);
       Fimber.d("Tailors : " + tailors.tailors.map((o) => o.name).toString());
       return tailors;
+    }
+    return null;
+  }
+
+  Future<dynamic> getCart() async {
+    print("..................................................");
+    print("cart getting cart");
+    print("..................................................");
+    var cartData = await apiWrapper("carts/my", authenticated: true, options: Options(headers: { 'excludeToken': false }));
+    if (cartData != null) {
+      print("...............Cart...............................");
+      print(cartData);
+      print("..................................................");
+      // Tailors tailors = Tailors.fromJson(cartData);
+      // Fimber.d("Tailors : " + tailors.tailors.map((o) => o.name).toString());
+      return cartData;
     }
     return null;
   }

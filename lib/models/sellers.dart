@@ -12,27 +12,27 @@ class Sellers {
     int records;
     int startIndex;
     int limit;
-    List<Seller> sellers;
+    List<Seller> items;
 
     Sellers({
         this.records,
         this.startIndex,
         this.limit,
-        this.sellers,
+        this.items,
     });
 
     factory Sellers.fromJson(Map<String, dynamic> json) => Sellers(
         records: json["records"],
         startIndex: json["startIndex"],
         limit: json["limit"],
-        sellers: List<Seller>.from(json["sellers"].map((x) => Seller.fromJson(x))),
+        items: List<Seller>.from(json["sellers"].map((x) => Seller.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
         "records": records,
         "startIndex": startIndex,
         "limit": limit,
-        "sellers": List<dynamic>.from(sellers.map((x) => x.toJson())),
+        "sellers": List<dynamic>.from(items.map((x) => x.toJson())),
     };
 }
 
