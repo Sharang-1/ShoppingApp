@@ -27,6 +27,8 @@ class CartViewModel extends BaseModel {
     // _apiService.getSellers();
     // _apiService.getSubCategories();
 
+    _apiService.getCart();
+
     return null;
   }
 

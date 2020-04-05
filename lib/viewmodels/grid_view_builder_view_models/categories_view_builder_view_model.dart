@@ -1,5 +1,5 @@
 import 'package:compound/locator.dart';
-import 'package:compound/models/categories.dart';
+import 'package:compound/models/subcategories.dart';
 import 'package:compound/models/grid_view_builder_filter_models/base_filter_model.dart';
 import 'package:compound/models/sellers.dart';
 import 'package:compound/models/subcategories.dart';

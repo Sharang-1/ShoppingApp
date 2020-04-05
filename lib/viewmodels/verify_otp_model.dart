@@ -68,7 +68,7 @@ class VerifyOTPViewModel extends BaseModel {
     if (result != null) {
         await _analyticsService.logLogin();
         SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setString(Authtoken, "value");
+        prefs.setString(Authtoken, result["token"]);
         _navigationService.navigateReplaceTo(HomeViewRoute);
       } else {
         await _dialogService.showDialog(

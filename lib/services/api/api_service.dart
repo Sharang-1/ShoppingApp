@@ -51,7 +51,14 @@ class APIService {
       Map<String, dynamic> queryParameters,
       Options options,
       bool authenticated = false}) async {
-    if (authenticated) {
+    // if (authenticated) {
+    //   options.headers["excludeToken"] = true;
+    // }
+
+    if(authenticated){
+      if(options == null){
+        options = Options();
+      }
       options.headers["excludeToken"] = true;
     }
     // Options tempOptions = options;
