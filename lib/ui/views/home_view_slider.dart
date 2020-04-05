@@ -33,9 +33,9 @@ class _HomeSliderState extends State<HomeSlider> {
                         child: CachedNetworkImage(
                           fit: BoxFit.cover,
                           imageUrl: i,
-                          placeholder: (context, url) => Center(
-                              child: CircularProgressIndicator()
-                          ),
+                          // placeholder: (context, url) => Center(
+                          //     child: CircularProgressIndicator()
+                          // ),
                           errorWidget: (context, url, error) => new Icon(Icons.error),
                         )
                     );

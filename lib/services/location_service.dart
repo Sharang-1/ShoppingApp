@@ -1,14 +1,9 @@
 import 'dart:async';
 
+import 'package:compound/models/user_location.dart';
 import 'package:fimber/fimber.dart';
 import 'package:location/location.dart';
 
-class UserLocation {
-  final double latitude;
-  final double longitude;
-
-  UserLocation({this.latitude, this.longitude});
-}
 
 class LocationService {
   // Keep track of current Location
@@ -27,7 +22,7 @@ class LocationService {
               latitude: locationData.latitude,
               longitude: locationData.longitude,
             ));
-            // Fimber.d("location update-> " + locationData.toString());
+            Fimber.i("location update-> " + locationData.toString());
           }
         });
       }

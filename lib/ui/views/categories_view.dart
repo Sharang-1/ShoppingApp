@@ -1,6 +1,7 @@
 import 'package:compound/models/grid_view_builder_filter_models/categoryFilter.dart';
 import 'package:compound/models/subcategories.dart';
 import 'package:compound/ui/widgets/GridListWidget.dart';
+import 'package:compound/ui/widgets/categoryTileUI.dart';
 import 'package:compound/viewmodels/categories_view_model.dart';
 import 'package:compound/viewmodels/grid_view_builder_view_models/categories_view_builder_view_model.dart';
 import 'package:flutter/material.dart';
@@ -37,6 +38,7 @@ class _CategoriesViewState extends State<CategoriesView> {
             context: context,
             filter: categoryFilter,
             gridCount: 2,
+            childAspectRatio: 0.85,
             viewModel: CategoriesGridViewBuilderViewModel(),
             disablePagination: true,
             tileBuilder: (BuildContext context, data) {
@@ -45,10 +47,8 @@ class _CategoriesViewState extends State<CategoriesView> {
                   data.filter,
                   data.name,
                 ),
-                child: Card(
-                  child: Center(
-                    child: Text(data.name),
-                  ),
+                child: CategoryTileUI(
+                  data: data,
                 ),
               );
             },
@@ -58,3 +58,4 @@ class _CategoriesViewState extends State<CategoriesView> {
     );
   }
 }
+

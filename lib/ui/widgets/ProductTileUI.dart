@@ -1,4 +1,5 @@
 import 'package:compound/models/products.dart';
+import 'package:compound/ui/widgets/network_image_with_placeholder.dart';
 import 'package:flutter/material.dart';
 
 class ProductTileUI extends StatelessWidget {
@@ -35,7 +36,7 @@ class ProductTileUI extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          ProductImage(name: originalPhotoName),
+          NetworkImageWithPlaceholder(name: originalPhotoName),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -65,25 +66,6 @@ class ProductTileUI extends StatelessWidget {
             ),
           )
         ],
-      ),
-    );
-  }
-}
-
-class ProductImage extends StatelessWidget {
-  const ProductImage({
-    Key key,
-    @required this.name,
-  }) : super(key: key);
-
-  final String name;
-
-  @override
-  Widget build(BuildContext context) {
-    return FadeInImage(
-      placeholder: AssetImage("assets/images/tile_ui_placeholder.jpg"),
-      image: NetworkImage(
-        "http://52.66.141.191/api/photos/" + (name ?? "test.jpg"),
       ),
     );
   }
