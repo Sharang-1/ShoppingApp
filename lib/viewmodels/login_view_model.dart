@@ -23,6 +23,9 @@ class LoginViewModel extends BaseModel {
   String phoneNoValidationMessage = "";
   String get phoneNoValidation => phoneNoValidationMessage;
 
+  String nameValidationMessage = "";
+  String get nameValidation => nameValidationMessage;
+
   Future<void> init() async {
     return;
   }
@@ -38,13 +41,25 @@ class LoginViewModel extends BaseModel {
     notifyListeners();
   }
 
+ void validateName(String textFieldValue) {
+    bool isValid = RegExp(r'^[A-Za-z\s]{1,}[\.]{0,1}[A-Za-z\s]{0,}$').hasMatch(textFieldValue);
+    if (!isValid) {
+      nameValidationMessage =
+          "Please enter valid name";
+    } else {
+      nameValidationMessage = "";
+    }
+    notifyListeners();
+  }
+
   Future login({
     @required String phoneNo,
+    @required String name,
   }) async {
     setBusy(true);
 
     var result =
-        await _authenticationService.loginWithPhoneNo(phoneNo: phoneNo);
+        await _authenticationService.loginWithPhoneNo(phoneNo: phoneNo,name:name,resend:false);
     Fimber.d("---> login " + result.toString());
     setBusy(false);
 

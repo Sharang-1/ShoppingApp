@@ -7,9 +7,12 @@ import 'package:compound/ui/views/map_view.dart';
 import 'package:compound/ui/views/productListView.dart';
 import 'package:compound/ui/views/search_view.dart';
 import 'package:compound/ui/views/verify_otp.dart';
+import 'package:compound/ui/views/otp_finished_screen_1_view.dart';
+import 'package:compound/ui/views/otp_finished_screen_2_view.dart';
 import 'package:flutter/material.dart';
 import 'package:compound/constants/route_names.dart';
 import 'package:compound/ui/views/login_view.dart';
+import 'package:compound/ui/views/product_individual_view.dart';
 import 'package:page_transition/page_transition.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
@@ -95,6 +98,24 @@ Route<dynamic> generateRoute(RouteSettings settings) {
           pageArguments: pageArguments,
           routeName: settings.name,
           viewToShow: MapView(),
+          pageTransitionType: transitionType);
+    case ProductIndividualRoute:
+      return _getPageRoute(
+          pageArguments: pageArguments,
+          routeName: settings.name,
+          viewToShow: ProductIndiView(),
+          pageTransitionType: transitionType);
+    case OtpFinishedScreen1Route:
+      return _getPageRoute(
+          pageArguments: pageArguments,
+          routeName: settings.name,
+          viewToShow: otpFinishedScreen1(),
+          pageTransitionType: transitionType);
+    case OtpFinishedScreen2Route:
+      return _getPageRoute(
+          pageArguments: pageArguments,
+          routeName: settings.name,
+          viewToShow: otpFinishedScreen2(),
           pageTransitionType: transitionType);
     default:
       return MaterialPageRoute(

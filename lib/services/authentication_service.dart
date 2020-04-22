@@ -15,12 +15,16 @@ class AuthenticationService {
   User _currentUser;
   User get currentUser => _currentUser;
 
- 
   Future<dynamic> loginWithPhoneNo({
     @required phoneNo,
+    @required resend,
+    @required name,
   }) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString(PhoneNo, phoneNo);
+    if (!resend) {
+      prefs.setString(Name, name);
+    }
     return _APIService.sendOTP(phoneNo: phoneNo);
   }
 
@@ -52,16 +56,16 @@ class AuthenticationService {
   //   @required String email,
   //   @required String password,
   // }) async {
-    // try {
-    //   var authResult = await _firebaseAuth.signInWithEmailAndPassword(
-    //     email: email,
-    //     password: password,
-    //   );
-    //   await _populateCurrentUser(authResult.user);
-    //   return authResult.user != null;
-    // } catch (e) {
-    //   return e.message;
-    // }
+  // try {
+  //   var authResult = await _firebaseAuth.signInWithEmailAndPassword(
+  //     email: email,
+  //     password: password,
+  //   );
+  //   await _populateCurrentUser(authResult.user);
+  //   return authResult.user != null;
+  // } catch (e) {
+  //   return e.message;
+  // }
   // }
 
   // Future signUpWithEmail({
@@ -70,30 +74,30 @@ class AuthenticationService {
   //   @required String fullName,
   //   @required String role,
   // }) async {
-    // try {
-    //   var authResult = await _firebaseAuth.createUserWithEmailAndPassword(
-    //     email: email,
-    //     password: password,
-    //   );
+  // try {
+  //   var authResult = await _firebaseAuth.createUserWithEmailAndPassword(
+  //     email: email,
+  //     password: password,
+  //   );
 
-    //   // create a new user profile on firestore
-    //   _currentUser = User(
-    //     id: authResult.user.uid,
-    //     email: email,
-    //     fullName: fullName,
-    //     userRole: role,
-    //   );
+  //   // create a new user profile on firestore
+  //   _currentUser = User(
+  //     id: authResult.user.uid,
+  //     email: email,
+  //     fullName: fullName,
+  //     userRole: role,
+  //   );
 
-    //   await _APIService.createUser(_currentUser);
-    //   await _analyticsService.setUserProperties(
-    //     userId: authResult.user.uid,
-    //     userRole: _currentUser.userRole,
-    //   );
+  //   await _APIService.createUser(_currentUser);
+  //   await _analyticsService.setUserProperties(
+  //     userId: authResult.user.uid,
+  //     userRole: _currentUser.userRole,
+  //   );
 
-    //   return authResult.user != null;
-    // } catch (e) {
-    //   return e.message;
-    // }
+  //   return authResult.user != null;
+  // } catch (e) {
+  //   return e.message;
+  // }
   // }
 
   // Future _populateCurrentUser() async {

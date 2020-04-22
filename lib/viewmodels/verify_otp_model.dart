@@ -33,8 +33,8 @@ class VerifyOTPViewModel extends BaseModel {
   Future<void> resendOTP() async {
     // resend otp here.
     setBusy(true);
-    var result =
-        await _authenticationService.loginWithPhoneNo(phoneNo: phoneNo);
+    var result = await _authenticationService.loginWithPhoneNo(
+        phoneNo: phoneNo, name: "name", resend: true);
     setBusy(false);
     return;
   }
@@ -66,18 +66,17 @@ class VerifyOTPViewModel extends BaseModel {
     setBusy(false);
 
     if (result != null) {
-        await _analyticsService.logLogin();
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setString(Authtoken, result["token"]);
-        _navigationService.navigateReplaceTo(HomeViewRoute);
-      } else {
-        await _dialogService.showDialog(
-          title: 'Login Failure',
-          description: 'General login failure. Please try again later',
-        );
-      }
+      await _analyticsService.logLogin();
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString(Authtoken, result["token"]);
+      _navigationService.navigateReplaceTo(OtpFinishedScreen1Route);
+    } else {
+      await _dialogService.showDialog(
+        title: 'Login Failure',
+        description: 'General login failure. Please try again later',
+      );
+    }
   }
-  
 
   // void navigateToSignUp() {
   //   _navigationService.navigateTo(SignUpViewRoute);
