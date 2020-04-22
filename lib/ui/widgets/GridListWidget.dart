@@ -1,5 +1,6 @@
 import 'package:async/async.dart';
 import 'package:compound/models/grid_view_builder_filter_models/base_filter_model.dart';
+import 'package:compound/models/products.dart';
 import 'package:compound/viewmodels/grid_view_builder_view_models/base_grid_view_builder_view_model.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';

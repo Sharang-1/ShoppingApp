@@ -9,18 +9,18 @@ class CustomLogInterceptor extends Interceptor {
 
   @override
   Future onRequest(RequestOptions options) async {
-    Fimber.i(
+    Fimber.d(
         "--> ${options.method != null ? options.method.toUpperCase() : 'METHOD'} ${"" + (options.baseUrl ?? "") + (options.path ?? "")}");
-    Fimber.i("Headers:");
-    options.headers.forEach((k, v) => Fimber.i('$k: $v'));
+    Fimber.d("Headers:");
+    options.headers.forEach((k, v) => Fimber.d('$k: $v'));
     if (options.queryParameters != null) {
-      Fimber.i("queryParameters:");
-      options.queryParameters.forEach((k, v) => Fimber.i('$k: $v'));
+      Fimber.d("queryParameters:");
+      options.queryParameters.forEach((k, v) => Fimber.d('$k: $v'));
     }
     if (options.data != null) {
-      Fimber.i("Body: ${options.data}");
+      Fimber.d("Body: ${options.data}");
     }
-    Fimber.i(
+    Fimber.d(
         "--> END ${options.method != null ? options.method.toUpperCase() : 'METHOD'}");
 
     return options;
@@ -39,11 +39,11 @@ class CustomLogInterceptor extends Interceptor {
 
   @override
   Future onResponse(Response response) async {
-    Fimber.i(
+    Fimber.d(
         "<-- ${response.statusCode} ${(response.request != null ? (response.request.baseUrl + response.request.path) : 'URL')}");
-    Fimber.i("Headers:");
-    response.headers?.forEach((k, v) => Fimber.i('$k: $v'));
-    Fimber.i("Response: ${response.data}");
-    Fimber.i("<-- END HTTP");
+    Fimber.d("Headers:");
+    response.headers?.forEach((k, v) => Fimber.d('$k: $v'));
+    Fimber.d("Response: ${response.data}");
+    Fimber.d("<-- END HTTP");
   }
 }

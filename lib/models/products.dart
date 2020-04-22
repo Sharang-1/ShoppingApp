@@ -45,21 +45,39 @@ class Product {
     String modified;
     Account account;
     Account owner;
-    String pieces;
-    String fabric;
-    String work;
-    String color;
-    String stitchingType;
     num price;
-    List<Category> categories;
-    List<Category> subCategories;
-    List<Size> sizes;
+    BlousePadding whoMadeIt;
     Shipment shipment;
     bool available;
+    List<Variation> variations;
+    String typeOfWork;
+    String fabricDetails;
+    bool margin;
+    BlousePadding productFor;
+    BlousePadding category;
+    bool hangings;
+    num breath;
+    num length;
+    String style;
+    String dimensions;
     Rating rating;
+    ProductPhoto photo;
     num discount;
     bool productNew;
-    ProductPhoto photo;
+    String neckCut;
+    String backCut;
+    BlousePadding blousePadding;
+    BlousePadding sleeveLength;
+    BlousePadding stitchingType;
+    List<BlousePadding> workOn;
+    BlousePadding topsLength;
+    BlousePadding pieces;
+    String neck;
+    num waist;
+    num flair;
+    bool canCan;
+    BlousePadding made;
+    String typeOfSaree;
     num oldPrice;
 
     Product({
@@ -71,21 +89,39 @@ class Product {
         this.modified,
         this.account,
         this.owner,
-        this.pieces,
-        this.fabric,
-        this.work,
-        this.color,
-        this.stitchingType,
         this.price,
-        this.categories,
-        this.subCategories,
-        this.sizes,
+        this.whoMadeIt,
         this.shipment,
         this.available,
+        this.variations,
+        this.typeOfWork,
+        this.fabricDetails,
+        this.margin,
+        this.productFor,
+        this.category,
+        this.hangings,
+        this.breath,
+        this.length,
+        this.style,
+        this.dimensions,
         this.rating,
+        this.photo,
         this.discount,
         this.productNew,
-        this.photo,
+        this.neckCut,
+        this.backCut,
+        this.blousePadding,
+        this.sleeveLength,
+        this.stitchingType,
+        this.workOn,
+        this.topsLength,
+        this.pieces,
+        this.neck,
+        this.waist,
+        this.flair,
+        this.canCan,
+        this.made,
+        this.typeOfSaree,
         this.oldPrice,
     });
 
@@ -98,21 +134,39 @@ class Product {
         modified: json["modified"],
         account: Account.fromJson(json["account"]),
         owner: Account.fromJson(json["owner"]),
-        pieces: json["pieces"] == null ? null : json["pieces"],
-        fabric: json["fabric"] == null ? null : json["fabric"],
-        work: json["work"] == null ? null : json["work"],
-        color: json["color"] == null ? null : json["color"],
-        stitchingType: json["stitchingType"] == null ? null : json["stitchingType"],
         price: json["price"],
-        categories: List<Category>.from(json["categories"].map((x) => Category.fromJson(x))),
-        subCategories: List<Category>.from(json["subCategories"].map((x) => Category.fromJson(x))),
-        sizes: List<Size>.from(json["sizes"].map((x) => Size.fromJson(x))),
+        whoMadeIt: json["whoMadeIt"] == null ? null : BlousePadding.fromJson(json["whoMadeIt"]),
         shipment: Shipment.fromJson(json["shipment"]),
         available: json["available"],
+        variations: json["variations"] == null ? null : List<Variation>.from(json["variations"].map((x) => Variation.fromJson(x))),
+        typeOfWork: json["typeOfWork"] == null ? null : json["typeOfWork"],
+        fabricDetails: json["fabricDetails"] == null ? null : json["fabricDetails"],
+        margin: json["margin"] == null ? null : json["margin"],
+        productFor: json["productFor"] == null ? null : BlousePadding.fromJson(json["productFor"]),
+        category: json["category"] == null ? null : BlousePadding.fromJson(json["category"]),
+        hangings: json["hangings"] == null ? null : json["hangings"],
+        breath: json["breath"] == null ? null : json["breath"],
+        length: json["length"] == null ? null : json["length"],
+        style: json["style"] == null ? null : json["style"],
+        dimensions: json["dimensions"] == null ? null : json["dimensions"],
         rating: Rating.fromJson(json["rating"]),
+        photo: json["photo"] == null ? null : ProductPhoto.fromJson(json["photo"]),
         discount: json["discount"] == null ? null : json["discount"],
         productNew: json["new"],
-        photo: json["photo"] == null ? null : ProductPhoto.fromJson(json["photo"]),
+        neckCut: json["neckCut"] == null ? null : json["neckCut"],
+        backCut: json["backCut"] == null ? null : json["backCut"],
+        blousePadding: json["blousePadding"] == null ? null : BlousePadding.fromJson(json["blousePadding"]),
+        sleeveLength: json["sleeveLength"] == null ? null : BlousePadding.fromJson(json["sleeveLength"]),
+        stitchingType: json["stitchingType"] == null ? null : BlousePadding.fromJson(json["stitchingType"]),
+        workOn: json["workOn"] == null ? null : List<BlousePadding>.from(json["workOn"].map((x) => BlousePadding.fromJson(x))),
+        topsLength: json["topsLength"] == null ? null : BlousePadding.fromJson(json["topsLength"]),
+        pieces: json["pieces"] == null ? null : BlousePadding.fromJson(json["pieces"]),
+        neck: json["neck"] == null ? null : json["neck"],
+        waist: json["waist"] == null ? null : json["waist"],
+        flair: json["flair"] == null ? null : json["flair"],
+        canCan: json["canCan"] == null ? null : json["canCan"],
+        made: json["made"] == null ? null : BlousePadding.fromJson(json["made"]),
+        typeOfSaree: json["typeOfSaree"] == null ? null : json["typeOfSaree"],
         oldPrice: json["oldPrice"] == null ? null : json["oldPrice"],
     );
 
@@ -125,21 +179,39 @@ class Product {
         "modified": modified,
         "account": account.toJson(),
         "owner": owner.toJson(),
-        "pieces": pieces == null ? null : pieces,
-        "fabric": fabric == null ? null : fabric,
-        "work": work == null ? null : work,
-        "color": color == null ? null : color,
-        "stitchingType": stitchingType == null ? null : stitchingType,
         "price": price,
-        "categories": List<dynamic>.from(categories.map((x) => x.toJson())),
-        "subCategories": List<dynamic>.from(subCategories.map((x) => x.toJson())),
-        "sizes": List<dynamic>.from(sizes.map((x) => x.toJson())),
+        "whoMadeIt": whoMadeIt == null ? null : whoMadeIt.toJson(),
         "shipment": shipment.toJson(),
         "available": available,
+        "variations": variations == null ? null : List<dynamic>.from(variations.map((x) => x.toJson())),
+        "typeOfWork": typeOfWork == null ? null : typeOfWork,
+        "fabricDetails": fabricDetails == null ? null : fabricDetails,
+        "margin": margin == null ? null : margin,
+        "productFor": productFor == null ? null : productFor.toJson(),
+        "category": category == null ? null : category.toJson(),
+        "hangings": hangings == null ? null : hangings,
+        "breath": breath == null ? null : breath,
+        "length": length == null ? null : length,
+        "style": style == null ? null : style,
+        "dimensions": dimensions == null ? null : dimensions,
         "rating": rating.toJson(),
+        "photo": photo == null ? null : photo.toJson(),
         "discount": discount == null ? null : discount,
         "new": productNew,
-        "photo": photo == null ? null : photo.toJson(),
+        "neckCut": neckCut == null ? null : neckCut,
+        "backCut": backCut == null ? null : backCut,
+        "blousePadding": blousePadding == null ? null : blousePadding.toJson(),
+        "sleeveLength": sleeveLength == null ? null : sleeveLength.toJson(),
+        "stitchingType": stitchingType == null ? null : stitchingType.toJson(),
+        "workOn": workOn == null ? null : List<dynamic>.from(workOn.map((x) => x.toJson())),
+        "topsLength": topsLength == null ? null : topsLength.toJson(),
+        "pieces": pieces == null ? null : pieces.toJson(),
+        "neck": neck == null ? null : neck,
+        "waist": waist == null ? null : waist,
+        "flair": flair == null ? null : flair,
+        "canCan": canCan == null ? null : canCan,
+        "made": made == null ? null : made.toJson(),
+        "typeOfSaree": typeOfSaree == null ? null : typeOfSaree,
         "oldPrice": oldPrice == null ? null : oldPrice,
     };
 }
@@ -160,14 +232,14 @@ class Account {
     };
 }
 
-class Category {
+class BlousePadding {
     num id;
 
-    Category({
+    BlousePadding({
         this.id,
     });
 
-    factory Category.fromJson(Map<String, dynamic> json) => Category(
+    factory BlousePadding.fromJson(Map<String, dynamic> json) => BlousePadding(
         id: json["id"],
     );
 
@@ -252,26 +324,26 @@ class Shipment {
     };
 }
 
-class Size {
+class Variation {
     String size;
-    num priceDifference;
     num quantity;
+    String color;
 
-    Size({
+    Variation({
         this.size,
-        this.priceDifference,
         this.quantity,
+        this.color,
     });
 
-    factory Size.fromJson(Map<String, dynamic> json) => Size(
+    factory Variation.fromJson(Map<String, dynamic> json) => Variation(
         size: json["size"],
-        priceDifference: json["priceDifference"],
-        quantity: json["quantity"] == null ? null : json["quantity"],
+        quantity: json["quantity"],
+        color: json["color"],
     );
 
     Map<String, dynamic> toJson() => {
         "size": size,
-        "priceDifference": priceDifference,
-        "quantity": quantity == null ? null : quantity,
+        "quantity": quantity,
+        "color": color,
     };
 }

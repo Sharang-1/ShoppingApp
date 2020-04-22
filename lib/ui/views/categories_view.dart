@@ -1,5 +1,5 @@
+import 'package:compound/models/categorys.dart';
 import 'package:compound/models/grid_view_builder_filter_models/categoryFilter.dart';
-import 'package:compound/models/subcategories.dart';
 import 'package:compound/ui/widgets/GridListWidget.dart';
 import 'package:compound/ui/widgets/categoryTileUI.dart';
 import 'package:compound/viewmodels/categories_view_model.dart';
@@ -33,7 +33,7 @@ class _CategoriesViewState extends State<CategoriesView> {
           top: false,
           left: false,
           right: false,
-          child: GridListWidget<Subcategories, Category>(
+          child: GridListWidget<Categorys, Category>(
             key: categoriesGridKey,
             context: context,
             filter: categoryFilter,

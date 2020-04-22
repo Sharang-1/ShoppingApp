@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:compound/constants/shared_pref.dart';
+import 'package:compound/models/categorys.dart';
 import 'package:compound/models/products.dart';
 import 'package:compound/models/promotions.dart';
 import 'package:compound/models/sellers.dart';
-import 'package:compound/models/subcategories.dart';
 import 'package:compound/models/tailors.dart';
 import 'dart:convert';
 import 'package:compound/services/api/AppInterceptor.dart';
@@ -36,14 +36,14 @@ class APIService {
     apiClient..interceptors.addAll([AppInterceptors(), CustomLogInterceptor()]);
   }
 
-  // Future<T> mApiWrapper<T>() async {
+  // Future<T> mApiWrapper<T extends genericModel>() async {
   //   var data = await apiWrapper("products");
   //   if (data != null) {
   //     T products = T.fromJson(data);
   //     Fimber.d("products : " + products.items.map((o) => o.name).toString());
   //     return products;
   //   }
-  //   return T;
+  //   return products;
   // }
 
   Future apiWrapper(String path,
@@ -129,13 +129,13 @@ class APIService {
     return null;
   }
 
-  Future<Subcategories> getSubCategories({String queryString = ""}) async {
-    var subCategories = await apiWrapper("categories?context=subCategory");
-    if (subCategories != null) {
-      Subcategories subcategories = Subcategories.fromJson(subCategories);
+  Future<Categorys> getCategory({String queryString = ""}) async {
+    var category = await apiWrapper("categories?context=subCategory");
+    if (category != null) {
+      Categorys categoryData = Categorys.fromJson(category);
       Fimber.d("Subcategories : " +
-          subcategories.items.map((o) => o.name).toString());
-      return subcategories;
+          categoryData.items.map((o) => o.name).toString());
+      return categoryData;
     }
     return null;
   }
@@ -164,7 +164,7 @@ class APIService {
     var tailorsData = await apiWrapper("tailors", authenticated: true);
     if (tailorsData != null) {
       Tailors tailors = Tailors.fromJson(tailorsData);
-      Fimber.d("Tailors : " + tailors.tailors.map((o) => o.name).toString());
+      Fimber.d("Tailors : " + tailors.items.map((o) => o.name).toString());
       return tailors;
     }
     return null;

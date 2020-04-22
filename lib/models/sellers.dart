@@ -9,9 +9,9 @@ Sellers sellersFromJson(String str) => Sellers.fromJson(json.decode(str));
 String sellersToJson(Sellers data) => json.encode(data.toJson());
 
 class Sellers {
-    int records;
-    int startIndex;
-    int limit;
+    num records;
+    num startIndex;
+    num limit;
     List<Seller> items;
 
     Sellers({
@@ -63,7 +63,7 @@ class Seller {
         documentId: json["documentId"],
         key: json["key"],
         name: json["name"],
-        bio: json["bio"] == null ? null : json["bio"],
+        bio: json["bio"],
         works: json["works"] == null ? null : json["works"],
         operations: json["operations"] == null ? null : json["operations"],
         contact: Contact.fromJson(json["contact"]),
@@ -75,7 +75,7 @@ class Seller {
         "documentId": documentId,
         "key": key,
         "name": name,
-        "bio": bio == null ? null : bio,
+        "bio": bio,
         "works": works == null ? null : works,
         "operations": operations == null ? null : operations,
         "contact": contact.toJson(),
@@ -94,12 +94,12 @@ class Contact {
     });
 
     factory Contact.fromJson(Map<String, dynamic> json) => Contact(
-        geoLocation: json["geoLocation"] == null ? null : GeoLocation.fromJson(json["geoLocation"]),
+        geoLocation: GeoLocation.fromJson(json["geoLocation"]),
         primaryNumber: PrimaryNumber.fromJson(json["primaryNumber"]),
     );
 
     Map<String, dynamic> toJson() => {
-        "geoLocation": geoLocation == null ? null : geoLocation.toJson(),
+        "geoLocation": geoLocation.toJson(),
         "primaryNumber": primaryNumber.toJson(),
     };
 }

@@ -1,4 +1,5 @@
-import 'package:compound/models/subcategories.dart';
+
+import 'package:compound/models/categorys.dart';
 import 'package:compound/ui/widgets/network_image_with_placeholder.dart';
 import 'package:flutter/material.dart';
 

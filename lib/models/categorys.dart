@@ -1,27 +1,27 @@
 // To parse this JSON data, do
 //
-//     final subcategories = subcategoriesFromJson(jsonString);
+//     final categorys = categorysFromJson(jsonString);
 
 import 'dart:convert';
 
-Subcategories subcategoriesFromJson(String str) => Subcategories.fromJson(json.decode(str));
+Categorys categorysFromJson(String str) => Categorys.fromJson(json.decode(str));
 
-String subcategoriesToJson(Subcategories data) => json.encode(data.toJson());
+String categorysToJson(Categorys data) => json.encode(data.toJson());
 
-class Subcategories {
+class Categorys {
     int records;
     int startIndex;
     int limit;
     List<Category> items;
 
-    Subcategories({
+    Categorys({
         this.records,
         this.startIndex,
         this.limit,
         this.items,
     });
 
-    factory Subcategories.fromJson(Map<String, dynamic> json) => Subcategories(
+    factory Categorys.fromJson(Map<String, dynamic> json) => Categorys(
         records: json["records"],
         startIndex: json["startIndex"],
         limit: json["limit"],
@@ -45,7 +45,7 @@ class Category {
     String caption;
     bool forApp;
     Banner banner;
-    ProductCategory productCategory;
+    ProductFor productFor;
 
     Category({
         this.id,
@@ -56,7 +56,7 @@ class Category {
         this.caption,
         this.forApp,
         this.banner,
-        this.productCategory,
+        this.productFor,
     });
 
     factory Category.fromJson(Map<String, dynamic> json) => Category(
@@ -68,7 +68,7 @@ class Category {
         caption: json["caption"],
         forApp: json["forApp"],
         banner: json["banner"] == null ? null : Banner.fromJson(json["banner"]),
-        productCategory: json["productCategory"] == null ? null : ProductCategory.fromJson(json["productCategory"]),
+        productFor: json["productFor"] == null ? null : ProductFor.fromJson(json["productFor"]),
     );
 
     Map<String, dynamic> toJson() => {
@@ -80,7 +80,7 @@ class Category {
         "caption": caption,
         "forApp": forApp,
         "banner": banner == null ? null : banner.toJson(),
-        "productCategory": productCategory == null ? null : productCategory.toJson(),
+        "productFor": productFor == null ? null : productFor.toJson(),
     };
 }
 
@@ -104,22 +104,42 @@ class Banner {
     };
 }
 
-class ProductCategory {
+class ProductFor {
     int id;
-    String name;
+    Name name;
 
-    ProductCategory({
+    ProductFor({
         this.id,
         this.name,
     });
 
-    factory ProductCategory.fromJson(Map<String, dynamic> json) => ProductCategory(
+    factory ProductFor.fromJson(Map<String, dynamic> json) => ProductFor(
         id: json["id"],
-        name: json["name"],
+        name: nameValues.map[json["name"]],
     );
 
     Map<String, dynamic> toJson() => {
         "id": id,
-        "name": name,
+        "name": nameValues.reverse[name],
     };
+}
+
+enum Name { WOMEN }
+
+final nameValues = EnumValues({
+    "Women": Name.WOMEN
+});
+
+class EnumValues<T> {
+    Map<String, T> map;
+    Map<T, String> reverseMap;
+
+    EnumValues(this.map);
+
+    Map<T, String> get reverse {
+        if (reverseMap == null) {
+            reverseMap = map.map((k, v) => new MapEntry(v, k));
+        }
+        return reverseMap;
+    }
 }

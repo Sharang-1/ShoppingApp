@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:compound/models/sellers.dart';
+
 Tailors tailorsFromJson(String str) => Tailors.fromJson(json.decode(str));
 
 String tailorsToJson(Tailors data) => json.encode(data.toJson());
@@ -12,27 +14,27 @@ class Tailors {
     int records;
     int startIndex;
     int limit;
-    List<Tailor> tailors;
+    List<Tailor> items;
 
     Tailors({
         this.records,
         this.startIndex,
         this.limit,
-        this.tailors,
+        this.items,
     });
 
     factory Tailors.fromJson(Map<String, dynamic> json) => Tailors(
         records: json["records"],
         startIndex: json["startIndex"],
         limit: json["limit"],
-        tailors: List<Tailor>.from(json["tailors"].map((x) => Tailor.fromJson(x))),
+        items: List<Tailor>.from(json["tailors"].map((x) => Tailor.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
         "records": records,
         "startIndex": startIndex,
         "limit": limit,
-        "tailors": List<dynamic>.from(tailors.map((x) => x.toJson())),
+        "tailors": List<dynamic>.from(items.map((x) => x.toJson())),
     };
 }
 
@@ -100,25 +102,25 @@ class Contact {
     };
 }
 
-class GeoLocation {
-    double latitude;
-    double longitude;
+// class GeoLocation {
+//     double latitude;
+//     double longitude;
 
-    GeoLocation({
-        this.latitude,
-        this.longitude,
-    });
+//     GeoLocation({
+//         this.latitude,
+//         this.longitude,
+//     });
 
-    factory GeoLocation.fromJson(Map<String, dynamic> json) => GeoLocation(
-        latitude: json["latitude"].toDouble(),
-        longitude: json["longitude"] == null ? null : json["longitude"].toDouble(),
-    );
+//     factory GeoLocation.fromJson(Map<String, dynamic> json) => GeoLocation(
+//         latitude: json["latitude"].toDouble(),
+//         longitude: json["longitude"] == null ? null : json["longitude"].toDouble(),
+//     );
 
-    Map<String, dynamic> toJson() => {
-        "latitude": latitude,
-        "longitude": longitude == null ? null : longitude,
-    };
-}
+//     Map<String, dynamic> toJson() => {
+//         "latitude": latitude,
+//         "longitude": longitude == null ? null : longitude,
+//     };
+// }
 
 class PrimaryNumber {
     String code;
