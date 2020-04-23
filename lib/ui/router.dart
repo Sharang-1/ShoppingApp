@@ -1,10 +1,12 @@
 import 'package:compound/models/productPageArg.dart';
+import 'package:compound/models/products.dart';
 import 'package:compound/models/route_argument.dart';
 import 'package:compound/ui/views/cart_view.dart';
 import 'package:compound/ui/views/categories_view.dart';
 import 'package:compound/ui/views/home_view.dart';
 import 'package:compound/ui/views/map_view.dart';
 import 'package:compound/ui/views/productListView.dart';
+import 'package:compound/ui/views/product_individual_view.dart';
 import 'package:compound/ui/views/search_view.dart';
 import 'package:compound/ui/views/verify_otp.dart';
 import 'package:flutter/material.dart';
@@ -82,6 +84,13 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         pageArguments: pageArguments,
         pageTransitionType: transitionType,
       );
+    case ProductsIndividualRoute:
+      return _getPageRoute(
+        routeName: settings.name,
+        viewToShow: ProductIndividualView(data: (pageArguments as Product)),
+        pageArguments: pageArguments as Product,
+        pageTransitionType: transitionType,
+      ); 
     // case CreatePostViewRoute:
     //   var postToEdit = settings.arguments as Post;
     //   return _getPageRoute(

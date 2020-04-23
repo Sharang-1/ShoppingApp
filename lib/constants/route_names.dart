@@ -8,3 +8,4 @@ const String MapViewRoute = "MapView";
 const String CartViewRoute = "CartView";
 const String CategoriesRoute = "CategoriesView";
 const String ProductsListRoute = "ProductsListView";
+const String ProductsIndividualRoute = "ProductsIndividualView";

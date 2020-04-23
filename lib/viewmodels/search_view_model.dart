@@ -1,6 +1,7 @@
 import 'package:compound/constants/route_names.dart';
 import 'package:compound/constants/shared_pref.dart';
 import 'package:compound/locator.dart';
+import 'package:compound/models/products.dart';
 import 'package:compound/services/analytics_service.dart';
 import 'package:compound/services/api/api_service.dart';
 import 'package:compound/services/authentication_service.dart';
@@ -28,6 +29,11 @@ class SearchViewModel extends BaseModel {
 
   searchSellers(String searchKey) async {
 
+    return;
+  }
+
+  goToProductPage(Product data) {
+    _navigationService.navigateTo(ProductsIndividualRoute, arguments: data);
     return;
   }
   
