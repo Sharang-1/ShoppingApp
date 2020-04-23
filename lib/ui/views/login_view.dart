@@ -10,6 +10,8 @@ import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 class LoginView extends StatelessWidget {
   final phoneNoController = TextEditingController();
   final nameController = TextEditingController();
+  final FocusNode _nameFocus = FocusNode();
+  final FocusNode _mobileFocus = FocusNode();
 
   Widget genericWelcomeText(String txt) {
     return Text(
@@ -47,6 +49,8 @@ class LoginView extends StatelessWidget {
           welcomeText(context),
           verticalSpaceMedium,
           InputField(
+            fieldFocusNode:_nameFocus,
+            nextFocusNode: _mobileFocus,
             placeholder: 'Enter your name',
             controller: nameController,
             textInputType: TextInputType.text,
@@ -64,7 +68,9 @@ class LoginView extends StatelessWidget {
             onInputChanged: (PhoneNumber number) {
               model.validatePhoneNo;
             },
-            errorMessage:model.phoneNoValidation ,
+            focusNode: _mobileFocus,
+            onSubmit: (){_mobileFocus.unfocus();},
+            errorMessage: model.phoneNoValidation,
             textFieldController: phoneNoController,
             isEnabled: true,
             autoValidate: true,
@@ -91,16 +97,17 @@ class LoginView extends StatelessWidget {
           ),
           horizontalSpaceMedium,
           BusyButtonCicular(
-            enabled:
-                model.phoneNoValidation == "" && phoneNoController.text != "" && model.nameValidation == "" && nameController.text != "",
+            enabled: model.phoneNoValidation == "" &&
+                phoneNoController.text != "" &&
+                model.nameValidation == "" &&
+                nameController.text != "",
             title: 'Next',
             busy: model.busy,
             onPressed: () {
               print((phoneNoController.text).replaceAll(" ", ""));
               model.login(
-                phoneNo: (phoneNoController.text).replaceAll(" ", ""),
-                name:nameController.text
-              );
+                  phoneNo: (phoneNoController.text).replaceAll(" ", ""),
+                  name: nameController.text);
             },
           ),
         ],
