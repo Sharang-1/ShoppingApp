@@ -112,7 +112,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return _getPageRoute(
           pageArguments: pageArguments,
           routeName: settings.name,
-          viewToShow: ProductIndiView(),
+          viewToShow: ProductIndiView(data:pageArguments),
           pageTransitionType: transitionType);
     case OtpFinishedScreen1Route:
       return _getPageRoute(
