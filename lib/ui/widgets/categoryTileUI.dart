@@ -1,5 +1,6 @@
 import 'package:compound/models/categorys.dart';
 import 'package:compound/ui/widgets/network_image_with_placeholder.dart';
+import 'package:compound/utils/tools.dart';
 import 'package:flutter/material.dart';
 
 class CategoryTileUI extends StatelessWidget {
@@ -17,6 +18,9 @@ class CategoryTileUI extends StatelessWidget {
   Widget build(BuildContext context) {
     String name = data.name ?? "";
     String photoName = data.banner != null ? data.banner.originalName : "";
+    bool isTablet = Tools.checkIfTablet(MediaQuery.of(context));
+
+    double titleFontSize = isTablet ? 24.0 : 20.0;
 
     return Card(
       clipBehavior: Clip.antiAlias,
@@ -50,7 +54,7 @@ class CategoryTileUI extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       color: Colors.white,
-                      fontSize: 20,
+                      fontSize: titleFontSize,
                       fontWeight: FontWeight.w600)),
               Divider(
                 color: Colors.white,

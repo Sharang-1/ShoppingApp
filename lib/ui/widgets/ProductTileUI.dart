@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:compound/models/products.dart';
 import 'package:compound/ui/widgets/network_image_with_placeholder.dart';
+import 'package:compound/utils/tools.dart';
 import 'package:flutter/material.dart';
 
 class ProductTileUI extends StatefulWidget {
@@ -20,23 +21,15 @@ class ProductTileUI extends StatefulWidget {
 
 class _ProductTileUIState extends State<ProductTileUI> {
   bool toggle = false;
-  bool checkIfTablet(MediaQueryData query) {
-    var size = query.size;
-    var diagonal =
-        sqrt((size.width * size.width) + (size.height * size.height));
-    var isTablet = diagonal > 1100.0;
-    return isTablet;
-  }
 
   @override
   Widget build(BuildContext context) {
-    bool isTablet = checkIfTablet(MediaQuery.of(context));
+    bool isTablet = Tools.checkIfTablet(MediaQuery.of(context));
 
     double titleFontSize = isTablet ? 18.0 : 14.0;
     double priceFontSize = isTablet ? 16.0 : 12.0;
     double ratingCountFontSize = isTablet ? 16.0 : 12.0;
     double wishlistIconSize = isTablet ? 34 : 22;
-    double wishListPadding = isTablet ? 15 : 5;
 
     final photo = widget.data.photo ?? null;
     final photos = photo != null ? photo.photos ?? null : null;
