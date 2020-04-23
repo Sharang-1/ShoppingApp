@@ -6,7 +6,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 
 class MapView extends StatelessWidget {
-  Widget clientCard(model, Seller client) {
+  Widget clientCard(MapViewModel model, Seller client) {
     return Padding(
         padding: EdgeInsets.only(left: 2.0, top: 10.0),
         child: InkWell(
@@ -28,19 +28,22 @@ class MapView extends StatelessWidget {
             )));
   }
 
-  Set<Marker> getMarkers(context,MapViewModel model) {
+  Set<Marker> getMarkers(context, MapViewModel model) {
+    void createMarker(client, icon, {bool isSeller = true}) {
+      if (client.contact.geoLocation == null ||
+          client.contact.geoLocation.latitude == null ||
+          client.contact.geoLocation.longitude == null) {
+        return;
+      }
 
-    void createMarker(client,icon,{bool isSeller = true}) {
       var markerIdVal = client.key;
       final MarkerId markerId = MarkerId(markerIdVal);
 
       final Marker marker = Marker(
         markerId: markerId,
-        icon: isSeller ? model.iconS : model.iconT,
-        position: LatLng(
-          client.contact.geoLocation.latitude,
-          client.contact.geoLocation.longitude
-        ),
+        // icon: isSeller ? model.iconS : model.iconT,
+        position: LatLng(client.contact.geoLocation.latitude,
+            client.contact.geoLocation.longitude),
         draggable: false,
         infoWindow: InfoWindow(title: client.name, snippet: '*'),
         onTap: () {
@@ -53,16 +56,16 @@ class MapView extends StatelessWidget {
       );
       model.markers[markerId] = marker;
     }
-   
-    if(model.tData != null)
-    model.tData.items.forEach((t) {
-      createMarker(t,Icons.access_alarms,isSeller: false);
-    });
 
-    if(model.sData != null)
-    model.sData.items.forEach((s) {
-      createMarker(s,Icons.search);
-    });
+    if (model.tData != null)
+      model.tData.items.forEach((t) {
+        createMarker(t, Icons.access_alarms, isSeller: false);
+      });
+
+    if (model.sData != null)
+      model.sData.items.forEach((s) {
+        createMarker(s, Icons.search);
+      });
     return Set<Marker>.of(model.markers.values);
   }
 
@@ -134,24 +137,26 @@ class MapView extends StatelessWidget {
                       backgroundColor: Colors.blue,
                       child: Icon(Icons.rotate_right)))
               : Container(),
-          if(model.showBottomSheet)
-              Container(
-                color: Colors.red,
-                height: 50,
-                child: Card(
-                  child: InkWell(onTap: () =>  showModalBottomSheet(
-                    context: context,
-                    builder: (context) {
-                      return Column(children: <Widget>[
-                        Text(model.currentClient.name),
-                        Container(
-                          height: 200,
-                          color: Colors.blue,
-                        )
-                      ]);
-                    }),),),
-              )
-              
+          if (model.showBottomSheet)
+            Container(
+              color: Colors.red,
+              height: 50,
+              child: Card(
+                child: InkWell(
+                  onTap: () => showModalBottomSheet(
+                      context: context,
+                      builder: (context) {
+                        return Column(children: <Widget>[
+                          Text(model.currentClient.name),
+                          Container(
+                            height: 200,
+                            color: Colors.blue,
+                          )
+                        ]);
+                      }),
+                ),
+              ),
+            )
         ]),
       ),
     );

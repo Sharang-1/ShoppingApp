@@ -114,8 +114,8 @@ class GeoLocation {
     });
 
     factory GeoLocation.fromJson(Map<String, dynamic> json) => GeoLocation(
-        latitude: json["latitude"].toDouble(),
-        longitude: json["longitude"].toDouble(),
+        latitude: json["latitude"] !=null ? json["latitude"].toDouble() : null,
+        longitude: json["longitude"] !=null ? json["longitude"].toDouble() : null,
     );
 
     Map<String, dynamic> toJson() => {

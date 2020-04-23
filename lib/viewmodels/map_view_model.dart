@@ -25,7 +25,7 @@ class MapViewModel extends BaseModel {
   bool showBottomSheet = false;
   UserLocation currentLocation;
   var clients = [];
-  Tailor currentClient;
+  Seller currentClient;
   var currentBearing;
   
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
@@ -63,9 +63,6 @@ class MapViewModel extends BaseModel {
       //   }
       // }
       // sData.items.forEach((Seller cs) {
-      //   if(cs.contact.geoLocation !=null && cs.contact.geoLocation.latitude != null && cs.contact.geoLocation.longitude != null){
-      //     clients.add(cs);
-      //   }
       // });
     }
     notifyListeners();
@@ -76,7 +73,7 @@ class MapViewModel extends BaseModel {
       mapController = controller;
   }
 
-  zoomInMarker(Tailor client) {
+  zoomInMarker(Seller client) {
     mapController
         .animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
             target: LatLng(
