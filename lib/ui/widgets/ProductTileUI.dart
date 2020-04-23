@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 
 class ProductTileUI extends StatelessWidget {
   final Product data;
+  final Function onClick;
 
   const ProductTileUI({
     Key key,
-    this.data,
+    this.data, 
+    this.onClick,
   }) : super(key: key);
 
   @override
@@ -31,41 +33,44 @@ class ProductTileUI extends StatelessWidget {
     // print("http://52.66.141.191/api/photos/" + originalName.toString());
     // print("http://52.66.141.191/api/photos/" + name.toString());
 
-    return Card(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          NetworkImageWithPlaceholder(name: originalPhotoName),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(getTruncatedString(20, productName)),
-                Text('Ratings: ${productRatingValue.toString()}',
-                    style: TextStyle(color: Colors.grey, fontSize: 10.0)),
-                Row(
-                  children: <Widget>[
-                    Text('Rs.${productPrice.toString()}'),
-                    SizedBox(
-                      width: 5.0,
-                    ),
-                    // if (productOldPrice != 0.0)
-                    Text(
-                      'Rs.${productOldPrice.toString()}',
-                      style: TextStyle(
-                          color: Colors.grey,
-                          decoration: TextDecoration.lineThrough),
-                    ),
-                  ],
-                ),
-                Text('${productDiscount.toString()}%'),
-              ],
-            ),
-          )
-        ],
+    return GestureDetector(
+      onTap: onClick,
+      child: Card(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            NetworkImageWithPlaceholder(name: originalPhotoName),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(getTruncatedString(20, productName)),
+                  Text('Ratings: ${productRatingValue.toString()}',
+                      style: TextStyle(color: Colors.grey, fontSize: 10.0)),
+                  Row(
+                    children: <Widget>[
+                      Text('Rs.${productPrice.toString()}'),
+                      SizedBox(
+                        width: 5.0,
+                      ),
+                      // if (productOldPrice != 0.0)
+                      Text(
+                        'Rs.${productOldPrice.toString()}',
+                        style: TextStyle(
+                            color: Colors.grey,
+                            decoration: TextDecoration.lineThrough),
+                      ),
+                    ],
+                  ),
+                  Text('${productDiscount.toString()}%'),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

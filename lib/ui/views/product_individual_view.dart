@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import '../shared/app_colors.dart';
 
 class ProductIndiView extends StatelessWidget {
-  final Product data = Product();
+  final Product data;
+
+  const ProductIndiView({Key key, @required this.data}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

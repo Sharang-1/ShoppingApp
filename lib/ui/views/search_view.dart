@@ -225,6 +225,9 @@ class _SearchViewState extends State<SearchView>
                   print((data as Product).toJson());
                   return ProductTileUI(
                     data: data,
+                    onClick: () {
+                      model.goToProductPage(data);
+                    },
                   );
                 },
               ),
