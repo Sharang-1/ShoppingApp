@@ -1,31 +1,154 @@
 import 'package:compound/models/sellers.dart';
-import 'package:compound/models/tailors.dart';
 import 'package:compound/viewmodels/map_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 
 class MapView extends StatelessWidget {
-  Widget clientCard(MapViewModel model, Seller client) {
-    return Padding(
-        padding: EdgeInsets.only(left: 2.0, top: 10.0),
-        child: InkWell(
-            onTap: () {
-              model.currentClient = client;
-              model.currentBearing = 90.0;
-              model.zoomInMarker(client);
-            },
-            child: Material(
-              elevation: 4.0,
-              borderRadius: BorderRadius.circular(5.0),
-              child: Container(
-                  height: 160.0,
-                  width: 255.0,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5.0),
-                      color: Colors.white),
-                  child: Center(child: Text(client.name))),
-            )));
+  String getTruncatedString(int length, String str) {
+    return str.length <= length ? str : '${str.substring(0, length)}...';
+  }
+
+  Widget clientCard(MapViewModel model, context, Seller client) {
+    double titleFontSize = 20.0;
+    double priceFontSize = 18.0;
+    final double ratings = 4;
+    double ratingCountFontSize = 20.0;
+    double tagSize = 14.0;
+    int titleLength = 3;
+
+    List<String> tags = [
+      "Excellent",
+      "superb",
+    ];
+
+    List<String> tempSplitName = client.name.split(" ");
+    String shortName = tempSplitName.length > 1
+        ? tempSplitName[0].substring(0, 1) +
+            tempSplitName[tempSplitName.length - 1].substring(0, 1)
+        : tempSplitName[0].substring(0, 2);
+
+    return InkWell(
+        onTap: () {
+          model.currentClient = client;
+          model.currentBearing = 90.0;
+          model.zoomInMarker(client);
+        },
+        child: Container(
+          padding: EdgeInsets.only(left: 2, top: 5),
+          width: 300,
+          child: Card(
+              clipBehavior: Clip.antiAlias,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+                // side: BorderSide(color: Colors.black, width: 1)
+              ),
+              elevation: 5,
+              child: Padding(
+                padding:
+                    EdgeInsets.only(top: 10, bottom: 10, left: 5, right: 5),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Flexible(
+                        flex: 1,
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: CircleAvatar(
+                                      radius: 22,
+                                      backgroundColor: Colors.black,
+                                      child: Text(
+                                        shortName.toUpperCase(),
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w600),
+                                      ))),
+                              Tooltip(
+                                  message: client.name,
+                                  child: Text(
+                                      getTruncatedString(
+                                          titleLength, client.name),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black,
+                                          fontSize: titleFontSize))),
+                              // Text(
+                              //   tailor.price.toString() + "\u20B9",
+                              //   style: TextStyle(
+                              //       fontWeight: FontWeight.bold,
+                              //       fontSize: priceFontSize,
+                              //       color: Colors.black),
+                              // ),
+                            ])),
+                    Flexible(
+                        flex: 1,
+                        child: Row(children: <Widget>[
+                          Padding(
+                              padding: EdgeInsets.only(left: 10),
+                              child: Text(
+                                ratings.toString(),
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: ratingCountFontSize,
+                                    fontWeight: FontWeight.w800),
+                              )),
+                          RatingBarIndicator(
+                            rating: ratings,
+                            itemCount: 5,
+                            itemSize: ratingCountFontSize,
+                            direction: Axis.horizontal,
+                            itemBuilder: (context, _) => Icon(
+                              Icons.star,
+                              color: Colors.amber,
+                            ),
+                          ),
+                        ])),
+                    Flexible(
+                        flex: 1,
+                        child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Expanded(
+                                  child: Padding(
+                                      padding: EdgeInsets.only(right: 5),
+                                      child: ListView.builder(
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount: tags.length,
+                                          itemBuilder: (context, index) {
+                                            return Padding(
+                                                padding:
+                                                    EdgeInsets.only(right: 3),
+                                                child: Chip(
+                                                    elevation: 2,
+                                                    backgroundColor:
+                                                        Colors.amberAccent[700],
+                                                    label: Text(
+                                                      tags[index],
+                                                      style: TextStyle(
+                                                          fontSize: tagSize,
+                                                          color: Colors.black),
+                                                    )));
+                                          }))),
+                              CircleAvatar(
+                                  backgroundColor: Colors.black,
+                                  child: IconButton(
+                                      onPressed: () {},
+                                      icon: Icon(
+                                        Icons.phone,
+                                        color: Colors.white,
+                                      ))),
+                            ]))
+                  ],
+                ),
+              )),
+        ));
   }
 
   Set<Marker> getMarkers(context, MapViewModel model) {
@@ -99,7 +222,7 @@ class MapView extends StatelessWidget {
                           scrollDirection: Axis.horizontal,
                           padding: EdgeInsets.all(8.0),
                           children: model.sData.items.map((element) {
-                            return clientCard(model, element);
+                            return clientCard(model, context, element);
                           }).toList(),
                         )
                       : Container(height: 1.0, width: 1.0))),
@@ -182,3 +305,4 @@ class TailorIndiView extends StatelessWidget {
         });
   }
 }
+

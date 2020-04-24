@@ -13,31 +13,6 @@ class LoginView extends StatelessWidget {
   final FocusNode _nameFocus = FocusNode();
   final FocusNode _mobileFocus = FocusNode();
 
-  Widget genericWelcomeText(String txt) {
-    return Text(
-      txt,
-      style: TextStyle(
-          fontFamily: "Raleway", fontSize: 27, fontWeight: FontWeight.w600),
-    );
-  }
-
-  Widget welcomeText(context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        genericWelcomeText("Sign in with"),
-        SizedBox(
-          height: 5,
-        ),
-        genericWelcomeText("your name & "),
-        SizedBox(
-          height: 5,
-        ),
-        genericWelcomeText("phone number")
-      ],
-    );
-  }
-
   Widget inputFields(model, context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -46,10 +21,10 @@ class LoginView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          welcomeText(context),
+          const WelcomeText(),
           verticalSpaceMedium,
           InputField(
-            fieldFocusNode:_nameFocus,
+            fieldFocusNode: _nameFocus,
             nextFocusNode: _mobileFocus,
             placeholder: 'Enter your name',
             controller: nameController,
@@ -69,7 +44,11 @@ class LoginView extends StatelessWidget {
               model.validatePhoneNo;
             },
             focusNode: _mobileFocus,
-            onSubmit: (){_mobileFocus.unfocus();},
+            onSubmit: () {
+              _mobileFocus.unfocus();
+            },
+            countries: ['IN','US'],
+            initialCountry2LetterCode: 'IN',
             errorMessage: model.phoneNoValidation,
             textFieldController: phoneNoController,
             isEnabled: true,
@@ -115,13 +94,6 @@ class LoginView extends StatelessWidget {
     );
   }
 
-  Widget image(context) {
-    return Image.asset(
-      "assets/images/logo_red.png",
-      width: MediaQuery.of(context).size.width / 3,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return ViewModelProvider<LoginViewModel>.withConsumer(
@@ -141,7 +113,7 @@ class LoginView extends StatelessWidget {
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  image(context),
+                  const ImageLogo(),
                   Container(
                     height: MediaQuery.of(context).size.height -
                         (MediaQuery.of(context).size.width / 3) -
@@ -155,6 +127,57 @@ class LoginView extends StatelessWidget {
               ),
             ),
           )),
+    );
+  }
+}
+
+class ImageLogo extends StatelessWidget {
+  const ImageLogo({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Image.asset(
+      "assets/images/logo_red.png",
+      width: MediaQuery.of(context).size.width / 3,
+    );
+  }
+}
+
+class WelcomeText extends StatelessWidget {
+  const WelcomeText({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        const GenericWelcomeText(txt: "Sign in with"),
+        SizedBox(
+          height: 5,
+        ),
+        const GenericWelcomeText(txt: "your name & "),
+        SizedBox(
+          height: 5,
+        ),
+        const GenericWelcomeText(txt: "phone number")
+      ],
+    );
+  }
+}
+
+class GenericWelcomeText extends StatelessWidget {
+  final txt;
+
+  const GenericWelcomeText({Key key, this.txt}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      txt,
+      style: TextStyle(
+          fontFamily: "Raleway", fontSize: 27, fontWeight: FontWeight.w600),
     );
   }
 }
