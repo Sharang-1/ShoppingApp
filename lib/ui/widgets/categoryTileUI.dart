@@ -63,11 +63,9 @@ class CategoryTileUI extends StatelessWidget {
             ]))
       ]),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
-        // side: BorderSide(color: Colors.white, width: 2),
+        borderRadius: BorderRadius.circular(5.0),
       ),
-      elevation: 10,
-      margin: EdgeInsets.all(10),
+      elevation: 5,
     );
 
     // Card(
