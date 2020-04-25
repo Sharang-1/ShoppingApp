@@ -1,31 +1,152 @@
 import 'package:compound/models/sellers.dart';
-import 'package:compound/models/tailors.dart';
 import 'package:compound/viewmodels/map_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider_architecture/provider_architecture.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MapView extends StatelessWidget {
-  Widget clientCard(MapViewModel model, Seller client) {
+  String getTruncatedString(int length, String str) {
+    return str.length <= length ? str : '${str.substring(0, length)}...';
+  }
+
+  Widget clientCard(MapViewModel model, context, Seller client) {
+    double titleFontSize = 20.0;
+    final double ratings = 4;
+    double ratingCountFontSize = 18.0;
+    double tagSize = 14.0;
+
+    List<String> tags = [
+      "Excellent",
+      "superb",
+    ];
+
+    List<String> tempSplitName = client.name.split(" ");
+    String shortName = tempSplitName.length > 1
+        ? tempSplitName[0].substring(0, 1) +
+            tempSplitName[tempSplitName.length - 1].substring(0, 1)
+        : tempSplitName[0].substring(0, 2);
+
     return Padding(
-        padding: EdgeInsets.only(left: 2.0, top: 10.0),
+        padding: EdgeInsets.only(left: 10.0, top: 10.0),
         child: InkWell(
-            onTap: () {
-              model.currentClient = client;
-              model.currentBearing = 90.0;
-              model.zoomInMarker(client);
-            },
-            child: Material(
-              elevation: 4.0,
-              borderRadius: BorderRadius.circular(5.0),
-              child: Container(
-                  height: 160.0,
-                  width: 255.0,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5.0),
-                      color: Colors.white),
-                  child: Center(child: Text(client.name))),
-            )));
+          onTap: () {
+            model.currentClient = client;
+            model.currentBearing = 90.0;
+            model.zoomInMarker(client);
+          },
+          child: Card(
+            clipBehavior: Clip.antiAlias,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            elevation: 5,
+            child: Container(
+              padding: EdgeInsets.all(10),
+              width: MediaQuery.of(context).size.width * 0.8,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5.0),
+                  color: Colors.white),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Row(children: <Widget>[
+                    Align(
+                        alignment: Alignment.centerLeft,
+                        child: CircleAvatar(
+                            radius: 22,
+                            backgroundColor: Colors.black,
+                            child: Text(
+                              shortName.toUpperCase(),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600),
+                            ))),
+                    SizedBox(
+                      width: 15,
+                    ),
+                    Tooltip(
+                        message: client.name,
+                        child: Text(getTruncatedString(20, client.name),
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                                fontSize: titleFontSize))),
+                  ]),
+                  Row(children: <Widget>[
+                    Padding(
+                        padding: EdgeInsets.only(left: 10),
+                        child: Text(
+                          ratings.toString(),
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: ratingCountFontSize,
+                              fontWeight: FontWeight.w600),
+                        )),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    RatingBarIndicator(
+                      rating: ratings,
+                      itemCount: 5,
+                      itemSize: ratingCountFontSize,
+                      direction: Axis.horizontal,
+                      itemBuilder: (context, _) => Icon(
+                        Icons.star,
+                        color: Colors.amber,
+                      ),
+                    ),
+                  ]),
+                  Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Expanded(
+                          child: Row(
+                            children: <Widget>[
+                              Chip(
+                                  elevation: 2,
+                                  backgroundColor: Colors.blueGrey,
+                                  label: Text(
+                                    tags[0],
+                                    style: TextStyle(
+                                        fontSize: tagSize,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                  )),
+                              SizedBox(width: 10),
+                              Chip(
+                                  elevation: 2,
+                                  backgroundColor: Colors.blueGrey,
+                                  label: Text(
+                                    tags[1],
+                                    style: TextStyle(
+                                        fontSize: tagSize,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                  )),
+                            ],
+                          ),
+                        ),
+                        CircleAvatar(
+                            radius: 22,
+                            backgroundColor: Colors.white,
+                            child: IconButton(
+                                onPressed: () {
+                                  print("object");
+                                  launch("tel://${client.contact}");
+                                },
+                                icon: Icon(
+                                  Icons.phone,
+                                  color: Colors.black,
+                                ))),
+                      ])
+                ],
+              ),
+            ),
+          ),
+        ));
   }
 
   Set<Marker> getMarkers(context, MapViewModel model) {
@@ -92,14 +213,14 @@ class MapView extends StatelessWidget {
               top: MediaQuery.of(context).size.height - 250.0,
               left: 10.0,
               child: Container(
-                  height: 125.0,
+                  height: 180.0,
                   width: MediaQuery.of(context).size.width,
                   child: model.clientsToggle
                       ? ListView(
                           scrollDirection: Axis.horizontal,
                           padding: EdgeInsets.all(8.0),
                           children: model.sData.items.map((element) {
-                            return clientCard(model, element);
+                            return clientCard(model, context, element);
                           }).toList(),
                         )
                       : Container(height: 1.0, width: 1.0))),
