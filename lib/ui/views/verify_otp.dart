@@ -103,8 +103,9 @@ class _VerifyOTPViewState extends State<VerifyOTPView> {
         children: [
           FloatingActionButton(
             onPressed: model.changePhoneNo,
-            backgroundColor: Color.fromARGB(255, 184, 21, 20),
-            child: Icon(Icons.arrow_back, color: Colors.white),
+            elevation: 0,
+            backgroundColor: Colors.white,
+            child: Icon(Icons.arrow_back, color: Colors.black,size: 30,),
           ),
           Row(
             children: <Widget>[
