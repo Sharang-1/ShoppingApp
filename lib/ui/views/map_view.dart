@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider_architecture/provider_architecture.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MapView extends StatelessWidget {
   String getTruncatedString(int length, String str) {
@@ -12,11 +13,9 @@ class MapView extends StatelessWidget {
 
   Widget clientCard(MapViewModel model, context, Seller client) {
     double titleFontSize = 20.0;
-    double priceFontSize = 18.0;
     final double ratings = 4;
-    double ratingCountFontSize = 20.0;
+    double ratingCountFontSize = 18.0;
     double tagSize = 14.0;
-    int titleLength = 3;
 
     List<String> tags = [
       "Excellent",
@@ -29,125 +28,124 @@ class MapView extends StatelessWidget {
             tempSplitName[tempSplitName.length - 1].substring(0, 1)
         : tempSplitName[0].substring(0, 2);
 
-    return InkWell(
-        onTap: () {
-          model.currentClient = client;
-          model.currentBearing = 90.0;
-          model.zoomInMarker(client);
-        },
-        child: Container(
-          padding: EdgeInsets.only(left: 2, top: 5),
-          width: 300,
+    return Padding(
+        padding: EdgeInsets.only(left: 10.0, top: 10.0),
+        child: InkWell(
+          onTap: () {
+            model.currentClient = client;
+            model.currentBearing = 90.0;
+            model.zoomInMarker(client);
+          },
           child: Card(
-              clipBehavior: Clip.antiAlias,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-                // side: BorderSide(color: Colors.black, width: 1)
-              ),
-              elevation: 5,
-              child: Padding(
-                padding:
-                    EdgeInsets.only(top: 10, bottom: 10, left: 5, right: 5),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Flexible(
-                        flex: 1,
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            clipBehavior: Clip.antiAlias,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            elevation: 5,
+            child: Container(
+              padding: EdgeInsets.all(10),
+              width: MediaQuery.of(context).size.width * 0.8,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5.0),
+                  color: Colors.white),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Row(children: <Widget>[
+                    Align(
+                        alignment: Alignment.centerLeft,
+                        child: CircleAvatar(
+                            radius: 22,
+                            backgroundColor: Colors.black,
+                            child: Text(
+                              shortName.toUpperCase(),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600),
+                            ))),
+                    SizedBox(
+                      width: 15,
+                    ),
+                    Tooltip(
+                        message: client.name,
+                        child: Text(getTruncatedString(20, client.name),
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                                fontSize: titleFontSize))),
+                  ]),
+                  Row(children: <Widget>[
+                    Padding(
+                        padding: EdgeInsets.only(left: 10),
+                        child: Text(
+                          ratings.toString(),
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: ratingCountFontSize,
+                              fontWeight: FontWeight.w600),
+                        )),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    RatingBarIndicator(
+                      rating: ratings,
+                      itemCount: 5,
+                      itemSize: ratingCountFontSize,
+                      direction: Axis.horizontal,
+                      itemBuilder: (context, _) => Icon(
+                        Icons.star,
+                        color: Colors.amber,
+                      ),
+                    ),
+                  ]),
+                  Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Expanded(
+                          child: Row(
                             children: <Widget>[
-                              Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: CircleAvatar(
-                                      radius: 22,
-                                      backgroundColor: Colors.black,
-                                      child: Text(
-                                        shortName.toUpperCase(),
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w600),
-                                      ))),
-                              Tooltip(
-                                  message: client.name,
-                                  child: Text(
-                                      getTruncatedString(
-                                          titleLength, client.name),
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black,
-                                          fontSize: titleFontSize))),
-                              // Text(
-                              //   tailor.price.toString() + "\u20B9",
-                              //   style: TextStyle(
-                              //       fontWeight: FontWeight.bold,
-                              //       fontSize: priceFontSize,
-                              //       color: Colors.black),
-                              // ),
-                            ])),
-                    Flexible(
-                        flex: 1,
-                        child: Row(children: <Widget>[
-                          Padding(
-                              padding: EdgeInsets.only(left: 10),
-                              child: Text(
-                                ratings.toString(),
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: ratingCountFontSize,
-                                    fontWeight: FontWeight.w800),
-                              )),
-                          RatingBarIndicator(
-                            rating: ratings,
-                            itemCount: 5,
-                            itemSize: ratingCountFontSize,
-                            direction: Axis.horizontal,
-                            itemBuilder: (context, _) => Icon(
-                              Icons.star,
-                              color: Colors.amber,
-                            ),
-                          ),
-                        ])),
-                    Flexible(
-                        flex: 1,
-                        child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Expanded(
-                                  child: Padding(
-                                      padding: EdgeInsets.only(right: 5),
-                                      child: ListView.builder(
-                                          scrollDirection: Axis.horizontal,
-                                          itemCount: tags.length,
-                                          itemBuilder: (context, index) {
-                                            return Padding(
-                                                padding:
-                                                    EdgeInsets.only(right: 3),
-                                                child: Chip(
-                                                    elevation: 2,
-                                                    backgroundColor:
-                                                        Colors.amberAccent[700],
-                                                    label: Text(
-                                                      tags[index],
-                                                      style: TextStyle(
-                                                          fontSize: tagSize,
-                                                          color: Colors.black),
-                                                    )));
-                                          }))),
-                              CircleAvatar(
-                                  backgroundColor: Colors.black,
-                                  child: IconButton(
-                                      onPressed: () {},
-                                      icon: Icon(
-                                        Icons.phone,
+                              Chip(
+                                  elevation: 2,
+                                  backgroundColor: Colors.blueGrey,
+                                  label: Text(
+                                    tags[0],
+                                    style: TextStyle(
+                                        fontSize: tagSize,
                                         color: Colors.white,
-                                      ))),
-                            ]))
-                  ],
-                ),
-              )),
+                                        fontWeight: FontWeight.bold),
+                                  )),
+                              SizedBox(width: 10),
+                              Chip(
+                                  elevation: 2,
+                                  backgroundColor: Colors.blueGrey,
+                                  label: Text(
+                                    tags[1],
+                                    style: TextStyle(
+                                        fontSize: tagSize,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                  )),
+                            ],
+                          ),
+                        ),
+                        CircleAvatar(
+                            radius: 22,
+                            backgroundColor: Colors.white,
+                            child: IconButton(
+                                onPressed: () {
+                                  print("object");
+                                  launch("tel://${client.contact}");
+                                },
+                                icon: Icon(
+                                  Icons.phone,
+                                  color: Colors.black,
+                                ))),
+                      ])
+                ],
+              ),
+            ),
+          ),
         ));
   }
 
@@ -215,7 +213,7 @@ class MapView extends StatelessWidget {
               top: MediaQuery.of(context).size.height - 250.0,
               left: 10.0,
               child: Container(
-                  height: 125.0,
+                  height: 180.0,
                   width: MediaQuery.of(context).size.width,
                   child: model.clientsToggle
                       ? ListView(
@@ -305,4 +303,3 @@ class TailorIndiView extends StatelessWidget {
         });
   }
 }
-
