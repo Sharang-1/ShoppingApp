@@ -68,171 +68,174 @@ class _ProductTileUIState extends State<ProductTileUI> {
             clipBehavior: Clip.antiAlias,
             color: Colors.white,
             child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: <
-                    Widget>[
-              Expanded(flex: 12, child: _imageStackview(originalPhotoName)),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
+                  child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: <
+                      Widget>[
+              Expanded(flex: 10, child: _imageStackview(originalPhotoName)),
               Expanded(
-                  child: Padding(
-                      padding: EdgeInsets.only(top: 2),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
+                    child: Padding(
+                        padding: EdgeInsets.only(top: 2),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Expanded(
+                                flex: 4,
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 5),
+                                  child: Text(getTruncatedString(15, productName),
+                                      style: TextStyle(
+                                          fontSize: titleFontSize,
+                                          fontFamily: fontFamily,
+                                          fontWeight: FontWeight.bold)),
+                                )),
+                            Expanded(
+                                flex: 1,
+                                child: InkWell(
+                                  child: this.toggle
+                                      ? Icon(
+                                          Icons.favorite,
+                                          size: wishlistIconSize,
+                                          color: Colors.red,
+                                        )
+                                      : Icon(
+                                          Icons.favorite_border,
+                                          size: wishlistIconSize,
+                                          color: Colors.black,
+                                        ),
+                                  onTap: () {
+                                    setState(() {
+                                      this.toggle = !this.toggle;
+                                    });
+                                  },
+                                ))
+                          ],
+                          // )
+                        ))),
+              Expanded(
+                    flex: 1,
+                    child: Padding(
+                        padding: EdgeInsets.only(top: 2, left: 5),
+                        child: Text("By Nike",
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                                fontFamily: fontFamily,
+                                fontSize: subtitleFontSize,
+                                color: Colors.grey)))),
+              Expanded(
+                    flex: 1,
+                    child: Padding(
+                        padding: EdgeInsets.only(left: 5, right: 5),
+                        child: Row(children: <Widget>[
                           Expanded(
-                              flex: 4,
-                              child: Padding(
-                                padding: EdgeInsets.only(left: 5),
-                                child: Text(getTruncatedString(15, productName),
-                                    style: TextStyle(
-                                        fontSize: titleFontSize,
-                                        fontFamily: fontFamily,
-                                        fontWeight: FontWeight.bold)),
+                              flex: 1,
+                              child: Text(
+                                "\u20B9" + '${productPrice.toInt().toString()}',
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: priceFontSize),
                               )),
                           Expanded(
                               flex: 1,
-                              child: InkWell(
-                                child: this.toggle
-                                    ? Icon(
-                                        Icons.favorite,
-                                        size: wishlistIconSize,
-                                        color: Colors.red,
-                                      )
-                                    : Icon(
-                                        Icons.favorite_border,
-                                        size: wishlistIconSize,
-                                        color: Colors.black,
-                                      ),
-                                onTap: () {
-                                  setState(() {
-                                    this.toggle = !this.toggle;
-                                  });
-                                },
-                              ))
-                        ],
-                        // )
-                      ))),
-              Expanded(
-                  flex: 1,
-                  child: Padding(
-                      padding: EdgeInsets.only(top: 2, left: 5),
-                      child: Text("By Nike",
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                              fontFamily: fontFamily,
-                              fontSize: subtitleFontSize,
-                              color: Colors.grey)))),
-              Expanded(
-                  flex: 1,
-                  child: Padding(
-                      padding: EdgeInsets.only(left: 5, right: 5),
-                      child: Row(children: <Widget>[
-                        Expanded(
-                            flex: 1,
-                            child: Text(
-                              "\u20B9" + '${productPrice.toInt().toString()}',
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: priceFontSize),
-                            )),
-                        Expanded(
-                            flex: 1,
-                            child:
-                                // productOldPrice == 0
-                                //     ? Container()
-                                //     :
-                                Text(
-                              "\u20B9" + '${productOldPrice.toString()}',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: Colors.grey,
-                                  decoration: TextDecoration.lineThrough,
-                                  fontSize: priceFontSize),
-                            )),
-                        Expanded(
-                            flex: 1,
-                            child:
-                                // productDiscount == 0
-                                //     ? Container()
-                                //     :
+                              child:
+                                  // productOldPrice == 0
+                                  //     ? Container()
+                                  //     :
+                                  Text(
+                                "\u20B9" + '${productOldPrice.toString()}',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    decoration: TextDecoration.lineThrough,
+                                    fontSize: priceFontSize),
+                              )),
+                          Expanded(
+                              flex: 1,
+                              child:
+                                  // productDiscount == 0
+                                  //     ? Container()
+                                  //     :
 
-                                Text('${productDiscount.toString()}% off',
-                                    textAlign: TextAlign.end,
-                                    style: TextStyle(
-                                      fontSize: priceFontSize - 2,
-                                      color: Colors.red,
-                                      fontWeight: FontWeight.bold,
-                                    ))),
-                      ]))),
+                                  Text('${productDiscount.toString()}% off',
+                                      textAlign: TextAlign.end,
+                                      style: TextStyle(
+                                        fontSize: priceFontSize - 2,
+                                        color: Colors.red,
+                                        fontWeight: FontWeight.bold,
+                                      ))),
+                        ]))),
+              // Expanded(
+              //     flex: 1,
+              //     child: Align(
+              //       alignment: Alignment.centerLeft,
+              //       child: Padding(
+              //         padding: EdgeInsets.only(top: 2, left: 5, right: 5),
+              //         child: Material(
+              //           shape: RoundedRectangleBorder(
+              //               borderRadius: BorderRadius.all(Radius.circular(3))),
+              //           color: Colors.green[900], // button color
+              //           child: Row(
+              //             mainAxisSize: MainAxisSize.min,
+              //             children: <Widget>[
+              //               Padding(
+              //                   padding: EdgeInsets.only(left: 3),
+              //                   child: Text('${productRatingValue.toString()}',
+              //                       style: TextStyle(
+              //                           fontFamily: fontFamily,
+              //                           color: Colors.white,
+              //                           fontSize: ratingCountFontSize,
+              //                           fontWeight: FontWeight.w400))),
+              //               Padding(
+              //                   padding: EdgeInsets.only(right: 3),
+              //                   child: Icon(
+              //                     Icons.star,
+              //                     color: Colors.white,
+              //                     size: ratingCountFontSize - 2,
+              //                   ))
+              //             ],
+              //           ),
+              //         ),
+              //       ),
+              //     )),
               Expanded(
-                  flex: 1,
-                  child: Align(
-                    alignment: Alignment.centerLeft,
+                    flex: 1,
                     child: Padding(
-                      padding: EdgeInsets.only(top: 2, left: 5, right: 5),
-                      child: Material(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(3))),
-                        color: Colors.green[900], // button color
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            Padding(
-                                padding: EdgeInsets.only(left: 3),
-                                child: Text('${productRatingValue.toString()}',
-                                    style: TextStyle(
-                                        fontFamily: fontFamily,
-                                        color: Colors.white,
-                                        fontSize: ratingCountFontSize,
-                                        fontWeight: FontWeight.w400))),
-                            Padding(
-                                padding: EdgeInsets.only(right: 3),
-                                child: Icon(
-                                  Icons.star,
-                                  color: Colors.white,
-                                  size: ratingCountFontSize - 2,
-                                ))
-                          ],
-                        ),
-                      ),
-                    ),
-                  )),
-              Expanded(
-                  flex: 1,
-                  child: Padding(
-                      padding: EdgeInsets.only(top: 3),
-                      child: Row(children: <Widget>[
-                        Expanded(
-                            child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: 2,
-                                itemBuilder: (context, index) {
-                                  return InkWell(
-                                      onTap: () {},
-                                      child: Padding(
-                                          padding: EdgeInsets.only(left: 3),
-                                          child: Container(
-                                            margin: EdgeInsets.only(bottom: 1),
-                                            width: 50,
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.elliptical(5, 5)),
-                                              color: Colors.grey,
-                                            ),
-                                            child: Center(
-                                              child: Text(
-                                                tags[index],
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: tagSize,
-                                                    fontWeight:
-                                                        FontWeight.bold),
+                        padding: EdgeInsets.only(top: 3),
+                        child: Row(children: <Widget>[
+                          Expanded(
+                              child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: 2,
+                                  itemBuilder: (context, index) {
+                                    return InkWell(
+                                        onTap: () {},
+                                        child: Padding(
+                                            padding: EdgeInsets.only(left: 3),
+                                            child: Container(
+                                              margin: EdgeInsets.only(bottom: 1),
+                                              width: 50,
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.elliptical(5, 5)),
+                                                color: Colors.grey,
                                               ),
-                                            ),
-                                          )));
-                                })),
-                      ])))
-            ])));
+                                              child: Center(
+                                                child: Text(
+                                                  tags[index],
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: tagSize,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              ),
+                                            )));
+                                  })),
+                        ])))
+            ]),
+                )));
   }
 
   Widget _imageStackview(originalPhotoName) {

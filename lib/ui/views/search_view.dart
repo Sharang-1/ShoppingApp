@@ -219,7 +219,7 @@ class _SearchViewState extends State<SearchView>
                 filter: productFilter,
                 gridCount: 2,
                 viewModel: ProductsGridViewBuilderViewModel(),
-                childAspectRatio: 0.6,
+                childAspectRatio: 0.7,
                 tileBuilder: (BuildContext context, data) {
                   Fimber.d("test");
                   print((data as Product).toJson());
