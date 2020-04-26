@@ -66,22 +66,24 @@ class _ProductTileUIState extends State<ProductTileUI> {
     return GestureDetector(
         onTap: widget.onClick,
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+          padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
           child: Card(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
             ),
-            elevation: 4,
+            elevation: 6,
             clipBehavior: Clip.antiAlias,
             color: Colors.white,
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: <
                     Widget>[
-              Expanded(flex: 7, child: _imageStackview(originalPhotoName)),
               Expanded(
-                  flex: 3,
+                  flex: 13,
+                  child: _imageStackview(originalPhotoName, productDiscount)),
+              Expanded(
+                  flex: 7,
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(6, 8.0, 6, 6),
+                    padding: const EdgeInsets.fromLTRB(10, 8.0, 6, 6),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,7 +92,7 @@ class _ProductTileUIState extends State<ProductTileUI> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             Expanded(
-                              child: Text(getTruncatedString(15, productName),
+                              child: Text(getTruncatedString(13, productName),
                                   style: TextStyle(
                                       fontSize: titleFontSize,
                                       fontFamily: fontFamily,
@@ -106,7 +108,7 @@ class _ProductTileUIState extends State<ProductTileUI> {
                                   : Icon(
                                       Icons.favorite_border,
                                       size: wishlistIconSize,
-                                      color: Colors.black,
+                                      color: secondaryColor,
                                     ),
                               onTap: () {
                                 setState(() {
@@ -124,7 +126,6 @@ class _ProductTileUIState extends State<ProductTileUI> {
                                 fontSize: subtitleFontSize,
                                 color: Colors.grey)),
                         Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
                               Text(
@@ -134,6 +135,7 @@ class _ProductTileUIState extends State<ProductTileUI> {
                                     fontWeight: FontWeight.bold,
                                     fontSize: priceFontSize),
                               ),
+                              SizedBox(width: 10,),
                               productDiscount != 0.0
                                   ? Text(
                                       "\u20B9" +
@@ -146,15 +148,6 @@ class _ProductTileUIState extends State<ProductTileUI> {
                                           fontSize: priceFontSize),
                                     )
                                   : Container(),
-                              productDiscount != 0.0
-                                  ? Text('${productDiscount.toString()}% off',
-                                      textAlign: TextAlign.end,
-                                      style: TextStyle(
-                                        fontSize: priceFontSize - 2,
-                                        color: secondaryColor,
-                                        fontWeight: FontWeight.bold,
-                                      ))
-                                  : Container()
                             ]),
                       ],
                     ),
@@ -164,7 +157,7 @@ class _ProductTileUIState extends State<ProductTileUI> {
         ));
   }
 
-  Widget _imageStackview(originalPhotoName) {
+  Widget _imageStackview(originalPhotoName, discount) {
     return Stack(fit: StackFit.loose, children: <Widget>[
       Positioned.fill(
         child: FractionallySizedBox(
@@ -184,14 +177,28 @@ class _ProductTileUIState extends State<ProductTileUI> {
                             ? 'https://images.pexels.com/photos/157675/fashion-men-s-individuality-black-and-white-157675.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
                             : originalPhotoName)))),
       ),
-      // Align(
-      //     alignment: Alignment.topRight,
-      //     child: SizedBox(
-      //         height: 30,
-      //         width: 30,
-      //         child: SvgPicture.asset(
-      //           "assets//images/coupon_1.svg",
-      //         )))
+      discount != 0.0
+          ? Positioned(
+              top: 0,
+              right: 0,
+              child: Container(
+                decoration: BoxDecoration(
+                    color: secondaryColor,
+                    borderRadius:
+                        BorderRadius.only(bottomLeft: Radius.circular(10))),
+                width: 40,
+                height: 20,
+                child: Center(
+                  child: Text(
+                    discount.round().toString()+"%",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 10),
+                  ),
+                ),
+              ))
+          : Container()
     ]
         // )
 
