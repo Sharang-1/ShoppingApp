@@ -9,6 +9,8 @@ const Widget verticalSpaceSmall = SizedBox(height: 10.0);
 const Widget verticalSpaceMedium = SizedBox(height: 25.0);
 const Widget verticalSpaceLarge = SizedBox(height: 50.0);
 const Widget verticalSpaceMassive = SizedBox(height: 120.0);
+const Widget spaceDividerExtraThin =
+    Divider(height: 1, thickness: 0.15, color: Colors.black);
 
 Widget spacedDivider = Column(
   children: const <Widget>[

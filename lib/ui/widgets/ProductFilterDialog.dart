@@ -121,216 +121,247 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
 
   @override
   Widget build(BuildContext context) {
+    TextStyle titleTextStyle =
+        TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold);
+
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor,
-        title: Text("Filter"),
-        actions: <Widget>[
-          IconButton(
-            tooltip: "Reset",
-            icon: Icon(Icons.restore),
-            onPressed: () {},
-          ),
-          IconButton(
-            tooltip: "Apply",
-            icon: Icon(Icons.done),
-            onPressed: () {
-              setUpFilterObject();
-              print("Typing---------------------------------->>>>>>>>>>>>>>");
-              Navigator.of(context).pop<ProductFilter>(
-                new ProductFilter(
-                  fullText: fullText,
-                  categories: categories,
-                  subCategories: subCategories,
-                  size: size,
-                  minPrice: minPrice,
-                  maxPrice: maxPrice,
-                  minDiscount: minDiscount,
-                  sortField: sortByRadioValue,
-                  isSortOrderDesc: sortOrderRadioValue == 'desc',
-                ),
-              );
-            },
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: <Widget>[
-              verticalSpaceSmall,
-              Text(
-                'Categories',
-                style: TextStyle(fontSize: 16.0),
-              ),
-              verticalSpaceSmall,
-              Wrap(
-                children: categoriesRadioMap.keys.map((String sKey) {
-                  return Row(
-                    children: <Widget>[
-                      Radio(
-                        value: categoriesRadioMap[sKey],
-                        groupValue: categoriesRadioValue,
-                        onChanged: (val) {
-                          setState(() => categoriesRadioValue = val);
-                        },
-                      ),
-                      Text(
-                        sKey,
-                        style: TextStyle(fontSize: 16.0),
-                      ),
-                    ],
-                  );
-                }).toList(),
-              ),
-              verticalSpaceSmall,
-              Text(
-                'Sub Categories',
-                style: TextStyle(fontSize: 16.0),
-              ),
-              verticalSpaceSmall,
-              Wrap(
-                children: subCategoriesValues.keys.map(
-                  (String sKey) {
-                    return CheckboxListTile(
-                      title: Text(sKey),
-                      value: subCategoriesValues[sKey],
-                      onChanged: (val) {
-                        if (sKey != "All") {
-                          setState(() => subCategoriesValues[sKey] = val);
-                          return;
-                        }
-                        setState(() => subCategoriesValues[sKey] = val);
-                        setState(() {
-                          for (var k in subCategoriesValues.keys) {
-                            subCategoriesValues[k] = val;
-                          }
-                        });
-                      },
-                    );
-                  },
-                ).toList(),
-              ),
-              verticalSpaceSmall,
-              Text(
-                'Price Range (Rs. $minPrice - Rs. $maxPrice)',
-                style: TextStyle(fontSize: 16.0),
-              ),
-              verticalSpaceSmall,
-              Row(
-                children: <Widget>[
-                  horizontalSpaceTiny,
-                  Text("0"),
-                  horizontalSpaceTiny,
-                  Expanded(
-                    child: RangeSlider(
-                      min: 0,
-                      max: 50000,
-                      divisions: 100,
-                      labels:
-                          RangeLabels(minPrice.toString(), maxPrice.toString()),
-                      values:
-                          RangeValues(minPrice.toDouble(), maxPrice.toDouble()),
-                      onChanged: (val) {
-                        setState(() {
-                          minPrice = val.start.toInt();
-                          maxPrice = val.end.toInt();
-                        });
-                      },
-                    ),
+        // backgroundColor: Theme.of(context).secondaryHeaderColor,
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).primaryColor,
+          title: Text("Filter"),
+          actions: <Widget>[
+            IconButton(
+              tooltip: "Reset",
+              icon: Icon(Icons.restore),
+              onPressed: () {},
+            ),
+            IconButton(
+              tooltip: "Apply",
+              icon: Icon(Icons.done),
+              onPressed: () {
+                setUpFilterObject();
+                print("Typing---------------------------------->>>>>>>>>>>>>>");
+                Navigator.of(context).pop<ProductFilter>(
+                  new ProductFilter(
+                    fullText: fullText,
+                    categories: categories,
+                    subCategories: subCategories,
+                    size: size,
+                    minPrice: minPrice,
+                    maxPrice: maxPrice,
+                    minDiscount: minDiscount,
+                    sortField: sortByRadioValue,
+                    isSortOrderDesc: sortOrderRadioValue == 'desc',
                   ),
-                  horizontalSpaceTiny,
-                  Text("50,000"),
-                  horizontalSpaceTiny,
-                ],
-              ),
-              verticalSpaceSmall,
-              Text(
-                'Discount ($minDiscount %)',
-                style: TextStyle(fontSize: 16.0),
-              ),
-              verticalSpaceSmall,
-              Row(
-                children: <Widget>[
-                  horizontalSpaceTiny,
-                  Text("0"),
-                  horizontalSpaceTiny,
-                  Expanded(
-                    child: Slider(
-                      min: 0,
-                      max: 100,
-                      divisions: 20,
-                      label: minDiscount.toString(),
-                      value: minDiscount.toDouble(),
-                      onChanged: (val) {
-                        setState(() {
-                          minDiscount = val.toInt();
-                        });
-                      },
-                    ),
-                  ),
-                  horizontalSpaceTiny,
-                  Text("100"),
-                  horizontalSpaceTiny,
-                ],
-              ),
-              verticalSpaceSmall,
-              Text(
-                'Sort By',
-                style: TextStyle(fontSize: 16.0),
-              ),
-              verticalSpaceSmall,
-              Wrap(
-                children: sortByRadioMap.keys.map((String sKey) {
-                  return Row(
-                    children: <Widget>[
-                      Radio(
-                        value: sortByRadioMap[sKey],
-                        groupValue: sortByRadioValue,
-                        onChanged: (val) {
-                          setState(() => sortByRadioValue = val);
-                        },
-                      ),
-                      Text(
-                        sKey,
-                        style: TextStyle(fontSize: 16.0),
-                      ),
-                    ],
-                  );
-                }).toList(),
-              ),
-              verticalSpaceSmall,
-              Text(
-                'Sort Order',
-                style: TextStyle(fontSize: 16.0),
-              ),
-              verticalSpaceSmall,
-              Wrap(
-                children: sortOrderRadioMap.keys.map((String sKey) {
-                  return Row(
-                    children: <Widget>[
-                      Radio(
-                        value: sortOrderRadioMap[sKey],
-                        groupValue: sortOrderRadioValue,
-                        onChanged: (val) {
-                          setState(() => sortOrderRadioValue = val);
-                        },
-                      ),
-                      Text(
-                        sKey,
-                        style: TextStyle(fontSize: 16.0),
-                      ),
-                    ],
-                  );
-                }).toList(),
-              ),
-              verticalSpaceMedium,
-            ],
-          ),
+                );
+              },
+            ),
+          ],
         ),
-      ),
-    );
+        body: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: Padding(
+              padding: EdgeInsets.only(left: 20, right: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  verticalSpaceSmall,
+                  Text('Categories', style: titleTextStyle),
+                  verticalSpaceTiny,
+                  Wrap(
+                    spacing: 5,
+                    children: categoriesRadioMap.keys.map((String sKey) {
+                      return ChoiceChip(
+                        label: Text(sKey),
+                        labelStyle: TextStyle(color: Colors.black),
+                        backgroundColor: Colors.white,
+                        selectedColor: Colors.grey.withOpacity(0.5),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            side: BorderSide(
+                                width: 0.5,
+                                color:
+                                    // categoriesRadioValue ==
+                                    //         categoriesRadioMap[sKey]
+                                    //     ? Colors.amber
+                                    // :
+                                    Colors.black)),
+                        selected:
+                            (categoriesRadioValue == categoriesRadioMap[sKey]),
+                        onSelected: (val) {
+                          setState(() {
+                            categoriesRadioValue =
+                                val ? categoriesRadioMap[sKey] : null;
+                          });
+                          // print(sKey +
+                          //     "value:" +
+                          //     val.toString() +
+                          //     categoriesRadioValue.toString() +
+                          //     (categoriesRadioValue == categoriesRadioMap[sKey])
+                          //         .toString());
+                        },
+                      );
+                    }).toList(),
+                  ),
+                  spaceDividerExtraThin,
+                  verticalSpaceSmall,
+                  Text('Sub Categories', style: titleTextStyle),
+                  verticalSpaceTiny,
+                  Wrap(
+                    spacing: 5,
+                    children: subCategoriesValues.keys.map(
+                      (String sKey) {
+                        return FilterChip(
+                          backgroundColor: Colors.white,
+                          checkmarkColor: Colors.black,
+                          selectedColor: Colors.grey.withOpacity(0.5),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
+                              side: BorderSide(
+                                width: 0.5,
+                              )),
+                          labelStyle: TextStyle(color: Colors.black),
+                          label: Text(sKey),
+                          selected: subCategoriesValues[sKey],
+                          onSelected: (val) {
+                            if (sKey != "All") {
+                              setState(() => subCategoriesValues[sKey] = val);
+                              return;
+                            }
+                            setState(() => subCategoriesValues[sKey] = val);
+                            setState(() {
+                              for (var k in subCategoriesValues.keys) {
+                                subCategoriesValues[k] = val;
+                              }
+                            });
+                          },
+                        );
+                      },
+                    ).toList(),
+                  ),
+                  spaceDividerExtraThin,
+                  verticalSpaceSmall,
+                  Text('By Price', style: titleTextStyle),
+                  verticalSpaceTiny,
+                  Align(
+                    alignment: Alignment.center,
+                    child: Text('Rs. $minPrice - Rs. $maxPrice'),
+                  ),
+                  RangeSlider(
+                    min: 0,
+                    max: 50000,
+                    divisions: 100,
+
+                    inactiveColor:
+                        Theme.of(context).primaryColor.withOpacity(0.38),
+                    activeColor: Colors.black,
+                    // labels:
+                    //     RangeLabels(minPrice.toString(), maxPrice.toString()),
+                    values:
+                        RangeValues(minPrice.toDouble(), maxPrice.toDouble()),
+                    onChanged: (val) {
+                      setState(() {
+                        minPrice = val.start.toInt();
+                        maxPrice = val.end.toInt();
+                      });
+                    },
+                  ),
+                  verticalSpaceSmall,
+                  Text('By Discount', style: titleTextStyle),
+                  verticalSpaceTiny,
+                  Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        '$minDiscount %',
+                        style: TextStyle(fontSize: 16.0),
+                      )),
+                  Row(
+                    children: <Widget>[
+                      // horizontalSpaceTiny,
+                      // // Text("0"),
+                      horizontalSpaceTiny,
+                      Expanded(
+                        child: Slider(
+                          min: 0,
+                          max: 100,
+                          divisions: 20,
+                          // label: minDiscount.toString(),
+                          value: minDiscount.toDouble(),
+
+                          inactiveColor:
+                              Theme.of(context).primaryColor.withOpacity(0.38),
+                          activeColor: Colors.black,
+
+                          onChanged: (val) {
+                            setState(() {
+                              minDiscount = val.toInt();
+                            });
+                          },
+                        ),
+                      ),
+                      horizontalSpaceTiny,
+                    ],
+                  ),
+                  spaceDividerExtraThin,
+                  verticalSpaceSmall,
+                  Text('Sort By', style: titleTextStyle),
+                  verticalSpaceTiny,
+                  Wrap(
+                    spacing: 5,
+                    children: sortByRadioMap.keys.map((String sKey) {
+                      return ChoiceChip(
+                        backgroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            side: BorderSide(
+                              width: 0.5,
+                            )),
+                        labelStyle: TextStyle(color: Colors.black),
+                        selectedColor: Colors.grey.withOpacity(0.50),
+                        selected: sortByRadioValue == sortByRadioMap[sKey],
+                        onSelected: (val) {
+                          setState(() => sortByRadioValue =
+                              val ? sortByRadioMap[sKey] : null);
+                          // print(sortByRadioMap[sKey] + val.toString() + sKey);
+                        },
+                        label: Text(sKey),
+                      );
+                    }).toList(),
+                  ),
+                  spaceDividerExtraThin,
+                  verticalSpaceSmall,
+                  Text('Sort Order', style: titleTextStyle),
+                  verticalSpaceTiny,
+                  Wrap(
+                    spacing: 5,
+                    children: sortOrderRadioMap.keys.map((String sKey) {
+                      return ChoiceChip(
+                        backgroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            side: BorderSide(
+                              width: 0.5,
+                            )),
+                        labelStyle: TextStyle(color: Colors.black),
+                        selectedColor: Colors.grey.withOpacity(0.5),
+                        label: Text(sKey),
+                        selected:
+                            sortOrderRadioValue == sortOrderRadioMap[sKey],
+                        onSelected: (val) {
+                          setState(() => sortOrderRadioValue =
+                              val ? sortOrderRadioMap[sKey] : null);
+                        },
+                      );
+                    }).toList(),
+                  ),
+                  spaceDividerExtraThin,
+                  verticalSpaceMedium,
+                ],
+              ),
+            ),
+          ),
+        ));
   }
 
   void setUpFilterObject() {
