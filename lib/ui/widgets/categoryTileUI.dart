@@ -20,52 +20,47 @@ class CategoryTileUI extends StatelessWidget {
     String photoName = data.banner != null ? data.banner.originalName : "";
     bool isTablet = Tools.checkIfTablet(MediaQuery.of(context));
 
-    double titleFontSize = isTablet ? 24.0 : 20.0;
+    double titleFontSize = isTablet ? 28.0 : 20.0;
 
-    return Card(
-      clipBehavior: Clip.antiAlias,
-      color: Colors.grey,
-      child: Stack(children: <Widget>[
-        Positioned.fill(
-            child: ColorFiltered(
-          colorFilter: ColorFilter.mode(
-              Colors.black.withOpacity(0.5), BlendMode.srcATop),
-          child: FadeInImage.assetNetwork(
-              fit: BoxFit.fill,
-              fadeInCurve: Curves.easeIn,
-              placeholder: 'assets/images/placeholder.png',
-              image:
-                  // photoName == null?
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(15,5,15,0),
+      child: Card(
+        clipBehavior: Clip.antiAlias,
+        color: Colors.grey,
+        child: Stack(children: <Widget>[
+          Positioned.fill(
+              child: ColorFiltered(
+            colorFilter: ColorFilter.mode(
+                Colors.black.withOpacity(0.3), BlendMode.srcATop),
+            child: FadeInImage.assetNetwork(
+                fit: BoxFit.fill,
+                fadeInCurve: Curves.easeIn,
+                placeholder: 'assets/images/placeholder.png',
+                image:
+                    // photoName == null?
 
-                  'https://images.pexels.com/photos/934070/pexels-photo-934070.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
-              // : photoName
+                    'https://images.pexels.com/photos/934070/pexels-photo-934070.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
+                // : photoName
 
-              ),
-        )),
-        Positioned.fill(
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-              Divider(
-                color: Colors.white,
-                height: 2,
-              ),
-              Text(getTruncatedString(20, name),
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: titleFontSize,
-                      fontWeight: FontWeight.w600)),
-              Divider(
-                color: Colors.white,
-                height: 2,
-              ),
-            ]))
-      ]),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(5.0),
+                ),
+          )),
+          Positioned.fill(
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                Text(getTruncatedString(20, name),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: titleFontSize,
+                        fontWeight: FontWeight.w600)),
+              ]))
+        ]),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+        elevation: 5,
       ),
-      elevation: 5,
     );
 
     // Card(

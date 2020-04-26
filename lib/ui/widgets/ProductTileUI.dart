@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:compound/models/products.dart';
 import 'package:compound/ui/widgets/network_image_with_placeholder.dart';
 import 'package:compound/utils/tools.dart';
+import '../shared/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -28,10 +29,10 @@ class _ProductTileUIState extends State<ProductTileUI> {
     bool isTablet = Tools.checkIfTablet(MediaQuery.of(context));
 
     double titleFontSize = isTablet ? 18.0 : 14.0;
-    double subtitleFontSize = isTablet ? 16.0 : 12.0;
+    double subtitleFontSize = isTablet ? 16.0 : 10.0;
     double priceFontSize = isTablet ? 18.0 : 14.0;
     double ratingCountFontSize = isTablet ? 16.0 : 12.0;
-    double wishlistIconSize = isTablet ? 34 : 22;
+    double wishlistIconSize = isTablet ? 34 : 25;
     // final BlousePadding sellerName=widget.data.whoMadeIt;
 
     final photo = widget.data.photo ?? null;
@@ -64,178 +65,103 @@ class _ProductTileUIState extends State<ProductTileUI> {
 
     return GestureDetector(
         onTap: widget.onClick,
-        child: Card(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+          child: Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
+            ),
+            elevation: 4,
             clipBehavior: Clip.antiAlias,
             color: Colors.white,
             child:
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
-                  child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: <
-                      Widget>[
-              Expanded(flex: 10, child: _imageStackview(originalPhotoName)),
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: <
+                    Widget>[
+              Expanded(flex: 7, child: _imageStackview(originalPhotoName)),
               Expanded(
-                    child: Padding(
-                        padding: EdgeInsets.only(top: 2),
-                        child: Row(
+                  flex: 3,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(6, 8.0, 6, 6),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             Expanded(
-                                flex: 4,
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 5),
-                                  child: Text(getTruncatedString(15, productName),
-                                      style: TextStyle(
-                                          fontSize: titleFontSize,
-                                          fontFamily: fontFamily,
-                                          fontWeight: FontWeight.bold)),
-                                )),
-                            Expanded(
-                                flex: 1,
-                                child: InkWell(
-                                  child: this.toggle
-                                      ? Icon(
-                                          Icons.favorite,
-                                          size: wishlistIconSize,
-                                          color: Colors.red,
-                                        )
-                                      : Icon(
-                                          Icons.favorite_border,
-                                          size: wishlistIconSize,
-                                          color: Colors.black,
-                                        ),
-                                  onTap: () {
-                                    setState(() {
-                                      this.toggle = !this.toggle;
-                                    });
-                                  },
-                                ))
+                              child: Text(getTruncatedString(15, productName),
+                                  style: TextStyle(
+                                      fontSize: titleFontSize,
+                                      fontFamily: fontFamily,
+                                      fontWeight: FontWeight.bold)),
+                            ),
+                            InkWell(
+                              child: this.toggle
+                                  ? Icon(
+                                      Icons.favorite,
+                                      size: wishlistIconSize,
+                                      color: secondaryColor,
+                                    )
+                                  : Icon(
+                                      Icons.favorite_border,
+                                      size: wishlistIconSize,
+                                      color: Colors.black,
+                                    ),
+                              onTap: () {
+                                setState(() {
+                                  this.toggle = !this.toggle;
+                                });
+                              },
+                            )
                           ],
                           // )
-                        ))),
-              Expanded(
-                    flex: 1,
-                    child: Padding(
-                        padding: EdgeInsets.only(top: 2, left: 5),
-                        child: Text("By Nike",
+                        ),
+                        Text("By Anita's Creation",
                             textAlign: TextAlign.left,
                             style: TextStyle(
                                 fontFamily: fontFamily,
                                 fontSize: subtitleFontSize,
-                                color: Colors.grey)))),
-              Expanded(
-                    flex: 1,
-                    child: Padding(
-                        padding: EdgeInsets.only(left: 5, right: 5),
-                        child: Row(children: <Widget>[
-                          Expanded(
-                              flex: 1,
-                              child: Text(
+                                color: Colors.grey)),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Text(
                                 "\u20B9" + '${productPrice.toInt().toString()}',
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: priceFontSize),
-                              )),
-                          Expanded(
-                              flex: 1,
-                              child:
-                                  // productOldPrice == 0
-                                  //     ? Container()
-                                  //     :
-                                  Text(
-                                "\u20B9" + '${productOldPrice.toString()}',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Colors.grey,
-                                    decoration: TextDecoration.lineThrough,
-                                    fontSize: priceFontSize),
-                              )),
-                          Expanded(
-                              flex: 1,
-                              child:
-                                  // productDiscount == 0
-                                  //     ? Container()
-                                  //     :
-
-                                  Text('${productDiscount.toString()}% off',
+                              ),
+                              productDiscount != 0.0
+                                  ? Text(
+                                      "\u20B9" +
+                                          '${productOldPrice.toString()}',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Colors.grey,
+                                          decoration:
+                                              TextDecoration.lineThrough,
+                                          fontSize: priceFontSize),
+                                    )
+                                  : Container(),
+                              productDiscount != 0.0
+                                  ? Text('${productDiscount.toString()}% off',
                                       textAlign: TextAlign.end,
                                       style: TextStyle(
                                         fontSize: priceFontSize - 2,
-                                        color: Colors.red,
+                                        color: secondaryColor,
                                         fontWeight: FontWeight.bold,
-                                      ))),
-                        ]))),
-              // Expanded(
-              //     flex: 1,
-              //     child: Align(
-              //       alignment: Alignment.centerLeft,
-              //       child: Padding(
-              //         padding: EdgeInsets.only(top: 2, left: 5, right: 5),
-              //         child: Material(
-              //           shape: RoundedRectangleBorder(
-              //               borderRadius: BorderRadius.all(Radius.circular(3))),
-              //           color: Colors.green[900], // button color
-              //           child: Row(
-              //             mainAxisSize: MainAxisSize.min,
-              //             children: <Widget>[
-              //               Padding(
-              //                   padding: EdgeInsets.only(left: 3),
-              //                   child: Text('${productRatingValue.toString()}',
-              //                       style: TextStyle(
-              //                           fontFamily: fontFamily,
-              //                           color: Colors.white,
-              //                           fontSize: ratingCountFontSize,
-              //                           fontWeight: FontWeight.w400))),
-              //               Padding(
-              //                   padding: EdgeInsets.only(right: 3),
-              //                   child: Icon(
-              //                     Icons.star,
-              //                     color: Colors.white,
-              //                     size: ratingCountFontSize - 2,
-              //                   ))
-              //             ],
-              //           ),
-              //         ),
-              //       ),
-              //     )),
-              Expanded(
-                    flex: 1,
-                    child: Padding(
-                        padding: EdgeInsets.only(top: 3),
-                        child: Row(children: <Widget>[
-                          Expanded(
-                              child: ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount: 2,
-                                  itemBuilder: (context, index) {
-                                    return InkWell(
-                                        onTap: () {},
-                                        child: Padding(
-                                            padding: EdgeInsets.only(left: 3),
-                                            child: Container(
-                                              margin: EdgeInsets.only(bottom: 1),
-                                              width: 50,
-                                              decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.elliptical(5, 5)),
-                                                color: Colors.grey,
-                                              ),
-                                              child: Center(
-                                                child: Text(
-                                                  tags[index],
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: tagSize,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                              ),
-                                            )));
-                                  })),
-                        ])))
+                                      ))
+                                  : Container()
+                            ]),
+                      ],
+                    ),
+                  )),
             ]),
-                )));
+          ),
+        ));
   }
 
   Widget _imageStackview(originalPhotoName) {
@@ -258,14 +184,14 @@ class _ProductTileUIState extends State<ProductTileUI> {
                             ? 'https://images.pexels.com/photos/157675/fashion-men-s-individuality-black-and-white-157675.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
                             : originalPhotoName)))),
       ),
-      Align(
-          alignment: Alignment.topRight,
-          child: SizedBox(
-              height: 30,
-              width: 30,
-              child: SvgPicture.asset(
-                "assets//images/coupon_1.svg",
-              )))
+      // Align(
+      //     alignment: Alignment.topRight,
+      //     child: SizedBox(
+      //         height: 30,
+      //         width: 30,
+      //         child: SvgPicture.asset(
+      //           "assets//images/coupon_1.svg",
+      //         )))
     ]
         // )
 
