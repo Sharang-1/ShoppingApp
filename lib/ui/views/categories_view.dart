@@ -26,7 +26,17 @@ class _CategoriesViewState extends State<CategoriesView> {
       onModelReady: (model) => model.init(),
       builder: (context, model, child) => Scaffold(
         appBar: AppBar(
-          title: Text("Categories"),
+          iconTheme: IconThemeData(color: Colors.black),
+          title: Text(
+            "Categories",
+            style: TextStyle(
+                fontSize: 25,
+                color: Colors.black,
+                fontFamily: "Raleway",
+                fontWeight: FontWeight.w500),
+          ),
+          backgroundColor: Colors.white,
+          elevation: 0,
         ),
         backgroundColor: Colors.white,
         body: SafeArea(

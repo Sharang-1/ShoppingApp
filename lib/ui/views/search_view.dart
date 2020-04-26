@@ -213,23 +213,26 @@ class _SearchViewState extends State<SearchView>
         body: Stack(
           children: <Widget>[
             if (showResults && _tabController.index == 0)
-              GridListWidget<Products, Product>(
-                key: productGridKey,
-                context: context,
-                filter: productFilter,
-                gridCount: 2,
-                viewModel: ProductsGridViewBuilderViewModel(),
-                childAspectRatio: 0.7,
-                tileBuilder: (BuildContext context, data) {
-                  Fimber.d("test");
-                  print((data as Product).toJson());
-                  return ProductTileUI(
-                    data: data,
-                    onClick: () {
-                      model.goToProductPage(data);
-                    },
-                  );
-                },
+              Padding(
+                padding: const EdgeInsets.fromLTRB(10,0,10,0),
+                child: GridListWidget<Products, Product>(
+                  key: productGridKey,
+                  context: context,
+                  filter: productFilter,
+                  gridCount: 2,
+                  viewModel: ProductsGridViewBuilderViewModel(),
+                  childAspectRatio: 0.7,
+                  tileBuilder: (BuildContext context, data) {
+                    Fimber.d("test");
+                    print((data as Product).toJson());
+                    return ProductTileUI(
+                      data: data,
+                      onClick: () {
+                        model.goToProductPage(data);
+                      },
+                    );
+                  },
+                ),
               ),
             if (showResults && _tabController.index == 1)
               GridListWidget<Sellers, Seller>(
