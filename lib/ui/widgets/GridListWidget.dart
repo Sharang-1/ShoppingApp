@@ -183,11 +183,8 @@ class _PaginatedGridViewState<I> extends State<PaginatedGridView> {
       onNotification: !(widget.disablePagination) ? onNotification : null,
       child: items.length != 0
           ? GridView.builder(
-              padding: EdgeInsets.only(
-                top: 5.0,
-              ),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
+                crossAxisCount: widget.gridCount,
                 childAspectRatio: widget.childAspectRatio,
               ),
               controller: _scrollController,

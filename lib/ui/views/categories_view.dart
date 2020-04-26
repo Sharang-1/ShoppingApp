@@ -37,8 +37,8 @@ class _CategoriesViewState extends State<CategoriesView> {
             key: categoriesGridKey,
             context: context,
             filter: categoryFilter,
-            gridCount: 2,
-            childAspectRatio: 0.85,
+            gridCount: 1,
+            childAspectRatio: 3,
             viewModel: CategoriesGridViewBuilderViewModel(),
             disablePagination: true,
             tileBuilder: (BuildContext context, data) {

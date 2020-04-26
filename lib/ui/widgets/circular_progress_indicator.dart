@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import '../shared/app_colors.dart';
 
 class CircularProgressIndicatorWidget extends StatefulWidget {
   @override
@@ -31,8 +32,9 @@ class _CircularProgressIndicatorWidgetState
                 return CircularPercentIndicator(
               radius: ((MediaQuery.of(context).size.width / 2.5) + 40),
               lineWidth: 5.0,
+              backgroundColor: Colors.transparent,
               percent: _animation.value,
-              progressColor: Colors.green,
+              progressColor: lightBlue,
             );
               }
     );

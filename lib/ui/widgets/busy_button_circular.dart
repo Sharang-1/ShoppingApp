@@ -1,5 +1,6 @@
 import 'package:compound/ui/shared/shared_styles.dart';
 import 'package:flutter/material.dart';
+import '../shared/app_colors.dart';
 
 /// A button that shows a busy indicator in place of title
 class BusyButtonCicular extends StatefulWidget {
@@ -20,7 +21,7 @@ class BusyButtonCicular extends StatefulWidget {
 class _BusyButtonCircularState extends State<BusyButtonCicular> {
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton(heroTag: "Kaushik",onPressed:  widget.enabled ? widget.onPressed: null,backgroundColor: widget.enabled ? Color.fromARGB(255, 184, 21, 20) : Colors.grey[300],child: Icon(Icons.arrow_forward,color: Colors.white,),);
+    return FloatingActionButton(heroTag: "Kaushik",onPressed:  widget.enabled ? widget.onPressed: null,backgroundColor: widget.enabled ? secondaryColor : lightRed,child: Icon(Icons.arrow_forward,color: Colors.white,),);
   }
 }
 
