@@ -3,6 +3,7 @@ import 'package:compound/constants/shared_pref.dart';
 import 'package:compound/models/categorys.dart';
 import 'package:compound/models/products.dart';
 import 'package:compound/models/promotions.dart';
+import 'package:compound/models/reviews.dart';
 import 'package:compound/models/sellers.dart';
 import 'package:compound/models/tailors.dart';
 import 'dart:convert';
@@ -107,6 +108,17 @@ class APIService {
   //   }
   //   return null;
   // }
+
+  Future<Reviews> getReviews({String productId}) async {
+    var mReviewsData = await apiWrapper("products/$productId/reviews");
+    if (mReviewsData != null) {
+      Reviews mReviews = Reviews.fromJson(mReviewsData);
+      Fimber.d("mReviewsData : " + mReviews.items.map((o) => o.description).toString());
+      return mReviews;
+    }
+    return null;
+  }
+
 
   Future<Products> getProducts({String queryString = ""}) async {
     var productData = await apiWrapper("products;$queryString");

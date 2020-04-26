@@ -1,5 +1,7 @@
 import 'package:compound/models/products.dart';
+import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/ui/widgets/network_image_with_placeholder.dart';
+import 'package:compound/ui/widgets/reviews.dart';
 import 'package:flutter/material.dart';
 import '../shared/app_colors.dart';
 
@@ -15,6 +17,7 @@ class ProductIndiView extends StatelessWidget {
     final String originalPhotoName =
         'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80';
     final String productName = data.name ?? "Iphone 11";
+    final String productId = data.key;
     final double productDiscount = data.discount ?? 0.0;
     final double productPrice = data.price ?? 0.0;
     final double productOldPrice = data.oldPrice ?? 0.0;
@@ -233,7 +236,10 @@ class ProductIndiView extends StatelessWidget {
                     SizedBox(
                       height: 40,
                     ),
-                    otherDetails()
+                    otherDetails(),
+                    verticalSpaceMedium,
+                    ReviewWidget(productId),
+                    verticalSpaceMedium  
                   ],
                 ),
               )
