@@ -124,6 +124,7 @@ class _ProductTileUIState extends State<ProductTileUI> {
                             style: TextStyle(
                                 fontFamily: fontFamily,
                                 fontSize: subtitleFontSize,
+                                fontWeight: FontWeight.bold,
                                 color: Colors.grey)),
                         Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
