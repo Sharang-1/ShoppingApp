@@ -15,6 +15,8 @@ class ReviewsViewModel extends BaseModel {
   Future showReviews(String productId) async {
     setBusy(true);
     reviews = await _apiService.getReviews(productId: productId);
+    //For debugging use productId:"39514135"
+
     setBusy(false);
   }
 }
