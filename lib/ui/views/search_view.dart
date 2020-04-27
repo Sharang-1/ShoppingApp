@@ -2,6 +2,7 @@ import 'package:compound/models/grid_view_builder_filter_models/productFilter.da
 import 'package:compound/models/grid_view_builder_filter_models/sellerFilter.dart';
 import 'package:compound/models/products.dart';
 import 'package:compound/models/sellers.dart';
+import 'package:compound/ui/shared/app_colors.dart';
 import 'package:compound/ui/widgets/GridListWidget.dart';
 import 'package:compound/ui/widgets/ProductFilterDialog.dart';
 import 'package:compound/ui/widgets/ProductTileUI.dart';
@@ -157,7 +158,9 @@ class _SearchViewState extends State<SearchView>
       builder: (context, model, child) => Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          backgroundColor: Theme.of(context).primaryColor,
+          elevation: 0,
+          iconTheme: IconThemeData(color: Colors.black),
+          backgroundColor: Colors.white,
           title: _SearchBarTextField(
             searchController: _searchController,
             focusNode: _searchBarFocusNode,
@@ -201,20 +204,52 @@ class _SearchViewState extends State<SearchView>
                 },
               ),
           ],
-          bottom: TabBar(
-            controller: _tabController,
-            indicatorColor: Colors.black,
-            tabs: <Widget>[
-              Tab(child: Text("Products")),
-              Tab(child: Text("Sellers")),
-            ],
+          bottom: new PreferredSize(
+            preferredSize: new Size(50, 50),
+            child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(
+                width: 1.0,
+              )),
+              width: (MediaQuery.of(context).size.width / 4) * 3,
+              child: TabBar(
+                unselectedLabelColor: Colors.black,
+                labelColor: Colors.white,
+                indicatorSize: TabBarIndicatorSize.tab,
+                indicator: BoxDecoration(
+                    gradient: LinearGradient(
+                        colors: [primaryColor ,secondaryColor]),
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.redAccent),
+                controller: _tabController,
+                tabs: <Widget>[
+                  Container(
+                    height: 35,
+                    child: Tab(
+                        child: Text(
+                      "Products",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    )),
+                  ),
+                  Container(
+                    height: 35,
+                    child: Tab(
+                        child: Text(
+                      "Sellers",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    )),
+                  ),
+                ],
+              ),
+            ),
           ),
         ),
         body: Stack(
           children: <Widget>[
             if (showResults && _tabController.index == 0)
               Padding(
-                padding: const EdgeInsets.fromLTRB(10,0,10,0),
+                padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                 child: GridListWidget<Products, Product>(
                   key: productGridKey,
                   context: context,
@@ -392,7 +427,7 @@ class _SearchBarTextField extends StatelessWidget {
       focusNode: focusNode,
       controller: searchController,
       style: TextStyle(
-        color: Colors.white,
+        color: Colors.black,
       ),
       onTap: onTap,
       onChanged: onChanged,
@@ -400,9 +435,9 @@ class _SearchBarTextField extends StatelessWidget {
         border: InputBorder.none,
         hintText: "Search",
         hintStyle: TextStyle(
-          color: Colors.white,
+          color: Colors.black,
         ),
-        fillColor: Colors.white,
+        fillColor: Colors.black,
       ),
     );
   }

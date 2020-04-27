@@ -31,13 +31,14 @@ class HomeView extends StatelessWidget {
                     // Add the app bar and list of items as slivers in the next steps.
                     slivers: <Widget>[
                       SliverAppBar(
-                        backgroundColor: Theme.of(context).primaryColor,
-                        title: Center(child: Text("DZOR")),
+                        iconTheme: IconThemeData(color: Colors.black),
+                        backgroundColor: Colors.white,
+                        title: Center(child:Image.asset("assets/images/logo_red.png",height: 40,width: 40,)),
                         floating: true,
                         // snap: true,
                         actions: <Widget>[
                           IconButton(
-                            icon: Icon(Icons.shopping_cart),
+                            icon: Icon(Icons.shopping_cart,color: Colors.black,),
                             onPressed: () => model.cart(),
                           ),
                         ],
@@ -66,6 +67,7 @@ class HomeView extends StatelessWidget {
                                         decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(7),
+                                            border: Border.all(width: 1),
                                             color: Colors.white),
                                         child: Padding(
                                           padding: const EdgeInsets.symmetric(
@@ -81,7 +83,7 @@ class HomeView extends StatelessWidget {
                                     tooltip: 'map',
                                     icon: Icon(
                                       Icons.map,
-                                      color: Colors.white,
+                                      color: Colors.black,
                                     ),
                                     onPressed: () {
                                       model.openmap();

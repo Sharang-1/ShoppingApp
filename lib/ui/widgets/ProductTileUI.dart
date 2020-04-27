@@ -103,12 +103,12 @@ class _ProductTileUIState extends State<ProductTileUI> {
                                   ? Icon(
                                       Icons.favorite,
                                       size: wishlistIconSize,
-                                      color: secondaryColor,
+                                      color: darkRedSmooth,
                                     )
                                   : Icon(
                                       Icons.favorite_border,
                                       size: wishlistIconSize,
-                                      color: secondaryColor,
+                                      color: darkRedSmooth,
                                     ),
                               onTap: () {
                                 setState(() {
@@ -184,7 +184,7 @@ class _ProductTileUIState extends State<ProductTileUI> {
               right: 0,
               child: Container(
                 decoration: BoxDecoration(
-                    color: secondaryColor,
+                    color: darkRedSmooth,
                     borderRadius:
                         BorderRadius.only(bottomLeft: Radius.circular(10))),
                 width: 40,
