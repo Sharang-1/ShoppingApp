@@ -207,21 +207,20 @@ class _SearchViewState extends State<SearchView>
           bottom: new PreferredSize(
             preferredSize: new Size(50, 50),
             child: Container(
+              padding: EdgeInsets.all(2),
               decoration: BoxDecoration(
+                  color: Colors.grey[300],
                   borderRadius: BorderRadius.circular(10),
-                  border: Border.all(
-                width: 1.0,
-              )),
-              width: (MediaQuery.of(context).size.width / 4) * 3,
+               ),
+              width: (MediaQuery.of(context).size.width / 5) * 4.5,
               child: TabBar(
                 unselectedLabelColor: Colors.black,
-                labelColor: Colors.white,
+                labelColor: Colors.black,
                 indicatorSize: TabBarIndicatorSize.tab,
                 indicator: BoxDecoration(
-                    gradient: LinearGradient(
-                        colors: [primaryColor ,secondaryColor]),
+                    color: Colors.white,
                     borderRadius: BorderRadius.circular(10),
-                    color: Colors.redAccent),
+                    ),
                 controller: _tabController,
                 tabs: <Widget>[
                   Container(
@@ -229,7 +228,7 @@ class _SearchViewState extends State<SearchView>
                     child: Tab(
                         child: Text(
                       "Products",
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(fontWeight: FontWeight.bold,fontFamily: "Raleway"),
                     )),
                   ),
                   Container(
@@ -237,7 +236,7 @@ class _SearchViewState extends State<SearchView>
                     child: Tab(
                         child: Text(
                       "Sellers",
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(fontWeight: FontWeight.bold,fontFamily: "Raleway"),
                     )),
                   ),
                 ],
@@ -433,11 +432,10 @@ class _SearchBarTextField extends StatelessWidget {
       onChanged: onChanged,
       decoration: InputDecoration(
         border: InputBorder.none,
-        hintText: "Search",
+        hintText: "Search Products or Sellers",
         hintStyle: TextStyle(
-          color: Colors.black,
+          color: Colors.grey,
         ),
-        fillColor: Colors.black,
       ),
     );
   }

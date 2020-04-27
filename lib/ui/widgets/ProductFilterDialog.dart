@@ -125,10 +125,12 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
         TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold);
 
     return Scaffold(
-        // backgroundColor: Theme.of(context).secondaryHeaderColor,
+        backgroundColor: Colors.white,
         appBar: AppBar(
-          backgroundColor: Theme.of(context).primaryColor,
-          title: Text("Filter"),
+          elevation: 0,
+          backgroundColor: Colors.white,
+          iconTheme: IconThemeData(color: Colors.black),
+          title: Text("Filter",style: TextStyle(color: Colors.black,fontSize: 30,fontWeight: FontWeight.normal,fontFamily: "Raleway"),),
           actions: <Widget>[
             IconButton(
               tooltip: "Reset",
@@ -162,7 +164,7 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
           child: Form(
             key: _formKey,
             child: Padding(
-              padding: EdgeInsets.only(left: 20, right: 20),
+              padding: EdgeInsets.only(left: 20, right: 20,top: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[

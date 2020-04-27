@@ -28,8 +28,8 @@ class _ProductTileUIState extends State<ProductTileUI> {
   Widget build(BuildContext context) {
     bool isTablet = Tools.checkIfTablet(MediaQuery.of(context));
 
-    double titleFontSize = isTablet ? 18.0 : 14.0;
-    double subtitleFontSize = isTablet ? 16.0 : 10.0;
+    double titleFontSize = isTablet ? 18.0 : 16.0;
+    double subtitleFontSize = isTablet ? 16.0 : 12.0;
     double priceFontSize = isTablet ? 18.0 : 14.0;
     double ratingCountFontSize = isTablet ? 16.0 : 12.0;
     double wishlistIconSize = isTablet ? 34 : 25;
@@ -92,7 +92,7 @@ class _ProductTileUIState extends State<ProductTileUI> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             Expanded(
-                              child: Text(getTruncatedString(13, productName),
+                              child: Text(getTruncatedString(10, productName),
                                   style: TextStyle(
                                       fontSize: titleFontSize,
                                       fontFamily: fontFamily,
@@ -140,7 +140,7 @@ class _ProductTileUIState extends State<ProductTileUI> {
                               productDiscount != 0.0
                                   ? Text(
                                       "\u20B9" +
-                                          '${productOldPrice.toString()}',
+                                          '${(productPrice/(1-(productDiscount/100))).toString()}',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           color: Colors.grey,
