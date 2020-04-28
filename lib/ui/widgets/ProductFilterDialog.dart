@@ -32,7 +32,7 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
     'Both': -1,
   };
   Map<String, String> sortByRadioMap = {
-    'Latest Arrival': 'modified',
+    'Arrival Date': 'modified',
     'Price': 'price',
   };
   Map<String, String> sortOrderRadioMap = {
@@ -125,35 +125,89 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
         TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold);
 
     return Scaffold(
-        // backgroundColor: Theme.of(context).secondaryHeaderColor,
+        backgroundColor: Colors.grey[50],
+        bottomNavigationBar: Padding(
+            padding: EdgeInsets.only(bottom: 5, top: 5),
+            child: FractionallySizedBox(
+                widthFactor: 0.45,
+                heightFactor: 0.08,
+                child: FloatingActionButton.extended(
+                  backgroundColor: Colors.grey[900],
+                  // shape: RoundedRectangleBorder(
+                  //     borderRadius: BorderRadius.circular(10),
+                  //     side: BorderSide(color: Colors.black, width: 0.5)),
+                  label: Text(
+                    "Apply Filters",
+                    style: TextStyle(color: Colors.white),
+                  ),
+
+                  // icon: Icon(Icons.done),
+                  icon: Icon(Icons.done),
+                  onPressed: () {
+                    setUpFilterObject();
+                    print(
+                        "Typing---------------------------------->>>>>>>>>>>>>>");
+                    Navigator.of(context).pop<ProductFilter>(
+                      new ProductFilter(
+                        fullText: fullText,
+                        categories: categories,
+                        subCategories: subCategories,
+                        size: size,
+                        minPrice: minPrice,
+                        maxPrice: maxPrice,
+                        minDiscount: minDiscount,
+                        sortField: sortByRadioValue,
+                        isSortOrderDesc: sortOrderRadioValue == 'desc',
+                      ),
+                    );
+                  },
+                ))),
         appBar: AppBar(
-          backgroundColor: Theme.of(context).primaryColor,
-          title: Text("Filter"),
+          automaticallyImplyLeading: false,
+          primary: true,
+          elevation: 0.5,
+          iconTheme: IconThemeData(color: Colors.black),
+          backgroundColor: Colors.white,
+          title: Text(
+            "Sort and Filters",
+            style: TextStyle(color: Colors.black),
+          ),
           actions: <Widget>[
             IconButton(
               tooltip: "Reset",
-              icon: Icon(Icons.restore),
+              icon: Icon(
+                Icons.restore,
+              ),
               onPressed: () {},
             ),
+            //   IconButton(
+            //     tooltip: "Apply",
+            //     icon: Icon(Icons.done),
+            //     onPressed: () {
+            //       setUpFilterObject();
+            //       print("Typing---------------------------------->>>>>>>>>>>>>>");
+            //       Navigator.of(context).pop<ProductFilter>(
+            //         new ProductFilter(
+            //           fullText: fullText,
+            //           categories: categories,
+            //           subCategories: subCategories,
+            //           size: size,
+            //           minPrice: minPrice,
+            //           maxPrice: maxPrice,
+            //           minDiscount: minDiscount,
+            //           sortField: sortByRadioValue,
+            //           isSortOrderDesc: sortOrderRadioValue == 'desc',
+            //         ),
+            //       );
+            //     },
+            //   ),
             IconButton(
-              tooltip: "Apply",
-              icon: Icon(Icons.done),
+              tooltip: "Close",
+              icon: Icon(
+                Icons.close,
+              ),
               onPressed: () {
-                setUpFilterObject();
-                print("Typing---------------------------------->>>>>>>>>>>>>>");
-                Navigator.of(context).pop<ProductFilter>(
-                  new ProductFilter(
-                    fullText: fullText,
-                    categories: categories,
-                    subCategories: subCategories,
-                    size: size,
-                    minPrice: minPrice,
-                    maxPrice: maxPrice,
-                    minDiscount: minDiscount,
-                    sortField: sortByRadioValue,
-                    isSortOrderDesc: sortOrderRadioValue == 'desc',
-                  ),
-                );
+                Navigator.of(context).pop();
               },
             ),
           ],
@@ -167,46 +221,46 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   verticalSpaceSmall,
+                  // Text('Categories', style: titleTextStyle),
+                  // verticalSpaceTiny,
+                  // Wrap(
+                  //   spacing: 5,
+                  //   children: categoriesRadioMap.keys.map((String sKey) {
+                  //     return ChoiceChip(
+                  //       label: Text(sKey),
+                  //       labelStyle: TextStyle(color: Colors.black),
+                  //       backgroundColor: Colors.white,
+                  //       selectedColor: Colors.grey.withOpacity(0.5),
+                  //       shape: RoundedRectangleBorder(
+                  //           borderRadius: BorderRadius.circular(8),
+                  //           side: BorderSide(
+                  //               width: 0.5,
+                  //               color:
+                  //                   // categoriesRadioValue ==
+                  //                   //         categoriesRadioMap[sKey]
+                  //                   //     ? Colors.amber
+                  //                   // :
+                  //                   Colors.black)),
+                  //       selected:
+                  //           (categoriesRadioValue == categoriesRadioMap[sKey]),
+                  //       onSelected: (val) {
+                  //         setState(() {
+                  //           categoriesRadioValue =
+                  //               val ? categoriesRadioMap[sKey] : null;
+                  //         });
+                  //         // print(sKey +
+                  //         //     "value:" +
+                  //         //     val.toString() +
+                  //         //     categoriesRadioValue.toString() +
+                  //         //     (categoriesRadioValue == categoriesRadioMap[sKey])
+                  //         //         .toString());
+                  //       },
+                  //     );
+                  //   }).toList(),
+                  // ),
+                  // spaceDividerExtraThin,
+                  // verticalSpaceSmall,
                   Text('Categories', style: titleTextStyle),
-                  verticalSpaceTiny,
-                  Wrap(
-                    spacing: 5,
-                    children: categoriesRadioMap.keys.map((String sKey) {
-                      return ChoiceChip(
-                        label: Text(sKey),
-                        labelStyle: TextStyle(color: Colors.black),
-                        backgroundColor: Colors.white,
-                        selectedColor: Colors.grey.withOpacity(0.5),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            side: BorderSide(
-                                width: 0.5,
-                                color:
-                                    // categoriesRadioValue ==
-                                    //         categoriesRadioMap[sKey]
-                                    //     ? Colors.amber
-                                    // :
-                                    Colors.black)),
-                        selected:
-                            (categoriesRadioValue == categoriesRadioMap[sKey]),
-                        onSelected: (val) {
-                          setState(() {
-                            categoriesRadioValue =
-                                val ? categoriesRadioMap[sKey] : null;
-                          });
-                          // print(sKey +
-                          //     "value:" +
-                          //     val.toString() +
-                          //     categoriesRadioValue.toString() +
-                          //     (categoriesRadioValue == categoriesRadioMap[sKey])
-                          //         .toString());
-                        },
-                      );
-                    }).toList(),
-                  ),
-                  spaceDividerExtraThin,
-                  verticalSpaceSmall,
-                  Text('Sub Categories', style: titleTextStyle),
                   verticalSpaceTiny,
                   Wrap(
                     spacing: 5,
@@ -214,22 +268,36 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
                       (String sKey) {
                         return FilterChip(
                           backgroundColor: Colors.white,
-                          checkmarkColor: Colors.black,
-                          selectedColor: Colors.grey.withOpacity(0.5),
+                          checkmarkColor: Colors.green[800],
+                          selectedColor: Colors.white,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15),
                               side: BorderSide(
+                                color: subCategoriesValues[sKey]
+                                    ? Colors.green[800]
+                                    : Colors.grey,
                                 width: 0.5,
                               )),
-                          labelStyle: TextStyle(color: Colors.black),
+                          labelStyle: TextStyle(
+                              fontSize: 14,
+                              fontWeight: subCategoriesValues[sKey]
+                                  ? FontWeight.w600
+                                  : FontWeight.normal,
+                              color: subCategoriesValues[sKey]
+                                  ? Colors.green[800]
+                                  : Colors.grey),
                           label: Text(sKey),
                           selected: subCategoriesValues[sKey],
                           onSelected: (val) {
                             if (sKey != "All") {
-                              setState(() => subCategoriesValues[sKey] = val);
+                              setState(() {
+                                subCategoriesValues[sKey] = val;
+                              });
                               return;
                             }
-                            setState(() => subCategoriesValues[sKey] = val);
+                            setState(() {
+                              subCategoriesValues[sKey] = val;
+                            });
                             setState(() {
                               for (var k in subCategoriesValues.keys) {
                                 subCategoriesValues[k] = val;
@@ -246,16 +314,16 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
                   verticalSpaceTiny,
                   Align(
                     alignment: Alignment.center,
-                    child: Text('Rs. $minPrice - Rs. $maxPrice'),
+                    child: Text('Rs. $minPrice - Rs. $maxPrice',
+                        style: TextStyle(fontSize: 14)),
                   ),
                   RangeSlider(
                     min: 0,
                     max: 50000,
                     divisions: 100,
 
-                    inactiveColor:
-                        Theme.of(context).primaryColor.withOpacity(0.38),
-                    activeColor: Colors.black,
+                    inactiveColor: Colors.grey.withOpacity(0.38),
+                    activeColor: Colors.grey,
                     // labels:
                     //     RangeLabels(minPrice.toString(), maxPrice.toString()),
                     values:
@@ -274,7 +342,7 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
                       alignment: Alignment.center,
                       child: Text(
                         '$minDiscount %',
-                        style: TextStyle(fontSize: 16.0),
+                        style: TextStyle(fontSize: 14),
                       )),
                   Row(
                     children: <Widget>[
@@ -286,13 +354,9 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
                           min: 0,
                           max: 100,
                           divisions: 20,
-                          // label: minDiscount.toString(),
                           value: minDiscount.toDouble(),
-
-                          inactiveColor:
-                              Theme.of(context).primaryColor.withOpacity(0.38),
-                          activeColor: Colors.black,
-
+                          inactiveColor: Colors.grey.withOpacity(0.38),
+                          activeColor: Colors.grey,
                           onChanged: (val) {
                             setState(() {
                               minDiscount = val.toInt();
@@ -313,12 +377,22 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
                       return ChoiceChip(
                         backgroundColor: Colors.white,
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(15),
                             side: BorderSide(
+                              color: sortByRadioValue == sortByRadioMap[sKey]
+                                  ? Colors.green[800]
+                                  : Colors.grey,
                               width: 0.5,
                             )),
-                        labelStyle: TextStyle(color: Colors.black),
-                        selectedColor: Colors.grey.withOpacity(0.50),
+                        labelStyle: TextStyle(
+                            fontSize: 14,
+                            fontWeight: sortByRadioValue == sortByRadioMap[sKey]
+                                ? FontWeight.w600
+                                : FontWeight.normal,
+                            color: sortByRadioValue == sortByRadioMap[sKey]
+                                ? Colors.green[800]
+                                : Colors.grey),
+                        selectedColor: Colors.white,
                         selected: sortByRadioValue == sortByRadioMap[sKey],
                         onSelected: (val) {
                           setState(() => sortByRadioValue =
@@ -338,13 +412,27 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
                     children: sortOrderRadioMap.keys.map((String sKey) {
                       return ChoiceChip(
                         backgroundColor: Colors.white,
+                        selectedShadowColor: Colors.white,
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(15),
                             side: BorderSide(
+                              color:
+                                  sortOrderRadioValue == sortOrderRadioMap[sKey]
+                                      ? Colors.green[800]
+                                      : Colors.grey,
                               width: 0.5,
                             )),
-                        labelStyle: TextStyle(color: Colors.black),
-                        selectedColor: Colors.grey.withOpacity(0.5),
+                        labelStyle: TextStyle(
+                            fontSize: 14,
+                            fontWeight:
+                                sortOrderRadioValue == sortOrderRadioMap[sKey]
+                                    ? FontWeight.w600
+                                    : FontWeight.normal,
+                            color:
+                                sortOrderRadioValue == sortOrderRadioMap[sKey]
+                                    ? Colors.green[800]
+                                    : Colors.grey),
+                        selectedColor: Colors.white,
                         label: Text(sKey),
                         selected:
                             sortOrderRadioValue == sortOrderRadioMap[sKey],
@@ -356,7 +444,7 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
                     }).toList(),
                   ),
                   spaceDividerExtraThin,
-                  verticalSpaceMedium,
+                  verticalSpaceMedium
                 ],
               ),
             ),

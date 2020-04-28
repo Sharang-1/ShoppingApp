@@ -180,17 +180,28 @@ class _SearchViewState extends State<SearchView>
               IconButton(
                 icon: Icon(Icons.filter_list),
                 onPressed: () async {
+                  // ProductFilter filterDialogResponse =
+                  //     await Navigator.of(context).push<ProductFilter>(
+                  //   MaterialPageRoute(
+                  //     builder: (BuildContext context) {
+                  //       return ProductFilterDialog(
+                  //         oldFilter: productFilter,
+                  //       );
+                  //     },
+                  //     fullscreenDialog: true,
+                  //   ),
+                  // );
                   ProductFilter filterDialogResponse =
-                      await Navigator.of(context).push<ProductFilter>(
-                    MaterialPageRoute(
-                      builder: (BuildContext context) {
-                        return ProductFilterDialog(
-                          oldFilter: productFilter,
-                        );
-                      },
-                      fullscreenDialog: true,
-                    ),
-                  );
+                      await showModalBottomSheet(
+                          isScrollControlled: true,
+                          context: context,
+                          builder: (context) {
+                            return FractionallySizedBox(
+                                heightFactor: 0.65,
+                                child: ProductFilterDialog(
+                                  oldFilter: productFilter,
+                                ));
+                          });
 
                   if (filterDialogResponse != null) {
                     setState(() {
@@ -214,7 +225,7 @@ class _SearchViewState extends State<SearchView>
           children: <Widget>[
             if (showResults && _tabController.index == 0)
               Padding(
-                padding: const EdgeInsets.fromLTRB(10,0,10,0),
+                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                 child: GridListWidget<Products, Product>(
                   key: productGridKey,
                   context: context,
