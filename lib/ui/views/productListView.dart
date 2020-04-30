@@ -53,7 +53,7 @@ class _ProductListViewState extends State<ProductListView> {
             gridCount: 2,
             viewModel: ProductsGridViewBuilderViewModel(),
             childAspectRatio: 0.7,
-            tileBuilder: (BuildContext context, data) {
+            tileBuilder: (BuildContext context, data, index) {
               Fimber.d("test");
               print((data as Product).toJson());
               return ProductTileUI(

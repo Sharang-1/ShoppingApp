@@ -41,7 +41,7 @@ class _CategoriesViewState extends State<CategoriesView> {
             childAspectRatio: 3,
             viewModel: CategoriesGridViewBuilderViewModel(),
             disablePagination: true,
-            tileBuilder: (BuildContext context, data) {
+            tileBuilder: (BuildContext context, data, index) {
               return GestureDetector(
                 onTap: () => model.showProducts(
                   data.filter,

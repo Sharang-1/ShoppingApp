@@ -2,7 +2,9 @@ import 'package:compound/models/products.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/ui/widgets/network_image_with_placeholder.dart';
 import 'package:compound/ui/widgets/reviews.dart';
+import 'package:compound/viewmodels/product_individual_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider_architecture/viewmodel_provider.dart';
 import '../shared/app_colors.dart';
 
 class ProductIndiView extends StatelessWidget {
@@ -121,14 +123,22 @@ class ProductIndiView extends StatelessWidget {
       );
     }
 
-    Widget paddingWidget(Widget item){
-      return Padding(child:item,padding: EdgeInsets.fromLTRB(0, 10, 0, 0));
+    Widget paddingWidget(Widget item) {
+      return Padding(child: item, padding: EdgeInsets.fromLTRB(0, 10, 0, 0));
     }
-    Widget tableLeftText(String item){
-      return paddingWidget(Text(item,style: TextStyle(color: Colors.grey,fontSize: 15),));
+
+    Widget tableLeftText(String item) {
+      return paddingWidget(Text(
+        item,
+        style: TextStyle(color: Colors.grey, fontSize: 15),
+      ));
     }
-    Widget tableRightText(String item){
-      return paddingWidget(Text(item,style: TextStyle(fontSize: 15),));
+
+    Widget tableRightText(String item) {
+      return paddingWidget(Text(
+        item,
+        style: TextStyle(fontSize: 15),
+      ));
     }
 
     Widget otherDetails() {
@@ -137,20 +147,23 @@ class ProductIndiView extends StatelessWidget {
           Table(
             children: [
               TableRow(children: [
-                Text("Product Details",style: TextStyle(fontSize: 17),),
-                tableRightText(""), 
+                Text(
+                  "Product Details",
+                  style: TextStyle(fontSize: 17),
+                ),
+                tableRightText(""),
               ]),
-               TableRow(children: [
+              TableRow(children: [
                 tableLeftText("color"),
-                tableRightText("grey"), 
+                tableRightText("grey"),
               ]),
-               TableRow(children: [
+              TableRow(children: [
                 tableLeftText("Sizes"),
-                tableRightText("X M L"), 
+                tableRightText("X M L"),
               ]),
-               TableRow(children: [
+              TableRow(children: [
                 tableLeftText("Stiches"),
-                tableRightText("multitype"), 
+                tableRightText("multitype"),
               ]),
             ],
           )
@@ -158,7 +171,7 @@ class ProductIndiView extends StatelessWidget {
       );
     }
 
-    Widget bottomBar() {
+    Widget bottomBar(ProductIndividualViewModel model) {
       return new Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -174,76 +187,85 @@ class ProductIndiView extends StatelessWidget {
                   fontWeight: FontWeight.w500),
             )),
           ),
-          Container(
-            width: MediaQuery.of(context).size.width / 2,
-            height: 60,
-            color: lightGrey,
-            child: Center(
-                child: Text(
-              "ADD TO CART ",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 17,
-                  fontWeight: FontWeight.w500),
-            )),
+          GestureDetector(
+            onTap: () {
+              model.addToCart(data, 1, "1");
+            },
+            child: Container(
+              width: MediaQuery.of(context).size.width / 2,
+              height: 60,
+              color: lightGrey,
+              child: Center(
+                  child: Text(
+                "ADD TO CART ",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 17,
+                    fontWeight: FontWeight.w500),
+              )),
+            ),
           )
         ],
       );
     }
 
-    return Scaffold(
-      bottomNavigationBar: new BottomAppBar(child: bottomBar()),
-      appBar: AppBar(
-        title: Text("Dzor"),
-        leading: Icon(Icons.arrow_back),
-        actions: <Widget>[
-          Icon(Icons.search),
-          SizedBox(
-            width: 20,
-          ),
-          Icon(Icons.check_box),
-          SizedBox(
-            width: 20,
-          ),
-        ],
-      ),
-      body: Container(
-        padding: EdgeInsets.all(10),
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              Container(
-                  width: MediaQuery.of(context).size.width,
-                  child: ClipRRect(
-                      borderRadius: BorderRadius.circular(15.0),
-                      child: NetworkImageWithPlaceholder(
-                          name: originalPhotoName))),
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    productNameAndDescInfo(),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    priceInfo(),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    rattingsInfo(),
-                    SizedBox(
-                      height: 40,
-                    ),
-                    otherDetails(),
-                    verticalSpaceMedium,
-                    ReviewWidget(productId),
-                    verticalSpaceMedium  
-                  ],
-                ),
-              )
-            ],
+    return ViewModelProvider<ProductIndividualViewModel>.withConsumer(
+      viewModel: ProductIndividualViewModel(),
+      onModelReady: (model) => model.init(),
+      builder: (context, model, child) => Scaffold(
+        bottomNavigationBar: new BottomAppBar(child: bottomBar(model)),
+        appBar: AppBar(
+          title: Text("Dzor"),
+          leading: Icon(Icons.arrow_back),
+          actions: <Widget>[
+            Icon(Icons.search),
+            SizedBox(
+              width: 20,
+            ),
+            Icon(Icons.check_box),
+            SizedBox(
+              width: 20,
+            ),
+          ],
+        ),
+        body: Container(
+          padding: EdgeInsets.all(10),
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                Container(
+                    width: MediaQuery.of(context).size.width,
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.circular(15.0),
+                        child: NetworkImageWithPlaceholder(
+                            name: originalPhotoName))),
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      productNameAndDescInfo(),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      priceInfo(),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      rattingsInfo(),
+                      SizedBox(
+                        height: 40,
+                      ),
+                      otherDetails(),
+                      verticalSpaceMedium,
+                      ReviewWidget(productId),
+                      verticalSpaceMedium
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
