@@ -216,7 +216,7 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
           child: Form(
             key: _formKey,
             child: Padding(
-              padding: EdgeInsets.only(left: 20, right: 20),
+              padding: EdgeInsets.only(left: 20, right: 20,top: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[

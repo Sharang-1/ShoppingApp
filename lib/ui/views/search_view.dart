@@ -2,6 +2,7 @@ import 'package:compound/models/grid_view_builder_filter_models/productFilter.da
 import 'package:compound/models/grid_view_builder_filter_models/sellerFilter.dart';
 import 'package:compound/models/products.dart';
 import 'package:compound/models/sellers.dart';
+import 'package:compound/ui/shared/app_colors.dart';
 import 'package:compound/ui/widgets/GridListWidget.dart';
 import 'package:compound/ui/widgets/ProductFilterDialog.dart';
 import 'package:compound/ui/widgets/ProductTileUI.dart';
@@ -15,6 +16,7 @@ import 'package:compound/constants/shared_pref.dart';
 import 'package:compound/viewmodels/search_view_model.dart';
 import 'package:compound/ui/shared/debouncer.dart';
 import 'package:compound/ui/widgets/sellerGridListWidget.dart';
+
 
 class SearchView extends StatefulWidget {
   SearchView({Key key}) : super(key: key);
@@ -149,136 +151,211 @@ class _SearchViewState extends State<SearchView>
             .toList();
   }
 
+  Widget childWidget(model) {
+    return Stack(
+      children: <Widget>[
+        if (showResults && _tabController.index == 0)
+          Padding(
+            padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+            child: GridListWidget<Products, Product>(
+              key: productGridKey,
+              context: context,
+              filter: productFilter,
+              gridCount: 2,
+              viewModel: ProductsGridViewBuilderViewModel(),
+              childAspectRatio: 0.7,
+              tileBuilder: (BuildContext context, data) {
+                Fimber.d("test");
+                print((data as Product).toJson());
+                return ProductTileUI(
+                  data: data,
+                  onClick: () {
+                    model.goToProductPage(data);
+                  },
+                );
+              },
+            ),
+          ),
+        if (showResults && _tabController.index == 1)
+          GridListWidget<Sellers, Seller>(
+            key: sellerGridKey,
+            context: context,
+            filter: sellerFilter,
+            gridCount: 2,
+            viewModel: SellersGridViewBuilderViewModel(),
+            disablePagination: true,
+            tileBuilder: (BuildContext context, data) {
+              return Card(
+                child: Center(
+                  child: Text(data.name),
+                ),
+              );
+            },
+          ),
+        if (showRecents && _getListByTabIndex().length != 0)
+          GestureDetector(
+            onTap: _changeSearchFieldFocus,
+            child: Container(
+              color: Colors.black.withAlpha(150),
+            ),
+          ),
+        if (showRecents && _getListByTabIndex().length != 0)
+          Container(
+            color: Colors.white,
+            child: ListView(
+              shrinkWrap: true,
+              children: _getRecentSearchListUI(),
+            ),
+          ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return ViewModelProvider<SearchViewModel>.withConsumer(
       viewModel: SearchViewModel(),
       onModelReady: (model) => model.init(),
       builder: (context, model, child) => Scaffold(
-        backgroundColor: Colors.white,
         appBar: AppBar(
-          backgroundColor: Theme.of(context).primaryColor,
-          title: _SearchBarTextField(
-            searchController: _searchController,
-            focusNode: _searchBarFocusNode,
-            autofocus: true,
-            onTap: () {
-              setState(() {
-                if (!showRecents) {
-                  showRecents = true;
-                }
-              });
-            },
-            onChanged: _searchBarOnChange,
-          ),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.search),
-              onPressed: () => _searchAction(_searchController.text.trim()),
-            ),
-            if (showResults && currentTabIndex == 0)
-              IconButton(
-                icon: Icon(Icons.filter_list),
-                onPressed: () async {
-                  // ProductFilter filterDialogResponse =
-                  //     await Navigator.of(context).push<ProductFilter>(
-                  //   MaterialPageRoute(
-                  //     builder: (BuildContext context) {
-                  //       return ProductFilterDialog(
-                  //         oldFilter: productFilter,
-                  //       );
-                  //     },
-                  //     fullscreenDialog: true,
-                  //   ),
-                  // );
-                  ProductFilter filterDialogResponse =
-                      await showModalBottomSheet(
-                          isScrollControlled: true,
-                          context: context,
-                          builder: (context) {
-                            return FractionallySizedBox(
-                                heightFactor: 0.65,
-                                child: ProductFilterDialog(
-                                  oldFilter: productFilter,
-                                ));
-                          });
-
-                  if (filterDialogResponse != null) {
-                    setState(() {
-                      productFilter = filterDialogResponse;
-                      productGridKey = UniqueKey();
-                    });
-                  }
-                },
-              ),
-          ],
-          bottom: TabBar(
-            controller: _tabController,
-            indicatorColor: Colors.black,
-            tabs: <Widget>[
-              Tab(child: Text("Products")),
-              Tab(child: Text("Sellers")),
-            ],
-          ),
-        ),
-        body: Stack(
-          children: <Widget>[
-            if (showResults && _tabController.index == 0)
-              Padding(
-                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                child: GridListWidget<Products, Product>(
-                  key: productGridKey,
-                  context: context,
-                  filter: productFilter,
-                  gridCount: 2,
-                  viewModel: ProductsGridViewBuilderViewModel(),
-                  childAspectRatio: 0.7,
-                  tileBuilder: (BuildContext context, data) {
-                    Fimber.d("test");
-                    print((data as Product).toJson());
-                    return ProductTileUI(
-                      data: data,
-                      onClick: () {
-                        model.goToProductPage(data);
-                      },
-                    );
-                  },
-                ),
-              ),
-            if (showResults && _tabController.index == 1)
-              GridListWidget<Sellers, Seller>(
-                key: sellerGridKey,
-                context: context,
-                filter: sellerFilter,
-                gridCount: 2,
-                viewModel: SellersGridViewBuilderViewModel(),
-                disablePagination: true,
-                tileBuilder: (BuildContext context, data) {
-                  return Card(
-                    child: Center(
-                      child: Text(data.name),
+                  elevation: 0,
+                  iconTheme: IconThemeData(color: Colors.black),
+                  backgroundColor: Colors.white,
+                  actions: <Widget>[
+                    Icon(Icons.shopping_cart),
+                    SizedBox(
+                      width: 20,
                     ),
-                  );
-                },
-              ),
-            if (showRecents && _getListByTabIndex().length != 0)
-              GestureDetector(
-                onTap: _changeSearchFieldFocus,
-                child: Container(
-                  color: Colors.black.withAlpha(150),
+                  ],
+                  bottom: PreferredSize(preferredSize: Size(50, 50), 
+                  child: AppBar(
+                  elevation: 0,
+                  iconTheme: IconThemeData(color: Colors.black),
+                  backgroundColor: Colors.white,
+                  automaticallyImplyLeading: false,
+                  title: _SearchBarTextField(
+                    searchController: _searchController,
+                    focusNode: _searchBarFocusNode,
+                    autofocus: true,
+                    onTap: () {
+                      setState(() {
+                        if (!showRecents) {
+                          showRecents = true;
+                        }
+                      });
+                    },
+                    onChanged: _searchBarOnChange,
+                  ),
+                  actions: <Widget>[
+                    IconButton(
+                      icon: Icon(Icons.search),
+                      onPressed: () =>
+                          _searchAction(_searchController.text.trim()),
+                    ),
+                    if (showResults && currentTabIndex == 0)
+                      IconButton(
+                        icon: Icon(Icons.filter_list),
+                        onPressed: () async {
+                          ProductFilter filterDialogResponse =
+                              await Navigator.of(context).push<ProductFilter>(
+                            MaterialPageRoute(
+                              builder: (BuildContext context) {
+                                return ProductFilterDialog(
+                                  oldFilter: productFilter,
+                                );
+                              },
+                              fullscreenDialog: true,
+                            ),
+                          );
+
+                          if (filterDialogResponse != null) {
+                            setState(() {
+                              productFilter = filterDialogResponse;
+                              productGridKey = UniqueKey();
+                            });
+                          }
+                        },
+                      ),
+                  ],
                 ),
-              ),
-            if (showRecents && _getListByTabIndex().length != 0)
-              Container(
-                color: Colors.white,
-                child: ListView(
-                  shrinkWrap: true,
-                  children: _getRecentSearchListUI(),
+                  ),
                 ),
-              ),
-          ],
-        ),
-      ),
+          backgroundColor: Colors.white,
+          body: SafeArea(
+            top: false,
+            left: false,
+            right: false,
+            child: CustomScrollView(
+              slivers: <Widget>[
+                // 
+                // 
+                SliverAppBar(
+                  primary: false,
+                  floating: true,
+                  snap: true,
+                  elevation: 0,
+                  iconTheme: IconThemeData(color: Colors.black),
+                  backgroundColor: Colors.white,
+                  automaticallyImplyLeading: false,
+                  title: Container(
+                    padding: EdgeInsets.all(2),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    width: (MediaQuery.of(context).size.width / 5) * 4.5,
+                    child: TabBar(
+                      unselectedLabelColor: Colors.black,
+                      labelColor: Colors.black,
+                      indicatorSize: TabBarIndicatorSize.tab,
+                      indicator: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      controller: _tabController,
+                      tabs: <Widget>[
+                        Container(
+                          height: 30,
+                          child: Tab(
+                              child: Text(
+                            "Products",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "Raleway"),
+                          )),
+                        ),
+                        Container(
+                          height: 30,
+                          child: Tab(
+                              child: Text(
+                            "Sellers",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "Raleway"),
+                          )),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                SliverList(
+                  // delegate: SliverChildListDelegate(<Widget>[
+                  //   // Container(child: childWidget(model),),
+                  //   // childWidget(model)
+                  // Container(height: 1000,color: Colors.tealAccent,)
+                  // ]
+
+                  // ),
+                  delegate: SliverChildBuilderDelegate(
+                    // The builder function returns a ListTile with a title that
+                    // displays the index of the current item.
+                    (context, index) => childWidget(model),
+                    childCount: 1,
+                  ),
+                )
+              ],
+            ),
+          )),
     );
   }
 
@@ -398,30 +475,35 @@ class _SearchBarTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      autofocus: autofocus,
-      focusNode: focusNode,
-      controller: searchController,
-      style: TextStyle(
-        color: Colors.white,
+    return Container(
+      height: 40,
+      padding: EdgeInsets.symmetric(horizontal: 10),
+      decoration: BoxDecoration(
+        color: Colors.grey[200],
+        borderRadius: BorderRadius.circular(10),
       ),
-      onTap: onTap,
-      onChanged: onChanged,
-      decoration: InputDecoration(
-        border: InputBorder.none,
-        hintText: "Search",
-        hintStyle: TextStyle(
-          color: Colors.white,
+      child: TextField(
+        autofocus: autofocus,
+        focusNode: focusNode,
+        controller: searchController,
+        style: TextStyle(
+          color: Colors.black,
         ),
-        fillColor: Colors.white,
+        onTap: onTap,
+        onChanged: onChanged,
+        decoration: InputDecoration(
+          border: InputBorder.none,
+          hintText: "Search Products or Sellers",
+          hintStyle: TextStyle(
+            color: Colors.grey,
+          ),
+        ),
       ),
     );
   }
 }
 
-/*
-
------------------------------------------------------
+/*-----------------------------------------------------
 isTyping  | isSearched  | ResultScreen / Action
 ----------+-------------+----------------------------
 false     | false       | Search History
