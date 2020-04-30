@@ -130,7 +130,7 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
             padding: EdgeInsets.only(bottom: 5, top: 5),
             child: FractionallySizedBox(
                 widthFactor: 0.45,
-                heightFactor: 0.08,
+                heightFactor: 0.09,
                 child: FloatingActionButton.extended(
                   backgroundColor: Colors.grey[900],
                   // shape: RoundedRectangleBorder(
@@ -216,7 +216,7 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
           child: Form(
             key: _formKey,
             child: Padding(
-              padding: EdgeInsets.only(left: 20, right: 20,top: 20),
+              padding: EdgeInsets.only(left: 20, right: 20, top: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[

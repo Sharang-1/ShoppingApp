@@ -17,7 +17,6 @@ import 'package:compound/viewmodels/search_view_model.dart';
 import 'package:compound/ui/shared/debouncer.dart';
 import 'package:compound/ui/widgets/sellerGridListWidget.dart';
 
-
 class SearchView extends StatefulWidget {
   SearchView({Key key}) : super(key: key);
 
@@ -217,69 +216,83 @@ class _SearchViewState extends State<SearchView>
       viewModel: SearchViewModel(),
       onModelReady: (model) => model.init(),
       builder: (context, model, child) => Scaffold(
-        appBar: AppBar(
-                  elevation: 0,
-                  iconTheme: IconThemeData(color: Colors.black),
-                  backgroundColor: Colors.white,
-                  actions: <Widget>[
-                    Icon(Icons.shopping_cart),
-                    SizedBox(
-                      width: 20,
-                    ),
-                  ],
-                  bottom: PreferredSize(preferredSize: Size(50, 50), 
-                  child: AppBar(
-                  elevation: 0,
-                  iconTheme: IconThemeData(color: Colors.black),
-                  backgroundColor: Colors.white,
-                  automaticallyImplyLeading: false,
-                  title: _SearchBarTextField(
-                    searchController: _searchController,
-                    focusNode: _searchBarFocusNode,
-                    autofocus: true,
-                    onTap: () {
-                      setState(() {
-                        if (!showRecents) {
-                          showRecents = true;
-                        }
-                      });
-                    },
-                    onChanged: _searchBarOnChange,
+          appBar: AppBar(
+            elevation: 0,
+            iconTheme: IconThemeData(color: Colors.black),
+            backgroundColor: Colors.white,
+            actions: <Widget>[
+              Icon(Icons.shopping_cart),
+              SizedBox(
+                width: 20,
+              ),
+            ],
+            bottom: PreferredSize(
+              preferredSize: Size(50, 50),
+              child: AppBar(
+                elevation: 0,
+                iconTheme: IconThemeData(color: Colors.black),
+                backgroundColor: Colors.white,
+                automaticallyImplyLeading: false,
+                title: _SearchBarTextField(
+                  searchController: _searchController,
+                  focusNode: _searchBarFocusNode,
+                  autofocus: true,
+                  onTap: () {
+                    setState(() {
+                      if (!showRecents) {
+                        showRecents = true;
+                      }
+                    });
+                  },
+                  onChanged: _searchBarOnChange,
+                ),
+                actions: <Widget>[
+                  IconButton(
+                    icon: Icon(Icons.search),
+                    onPressed: () =>
+                        _searchAction(_searchController.text.trim()),
                   ),
-                  actions: <Widget>[
+                  if (showResults && currentTabIndex == 0)
                     IconButton(
-                      icon: Icon(Icons.search),
-                      onPressed: () =>
-                          _searchAction(_searchController.text.trim()),
-                    ),
-                    if (showResults && currentTabIndex == 0)
-                      IconButton(
-                        icon: Icon(Icons.filter_list),
-                        onPressed: () async {
-                          ProductFilter filterDialogResponse =
-                              await Navigator.of(context).push<ProductFilter>(
-                            MaterialPageRoute(
-                              builder: (BuildContext context) {
-                                return ProductFilterDialog(
-                                  oldFilter: productFilter,
-                                );
-                              },
-                              fullscreenDialog: true,
-                            ),
-                          );
+                      icon: Icon(Icons.filter_list),
+                      onPressed: () async {
+                        // ProductFilter filterDialogResponse =
+                        //     await Navigator.of(context).push<ProductFilter>(
+                        //   MaterialPageRoute(
+                        //     builder: (BuildContext context) {
+                        //       return ProductFilterDialog(
+                        //         oldFilter: productFilter,
+                        //       );
+                        //     },
+                        //     fullscreenDialog: true,
+                        //   ),
+                        // );
 
-                          if (filterDialogResponse != null) {
-                            setState(() {
-                              productFilter = filterDialogResponse;
-                              productGridKey = UniqueKey();
-                            });
-                          }
-                        },
-                      ),
-                  ],
-                ),
-                  ),
-                ),
+                        ProductFilter filterDialogResponse =
+                            await showModalBottomSheet(
+                          isScrollControlled: true,
+                          context: context,
+                          builder: (BuildContext context) {
+                            return FractionallySizedBox(
+                                heightFactor: 0.75,
+                                child: ProductFilterDialog(
+                                  oldFilter: productFilter,
+                                ));
+                          },
+                        );
+
+                        if (filterDialogResponse != null) {
+                          setState(() {
+                            productFilter = filterDialogResponse;
+                            productGridKey = UniqueKey();
+                          });
+                        }
+                      },
+                    ),
+                ],
+              ),
+            ),
+          ),
           backgroundColor: Colors.white,
           body: SafeArea(
             top: false,
@@ -287,8 +300,8 @@ class _SearchViewState extends State<SearchView>
             right: false,
             child: CustomScrollView(
               slivers: <Widget>[
-                // 
-                // 
+                //
+                //
                 SliverAppBar(
                   primary: false,
                   floating: true,
