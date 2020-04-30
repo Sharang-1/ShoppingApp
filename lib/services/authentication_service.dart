@@ -1,6 +1,6 @@
 import 'package:compound/locator.dart';
 import 'package:compound/models/user.dart';
-import 'package:compound/services/analytics_service.dart';
+// import 'package:compound/services/analytics_service.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/foundation.dart';
 import 'package:compound/services/api/api_service.dart';
@@ -10,7 +10,7 @@ import '../constants/shared_pref.dart';
 
 class AuthenticationService {
   final APIService _APIService = locator<APIService>();
-  final AnalyticsService _analyticsService = locator<AnalyticsService>();
+  // final AnalyticsService _analyticsService = locator<AnalyticsService>();
 
   User _currentUser;
   User get currentUser => _currentUser;

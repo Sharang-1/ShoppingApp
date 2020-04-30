@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:compound/constants/shared_pref.dart';
+import 'package:compound/models/cart.dart';
 import 'package:compound/models/categorys.dart';
 import 'package:compound/models/products.dart';
 import 'package:compound/models/promotions.dart';
@@ -56,8 +57,8 @@ class APIService {
     //   options.headers["excludeToken"] = true;
     // }
 
-    if(authenticated){
-      if(options == null){
+    if (authenticated) {
+      if (options == null) {
         options = Options();
       }
       options.headers["excludeToken"] = true;
@@ -74,8 +75,11 @@ class APIService {
       if (data == null) {
         res = await apiClient.get(path,
             options: options, queryParameters: queryParameters);
-      } else {
+      } else if(options.method.toLowerCase() == "post") {
         res = await apiClient.post(path,
+            data: data, queryParameters: queryParameters, options: options);
+      } else if(options.method.toLowerCase() == "put") {
+        res = await apiClient.put(path,
             data: data, queryParameters: queryParameters, options: options);
       }
       Map resJSON = res.data;
@@ -113,12 +117,12 @@ class APIService {
     var mReviewsData = await apiWrapper("products/$productId/reviews");
     if (mReviewsData != null) {
       Reviews mReviews = Reviews.fromJson(mReviewsData);
-      Fimber.d("mReviewsData : " + mReviews.items.map((o) => o.description).toString());
+      Fimber.d("mReviewsData : " +
+          mReviews.items.map((o) => o.description).toString());
       return mReviews;
     }
     return null;
   }
-
 
   Future<Products> getProducts({String queryString = ""}) async {
     var productData = await apiWrapper("products;$queryString");
@@ -182,17 +186,68 @@ class APIService {
     return null;
   }
 
-  Future<dynamic> getCart() async {
-    print("..................................................");
-    print("cart getting cart");
-    print("..................................................");
-    var cartData = await apiWrapper("carts/my", authenticated: true, options: Options(headers: { 'excludeToken': false }));
+  Future<dynamic> getCart({ String queryString = "" }) async {
+    var cartData = await apiWrapper("carts/my?context=productDetails",
+        authenticated: true,
+        options: Options(headers: {'excludeToken': false}));
     if (cartData != null) {
       print("...............Cart...............................");
       print(cartData);
       print("..................................................");
       // Tailors tailors = Tailors.fromJson(cartData);
       // Fimber.d("Tailors : " + tailors.tailors.map((o) => o.name).toString());
+      try {
+        Cart cart = Cart.fromJson(cartData);
+        return cart;
+      } catch(err) {
+        print(err);
+        return null;
+      }
+    }
+    return null;
+  }
+
+  Future<dynamic> addToCart(String productId, int qty, String size) async {
+    var cartData = await apiWrapper(
+      "carts/?context=add",
+      authenticated: true,
+      options: Options(headers: {'excludeToken': false}, method: "put"),
+      data: {
+        "items": [
+          {
+            "productId": productId,
+            "quantity": qty, 
+            "size": size
+          }
+        ]
+      }
+    );
+    if (cartData != null) {
+      print("...............Cart Item added...............................");
+      print(cartData);
+      print("..................................................");
+      return cartData;
+    }
+    return null;
+  }
+
+  Future<dynamic> removeFromCart(int productId) async {
+    var cartData = await apiWrapper(
+      "carts/?context=remove",
+      authenticated: true,
+      options: Options(headers: {'excludeToken': false}),
+      data: {
+        "items": [
+          {
+            "productId": productId,
+          }
+        ]
+      }
+    );
+    if (cartData != null) {
+      print("...............Cart Item Removed ..............................");
+      print(cartData);
+      print("..................................................");
       return cartData;
     }
     return null;

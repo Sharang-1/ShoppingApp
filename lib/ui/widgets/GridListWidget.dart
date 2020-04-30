@@ -10,7 +10,7 @@ import 'package:provider_architecture/provider_architecture.dart';
 // Type and Enum declarations
 enum LoadMoreStatus { LOADING, STABLE }
 typedef TileFunctionBuilder = Widget Function(
-    BuildContext context, dynamic data);
+    BuildContext context, dynamic data, int index);
 
 class GridListWidget<P, I> extends StatelessWidget {
   final BaseFilterModel filter;
@@ -109,7 +109,10 @@ class _CustomGridViewFutureBuilderState<P, I>
     return FutureBuilder<P>(
       future: future,
       builder: (context, snapshots) {
-        if (snapshots.hasError) return Center(child: Text(snapshots.error));
+        if (snapshots.hasError) {
+          print(snapshots.error);
+          return Center(child: Text(snapshots.error.toString()));
+        }
         switch (snapshots.connectionState) {
           case ConnectionState.waiting:
             return Center(child: CircularProgressIndicator());
@@ -194,7 +197,7 @@ class _PaginatedGridViewState<I> extends State<PaginatedGridView> {
               itemCount: items.length,
               physics: ScrollPhysics(),
               itemBuilder: (_, index) =>
-                  widget.tileBuilder(context, items[index]),
+                  widget.tileBuilder(context, items[index], index),
             )
           : Center(
               child: Text("No Items found"),

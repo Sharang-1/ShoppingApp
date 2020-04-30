@@ -1,0 +1,28 @@
+@host = 52.66.141.191
+@token = eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI5MTo4ODY2NTM4MjA0IiwidXNlciI6IntcImFjY291bnROb25Mb2NrZWRcIjp0cnVlLFwiY3JlZGVudGlhbHNOb25FeHBpcmVkXCI6dHJ1ZSxcImFjY291bnROb25FeHBpcmVkXCI6dHJ1ZSxcImVuYWJsZWRcIjp0cnVlLFwidXNlcm5hbWVcIjpcIjkxOjg4NjY1MzgyMDRcIixcInJvbGVzXCI6W1wiUk9MRV9GaXhlZFwiXSxcInVzZXJJZFwiOjM5ODc4MTE4LFwicm9sZUlkXCI6Mzk4NzgxMTgsXCJmYWNlYm9va0xvZ2luXCI6ZmFsc2UsXCJtb2JpbGVMb2dpblwiOnRydWUsXCJyb2xlXCI6e1wicGVybWlzc2lvbnNcIjpbe1widHlwZVwiOntcInR5cGVcIjo3fSxcImxldmVsXCI6e1wibGV2ZWxcIjo4fX0se1widHlwZVwiOntcInR5cGVcIjoxfSxcImxldmVsXCI6e1wibGV2ZWxcIjo0fX0se1widHlwZVwiOntcInR5cGVcIjozfSxcImxldmVsXCI6e1wibGV2ZWxcIjowfX0se1widHlwZVwiOntcInR5cGVcIjo4fSxcImxldmVsXCI6e1wibGV2ZWxcIjo4fX0se1widHlwZVwiOntcInR5cGVcIjoyfSxcImxldmVsXCI6e1wibGV2ZWxcIjo0fX0se1widHlwZVwiOntcInR5cGVcIjo5fSxcImxldmVsXCI6e1wibGV2ZWxcIjo4fX0se1widHlwZVwiOntcInR5cGVcIjo0fSxcImxldmVsXCI6e1wibGV2ZWxcIjo2fX0se1widHlwZVwiOntcInR5cGVcIjo2fSxcImxldmVsXCI6e1wibGV2ZWxcIjo2fX0se1widHlwZVwiOntcInR5cGVcIjoxMH0sXCJsZXZlbFwiOntcImxldmVsXCI6MX19LHtcInR5cGVcIjp7XCJ0eXBlXCI6MTF9LFwibGV2ZWxcIjp7XCJsZXZlbFwiOjF9fV19fSIsImlhdCI6MTU4ODI2NDM4NSwiZXhwIjoxNTk2OTA0Mzg1fQ.DRRsyHhWR6CfPbCfAg1IzNmefs5chf1Vt9eOF0axx30
+
+####
+POST http://{{host}}/api/message/generateOtpToLogin
+Content-Type: application/json
+
+{
+    "mobile": "8866538204"
+}
+
+####
+
+POST http://{{host}}/api/message/verifyOtpToLogin?otp=3360
+Content-Type: application/json
+
+{
+    "mobile": "8866538204"
+}
+
+###
+
+GET http://{{host}}/api/products HTTP/1.1
+
+####
+
+GET http://{{host}}/api/carts/my?context=productDetails
+Authorization: Bearer {{token}}

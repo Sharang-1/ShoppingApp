@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:compound/constants/route_names.dart';
 import 'package:compound/locator.dart';
 import 'package:compound/models/route_argument.dart';
-import 'package:compound/services/analytics_service.dart';
+// import 'package:compound/services/analytics_service.dart';
 import 'package:compound/services/authentication_service.dart';
 import 'package:compound/services/dialog_service.dart';
 import 'package:compound/services/navigation_service.dart';
@@ -18,7 +18,7 @@ class LoginViewModel extends BaseModel {
       locator<AuthenticationService>();
   final DialogService _dialogService = locator<DialogService>();
   final NavigationService _navigationService = locator<NavigationService>();
-  final AnalyticsService _analyticsService = locator<AnalyticsService>();
+  // final AnalyticsService _analyticsService = locator<AnalyticsService>();
 
   String phoneNoValidationMessage = "";
   String get phoneNoValidation => phoneNoValidationMessage;
@@ -66,7 +66,7 @@ class LoginViewModel extends BaseModel {
     // if (result is bool) {
       if (result!=null) {   
         // Successfully sent otp
-        await _analyticsService.logLogin();
+        // await _analyticsService.logLogin();
         // Navigate to verify otp
         _navigationService.navigateReplaceTo(VerifyOTPViewRoute,
             arguments: CustomRouteArgument(

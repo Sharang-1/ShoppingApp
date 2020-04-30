@@ -1,5 +1,5 @@
 import 'package:compound/logger.dart';
-import 'package:compound/services/analytics_service.dart';
+// import 'package:compound/services/analytics_service.dart';
 import 'package:compound/ui/shared/app_colors.dart';
 import 'package:compound/ui/views/startup_view.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
       title: 'Compound',
       debugShowCheckedModeBanner: false,
       navigatorObservers: [
-        locator<AnalyticsService>().getAnalyticsObserver(),
+        // locator<AnalyticsService>().getAnalyticsObserver(),
       ],
       builder: (context, child) => Navigator(
         key: locator<DialogService>().dialogNavigationKey,
