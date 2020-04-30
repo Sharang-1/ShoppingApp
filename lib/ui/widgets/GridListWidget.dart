@@ -4,6 +4,7 @@ import 'package:compound/models/products.dart';
 import 'package:compound/viewmodels/grid_view_builder_view_models/base_grid_view_builder_view_model.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 
 // Type and Enum declarations
@@ -183,13 +184,15 @@ class _PaginatedGridViewState<I> extends State<PaginatedGridView> {
       onNotification: !(widget.disablePagination) ? onNotification : null,
       child: items.length != 0
           ? GridView.builder(
+            shrinkWrap: true,
+              scrollDirection: Axis.vertical,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: widget.gridCount,
                 childAspectRatio: widget.childAspectRatio,
               ),
               controller: _scrollController,
               itemCount: items.length,
-              physics: const AlwaysScrollableScrollPhysics(),
+              physics: ScrollPhysics(),
               itemBuilder: (_, index) =>
                   widget.tileBuilder(context, items[index]),
             )
