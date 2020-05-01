@@ -155,7 +155,7 @@ class _SearchViewState extends State<SearchView>
       children: <Widget>[
         if (showResults && _tabController.index == 0)
           Padding(
-            padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
             child: GridListWidget<Products, Product>(
               key: productGridKey,
               context: context,
@@ -200,7 +200,7 @@ class _SearchViewState extends State<SearchView>
           ),
         if (showRecents && _getListByTabIndex().length != 0)
           Container(
-            color: Colors.white,
+            color: backgroundWhiteCreamColor,
             child: ListView(
               shrinkWrap: true,
               children: _getRecentSearchListUI(),
@@ -218,22 +218,20 @@ class _SearchViewState extends State<SearchView>
       builder: (context, model, child) => Scaffold(
           appBar: AppBar(
             elevation: 0,
-            iconTheme: IconThemeData(color: Colors.black),
-            backgroundColor: Colors.white,
+            iconTheme: IconThemeData(color: textIconBlue),
+            backgroundColor: backgroundWhiteCreamColor,
             actions: <Widget>[
-              Icon(Icons.shopping_cart),
-              SizedBox(
-                width: 20,
-              ),
+              IconButton(onPressed: (){},icon: Icon(Icons.shopping_cart)),
             ],
             bottom: PreferredSize(
               preferredSize: Size(50, 50),
               child: AppBar(
                 elevation: 0,
-                iconTheme: IconThemeData(color: Colors.black),
-                backgroundColor: Colors.white,
+                iconTheme: IconThemeData(color: textIconBlue),
+                backgroundColor: backgroundWhiteCreamColor,
                 automaticallyImplyLeading: false,
                 title: _SearchBarTextField(
+                  searchAction: _searchAction,
                   searchController: _searchController,
                   focusNode: _searchBarFocusNode,
                   autofocus: true,
@@ -247,27 +245,10 @@ class _SearchViewState extends State<SearchView>
                   onChanged: _searchBarOnChange,
                 ),
                 actions: <Widget>[
-                  IconButton(
-                    icon: Icon(Icons.search),
-                    onPressed: () =>
-                        _searchAction(_searchController.text.trim()),
-                  ),
                   if (showResults && currentTabIndex == 0)
                     IconButton(
                       icon: Icon(Icons.filter_list),
                       onPressed: () async {
-                        // ProductFilter filterDialogResponse =
-                        //     await Navigator.of(context).push<ProductFilter>(
-                        //   MaterialPageRoute(
-                        //     builder: (BuildContext context) {
-                        //       return ProductFilterDialog(
-                        //         oldFilter: productFilter,
-                        //       );
-                        //     },
-                        //     fullscreenDialog: true,
-                        //   ),
-                        // );
-
                         ProductFilter filterDialogResponse =
                             await showModalBottomSheet(
                           isScrollControlled: true,
@@ -293,30 +274,29 @@ class _SearchViewState extends State<SearchView>
               ),
             ),
           ),
-          backgroundColor: Colors.white,
+          backgroundColor: backgroundWhiteCreamColor,
           body: SafeArea(
             top: false,
             left: false,
             right: false,
             child: CustomScrollView(
               slivers: <Widget>[
-                //
-                //
                 SliverAppBar(
                   primary: false,
                   floating: true,
                   snap: true,
                   elevation: 0,
                   iconTheme: IconThemeData(color: Colors.black),
-                  backgroundColor: Colors.white,
+                  backgroundColor: backgroundWhiteCreamColor,
                   automaticallyImplyLeading: false,
                   title: Container(
                     padding: EdgeInsets.all(2),
                     decoration: BoxDecoration(
-                      color: Colors.grey[200],
+                      // color: Colors.grey[200],
+                      color:backgroundBlueGreyColor,
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    width: (MediaQuery.of(context).size.width / 5) * 4.5,
+                    width: MediaQuery.of(context).size.width ,
                     child: TabBar(
                       unselectedLabelColor: Colors.black,
                       labelColor: Colors.black,
@@ -352,13 +332,6 @@ class _SearchViewState extends State<SearchView>
                   ),
                 ),
                 SliverList(
-                  // delegate: SliverChildListDelegate(<Widget>[
-                  //   // Container(child: childWidget(model),),
-                  //   // childWidget(model)
-                  // Container(height: 1000,color: Colors.tealAccent,)
-                  // ]
-
-                  // ),
                   delegate: SliverChildBuilderDelegate(
                     // The builder function returns a ListTile with a title that
                     // displays the index of the current item.
@@ -475,11 +448,13 @@ class _SearchBarTextField extends StatelessWidget {
     Key key,
     @required this.searchController,
     @required this.focusNode,
+    @required this.searchAction,
     this.autofocus = false,
     this.onTap,
     this.onChanged,
   }) : super(key: key);
 
+  final Function searchAction;
   final TextEditingController searchController;
   final FocusNode focusNode;
   final bool autofocus;
@@ -492,26 +467,36 @@ class _SearchBarTextField extends StatelessWidget {
       height: 40,
       padding: EdgeInsets.symmetric(horizontal: 10),
       decoration: BoxDecoration(
-        color: Colors.grey[200],
-        borderRadius: BorderRadius.circular(10),
+        // color: Colors.grey[200],
+        color: backgroundBlueGreyColor,
+        borderRadius: BorderRadius.circular(30),
       ),
-      child: TextField(
-        autofocus: autofocus,
-        focusNode: focusNode,
-        controller: searchController,
-        style: TextStyle(
-          color: Colors.black,
+      child: Row(children: <Widget>[
+        IconButton(
+          icon: Icon(Icons.search),
+          color: textIconBlue,
+          onPressed: () => searchAction(searchController.text.trim()),
         ),
-        onTap: onTap,
-        onChanged: onChanged,
-        decoration: InputDecoration(
-          border: InputBorder.none,
-          hintText: "Search Products or Sellers",
-          hintStyle: TextStyle(
-            color: Colors.grey,
+        Expanded(
+          child: TextField(
+            autofocus: autofocus,
+            focusNode: focusNode,
+            controller: searchController,
+            style: TextStyle(
+              color: Colors.black,
+            ),
+            onTap: onTap,
+            onChanged: onChanged,
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              hintText: "Search Products or Sellers",
+              hintStyle: TextStyle(
+                color: Colors.grey,
+              ),
+            ),
           ),
         ),
-      ),
+      ]),
     );
   }
 }

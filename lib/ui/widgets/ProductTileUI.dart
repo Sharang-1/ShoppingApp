@@ -184,7 +184,7 @@ class _ProductTileUIState extends State<ProductTileUI> {
               right: 0,
               child: Container(
                 decoration: BoxDecoration(
-                    color: darkRedSmooth,
+                    color: textIconBlue,
                     borderRadius:
                         BorderRadius.only(bottomLeft: Radius.circular(10))),
                 width: 40,
