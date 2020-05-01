@@ -105,7 +105,7 @@ class _CartViewState extends State<CartView> {
                                 clipBehavior: Clip.antiAlias,
                                 elevation: 5,
                                 child: Padding(
-                                  padding: EdgeInsets.only(top: 5, bottom: 5),
+                                  padding: EdgeInsets.all(5),
                                   child: Row(
                                     children: <Widget>[
                                       ClipRRect(
