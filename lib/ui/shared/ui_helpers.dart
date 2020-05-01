@@ -40,3 +40,5 @@ double halfScreenWidth(BuildContext context) =>
 
 double thirdScreenWidth(BuildContext context) =>
     screenWidthFraction(context, dividedBy: 3);
+
+const String rupeeUnicode = "\u20B9";
