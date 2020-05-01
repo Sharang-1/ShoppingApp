@@ -7,6 +7,7 @@ import 'package:compound/viewmodels/grid_view_builder_view_models/cart_grid_view
 import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
 import 'package:provider_architecture/provider_architecture.dart';
+import '../shared/dashed_line.dart';
 
 class CartView extends StatefulWidget {
   CartView({Key key}) : super(key: key);
@@ -20,25 +21,24 @@ class _CartViewState extends State<CartView> {
 
   final filter = CartFilter();
   bool clicked = false;
-  final _formkey = GlobalKey<FormState>();
 
   TextEditingController _controller = new TextEditingController();
 
-  Widget _customText(text,
-      {bool isBold = false,
-      double fontsize = 16,
-      TextStyle textStyle,
-      Color color = Colors.black}) {
-    return Text(
-      text,
-      style: textStyle != null
-          ? textStyle
-          : TextStyle(
-              fontSize: fontsize,
-              fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
-              color: color),
-    );
-  }
+  // Widget CustomText(text,
+  //     {bool isBold = false,
+  //     double fontsize = 16,
+  //     TextStyle textStyle,
+  //     Color color = Colors.black}) {
+  //   return Text(
+  //     text,
+  //     style: textStyle != null
+  //         ? textStyle
+  //         : TextStyle(
+  //             fontSize: fontsize,
+  //             fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
+  //             color: color),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -65,34 +65,29 @@ class _CartViewState extends State<CartView> {
                   )
                 ],
               ),
-              bottomNavigationBar: Material(
-                  elevation: 15,
-                  color: Colors.white,
-                  shape: RoundedRectangleBorder(side: BorderSide(width: 0.05)),
-                  child: Padding(
-                      padding: EdgeInsets.only(left: 10, right: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            "Total: " + rupeeUnicode + "100",
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.w600),
-                          ),
-                          RaisedButton(
-                              onPressed: () {},
-                              color: Colors.black,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                // side: BorderSide(
-                                //     color: Colors.black, width: 0.5)
-                              ),
-                              child: Text(
-                                "Proceed to Order ",
-                                style: TextStyle(color: Colors.white),
-                              )),
-                        ],
-                      ))),
+              bottomNavigationBar:
+                  //  Material(
+                  //     elevation: 15,
+                  //     color: Colors.white,
+                  //     shape: RoundedRectangleBorder(side: BorderSide(width: 0.05)),
+                  //     child:
+
+                  Padding(
+                padding: EdgeInsets.only(left: 10, right: 10),
+                child: RaisedButton(
+                    onPressed: () {},
+                    color: Colors.black,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      // side: BorderSide(
+                      //     color: Colors.black, width: 0.5)
+                    ),
+                    child: Text(
+                      "Proceed to Order ",
+                      style: TextStyle(color: Colors.white),
+                    )),
+                // )
+              ),
               backgroundColor: Colors.white,
               body: SafeArea(
                 top: true,
@@ -107,195 +102,195 @@ class _CartViewState extends State<CartView> {
                         SizedBox(
                             height: 150,
                             child: Card(
-                              clipBehavior: Clip.antiAlias,
-                              elevation: 5,
-                              child: Row(
-                                children: <Widget>[
-                                  // Row(
-                                  //   children: <Widget>[
-                                  // IconButton(
-                                  //     alignment: Alignment.center,
-                                  //     padding: EdgeInsets.all(0),
-                                  //     icon: Icon(
-                                  //         Icons.remove_circle_outline),
-                                  //     onPressed: () {}),
-                                  // Card(
-                                  //         clipBehavior: Clip.antiAlias,
-                                  //         child:
-                                  ClipRRect(
-                                      borderRadius: BorderRadius.circular(5),
-                                      child: FadeInImage.assetNetwork(
-                                        width: 120,
-                                        fadeInCurve: Curves.easeIn,
-                                        placeholder:
-                                            "assets/images/placeholder.png",
-                                        image:
-                                            "https://images.unsplash.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-                                        fit: BoxFit.fill,
-                                      )),
+                                clipBehavior: Clip.antiAlias,
+                                elevation: 5,
+                                child: Padding(
+                                  padding: EdgeInsets.only(top: 5, bottom: 5),
+                                  child: Row(
+                                    children: <Widget>[
+                                      ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                          child: FadeInImage.assetNetwork(
+                                            width: 120,
+                                            fadeInCurve: Curves.easeIn,
+                                            placeholder:
+                                                "assets/images/placeholder.png",
+                                            image:
+                                                "https://images.unsplash.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
+                                            fit: BoxFit.cover,
+                                          )),
+                                      Expanded(
+                                          child: Padding(
+                                              padding:
+                                                  EdgeInsets.only(left: 10),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: <Widget>[
+                                                  verticalSpaceTiny,
+                                                  CustomText("Nike T-Shirt",
+                                                      isBold: true),
+                                                  CustomText(
+                                                    "By Nike",
+                                                    fontSize:
+                                                        subtitleFontSize - 2,
+                                                  ),
+                                                  Row(children: <Widget>[
+                                                    CustomText("Qty: 1",
+                                                        fontSize:
+                                                            subtitleFontSize),
+                                                    horizontalSpaceMedium,
+                                                    CustomText("Size: S",
+                                                        fontSize:
+                                                            subtitleFontSize),
+                                                    horizontalSpaceMedium,
+                                                    SizedBox(
+                                                        height: 25,
+                                                        child:
+                                                            FloatingActionButton(
+                                                          backgroundColor:
+                                                              Colors.white,
+                                                          child: Icon(
+                                                            !clicked
+                                                                ? Icons
+                                                                    .keyboard_arrow_down
+                                                                : Icons
+                                                                    .keyboard_arrow_up,
+                                                            color: Colors.black,
+                                                          ),
+                                                          onPressed: () {
+                                                            setState(() {
+                                                              clicked = true;
+                                                            });
 
-                                  Expanded(
-                                      child: Padding(
-                                          padding: EdgeInsets.only(left: 10),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: <Widget>[
-                                              verticalSpaceTiny,
-                                              _customText("Nike T-Shirt",
-                                                  isBold: true),
-                                              _customText(
-                                                "By Nike",
-                                                fontsize: subtitleFontSize - 2,
-                                              ),
-                                              Row(children: <Widget>[
-                                                _customText("Qty: 1",
-                                                    fontsize: subtitleFontSize),
-                                                horizontalSpaceMedium,
-                                                _customText("Size: S",
-                                                    fontsize: subtitleFontSize),
-                                                horizontalSpaceMedium,
-                                                SizedBox(
-                                                    height: 25,
-                                                    child: FloatingActionButton(
-                                                      backgroundColor:
-                                                          Colors.white,
-                                                      child: Icon(
-                                                        !clicked
-                                                            ? Icons
-                                                                .keyboard_arrow_down
-                                                            : Icons
-                                                                .keyboard_arrow_up,
-                                                        color: Colors.black,
-                                                      ),
-                                                      onPressed: () {
-                                                        setState(() {
-                                                          clicked = true;
-                                                        });
-
-                                                        showModalBottomSheet<
-                                                                void>(
-                                                            isScrollControlled:
-                                                                true,
-                                                            context: context,
-                                                            builder: (context) {
-                                                              return FractionallySizedBox(
-                                                                  heightFactor:
-                                                                      0.5,
-                                                                  child: Scaffold(
-                                                                      appBar: AppBar(
-                                                                        iconTheme:
-                                                                            IconThemeData(color: Colors.black),
-                                                                        centerTitle:
-                                                                            true,
-                                                                        title:
-                                                                            Text(
-                                                                          "Details",
-                                                                          style:
-                                                                              TextStyle(color: Colors.black),
-                                                                        ),
-                                                                        backgroundColor:
-                                                                            Colors.white,
-                                                                      ),
-                                                                      body: SingleChildScrollView(
-                                                                        child: Padding(
-                                                                            padding: EdgeInsets.all(10),
-                                                                            child: Table(
-                                                                              children: [
-                                                                                TableRow(children: [
-                                                                                  TableCell(child: _customText("Shipping To:")),
-                                                                                  _customText("Ahmedabad")
-                                                                                ]),
-                                                                                TableRow(children: [
-                                                                                  _customText("Shipping Address:"),
-                                                                                  _customText("ABC apartment,Naranpura,Ahmedabad-380013")
-                                                                                ]),
-                                                                                TableRow(children: [
-                                                                                  _customText("Price:"),
-                                                                                  _customText(rupeeUnicode + "300")
-                                                                                ]),
-                                                                                TableRow(children: [
-                                                                                  _customText("Discount:"),
-                                                                                  _customText("30%")
-                                                                                ]),
-                                                                                TableRow(children: [
-                                                                                  _customText("Order Total:"),
-                                                                                  _customText(rupeeUnicode + "270")
-                                                                                ]),
-                                                                                TableRow(children: [
-                                                                                  _customText("Delivery Charges:"),
-                                                                                  _customText(rupeeUnicode + "40")
-                                                                                ]),
-                                                                                TableRow(decoration: BoxDecoration(border: Border(top: BorderSide(style: BorderStyle.solid), bottom: BorderSide(style: BorderStyle.solid))), children: [
-                                                                                  _customText("Total", isBold: true),
-                                                                                  _customText(rupeeUnicode + "310", isBold: true)
-                                                                                ]),
-                                                                              ],
-                                                                            )),
-                                                                      )));
-                                                            }).whenComplete(() {
-                                                          setState(() {
-                                                            clicked = false;
-                                                          });
-                                                        });
-                                                      },
-                                                    ))
-                                              ]),
-                                              verticalSpaceTiny,
-                                              Row(children: <Widget>[
-                                                _customText(
-                                                    rupeeUnicode + '100',
-                                                    isBold: true,
-                                                    fontsize: priceFontSize),
-                                                horizontalSpaceMedium,
-                                                _customText(
-                                                  rupeeUnicode + '200',
-                                                  textStyle: TextStyle(
-                                                      color: Colors.grey,
-                                                      decoration: TextDecoration
-                                                          .lineThrough,
-                                                      fontSize: priceFontSize),
-                                                ),
-                                                horizontalSpaceMedium,
-                                                _customText("20% off",
-                                                    color: Colors.red,
-                                                    fontsize: priceFontSize),
-                                              ]),
-                                              Spacer(),
-                                              SizedBox(
-                                                  height: 30,
-                                                  child: Padding(
-                                                      padding: EdgeInsets.only(
-                                                          bottom: 2),
+                                                            showModalBottomSheet<
+                                                                    void>(
+                                                                isScrollControlled:
+                                                                    true,
+                                                                context:
+                                                                    context,
+                                                                builder:
+                                                                    (context) {
+                                                                  return FractionallySizedBox(
+                                                                      heightFactor:
+                                                                          0.5,
+                                                                      child: Scaffold(
+                                                                          appBar: AppBar(
+                                                                            iconTheme:
+                                                                                IconThemeData(color: Colors.black),
+                                                                            centerTitle:
+                                                                                true,
+                                                                            title:
+                                                                                Text(
+                                                                              "Details",
+                                                                              style: TextStyle(color: Colors.black),
+                                                                            ),
+                                                                            backgroundColor:
+                                                                                Colors.white,
+                                                                          ),
+                                                                          body: SingleChildScrollView(
+                                                                            child: Padding(
+                                                                                padding: EdgeInsets.all(10),
+                                                                                child: Table(
+                                                                                  children: [
+                                                                                    TableRow(children: [
+                                                                                      TableCell(child: CustomText("Shipping To:")),
+                                                                                      CustomText("Ahmedabad")
+                                                                                    ]),
+                                                                                    TableRow(children: [
+                                                                                      CustomText("Shipping Address:"),
+                                                                                      CustomText("ABC apartment,Naranpura,Ahmedabad-380013")
+                                                                                    ]),
+                                                                                    TableRow(children: [
+                                                                                      CustomText("Price:"),
+                                                                                      CustomText(rupeeUnicode + "300")
+                                                                                    ]),
+                                                                                    TableRow(children: [
+                                                                                      CustomText("Discount:"),
+                                                                                      CustomText("30%")
+                                                                                    ]),
+                                                                                    TableRow(children: [
+                                                                                      CustomText("Order Total:"),
+                                                                                      CustomText(rupeeUnicode + "270")
+                                                                                    ]),
+                                                                                    TableRow(children: [
+                                                                                      CustomText("Delivery Charges:"),
+                                                                                      CustomText(rupeeUnicode + "40")
+                                                                                    ]),
+                                                                                    TableRow(decoration: BoxDecoration(border: Border(top: BorderSide(style: BorderStyle.solid), bottom: BorderSide(style: BorderStyle.solid))), children: [
+                                                                                      CustomText("Total", isBold: true),
+                                                                                      CustomText(rupeeUnicode + "310", isBold: true)
+                                                                                    ]),
+                                                                                  ],
+                                                                                )),
+                                                                          )));
+                                                                }).whenComplete(() {
+                                                              setState(() {
+                                                                clicked = false;
+                                                              });
+                                                            });
+                                                          },
+                                                        ))
+                                                  ]),
+                                                  verticalSpaceTiny,
+                                                  Row(children: <Widget>[
+                                                    CustomText(
+                                                        rupeeUnicode + '100',
+                                                        isBold: true,
+                                                        fontSize:
+                                                            priceFontSize),
+                                                    // horizontalSpaceMedium,
+                                                    // CustomText(
+                                                    //   rupeeUnicode + '200',
+                                                    //   textStyle: TextStyle(
+                                                    //       color: Colors.grey,
+                                                    //       decoration:
+                                                    //           TextDecoration
+                                                    //               .lineThrough,
+                                                    //       fontSize:
+                                                    //           priceFontSize),
+                                                    // ),
+                                                    // horizontalSpaceMedium,
+                                                    // CustomText("20% off",
+                                                    //     color: Colors.red,
+                                                    //     fontSize:
+                                                    //         priceFontSize),
+                                                  ]),
+                                                  Spacer(),
+                                                  SizedBox(
+                                                      height: 30,
                                                       child: Row(
                                                         mainAxisAlignment:
                                                             MainAxisAlignment
                                                                 .end,
                                                         children: <Widget>[
-                                                          RaisedButton(
-                                                              padding:
-                                                                  EdgeInsets
-                                                                      .all(0),
-                                                              elevation: 1,
-                                                              onPressed: () {},
-                                                              color: Colors
-                                                                  .grey[300],
-                                                              shape:
-                                                                  RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            10),
-                                                                // side: BorderSide(
-                                                                //     color: Colors.black, width: 0.5)
-                                                              ),
-                                                              child: Text(
-                                                                "Update ",
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .black),
-                                                              )),
-                                                          horizontalSpaceTiny,
+                                                          // RaisedButton(
+                                                          //     padding:
+                                                          //         EdgeInsets
+                                                          //             .all(
+                                                          //                 0),
+                                                          //     elevation: 1,
+                                                          //     onPressed:
+                                                          //         () {},
+                                                          //     color: Colors
+                                                          //             .grey[
+                                                          //         300],
+                                                          //     shape:
+                                                          //         RoundedRectangleBorder(
+                                                          //       borderRadius:
+                                                          //           BorderRadius.circular(
+                                                          //               10),
+                                                          //       // side: BorderSide(
+                                                          //       //     color: Colors.black, width: 0.5)
+                                                          //     ),
+                                                          //     child: Text(
+                                                          //       "Update ",
+                                                          //       style: TextStyle(
+                                                          //           color: Colors
+                                                          //               .black),
+                                                          //     )),
+                                                          // horizontalSpaceTiny,
                                                           RaisedButton(
                                                               elevation: 1,
                                                               onPressed: () {},
@@ -317,12 +312,12 @@ class _CartViewState extends State<CartView> {
                                                               )),
                                                           horizontalSpaceTiny
                                                         ],
-                                                      ))),
-                                            ],
-                                          )))
-                                ],
-                              ),
-                            )),
+                                                      )),
+                                                ],
+                                              )))
+                                    ],
+                                  ),
+                                ))),
                         verticalSpaceMedium,
                         SizedBox(
                             height: 40,
@@ -357,7 +352,69 @@ class _CartViewState extends State<CartView> {
                                             style:
                                                 TextStyle(color: Colors.white),
                                           ))),
-                                ]))
+                                ])),
+                        verticalSpaceMedium,
+                        Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: Colors.grey.withOpacity(0.05)),
+                            child: Padding(
+                              padding: EdgeInsets.all(2),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  CustomText(
+                                    "Price Details",
+                                    isBold: true,
+                                    color: Colors.grey,
+                                  ),
+                                  Divider(
+                                    thickness: 1,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      CustomText("SubTotal", isBold: true),
+                                      CustomText(rupeeUnicode + "100",
+                                          isBold: true)
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      CustomText("Shipping",
+                                          fontSize: subtitleFontSize),
+                                      CustomText(
+                                        "Free",
+                                        fontSize: subtitleFontSize,
+                                        color: Colors.green,
+                                      )
+                                    ],
+                                  ),
+                                  verticalSpaceTiny,
+                                  DashedLine(
+                                    color: Colors.grey[300],
+                                  ),
+                                  verticalSpaceTiny,
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      CustomText("Total", isBold: true),
+                                      CustomText(rupeeUnicode + "100",
+                                          isBold: true)
+                                    ],
+                                  ),
+                                  Divider(
+                                    thickness: 1,
+                                  ),
+                                ],
+                              ),
+                            )),
                       ]),
                 )),
               ),
