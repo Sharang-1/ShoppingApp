@@ -40,3 +40,31 @@ double halfScreenWidth(BuildContext context) =>
 
 double thirdScreenWidth(BuildContext context) =>
     screenWidthFraction(context, dividedBy: 3);
+
+const String rupeeUnicode = "\u20B9";
+
+class CustomText extends StatelessWidget {
+  double fontSize;
+  bool isBold;
+  TextStyle textStyle;
+  String text;
+  Color color;
+  CustomText(this.text,
+      {this.color = Colors.black,
+      this.fontSize = 16,
+      this.isBold = false,
+      this.textStyle});
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text,
+      style: textStyle != null
+          ? textStyle
+          : TextStyle(
+              fontSize: fontSize,
+              fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
+              color: color),
+    );
+  }
+}
