@@ -167,7 +167,7 @@ class _SearchViewState extends State<SearchView>
                 Fimber.d("test");
                 print((data as Product).toJson());
                 return ProductTileUI(
-                  index:index,
+                  index: index,
                   data: data,
                   onClick: () {
                     model.goToProductPage(data);
@@ -222,7 +222,7 @@ class _SearchViewState extends State<SearchView>
             iconTheme: IconThemeData(color: textIconBlue),
             backgroundColor: backgroundWhiteCreamColor,
             actions: <Widget>[
-              IconButton(onPressed: (){},icon: Icon(Icons.shopping_cart)),
+              IconButton(onPressed: () {}, icon: Icon(Icons.shopping_cart)),
             ],
             bottom: PreferredSize(
               preferredSize: Size(50, 50),
@@ -252,7 +252,11 @@ class _SearchViewState extends State<SearchView>
                       onPressed: () async {
                         ProductFilter filterDialogResponse =
                             await showModalBottomSheet(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20)),
+                          ),
                           isScrollControlled: true,
+                          clipBehavior:Clip.antiAlias,
                           context: context,
                           builder: (BuildContext context) {
                             return FractionallySizedBox(
@@ -294,10 +298,10 @@ class _SearchViewState extends State<SearchView>
                     padding: EdgeInsets.all(2),
                     decoration: BoxDecoration(
                       // color: Colors.grey[200],
-                      color:backgroundBlueGreyColor,
+                      color: backgroundBlueGreyColor,
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    width: MediaQuery.of(context).size.width ,
+                    width: MediaQuery.of(context).size.width,
                     child: TabBar(
                       unselectedLabelColor: Colors.black,
                       labelColor: Colors.black,
