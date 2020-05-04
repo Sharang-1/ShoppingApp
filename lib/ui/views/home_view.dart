@@ -2,6 +2,7 @@ import 'package:compound/ui/views/home_view_list.dart';
 import 'package:compound/ui/widgets/drawer.dart';
 import 'package:compound/viewmodels/home_view_model.dart';
 import 'package:flutter/material.dart';
+import '../shared/app_colors.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 
 class HomeView extends StatelessWidget {
@@ -16,12 +17,43 @@ class HomeView extends StatelessWidget {
         onModelReady: (model) => model.init(),
         builder: (context, model, child) => Scaffold(
               drawerEdgeDragWidth: 0,
-              backgroundColor: Colors.white,
+              primary: false,
+              backgroundColor: backgroundWhiteCreamColor,
               drawer: HomeDrawer(),
               floatingActionButton: FloatingActionButton.extended(
                 backgroundColor: Colors.grey[800],
                 onPressed: model.logout,
                 label: Text("Logout"),
+              ),
+              appBar: AppBar(
+                elevation: 0,
+                automaticallyImplyLeading: false,
+                iconTheme: IconThemeData(color: textIconBlue),
+                backgroundColor: backgroundWhiteCreamColor,
+                bottom: PreferredSize(
+                    preferredSize: Size.fromHeight(50),
+                    child: AppBar(
+                      elevation: 0,
+                      iconTheme: IconThemeData(color: textIconBlue),
+                      backgroundColor: backgroundWhiteCreamColor,
+                      title: Center(
+                          child: Image.asset(
+                        "assets/images/logo_red.png",
+                        height: 40,
+                        width: 40,
+                      )),
+                      actions: <Widget>[
+                        IconButton(
+                          icon: Icon(
+                            Icons.shopping_cart,
+                          ),
+                          onPressed: () => model.cart(),
+                        ),
+                      ],
+                    )),
+
+                //Do experiment with this for Icon Button else make
+                //flexiblespace to bottom
               ),
               body: SafeArea(
                   top: false,
@@ -31,65 +63,45 @@ class HomeView extends StatelessWidget {
                     // Add the app bar and list of items as slivers in the next steps.
                     slivers: <Widget>[
                       SliverAppBar(
-                        iconTheme: IconThemeData(color: Colors.black),
-                        backgroundColor: Colors.white,
-                        title: Center(child:Image.asset("assets/images/logo_red.png",height: 40,width: 40,)),
+                        primary: false,
                         floating: true,
-                        // snap: true,
+                        automaticallyImplyLeading: false,
+                        iconTheme: IconThemeData(color: textIconBlue),
+                        backgroundColor: backgroundWhiteCreamColor,
                         actions: <Widget>[
                           IconButton(
-                            icon: Icon(Icons.shopping_cart,color: Colors.black,),
-                            onPressed: () => model.cart(),
-                          ),
+                            tooltip: 'map',
+                            icon: Icon(
+                              Icons.map,
+                              color: textIconBlue,
+                            ),
+                            onPressed: () {
+                              model.openmap();
+                            },
+                          )
                         ],
-
-                        //Do experiment with this for Icon Button else make
-                        //flexiblespace to bottom
-                        expandedHeight: 2 * kToolbarHeight,
-                        forceElevated: true,
-                        flexibleSpace: Padding(
-                          padding: const EdgeInsets.only(
-                            top: 1.4 * kToolbarHeight,
-                          ),
-                          child: PreferredSize(
-                            preferredSize: const Size.fromHeight(50),
-                            child: Container(
-                              margin: const EdgeInsets.all(8.0),
-                              child: Row(
-                                children: <Widget>[
-                                  Expanded(
-                                    child: InkWell(
-                                      onTap: () {
-                                        model.search();
-                                      },
-                                      child: Container(
-                                        width: double.infinity,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(7),
-                                            border: Border.all(width: 1),
-                                            color: Colors.white),
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 12,
-                                            vertical: 8,
-                                          ),
-                                          child: Text("Search"),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  IconButton(
-                                    tooltip: 'map',
-                                    icon: Icon(
-                                      Icons.map,
-                                      color: Colors.black,
-                                    ),
-                                    onPressed: () {
-                                      model.openmap();
-                                    },
-                                  )
-                                ],
+                        title: InkWell(
+                          onTap: () {
+                            model.search();
+                          },
+                          child: Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              // color: Colors.grey[200],
+                              color: backgroundBlueGreyColor,
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 30,
+                                vertical: 8,
+                              ),
+                              child: Text(
+                                "Search",
+                                style: TextStyle(
+                                    color: Colors.grey[600],
+                                    fontFamily: "Raleway",
+                                    fontWeight: FontWeight.normal),
                               ),
                             ),
                           ),
@@ -100,7 +112,10 @@ class HomeView extends StatelessWidget {
                         delegate: SliverChildBuilderDelegate(
                           // The builder function returns a ListTile with a title that
                           // displays the index of the current item.
-                          (context, index) => HomeViewList(),
+                          (context, index) => Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: HomeViewList(),
+                          ),
                           childCount: 1,
                         ),
                       ),

@@ -23,7 +23,7 @@ class _HomeSliderState extends State<HomeSlider> {
     return CarouselSlider(
               autoPlay: true,
               pauseAutoPlayOnTouch: Duration(seconds: 10),
-              height: 350.0,
+              height: 250.0,
               viewportFraction: 1.0,
               items: imgList.map((i) {
                 return Builder(
