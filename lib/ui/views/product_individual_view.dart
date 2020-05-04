@@ -287,7 +287,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
           actions: <Widget>[
             IconButton(
               onPressed: () {},
-              icon: Icon(Icons.shopping_cart,
+              icon: Icon(Icons.shopping_cart,)
             )
           ],
         ),
