@@ -10,11 +10,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 class ProductTileUI extends StatefulWidget {
   final Product data;
   final Function onClick;
+  final int index;
 
   const ProductTileUI({
     Key key,
     this.data,
     this.onClick,
+    this.index,
   }) : super(key: key);
 
   @override
@@ -33,6 +35,9 @@ class _ProductTileUIState extends State<ProductTileUI> {
     double priceFontSize = isTablet ? 18.0 : 14.0;
     double ratingCountFontSize = isTablet ? 16.0 : 12.0;
     double wishlistIconSize = isTablet ? 34 : 25;
+    EdgeInsetsGeometry paddingCard = widget.index % 2 == 0
+        ? const EdgeInsets.fromLTRB(10, 0, 0, 10)
+        : const EdgeInsets.fromLTRB(0, 0, 10, 10);
     // final BlousePadding sellerName=widget.data.whoMadeIt;
 
     final photo = widget.data.photo ?? null;
@@ -65,95 +70,103 @@ class _ProductTileUIState extends State<ProductTileUI> {
 
     return GestureDetector(
         onTap: widget.onClick,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
+        child: Container(
+          padding: paddingCard,
           child: Card(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
             ),
-            elevation: 6,
+            elevation: 8,
             clipBehavior: Clip.antiAlias,
             color: Colors.white,
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: <
-                    Widget>[
-              Expanded(
-                  flex: 13,
-                  child: _imageStackview(originalPhotoName, productDiscount)),
-              Expanded(
-                  flex: 7,
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(10, 8.0, 6, 6),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Expanded(
+                      flex: 13,
+                      child:
+                          _imageStackview(originalPhotoName, productDiscount)),
+                  Expanded(
+                      flex: 7,
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(10, 8.0, 6, 6),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Expanded(
-                              child: Text(getTruncatedString(10, productName),
-                                  style: TextStyle(
-                                      fontSize: titleFontSize,
-                                      fontFamily: fontFamily,
-                                      fontWeight: FontWeight.bold)),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Expanded(
+                                  child: Text(productName,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          fontSize: titleFontSize,
+                                          fontFamily: fontFamily,
+                                          fontWeight: FontWeight.bold)),
+                                ),
+                                InkWell(
+                                  child: this.toggle
+                                      ? Icon(
+                                          Icons.favorite,
+                                          size: wishlistIconSize,
+                                          color: darkRedSmooth,
+                                        )
+                                      : Icon(
+                                          Icons.favorite_border,
+                                          size: wishlistIconSize,
+                                          color: darkRedSmooth,
+                                        ),
+                                  onTap: () {
+                                    setState(() {
+                                      this.toggle = !this.toggle;
+                                    });
+                                  },
+                                )
+                              ],
+                              // )
                             ),
-                            InkWell(
-                              child: this.toggle
-                                  ? Icon(
-                                      Icons.favorite,
-                                      size: wishlistIconSize,
-                                      color: darkRedSmooth,
-                                    )
-                                  : Icon(
-                                      Icons.favorite_border,
-                                      size: wishlistIconSize,
-                                      color: darkRedSmooth,
-                                    ),
-                              onTap: () {
-                                setState(() {
-                                  this.toggle = !this.toggle;
-                                });
-                              },
-                            )
-                          ],
-                          // )
-                        ),
-                        Text("By Anita's Creation",
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                                fontFamily: fontFamily,
-                                fontSize: subtitleFontSize,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.grey)),
-                        Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                "\u20B9" + '${productPrice.toInt().toString()}',
+                            Text("By Anita's Creation",
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
+                                    fontFamily: fontFamily,
+                                    fontSize: subtitleFontSize,
                                     fontWeight: FontWeight.bold,
-                                    fontSize: priceFontSize),
-                              ),
-                              SizedBox(width: 10,),
-                              productDiscount != 0.0
-                                  ? Text(
-                                      "\u20B9" +
-                                          '${(productPrice/(1-(productDiscount/100))).toString()}',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          color: Colors.grey,
-                                          decoration:
-                                              TextDecoration.lineThrough,
-                                          fontSize: priceFontSize),
-                                    )
-                                  : Container(),
-                            ]),
-                      ],
-                    ),
-                  )),
-            ]),
+                                    color: Colors.grey)),
+                            Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(
+                                    "\u20B9" +
+                                        '${productPrice.toInt().toString()}',
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        color: productDiscount != 0.0
+                                            ? logoRed
+                                            : textIconBlue,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: priceFontSize),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  productDiscount != 0.0
+                                      ? Text(
+                                          "\u20B9" +
+                                              '${(productPrice / (1 - (productDiscount / 100))).toString()}',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              color: Colors.grey,
+                                              decoration:
+                                                  TextDecoration.lineThrough,
+                                              fontSize: priceFontSize),
+                                        )
+                                      : Container(),
+                                ]),
+                          ],
+                        ),
+                      )),
+                ]),
           ),
         ));
   }
@@ -184,14 +197,14 @@ class _ProductTileUIState extends State<ProductTileUI> {
               right: 0,
               child: Container(
                 decoration: BoxDecoration(
-                    color: textIconBlue,
+                    color: logoRed,
                     borderRadius:
                         BorderRadius.only(bottomLeft: Radius.circular(10))),
                 width: 40,
                 height: 20,
                 child: Center(
                   child: Text(
-                    discount.round().toString()+"%",
+                    discount.round().toString() + "%",
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,

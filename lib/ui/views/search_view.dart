@@ -155,18 +155,19 @@ class _SearchViewState extends State<SearchView>
       children: <Widget>[
         if (showResults && _tabController.index == 0)
           Padding(
-            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+            padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
             child: GridListWidget<Products, Product>(
               key: productGridKey,
               context: context,
               filter: productFilter,
               gridCount: 2,
               viewModel: ProductsGridViewBuilderViewModel(),
-              childAspectRatio: 0.7,
+              childAspectRatio: 0.75,
               tileBuilder: (BuildContext context, data, index) {
                 Fimber.d("test");
                 print((data as Product).toJson());
                 return ProductTileUI(
+                  index:index,
                   data: data,
                   onClick: () {
                     model.goToProductPage(data);
