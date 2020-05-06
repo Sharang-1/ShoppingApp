@@ -5,6 +5,8 @@ import 'package:compound/ui/widgets/input_field.dart';
 import 'package:flutter/material.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 import 'package:compound/viewmodels/login_view_model.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import '../shared/app_colors.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
 class LoginView extends StatelessWidget {
@@ -15,7 +17,7 @@ class LoginView extends StatelessWidget {
 
   Widget inputFields(model, context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.only(right: 20),
       child: Center(
           child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,13 +34,6 @@ class LoginView extends StatelessWidget {
             validationMessage: model.nameValidation,
             onChanged: model.validateName,
           ),
-          // InputField(
-          //   placeholder: 'Mobile number',
-          //   controller: phoneNoController,
-          //   textInputType: TextInputType.phone,
-          //   validationMessage: model.phoneNoValidation,
-          //   onChanged: model.validatePhoneNo,
-          // ),
           InternationalPhoneNumberInput(
             onInputChanged: (PhoneNumber number) {
               model.validatePhoneNo;
@@ -47,7 +42,13 @@ class LoginView extends StatelessWidget {
             onSubmit: () {
               _mobileFocus.unfocus();
             },
-            countries: ['IN','US'],
+            countries: ['IN', 'US'],
+            inputDecoration: InputDecoration(
+              hintText: "Phone Number",
+                hintStyle: TextStyle(
+                    color: Colors.grey,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20)),
             initialCountry2LetterCode: 'IN',
             errorMessage: model.phoneNoValidation,
             textFieldController: phoneNoController,
@@ -108,7 +109,7 @@ class LoginView extends StatelessWidget {
           backgroundColor: Colors.white,
           body: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(20, 70, 20, 0),
+              padding: const EdgeInsets.fromLTRB(40, 70, 20, 0),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -136,8 +137,9 @@ class ImageLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.asset(
-      "assets/images/logo_red.png",
+    return SvgPicture.asset(
+      "assets/svg/logo.svg",
+      color: logoRed,
       width: MediaQuery.of(context).size.width / 3,
     );
   }

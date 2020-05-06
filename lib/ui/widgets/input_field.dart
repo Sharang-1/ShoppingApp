@@ -62,10 +62,6 @@ class _InputFieldState extends State<InputField> {
         Container(
           height: widget.smallVersion ? 30 : fieldHeight,
           alignment: Alignment.center,
-          padding: fieldPadding,
-          // margin: widget.smallVersion ? EdgeInsets.only(top: 0) : null,
-          decoration:
-              widget.isReadOnly ? disabledFieldDecortaion : fieldDecortaion,
           child: Row(
             children: <Widget>[
               Expanded(
@@ -93,10 +89,9 @@ class _InputFieldState extends State<InputField> {
                   obscureText: isPassword,
                   readOnly: widget.isReadOnly,
                   decoration: InputDecoration(
-                      border: InputBorder.none,
                       hintText: widget.placeholder,
                       hintStyle:
-                          TextStyle(fontSize: widget.smallVersion ? 13 : 15)),
+                          TextStyle( color: Colors.grey,fontWeight: FontWeight.bold,fontSize: widget.smallVersion ? 15 : 20)),
                 ),
               ),
               GestureDetector(

@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 import 'package:pin_code_text_field/pin_code_text_field.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import '../shared/app_colors.dart';
 
 class VerifyOTPView extends StatefulWidget {
   @override
@@ -105,7 +107,11 @@ class _VerifyOTPViewState extends State<VerifyOTPView> {
             onPressed: model.changePhoneNo,
             elevation: 0,
             backgroundColor: Colors.white,
-            child: Icon(Icons.arrow_back, color: Colors.black,size: 30,),
+            child: Icon(
+              Icons.arrow_back,
+              color: Colors.black,
+              size: 30,
+            ),
           ),
           Row(
             children: <Widget>[
@@ -136,8 +142,9 @@ class _VerifyOTPViewState extends State<VerifyOTPView> {
   }
 
   Widget image(context) {
-    return Image.asset(
-      "assets/images/logo_red.png",
+    return SvgPicture.asset(
+      "assets/svg/logo.svg",
+      color: logoRed,
       width: MediaQuery.of(context).size.width / 3,
     );
   }
@@ -155,7 +162,7 @@ class _VerifyOTPViewState extends State<VerifyOTPView> {
 
   Widget inputFields(model, context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.only(right: 20),
       child: Center(
           child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -173,37 +180,40 @@ class _VerifyOTPViewState extends State<VerifyOTPView> {
           //   validationMessage: model.otpValidationMessage,
           // ),
           PinCodeTextField(
-          pinBoxHeight: 40,
-          pinBoxWidth: 40,
-          pinBoxBorderWidth: 1,
-          autofocus: false,
-          controller: otpController,
-          hideCharacter: false,
-          // highlight: true,
-          // highlightColor: Colors.blue,
-          hasTextBorderColor: Colors.black45,
-          defaultBorderColor: Colors.grey[300],
-          pinBoxColor: Colors.white,
-          maxLength: 4,
-          // hasError: hasError,
-          onTextChanged: model.validateOtp,
-          onDone: (text) {
-            model.verifyOTP(
-              otp: text,
-            );
-          },
-          wrapAlignment: WrapAlignment.center,
-          pinBoxDecoration: ProvidedPinBoxDecoration.defaultPinBoxDecoration,
-          pinTextStyle: TextStyle(fontSize: 20),
-          pinBoxRadius: 3,
-          pinTextAnimatedSwitcherTransition:
-              ProvidedPinBoxTextAnimation.scalingTransition,
-          pinTextAnimatedSwitcherDuration: Duration(milliseconds: 300),
-        ),
-          Text(getFormatedCountDowndTimer(),style: TextStyle(fontSize: 20),),
+            pinBoxHeight: 40,
+            pinBoxWidth: 40,
+            pinBoxBorderWidth: 1,
+            autofocus: false,
+            controller: otpController,
+            hideCharacter: false,
+            // highlight: true,
+            // highlightColor: Colors.blue,
+            hasTextBorderColor: Colors.black45,
+            defaultBorderColor: Colors.grey[300],
+            pinBoxColor: Colors.white,
+            maxLength: 4,
+            // hasError: hasError,
+            onTextChanged: model.validateOtp,
+            onDone: (text) {
+              model.verifyOTP(
+                otp: text,
+              );
+            },
+            wrapAlignment: WrapAlignment.center,
+            pinBoxDecoration: ProvidedPinBoxDecoration.defaultPinBoxDecoration,
+            pinTextStyle: TextStyle(fontSize: 20),
+            pinBoxRadius: 3,
+            pinTextAnimatedSwitcherTransition:
+                ProvidedPinBoxTextAnimation.scalingTransition,
+            pinTextAnimatedSwitcherDuration: Duration(milliseconds: 300),
+          ),
+          Text(
+            getFormatedCountDowndTimer(),
+            style: TextStyle(fontSize: 20),
+          ),
           verticalSpaceSmall,
           TextLink(
-            'RESEND OTP',            
+            'RESEND OTP',
             onPressed: () {
               model.resendOTP().then(resetTimer);
             },
@@ -217,11 +227,10 @@ class _VerifyOTPViewState extends State<VerifyOTPView> {
               child: Text(
                 "When you tap \"finish\" You agree to Dzor's terms and conditions",
                 style: TextStyle(
-                  color: Colors.grey,
-                  fontFamily: "Open Sans",
-                  decoration: TextDecoration.underline,
-                  fontSize: 15
-                ),
+                    color: Colors.grey,
+                    fontFamily: "Open Sans",
+                    decoration: TextDecoration.underline,
+                    fontSize: 15),
                 textAlign: TextAlign.center,
               ))
         ],
@@ -243,7 +252,7 @@ class _VerifyOTPViewState extends State<VerifyOTPView> {
             backgroundColor: Colors.white,
             body: SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 70, 20, 0),
+                padding: const EdgeInsets.fromLTRB(40, 70, 20, 0),
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.start,

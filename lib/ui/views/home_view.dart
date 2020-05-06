@@ -1,3 +1,4 @@
+import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/ui/views/home_view_list.dart';
 import 'package:compound/ui/widgets/drawer.dart';
 import 'package:compound/viewmodels/home_view_model.dart';
@@ -96,12 +97,22 @@ class HomeView extends StatelessWidget {
                                 horizontal: 30,
                                 vertical: 8,
                               ),
-                              child: Text(
-                                "Search",
-                                style: TextStyle(
-                                    color: Colors.grey[600],
-                                    fontFamily: "Raleway",
-                                    fontWeight: FontWeight.normal),
+                              child: Row(
+                                children: <Widget>[
+                                  Icon(
+                                    Icons.search,
+                                    color: textIconBlue,
+                                  ),
+                                  horizontalSpaceSmall,
+                                  Text(
+                                    "Search",
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.grey[600],
+                                        fontFamily: "Raleway",
+                                        fontWeight: FontWeight.normal),
+                                  ),
+                                ],
                               ),
                             ),
                           ),

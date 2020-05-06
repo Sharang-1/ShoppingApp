@@ -2,6 +2,8 @@ import 'package:compound/ui/widgets/app_title.dart';
 import 'package:compound/viewmodels/startup_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider_architecture/provider_architecture.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import '../shared/app_colors.dart';
 
 class StartUpView extends StatelessWidget {
   const StartUpView({Key key}) : super(key: key);
@@ -12,18 +14,17 @@ class StartUpView extends StatelessWidget {
       viewModel: StartUpViewModel(),
       onModelReady: (model) => model.init(),
       builder: (context, model, child) => Scaffold(
-        backgroundColor: Colors.white,
-        body: Center(
-          child: Image.asset(
-            "assets/images/DZOR_full_logo.png",
-            width: MediaQuery.of(context).size.width / 2,
-          ),
-        )
-      ),
+          backgroundColor: Colors.white,
+          body: Center(
+            child: SvgPicture.asset(
+              "assets/svg/DZOR_full_logo_verti.svg",
+              color: logoRed,
+              width: MediaQuery.of(context).size.width /2,
+            ),
+          )),
     );
   }
 }
-
 
 // class StartUpView extends StatelessWidget {
 //   const StartUpView({Key key}) : super(key: key);
