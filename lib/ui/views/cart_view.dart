@@ -1,7 +1,9 @@
 import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/models/cart.dart';
 import 'package:compound/models/grid_view_builder_filter_models/cartFilter.dart';
+import 'package:compound/ui/views/cart_select_delivery_view.dart';
 import 'package:compound/ui/widgets/GridListWidget.dart';
+import 'package:compound/ui/widgets/custom_text.dart';
 import 'package:compound/viewmodels/cart_view_model.dart';
 import 'package:compound/viewmodels/grid_view_builder_view_models/cart_grid_view_builder_view_model.dart';
 import 'package:fimber/fimber.dart';
@@ -75,7 +77,12 @@ class _CartViewState extends State<CartView> {
                   Padding(
                 padding: EdgeInsets.only(left: 10, right: 10),
                 child: RaisedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SelectAddress()));
+                    },
                     color: Colors.black,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),

@@ -71,6 +71,10 @@ flutter:
     - assets/images/tile_ui_placeholder.jpg
     - assets/images/placeholder.png
     - assets/images/coupon_1.svg
+    - assets/images/cash_icon.png
+    - assets/images/gpay_icon.png
+    - assets/images/paytm_icon.png
+    - assets/images/phonepe_icon.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.
