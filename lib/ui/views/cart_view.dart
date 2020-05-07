@@ -2,6 +2,7 @@ import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/models/cart.dart';
 import 'package:compound/models/grid_view_builder_filter_models/cartFilter.dart';
 import 'package:compound/ui/views/cart_select_delivery_view.dart';
+
 import 'package:compound/ui/widgets/GridListWidget.dart';
 import 'package:compound/ui/widgets/custom_text.dart';
 import 'package:compound/viewmodels/cart_view_model.dart';
@@ -24,6 +25,16 @@ class _CartViewState extends State<CartView> {
   final filter = CartFilter();
   bool clicked = false;
 
+  Map<String, String> orderSummaryDetails = {
+    "Shipping To": "Ahmedabad",
+    "Shipping Address": "ABC appartment,Naranpura-380013",
+    "Price": rupeeUnicode + "300",
+    "Discount": "30%",
+    "Order Total": rupeeUnicode + "270",
+    "Delivery Charges": rupeeUnicode + "40",
+    "Total": rupeeUnicode + "310"
+  };
+
   TextEditingController _controller = new TextEditingController();
 
   // Widget CustomText(text,
@@ -45,7 +56,9 @@ class _CartViewState extends State<CartView> {
   @override
   Widget build(BuildContext context) {
     double priceFontSize = 14.0;
+
     double subtitleFontSize = 14;
+    double titleFontSize = 16;
     return ViewModelProvider<CartViewModel>.withConsumer(
         viewModel: CartViewModel(),
         onModelReady: (model) => model.init(),
@@ -179,59 +192,9 @@ class _CartViewState extends State<CartView> {
                                                                     context,
                                                                 builder:
                                                                     (context) {
-                                                                  return FractionallySizedBox(
-                                                                      heightFactor:
-                                                                          0.5,
-                                                                      child: Scaffold(
-                                                                          appBar: AppBar(
-                                                                            iconTheme:
-                                                                                IconThemeData(color: Colors.black),
-                                                                            centerTitle:
-                                                                                true,
-                                                                            title:
-                                                                                Text(
-                                                                              "Details",
-                                                                              style: TextStyle(color: Colors.black),
-                                                                            ),
-                                                                            backgroundColor:
-                                                                                Colors.white,
-                                                                          ),
-                                                                          body: SingleChildScrollView(
-                                                                            child: Padding(
-                                                                                padding: EdgeInsets.all(10),
-                                                                                child: Table(
-                                                                                  children: [
-                                                                                    TableRow(children: [
-                                                                                      TableCell(child: CustomText("Shipping To:")),
-                                                                                      CustomText("Ahmedabad")
-                                                                                    ]),
-                                                                                    TableRow(children: [
-                                                                                      CustomText("Shipping Address:"),
-                                                                                      CustomText("ABC apartment,Naranpura,Ahmedabad-380013")
-                                                                                    ]),
-                                                                                    TableRow(children: [
-                                                                                      CustomText("Price:"),
-                                                                                      CustomText(rupeeUnicode + "300")
-                                                                                    ]),
-                                                                                    TableRow(children: [
-                                                                                      CustomText("Discount:"),
-                                                                                      CustomText("30%")
-                                                                                    ]),
-                                                                                    TableRow(children: [
-                                                                                      CustomText("Order Total:"),
-                                                                                      CustomText(rupeeUnicode + "270")
-                                                                                    ]),
-                                                                                    TableRow(children: [
-                                                                                      CustomText("Delivery Charges:"),
-                                                                                      CustomText(rupeeUnicode + "40")
-                                                                                    ]),
-                                                                                    TableRow(decoration: BoxDecoration(border: Border(top: BorderSide(style: BorderStyle.solid), bottom: BorderSide(style: BorderStyle.solid))), children: [
-                                                                                      CustomText("Total", isBold: true),
-                                                                                      CustomText(rupeeUnicode + "310", isBold: true)
-                                                                                    ]),
-                                                                                  ],
-                                                                                )),
-                                                                          )));
+                                                                  return bottomSheetDetailsTable(
+                                                                      titleFontSize,
+                                                                      subtitleFontSize);
                                                                 }).whenComplete(() {
                                                               setState(() {
                                                                 clicked = false;
@@ -428,6 +391,71 @@ class _CartViewState extends State<CartView> {
               // ),
               // )
             ));
+  }
+
+  Widget bottomSheetDetailsTable(titleFontSize, subtitleFontSize) {
+    return FractionallySizedBox(
+        heightFactor: 0.5,
+        child: Scaffold(
+            appBar: AppBar(
+              iconTheme: IconThemeData(color: Colors.black),
+              centerTitle: true,
+              title: Text(
+                "Details",
+                style: TextStyle(color: Colors.black),
+              ),
+              backgroundColor: Colors.white,
+            ),
+            body: SingleChildScrollView(
+              child: Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Table(
+                      children: orderSummaryDetails.keys
+                          .map((String key) {
+                            return key == "Total"
+                                ? <TableRow>[
+                                    TableRow(
+                                        decoration: BoxDecoration(
+                                            border: Border(
+                                                top: BorderSide(
+                                                    style: BorderStyle.solid,
+                                                    width: 0.15),
+                                                bottom: BorderSide(
+                                                    style: BorderStyle.solid,
+                                                    width: 0.15))),
+                                        children: [
+                                          CustomText(key,
+                                              isBold: true,
+                                              fontSize: titleFontSize),
+                                          CustomText(orderSummaryDetails[key],
+                                              fontSize: titleFontSize,
+                                              isBold: true)
+                                        ]),
+                                    TableRow(children: [
+                                      verticalSpaceTiny,
+                                      verticalSpaceTiny,
+                                    ]),
+                                  ]
+                                : <TableRow>[
+                                    TableRow(children: [
+                                      CustomText(
+                                        key,
+                                        fontSize: titleFontSize,
+                                      ),
+                                      CustomText(
+                                        orderSummaryDetails[key],
+                                        fontSize: subtitleFontSize,
+                                      )
+                                    ]),
+                                    TableRow(children: [
+                                      verticalSpaceTiny,
+                                      verticalSpaceTiny,
+                                    ]),
+                                  ];
+                          })
+                          .expand((element) => element)
+                          .toList())),
+            )));
   }
 }
 

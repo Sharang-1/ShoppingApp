@@ -27,7 +27,7 @@ class HomeDrawer extends StatelessWidget {
           ListTile(
             title: Text('My Orders'),
             onTap: () {
-              // _navigationService.navigateTo(routeName)
+              _navigationService.navigateTo(MyOrdersRoute);
             },
           ),
           ListTile(
@@ -55,7 +55,6 @@ class HomeDrawer extends StatelessWidget {
               // _navigationService.navigateTo(routeName)
             },
           ),
-
         ],
       ),
     );

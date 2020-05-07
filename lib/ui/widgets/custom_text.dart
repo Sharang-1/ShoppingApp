@@ -9,6 +9,7 @@ class CustomText extends StatelessWidget {
   bool replaceWithDotsAfterOverFlow;
   String fontFamily;
   FontWeight fontWeight;
+  bool isTitle;
 
   CustomText(this.text,
       {this.color = Colors.black,
@@ -17,7 +18,8 @@ class CustomText extends StatelessWidget {
       this.textStyle,
       this.replaceWithDotsAfterOverFlow = false,
       this.fontFamily = "",
-      this.fontWeight});
+      this.fontWeight,
+      this.isTitle = false});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +32,7 @@ class CustomText extends StatelessWidget {
           ? textStyle
           : TextStyle(
               fontSize: fontSize,
-              fontFamily: fontFamily,
+              fontFamily: isTitle ? "Raleway" : fontFamily,
               fontWeight: isBold
                   ? FontWeight.bold
                   : (fontWeight != null ? fontWeight : FontWeight.normal),

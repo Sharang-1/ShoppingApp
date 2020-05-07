@@ -5,6 +5,7 @@ import 'package:compound/ui/views/cart_view.dart';
 import 'package:compound/ui/views/categories_view.dart';
 import 'package:compound/ui/views/home_view.dart';
 import 'package:compound/ui/views/map_view.dart';
+import 'package:compound/ui/views/myorders_view.dart';
 import 'package:compound/ui/views/productListView.dart';
 import 'package:compound/ui/views/product_individual_view.dart';
 import 'package:compound/ui/views/search_view.dart';
@@ -93,7 +94,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         viewToShow: ProductIndiView(data: (pageArguments as Product)),
         pageArguments: pageArguments as Product,
         pageTransitionType: transitionType,
-      ); 
+      );
     // case CreatePostViewRoute:
     //   var postToEdit = settings.arguments as Post;
     //   return _getPageRoute(
@@ -112,7 +113,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return _getPageRoute(
           pageArguments: pageArguments,
           routeName: settings.name,
-          viewToShow: ProductIndiView(data:pageArguments),
+          viewToShow: ProductIndiView(data: pageArguments),
           pageTransitionType: transitionType);
     case OtpFinishedScreen1Route:
       return _getPageRoute(
@@ -125,6 +126,13 @@ Route<dynamic> generateRoute(RouteSettings settings) {
           pageArguments: pageArguments,
           routeName: settings.name,
           viewToShow: otpFinishedScreen2(),
+          pageTransitionType: transitionType);
+
+    case MyOrdersRoute:
+      return _getPageRoute(
+          pageArguments: pageArguments,
+          routeName: settings.name,
+          viewToShow: MyOrdersView(),
           pageTransitionType: transitionType);
     default:
       return MaterialPageRoute(
