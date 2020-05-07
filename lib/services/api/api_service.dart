@@ -75,7 +75,7 @@ class APIService {
       if (data == null) {
         res = await apiClient.get(path,
             options: options, queryParameters: queryParameters);
-      } else if(options.method.toLowerCase() == "post") {
+      } else if(options ==null || options.method==null || options.method.toLowerCase() == "post") {
         res = await apiClient.post(path,
             data: data, queryParameters: queryParameters, options: options);
       } else if(options.method.toLowerCase() == "put") {

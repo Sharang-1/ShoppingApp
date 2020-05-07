@@ -155,18 +155,19 @@ class _SearchViewState extends State<SearchView>
       children: <Widget>[
         if (showResults && _tabController.index == 0)
           Padding(
-            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+            padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
             child: GridListWidget<Products, Product>(
               key: productGridKey,
               context: context,
               filter: productFilter,
               gridCount: 2,
               viewModel: ProductsGridViewBuilderViewModel(),
-              childAspectRatio: 0.7,
+              childAspectRatio: 0.75,
               tileBuilder: (BuildContext context, data, index) {
                 Fimber.d("test");
                 print((data as Product).toJson());
                 return ProductTileUI(
+                  index: index,
                   data: data,
                   onClick: () {
                     model.goToProductPage(data);
@@ -221,7 +222,7 @@ class _SearchViewState extends State<SearchView>
             iconTheme: IconThemeData(color: textIconBlue),
             backgroundColor: backgroundWhiteCreamColor,
             actions: <Widget>[
-              IconButton(onPressed: (){},icon: Icon(Icons.shopping_cart)),
+              IconButton(onPressed: () {}, icon: Icon(Icons.shopping_cart)),
             ],
             bottom: PreferredSize(
               preferredSize: Size(50, 50),
@@ -251,7 +252,11 @@ class _SearchViewState extends State<SearchView>
                       onPressed: () async {
                         ProductFilter filterDialogResponse =
                             await showModalBottomSheet(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20)),
+                          ),
                           isScrollControlled: true,
+                          clipBehavior:Clip.antiAlias,
                           context: context,
                           builder: (BuildContext context) {
                             return FractionallySizedBox(
@@ -293,10 +298,10 @@ class _SearchViewState extends State<SearchView>
                     padding: EdgeInsets.all(2),
                     decoration: BoxDecoration(
                       // color: Colors.grey[200],
-                      color:backgroundBlueGreyColor,
+                      color: backgroundBlueGreyColor,
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    width: MediaQuery.of(context).size.width ,
+                    width: MediaQuery.of(context).size.width,
                     child: TabBar(
                       unselectedLabelColor: Colors.black,
                       labelColor: Colors.black,

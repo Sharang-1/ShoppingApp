@@ -2,6 +2,7 @@ import 'package:compound/models/grid_view_builder_filter_models/productFilter.da
 import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
+import '../shared/app_colors.dart';
 
 class ProductFilterDialog extends StatefulWidget {
   final ProductFilter oldFilter;
@@ -23,7 +24,7 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
   bool isSortOrderDesc; // asc / desc
 
   int categoriesRadioValue = -1;
-  String sortByRadioValue = 'modified';
+  String sortByRadioValue = 'price';
   String sortOrderRadioValue = 'asc';
 
   Map<String, int> categoriesRadioMap = {
@@ -36,8 +37,8 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
     'Price': 'price',
   };
   Map<String, String> sortOrderRadioMap = {
-    'Ascending': 'asc',
-    'Descending': 'desc',
+    'Low To High': 'asc',
+    'High To Low': 'desc',
   };
   Map<String, bool> subCategoriesValues = {
     'All': false,
@@ -132,7 +133,7 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
                 widthFactor: 0.45,
                 heightFactor: 0.09,
                 child: FloatingActionButton.extended(
-                  backgroundColor: Colors.grey[900],
+                  backgroundColor: Colors.green[600],
                   // shape: RoundedRectangleBorder(
                   //     borderRadius: BorderRadius.circular(10),
                   //     side: BorderSide(color: Colors.black, width: 0.5)),
@@ -323,7 +324,7 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
                     divisions: 100,
 
                     inactiveColor: Colors.grey.withOpacity(0.38),
-                    activeColor: Colors.grey,
+                    activeColor: darkRedSmooth,
                     // labels:
                     //     RangeLabels(minPrice.toString(), maxPrice.toString()),
                     values:
@@ -356,7 +357,7 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
                           divisions: 20,
                           value: minDiscount.toDouble(),
                           inactiveColor: Colors.grey.withOpacity(0.38),
-                          activeColor: Colors.grey,
+                          activeColor: darkRedSmooth,
                           onChanged: (val) {
                             setState(() {
                               minDiscount = val.toInt();
@@ -369,43 +370,43 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
                   ),
                   spaceDividerExtraThin,
                   verticalSpaceSmall,
-                  Text('Sort By', style: titleTextStyle),
+                  Text('Sort By Price', style: titleTextStyle),
                   verticalSpaceTiny,
-                  Wrap(
-                    spacing: 5,
-                    children: sortByRadioMap.keys.map((String sKey) {
-                      return ChoiceChip(
-                        backgroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            side: BorderSide(
-                              color: sortByRadioValue == sortByRadioMap[sKey]
-                                  ? Colors.green[800]
-                                  : Colors.grey,
-                              width: 0.5,
-                            )),
-                        labelStyle: TextStyle(
-                            fontSize: 14,
-                            fontWeight: sortByRadioValue == sortByRadioMap[sKey]
-                                ? FontWeight.w600
-                                : FontWeight.normal,
-                            color: sortByRadioValue == sortByRadioMap[sKey]
-                                ? Colors.green[800]
-                                : Colors.grey),
-                        selectedColor: Colors.white,
-                        selected: sortByRadioValue == sortByRadioMap[sKey],
-                        onSelected: (val) {
-                          setState(() => sortByRadioValue =
-                              val ? sortByRadioMap[sKey] : null);
-                          // print(sortByRadioMap[sKey] + val.toString() + sKey);
-                        },
-                        label: Text(sKey),
-                      );
-                    }).toList(),
-                  ),
-                  spaceDividerExtraThin,
-                  verticalSpaceSmall,
-                  Text('Sort Order', style: titleTextStyle),
+                  // Wrap(
+                  //   spacing: 5,
+                  //   children: sortByRadioMap.keys.map((String sKey) {
+                  //     return ChoiceChip(
+                  //       backgroundColor: Colors.white,
+                  //       shape: RoundedRectangleBorder(
+                  //           borderRadius: BorderRadius.circular(15),
+                  //           side: BorderSide(
+                  //             color: sortByRadioValue == sortByRadioMap[sKey]
+                  //                 ? Colors.green[800]
+                  //                 : Colors.grey,
+                  //             width: 0.5,
+                  //           )),
+                  //       labelStyle: TextStyle(
+                  //           fontSize: 14,
+                  //           fontWeight: sortByRadioValue == sortByRadioMap[sKey]
+                  //               ? FontWeight.w600
+                  //               : FontWeight.normal,
+                  //           color: sortByRadioValue == sortByRadioMap[sKey]
+                  //               ? Colors.green[800]
+                  //               : Colors.grey),
+                  //       selectedColor: Colors.white,
+                  //       selected: sortByRadioValue == sortByRadioMap[sKey],
+                  //       onSelected: (val) {
+                  //         setState(() => sortByRadioValue =
+                  //             val ? sortByRadioMap[sKey] : null);
+                  //         // print(sortByRadioMap[sKey] + val.toString() + sKey);
+                  //       },
+                  //       label: Text(sKey),
+                  //     );
+                  //   }).toList(),
+                  // ),
+                  // spaceDividerExtraThin,
+                  // verticalSpaceSmall,
+                  // Text('Sort Order', style: titleTextStyle),
                   verticalSpaceTiny,
                   Wrap(
                     spacing: 5,
@@ -443,7 +444,7 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
                       );
                     }).toList(),
                   ),
-                  spaceDividerExtraThin,
+                  // spaceDividerExtraThin,
                   verticalSpaceMedium
                 ],
               ),
