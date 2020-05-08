@@ -5,6 +5,7 @@ import 'package:compound/viewmodels/home_view_model.dart';
 import 'package:flutter/material.dart';
 import '../shared/app_colors.dart';
 import 'package:provider_architecture/provider_architecture.dart';
+import '../widgets/cart_icon_badge.dart';
 
 class HomeView extends StatelessWidget {
   final searchController = TextEditingController();
@@ -45,9 +46,7 @@ class HomeView extends StatelessWidget {
                       )),
                       actions: <Widget>[
                         IconButton(
-                          icon: Icon(
-                            Icons.shopping_cart,
-                          ),
+                          icon: CartIconWithBadge(IconColor: textIconBlue,),
                           onPressed: () => model.cart(),
                         ),
                       ],
