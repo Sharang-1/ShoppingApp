@@ -1,3 +1,4 @@
+import 'package:compound/ui/shared/app_colors.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/models/cart.dart';
 import 'package:compound/models/grid_view_builder_filter_models/cartFilter.dart';
@@ -24,48 +25,38 @@ class _CartViewState extends State<CartView> {
 
   final filter = CartFilter();
   bool clicked = false;
+  static double price = 300, discount = 30, deliveryCharges = 0;
+  static double discountedPrice = price - (price * discount / 100);
 
   Map<String, String> orderSummaryDetails = {
+    "Product Name": "Nike T-Shirt",
+    "Seller": "Nike",
+    "Qty": "1",
+    "Size": "S",
     "Shipping To": "Ahmedabad",
     "Shipping Address": "ABC appartment,Naranpura-380013",
-    "Price": rupeeUnicode + "300",
-    "Discount": "30%",
-    "Order Total": rupeeUnicode + "270",
-    "Delivery Charges": rupeeUnicode + "40",
-    "Total": rupeeUnicode + "310"
+    "Price": rupeeUnicode + price.toString(),
+    "Discount": discount.toString() + "%",
+    "Order Total": rupeeUnicode + discountedPrice.toString(),
+    "Delivery Charges": deliveryCharges.toString(),
+    "Total": rupeeUnicode + (discountedPrice + deliveryCharges).toString()
   };
 
   TextEditingController _controller = new TextEditingController();
 
-  // Widget CustomText(text,
-  //     {bool isBold = false,
-  //     double fontsize = 16,
-  //     TextStyle textStyle,
-  //     Color color = Colors.black}) {
-  //   return Text(
-  //     text,
-  //     style: textStyle != null
-  //         ? textStyle
-  //         : TextStyle(
-  //             fontSize: fontsize,
-  //             fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
-  //             color: color),
-  //   );
-  // }
-
   @override
   Widget build(BuildContext context) {
-    double priceFontSize = 14.0;
+    double priceFontSize = 16.0;
 
-    double subtitleFontSize = 14;
-    double titleFontSize = 16;
+    double subtitleFontSize = 18;
+    double titleFontSize = 20;
     return ViewModelProvider<CartViewModel>.withConsumer(
         viewModel: CartViewModel(),
         onModelReady: (model) => model.init(),
         builder: (context, model, child) => Scaffold(
               appBar: AppBar(
-                elevation: 3,
-                backgroundColor: Colors.white,
+                elevation: 0,
+                backgroundColor: backgroundWhiteCreamColor,
                 centerTitle: true,
                 iconTheme: IconThemeData(color: Colors.black),
                 title: Text(
@@ -73,247 +64,66 @@ class _CartViewState extends State<CartView> {
                   style: TextStyle(color: Colors.black),
                 ),
                 actions: <Widget>[
-                  IconButton(
-                    icon: Icon(Icons.delete_forever),
-                    onPressed: () {},
-                    tooltip: "Clear Cart",
+                  Padding(
+                    padding: EdgeInsets.only(right: 10),
+                    child: Tab(
+                        icon: Image.asset(
+                      "assets/images/logo_red.png",
+                      height: 35,
+                      width: 35,
+                    )),
                   )
                 ],
               ),
-              bottomNavigationBar:
-                  //  Material(
-                  //     elevation: 15,
-                  //     color: Colors.white,
-                  //     shape: RoundedRectangleBorder(side: BorderSide(width: 0.05)),
-                  //     child:
-
-                  Padding(
-                padding: EdgeInsets.only(left: 10, right: 10),
-                child: RaisedButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => SelectAddress()));
-                    },
-                    color: Colors.black,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      // side: BorderSide(
-                      //     color: Colors.black, width: 0.5)
-                    ),
-                    child: Text(
-                      "Proceed to Order ",
-                      style: TextStyle(color: Colors.white),
-                    )),
-                // )
-              ),
-              backgroundColor: Colors.white,
+              backgroundColor: backgroundWhiteCreamColor,
               body: SafeArea(
                 top: true,
                 left: false,
                 right: false,
                 child: SingleChildScrollView(
                     child: Padding(
-                  padding: EdgeInsets.all(10),
+                  padding:
+                      EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         SizedBox(
                             height: 150,
-                            child: Card(
-                                clipBehavior: Clip.antiAlias,
-                                elevation: 5,
-                                child: Padding(
-                                  padding: EdgeInsets.all(5),
-                                  child: Row(
-                                    children: <Widget>[
-                                      ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(5),
-                                          child: FadeInImage.assetNetwork(
-                                            width: 120,
-                                            fadeInCurve: Curves.easeIn,
-                                            placeholder:
-                                                "assets/images/placeholder.png",
-                                            image:
-                                                "https://images.unsplash.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-                                            fit: BoxFit.cover,
-                                          )),
-                                      Expanded(
-                                          child: Padding(
-                                              padding:
-                                                  EdgeInsets.only(left: 10),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: <Widget>[
-                                                  verticalSpaceTiny,
-                                                  CustomText("Nike T-Shirt",
-                                                      isBold: true),
-                                                  CustomText(
-                                                    "By Nike",
-                                                    fontSize:
-                                                        subtitleFontSize - 2,
-                                                  ),
-                                                  Row(children: <Widget>[
-                                                    CustomText("Qty: 1",
-                                                        fontSize:
-                                                            subtitleFontSize),
-                                                    horizontalSpaceMedium,
-                                                    CustomText("Size: S",
-                                                        fontSize:
-                                                            subtitleFontSize),
-                                                    horizontalSpaceMedium,
-                                                    SizedBox(
-                                                        height: 25,
-                                                        child:
-                                                            FloatingActionButton(
-                                                          backgroundColor:
-                                                              Colors.white,
-                                                          child: Icon(
-                                                            !clicked
-                                                                ? Icons
-                                                                    .keyboard_arrow_down
-                                                                : Icons
-                                                                    .keyboard_arrow_up,
-                                                            color: Colors.black,
-                                                          ),
-                                                          onPressed: () {
-                                                            setState(() {
-                                                              clicked = true;
-                                                            });
-
-                                                            showModalBottomSheet<
-                                                                    void>(
-                                                                isScrollControlled:
-                                                                    true,
-                                                                context:
-                                                                    context,
-                                                                builder:
-                                                                    (context) {
-                                                                  return bottomSheetDetailsTable(
-                                                                      titleFontSize,
-                                                                      subtitleFontSize);
-                                                                }).whenComplete(() {
-                                                              setState(() {
-                                                                clicked = false;
-                                                              });
-                                                            });
-                                                          },
-                                                        ))
-                                                  ]),
-                                                  verticalSpaceTiny,
-                                                  Row(children: <Widget>[
-                                                    CustomText(
-                                                        rupeeUnicode + '100',
-                                                        isBold: true,
-                                                        fontSize:
-                                                            priceFontSize),
-                                                    // horizontalSpaceMedium,
-                                                    // CustomText(
-                                                    //   rupeeUnicode + '200',
-                                                    //   textStyle: TextStyle(
-                                                    //       color: Colors.grey,
-                                                    //       decoration:
-                                                    //           TextDecoration
-                                                    //               .lineThrough,
-                                                    //       fontSize:
-                                                    //           priceFontSize),
-                                                    // ),
-                                                    // horizontalSpaceMedium,
-                                                    // CustomText("20% off",
-                                                    //     color: Colors.red,
-                                                    //     fontSize:
-                                                    //         priceFontSize),
-                                                  ]),
-                                                  Spacer(),
-                                                  SizedBox(
-                                                      height: 30,
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .end,
-                                                        children: <Widget>[
-                                                          // RaisedButton(
-                                                          //     padding:
-                                                          //         EdgeInsets
-                                                          //             .all(
-                                                          //                 0),
-                                                          //     elevation: 1,
-                                                          //     onPressed:
-                                                          //         () {},
-                                                          //     color: Colors
-                                                          //             .grey[
-                                                          //         300],
-                                                          //     shape:
-                                                          //         RoundedRectangleBorder(
-                                                          //       borderRadius:
-                                                          //           BorderRadius.circular(
-                                                          //               10),
-                                                          //       // side: BorderSide(
-                                                          //       //     color: Colors.black, width: 0.5)
-                                                          //     ),
-                                                          //     child: Text(
-                                                          //       "Update ",
-                                                          //       style: TextStyle(
-                                                          //           color: Colors
-                                                          //               .black),
-                                                          //     )),
-                                                          // horizontalSpaceTiny,
-                                                          RaisedButton(
-                                                              elevation: 1,
-                                                              onPressed: () {},
-                                                              color: Colors.red,
-                                                              shape:
-                                                                  RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            10),
-                                                                // side: BorderSide(
-                                                                //     color: Colors.black, width: 0.5)
-                                                              ),
-                                                              child: Text(
-                                                                "Delete ",
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .white),
-                                                              )),
-                                                          horizontalSpaceTiny
-                                                        ],
-                                                      )),
-                                                ],
-                                              )))
-                                    ],
-                                  ),
-                                ))),
-                        verticalSpaceMedium,
+                            child: productCard(titleFontSize, subtitleFontSize,
+                                priceFontSize)),
+                        verticalSpaceTiny,
                         SizedBox(
-                            height: 40,
+                            height: 50,
                             child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
                                   Expanded(
-                                      child: TextField(
-                                    controller: _controller,
-                                    decoration: const InputDecoration(
-                                        contentPadding:
-                                            EdgeInsets.symmetric(vertical: 5),
-                                        labelText: 'Promo Code',
-                                        isDense: true),
-                                    autofocus: false,
-                                    maxLines: 1,
-                                  )),
+                                      child: Padding(
+                                          padding: EdgeInsets.only(
+                                              left: 10, right: 40, bottom: 10),
+                                          child: TextField(
+                                            controller: _controller,
+                                            decoration: const InputDecoration(
+                                                contentPadding:
+                                                    EdgeInsets.symmetric(
+                                                        vertical: 5),
+                                                labelText: 'Promo Code',
+                                                labelStyle:
+                                                    TextStyle(fontSize: 18),
+                                                alignLabelWithHint: true,
+                                                isDense: true),
+                                            autofocus: false,
+                                            maxLines: 1,
+                                          ))),
                                   FractionallySizedBox(
-                                      heightFactor: 1,
+                                      heightFactor: 0.7,
                                       child: RaisedButton(
                                           elevation: 1,
                                           onPressed: () {},
-                                          color: Colors.black,
+                                          color: darkRedSmooth,
                                           shape: RoundedRectangleBorder(
                                             borderRadius:
-                                                BorderRadius.circular(10),
+                                                BorderRadius.circular(20),
                                             // side: BorderSide(
                                             //     color: Colors.black, width: 0.5)
                                           ),
@@ -323,68 +133,45 @@ class _CartViewState extends State<CartView> {
                                                 TextStyle(color: Colors.white),
                                           ))),
                                 ])),
-                        verticalSpaceMedium,
-                        Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                color: Colors.grey.withOpacity(0.05)),
-                            child: Padding(
-                              padding: EdgeInsets.all(2),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  CustomText(
-                                    "Price Details",
-                                    isBold: true,
-                                    color: Colors.grey,
-                                  ),
-                                  Divider(
-                                    thickness: 1,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      CustomText("SubTotal", isBold: true),
-                                      CustomText(rupeeUnicode + "100",
-                                          isBold: true)
-                                    ],
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      CustomText("Shipping",
-                                          fontSize: subtitleFontSize),
-                                      CustomText(
-                                        "Free",
-                                        fontSize: subtitleFontSize,
-                                        color: Colors.green,
-                                      )
-                                    ],
-                                  ),
-                                  verticalSpaceTiny,
-                                  DashedLine(
-                                    color: Colors.grey[300],
-                                  ),
-                                  verticalSpaceTiny,
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      CustomText("Total", isBold: true),
-                                      CustomText(rupeeUnicode + "100",
-                                          isBold: true)
-                                    ],
-                                  ),
-                                  Divider(
-                                    thickness: 1,
-                                  ),
-                                ],
-                              ),
-                            )),
+                        verticalSpaceTiny,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            RaisedButton(
+                                elevation: 1,
+                                onPressed: () {},
+                                color: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                  // side: BorderSide(
+                                  //     color: Colors.black, width: 0.5)
+                                ),
+                                child: Text(
+                                  "Remove ",
+                                  style: TextStyle(color: Colors.red),
+                                )),
+                            horizontalSpaceSmall,
+                            Expanded(
+                                child: RaisedButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  SelectAddress()));
+                                    },
+                                    color: Colors.green[800],
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                      // side: BorderSide(
+                                      //     color: Colors.black, width: 0.5)
+                                    ),
+                                    child: Text(
+                                      "Proceed to Order ",
+                                      style: TextStyle(color: Colors.white),
+                                    ))),
+                          ],
+                        ),
                       ]),
                 )),
               ),
@@ -393,69 +180,253 @@ class _CartViewState extends State<CartView> {
             ));
   }
 
+  Widget priceDetailsContainer(subtitleFontSize) {
+    return Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+            color: Colors.grey.withOpacity(0.05)),
+        child: Padding(
+          padding: EdgeInsets.all(2),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              CustomText(
+                "Price Details",
+                isBold: true,
+                color: Colors.grey,
+              ),
+              Divider(
+                thickness: 1,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  CustomText("SubTotal", isBold: true),
+                  CustomText(orderSummaryDetails["Order Total"], isBold: true)
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  CustomText("Shipping", fontSize: subtitleFontSize),
+                  CustomText(
+                    deliveryCharges == 0
+                        ? "Free"
+                        : orderSummaryDetails["Delivery Charges"],
+                    fontSize: subtitleFontSize,
+                    color: deliveryCharges == 0 ? Colors.green : Colors.black,
+                  )
+                ],
+              ),
+              verticalSpaceTiny,
+              DashedLine(
+                color: Colors.grey[300],
+              ),
+              verticalSpaceTiny,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  CustomText("Total", isBold: true),
+                  CustomText(orderSummaryDetails["Total"], isBold: true)
+                ],
+              ),
+              Divider(
+                thickness: 1,
+              ),
+            ],
+          ),
+        ));
+  }
+
   Widget bottomSheetDetailsTable(titleFontSize, subtitleFontSize) {
     return FractionallySizedBox(
-        heightFactor: 0.5,
+        heightFactor: 0.75,
         child: Scaffold(
             appBar: AppBar(
+              elevation: 1,
               iconTheme: IconThemeData(color: Colors.black),
               centerTitle: true,
               title: Text(
                 "Details",
                 style: TextStyle(color: Colors.black),
               ),
-              backgroundColor: Colors.white,
+              backgroundColor: backgroundWhiteCreamColor,
             ),
+            backgroundColor: backgroundWhiteCreamColor,
             body: SingleChildScrollView(
               child: Padding(
                   padding: EdgeInsets.all(10),
-                  child: Table(
-                      children: orderSummaryDetails.keys
-                          .map((String key) {
-                            return key == "Total"
-                                ? <TableRow>[
-                                    TableRow(
-                                        decoration: BoxDecoration(
-                                            border: Border(
-                                                top: BorderSide(
-                                                    style: BorderStyle.solid,
-                                                    width: 0.15),
-                                                bottom: BorderSide(
-                                                    style: BorderStyle.solid,
-                                                    width: 0.15))),
-                                        children: [
-                                          CustomText(key,
-                                              isBold: true,
-                                              fontSize: titleFontSize),
-                                          CustomText(orderSummaryDetails[key],
-                                              fontSize: titleFontSize,
-                                              isBold: true)
+                  child: Column(
+                    children: <Widget>[
+                      Table(
+                          children: orderSummaryDetails.keys
+                              .map((String key) {
+                                return key == "Total"
+                                    ? <TableRow>[
+                                        TableRow(
+                                            decoration: BoxDecoration(
+                                                border: Border(
+                                                    top: BorderSide(
+                                                        style:
+                                                            BorderStyle.solid,
+                                                        width: 0.15),
+                                                    bottom: BorderSide(
+                                                        style:
+                                                            BorderStyle.solid,
+                                                        width: 0.15))),
+                                            children: [
+                                              CustomText(key + ":",
+                                                  isBold: true,
+                                                  fontSize: titleFontSize),
+                                              CustomText(
+                                                  orderSummaryDetails[key],
+                                                  fontSize: titleFontSize,
+                                                  isBold: true)
+                                            ]),
+                                        TableRow(children: [
+                                          verticalSpaceTiny,
+                                          verticalSpaceTiny,
                                         ]),
-                                    TableRow(children: [
-                                      verticalSpaceTiny,
-                                      verticalSpaceTiny,
-                                    ]),
-                                  ]
-                                : <TableRow>[
-                                    TableRow(children: [
-                                      CustomText(
-                                        key,
-                                        fontSize: titleFontSize,
-                                      ),
-                                      CustomText(
-                                        orderSummaryDetails[key],
-                                        fontSize: subtitleFontSize,
-                                      )
-                                    ]),
-                                    TableRow(children: [
-                                      verticalSpaceTiny,
-                                      verticalSpaceTiny,
-                                    ]),
-                                  ];
-                          })
-                          .expand((element) => element)
-                          .toList())),
+                                      ]
+                                    : <TableRow>[
+                                        TableRow(children: [
+                                          CustomText(
+                                            key + ":",
+                                            fontSize: titleFontSize,
+                                          ),
+                                          CustomText(
+                                            key == "Delivery Charges"
+                                                ? orderSummaryDetails[key] ==
+                                                        "0.0"
+                                                    ? "Free"
+                                                    : orderSummaryDetails[key]
+                                                : orderSummaryDetails[key],
+                                            fontSize: subtitleFontSize,
+                                            color: key == "Delivery Charges"
+                                                ? orderSummaryDetails[key] ==
+                                                        "0.0"
+                                                    ? Colors.green
+                                                    : Colors.black
+                                                : Colors.black,
+                                          )
+                                        ]),
+                                        TableRow(children: [
+                                          verticalSpaceTiny,
+                                          verticalSpaceTiny,
+                                        ]),
+                                      ];
+                              })
+                              .expand((element) => element)
+                              .toList()),
+                      verticalSpaceSmall,
+                      Row(children: <Widget>[
+                        Expanded(
+                            child: RaisedButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              SelectAddress()));
+                                },
+                                color: Colors.green[800],
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                  // side: BorderSide(
+                                  //     color: Colors.black, width: 0.5)
+                                ),
+                                child: Text(
+                                  orderSummaryDetails["Total"] +
+                                      "\t" +
+                                      "Proceed to Order ",
+                                  style: TextStyle(color: Colors.white),
+                                )))
+                      ])
+                    ],
+                  )),
             )));
+  }
+
+  Widget productCard(titleFontSize, subtitleFontSize, priceFontSize) {
+    return Card(
+        clipBehavior: Clip.antiAlias,
+        elevation: 5,
+        child: Padding(
+          padding: EdgeInsets.all(5),
+          child: Row(
+            children: <Widget>[
+              ClipRRect(
+                  borderRadius: BorderRadius.circular(5),
+                  child: FadeInImage.assetNetwork(
+                    width: 120,
+                    fadeInCurve: Curves.easeIn,
+                    placeholder: "assets/images/placeholder.png",
+                    image:
+                        "https://images.unsplash.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
+                    fit: BoxFit.cover,
+                  )),
+              Expanded(
+                  child: Padding(
+                      padding: EdgeInsets.only(left: 10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          verticalSpaceTiny,
+                          CustomText(
+                            "Nike T-Shirt",
+                            isBold: true,
+                            fontSize: titleFontSize,
+                          ),
+                          CustomText(
+                            "By Nike",
+                            fontSize: subtitleFontSize - 2,
+                          ),
+                          Row(children: <Widget>[
+                            CustomText("Qty: 1", fontSize: subtitleFontSize),
+                            horizontalSpaceMedium,
+                            CustomText("Size: S", fontSize: subtitleFontSize),
+                          ]),
+                          verticalSpaceTiny,
+                          Row(children: <Widget>[
+                            CustomText(orderSummaryDetails["Total"],
+                                isBold: true, fontSize: priceFontSize),
+                          ]),
+                        ],
+                      ))),
+              IconButton(
+                icon: Icon(
+                  !clicked
+                      ? Icons.keyboard_arrow_down
+                      : Icons.keyboard_arrow_up,
+                  color: Colors.black,
+                ),
+                onPressed: () {
+                  setState(() {
+                    clicked = true;
+                  });
+
+                  showModalBottomSheet<void>(
+                      clipBehavior: Clip.antiAlias,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20))),
+                      isScrollControlled: true,
+                      context: context,
+                      builder: (context) {
+                        return bottomSheetDetailsTable(
+                            titleFontSize, subtitleFontSize);
+                      }).whenComplete(() {
+                    setState(() {
+                      clicked = false;
+                    });
+                  });
+                },
+              )
+            ],
+          ),
+        ));
   }
 }
 
