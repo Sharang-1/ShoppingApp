@@ -162,8 +162,8 @@ class _CartViewState extends State<CartView> {
                                 color: backgroundWhiteCreamColor,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(30),
-                                  // side: BorderSide(
-                                  //     color: Colors.black, width: 0.5)
+                                  side: BorderSide(
+                                      color: logoRed, width: 1.5)
                                 ),
                                 child: Padding(
                                   padding:
