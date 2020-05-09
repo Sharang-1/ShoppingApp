@@ -13,7 +13,7 @@ Color logoRed =  _colorFromHex("#bE505F");
 Color lightBlue =  _colorFromHex("#78a2ec");
 Color textIconOrange =  _colorFromHex("#eb6969");
 Color textIconBlue =  _colorFromHex("#3e5377");
-
+Color appBarIconColor = Colors.black;
 
 const Color backgroundColor = Color.fromARGB(255, 26, 27, 30);
 Color backgroundWhiteCreamColor = _colorFromHex("#f5f0e5");

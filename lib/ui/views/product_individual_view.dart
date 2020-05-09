@@ -353,7 +353,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
         appBar: AppBar(
           elevation: 0,
           backgroundColor: backgroundWhiteCreamColor,
-          iconTheme: IconThemeData(color: textIconBlue),
+          iconTheme: IconThemeData(color: appBarIconColor),
           title: Center(
               child: Image.asset(
             "assets/images/logo_red.png",
@@ -364,7 +364,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
             IconButton(
               onPressed: () {},
               icon: CartIconWithBadge(
-                IconColor: textIconBlue,
+                IconColor: appBarIconColor,
               ),
             )
           ],
@@ -410,7 +410,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                         "assets/icons/share.svg",
                         width: 30,
                         height: 30,
-                        color: textIconBlue,
+                        color: appBarIconColor,
                       )
                     ],
                   ),

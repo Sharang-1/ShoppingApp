@@ -219,7 +219,7 @@ class _SearchViewState extends State<SearchView>
       builder: (context, model, child) => Scaffold(
           appBar: AppBar(
             elevation: 0,
-            iconTheme: IconThemeData(color: textIconBlue),
+            iconTheme: IconThemeData(color: appBarIconColor),
             backgroundColor: backgroundWhiteCreamColor,
             actions: <Widget>[
               IconButton(onPressed: () {}, icon: Icon(Icons.shopping_cart)),
@@ -228,7 +228,7 @@ class _SearchViewState extends State<SearchView>
               preferredSize: Size(50, 50),
               child: AppBar(
                 elevation: 0,
-                iconTheme: IconThemeData(color: textIconBlue),
+                iconTheme: IconThemeData(color: appBarIconColor),
                 backgroundColor: backgroundWhiteCreamColor,
                 automaticallyImplyLeading: false,
                 title: _SearchBarTextField(
@@ -479,7 +479,7 @@ class _SearchBarTextField extends StatelessWidget {
       child: Row(children: <Widget>[
         IconButton(
           icon: Icon(Icons.search),
-          color: textIconBlue,
+          color: appBarIconColor,
           onPressed: () => searchAction(searchController.text.trim()),
         ),
         Expanded(

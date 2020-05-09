@@ -9,6 +9,7 @@ import 'package:compound/ui/widgets/custom_text.dart';
 import 'package:compound/viewmodels/cart_view_model.dart';
 import 'package:compound/viewmodels/grid_view_builder_view_models/cart_grid_view_builder_view_model.dart';
 import 'package:fimber/fimber.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 import '../shared/dashed_line.dart';
@@ -35,7 +36,7 @@ class _CartViewState extends State<CartView> {
     "Seller": "Nike",
     "Qty": "1",
     "Size": "S",
-    "Shipping To": "Ahmedabad",
+    "Shipping To": "Rohan Shah",
     "Shipping Address": "ABC appartment,Naranpura-380013",
     "Price": rupeeUnicode + price.toString(),
     "Discount": discount.toString() + "%",
@@ -43,6 +44,16 @@ class _CartViewState extends State<CartView> {
     "Delivery Charges": deliveryCharges.toString(),
     "Total": rupeeUnicode + (discountedPrice + deliveryCharges).toString()
   };
+
+  static const orderSummaryDetails1 = ["Product Name", "Seller", "Qty", "Size"];
+  static const orderSummaryDetails2 = ["Shipping To", "Shipping Address"];
+  static const orderSummaryDetails3 = [
+    "Price",
+    "Discount",
+    "Order Total",
+    "Delivery Charges",
+    "Total"
+  ];
 
   TextEditingController _controller = new TextEditingController();
 
@@ -66,7 +77,7 @@ class _CartViewState extends State<CartView> {
                   width: 35,
                 ),
                 iconTheme: IconThemeData(
-                  color: textIconBlue,
+                  color: Colors.black,
                 ),
               ),
               backgroundColor: backgroundWhiteCreamColor,
@@ -96,7 +107,7 @@ class _CartViewState extends State<CartView> {
                         ),
                         verticalSpace(20),
                         SizedBox(
-                            height: 150,
+                            height: 180,
                             child: productCard(titleFontSize, subtitleFontSize,
                                 priceFontSize)),
                         verticalSpaceMedium,
@@ -108,7 +119,7 @@ class _CartViewState extends State<CartView> {
                                   Expanded(
                                       child: Padding(
                                           padding: EdgeInsets.only(
-                                              left: 10, right: 40, bottom: 10),
+                                              left: 10, right: 30, bottom: 10),
                                           child: TextField(
                                             controller: _controller,
                                             decoration: const InputDecoration(
@@ -126,7 +137,7 @@ class _CartViewState extends State<CartView> {
                                   FractionallySizedBox(
                                       heightFactor: 0.7,
                                       child: RaisedButton(
-                                          elevation: 1,
+                                          elevation: 5,
                                           onPressed: () {},
                                           color: darkRedSmooth,
                                           shape: RoundedRectangleBorder(
@@ -136,31 +147,36 @@ class _CartViewState extends State<CartView> {
                                             //     color: Colors.black, width: 0.5)
                                           ),
                                           child: Text(
-                                            "Apply ",
+                                            "Apply",
                                             style:
                                                 TextStyle(color: Colors.white),
                                           ))),
                                 ])),
-                        verticalSpaceSmall,
+                        verticalSpaceMedium,
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             RaisedButton(
-                                elevation: 1,
+                                elevation: 0,
                                 onPressed: () {},
-                                color: Colors.white,
+                                color: backgroundWhiteCreamColor,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(30),
                                   // side: BorderSide(
                                   //     color: Colors.black, width: 0.5)
                                 ),
-                                child: Text(
-                                  "Remove ",
-                                  style: TextStyle(color: Colors.red),
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 12),
+                                  child: Text(
+                                    "Remove",
+                                    style: TextStyle(color: logoRed),
+                                  ),
                                 )),
                             horizontalSpaceMedium,
                             Expanded(
                                 child: RaisedButton(
+                                    elevation: 5,
                                     onPressed: () {
                                       Navigator.push(
                                           context,
@@ -174,9 +190,15 @@ class _CartViewState extends State<CartView> {
                                       // side: BorderSide(
                                       //     color: Colors.black, width: 0.5)
                                     ),
-                                    child: Text(
-                                      "Proceed to Order ",
-                                      style: TextStyle(color: Colors.white),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 12),
+                                      child: Text(
+                                        "Proceed to Order ",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold),
+                                      ),
                                     ))),
                           ],
                         ),
@@ -249,65 +271,139 @@ class _CartViewState extends State<CartView> {
 
   Widget bottomSheetDetailsTable(titleFontSize, subtitleFontSize) {
     return FractionallySizedBox(
-        heightFactor: 0.75,
+        heightFactor: 0.8,
         child: Scaffold(
             appBar: AppBar(
-              elevation: 1,
-              iconTheme: IconThemeData(color: Colors.black),
+              elevation: 0,
+              automaticallyImplyLeading: false,
+              iconTheme: IconThemeData(color: appBarIconColor),
               centerTitle: true,
               title: Text(
                 "Details",
-                style: TextStyle(color: Colors.black),
+                style: TextStyle(color: Colors.black, fontSize: 23),
               ),
-              backgroundColor: backgroundWhiteCreamColor,
+              actions: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.close),
+                  onPressed: () {
+                    Navigator.of(context).pop(null);
+                  },
+                  color: appBarIconColor,
+                ),
+                horizontalSpaceSmall
+              ],
+              backgroundColor: Colors.grey[300],
             ),
-            backgroundColor: backgroundWhiteCreamColor,
+            backgroundColor: Colors.white,
             body: SingleChildScrollView(
               child: Padding(
-                  padding: EdgeInsets.all(10),
+                  padding: EdgeInsets.fromLTRB(25, 30, 25, 10),
                   child: Column(
                     children: <Widget>[
                       Table(
-                          children: orderSummaryDetails.keys
+                          children: orderSummaryDetails1
+                              .map((String key) {
+                                return <TableRow>[
+                                  TableRow(children: [
+                                    CustomText(
+                                      key,
+                                      color: Colors.grey,
+                                      fontSize: titleFontSize,
+                                    ),
+                                    CustomText(
+                                      orderSummaryDetails[key],
+                                      fontSize: subtitleFontSize,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.grey[600],
+                                    )
+                                  ]),
+                                  TableRow(children: [
+                                    verticalSpace(8),
+                                    verticalSpace(8),
+                                  ]),
+                                ];
+                              })
+                              .expand((element) => element)
+                              .toList()),
+                      Container(
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        width: MediaQuery.of(context).size.width * 0.7,
+                        child: Divider(),
+                      ),
+                      Table(
+                          children: orderSummaryDetails2
+                              .map((String key) {
+                                return <TableRow>[
+                                  TableRow(children: [
+                                    CustomText(
+                                      key,
+                                      color: Colors.grey,
+                                      fontSize: titleFontSize,
+                                    ),
+                                    CustomText(
+                                      orderSummaryDetails[key],
+                                      fontSize: subtitleFontSize,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.grey[600],
+                                    )
+                                  ]),
+                                  TableRow(children: [
+                                    verticalSpace(8),
+                                    verticalSpace(8),
+                                  ]),
+                                ];
+                              })
+                              .expand((element) => element)
+                              .toList()),
+                      Container(
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        width: MediaQuery.of(context).size.width * 0.7,
+                        child: Divider(),
+                      ),
+                      Table(
+                          children: orderSummaryDetails3
                               .map((String key) {
                                 return key == "Total"
                                     ? <TableRow>[
-                                        TableRow(
-                                            decoration: BoxDecoration(
-                                                border: Border(
-                                                    top: BorderSide(
-                                                        style:
-                                                            BorderStyle.solid,
-                                                        width: 0.15),
-                                                    bottom: BorderSide(
-                                                        style:
-                                                            BorderStyle.solid,
-                                                        width: 0.15))),
-                                            children: [
-                                              CustomText(key + ":",
-                                                  isBold: true,
-                                                  fontSize: titleFontSize),
-                                              CustomText(
-                                                  orderSummaryDetails[key],
-                                                  fontSize: titleFontSize,
-                                                  isBold: true)
-                                            ]),
                                         TableRow(children: [
-                                          verticalSpaceTiny,
-                                          verticalSpaceTiny,
+                                          verticalSpaceSmall,
+                                          verticalSpaceSmall
+                                        ]),
+                                        TableRow(children: [
+                                          Divider(thickness: 1),
+                                          Divider(thickness: 1),
+                                        ]),
+                                        TableRow(children: [
+                                          verticalSpaceSmall,
+                                          verticalSpaceSmall
+                                        ]),
+                                        TableRow(children: [
+                                          CustomText(key,
+                                              isBold: true,
+                                              color: Colors.grey,
+                                              fontSize: titleFontSize),
+                                          CustomText(orderSummaryDetails[key],
+                                              fontSize: titleFontSize + 2,
+                                              color: darkRedSmooth,
+                                              isBold: true)
+                                        ]),
+                                        TableRow(children: [
+                                          verticalSpace(8),
+                                          verticalSpace(8),
                                         ]),
                                       ]
                                     : <TableRow>[
                                         TableRow(children: [
                                           CustomText(
-                                            key + ":",
+                                            key,
+                                            color: Colors.grey,
                                             fontSize: titleFontSize,
                                           ),
                                           CustomText(
                                             key == "Delivery Charges"
                                                 ? orderSummaryDetails[key] ==
                                                         "0.0"
-                                                    ? "Free"
+                                                    ? "Free Delivery"
                                                     : orderSummaryDetails[key]
                                                 : orderSummaryDetails[key],
                                             fontSize: subtitleFontSize,
@@ -316,21 +412,23 @@ class _CartViewState extends State<CartView> {
                                                         "0.0"
                                                     ? Colors.green
                                                     : Colors.black
-                                                : Colors.black,
+                                                : Colors.grey[600],
+                                            fontWeight: FontWeight.bold,
                                           )
                                         ]),
                                         TableRow(children: [
-                                          verticalSpaceTiny,
-                                          verticalSpaceTiny,
+                                          verticalSpace(8),
+                                          verticalSpace(8),
                                         ]),
                                       ];
                               })
                               .expand((element) => element)
                               .toList()),
-                      verticalSpaceSmall,
+                      verticalSpaceMedium,
                       Row(children: <Widget>[
                         Expanded(
                             child: RaisedButton(
+                                elevation: 5,
                                 onPressed: () {
                                   Navigator.push(
                                       context,
@@ -340,15 +438,21 @@ class _CartViewState extends State<CartView> {
                                 },
                                 color: Colors.green[800],
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
+                                  borderRadius: BorderRadius.circular(30),
                                   // side: BorderSide(
                                   //     color: Colors.black, width: 0.5)
                                 ),
-                                child: Text(
-                                  orderSummaryDetails["Total"] +
-                                      "\t" +
-                                      "Proceed to Order ",
-                                  style: TextStyle(color: Colors.white),
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 15),
+                                  child: Text(
+                                    orderSummaryDetails["Total"] +
+                                        "\t" +
+                                        "Proceed to Order ",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                  ),
                                 )))
                       ])
                     ],
@@ -364,7 +468,7 @@ class _CartViewState extends State<CartView> {
         clipBehavior: Clip.antiAlias,
         elevation: 5,
         child: Padding(
-          padding: EdgeInsets.fromLTRB(5, 5, 0, 5),
+          padding: EdgeInsets.fromLTRB(10, 15, 0, 15),
           child: Row(
             children: <Widget>[
               ClipRRect(
@@ -391,14 +495,14 @@ class _CartViewState extends State<CartView> {
                             isBold: true,
                             fontSize: titleFontSize,
                           ),
-                          verticalSpaceTiny_0,
+                          verticalSpaceTiny,
                           CustomText(
                             "By Nike",
                             color: Colors.grey,
                             dotsAfterOverFlow: true,
                             fontSize: subtitleFontSize - 2,
                           ),
-                          verticalSpaceTiny,
+                          verticalSpaceSmall,
                           Row(children: <Widget>[
                             CustomText(orderSummaryDetails["Total"],
                                 color: darkRedSmooth,
@@ -419,10 +523,12 @@ class _CartViewState extends State<CartView> {
                           verticalSpaceTiny,
                           CustomText("Qty : 1 Piece",
                               dotsAfterOverFlow: true,
+                              color: Colors.grey,
                               fontSize: subtitleFontSize - 2),
                           verticalSpaceTiny,
                           CustomText("Size : S",
                               dotsAfterOverFlow: true,
+                              color: Colors.grey,
                               fontSize: subtitleFontSize - 2),
                         ],
                       ))),
@@ -442,8 +548,8 @@ class _CartViewState extends State<CartView> {
                       clipBehavior: Clip.antiAlias,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(20),
-                              topRight: Radius.circular(20))),
+                              topLeft: Radius.circular(30),
+                              topRight: Radius.circular(30))),
                       isScrollControlled: true,
                       context: context,
                       builder: (context) {
