@@ -85,8 +85,10 @@ class _CartViewState extends State<CartView> {
                         verticalSpace(20),
                         Text(
                           "Cart",
-                          style:
-                              TextStyle(fontFamily: headingFont,fontWeight: FontWeight.w700, fontSize: 30),
+                          style: TextStyle(
+                              fontFamily: headingFont,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 30),
                         ),
                         verticalSpace(10),
                         const CutomStepper(
@@ -129,7 +131,7 @@ class _CartViewState extends State<CartView> {
                                           color: darkRedSmooth,
                                           shape: RoundedRectangleBorder(
                                             borderRadius:
-                                                BorderRadius.circular(20),
+                                                BorderRadius.circular(30),
                                             // side: BorderSide(
                                             //     color: Colors.black, width: 0.5)
                                           ),
@@ -148,7 +150,7 @@ class _CartViewState extends State<CartView> {
                                 onPressed: () {},
                                 color: Colors.white,
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
+                                  borderRadius: BorderRadius.circular(30),
                                   // side: BorderSide(
                                   //     color: Colors.black, width: 0.5)
                                 ),
@@ -168,7 +170,7 @@ class _CartViewState extends State<CartView> {
                                     },
                                     color: Colors.green[800],
                                     shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20),
+                                      borderRadius: BorderRadius.circular(30),
                                       // side: BorderSide(
                                       //     color: Colors.black, width: 0.5)
                                     ),

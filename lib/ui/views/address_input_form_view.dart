@@ -1,6 +1,9 @@
 import 'dart:ffi';
 
 import 'package:async/async.dart';
+import 'package:compound/ui/shared/app_colors.dart';
+import 'package:compound/ui/shared/shared_styles.dart';
+import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/ui/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -21,39 +24,45 @@ class _AddressInputPageState extends State<AddressInputPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
+        backgroundColor: backgroundWhiteCreamColor,
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.my_location),
             onPressed: () {},
           )
         ],
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(color: textIconBlue),
       ),
       bottomSheet: DraggableScrollableSheet(
-          minChildSize: 0.4,
-          initialChildSize: 0.4,
-          maxChildSize: 0.5,
+          initialChildSize: 0.45,
+          minChildSize: 0.45,
+          maxChildSize: 0.6,
           builder: (context, scrollcontroller) {
             return Material(
                 elevation: 5,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
-                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20)),
+                color: backgroundWhiteCreamColor,
                 child: SingleChildScrollView(
                     controller: scrollcontroller,
                     child: Form(
                         key: _formKey,
                         child: Padding(
-                          padding: EdgeInsets.all(10),
+                          padding:
+                              EdgeInsets.only(left: 30, right: 30, top: 10),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
-                              CustomText(
-                                "Add Location",
-                                isBold: true,
-                                fontSize: 18,
+                              Text(
+                                "Add Address",
+                                style: TextStyle(
+                                    fontFamily: headingFont,
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 20),
                               ),
+                              verticalSpace(5),
                               SizedBox(
                                   height: 60,
                                   child: Row(
@@ -61,40 +70,44 @@ class _AddressInputPageState extends State<AddressInputPage> {
                                           CrossAxisAlignment.center,
                                       children: <Widget>[
                                         Expanded(
-                                            child: TextFormField(
-                                          validator: (text) {
-                                            if (text.isEmpty ||
-                                                text.trim().length == 0)
-                                              return "Please enter Proper Address";
-                                            return null;
-                                          },
-                                          onSaved: (text) {
-                                            setState(() {
-                                              locationString = text;
-                                            });
-                                          },
-                                          decoration: const InputDecoration(
-                                              labelText: 'Your Location',
-                                              isDense: true),
-                                          autofocus: false,
-                                          maxLines: 1,
-                                        )),
+                                            child: Padding(
+                                                padding:
+                                                    EdgeInsets.only(bottom: 15),
+                                                child: TextFormField(
+                                                  validator: (text) {
+                                                    if (text.isEmpty ||
+                                                        text.trim().length == 0)
+                                                      return "Please enter Proper Address";
+                                                    return null;
+                                                  },
+                                                  onSaved: (text) {
+                                                    setState(() {
+                                                      locationString = text;
+                                                    });
+                                                  },
+                                                  decoration:
+                                                      const InputDecoration(
+                                                          labelText:
+                                                              'Your Location',
+                                                          isDense: true),
+                                                  autofocus: false,
+                                                  maxLines: 1,
+                                                ))),
                                         FractionallySizedBox(
                                             heightFactor: 0.5,
                                             child: RaisedButton(
                                                 elevation: 1,
                                                 onPressed: () {},
-                                                color: Colors.black,
+                                                color: darkRedSmooth,
                                                 shape: RoundedRectangleBorder(
                                                   borderRadius:
-                                                      BorderRadius.circular(10),
+                                                      BorderRadius.circular(30),
                                                   // side: BorderSide(
                                                   //     color: Colors.black, width: 0.5)
                                                 ),
-                                                child: Text(
+                                                child: CustomText(
                                                   "Change ",
-                                                  style: TextStyle(
-                                                      color: Colors.white),
+                                                  color: Colors.white,
                                                 ))),
                                       ])),
                               SizedBox(
@@ -125,31 +138,28 @@ class _AddressInputPageState extends State<AddressInputPage> {
                                           autofocus: false,
                                         )),
                                       ])),
-                              Padding(
-                                  padding: EdgeInsets.only(left: 10, right: 10),
-                                  child: Row(children: <Widget>[
-                                    Expanded(
-                                        child: RaisedButton(
-                                            onPressed: () {
-                                              if (_formKey.currentState
-                                                  .validate())
-                                                _formKey.currentState.save();
-                                              print(locationString +
-                                                  completeAddressString);
-                                            },
-                                            color: Colors.black,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              // side: BorderSide(
-                                              //     color: Colors.black, width: 0.5)
-                                            ),
-                                            child: Text(
-                                              "Save & Proceed ",
-                                              style: TextStyle(
-                                                  color: Colors.white),
-                                            ))),
-                                  ])),
+                              verticalSpaceTiny,
+                              Row(children: <Widget>[
+                                Expanded(
+                                    child: RaisedButton(
+                                        onPressed: () {
+                                          if (_formKey.currentState.validate())
+                                            _formKey.currentState.save();
+                                          print(locationString +
+                                              completeAddressString);
+                                        },
+                                        color: Colors.green[800],
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(30),
+                                          // side: BorderSide(
+                                          //     color: Colors.black, width: 0.5)
+                                        ),
+                                        child: CustomText(
+                                          "Save & Proceed ",
+                                          color: Colors.white,
+                                        ))),
+                              ]),
                             ],
                           ),
                         ))));
