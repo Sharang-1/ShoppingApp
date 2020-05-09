@@ -30,13 +30,13 @@ class HomeView extends StatelessWidget {
               appBar: AppBar(
                 elevation: 0,
                 automaticallyImplyLeading: false,
-                iconTheme: IconThemeData(color: textIconBlue),
+                iconTheme: IconThemeData(color: appBarIconColor),
                 backgroundColor: backgroundWhiteCreamColor,
                 bottom: PreferredSize(
                     preferredSize: Size.fromHeight(50),
                     child: AppBar(
                       elevation: 0,
-                      iconTheme: IconThemeData(color: textIconBlue),
+                      iconTheme: IconThemeData(color: appBarIconColor),
                       backgroundColor: backgroundWhiteCreamColor,
                       title: Center(
                           child: Image.asset(
@@ -46,7 +46,7 @@ class HomeView extends StatelessWidget {
                       )),
                       actions: <Widget>[
                         IconButton(
-                          icon: CartIconWithBadge(IconColor: textIconBlue,),
+                          icon: CartIconWithBadge(IconColor: appBarIconColor,),
                           onPressed: () => model.cart(),
                         ),
                       ],
@@ -66,14 +66,14 @@ class HomeView extends StatelessWidget {
                         primary: false,
                         floating: true,
                         automaticallyImplyLeading: false,
-                        iconTheme: IconThemeData(color: textIconBlue),
+                        iconTheme: IconThemeData(color: appBarIconColor),
                         backgroundColor: backgroundWhiteCreamColor,
                         actions: <Widget>[
                           IconButton(
                             tooltip: 'map',
                             icon: Icon(
                               Icons.map,
-                              color: textIconBlue,
+                              color: appBarIconColor,
                             ),
                             onPressed: () {
                               model.openmap();
@@ -100,7 +100,7 @@ class HomeView extends StatelessWidget {
                                 children: <Widget>[
                                   Icon(
                                     Icons.search,
-                                    color: textIconBlue,
+                                    color: appBarIconColor,
                                   ),
                                   horizontalSpaceSmall,
                                   Text(

@@ -15,6 +15,7 @@ class CutomStepper extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 3),
           child: Stack(
+            alignment: Alignment.center,
             children: <Widget>[
               Container(
                 height: 10,
@@ -23,34 +24,73 @@ class CutomStepper extends StatelessWidget {
                     color: Colors.grey[300],
                     borderRadius: BorderRadius.circular(30)),
               ),
-              Container(
-                height: 10,
-                width: (MediaQuery.of(context).size.width - 60) * (step == 1 ? 0.15 : step ==2 ? 0.45 : 1),
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        colors: [lightRedSmooth, darkRedSmooth, logoRed]),
-                    borderRadius: BorderRadius.circular(30)),
+              Center(
+                child: Container(
+                  height: 5,
+                  width: 5,
+                  decoration: BoxDecoration(
+                      color: Colors.grey[400],
+                      borderRadius: BorderRadius.circular(30)),
+                ),
+              ),
+              Positioned(
+                right: 0,
+                child: Container(
+                  height: 5,
+                  width: 5,
+                  decoration: BoxDecoration(
+                      color: Colors.grey[400],
+                      borderRadius: BorderRadius.circular(30)),
+                ),
+              ),
+              Positioned(
+                left: 0,
+                child: Container(
+                  height: 10,
+                  width: (MediaQuery.of(context).size.width - 60) *
+                      (step == 1 ? 0.15 : step == 2 ? 0.5 : 1),
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          colors: [lightRedSmooth, darkRedSmooth, logoRed]),
+                      borderRadius: BorderRadius.circular(30)),
+                ),
               )
             ],
           ),
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        Stack(
           children: <Widget>[
-            Text(
-              "Cart",
-              style: TextStyle(fontSize: 17,fontWeight: step==1 ? FontWeight.bold : FontWeight.normal, 
-              color: step ==1 ? textIconBlue : Colors.grey[400] ,
+            Positioned(
+              left: 0,
+              child: Text(
+                "Cart",
+                style: TextStyle(
+                  fontSize: step == 1 ? 16 : 14,
+                  fontWeight: step == 1 ? FontWeight.bold : FontWeight.normal,
+                  color: step == 1 ? Colors.black : Colors.grey[400],
+                ),
               ),
             ),
             Center(
-                child: Text(
-              "Address",
-              style: TextStyle(fontSize: 17,fontWeight: step==2 ? FontWeight.bold : FontWeight.normal, color: step ==2 ? textIconBlue : Colors.grey[400] ,),
-            )),
-            Text(
-              "Payment",
-              style: TextStyle(fontSize: 17,fontWeight: step==3 ? FontWeight.bold : FontWeight.normal, color: step ==3 ? textIconBlue : Colors.grey[400] ,),
+              child: Text(
+                "Address",
+                style: TextStyle(
+                  fontSize: step == 2 ? 16 : 14,
+                  fontWeight: step == 2 ? FontWeight.bold : FontWeight.normal,
+                  color: step == 2 ? Colors.black : Colors.grey[400],
+                ),
+              ),
+            ),
+            Positioned(
+              right: 0,
+              child: Text(
+                "Payment",
+                style: TextStyle(
+                  fontSize: step == 3 ? 16 : 14,
+                  fontWeight: step == 3 ? FontWeight.bold : FontWeight.normal,
+                  color: step == 3 ? Colors.black : Colors.grey[400],
+                ),
+              ),
             ),
           ],
         )
