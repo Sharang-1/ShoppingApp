@@ -12,6 +12,8 @@ import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 import '../shared/dashed_line.dart';
+import '../shared/shared_styles.dart';
+import '../widgets/custom_stepper.dart';
 
 class CartView extends StatefulWidget {
   CartView({Key key}) : super(key: key);
@@ -49,7 +51,7 @@ class _CartViewState extends State<CartView> {
     double priceFontSize = 16.0;
 
     double subtitleFontSize = 18;
-    double titleFontSize = 20;
+    double titleFontSize = 18;
     return ViewModelProvider<CartViewModel>.withConsumer(
         viewModel: CartViewModel(),
         onModelReady: (model) => model.init(),
@@ -58,14 +60,12 @@ class _CartViewState extends State<CartView> {
                 elevation: 0,
                 backgroundColor: backgroundWhiteCreamColor,
                 centerTitle: true,
-                iconTheme: IconThemeData(color: Colors.black),
-                title: Text(
-                  "My Cart",
-                  style: TextStyle(color: Colors.black),
+                iconTheme: IconThemeData(
+                  color: textIconBlue,
                 ),
                 actions: <Widget>[
                   Padding(
-                    padding: EdgeInsets.only(right: 10),
+                    padding: EdgeInsets.only(right: 20),
                     child: Tab(
                         icon: Image.asset(
                       "assets/images/logo_red.png",
@@ -85,13 +85,23 @@ class _CartViewState extends State<CartView> {
                   padding:
                       EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
                   child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
+                        Text(
+                          "Cart",
+                          style:
+                              TextStyle(fontFamily: headingFont, fontSize: 30),
+                        ),
+                        const CutomStepper(
+                          step: 1,
+                        ),
+                        verticalSpace(20),
                         SizedBox(
                             height: 150,
                             child: productCard(titleFontSize, subtitleFontSize,
                                 priceFontSize)),
-                        verticalSpaceTiny,
+                        verticalSpaceMedium,
                         SizedBox(
                             height: 50,
                             child: Row(
@@ -107,7 +117,7 @@ class _CartViewState extends State<CartView> {
                                                 contentPadding:
                                                     EdgeInsets.symmetric(
                                                         vertical: 5),
-                                                labelText: 'Promo Code',
+                                                labelText: '  Promo Code',
                                                 labelStyle:
                                                     TextStyle(fontSize: 18),
                                                 alignLabelWithHint: true,
@@ -133,7 +143,7 @@ class _CartViewState extends State<CartView> {
                                                 TextStyle(color: Colors.white),
                                           ))),
                                 ])),
-                        verticalSpaceTiny,
+                        verticalSpaceSmall,
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
@@ -150,7 +160,7 @@ class _CartViewState extends State<CartView> {
                                   "Remove ",
                                   style: TextStyle(color: Colors.red),
                                 )),
-                            horizontalSpaceSmall,
+                            horizontalSpaceMedium,
                             Expanded(
                                 child: RaisedButton(
                                     onPressed: () {
@@ -350,14 +360,17 @@ class _CartViewState extends State<CartView> {
 
   Widget productCard(titleFontSize, subtitleFontSize, priceFontSize) {
     return Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
         clipBehavior: Clip.antiAlias,
         elevation: 5,
         child: Padding(
-          padding: EdgeInsets.all(5),
+          padding: EdgeInsets.fromLTRB(5, 5, 0, 5),
           child: Row(
             children: <Widget>[
               ClipRRect(
-                  borderRadius: BorderRadius.circular(5),
+                  borderRadius: BorderRadius.circular(10),
                   child: FadeInImage.assetNetwork(
                     width: 120,
                     fadeInCurve: Curves.easeIn,
@@ -375,23 +388,44 @@ class _CartViewState extends State<CartView> {
                           verticalSpaceTiny,
                           CustomText(
                             "Nike T-Shirt",
+                            dotsAfterOverFlow: true,
+                            isTitle: true,
                             isBold: true,
                             fontSize: titleFontSize,
                           ),
+                          verticalSpaceTiny_0,
                           CustomText(
                             "By Nike",
+                            color: Colors.grey,
+                            dotsAfterOverFlow: true,
                             fontSize: subtitleFontSize - 2,
                           ),
-                          Row(children: <Widget>[
-                            CustomText("Qty: 1", fontSize: subtitleFontSize),
-                            horizontalSpaceMedium,
-                            CustomText("Size: S", fontSize: subtitleFontSize),
-                          ]),
                           verticalSpaceTiny,
                           Row(children: <Widget>[
                             CustomText(orderSummaryDetails["Total"],
-                                isBold: true, fontSize: priceFontSize),
+                                color: darkRedSmooth,
+                                isBold: true,
+                                fontSize: priceFontSize),
+                            horizontalSpaceTiny,
+                            Expanded(
+                              child: Text(
+                                "\u20B9" + "300",
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    decoration: TextDecoration.lineThrough,
+                                    fontSize: priceFontSize - 2),
+                              ),
+                            )
                           ]),
+                          verticalSpaceTiny,
+                          CustomText("Qty : 1 Piece",
+                              dotsAfterOverFlow: true,
+                              fontSize: subtitleFontSize - 2),
+                          verticalSpaceTiny,
+                          CustomText("Size : S",
+                          dotsAfterOverFlow: true,
+                              fontSize: subtitleFontSize - 2),
                         ],
                       ))),
               IconButton(
