@@ -1,73 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:compound/ui/shared/app_colors.dart';
 
-
 class CutomStepper extends StatelessWidget {
   final int step;
 
   const CutomStepper({Key key, this.step}) : super(key: key);
-  
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Container(
       padding: EdgeInsets.all(10),
       child: Column(children: <Widget>[
-        Center(
-            child: Text(
-          "Address",
-          style: TextStyle(fontSize: 18, color: textIconBlue),
-        )),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 3),
+          padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 3),
           child: Stack(
             children: <Widget>[
-              Row(
-                children: <Widget>[
-                  Container(
-                    width: (MediaQuery.of(context).size.width - 100) * 0.5,
-                    child: Divider(
-                      thickness: 5,
-                      color: step == 2 ? Colors.green : Colors.grey[300],
-                    ),
-                  ),
-                  Container(
-                    width: (MediaQuery.of(context).size.width - 100) * 0.5,
-                    child: Divider(
-                      thickness: 5,
-                      color: step == 3 ? Colors.green : Colors.grey[300],
-                    ),
-                  ),
-                ],
+              Container(
+                height: 10,
+                width: (MediaQuery.of(context).size.width - 60),
+                decoration: BoxDecoration(
+                    color: Colors.grey[300],
+                    borderRadius: BorderRadius.circular(30)),
               ),
               Container(
-                height: 15,
-                width: 15,
+                height: 10,
+                width: (MediaQuery.of(context).size.width - 60) * (step == 1 ? 0.15 : step ==2 ? 0.45 : 1),
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                    color: Colors.green),
-              ),
-              Center(
-                child: Container(
-                  height: 15,
-                  width: 15,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                    color: step == 2 ? Colors.green : Colors.grey[300],
-                  ),
-                ),
-              ),
-              Positioned(
-                right: 1,
-                child: Container(
-                  height: 15,
-                  width: 15,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                    color: step == 3 ? Colors.green : Colors.grey[300],
-                  ),
-                ),
-              ),
+                    gradient: LinearGradient(
+                        colors: [lightRedSmooth, darkRedSmooth, logoRed]),
+                    borderRadius: BorderRadius.circular(30)),
+              )
             ],
           ),
         ),
@@ -76,11 +39,18 @@ class CutomStepper extends StatelessWidget {
           children: <Widget>[
             Text(
               "Cart",
-              style: TextStyle(fontSize: 18, color: textIconBlue),
+              style: TextStyle(fontSize: 17,fontWeight: step==1 ? FontWeight.bold : FontWeight.normal, 
+              color: step ==1 ? textIconBlue : Colors.grey[400] ,
+              ),
             ),
+            Center(
+                child: Text(
+              "Address",
+              style: TextStyle(fontSize: 17,fontWeight: step==2 ? FontWeight.bold : FontWeight.normal, color: step ==2 ? textIconBlue : Colors.grey[400] ,),
+            )),
             Text(
               "Payment",
-              style: TextStyle(fontSize: 18, color: textIconBlue),
+              style: TextStyle(fontSize: 17,fontWeight: step==3 ? FontWeight.bold : FontWeight.normal, color: step ==3 ? textIconBlue : Colors.grey[400] ,),
             ),
           ],
         )

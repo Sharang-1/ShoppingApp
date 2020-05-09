@@ -60,20 +60,14 @@ class _CartViewState extends State<CartView> {
                 elevation: 0,
                 backgroundColor: backgroundWhiteCreamColor,
                 centerTitle: true,
+                title: Image.asset(
+                  "assets/images/logo_red.png",
+                  height: 35,
+                  width: 35,
+                ),
                 iconTheme: IconThemeData(
                   color: textIconBlue,
                 ),
-                actions: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(right: 20),
-                    child: Tab(
-                        icon: Image.asset(
-                      "assets/images/logo_red.png",
-                      height: 35,
-                      width: 35,
-                    )),
-                  )
-                ],
               ),
               backgroundColor: backgroundWhiteCreamColor,
               body: SafeArea(
@@ -88,11 +82,13 @@ class _CartViewState extends State<CartView> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
+                        verticalSpace(20),
                         Text(
                           "Cart",
                           style:
-                              TextStyle(fontFamily: headingFont, fontSize: 30),
+                              TextStyle(fontFamily: headingFont,fontWeight: FontWeight.w700, fontSize: 30),
                         ),
+                        verticalSpace(10),
                         const CutomStepper(
                           step: 1,
                         ),
@@ -424,7 +420,7 @@ class _CartViewState extends State<CartView> {
                               fontSize: subtitleFontSize - 2),
                           verticalSpaceTiny,
                           CustomText("Size : S",
-                          dotsAfterOverFlow: true,
+                              dotsAfterOverFlow: true,
                               fontSize: subtitleFontSize - 2),
                         ],
                       ))),
