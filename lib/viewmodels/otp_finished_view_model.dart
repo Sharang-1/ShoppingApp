@@ -8,24 +8,33 @@ import 'package:compound/viewmodels/base_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class OtpFinishedScreenModel extends BaseModel {
-  final AuthenticationService _authenticationService = locator<AuthenticationService>();
+  final AuthenticationService _authenticationService =
+      locator<AuthenticationService>();
   final NavigationService _navigationService = locator<NavigationService>();
-  final PushNotificationService _pushNotificationService = locator<PushNotificationService>();
+  final PushNotificationService _pushNotificationService =
+      locator<PushNotificationService>();
 
   String name = "";
+  bool displaySymbol = false;
 
-  Future init(int i) async {
+  Future init(int i, bool fromCart) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     name = prefs.getString(Name);
     notifyListeners();
 
     Future.delayed(Duration(milliseconds: 2500), () async {
-      
-      
-      if (i==1) {
-        _navigationService.navigateReplaceTo(OtpFinishedScreen2Route);
+      if (fromCart) {
+        displaySymbol=true;
+        notifyListeners();
+        Future.delayed(Duration(milliseconds: 3000), () async {
+          _navigationService.navigateReplaceTo(CartViewRoute);
+        });
       } else {
-        _navigationService.navigateReplaceTo(HomeViewRoute);
+        if (i == 1) {
+          _navigationService.navigateReplaceTo(OtpFinishedScreen2Route);
+        } else {
+          _navigationService.navigateReplaceTo(HomeViewRoute);
+        }
       }
     });
   }

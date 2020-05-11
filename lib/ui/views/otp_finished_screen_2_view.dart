@@ -27,7 +27,7 @@ class _TextFadeState extends State<otpFinishedScreen2>
   Widget build(BuildContext context) {
     return ViewModelProvider<OtpFinishedScreenModel>.withConsumer(
       viewModel: OtpFinishedScreenModel(),
-      onModelReady: (model) => model.init(2),
+      onModelReady: (model) => model.init(2,false),
       builder: (context, model, child) => Scaffold(
           body: AnimatedBuilder(
               animation: _animation,

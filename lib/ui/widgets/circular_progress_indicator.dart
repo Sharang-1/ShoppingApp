@@ -3,6 +3,9 @@ import 'package:percent_indicator/percent_indicator.dart';
 import '../shared/app_colors.dart';
 
 class CircularProgressIndicatorWidget extends StatefulWidget {
+  final bool fromCart ;
+
+  const CircularProgressIndicatorWidget({Key key, this.fromCart}) : super(key: key);
   @override
   _CircularProgressIndicatorWidgetState createState() =>
       _CircularProgressIndicatorWidgetState();
@@ -34,7 +37,7 @@ class _CircularProgressIndicatorWidgetState
               lineWidth: 5.0,
               backgroundColor: Colors.transparent,
               percent: _animation.value,
-              progressColor: lightBlue,
+              progressColor: widget.fromCart ? Colors.green[800]  : lightBlue,
             );
               }
     );

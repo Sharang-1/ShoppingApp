@@ -11,6 +11,7 @@ const String ProductsListRoute = "ProductsListView";
 const String ProductIndividualRoute = "ProductIndividualView";
 const String OtpFinishedScreen1Route = "OtpFinishedScreen1View";
 const String OtpFinishedScreen2Route = "OtpFinishedScreen2View";
+const String PaymentFinishedScreenRoute = "PaymentFinishedScreenView";
 const String MyOrdersRoute = " MyOrdersView";
 const String SettingsRoute = "SettingsView";
 const String NotifcationViewRoute = "NotificationView";

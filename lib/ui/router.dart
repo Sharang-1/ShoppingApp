@@ -122,13 +122,19 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return _getPageRoute(
           pageArguments: pageArguments,
           routeName: settings.name,
-          viewToShow: otpFinishedScreen1(),
+          viewToShow: otpFinishedScreen1(fromCart: false,),
           pageTransitionType: transitionType);
     case OtpFinishedScreen2Route:
       return _getPageRoute(
           pageArguments: pageArguments,
           routeName: settings.name,
           viewToShow: otpFinishedScreen2(),
+          pageTransitionType: transitionType);
+ case PaymentFinishedScreenRoute:
+      return _getPageRoute(
+          pageArguments: pageArguments,
+          routeName: settings.name,
+          viewToShow: otpFinishedScreen1(fromCart: true,),
           pageTransitionType: transitionType);
 
     case MyOrdersRoute:
