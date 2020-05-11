@@ -23,16 +23,17 @@ class _AddressInputPageState extends State<AddressInputPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // extendBodyBehindAppBar: true,
       appBar: AppBar(
-        elevation: 0,
-        backgroundColor: backgroundWhiteCreamColor,
+        elevation: 1,
+        backgroundColor: Colors.transparent,
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.my_location),
             onPressed: () {},
           )
         ],
-        iconTheme: IconThemeData(color: textIconBlue),
+        iconTheme: IconThemeData(color: appBarIconColor),
       ),
       bottomSheet: DraggableScrollableSheet(
           initialChildSize: 0.45,
@@ -62,7 +63,7 @@ class _AddressInputPageState extends State<AddressInputPage> {
                                     fontWeight: FontWeight.w700,
                                     fontSize: 20),
                               ),
-                              verticalSpace(5),
+                              verticalSpace(10),
                               SizedBox(
                                   height: 60,
                                   child: Row(
@@ -93,10 +94,10 @@ class _AddressInputPageState extends State<AddressInputPage> {
                                                   autofocus: false,
                                                   maxLines: 1,
                                                 ))),
+                                        horizontalSpaceMedium,
                                         FractionallySizedBox(
-                                            heightFactor: 0.5,
                                             child: RaisedButton(
-                                                elevation: 1,
+                                                elevation: 5,
                                                 onPressed: () {},
                                                 color: darkRedSmooth,
                                                 shape: RoundedRectangleBorder(
@@ -105,9 +106,12 @@ class _AddressInputPageState extends State<AddressInputPage> {
                                                   // side: BorderSide(
                                                   //     color: Colors.black, width: 0.5)
                                                 ),
-                                                child: CustomText(
-                                                  "Change ",
-                                                  color: Colors.white,
+                                                child: Padding(
+                                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                                  child: CustomText(
+                                                    "Change ",
+                                                    color: Colors.white,
+                                                  ),
                                                 ))),
                                       ])),
                               SizedBox(
@@ -133,15 +137,16 @@ class _AddressInputPageState extends State<AddressInputPage> {
                                           },
                                           decoration: const InputDecoration(
                                               labelText:
-                                                  'Your Complete Address',
+                                                  'House Number , Society Name ....',
                                               isDense: true),
                                           autofocus: false,
                                         )),
                                       ])),
-                              verticalSpaceTiny,
+                              verticalSpaceMedium,
                               Row(children: <Widget>[
                                 Expanded(
                                     child: RaisedButton(
+                                      elevation: 5,
                                         onPressed: () {
                                           if (_formKey.currentState.validate())
                                             _formKey.currentState.save();
@@ -155,9 +160,13 @@ class _AddressInputPageState extends State<AddressInputPage> {
                                           // side: BorderSide(
                                           //     color: Colors.black, width: 0.5)
                                         ),
-                                        child: CustomText(
-                                          "Save & Proceed ",
-                                          color: Colors.white,
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(vertical: 12),
+                                          child: CustomText(
+                                            "Save & Proceed ",
+                                            isBold: true,
+                                            color: Colors.white,
+                                          ),
                                         ))),
                               ]),
                             ],

@@ -1,7 +1,10 @@
 import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/ui/views/address_input_form_view.dart';
+import 'package:compound/ui/widgets/custom_stepper.dart';
 import 'package:compound/ui/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
+import '../shared/app_colors.dart';
+import '../shared/shared_styles.dart';
 
 class PaymentMethod extends StatefulWidget {
   @override
@@ -31,14 +34,17 @@ class _PaymentMethodState extends State<PaymentMethod> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundWhiteCreamColor,
       appBar: AppBar(
+        elevation: 0,
+        backgroundColor: backgroundWhiteCreamColor,
         centerTitle: true,
-        backgroundColor: Colors.white,
-        title: Text(
-          "Billing & Payment",
-          style: TextStyle(color: Colors.black),
+        title: Image.asset(
+          "assets/images/logo_red.png",
+          height: 35,
+          width: 35,
         ),
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(color: appBarIconColor),
       ),
       bottomNavigationBar:
           //  Material(
@@ -48,72 +54,92 @@ class _PaymentMethodState extends State<PaymentMethod> {
           //     child:
 
           Padding(
-        padding: EdgeInsets.only(left: 10, right: 10),
+        padding: EdgeInsets.only(left: 20, right: 20, bottom: 10),
         child: RaisedButton(
+            elevation: 5,
             onPressed: () {
               print(paymentMethodRadioValue.toString() +
                   paymentMethodMap[paymentMethodRadioValue]);
               // Navigator.push(context,
               //     MaterialPageRoute(builder: (context) => PaymentMethod()));
             },
-            color: Colors.black,
+            color: Colors.green[800],
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(30),
               // side: BorderSide(
               //     color: Colors.black, width: 0.5)
             ),
-            child: Text(
-              "Place Order ",
-              style: TextStyle(color: Colors.white),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12),
+              child: Text(
+                "Place Order ",
+                style:
+                    TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+              ),
             )),
         // )
       ),
       body: SafeArea(
           child: SingleChildScrollView(
               child: Padding(
-        padding: EdgeInsets.all(5),
+        padding: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
         child: Column(
           children: <Widget>[
             verticalSpaceTiny,
             Align(
                 alignment: Alignment.bottomLeft,
-                child: Padding(
-                    padding: EdgeInsets.only(left: 8),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            CustomText(
-                              "Payment",
-                              fontSize: 24,
-                              fontFamily: "RaleWay",
-                            ),
-                            horizontalSpaceTiny,
-                            Icon(Icons.lock_outline)
-                          ],
-                        ),
-                        CustomText(
-                          rupeeUnicode + "100",
-                          fontSize: 24,
-                          fontFamily: "RaleWay",
-                          isBold: true,
-                        ),
-                        verticalSpaceSmall,
-                        CustomText(
-                          "Select a Payment Method",
-                          fontSize: 20,
-                        ),
-                      ],
-                    ))),
-            verticalSpaceMedium,
-            Padding(
-                padding: EdgeInsets.only(left: 5, right: 5),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: paymentMethodMap.keys.map((int key) {
-                    return Card(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        CustomText(
+                          "Payment",
+                          fontSize: 30,
+                          fontFamily: headingFont,
+                          fontWeight: FontWeight.w700,
+                        ),
+                        horizontalSpaceSmall,
+                        Icon(Icons.lock_outline)
+                      ],
+                    ),
+                    verticalSpaceSmall,
+                    CustomText(
+                      rupeeUnicode + "100",
+                      fontSize: 24,
+                      color: darkRedSmooth,
+                      fontFamily: "RaleWay",
+                      isBold: true,
+                    ),
+                    verticalSpaceSmall,
+                    const CutomStepper(
+                      step: 3,
+                    ),
+                    verticalSpace(20),
+                    verticalSpaceSmall,
+                    CustomText(
+                      "  Pay On Delivery Via",
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ],
+                )),
+            verticalSpaceSmall,
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: paymentMethodMap.keys.map((int key) {
+                return Container(
+                  margin: EdgeInsets.only(bottom:5),
+                  child: Card(
+                    elevation: 5,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      // side: BorderSide(
+                      //     color: Colors.black, width: 0.5)
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 10, 15, 10),
                       child: Row(
                         children: <Widget>[
                           Radio(
@@ -129,15 +155,18 @@ class _PaymentMethodState extends State<PaymentMethod> {
                           CustomText(
                             paymentMethodMap[key],
                             isBold: true,
+                            color: Colors.grey[700],
                           ),
                           Spacer(),
                           iconpaymentMethodMap[key],
                           horizontalSpaceTiny
                         ],
                       ),
-                    );
-                  }).toList(),
-                ))
+                    ),
+                  ),
+                );
+              }).toList(),
+            )
           ],
         ),
       ))),

@@ -38,6 +38,7 @@ class CutomStepper extends StatelessWidget {
                 child: Container(
                   height: 5,
                   width: 5,
+                  margin: EdgeInsets.only(right: 5),
                   decoration: BoxDecoration(
                       color: Colors.grey[400],
                       borderRadius: BorderRadius.circular(30)),
@@ -48,7 +49,7 @@ class CutomStepper extends StatelessWidget {
                 child: Container(
                   height: 10,
                   width: (MediaQuery.of(context).size.width - 60) *
-                      (step == 1 ? 0.15 : step == 2 ? 0.5 : 1),
+                      (step == 1 ? 0.15 : step == 2 ? 0.52 : 1),
                   decoration: BoxDecoration(
                       gradient: LinearGradient(
                           colors: [lightRedSmooth, darkRedSmooth, logoRed]),

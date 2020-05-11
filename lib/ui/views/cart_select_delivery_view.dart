@@ -36,12 +36,13 @@ class _SelectAddressState extends State<SelectAddress> {
           width: 35,
         ),
         iconTheme: IconThemeData(
-          color: textIconBlue,
+          color: appBarIconColor,
         ),
       ),
       bottomNavigationBar: Padding(
-        padding: EdgeInsets.only(left: 20, right: 20),
+        padding: EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 0),
         child: RaisedButton(
+            elevation: 5,
             onPressed: () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => PaymentMethod()));
@@ -52,9 +53,13 @@ class _SelectAddressState extends State<SelectAddress> {
               // side: BorderSide(
               //     color: Colors.black, width: 0.5)
             ),
-            child: Text(
-              "Proceed To Payment ",
-              style: TextStyle(color: Colors.white),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12),
+              child: Text(
+                "Proceed To Payment ",
+                style:
+                    TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+              ),
             )),
         // )
       ),
@@ -71,109 +76,126 @@ class _SelectAddressState extends State<SelectAddress> {
               style: TextStyle(
                   fontFamily: headingFont,
                   fontWeight: FontWeight.w700,
-                  fontSize: 30),
+                  fontSize: 25),
             ),
             Text(
               "Address",
               style: TextStyle(
                   fontFamily: headingFont,
                   fontWeight: FontWeight.w700,
-                  fontSize: 30),
+                  fontSize: 25),
             ),
-            verticalSpace(10),
+            verticalSpace(20),
             const CutomStepper(
               step: 2,
             ),
             verticalSpace(20),
-            RaisedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => AddressInputPage()));
-                },
-                color: darkRedSmooth,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
-                  // side: BorderSide(
-                  //     color: Colors.black, width: 0.5)
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(
-                      Icons.add,
-                      color: Colors.white,
-                    ),
-                    horizontalSpaceSmall,
-                    CustomText(
-                      "Add Address",
-                      color: Colors.white,
-                    ),
-                  ],
-                )),
-            verticalSpaceMedium,
-            Text(
-              "Previously Added Addresses",
-              style: TextStyle(
-                  fontFamily: headingFont,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 20),
-            ),
-            verticalSpace(10),
             Padding(
-                padding: EdgeInsets.only(left: 10, right: 10),
-                child: Column(
-                  children: addressMap.keys.map((int key) {
-                    return SizedBox(
-                        height: 100,
-                        child: Card(
-                          clipBehavior: Clip.antiAlias,
-                          elevation: 5,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Radio(
-                                value: key,
-                                groupValue: addressGrpValue,
-                                onChanged: (val) {
-                                  setState(() {
-                                    addressRadioValue = val;
-                                  });
-                                  print(val);
-                                },
-                              ),
-                              Expanded(
-                                  child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  CustomText(
-                                    addressMap[key],
-                                    isBold: true,
-                                  ),
-                                  verticalSpaceTiny_0,
-                                  CustomText(
-                                    fullAddressMap[key],
-                                    fontSize: 14,
-                                  )
-                                ],
-                              )),
-                              IconButton(
-                                icon: Icon(Icons.edit),
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              AddressInputPage()));
-                                },
-                              )
-                            ],
-                          ),
-                        ));
-                  }).toList(),
-                ))
+              padding: const EdgeInsets.all(10),
+              child: RaisedButton(
+                  elevation: 5,
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => AddressInputPage()));
+                  },
+                  color: darkRedSmooth,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    // side: BorderSide(
+                    //     color: Colors.black, width: 0.5)
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(
+                        Icons.add_location,
+                        color: Colors.white,
+                      ),
+                      horizontalSpaceSmall,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 15),
+                        child: CustomText(
+                          "Add Address",
+                          isBold: true,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  )),
+            ),
+            verticalSpace(35),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Text(
+                "Previously Added Addresses",
+                style: TextStyle(
+                    fontFamily: headingFont,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 20),
+              ),
+            ),
+            verticalSpace(15),
+            Column(
+              children: addressMap.keys.map((int key) {
+                return Container(
+                    margin: EdgeInsets.only(bottom: 5),
+                    child: Card(
+                      clipBehavior: Clip.antiAlias,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      elevation: 5,
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 15, 15, 15),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Radio(
+                              value: key,
+                              groupValue: addressGrpValue,
+                              onChanged: (val) {
+                                setState(() {
+                                  addressRadioValue = val;
+                                });
+                                print(val);
+                              },
+                            ),
+                            Expanded(
+                                child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                CustomText(
+                                  addressMap[key],
+                                  color: Colors.grey[700],
+                                  isBold: true,
+                                ),
+                                verticalSpaceTiny_0,
+                                CustomText(
+                                  fullAddressMap[key],
+                                  color: Colors.grey,
+                                  fontSize: 14,
+                                )
+                              ],
+                            )),
+                            // IconButton(
+                            //   icon: Icon(Icons.edit),
+                            //   onPressed: () {
+                            //     Navigator.push(
+                            //         context,
+                            //         MaterialPageRoute(
+                            //             builder: (context) =>
+                            //                 AddressInputPage()));
+                            //   },
+                            // )
+                          ],
+                        ),
+                      ),
+                    ));
+              }).toList(),
+            )
           ],
         ),
       ))),
