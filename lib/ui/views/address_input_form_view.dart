@@ -109,7 +109,7 @@ class _AddressInputPageState extends State<AddressInputPage> {
                                                 child: Padding(
                                                   padding: const EdgeInsets.symmetric(vertical: 10),
                                                   child: CustomText(
-                                                    "Change ",
+                                                    "Change",
                                                     color: Colors.white,
                                                   ),
                                                 ))),
