@@ -33,7 +33,7 @@ class HomeDrawer extends StatelessWidget {
           ListTile(
             title: Text('Cart'),
             onTap: () {
-              // _navigationService.navigateTo(routeName)
+              _navigationService.navigateTo(CartViewRoute);
             },
           ),
           ListTile(
@@ -50,9 +50,15 @@ class HomeDrawer extends StatelessWidget {
             },
           ),
           ListTile(
+            title: Text('Notifications'),
+            onTap: () {
+              _navigationService.navigateTo(NotifcationViewRoute);
+            },
+          ),
+          ListTile(
             title: Text('Settings'),
             onTap: () {
-              // _navigationService.navigateTo(routeName)
+              _navigationService.navigateTo(SettingsRoute);
             },
           ),
         ],

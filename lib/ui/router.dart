@@ -6,12 +6,15 @@ import 'package:compound/ui/views/categories_view.dart';
 import 'package:compound/ui/views/home_view.dart';
 import 'package:compound/ui/views/map_view.dart';
 import 'package:compound/ui/views/myorders_view.dart';
+import 'package:compound/ui/views/notification_view.dart';
 import 'package:compound/ui/views/productListView.dart';
 import 'package:compound/ui/views/product_individual_view.dart';
 import 'package:compound/ui/views/search_view.dart';
+import 'package:compound/ui/views/settings_page_view.dart';
 import 'package:compound/ui/views/verify_otp.dart';
 import 'package:compound/ui/views/otp_finished_screen_1_view.dart';
 import 'package:compound/ui/views/otp_finished_screen_2_view.dart';
+
 import 'package:flutter/material.dart';
 import 'package:compound/constants/route_names.dart';
 import 'package:compound/ui/views/login_view.dart';
@@ -133,6 +136,20 @@ Route<dynamic> generateRoute(RouteSettings settings) {
           pageArguments: pageArguments,
           routeName: settings.name,
           viewToShow: MyOrdersView(),
+          pageTransitionType: transitionType);
+
+    case NotifcationViewRoute:
+      return _getPageRoute(
+          pageArguments: pageArguments,
+          routeName: settings.name,
+          viewToShow: NotificationView(),
+          pageTransitionType: transitionType);
+
+    case SettingsRoute:
+      return _getPageRoute(
+          pageArguments: pageArguments,
+          routeName: settings.name,
+          viewToShow: SettingsView(),
           pageTransitionType: transitionType);
     default:
       return MaterialPageRoute(
