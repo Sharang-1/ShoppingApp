@@ -44,7 +44,7 @@ class _SelectAddressState extends State<SelectAddress> {
         child: RaisedButton(
             elevation: 5,
             onPressed: () {
-              Navigator.push(context,
+              Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (context) => PaymentMethod()));
             },
             color: Colors.green[800],

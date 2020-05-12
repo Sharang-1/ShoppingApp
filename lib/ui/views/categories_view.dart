@@ -1,5 +1,6 @@
 import 'package:compound/models/categorys.dart';
 import 'package:compound/models/grid_view_builder_filter_models/categoryFilter.dart';
+import 'package:compound/ui/shared/app_colors.dart';
 import 'package:compound/ui/widgets/GridListWidget.dart';
 import 'package:compound/ui/widgets/categoryTileUI.dart';
 import 'package:compound/viewmodels/categories_view_model.dart';
@@ -35,10 +36,10 @@ class _CategoriesViewState extends State<CategoriesView> {
                 fontFamily: "Raleway",
                 fontWeight: FontWeight.w500),
           ),
-          backgroundColor: Colors.white,
+          backgroundColor: backgroundWhiteCreamColor,
           elevation: 0,
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: backgroundWhiteCreamColor,
         body: SafeArea(
           top: false,
           left: false,

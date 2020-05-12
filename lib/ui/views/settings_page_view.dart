@@ -34,17 +34,20 @@ class SettingsView extends StatelessWidget {
         builder: (context, model, child) => Scaffold(
             backgroundColor: backgroundWhiteCreamColor,
             // drawer: HomeDrawer(),
-            floatingActionButton: FloatingActionButton.extended(
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
-                  side: BorderSide(color: logoRed, width: 2.5)),
-              onPressed: model.logout,
-              label: CustomText(
-                "Logout",
-                color: logoRed,
-                isBold: true,
+            floatingActionButton: Padding(
+              padding: const EdgeInsets.only(right: 30),
+              child: FloatingActionButton.extended(
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    side: BorderSide(color: logoRed, width: 2.5)),
+                onPressed: model.logout,
+                label: CustomText(
+                  "Logout",
+                  color: logoRed,
+                  isBold: true,
+                ),
               ),
             ),
             appBar: AppBar(
@@ -67,7 +70,7 @@ class SettingsView extends StatelessWidget {
               child: SingleChildScrollView(
                   child: Padding(
                 padding:
-                    EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+                    EdgeInsets.only(left: 40, right: 40, top: 10, bottom: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -81,9 +84,7 @@ class SettingsView extends StatelessWidget {
                     ),
                     verticalSpace(50),
                     Align(
-                        alignment: Alignment.center,
                         child: Container(
-                            padding: EdgeInsets.symmetric(horizontal: 20),
                             child: Card(
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20)),
