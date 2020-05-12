@@ -26,7 +26,7 @@ class OtpFinishedScreenModel extends BaseModel {
       if (fromCart) {
         displaySymbol=true;
         notifyListeners();
-        Future.delayed(Duration(milliseconds: 3000), () async {
+        Future.delayed(Duration(milliseconds: 2000), () async {
           _navigationService.navigateReplaceTo(CartViewRoute);
         });
       } else {

@@ -35,10 +35,17 @@ class SettingsView extends StatelessWidget {
             backgroundColor: backgroundWhiteCreamColor,
             // drawer: HomeDrawer(),
             floatingActionButton: FloatingActionButton.extended(
-              backgroundColor: Colors.grey[800],
-              elevation: 5,
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  side: BorderSide(color: logoRed, width: 2.5)),
               onPressed: model.logout,
-              label: CustomText("Logout", color: Colors.white),
+              label: CustomText(
+                "Logout",
+                color: logoRed,
+                isBold: true,
+              ),
             ),
             appBar: AppBar(
               elevation: 0,
@@ -75,8 +82,8 @@ class SettingsView extends StatelessWidget {
                     verticalSpace(50),
                     Align(
                         alignment: Alignment.center,
-                        child: SizedBox(
-                            width: 280,
+                        child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 20),
                             child: Card(
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20)),
@@ -89,13 +96,13 @@ class SettingsView extends StatelessWidget {
                                       Row(children: <Widget>[
                                         Expanded(
                                             child: RaisedButton(
-                                                elevation: 5,
+                                                elevation: 0,
                                                 onPressed: () {
                                                   const url =
                                                       'https://dzor.in/policy.html?source=c';
                                                   _launchURL(url);
                                                 },
-                                                color: darkRedSmooth,
+                                                color: Colors.transparent,
                                                 shape: RoundedRectangleBorder(
                                                   borderRadius:
                                                       BorderRadius.circular(30),
@@ -108,11 +115,19 @@ class SettingsView extends StatelessWidget {
                                                   child: CustomText(
                                                     "Rate The App ",
                                                     fontSize: 20,
-                                                    color: Colors.white,
+                                                    isBold: true,
+                                                    color: Colors.grey[800],
                                                   ),
                                                 )))
                                       ]),
-                                      verticalSpaceSmall,
+                                      Opacity(
+                                          opacity: 0.9,
+                                          child: SizedBox(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.6,
+                                              child: Divider())),
                                       Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.center,
@@ -142,7 +157,7 @@ class SettingsView extends StatelessWidget {
                                                   ]),
                                                   key < 4
                                                       ? Opacity(
-                                                          opacity: 0.7,
+                                                          opacity: 0.9,
                                                           child: SizedBox(
                                                               width: MediaQuery.of(
                                                                           context)

@@ -17,8 +17,8 @@ class NotificationView extends StatefulWidget {
 
 class _NotificationViewState extends State<NotificationView> {
   Map<int, String> notificationMap = {
-    0: "Notification 1",
-    1: "Notification 2",
+    0: "Notification 1 is to inform about ur doings and outings ",
+    1: "Notification 2 Notification 1 is to inform about ur doings and outings ",
     2: "Notification 3",
     3: "Notification 4",
     4: "Notification 5"
@@ -49,6 +49,9 @@ class _NotificationViewState extends State<NotificationView> {
                       IconColor: appBarIconColor,
                     ),
                     onPressed: () => model.cart(),
+                  ),
+                  SizedBox(
+                    width: 20,
                   )
                 ],
                 iconTheme: IconThemeData(
@@ -97,10 +100,9 @@ class _NotificationViewState extends State<NotificationView> {
                               ),
                               elevation: 5,
                               child: Padding(
-                                padding: const EdgeInsets.all(5),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 10),
                                 child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: <Widget>[
                                     imageAvailableMap[key]
@@ -108,7 +110,8 @@ class _NotificationViewState extends State<NotificationView> {
                                             borderRadius:
                                                 BorderRadius.circular(10),
                                             child: FadeInImage.assetNetwork(
-                                              width: 30,
+                                              width: 50,
+                                              height: 50,
                                               fadeInCurve: Curves.easeIn,
                                               placeholder:
                                                   "assets/images/placeholder.png",
@@ -118,16 +121,30 @@ class _NotificationViewState extends State<NotificationView> {
                                             ))
                                         : Container(),
                                     imageAvailableMap[key]
-                                        ? CustomText(
-                                            notificationMap[key],
-                                            fontSize: 18,
-                                            color: Colors.grey[800],
+                                        ? Expanded(
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 10,
+                                                  bottom: 10,
+                                                  left: 15),
+                                              child: CustomText(
+                                                notificationMap[key],
+                                                fontSize: 16,
+                                                color: Colors.grey[800],
+                                              ),
+                                            ),
                                           )
                                         : Expanded(
-                                            child: CustomText(
-                                              notificationMap[key],
-                                              fontSize: 18,
-                                              color: Colors.grey[800],
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 10,
+                                                  bottom: 10,
+                                                  left: 15),
+                                              child: CustomText(
+                                                notificationMap[key],
+                                                fontSize: 16,
+                                                color: Colors.grey[800],
+                                              ),
                                             ),
                                           ),
                                     IconButton(
