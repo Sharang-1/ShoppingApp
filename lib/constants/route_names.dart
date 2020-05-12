@@ -15,3 +15,5 @@ const String PaymentFinishedScreenRoute = "PaymentFinishedScreenView";
 const String MyOrdersRoute = " MyOrdersView";
 const String SettingsRoute = "SettingsView";
 const String NotifcationViewRoute = "NotificationView";
+const String WishlistRoute = "WishlistView";
+const String ProfileViewRoute = "ProfileView";

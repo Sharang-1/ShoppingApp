@@ -25,7 +25,9 @@ class HomeDrawer extends StatelessWidget {
                 dotsAfterOverFlow: true,
               ),
             ),
-            SizedBox(height: 10,),
+            SizedBox(
+              height: 10,
+            ),
             ListTile(
               title: Padding(
                 padding: EdgeInsets.only(left: 10),
@@ -108,7 +110,7 @@ class HomeDrawer extends StatelessWidget {
                 ),
               ),
               onTap: () {
-                // _navigationService.navigateTo(routeName)
+                _navigationService.navigateTo(WishlistRoute);
               },
             ),
             ListTile(
@@ -122,7 +124,7 @@ class HomeDrawer extends StatelessWidget {
                 ),
               ),
               onTap: () {
-                // _navigationService.navigateTo(routeName)
+                _navigationService.navigateTo(ProfileViewRoute);
               },
             ),
             ListTile(

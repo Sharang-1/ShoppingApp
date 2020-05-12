@@ -9,11 +9,13 @@ import 'package:compound/ui/views/myorders_view.dart';
 import 'package:compound/ui/views/notification_view.dart';
 import 'package:compound/ui/views/productListView.dart';
 import 'package:compound/ui/views/product_individual_view.dart';
+import 'package:compound/ui/views/profile_view.dart';
 import 'package:compound/ui/views/search_view.dart';
 import 'package:compound/ui/views/settings_page_view.dart';
 import 'package:compound/ui/views/verify_otp.dart';
 import 'package:compound/ui/views/otp_finished_screen_1_view.dart';
 import 'package:compound/ui/views/otp_finished_screen_2_view.dart';
+import 'package:compound/ui/views/wishlist_view.dart';
 
 import 'package:flutter/material.dart';
 import 'package:compound/constants/route_names.dart';
@@ -98,6 +100,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         pageArguments: pageArguments as Product,
         pageTransitionType: transitionType,
       );
+
     // case CreatePostViewRoute:
     //   var postToEdit = settings.arguments as Post;
     //   return _getPageRoute(
@@ -122,7 +125,9 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return _getPageRoute(
           pageArguments: pageArguments,
           routeName: settings.name,
-          viewToShow: otpFinishedScreen1(fromCart: false,),
+          viewToShow: otpFinishedScreen1(
+            fromCart: false,
+          ),
           pageTransitionType: transitionType);
     case OtpFinishedScreen2Route:
       return _getPageRoute(
@@ -130,11 +135,13 @@ Route<dynamic> generateRoute(RouteSettings settings) {
           routeName: settings.name,
           viewToShow: otpFinishedScreen2(),
           pageTransitionType: transitionType);
- case PaymentFinishedScreenRoute:
+    case PaymentFinishedScreenRoute:
       return _getPageRoute(
           pageArguments: pageArguments,
           routeName: settings.name,
-          viewToShow: otpFinishedScreen1(fromCart: true,),
+          viewToShow: otpFinishedScreen1(
+            fromCart: true,
+          ),
           pageTransitionType: transitionType);
 
     case MyOrdersRoute:
@@ -149,6 +156,19 @@ Route<dynamic> generateRoute(RouteSettings settings) {
           pageArguments: pageArguments,
           routeName: settings.name,
           viewToShow: NotificationView(),
+          pageTransitionType: transitionType);
+    case WishlistRoute:
+      return _getPageRoute(
+          pageArguments: pageArguments,
+          routeName: settings.name,
+          viewToShow: WishlistView(),
+          pageTransitionType: transitionType);
+
+    case ProfileViewRoute:
+      return _getPageRoute(
+          pageArguments: pageArguments,
+          routeName: settings.name,
+          viewToShow: ProfileView(),
           pageTransitionType: transitionType);
 
     case SettingsRoute:
