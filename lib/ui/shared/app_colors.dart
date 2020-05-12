@@ -4,11 +4,11 @@ const Color lightGrey = Color.fromARGB(255,61,63,69);
 const Color darkGrey = Color.fromARGB(255,18,18,19);
 // const Color primaryColor = Color.fromARGB(255,61,63,69);//Color.fromARGB(255, 9, 202, 172);
 
-Color primaryColor = _colorFromHex("#7062b1");
-Color secondaryColor =  _colorFromHex("#e1547e");
+Color primaryColor = _colorFromHex("#3e5377");//_colorFromHex("#7062b1");
+Color secondaryColor = _colorFromHex("#bE505F");//  _colorFromHex("#e1547e");
 
 Color lightRedSmooth =  _colorFromHex("#f57f8d");
-Color darkRedSmooth =  _colorFromHex("#e1547e");
+Color darkRedSmooth =   _colorFromHex("#bE505F");//_colorFromHex("#e1547e");
 Color logoRed =  _colorFromHex("#bE505F");
 Color lightBlue =  _colorFromHex("#78a2ec");
 Color textIconOrange =  _colorFromHex("#eb6969");

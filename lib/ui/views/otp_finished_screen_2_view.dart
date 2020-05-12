@@ -1,3 +1,4 @@
+import 'package:compound/ui/shared/app_colors.dart';
 import 'package:compound/viewmodels/otp_finished_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider_architecture/provider_architecture.dart';
@@ -29,6 +30,7 @@ class _TextFadeState extends State<otpFinishedScreen2>
       viewModel: OtpFinishedScreenModel(),
       onModelReady: (model) => model.init(2,false),
       builder: (context, model, child) => Scaffold(
+        backgroundColor: backgroundWhiteCreamColor,
           body: AnimatedBuilder(
               animation: _animation,
               child: Padding(

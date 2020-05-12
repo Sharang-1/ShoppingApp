@@ -14,7 +14,7 @@ class StartUpView extends StatelessWidget {
       viewModel: StartUpViewModel(),
       onModelReady: (model) => model.init(),
       builder: (context, model, child) => Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor:backgroundWhiteCreamColor,
           body: Center(
             child: SvgPicture.asset(
               "assets/svg/DZOR_full_logo_verti.svg",

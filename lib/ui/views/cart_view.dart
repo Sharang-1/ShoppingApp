@@ -178,7 +178,7 @@ class _CartViewState extends State<CartView> {
                                 child: RaisedButton(
                                     elevation: 5,
                                     onPressed: () {
-                                      Navigator.push(
+                                      Navigator.pushReplacement(
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>

@@ -106,7 +106,7 @@ class LoginView extends StatelessWidget {
             color: Colors.transparent,
             child: bottomBar(model),
           ),
-          backgroundColor: Colors.white,
+          backgroundColor: backgroundWhiteCreamColor,
           body: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(40, 70, 20, 0),

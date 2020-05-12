@@ -52,7 +52,7 @@ class CutomStepper extends StatelessWidget {
                       (step == 1 ? 0.15 : step == 2 ? 0.52 : 1),
                   decoration: BoxDecoration(
                       gradient: LinearGradient(
-                          colors: [lightRedSmooth, darkRedSmooth, logoRed]),
+                          colors: [textIconOrange, logoRed]),
                       borderRadius: BorderRadius.circular(30)),
                 ),
               )
