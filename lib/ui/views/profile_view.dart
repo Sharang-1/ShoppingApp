@@ -5,6 +5,7 @@ import 'package:compound/ui/widgets/custom_text.dart';
 import 'package:compound/ui/widgets/drawer.dart';
 import 'package:compound/viewmodels/home_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../shared/app_colors.dart';
 import 'package:provider_architecture/provider_architecture.dart';
@@ -64,7 +65,7 @@ class _ProfileViewState extends State<ProfileView> {
             backgroundColor: backgroundWhiteCreamColor,
             bottomNavigationBar: Padding(
                 padding:
-                    EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+                    EdgeInsets.only(left: screenPadding, right: screenPadding, top: 10, bottom: 10),
                 child: RaisedButton(
                     elevation: 5,
                     onPressed: () {
@@ -74,7 +75,7 @@ class _ProfileViewState extends State<ProfileView> {
                         print(nameString);
                       }
                     },
-                    color: isButtonActive ? Colors.green[800] : Colors.grey,
+                    color: isButtonActive ? Colors.green[800] : Colors.grey[400],
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                       // side: BorderSide(
@@ -91,8 +92,9 @@ class _ProfileViewState extends State<ProfileView> {
             appBar: AppBar(
               elevation: 0,
               centerTitle: true,
-              title: Image.asset(
-                "assets/images/logo_red.png",
+              title: SvgPicture.asset(
+                "assets/svg/logo.svg",
+                color: logoRed,
                 height: 35,
                 width: 35,
               ),
@@ -131,7 +133,7 @@ class _ProfileViewState extends State<ProfileView> {
                                     elevation: 5,
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
-                                            BorderRadius.circular(15)),
+                                            BorderRadius.circular(curve15)),
                                     child: Padding(
                                       padding: EdgeInsets.all(15),
                                       child: Column(
@@ -140,19 +142,20 @@ class _ProfileViewState extends State<ProfileView> {
                                         children: <Widget>[
                                           CustomText(
                                             "Name",
-                                            fontSize: 16,
+                                            fontSize: 15,
                                             color: Colors.grey,
                                           ),
+                                          verticalSpaceTiny,
                                           Row(
                                             children: <Widget>[
                                               Expanded(
                                                   child: TextFormField(
                                                 focusNode: nameFocusNode,
                                                 style: TextStyle(
-                                                    fontSize: 20,
+                                                    fontSize: 17,
                                                     fontFamily: "Open-Sans",
                                                     fontWeight: FontWeight.w500,
-                                                    color: Colors.black),
+                                                    color: Colors.grey[800]),
                                                 readOnly: !isEditable,
                                                 initialValue: initialString,
                                                 validator: (text) {
@@ -195,7 +198,7 @@ class _ProfileViewState extends State<ProfileView> {
                                         ],
                                       ),
                                     ))),
-                            verticalSpaceTiny,
+                            verticalSpace(spaceBetweenCards),
                             SizedBox(
                                 child: Card(
                                     elevation: 5,
@@ -212,30 +215,30 @@ class _ProfileViewState extends State<ProfileView> {
                                             children: <Widget>[
                                               CustomText(
                                                 "Mobile No",
-                                                fontSize: 16,
+                                                fontSize: 15,
                                                 color: Colors.grey,
                                               ),
                                             ],
                                           ),
-                                          verticalSpaceTiny_0,
+                                          verticalSpaceSmall,
                                           Row(
                                             children: <Widget>[
                                               CustomText(
                                                 "9875243512",
-                                                fontSize: 18,
+                                                fontSize: 17,
                                                 fontWeight: FontWeight.w500,
-                                                color: Colors.black,
+                                                color: Colors.grey[800],
                                               ),
                                             ],
                                           )
                                         ],
                                       ),
                                     ))),
-                            verticalSpaceTiny,
+                            verticalSpace(spaceBetweenCards),
                             Column(
                               children: addressMap.keys.map((int key) {
                                 return Container(
-                                    margin: EdgeInsets.only(bottom: 5),
+                                    margin: EdgeInsets.only(bottom: spaceBetweenCards),
                                     child: Card(
                                       clipBehavior: Clip.antiAlias,
                                       shape: RoundedRectangleBorder(
@@ -258,14 +261,14 @@ class _ProfileViewState extends State<ProfileView> {
                                                 CustomText(
                                                   addressMap[key],
                                                   color: Colors.grey,
-                                                  fontSize: 16,
+                                                  fontSize: 15,
                                                 ),
-                                                verticalSpaceTiny_0,
+                                                verticalSpaceSmall,
                                                 CustomText(
                                                   fullAddressMap[key],
-                                                  color: Colors.black,
+                                                  color: Colors.grey[800],
                                                   fontWeight: FontWeight.w500,
-                                                  fontSize: 18,
+                                                  fontSize: 17,
                                                 )
                                               ],
                                             )),
@@ -275,7 +278,7 @@ class _ProfileViewState extends State<ProfileView> {
                                     ));
                               }).toList(),
                             ),
-                            verticalSpaceTiny,
+                            verticalSpaceMedium,
                             RaisedButton(
                                 elevation: 5,
                                 onPressed: () {

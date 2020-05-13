@@ -6,6 +6,7 @@ import 'package:compound/ui/views/cart_payment_method_view.dart';
 import 'package:compound/ui/widgets/custom_stepper.dart';
 import 'package:compound/ui/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class SelectAddress extends StatefulWidget {
   @override
@@ -30,8 +31,9 @@ class _SelectAddressState extends State<SelectAddress> {
         elevation: 0,
         backgroundColor: backgroundWhiteCreamColor,
         centerTitle: true,
-        title: Image.asset(
-          "assets/images/logo_red.png",
+        title: SvgPicture.asset(
+          "assets/svg/logo.svg",
+          color: logoRed,
           height: 35,
           width: 35,
         ),
@@ -40,7 +42,7 @@ class _SelectAddressState extends State<SelectAddress> {
         ),
       ),
       bottomNavigationBar: Padding(
-        padding: EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 0),
+        padding: EdgeInsets.only(left: screenPadding, right: screenPadding, bottom: 10, top: 0),
         child: RaisedButton(
             elevation: 5,
             onPressed: () {
@@ -49,7 +51,7 @@ class _SelectAddressState extends State<SelectAddress> {
             },
             color: Colors.green[800],
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30),
+              borderRadius: BorderRadius.circular(curve30),
               // side: BorderSide(
               //     color: Colors.black, width: 0.5)
             ),
@@ -140,11 +142,11 @@ class _SelectAddressState extends State<SelectAddress> {
             Column(
               children: addressMap.keys.map((int key) {
                 return Container(
-                    margin: EdgeInsets.only(bottom: 5),
+                    margin: EdgeInsets.only(bottom: spaceBetweenCards),
                     child: Card(
                       clipBehavior: Clip.antiAlias,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
+                        borderRadius: BorderRadius.circular(curve15),
                       ),
                       elevation: 5,
                       child: Padding(

@@ -1,4 +1,5 @@
 import 'package:compound/models/categorys.dart';
+import 'package:compound/ui/shared/shared_styles.dart';
 import 'package:compound/ui/widgets/network_image_with_placeholder.dart';
 import 'package:compound/utils/tools.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,7 @@ class CategoryTileUI extends StatelessWidget {
     double titleFontSize = isTablet ? 28.0 : 20.0;
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(15,5,15,0),
+      padding: const EdgeInsets.fromLTRB(20,10,20,0),
       child: Card(
         clipBehavior: Clip.antiAlias,
         color: Colors.grey,
@@ -57,7 +58,7 @@ class CategoryTileUI extends StatelessWidget {
               ]))
         ]),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.0),
+          borderRadius: BorderRadius.circular(curve15),
         ),
         elevation: 5,
       ),

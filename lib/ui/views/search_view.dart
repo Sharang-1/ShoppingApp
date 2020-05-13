@@ -15,6 +15,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:compound/constants/shared_pref.dart';
 import 'package:compound/viewmodels/search_view_model.dart';
 import 'package:compound/ui/shared/debouncer.dart';
+import '../widgets/cart_icon_badge.dart';
 import 'package:compound/ui/widgets/sellerGridListWidget.dart';
 
 class SearchView extends StatefulWidget {
@@ -155,7 +156,7 @@ class _SearchViewState extends State<SearchView>
       children: <Widget>[
         if (showResults && _tabController.index == 0)
           Padding(
-            padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+            padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
             child: GridListWidget<Products, Product>(
               key: productGridKey,
               context: context,
@@ -222,7 +223,8 @@ class _SearchViewState extends State<SearchView>
             iconTheme: IconThemeData(color: appBarIconColor),
             backgroundColor: backgroundWhiteCreamColor,
             actions: <Widget>[
-              IconButton(onPressed: () {}, icon: Icon(Icons.shopping_cart)),
+              IconButton(onPressed: () {}, icon: CartIconWithBadge()),
+            SizedBox(width: 5,)
             ],
             bottom: PreferredSize(
               preferredSize: Size(50, 50),

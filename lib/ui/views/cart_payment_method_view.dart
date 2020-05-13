@@ -5,6 +5,7 @@ import 'package:compound/ui/views/address_input_form_view.dart';
 import 'package:compound/ui/widgets/custom_stepper.dart';
 import 'package:compound/ui/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import '../../locator.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
@@ -43,8 +44,9 @@ class _PaymentMethodState extends State<PaymentMethod> {
         elevation: 0,
         backgroundColor: backgroundWhiteCreamColor,
         centerTitle: true,
-        title: Image.asset(
-          "assets/images/logo_red.png",
+        title: SvgPicture.asset(
+          "assets/svg/logo.svg",
+          color: logoRed,
           height: 35,
           width: 35,
         ),
@@ -58,11 +60,11 @@ class _PaymentMethodState extends State<PaymentMethod> {
           //     child:
 
           Padding(
-        padding: EdgeInsets.only(left: 20, right: 20, bottom: 10),
+        padding: EdgeInsets.only(left: screenPadding, right: screenPadding, bottom: 10),
         child: RaisedButton(
             elevation: 5,
             onPressed: () {
-                _navigationService.navigateReplaceTo(PaymentFinishedScreenRoute);
+              _navigationService.navigateReplaceTo(PaymentFinishedScreenRoute);
               print(paymentMethodRadioValue.toString() +
                   paymentMethodMap[paymentMethodRadioValue]);
               // Navigator.push(context,
@@ -87,7 +89,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
       body: SafeArea(
           child: SingleChildScrollView(
               child: Padding(
-        padding: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+        padding: EdgeInsets.only(left: screenPadding, right: screenPadding, top: 10, bottom: 10),
         child: Column(
           children: <Widget>[
             verticalSpaceTiny,
@@ -135,11 +137,11 @@ class _PaymentMethodState extends State<PaymentMethod> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: paymentMethodMap.keys.map((int key) {
                 return Container(
-                  margin: EdgeInsets.only(bottom:5),
+                  margin: EdgeInsets.only(bottom: spaceBetweenCards),
                   child: Card(
                     elevation: 5,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
+                      borderRadius: BorderRadius.circular(curve15),
                       // side: BorderSide(
                       //     color: Colors.black, width: 0.5)
                     ),

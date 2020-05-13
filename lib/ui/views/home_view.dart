@@ -3,6 +3,7 @@ import 'package:compound/ui/views/home_view_list.dart';
 import 'package:compound/ui/widgets/drawer.dart';
 import 'package:compound/viewmodels/home_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import '../shared/app_colors.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 import '../widgets/cart_icon_badge.dart';
@@ -39,14 +40,17 @@ class HomeView extends StatelessWidget {
                       iconTheme: IconThemeData(color: appBarIconColor),
                       backgroundColor: backgroundWhiteCreamColor,
                       title: Center(
-                          child: Image.asset(
-                        "assets/images/logo_red.png",
+                          child: SvgPicture.asset(
+                        "assets/svg/logo.svg",
+                        color: logoRed,
                         height: 40,
                         width: 40,
                       )),
                       actions: <Widget>[
                         IconButton(
-                          icon: CartIconWithBadge(IconColor: appBarIconColor,),
+                          icon: CartIconWithBadge(
+                            IconColor: appBarIconColor,
+                          ),
                           onPressed: () => model.cart(),
                         ),
                       ],

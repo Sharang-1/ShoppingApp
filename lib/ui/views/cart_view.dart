@@ -11,6 +11,7 @@ import 'package:compound/viewmodels/grid_view_builder_view_models/cart_grid_view
 import 'package:fimber/fimber.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 import '../shared/dashed_line.dart';
 import '../shared/shared_styles.dart';
@@ -71,8 +72,9 @@ class _CartViewState extends State<CartView> {
                 elevation: 0,
                 backgroundColor: backgroundWhiteCreamColor,
                 centerTitle: true,
-                title: Image.asset(
-                  "assets/images/logo_red.png",
+                title: SvgPicture.asset(
+                  "assets/svg/logo.svg",
+                  color: logoRed,
                   height: 35,
                   width: 35,
                 ),
@@ -88,7 +90,7 @@ class _CartViewState extends State<CartView> {
                 child: SingleChildScrollView(
                     child: Padding(
                   padding:
-                      EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+                      EdgeInsets.only(left: screenPadding, right: screenPadding, top: 10, bottom: 10),
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -161,10 +163,9 @@ class _CartViewState extends State<CartView> {
                                 onPressed: () {},
                                 color: backgroundWhiteCreamColor,
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30),
-                                  side: BorderSide(
-                                      color: logoRed, width: 1.5)
-                                ),
+                                    borderRadius: BorderRadius.circular(30),
+                                    side:
+                                        BorderSide(color: logoRed, width: 1.5)),
                                 child: Padding(
                                   padding:
                                       const EdgeInsets.symmetric(vertical: 12),
@@ -463,7 +464,7 @@ class _CartViewState extends State<CartView> {
   Widget productCard(titleFontSize, subtitleFontSize, priceFontSize) {
     return Card(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
+          borderRadius: BorderRadius.circular(curve15),
         ),
         clipBehavior: Clip.antiAlias,
         elevation: 5,
@@ -472,7 +473,7 @@ class _CartViewState extends State<CartView> {
           child: Row(
             children: <Widget>[
               ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(curve15),
                   child: FadeInImage.assetNetwork(
                     width: 120,
                     fadeInCurve: Curves.easeIn,

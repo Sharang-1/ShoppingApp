@@ -62,7 +62,7 @@ class _NotificationViewState extends State<NotificationView> {
                   child: SingleChildScrollView(
                       child: Padding(
                 padding:
-                    EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+                    EdgeInsets.only(left: screenPadding, right: screenPadding, top: 10, bottom: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -92,11 +92,11 @@ class _NotificationViewState extends State<NotificationView> {
                     Column(
                       children: notificationMap.keys.map((int key) {
                         return Container(
-                            margin: EdgeInsets.only(bottom: 5),
+                            margin: EdgeInsets.only(bottom: spaceBetweenCards),
                             child: Card(
                               clipBehavior: Clip.antiAlias,
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
+                                borderRadius: BorderRadius.circular(curve15),
                               ),
                               elevation: 5,
                               child: Padding(
@@ -108,7 +108,7 @@ class _NotificationViewState extends State<NotificationView> {
                                     imageAvailableMap[key]
                                         ? ClipRRect(
                                             borderRadius:
-                                                BorderRadius.circular(10),
+                                                BorderRadius.circular(curve15),
                                             child: FadeInImage.assetNetwork(
                                               width: 50,
                                               height: 50,

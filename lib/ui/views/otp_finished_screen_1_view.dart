@@ -27,8 +27,9 @@ class otpFinishedScreen1 extends StatelessWidget {
                       color: Colors.green[800],
                       size: MediaQuery.of(context).size.width * 0.2,
                     )
-                  : Image.asset(
-                      'assets/images/logo_red.png',
+                  : SvgPicture.asset(
+                      "assets/svg/logo.svg",
+                      color: logoRed,
                       width: MediaQuery.of(context).size.width / 2.5,
                       height: MediaQuery.of(context).size.width / 2.5,
                     ),
