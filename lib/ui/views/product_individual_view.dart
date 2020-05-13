@@ -761,30 +761,4 @@ class _ProductIndiViewState extends State<ProductIndiView> {
   }
 }
 
-class bottomTag extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return Stack(children: <Widget>[
-      Container(
-        width: MediaQuery.of(context).size.width,
-        color: Colors.grey,
-        height: 100,
-      ),
-      Positioned(
-        top: 0,
-        left: 0,
-        right: 0,
-        child: Container(
-          width: MediaQuery.of(context).size.width,
-          height: 30,
-          decoration: BoxDecoration(
-              color: backgroundWhiteCreamColor,
-              borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(15),
-                  bottomRight: Radius.circular(15))),
-        ),
-      )
-    ]);
-  }
-}
+

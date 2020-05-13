@@ -11,6 +11,12 @@ BoxDecoration disabledFieldDecortaion = BoxDecoration(
 // Field Variables
 const String headingFont="Raleway";
 const String textFont="Open Sans";
+
+const double curve15=15;
+const double curve30=30;
+const double spaceBetweenCards = 10 ;
+const double screenPadding = 20;
+
 const double fieldHeight = 55;
 const double smallFieldHeight = 40;
 const double inputFieldBottomMargin = 30;

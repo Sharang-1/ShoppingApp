@@ -5,10 +5,12 @@ import 'package:compound/ui/widgets/custom_text.dart';
 import 'package:compound/ui/widgets/drawer.dart';
 import 'package:compound/viewmodels/home_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../shared/app_colors.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 import '../widgets/cart_icon_badge.dart';
+import '../widgets/bottom_tag.dart';
 
 class SettingsView extends StatelessWidget {
   SettingsView({Key key}) : super(key: key);
@@ -25,6 +27,20 @@ class SettingsView extends StatelessWidget {
     3: 'https://dzor.in/policy.html?source=c',
     4: 'https://dzor.in/policy.html?source=c',
   };
+  AppBar appbar = AppBar(
+    elevation: 0,
+    centerTitle: true,
+    title: SvgPicture.asset(
+      "assets/svg/logo.svg",
+      color: logoRed,
+      height: 35,
+      width: 35,
+    ),
+    iconTheme: IconThemeData(
+      color: appBarIconColor,
+    ),
+    backgroundColor: backgroundWhiteCreamColor,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -34,147 +50,150 @@ class SettingsView extends StatelessWidget {
         builder: (context, model, child) => Scaffold(
             backgroundColor: backgroundWhiteCreamColor,
             // drawer: HomeDrawer(),
-            floatingActionButton: Padding(
-              padding: const EdgeInsets.only(right: 30),
-              child: FloatingActionButton.extended(
-                backgroundColor: Colors.transparent,
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                    side: BorderSide(color: logoRed, width: 2.5)),
-                onPressed: model.logout,
-                label: CustomText(
-                  "Logout",
-                  color: logoRed,
-                  isBold: true,
-                ),
-              ),
-            ),
-            appBar: AppBar(
-              elevation: 0,
-              centerTitle: true,
-              title: Image.asset(
-                "assets/images/logo_red.png",
-                height: 35,
-                width: 35,
-              ),
-              iconTheme: IconThemeData(
-                color: appBarIconColor,
-              ),
-              backgroundColor: backgroundWhiteCreamColor,
-            ),
+
+            appBar: appbar,
             body: SafeArea(
               top: false,
               left: false,
               right: false,
               child: SingleChildScrollView(
-                  child: Padding(
-                padding:
-                    EdgeInsets.only(left: 40, right: 40, top: 10, bottom: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    verticalSpace(20),
-                    Text(
-                      "Settings",
-                      style: TextStyle(
-                          fontFamily: headingFont,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 30),
-                    ),
-                    verticalSpace(50),
-                    Align(
-                        child: Container(
-                            child: Card(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20)),
-                                elevation: 8,
-                                child: Padding(
-                                  padding: EdgeInsets.all(10),
-                                  child: Column(
-                                    children: <Widget>[
-                                      verticalSpaceTiny_0,
-                                      Row(children: <Widget>[
-                                        Expanded(
-                                            child: RaisedButton(
-                                                elevation: 0,
-                                                onPressed: () {
-                                                  const url =
-                                                      'https://dzor.in/policy.html?source=c';
-                                                  _launchURL(url);
-                                                },
-                                                color: Colors.transparent,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(30),
-                                                  // side: BorderSide(
-                                                  //     color: Colors.black, width: 0.5)
-                                                ),
-                                                child: Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(vertical: 12),
-                                                  child: CustomText(
-                                                    "Rate The App ",
-                                                    fontSize: 20,
-                                                    isBold: true,
-                                                    color: Colors.grey[800],
+                  child: BottomTag(
+                appBarHeight: appbar.preferredSize.height,
+                statusBarHeight: MediaQuery.of(context).padding.top,
+                childWidget: Padding(
+                  padding: EdgeInsets.only(
+                      left: screenPadding,
+                      right: screenPadding,
+                      top: 10,
+                      bottom: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      verticalSpace(20),
+                      Text(
+                        "Settings",
+                        style: TextStyle(
+                            fontFamily: headingFont,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 30),
+                      ),
+                      verticalSpace(50),
+                      Align(
+                          child: Container(
+                              child: Card(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(curve15)),
+                                  elevation: 8,
+                                  child: Padding(
+                                    padding: EdgeInsets.all(10),
+                                    child: Column(
+                                      children: <Widget>[
+                                        verticalSpaceTiny_0,
+                                        Row(children: <Widget>[
+                                          Expanded(
+                                              child: RaisedButton(
+                                                  elevation: 0,
+                                                  onPressed: () {
+                                                    const url =
+                                                        'https://dzor.in/policy.html?source=c';
+                                                    _launchURL(url);
+                                                  },
+                                                  color: Colors.transparent,
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            30),
+                                                    // side: BorderSide(
+                                                    //     color: Colors.black, width: 0.5)
                                                   ),
-                                                )))
-                                      ]),
-                                      Opacity(
-                                          opacity: 0.9,
-                                          child: SizedBox(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.6,
-                                              child: Divider())),
-                                      Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: buttonNameMap.keys
-                                              .map((int key) {
-                                                return <Widget>[
-                                                  Row(children: <Widget>[
-                                                    Expanded(
-                                                        child: FlatButton(
-                                                            splashColor: Colors
-                                                                .grey
-                                                                .withOpacity(
-                                                                    0.1),
-                                                            onPressed: () {
-                                                              _launchURL(
-                                                                  buttonToURLMap[
-                                                                      key]);
-                                                            },
-                                                            child: CustomText(
-                                                              buttonNameMap[
-                                                                  key],
-                                                              isBold: true,
-                                                              fontSize: 20,
-                                                              color: Colors
-                                                                  .grey[800],
-                                                            )))
-                                                  ]),
-                                                  key < 4
-                                                      ? Opacity(
-                                                          opacity: 0.9,
-                                                          child: SizedBox(
-                                                              width: MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .width *
-                                                                  0.6,
-                                                              child: Divider()))
-                                                      : Container()
-                                                ];
-                                              })
-                                              .expand((element) => element)
-                                              .toList())
-                                    ],
-                                  ),
-                                ))))
-                  ],
+                                                  child: Padding(
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        vertical: 12),
+                                                    child: CustomText(
+                                                      "Rate The App ",
+                                                      fontSize: 20,
+                                                      isBold: true,
+                                                      color: Colors.grey[800],
+                                                    ),
+                                                  )))
+                                        ]),
+                                        Opacity(
+                                            opacity: 0.9,
+                                            child: SizedBox(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.6,
+                                                child: Divider())),
+                                        Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: buttonNameMap.keys
+                                                .map((int key) {
+                                                  return <Widget>[
+                                                    Row(children: <Widget>[
+                                                      Expanded(
+                                                          child: FlatButton(
+                                                              splashColor: Colors
+                                                                  .grey
+                                                                  .withOpacity(
+                                                                      0.1),
+                                                              onPressed: () {
+                                                                _launchURL(
+                                                                    buttonToURLMap[
+                                                                        key]);
+                                                              },
+                                                              child: CustomText(
+                                                                buttonNameMap[
+                                                                    key],
+                                                                isBold: true,
+                                                                fontSize: 20,
+                                                                color: Colors
+                                                                    .grey[800],
+                                                              )))
+                                                    ]),
+                                                    key < 4
+                                                        ? Opacity(
+                                                            opacity: 0.9,
+                                                            child: SizedBox(
+                                                                width: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width *
+                                                                    0.6,
+                                                                child:
+                                                                    Divider()))
+                                                        : Container()
+                                                  ];
+                                                })
+                                                .expand((element) => element)
+                                                .toList())
+                                      ],
+                                    ),
+                                  )))),
+                      verticalSpace(50),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          FloatingActionButton.extended(
+                            backgroundColor: Colors.transparent,
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(curve30),
+                                side: BorderSide(color: logoRed, width: 2.5)),
+                            onPressed: model.logout,
+                            label: CustomText(
+                              "Logout",
+                              color: logoRed,
+                              isBold: true,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               )),
             )));

@@ -34,7 +34,7 @@ class _CategoriesViewState extends State<CategoriesView> {
                 fontSize: 25,
                 color: Colors.black,
                 fontFamily: "Raleway",
-                fontWeight: FontWeight.w500),
+                fontWeight: FontWeight.w600),
           ),
           backgroundColor: backgroundWhiteCreamColor,
           elevation: 0,

@@ -17,7 +17,7 @@ import 'package:compound/constants/shared_pref.dart';
 import 'package:compound/viewmodels/search_view_model.dart';
 import 'package:compound/ui/shared/debouncer.dart';
 import 'package:compound/ui/widgets/sellerGridListWidget.dart';
-
+import '../widgets/cart_icon_badge.dart';
 class WishlistView extends StatefulWidget {
   WishlistView({Key key}) : super(key: key);
 
@@ -156,7 +156,7 @@ class _WishlistViewState extends State<WishlistView>
       children: <Widget>[
         if (showResults && _tabController.index == 0)
           Padding(
-            padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+            padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
             child: GridListWidget<Products, Product>(
               key: productGridKey,
               context: context,
@@ -223,7 +223,8 @@ class _WishlistViewState extends State<WishlistView>
             iconTheme: IconThemeData(color: appBarIconColor),
             backgroundColor: backgroundWhiteCreamColor,
             actions: <Widget>[
-              IconButton(onPressed: () {}, icon: Icon(Icons.shopping_cart)),
+              IconButton(onPressed: () {}, icon:CartIconWithBadge()),
+              SizedBox(width: 10,)
             ],
           ),
           backgroundColor: backgroundWhiteCreamColor,
@@ -241,23 +242,26 @@ class _WishlistViewState extends State<WishlistView>
                     iconTheme: IconThemeData(color: Colors.black),
                     backgroundColor: backgroundWhiteCreamColor,
                     automaticallyImplyLeading: false,
-                    title: Text(
-                      "Wishlist",
-                      style: TextStyle(
-                          fontFamily: headingFont,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 30,
-                          color: Colors.black),
+                    title: Padding(
+                      padding: const EdgeInsets.only(left: 5),
+                      child: Text(
+                        "Wishlist",
+                        style: TextStyle(
+                            fontFamily: headingFont,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 30,
+                            color: Colors.black),
+                      ),
                     ),
                     bottom: PreferredSize(
                       preferredSize: Size(50, 50),
                       child: Container(
-                        margin: EdgeInsets.fromLTRB(20, 0, 20, 5),
+                        margin: EdgeInsets.fromLTRB(screenPadding, 0, screenPadding, 5),
                         padding: EdgeInsets.all(2),
                         decoration: BoxDecoration(
                           // color: Colors.grey[200],
                           color: backgroundBlueGreyColor,
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(curve30),
                         ),
                         width: MediaQuery.of(context).size.width,
                         child: TabBar(
@@ -266,7 +270,7 @@ class _WishlistViewState extends State<WishlistView>
                           indicatorSize: TabBarIndicatorSize.tab,
                           indicator: BoxDecoration(
                             color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(curve30),
                           ),
                           controller: _tabController,
                           tabs: <Widget>[

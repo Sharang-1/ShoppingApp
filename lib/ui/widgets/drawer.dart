@@ -1,6 +1,7 @@
 import 'package:compound/constants/route_names.dart';
 import 'package:compound/locator.dart';
 import 'package:compound/services/navigation_service.dart';
+import 'package:compound/ui/shared/shared_styles.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:flutter/material.dart';
 import '../widgets/custom_text.dart';
@@ -13,14 +14,19 @@ class HomeDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       child: Container(
+        color:Colors.white,
         child: ListView(
           children: <Widget>[
             Container(
               padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-              color: textIconBlue,
+              color: logoRed,
               child: Row(
                 children: <Widget>[
-                  Icon(Icons.account_circle,color: Colors.white,size: 50,),
+                  Icon(
+                    Icons.account_circle,
+                    color: Colors.white,
+                    size: 50,
+                  ),
                   horizontalSpaceSmall,
                   horizontalSpaceSmall,
                   Expanded(
@@ -34,7 +40,7 @@ class HomeDrawer extends StatelessWidget {
                           fontSize: 18,
                           dotsAfterOverFlow: true,
                         ),
-                        verticalSpace(4),
+                        verticalSpace(3),
                         CustomText(
                           'Rohan',
                           color: Colors.white,
@@ -48,164 +54,187 @@ class HomeDrawer extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(
-              height: 10,
-            ),
-            ListTile(
-              title: Padding(
-                padding: EdgeInsets.only(left: 20),
-                child: CustomText(
-                  'Home',
-                  color: Colors.grey[800],
-                  isBold: true,
-                  fontSize: 18,
+            Stack(
+              children: <Widget>[
+                Container(
+                  height: 10,
+                  color: logoRed,
                 ),
-              ),
-              onTap: () {
-                _navigationService.navigateTo(HomeViewRoute);
-              },
+                Container(
+                  height: 12,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(curve15),
+                        topRight: Radius.circular(curve15),
+                      )),
+                )
+              ],
             ),
-            ListTile(
-              title: Padding(
-                padding: EdgeInsets.only(left: 20),
-                child: CustomText(
-                  'Categories',
-                  color: Colors.grey[800],
-                  isBold: true,
-                  fontSize: 18,
-                ),
+            Container(
+              child: Column(
+                children: <Widget>[
+                  SizedBox(
+                    height: 10,
+                  ),
+                  ListTile(
+                    title: Padding(
+                      padding: EdgeInsets.only(left: 20),
+                      child: CustomText(
+                        'Home',
+                        color: Colors.grey[800],
+                        isBold: true,
+                        fontSize: 18,
+                      ),
+                    ),
+                    onTap: () {
+                      _navigationService.navigateTo(HomeViewRoute);
+                    },
+                  ),
+                  ListTile(
+                    title: Padding(
+                      padding: EdgeInsets.only(left: 20),
+                      child: CustomText(
+                        'Categories',
+                        color: Colors.grey[800],
+                        isBold: true,
+                        fontSize: 18,
+                      ),
+                    ),
+                    onTap: () {
+                      _navigationService.navigateTo(CategoriesRoute);
+                    },
+                  ),
+                  ListTile(
+                    title: Padding(
+                      padding: EdgeInsets.only(left: 20),
+                      child: CustomText(
+                        'Map',
+                        color: Colors.grey[800],
+                        isBold: true,
+                        fontSize: 18,
+                      ),
+                    ),
+                    onTap: () {
+                      _navigationService.navigateTo(MapViewRoute);
+                    },
+                  ),
+                  Divider(),
+                  ListTile(
+                    title: Padding(
+                      padding: EdgeInsets.only(left: 20),
+                      child: CustomText(
+                        'My Orders',
+                        color: Colors.grey[800],
+                        isBold: true,
+                        fontSize: 18,
+                      ),
+                    ),
+                    onTap: () {
+                      _navigationService.navigateTo(MyOrdersRoute);
+                    },
+                  ),
+                  ListTile(
+                    title: Padding(
+                      padding: EdgeInsets.only(left: 20),
+                      child: CustomText(
+                        'Cart',
+                        color: Colors.grey[800],
+                        isBold: true,
+                        fontSize: 18,
+                      ),
+                    ),
+                    onTap: () {
+                      _navigationService.navigateTo(CartViewRoute);
+                    },
+                  ),
+                  ListTile(
+                    title: Padding(
+                      padding: EdgeInsets.only(left: 20),
+                      child: CustomText(
+                        'Wishlist',
+                        color: Colors.grey[800],
+                        isBold: true,
+                        fontSize: 18,
+                      ),
+                    ),
+                    onTap: () {
+                      _navigationService.navigateTo(WishlistRoute);
+                    },
+                  ),
+                  ListTile(
+                    title: Padding(
+                      padding: EdgeInsets.only(left: 20),
+                      child: CustomText(
+                        'Profile',
+                        color: Colors.grey[800],
+                        isBold: true,
+                        fontSize: 18,
+                      ),
+                    ),
+                    onTap: () {
+                      _navigationService.navigateTo(ProfileViewRoute);
+                    },
+                  ),
+                  ListTile(
+                    title: Padding(
+                      padding: EdgeInsets.only(left: 20),
+                      child: CustomText(
+                        'My Appointments',
+                        color: Colors.grey[800],
+                        isBold: true,
+                        fontSize: 18,
+                      ),
+                    ),
+                    onTap: () {
+                      // _navigationService.navigateTo(routeName)
+                    },
+                  ),
+                  Divider(),
+                  ListTile(
+                    title: Padding(
+                      padding: EdgeInsets.only(left: 20),
+                      child: CustomText(
+                        'Notifications',
+                        color: Colors.grey[800],
+                        isBold: true,
+                        fontSize: 18,
+                      ),
+                    ),
+                    onTap: () {
+                      _navigationService.navigateTo(NotifcationViewRoute);
+                    },
+                  ),
+                  ListTile(
+                    title: Padding(
+                      padding: EdgeInsets.only(left: 20),
+                      child: CustomText(
+                        'Sell On Dzor',
+                        color: Colors.grey[800],
+                        isBold: true,
+                        fontSize: 18,
+                      ),
+                    ),
+                    onTap: () {
+                      // _navigationService.navigateTo(routeName)
+                    },
+                  ),
+                  ListTile(
+                    title: Padding(
+                      padding: EdgeInsets.only(left: 20),
+                      child: CustomText(
+                        'Settings',
+                        color: Colors.grey[800],
+                        isBold: true,
+                        fontSize: 18,
+                      ),
+                    ),
+                    onTap: () {
+                      _navigationService.navigateTo(SettingsRoute);
+                    },
+                  ),
+                ],
               ),
-              onTap: () {
-                _navigationService.navigateTo(CategoriesRoute);
-              },
-            ),
-            ListTile(
-              title: Padding(
-                padding: EdgeInsets.only(left: 20),
-                child: CustomText(
-                  'Map',
-                  color: Colors.grey[800],
-                  isBold: true,
-                  fontSize: 18,
-                ),
-              ),
-              onTap: () {
-                _navigationService.navigateTo(MapViewRoute);
-              },
-            ),
-            Divider(),
-            ListTile(
-              title: Padding(
-                padding: EdgeInsets.only(left: 20),
-                child: CustomText(
-                  'My Orders',
-                  color: Colors.grey[800],
-                  isBold: true,
-                  fontSize: 18,
-                ),
-              ),
-              onTap: () {
-                _navigationService.navigateTo(MyOrdersRoute);
-              },
-            ),
-            ListTile(
-              title: Padding(
-                padding: EdgeInsets.only(left: 20),
-                child: CustomText(
-                  'Cart',
-                  color: Colors.grey[800],
-                  isBold: true,
-                  fontSize: 18,
-                ),
-              ),
-              onTap: () {
-                _navigationService.navigateTo(CartViewRoute);
-              },
-            ),
-            ListTile(
-              title: Padding(
-                padding: EdgeInsets.only(left: 20),
-                child: CustomText(
-                  'Wishlist',
-                  color: Colors.grey[800],
-                  isBold: true,
-                  fontSize: 18,
-                ),
-              ),
-              onTap: () {
-                _navigationService.navigateTo(WishlistRoute);
-              },
-            ),
-            ListTile(
-              title: Padding(
-                padding: EdgeInsets.only(left: 20),
-                child: CustomText(
-                  'Profile',
-                  color: Colors.grey[800],
-                  isBold: true,
-                  fontSize: 18,
-                ),
-              ),
-              onTap: () {
-                _navigationService.navigateTo(ProfileViewRoute);
-              },
-            ),
-            ListTile(
-              title: Padding(
-                padding: EdgeInsets.only(left: 20),
-                child: CustomText(
-                  'My Appointments',
-                  color: Colors.grey[800],
-                  isBold: true,
-                  fontSize: 18,
-                ),
-              ),
-              onTap: () {
-                // _navigationService.navigateTo(routeName)
-              },
-            ),
-            Divider(),
-            ListTile(
-              title: Padding(
-                padding: EdgeInsets.only(left: 20),
-                child: CustomText(
-                  'Notifications',
-                  color: Colors.grey[800],
-                  isBold: true,
-                  fontSize: 18,
-                ),
-              ),
-              onTap: () {
-                _navigationService.navigateTo(NotifcationViewRoute);
-              },
-            ),
-            ListTile(
-              title: Padding(
-                padding: EdgeInsets.only(left: 20),
-                child: CustomText(
-                  'Sell On Dzor',
-                  color: Colors.grey[800],
-                  isBold: true,
-                  fontSize: 18,
-                ),
-              ),
-              onTap: () {
-                // _navigationService.navigateTo(routeName)
-              },
-            ),
-            ListTile(
-              title: Padding(
-                padding: EdgeInsets.only(left: 20),
-                child: CustomText(
-                  'Settings',
-                  color: Colors.grey[800],
-                  isBold: true,
-                  fontSize: 18,
-                ),
-              ),
-              onTap: () {
-                _navigationService.navigateTo(SettingsRoute);
-              },
             ),
           ],
         ),

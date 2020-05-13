@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
         SystemUiOverlayStyle(statusBarColor: backgroundWhiteCreamColor));
     return MaterialApp(
       title: 'Compound',
+      // debugShowMaterialGrid: true,
       debugShowCheckedModeBanner: false,
       navigatorObservers: [
         // locator<AnalyticsService>().getAnalyticsObserver(),

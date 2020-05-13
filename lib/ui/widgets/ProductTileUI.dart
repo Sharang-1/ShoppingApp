@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:compound/models/products.dart';
+import 'package:compound/ui/shared/shared_styles.dart';
 import 'package:compound/ui/widgets/network_image_with_placeholder.dart';
 import 'package:compound/utils/tools.dart';
 import '../shared/app_colors.dart';
@@ -36,8 +37,8 @@ class _ProductTileUIState extends State<ProductTileUI> {
     double ratingCountFontSize = isTablet ? 16.0 : 12.0;
     double wishlistIconSize = isTablet ? 34 : 25;
     EdgeInsetsGeometry paddingCard = widget.index % 2 == 0
-        ? const EdgeInsets.fromLTRB(10, 0, 0, 10)
-        : const EdgeInsets.fromLTRB(0, 0, 10, 10);
+        ? const EdgeInsets.fromLTRB(screenPadding, 0, 0, 10)
+        : const EdgeInsets.fromLTRB(0, 0, screenPadding, 10);
     // final BlousePadding sellerName=widget.data.whoMadeIt;
 
     final photo = widget.data.photo ?? null;
@@ -74,7 +75,7 @@ class _ProductTileUIState extends State<ProductTileUI> {
           padding: paddingCard,
           child: Card(
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5),
+              borderRadius: BorderRadius.circular(curve15),
             ),
             elevation: 8,
             clipBehavior: Clip.antiAlias,
