@@ -63,7 +63,7 @@ class CategoryIndiView extends StatelessWidget {
                                   ),
                                   Container(
                                     height: 50,
-                                    margin: EdgeInsets.only(top:10),
+                                    margin: EdgeInsets.only(top:12),
                                     decoration: BoxDecoration(
                                         color: backgroundWhiteCreamColor,
                                         borderRadius: BorderRadius.only(

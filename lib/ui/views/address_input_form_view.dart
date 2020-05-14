@@ -26,7 +26,7 @@ class _AddressInputPageState extends State<AddressInputPage> {
       // extendBodyBehindAppBar: true,
       appBar: AppBar(
         elevation: 1,
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.white,
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.my_location),
