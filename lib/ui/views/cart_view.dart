@@ -185,7 +185,7 @@ class _CartViewState extends State<CartView> {
                                               builder: (context) =>
                                                   SelectAddress()));
                                     },
-                                    color: Colors.green[800],
+                                    color: green,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(30),
                                       // side: BorderSide(
@@ -285,11 +285,12 @@ class _CartViewState extends State<CartView> {
               ),
               actions: <Widget>[
                 IconButton(
-                  icon: Icon(Icons.close),
+                  icon: Icon(CupertinoIcons.clear_circled_solid),
                   onPressed: () {
                     Navigator.of(context).pop(null);
                   },
-                  color: appBarIconColor,
+                  color: Colors.grey[700],
+                  iconSize: 30,
                 ),
                 horizontalSpaceSmall
               ],
@@ -411,7 +412,7 @@ class _CartViewState extends State<CartView> {
                                             color: key == "Delivery Charges"
                                                 ? orderSummaryDetails[key] ==
                                                         "0.0"
-                                                    ? Colors.green
+                                                    ? green
                                                     : Colors.black
                                                 : Colors.grey[600],
                                             fontWeight: FontWeight.bold,
@@ -437,7 +438,7 @@ class _CartViewState extends State<CartView> {
                                           builder: (context) =>
                                               SelectAddress()));
                                 },
-                                color: Colors.green[800],
+                                color: green,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(30),
                                   // side: BorderSide(
@@ -538,7 +539,7 @@ class _CartViewState extends State<CartView> {
                   !clicked
                       ? Icons.keyboard_arrow_down
                       : Icons.keyboard_arrow_up,
-                  color: Colors.black,
+                  color: Colors.grey,
                 ),
                 onPressed: () {
                   setState(() {

@@ -49,7 +49,7 @@ class _SelectAddressState extends State<SelectAddress> {
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (context) => PaymentMethod()));
             },
-            color: Colors.green[800],
+            color: green,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(curve30),
               // side: BorderSide(

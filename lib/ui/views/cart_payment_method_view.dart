@@ -70,7 +70,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
               // Navigator.push(context,
               //     MaterialPageRoute(builder: (context) => PaymentMethod()));
             },
-            color: Colors.green[800],
+            color: green,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30),
               // side: BorderSide(

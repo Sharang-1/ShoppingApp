@@ -153,7 +153,7 @@ class _AddressInputPageState extends State<AddressInputPage> {
                                           print(locationString +
                                               completeAddressString);
                                         },
-                                        color: Colors.green[800],
+                                        color: green,
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(30),

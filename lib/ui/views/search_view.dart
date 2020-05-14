@@ -3,6 +3,7 @@ import 'package:compound/models/grid_view_builder_filter_models/sellerFilter.dar
 import 'package:compound/models/products.dart';
 import 'package:compound/models/sellers.dart';
 import 'package:compound/ui/shared/app_colors.dart';
+import 'package:compound/ui/shared/shared_styles.dart';
 import 'package:compound/ui/widgets/GridListWidget.dart';
 import 'package:compound/ui/widgets/ProductFilterDialog.dart';
 import 'package:compound/ui/widgets/ProductTileUI.dart';
@@ -301,7 +302,7 @@ class _SearchViewState extends State<SearchView>
                     decoration: BoxDecoration(
                       // color: Colors.grey[200],
                       color: backgroundBlueGreyColor,
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(curve30),
                     ),
                     width: MediaQuery.of(context).size.width,
                     child: TabBar(
@@ -310,7 +311,7 @@ class _SearchViewState extends State<SearchView>
                       indicatorSize: TabBarIndicatorSize.tab,
                       indicator: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(curve30),
                       ),
                       controller: _tabController,
                       tabs: <Widget>[

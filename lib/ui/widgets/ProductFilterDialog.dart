@@ -1,6 +1,7 @@
 import 'package:compound/models/grid_view_builder_filter_models/productFilter.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:fimber/fimber.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../shared/app_colors.dart';
 
@@ -204,9 +205,8 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
             //   ),
             IconButton(
               tooltip: "Close",
-              icon: Icon(
-                Icons.close,
-              ),
+              icon: Icon(CupertinoIcons.clear_circled_solid),
+              color: Colors.grey[700],
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -269,13 +269,13 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
                       (String sKey) {
                         return FilterChip(
                           backgroundColor: Colors.white,
-                          checkmarkColor: Colors.green[800],
+                          checkmarkColor: green,
                           selectedColor: Colors.white,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15),
                               side: BorderSide(
                                 color: subCategoriesValues[sKey]
-                                    ? Colors.green[800]
+                                    ? green
                                     : Colors.grey,
                                 width: 0.5,
                               )),
@@ -285,7 +285,7 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
                                   ? FontWeight.w600
                                   : FontWeight.normal,
                               color: subCategoriesValues[sKey]
-                                  ? Colors.green[800]
+                                  ? green
                                   : Colors.grey),
                           label: Text(sKey),
                           selected: subCategoriesValues[sKey],
@@ -381,7 +381,7 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
                   //           borderRadius: BorderRadius.circular(15),
                   //           side: BorderSide(
                   //             color: sortByRadioValue == sortByRadioMap[sKey]
-                  //                 ? Colors.green[800]
+                  //                 ? green
                   //                 : Colors.grey,
                   //             width: 0.5,
                   //           )),
@@ -391,7 +391,7 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
                   //               ? FontWeight.w600
                   //               : FontWeight.normal,
                   //           color: sortByRadioValue == sortByRadioMap[sKey]
-                  //               ? Colors.green[800]
+                  //               ? green
                   //               : Colors.grey),
                   //       selectedColor: Colors.white,
                   //       selected: sortByRadioValue == sortByRadioMap[sKey],
@@ -419,7 +419,7 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
                             side: BorderSide(
                               color:
                                   sortOrderRadioValue == sortOrderRadioMap[sKey]
-                                      ? Colors.green[800]
+                                      ? green
                                       : Colors.grey,
                               width: 0.5,
                             )),
@@ -431,7 +431,7 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
                                     : FontWeight.normal,
                             color:
                                 sortOrderRadioValue == sortOrderRadioMap[sKey]
-                                    ? Colors.green[800]
+                                    ? green
                                     : Colors.grey),
                         selectedColor: Colors.white,
                         label: Text(sKey),

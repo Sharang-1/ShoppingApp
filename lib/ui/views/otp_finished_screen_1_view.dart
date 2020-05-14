@@ -24,7 +24,7 @@ class otpFinishedScreen1 extends StatelessWidget {
               fromCart && model.displaySymbol
                   ? Icon(
                       Icons.check,
-                      color: Colors.green[800],
+                      color: green,
                       size: MediaQuery.of(context).size.width * 0.2,
                     )
                   : SvgPicture.asset(

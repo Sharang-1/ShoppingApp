@@ -4,7 +4,7 @@ import 'package:compound/ui/shared/app_colors.dart';
 class CutomStepper extends StatelessWidget {
   final int step;
 
-  const CutomStepper({Key key, this.step}) : super(key: key);
+  const CutomStepper({Key key,@required this.step}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

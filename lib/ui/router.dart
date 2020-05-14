@@ -3,6 +3,7 @@ import 'package:compound/models/products.dart';
 import 'package:compound/models/route_argument.dart';
 import 'package:compound/ui/views/cart_view.dart';
 import 'package:compound/ui/views/categories_view.dart';
+import 'package:compound/ui/views/category_indi_view.dart';
 import 'package:compound/ui/views/home_view.dart';
 import 'package:compound/ui/views/map_view.dart';
 import 'package:compound/ui/views/myorders_view.dart';
@@ -169,6 +170,13 @@ Route<dynamic> generateRoute(RouteSettings settings) {
           pageArguments: pageArguments,
           routeName: settings.name,
           viewToShow: ProfileView(),
+          pageTransitionType: transitionType);
+
+    case CategoryIndiViewRoute:
+      return _getPageRoute(
+          pageArguments: pageArguments,
+          routeName: settings.name,
+          viewToShow: CategoryIndiView(),
           pageTransitionType: transitionType);
 
     case SettingsRoute:

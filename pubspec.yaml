@@ -77,6 +77,7 @@ flutter:
     - assets/images/phonepe_icon.png
     - assets/svg/DZOR_full_logo_verti.svg
     - assets/svg/logo.svg
+    - assets/svg/wishlist.svg
     - assets/icons/info.png
     - assets/icons/filter.png
     - assets/icons/like.png

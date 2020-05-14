@@ -11,6 +11,7 @@ Color lightRedSmooth =  _colorFromHex("#f57f8d");
 Color darkRedSmooth =   _colorFromHex("#bE505F");//_colorFromHex("#e1547e");
 Color logoRed =  _colorFromHex("#bE505F");
 Color lightBlue =  _colorFromHex("#78a2ec");
+Color green = Colors.green[700];
 Color textIconOrange =  _colorFromHex("#eb6969");
 Color textIconBlue =  _colorFromHex("#3e5377");
 Color appBarIconColor = Colors.black;

@@ -31,7 +31,7 @@ class CategoriesViewModel extends BaseModel {
 
   Future showProducts(String filter, String name) async {
     await _navigationService.navigateTo(
-      ProductsListRoute,
+      CategoryIndiViewRoute,
       arguments: ProductPageArg(
         queryString: filter,
         subCategory: name,

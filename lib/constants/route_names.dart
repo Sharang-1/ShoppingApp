@@ -17,3 +17,4 @@ const String SettingsRoute = "SettingsView";
 const String NotifcationViewRoute = "NotificationView";
 const String WishlistRoute = "WishlistView";
 const String ProfileViewRoute = "ProfileView";
+const String CategoryIndiViewRoute = "CategoryIndiView";

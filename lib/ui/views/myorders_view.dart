@@ -17,8 +17,8 @@ import './myorders_details_view.dart';
 class MyOrdersView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    double subtitleFontSize = 18;
-    double titleFontSize = 20;
+    double subtitleFontSize = 16;
+    double titleFontSize = 18;
     return ViewModelProvider<CartViewModel>.withConsumer(
         viewModel: CartViewModel(),
         onModelReady: (model) => model.init(),
@@ -36,8 +36,11 @@ class MyOrdersView extends StatelessWidget {
                 right: false,
                 child: SingleChildScrollView(
                     child: Padding(
-                  padding:
-                      EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+                  padding: EdgeInsets.only(
+                      left: screenPadding,
+                      right: screenPadding,
+                      top: 10,
+                      bottom: 10),
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
@@ -51,14 +54,15 @@ class MyOrdersView extends StatelessWidget {
                               style: TextStyle(
                                   fontFamily: headingFont,
                                   fontWeight: FontWeight.w700,
-                                  fontSize: 30),
+                                  fontSize: 25),
                             ),
                             FlatButton(
                               child: CustomText(
                                 "Wish List",
                                 fontFamily: headingFont,
+                                isBold: true,
                                 fontSize: subtitleFontSize,
-                                color: lightRedSmooth,
+                                color: logoRed,
                               ),
                               onPressed: () {},
                             )
@@ -66,88 +70,80 @@ class MyOrdersView extends StatelessWidget {
                         ),
                         verticalSpace(20),
                         SizedBox(
-                            height: 150,
+                            height: 200,
                             child: Card(
                                 clipBehavior: Clip.antiAlias,
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15.0),
+                                  borderRadius: BorderRadius.circular(curve15),
                                 ),
                                 elevation: 5,
                                 child: Padding(
-                                    padding: EdgeInsets.all(10),
-                                    child: Column(
-                                      children: <Widget>[
-                                        Expanded(
-                                          child: Row(
-                                            children: <Widget>[
-                                              ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(5),
-                                                  child:
-                                                      FadeInImage.assetNetwork(
-                                                    width: 100,
-                                                    fadeInCurve: Curves.easeIn,
-                                                    placeholder:
-                                                        "assets/images/placeholder.png",
-                                                    image:
-                                                        "https://images.unsplash.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-                                                    fit: BoxFit.cover,
-                                                  )),
-                                              horizontalSpaceSmall,
-                                              Expanded(
-                                                  child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: <Widget>[
-                                                  verticalSpaceTiny,
-                                                  CustomText(
-                                                    "Nike T-Shirt",
-                                                    isBold: true,
-                                                    fontSize: titleFontSize,
-                                                  ),
-                                                  verticalSpaceSmall,
-                                                  CustomText(
-                                                      rupeeUnicode + '100',
-                                                      fontSize:
-                                                          subtitleFontSize),
-                                                  verticalSpaceSmall,
-                                                  CustomText("XL",
-                                                      color: Colors.grey,
-                                                      fontSize:
-                                                          subtitleFontSize),
-                                                ],
-                                              )),
-                                              IconButton(
-                                                icon: Icon(
-                                                    Icons.arrow_forward_ios),
-                                                onPressed: () {
-                                                  Navigator.push(
-                                                      context,
-                                                      new MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              MyOrdersDetailsView()));
-                                                },
-                                              )
-                                            ],
+                                  padding: EdgeInsets.only(
+                                      left: 15, top: 20, bottom: 20),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(curve15),
+                                          child: FadeInImage.assetNetwork(
+                                            width: 100,
+                                            height: 120,
+                                            fadeInCurve: Curves.easeIn,
+                                            placeholder:
+                                                "assets/images/placeholder.png",
+                                            image:
+                                                "https://images.unsplash.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
+                                            fit: BoxFit.cover,
+                                          )),
+                                      horizontalSpaceMedium,
+                                      Expanded(
+                                          child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          CustomText(
+                                            "Nike T-Shirt",
+                                            isBold: true,
+                                            color: Colors.grey[800],
+                                            dotsAfterOverFlow: true,
+                                            fontSize: titleFontSize,
                                           ),
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: <Widget>[
-                                            CustomText(
-                                              "Shipping",
-                                              fontSize: subtitleFontSize,
-                                              isBold: true,
+                                          CustomText(
+                                            rupeeUnicode + '100',
+                                            dotsAfterOverFlow: true,
+                                            fontSize: titleFontSize,
+                                            isBold: true,
+                                            color: textIconOrange,
+                                          ),
+                                          CustomText("XL",
+                                              dotsAfterOverFlow: true,
                                               color: Colors.grey,
-                                            ),
-                                            horizontalSpaceSmall
-                                          ],
-                                        )
-                                      ],
-                                    )))),
+                                              fontSize: subtitleFontSize),
+                                          CustomText(
+                                            "Shipping",
+                                            fontSize: subtitleFontSize,
+                                            isBold: true,
+                                            color: Colors.grey,
+                                          ),
+                                        ],
+                                      )),
+                                      IconButton(
+                                        icon: Icon(Icons.arrow_forward_ios,color: Colors.grey,),
+                                        onPressed: () {
+                                          Navigator.push(
+                                              context,
+                                              new MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      MyOrdersDetailsView()));
+                                        },
+                                      )
+                                    ],
+                                  ),
+                                ))),
                         verticalSpaceMedium,
                       ]),
                 )),

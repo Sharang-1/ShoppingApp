@@ -14,7 +14,7 @@ class HomeDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       child: Container(
-        color:Colors.white,
+        color: Colors.white,
         child: ListView(
           children: <Widget>[
             Container(
@@ -132,20 +132,6 @@ class HomeDrawer extends StatelessWidget {
                     ),
                     onTap: () {
                       _navigationService.navigateTo(MyOrdersRoute);
-                    },
-                  ),
-                  ListTile(
-                    title: Padding(
-                      padding: EdgeInsets.only(left: 20),
-                      child: CustomText(
-                        'Cart',
-                        color: Colors.grey[800],
-                        isBold: true,
-                        fontSize: 18,
-                      ),
-                    ),
-                    onTap: () {
-                      _navigationService.navigateTo(CartViewRoute);
                     },
                   ),
                   ListTile(

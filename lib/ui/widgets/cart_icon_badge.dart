@@ -4,7 +4,7 @@ import '../shared/app_colors.dart';
 class CartIconWithBadge extends StatelessWidget {
   final IconColor;
 
-  const CartIconWithBadge({Key key, this.IconColor}) : super(key: key);
+  const CartIconWithBadge({Key key,@required this.IconColor}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class CartIconWithBadge extends StatelessWidget {
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              color: Colors.red,
+              color: logoRed,
             ),
             padding: EdgeInsets.symmetric(vertical: 2, horizontal: 4),
             child: Text(

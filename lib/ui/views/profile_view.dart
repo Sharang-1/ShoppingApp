@@ -75,7 +75,7 @@ class _ProfileViewState extends State<ProfileView> {
                         print(nameString);
                       }
                     },
-                    color: isButtonActive ? Colors.green[800] : Colors.grey[400],
+                    color: isButtonActive ?green : Colors.grey[400],
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                       // side: BorderSide(
@@ -298,7 +298,7 @@ class _ProfileViewState extends State<ProfileView> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
                                     Icon(
-                                      Icons.add_location,
+                                      Icons.add,
                                       color: Colors.white,
                                     ),
                                     horizontalSpaceSmall,

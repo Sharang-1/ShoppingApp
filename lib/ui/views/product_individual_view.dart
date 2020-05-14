@@ -5,6 +5,7 @@ import 'package:compound/models/products.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/ui/widgets/network_image_with_placeholder.dart';
 import 'package:compound/ui/widgets/reviews.dart';
+import 'package:compound/ui/widgets/wishlist_icon.dart';
 import 'package:compound/viewmodels/product_individual_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -394,10 +395,10 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30),
                             color: Colors.white.withOpacity(1)),
-                        child: Icon(
-                          Icons.favorite_border,
-                          color: darkRedSmooth,
-                          size: 30,
+                        child: WishListIcon(
+                          filled: true,
+                          width: 20,
+                          height: 20,
                         ),
                       ),
                     )
@@ -428,7 +429,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                           "In Stock",
                           style: TextStyle(
                               fontSize: 20,
-                              color: Colors.green,
+                              color: green,
                               fontWeight: FontWeight.w600),
                         )
                       : Text("Out Of Stock",
@@ -693,6 +694,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                     ),
                     elevation: 5,
                     child: Container(
+                        width: MediaQuery.of(context).size.width,
                         padding: EdgeInsets.all(20),
                         child: Text(
                           widget.data.description,

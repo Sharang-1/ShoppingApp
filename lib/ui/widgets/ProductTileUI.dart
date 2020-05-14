@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:compound/models/products.dart';
 import 'package:compound/ui/shared/shared_styles.dart';
 import 'package:compound/ui/widgets/network_image_with_placeholder.dart';
+import 'package:compound/ui/widgets/wishlist_icon.dart';
 import 'package:compound/utils/tools.dart';
 import '../shared/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -108,15 +109,15 @@ class _ProductTileUIState extends State<ProductTileUI> {
                                 ),
                                 InkWell(
                                   child: this.toggle
-                                      ? Icon(
-                                          Icons.favorite,
-                                          size: wishlistIconSize,
-                                          color: darkRedSmooth,
+                                      ? WishListIcon(
+                                          filled: true,
+                                          width: 18,
+                                          height: 18,
                                         )
-                                      : Icon(
-                                          Icons.favorite_border,
-                                          size: wishlistIconSize,
-                                          color: darkRedSmooth,
+                                      : WishListIcon(
+                                          filled: false,
+                                          width: 18,
+                                          height: 18,
                                         ),
                                   onTap: () {
                                     setState(() {

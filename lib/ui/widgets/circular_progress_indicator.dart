@@ -37,7 +37,7 @@ class _CircularProgressIndicatorWidgetState
               lineWidth: 5.0,
               backgroundColor: Colors.transparent,
               percent: _animation.value,
-              progressColor: widget.fromCart ? Colors.green[800]  : lightBlue,
+              progressColor: widget.fromCart ? green  : lightBlue,
             );
               }
     );

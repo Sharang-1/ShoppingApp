@@ -149,6 +149,7 @@ class _NotificationViewState extends State<NotificationView> {
                                           ),
                                     IconButton(
                                       icon: Icon(Icons.keyboard_arrow_right),
+                                      color: Colors.grey,
                                       onPressed: () {},
                                     )
                                   ],
