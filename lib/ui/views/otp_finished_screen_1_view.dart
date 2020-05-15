@@ -41,15 +41,33 @@ class otpFinishedScreen1 extends StatelessWidget {
                 ? Container()
                 : Padding(
                     padding: const EdgeInsets.fromLTRB(30, 50, 30, 0),
-                    child: Text(
-                      "Your order has been received \nfor Nike Shoes \n by Nike pvt lmt.",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontFamily: headingFont,
-                          color: Colors.grey[700],
-                          fontWeight: FontWeight.bold,
-                          fontSize: 17),
-                    ),
+                    child: Column(children: <Widget>[
+                      Text(
+                        "Your order has been received for",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontFamily: headingFont,
+                            color: Colors.grey[600],
+                            fontWeight: FontWeight.bold,
+                            fontSize: 17),
+                      ),Text(
+                        "Nike Shoes by",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontFamily: headingFont,
+                            color: Colors.grey[800],
+                            fontWeight: FontWeight.bold,
+                            fontSize: 17),
+                      ),Text(
+                        "Nike pvt lmt.",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontFamily: headingFont,
+                            color: Colors.grey[800],
+                            fontWeight: FontWeight.bold,
+                            fontSize: 17),
+                      ),
+                    ]),
                   )
           ]),
         ),

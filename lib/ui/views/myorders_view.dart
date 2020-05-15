@@ -88,8 +88,8 @@ class MyOrdersView extends StatelessWidget {
                                           borderRadius:
                                               BorderRadius.circular(curve15),
                                           child: FadeInImage.assetNetwork(
-                                            width: 100,
-                                            height: 120,
+                                            width: (MediaQuery.of(context).size.width-70)/3,
+                                            height: 140,
                                             fadeInCurve: Curves.easeIn,
                                             placeholder:
                                                 "assets/images/placeholder.png",

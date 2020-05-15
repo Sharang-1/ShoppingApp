@@ -56,7 +56,7 @@ class _SelectAddressState extends State<SelectAddress> {
               //     color: Colors.black, width: 0.5)
             ),
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 12),
+              padding: const EdgeInsets.symmetric(vertical: 15),
               child: Text(
                 "Proceed To Payment ",
                 style:

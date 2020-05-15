@@ -356,24 +356,20 @@ class MyOrdersDetailsView extends StatelessWidget {
               ],
             ),
             verticalSpace(50),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                FloatingActionButton.extended(
-                  backgroundColor: Colors.transparent,
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(curve30),
-                      side: BorderSide(color: green, width: 2.5)),
-                  onPressed: () {},
-                  label: CustomText(
-                    " Help ",
-                    color: green,
-                    isBold: true,
+            RaisedButton(
+                elevation: 0,
+                onPressed: () {},
+                color: backgroundWhiteCreamColor,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    side: BorderSide(color: textIconOrange, width: 2)),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 15),
+                  child: Text(
+                    "Help",
+                    style: TextStyle(color: textIconOrange,fontWeight: FontWeight.bold),
                   ),
-                ),
-              ],
-            ),
+                )),
             verticalSpace(20),
           ]),
     );

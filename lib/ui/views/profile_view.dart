@@ -152,7 +152,7 @@ class _ProfileViewState extends State<ProfileView> {
                                                   child: TextFormField(
                                                 focusNode: nameFocusNode,
                                                 style: TextStyle(
-                                                    fontSize: 17,
+                                                    fontSize: 22,
                                                     fontFamily: "Open-Sans",
                                                     fontWeight: FontWeight.w500,
                                                     color: Colors.grey[800]),
