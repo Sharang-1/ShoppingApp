@@ -9,8 +9,9 @@ import 'package:provider_architecture/provider_architecture.dart';
 
 // Type and Enum declarations
 enum LoadMoreStatus { LOADING, STABLE }
+
 typedef TileFunctionBuilder = Widget Function(
-    BuildContext context, dynamic data, int index);
+    BuildContext context, dynamic data, int index, bool Function(int) onDelete, bool Function(int, dynamic) onUpdate);
 
 class GridListWidget<P, I> extends StatelessWidget {
   final BaseFilterModel filter;
@@ -163,7 +164,7 @@ class PaginatedGridView<P, I> extends StatefulWidget {
 class _PaginatedGridViewState<I> extends State<PaginatedGridView> {
   final ScrollController _scrollController = new ScrollController();
   LoadMoreStatus loadMoreStatus = LoadMoreStatus.STABLE;
-  List<I> items;
+  List<I> items = [];
   int currentPage;
   CancelableOperation itemOperation;
 
@@ -197,7 +198,7 @@ class _PaginatedGridViewState<I> extends State<PaginatedGridView> {
               itemCount: items.length,
               physics: ScrollPhysics(),
               itemBuilder: (_, index) =>
-                  widget.tileBuilder(context, items[index], index),
+                  widget.tileBuilder(context, items[index], index, null, null),
             )
           : Center(
               child: Text("No Items found"),
