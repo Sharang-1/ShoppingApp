@@ -12,7 +12,7 @@
 // import 'package:flutter/foundation.dart';
 
 // class CreatePostViewModel extends BaseModel {
-//   final APIService _APIService = locator<APIService>();
+//   final APIService _apiService = locator<APIService>();
 //   final DialogService _dialogService = locator<DialogService>();
 //   final NavigationService _navigationService = locator<NavigationService>();
 //   final ImageSelector _imageSelector = locator<ImageSelector>();
@@ -50,7 +50,7 @@
 //     var result;
 
 //     if (!_editting) {
-//       result = await _APIService.addPost(Post(
+//       result = await _apiService.addPost(Post(
 //         title: title,
 //         userId: currentUser.id,
 //         imageUrl: storageResult.imageUrl,
@@ -60,7 +60,7 @@
 //       await _analyticsService.logPostCreated(
 //           hasImage: _selectedImage != null);
 //     } else {
-//       result = await _APIService.updatePost(Post(
+//       result = await _apiService.updatePost(Post(
 //         title: title,
 //         userId: _edittingPost.userId,
 //         documentId: _edittingPost.documentId,

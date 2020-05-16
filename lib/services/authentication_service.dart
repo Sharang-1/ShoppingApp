@@ -9,7 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../constants/shared_pref.dart';
 
 class AuthenticationService {
-  final APIService _APIService = locator<APIService>();
+  final APIService _apiService = locator<APIService>();
   // final AnalyticsService _analyticsService = locator<AnalyticsService>();
 
   User _currentUser;
@@ -25,7 +25,7 @@ class AuthenticationService {
     if (!resend) {
       prefs.setString(Name, name);
     }
-    return _APIService.sendOTP(phoneNo: phoneNo);
+    return _apiService.sendOTP(phoneNo: phoneNo);
   }
 
   Future<dynamic> verifyOTP({
@@ -33,7 +33,7 @@ class AuthenticationService {
   }) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String phoneNo = prefs.getString(PhoneNo);
-    return _APIService.verifyOTP(phoneNo: phoneNo, otp: otp);
+    return _apiService.verifyOTP(phoneNo: phoneNo, otp: otp);
   }
 
   Future<bool> isUserLoggedIn() async {
@@ -44,7 +44,7 @@ class AuthenticationService {
 
   // Unwanted APIs
   Future testApi() {
-    _APIService.getProducts();
+    _apiService.getProducts();
     Fimber.i("INFO Extra error message");
     Fimber.d("DEBUG test my flutter app");
     Fimber.w("WARN");
@@ -88,7 +88,7 @@ class AuthenticationService {
   //     userRole: role,
   //   );
 
-  //   await _APIService.createUser(_currentUser);
+  //   await _apiService.createUser(_currentUser);
   //   await _analyticsService.setUserProperties(
   //     userId: authResult.user.uid,
   //     userRole: _currentUser.userRole,
@@ -102,7 +102,7 @@ class AuthenticationService {
 
   // Future _populateCurrentUser() async {
   //   // if (user != null) {
-  //   //   _currentUser = await _APIService.getUser(user.uid);
+  //   //   _currentUser = await _apiService.getUser(user.uid);
   //   //   await _analyticsService.setUserProperties(userId: user.uid);
   //   // }
   // }

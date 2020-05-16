@@ -10,7 +10,7 @@ import 'package:fimber/fimber.dart';
 
 class ProductsViewModel extends BaseModel {
   final NavigationService _navigationService = locator<NavigationService>();
-  final APIService _APIService = locator<APIService>();
+  final APIService _apiService = locator<APIService>();
   final DialogService _dialogService = locator<DialogService>();
 
   List<Post> _posts;
@@ -18,7 +18,7 @@ class ProductsViewModel extends BaseModel {
   Future getProducts() async {
 
     setBusy(true);
-    Products result = await _APIService.getProducts();
+    Products result = await _apiService.getProducts();
     setBusy(false);
     if (result != null) {
       Fimber.d(result.items.toString());

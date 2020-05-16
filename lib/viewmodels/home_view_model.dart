@@ -41,7 +41,7 @@ class HomeViewModel extends BaseModel {
     // if (dialogResponse.confirmed) {
     //   var postToDelete = _posts[index];
     //   setBusy(true);
-    //   await _APIService.deletePost(postToDelete.documentId);
+    //   await _apiService.deletePost(postToDelete.documentId);
     //   // Delete the image after the post is deleted
     //   await _cloudStorageService.deleteImage(postToDelete.imageFileName);
     //   setBusy(false);
