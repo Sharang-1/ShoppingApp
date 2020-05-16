@@ -50,23 +50,16 @@ class otpFinishedScreen1 extends StatelessWidget {
                             color: Colors.grey[600],
                             fontWeight: FontWeight.bold,
                             fontSize: 17),
-                      ),Text(
-                        "Nike Shoes by",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontFamily: headingFont,
-                            color: Colors.grey[800],
-                            fontWeight: FontWeight.bold,
-                            fontSize: 17),
-                      ),Text(
-                        "Nike pvt lmt.",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontFamily: headingFont,
-                            color: Colors.grey[800],
-                            fontWeight: FontWeight.bold,
-                            fontSize: 17),
                       ),
+                      Text(
+                        "Nike Shoes by Nike pvt lmt.",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontFamily: headingFont,
+                            color: Colors.grey[800],
+                            fontWeight: FontWeight.bold,
+                            fontSize: 17),
+                      )
                     ]),
                   )
           ]),
