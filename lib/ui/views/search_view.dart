@@ -164,8 +164,8 @@ class _SearchViewState extends State<SearchView>
               filter: productFilter,
               gridCount: 2,
               viewModel: ProductsGridViewBuilderViewModel(),
-              childAspectRatio: 0.75,
-              tileBuilder: (BuildContext context, data, index) {
+              childAspectRatio: 0.7,
+              tileBuilder: (BuildContext context, data, index, onUpdate, onDelete) {
                 Fimber.d("test");
                 print((data as Product).toJson());
                 return ProductTileUI(
@@ -186,7 +186,7 @@ class _SearchViewState extends State<SearchView>
             gridCount: 2,
             viewModel: SellersGridViewBuilderViewModel(),
             disablePagination: true,
-            tileBuilder: (BuildContext context, data, index) {
+            tileBuilder: (BuildContext context, data, index, onUpdate, onDelete) {
               return Card(
                 child: Center(
                   child: Text(data.name),

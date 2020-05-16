@@ -78,7 +78,7 @@ class APIService {
       } else if(options ==null || options.method==null || options.method.toLowerCase() == "post") {
         res = await apiClient.post(path,
             data: data, queryParameters: queryParameters, options: options);
-      } else if(options.method.toLowerCase() == "put") {
+      } else if(options.method.d() == "put") {
         res = await apiClient.put(path,
             data: data, queryParameters: queryParameters, options: options);
       }
