@@ -42,7 +42,8 @@ class _SelectAddressState extends State<SelectAddress> {
         ),
       ),
       bottomNavigationBar: Padding(
-        padding: EdgeInsets.only(left: screenPadding, right: screenPadding, bottom: 10, top: 0),
+        padding: EdgeInsets.only(
+            left: screenPadding, right: screenPadding, bottom: 10, top: 0),
         child: RaisedButton(
             elevation: 5,
             onPressed: () {
@@ -78,14 +79,14 @@ class _SelectAddressState extends State<SelectAddress> {
               style: TextStyle(
                   fontFamily: headingFont,
                   fontWeight: FontWeight.w700,
-                  fontSize: 25),
+                  fontSize: headingFontSizeStyle),
             ),
             Text(
               "Address",
               style: TextStyle(
                   fontFamily: headingFont,
                   fontWeight: FontWeight.w700,
-                  fontSize: 25),
+                  fontSize: headingFontSizeStyle),
             ),
             verticalSpace(20),
             const CutomStepper(
@@ -120,6 +121,7 @@ class _SelectAddressState extends State<SelectAddress> {
                         padding: const EdgeInsets.symmetric(vertical: 15),
                         child: CustomText(
                           "Add Address",
+                          fontSize: subtitleFontSizeStyle - 2,
                           isBold: true,
                           color: Colors.white,
                         ),
@@ -135,7 +137,7 @@ class _SelectAddressState extends State<SelectAddress> {
                 style: TextStyle(
                     fontFamily: headingFont,
                     fontWeight: FontWeight.w700,
-                    fontSize: 20),
+                    fontSize: titleFontSizeStyle),
               ),
             ),
             verticalSpace(15),
@@ -178,7 +180,7 @@ class _SelectAddressState extends State<SelectAddress> {
                                 CustomText(
                                   fullAddressMap[key],
                                   color: Colors.grey,
-                                  fontSize: 14,
+                                  fontSize: subtitleFontSizeStyle - 4,
                                 )
                               ],
                             )),

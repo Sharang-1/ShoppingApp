@@ -13,6 +13,7 @@ class otpFinishedScreen1 extends StatelessWidget {
   const otpFinishedScreen1({Key key, this.fromCart}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    const double subtitleFontSize = subtitleFontSizeStyle - 1;
     return ViewModelProvider<OtpFinishedScreenModel>.withConsumer(
       viewModel: OtpFinishedScreenModel(),
       onModelReady: (model) => model.init(1, fromCart),
@@ -49,7 +50,7 @@ class otpFinishedScreen1 extends StatelessWidget {
                             fontFamily: headingFont,
                             color: Colors.grey[600],
                             fontWeight: FontWeight.bold,
-                            fontSize: 17),
+                            fontSize: subtitleFontSize),
                       ),
                       Text(
                         "Nike Shoes by Nike pvt lmt.",
@@ -58,7 +59,7 @@ class otpFinishedScreen1 extends StatelessWidget {
                             fontFamily: headingFont,
                             color: Colors.grey[800],
                             fontWeight: FontWeight.bold,
-                            fontSize: 17),
+                            fontSize: subtitleFontSize),
                       )
                     ]),
                   )

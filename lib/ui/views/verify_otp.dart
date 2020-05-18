@@ -12,6 +12,7 @@ import 'package:pin_code_text_field/pin_code_text_field.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../shared/app_colors.dart';
+import '../shared/shared_styles.dart';
 
 class VerifyOTPView extends StatefulWidget {
   @override
@@ -71,32 +72,34 @@ class _VerifyOTPViewState extends State<VerifyOTPView> {
     });
   }
 
-  Widget genericWelcomeText(String txt) {
+  Widget genericWelcomeText(String txt, headingFontSize) {
     return Text(
       txt,
       style: TextStyle(
-          fontFamily: "Raleway", fontSize: 27, fontWeight: FontWeight.w600),
+          fontFamily: "Raleway",
+          fontSize: headingFontSize - 3,
+          fontWeight: FontWeight.w600),
     );
   }
 
-  Widget welcomeText(context, model) {
+  Widget welcomeText(context, model, headingFontSize) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        genericWelcomeText("Enter the otp"),
+        genericWelcomeText("Enter the otp", headingFontSize),
         SizedBox(
           height: 5,
         ),
-        genericWelcomeText("sent to ${model.phoneNo}"),
+        genericWelcomeText("sent to ${model.phoneNo}", headingFontSize),
         SizedBox(
           height: 5,
         ),
-        genericWelcomeText("via sms")
+        genericWelcomeText("via sms", headingFontSize)
       ],
     );
   }
 
-  Widget bottomBar(model) {
+  Widget bottomBar(model, headingFontSize) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
       child: Row(
@@ -119,7 +122,7 @@ class _VerifyOTPViewState extends State<VerifyOTPView> {
                 "Finish",
                 style: TextStyle(
                     fontFamily: "Raleway",
-                    fontSize: 30,
+                    fontSize: headingFontSize,
                     fontWeight: FontWeight.w300),
               ),
               horizontalSpaceMedium,
@@ -160,7 +163,7 @@ class _VerifyOTPViewState extends State<VerifyOTPView> {
     }
   }
 
-  Widget inputFields(model, context) {
+  Widget inputFields(model, context, headingFontSize) {
     return Padding(
       padding: const EdgeInsets.only(right: 20),
       child: Center(
@@ -170,7 +173,7 @@ class _VerifyOTPViewState extends State<VerifyOTPView> {
         children: <Widget>[
           Row(
               mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[welcomeText(context, model)]),
+              children: <Widget>[welcomeText(context, model, headingFontSize)]),
           verticalSpaceMedium,
           // InputField(
           //   placeholder: 'OTP',
@@ -201,7 +204,7 @@ class _VerifyOTPViewState extends State<VerifyOTPView> {
             },
             wrapAlignment: WrapAlignment.center,
             pinBoxDecoration: ProvidedPinBoxDecoration.defaultPinBoxDecoration,
-            pinTextStyle: TextStyle(fontSize: 20),
+            pinTextStyle: TextStyle(fontSize: titleFontSizeStyle),
             pinBoxRadius: 3,
             pinTextAnimatedSwitcherTransition:
                 ProvidedPinBoxTextAnimation.scalingTransition,
@@ -209,7 +212,7 @@ class _VerifyOTPViewState extends State<VerifyOTPView> {
           ),
           Text(
             getFormatedCountDowndTimer(),
-            style: TextStyle(fontSize: 20),
+            style: TextStyle(fontSize: titleFontSizeStyle),
           ),
           verticalSpaceSmall,
           TextLink(
@@ -230,7 +233,7 @@ class _VerifyOTPViewState extends State<VerifyOTPView> {
                     color: Colors.grey,
                     fontFamily: "Open Sans",
                     decoration: TextDecoration.underline,
-                    fontSize: 15),
+                    fontSize: subtitleFontSizeStyle - 3),
                 textAlign: TextAlign.center,
               ))
         ],
@@ -240,6 +243,8 @@ class _VerifyOTPViewState extends State<VerifyOTPView> {
 
   @override
   Widget build(BuildContext context) {
+    const double headingFontSize = headingFontSizeStyle + 5;
+
     return ViewModelProvider<VerifyOTPViewModel>.withConsumer(
         viewModel: VerifyOTPViewModel(),
         onModelReady: (model) => model.init(),
@@ -247,7 +252,7 @@ class _VerifyOTPViewState extends State<VerifyOTPView> {
             bottomNavigationBar: BottomAppBar(
               elevation: 0,
               color: Colors.transparent,
-              child: bottomBar(model),
+              child: bottomBar(model, headingFontSize),
             ),
             backgroundColor: backgroundWhiteCreamColor,
             body: SingleChildScrollView(
@@ -264,7 +269,7 @@ class _VerifyOTPViewState extends State<VerifyOTPView> {
                           20 -
                           20 -
                           100,
-                      child: inputFields(model, context),
+                      child: inputFields(model, context, headingFontSize),
                     )
                   ],
                 ),

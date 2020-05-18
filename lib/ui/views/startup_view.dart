@@ -14,12 +14,12 @@ class StartUpView extends StatelessWidget {
       viewModel: StartUpViewModel(),
       onModelReady: (model) => model.init(),
       builder: (context, model, child) => Scaffold(
-          backgroundColor:backgroundWhiteCreamColor,
+          backgroundColor: backgroundWhiteCreamColor,
           body: Center(
             child: SvgPicture.asset(
               "assets/svg/DZOR_full_logo_verti.svg",
               color: logoRed,
-              width: MediaQuery.of(context).size.width /2,
+              width: MediaQuery.of(context).size.width / 2,
             ),
           )),
     );

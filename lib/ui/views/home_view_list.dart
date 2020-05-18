@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:compound/ui/widgets/sellerTileUi.dart';
 import 'package:flutter/material.dart';
+import '../shared/shared_styles.dart';
 
 import './home_view_slider.dart';
 
@@ -29,6 +30,10 @@ class HomeViewList extends StatelessWidget {
       'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80';
   @override
   Widget build(BuildContext context) {
+    // const double headingFontSize=25;
+    // const double titleFontSize=20;
+    const double subtitleFontSize = subtitleFontSizeStyle;
+
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20),
       child: Column(
@@ -45,7 +50,7 @@ class HomeViewList extends StatelessWidget {
               'Sellers Near You',
               style: TextStyle(
                 color: Theme.of(context).accentColor,
-                fontSize: 18,
+                fontSize: subtitleFontSize,
                 fontWeight: FontWeight.w700,
               ),
             ),
@@ -77,7 +82,7 @@ class HomeViewList extends StatelessWidget {
               'New Arrivals',
               style: TextStyle(
                 color: Theme.of(context).accentColor,
-                fontSize: 18,
+                fontSize: subtitleFontSize,
                 fontWeight: FontWeight.w700,
               ),
             ),
@@ -123,7 +128,8 @@ class HomeViewList extends StatelessWidget {
                               ListTile(
                                 title: Text(
                                   'Two Gold Rings',
-                                  style: TextStyle(fontSize: 14),
+                                  style:
+                                      TextStyle(fontSize: subtitleFontSize - 4),
                                 ),
                                 subtitle: Text(
                                   '\$200',
@@ -168,7 +174,7 @@ class HomeViewList extends StatelessWidget {
                 child: Text('Shop By Category',
                     style: TextStyle(
                         color: Theme.of(context).accentColor,
-                        fontSize: 18,
+                        fontSize: subtitleFontSize,
                         fontWeight: FontWeight.w700)),
               ),
               Padding(
@@ -229,7 +235,7 @@ class HomeViewList extends StatelessWidget {
                                 'Two Gold Rings',
                                 style: TextStyle(
                                   fontWeight: FontWeight.w700,
-                                  fontSize: 16,
+                                  fontSize: subtitleFontSize - 2,
                                 ),
                               ),
                             )

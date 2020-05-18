@@ -32,11 +32,12 @@ class _ProductTileUIState extends State<ProductTileUI> {
   Widget build(BuildContext context) {
     bool isTablet = Tools.checkIfTablet(MediaQuery.of(context));
 
-    double titleFontSize = isTablet ? 18.0 : 16.0;
-    double subtitleFontSize = isTablet ? 16.0 : 12.0;
-    double priceFontSize = isTablet ? 18.0 : 14.0;
-    double ratingCountFontSize = isTablet ? 16.0 : 12.0;
-    double wishlistIconSize = isTablet ? 34 : 25;
+    double titleFontSize =
+        isTablet ? subtitleFontSizeStyle : subtitleFontSizeStyle - 2;
+    double subtitleFontSize =
+        isTablet ? subtitleFontSizeStyle - 2 : subtitleFontSizeStyle - 6;
+    double priceFontSize =
+        isTablet ? subtitleFontSizeStyle : subtitleFontSizeStyle - 4;
     EdgeInsetsGeometry paddingCard = widget.index % 2 == 0
         ? const EdgeInsets.fromLTRB(screenPadding, 0, 0, 10)
         : const EdgeInsets.fromLTRB(0, 0, screenPadding, 10);
@@ -86,8 +87,8 @@ class _ProductTileUIState extends State<ProductTileUI> {
                 children: <Widget>[
                   Expanded(
                       flex: 13,
-                      child:
-                          _imageStackview(originalPhotoName, productDiscount)),
+                      child: _imageStackview(
+                          originalPhotoName, productDiscount, priceFontSize)),
                   Expanded(
                       flex: 7,
                       child: Padding(
@@ -173,7 +174,7 @@ class _ProductTileUIState extends State<ProductTileUI> {
         ));
   }
 
-  Widget _imageStackview(originalPhotoName, discount) {
+  Widget _imageStackview(originalPhotoName, discount, priceFontSize) {
     return Stack(fit: StackFit.loose, children: <Widget>[
       Positioned.fill(
         child: FractionallySizedBox(
@@ -210,7 +211,7 @@ class _ProductTileUIState extends State<ProductTileUI> {
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
-                        fontSize: 10),
+                        fontSize: priceFontSize - 4),
                   ),
                 ),
               ))

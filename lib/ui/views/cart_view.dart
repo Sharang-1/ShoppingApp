@@ -60,10 +60,9 @@ class _CartViewState extends State<CartView> {
 
   @override
   Widget build(BuildContext context) {
-    double priceFontSize = 16.0;
-
-    double subtitleFontSize = 18;
-    double titleFontSize = 18;
+    const double priceFontSize = subtitleFontSizeStyle - 2;
+    const double titleFontSize = subtitleFontSizeStyle;
+    const double headingFontSize = headingFontSizeStyle + 5;
     return ViewModelProvider<CartViewModel>.withConsumer(
         viewModel: CartViewModel(),
         onModelReady: (model) => model.init(),
@@ -89,8 +88,11 @@ class _CartViewState extends State<CartView> {
                 right: false,
                 child: SingleChildScrollView(
                     child: Padding(
-                  padding:
-                      EdgeInsets.only(left: screenPadding, right: screenPadding, top: 10, bottom: 10),
+                  padding: EdgeInsets.only(
+                      left: screenPadding,
+                      right: screenPadding,
+                      top: 10,
+                      bottom: 10),
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -101,7 +103,7 @@ class _CartViewState extends State<CartView> {
                           style: TextStyle(
                               fontFamily: headingFont,
                               fontWeight: FontWeight.w700,
-                              fontSize: 30),
+                              fontSize: headingFontSize),
                         ),
                         verticalSpace(10),
                         const CutomStepper(
@@ -110,8 +112,7 @@ class _CartViewState extends State<CartView> {
                         verticalSpace(20),
                         SizedBox(
                             height: 180,
-                            child: productCard(titleFontSize, subtitleFontSize,
-                                priceFontSize)),
+                            child: productCard(titleFontSize, priceFontSize)),
                         verticalSpaceMedium,
                         SizedBox(
                             height: 50,
@@ -129,8 +130,8 @@ class _CartViewState extends State<CartView> {
                                                     EdgeInsets.symmetric(
                                                         vertical: 5),
                                                 labelText: '  Promo Code',
-                                                labelStyle:
-                                                    TextStyle(fontSize: 18),
+                                                labelStyle: TextStyle(
+                                                    fontSize: titleFontSize),
                                                 alignLabelWithHint: true,
                                                 isDense: true),
                                             autofocus: false,
@@ -211,7 +212,7 @@ class _CartViewState extends State<CartView> {
             ));
   }
 
-  Widget priceDetailsContainer(subtitleFontSize) {
+  Widget priceDetailsContainer(titleFontSize) {
     return Container(
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
@@ -240,12 +241,12 @@ class _CartViewState extends State<CartView> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  CustomText("Shipping", fontSize: subtitleFontSize),
+                  CustomText("Shipping", fontSize: titleFontSize),
                   CustomText(
                     deliveryCharges == 0
                         ? "Free"
                         : orderSummaryDetails["Delivery Charges"],
-                    fontSize: subtitleFontSize,
+                    fontSize: titleFontSize,
                     color: deliveryCharges == 0 ? Colors.green : Colors.black,
                   )
                 ],
@@ -270,7 +271,7 @@ class _CartViewState extends State<CartView> {
         ));
   }
 
-  Widget bottomSheetDetailsTable(titleFontSize, subtitleFontSize) {
+  Widget bottomSheetDetailsTable(titleFontSize) {
     return FractionallySizedBox(
         heightFactor: 0.8,
         child: Scaffold(
@@ -281,7 +282,8 @@ class _CartViewState extends State<CartView> {
               centerTitle: true,
               title: Text(
                 "Details",
-                style: TextStyle(color: Colors.black, fontSize: 23),
+                style:
+                    TextStyle(color: Colors.black, fontSize: titleFontSize + 4),
               ),
               actions: <Widget>[
                 IconButton(
@@ -314,7 +316,7 @@ class _CartViewState extends State<CartView> {
                                     ),
                                     CustomText(
                                       orderSummaryDetails[key],
-                                      fontSize: subtitleFontSize,
+                                      fontSize: titleFontSize,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.grey[600],
                                     )
@@ -344,7 +346,7 @@ class _CartViewState extends State<CartView> {
                                     ),
                                     CustomText(
                                       orderSummaryDetails[key],
-                                      fontSize: subtitleFontSize,
+                                      fontSize: titleFontSize,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.grey[600],
                                     )
@@ -408,7 +410,7 @@ class _CartViewState extends State<CartView> {
                                                     ? "Free Delivery"
                                                     : orderSummaryDetails[key]
                                                 : orderSummaryDetails[key],
-                                            fontSize: subtitleFontSize,
+                                            fontSize: titleFontSize,
                                             color: key == "Delivery Charges"
                                                 ? orderSummaryDetails[key] ==
                                                         "0.0"
@@ -462,7 +464,7 @@ class _CartViewState extends State<CartView> {
             )));
   }
 
-  Widget productCard(titleFontSize, subtitleFontSize, priceFontSize) {
+  Widget productCard(titleFontSize, priceFontSize) {
     return Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(curve15),
@@ -502,7 +504,7 @@ class _CartViewState extends State<CartView> {
                             "By Nike",
                             color: Colors.grey,
                             dotsAfterOverFlow: true,
-                            fontSize: subtitleFontSize - 2,
+                            fontSize: titleFontSize - 2,
                           ),
                           verticalSpaceSmall,
                           Row(children: <Widget>[
@@ -526,12 +528,12 @@ class _CartViewState extends State<CartView> {
                           CustomText("Qty : 1 Piece",
                               dotsAfterOverFlow: true,
                               color: Colors.grey,
-                              fontSize: subtitleFontSize - 2),
+                              fontSize: titleFontSize - 2),
                           verticalSpaceTiny,
                           CustomText("Size : S",
                               dotsAfterOverFlow: true,
                               color: Colors.grey,
-                              fontSize: subtitleFontSize - 2),
+                              fontSize: titleFontSize - 2),
                         ],
                       ))),
               IconButton(
@@ -555,8 +557,7 @@ class _CartViewState extends State<CartView> {
                       isScrollControlled: true,
                       context: context,
                       builder: (context) {
-                        return bottomSheetDetailsTable(
-                            titleFontSize, subtitleFontSize);
+                        return bottomSheetDetailsTable(titleFontSize);
                       }).whenComplete(() {
                     setState(() {
                       clicked = false;

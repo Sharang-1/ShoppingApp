@@ -17,8 +17,9 @@ import './myorders_details_view.dart';
 class MyOrdersView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    double subtitleFontSize = 16;
-    double titleFontSize = 18;
+    double subtitleFontSize = subtitleFontSizeStyle - 2;
+    double titleFontSize = subtitleFontSizeStyle;
+    double headingFontSize = headingFontSizeStyle;
     return ViewModelProvider<CartViewModel>.withConsumer(
         viewModel: CartViewModel(),
         onModelReady: (model) => model.init(),
@@ -54,7 +55,7 @@ class MyOrdersView extends StatelessWidget {
                               style: TextStyle(
                                   fontFamily: headingFont,
                                   fontWeight: FontWeight.w700,
-                                  fontSize: 25),
+                                  fontSize: headingFontSize),
                             ),
                             FlatButton(
                               child: CustomText(
@@ -88,7 +89,11 @@ class MyOrdersView extends StatelessWidget {
                                           borderRadius:
                                               BorderRadius.circular(curve15),
                                           child: FadeInImage.assetNetwork(
-                                            width: (MediaQuery.of(context).size.width-70)/3,
+                                            width: (MediaQuery.of(context)
+                                                        .size
+                                                        .width -
+                                                    70) /
+                                                3,
                                             height: 140,
                                             fadeInCurve: Curves.easeIn,
                                             placeholder:
@@ -132,7 +137,10 @@ class MyOrdersView extends StatelessWidget {
                                         ],
                                       )),
                                       IconButton(
-                                        icon: Icon(Icons.arrow_forward_ios,color: Colors.grey,),
+                                        icon: Icon(
+                                          Icons.arrow_forward_ios,
+                                          color: Colors.grey,
+                                        ),
                                         onPressed: () {
                                           Navigator.push(
                                               context,

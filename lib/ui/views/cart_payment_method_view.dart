@@ -60,7 +60,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
           //     child:
 
           Padding(
-        padding: EdgeInsets.only(left: screenPadding, right: screenPadding, bottom: 10),
+        padding: EdgeInsets.only(
+            left: screenPadding, right: screenPadding, bottom: 10),
         child: RaisedButton(
             elevation: 5,
             onPressed: () {
@@ -89,7 +90,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
       body: SafeArea(
           child: SingleChildScrollView(
               child: Padding(
-        padding: EdgeInsets.only(left: screenPadding, right: screenPadding, top: 10, bottom: 10),
+        padding: EdgeInsets.only(
+            left: screenPadding, right: screenPadding, top: 10, bottom: 10),
         child: Column(
           children: <Widget>[
             verticalSpaceTiny,
@@ -103,7 +105,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                       children: <Widget>[
                         CustomText(
                           "Payment",
-                          fontSize: 30,
+                          fontSize: headingFontSizeStyle + 5,
                           fontFamily: headingFont,
                           fontWeight: FontWeight.w700,
                         ),
@@ -114,7 +116,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                     verticalSpaceSmall,
                     CustomText(
                       rupeeUnicode + "100",
-                      fontSize: 24,
+                      fontSize: titleFontSizeStyle + 4,
                       color: darkRedSmooth,
                       fontFamily: "RaleWay",
                       isBold: true,
@@ -127,7 +129,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                     verticalSpaceSmall,
                     CustomText(
                       "  Pay On Delivery Via",
-                      fontSize: 20,
+                      fontSize: titleFontSizeStyle,
                       fontWeight: FontWeight.bold,
                     ),
                   ],
@@ -161,6 +163,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                           ),
                           CustomText(
                             paymentMethodMap[key],
+                            fontSize: titleFontSizeStyle - 4,
                             isBold: true,
                             color: Colors.grey[700],
                           ),

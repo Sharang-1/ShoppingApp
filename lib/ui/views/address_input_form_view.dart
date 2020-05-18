@@ -61,7 +61,7 @@ class _AddressInputPageState extends State<AddressInputPage> {
                                 style: TextStyle(
                                     fontFamily: headingFont,
                                     fontWeight: FontWeight.w700,
-                                    fontSize: 20),
+                                    fontSize: titleFontSizeStyle),
                               ),
                               verticalSpace(10),
                               SizedBox(
@@ -86,11 +86,13 @@ class _AddressInputPageState extends State<AddressInputPage> {
                                                       locationString = text;
                                                     });
                                                   },
-                                                  decoration:
-                                                      const InputDecoration(
-                                                          labelText:
-                                                              'Your Location',
-                                                          isDense: true),
+                                                  decoration: const InputDecoration(
+                                                      labelText:
+                                                          'Your Location',
+                                                      labelStyle: TextStyle(
+                                                          fontSize:
+                                                              subtitleFontSizeStyle),
+                                                      isDense: true),
                                                   autofocus: false,
                                                   maxLines: 1,
                                                 ))),
@@ -107,9 +109,13 @@ class _AddressInputPageState extends State<AddressInputPage> {
                                                   //     color: Colors.black, width: 0.5)
                                                 ),
                                                 child: Padding(
-                                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                                  padding: const EdgeInsets
+                                                      .symmetric(vertical: 10),
                                                   child: CustomText(
                                                     "Change",
+                                                    fontSize:
+                                                        subtitleFontSizeStyle -
+                                                            2,
                                                     color: Colors.white,
                                                   ),
                                                 ))),
@@ -138,6 +144,9 @@ class _AddressInputPageState extends State<AddressInputPage> {
                                           decoration: const InputDecoration(
                                               labelText:
                                                   'House Number , Society Name ....',
+                                              labelStyle: TextStyle(
+                                                  fontSize:
+                                                      subtitleFontSizeStyle),
                                               isDense: true),
                                           autofocus: false,
                                         )),
@@ -146,7 +155,7 @@ class _AddressInputPageState extends State<AddressInputPage> {
                               Row(children: <Widget>[
                                 Expanded(
                                     child: RaisedButton(
-                                      elevation: 5,
+                                        elevation: 5,
                                         onPressed: () {
                                           if (_formKey.currentState.validate())
                                             _formKey.currentState.save();
@@ -161,9 +170,11 @@ class _AddressInputPageState extends State<AddressInputPage> {
                                           //     color: Colors.black, width: 0.5)
                                         ),
                                         child: Padding(
-                                          padding: const EdgeInsets.symmetric(vertical: 12),
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 12),
                                           child: CustomText(
                                             "Save & Proceed ",
+                                            fontSize: subtitleFontSizeStyle - 2,
                                             isBold: true,
                                             color: Colors.white,
                                           ),

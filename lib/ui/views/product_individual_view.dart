@@ -40,7 +40,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
           productName,
           // overflow: TextOverflow.ellipsis,
           style: TextStyle(
-            fontSize: 20,
+            fontSize: titleFontSizeStyle,
             fontFamily: headingFont,
             fontWeight: FontWeight.bold,
           ),
@@ -50,7 +50,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
         ),
         Text(
           "By Anita's Creation",
-          style: TextStyle(fontSize: 16, color: Colors.grey),
+          style: TextStyle(
+              fontSize: subtitleFontSizeStyle - 2, color: Colors.grey),
         ),
         SizedBox(
           height: 5,
@@ -64,7 +65,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
       children: <Widget>[
         Text(
           '\u20B9${productPrice.toString()}',
-          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+          style: TextStyle(
+              fontSize: titleFontSizeStyle + 2, fontWeight: FontWeight.bold),
         ),
         productDiscount == 0.0
             ? Container()
@@ -75,14 +77,14 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                     '${(productPrice / (1 - (productDiscount / 100))).toString()}',
                     style: TextStyle(
                         color: Colors.grey,
-                        fontSize: 15,
+                        fontSize: subtitleFontSizeStyle - 3,
                         decoration: TextDecoration.lineThrough),
                   ),
                   SizedBox(width: 10),
                   Text(
                     '${productDiscount.toString()}% off',
                     style: TextStyle(
-                        fontSize: 16,
+                        fontSize: subtitleFontSizeStyle - 2,
                         color: Colors.green[600],
                         fontWeight: FontWeight.w600),
                   ),
@@ -108,7 +110,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
               width: 0.5,
             )),
         labelStyle: TextStyle(
-            fontSize: 14,
+            fontSize: subtitleFontSizeStyle - 4,
             fontWeight: selectedSize == variations[i]["size"]
                 ? FontWeight.w600
                 : FontWeight.normal,
@@ -148,7 +150,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
               width: 0.5,
             )),
         labelStyle: TextStyle(
-            fontSize: 14,
+            fontSize: subtitleFontSizeStyle - 4,
             fontWeight:
                 selectedColor == color ? FontWeight.w600 : FontWeight.normal,
             color: selectedColor == color ? darkRedSmooth : Colors.grey),
@@ -406,7 +408,11 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                   verticalSpace(20),
                   Row(
                     children: <Widget>[
-                      Expanded(child: priceInfo(productPrice, productDiscount)),
+                      Expanded(
+                          child: priceInfo(
+                        productPrice,
+                        productDiscount,
+                      )),
                       SvgPicture.asset(
                         "assets/icons/share.svg",
                         width: 30,
@@ -428,13 +434,13 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                       ? Text(
                           "In Stock",
                           style: TextStyle(
-                              fontSize: 20,
+                              fontSize: titleFontSizeStyle,
                               color: green,
                               fontWeight: FontWeight.w600),
                         )
                       : Text("Out Of Stock",
                           style: TextStyle(
-                              fontSize: 20,
+                              fontSize: titleFontSizeStyle,
                               color: logoRed,
                               fontWeight: FontWeight.w600)),
 
@@ -444,14 +450,14 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                       Text(
                         "Delivery In :",
                         style: TextStyle(
-                          fontSize: 15,
+                          fontSize: subtitleFontSizeStyle - 3,
                         ),
                       ),
                       horizontalSpaceSmall,
                       Text(
                         shipment,
                         style: TextStyle(
-                          fontSize: 15,
+                          fontSize: subtitleFontSizeStyle - 3,
                         ),
                       ),
                     ],
@@ -462,7 +468,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                       Text(
                         "Delivery To :",
                         style: TextStyle(
-                          fontSize: 15,
+                          fontSize: subtitleFontSizeStyle - 3,
                         ),
                       ),
                       horizontalSpaceSmall,
@@ -518,13 +524,14 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                     "Select Size",
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 18),
+                                        fontSize: subtitleFontSizeStyle),
                                   ),
                                 ),
                                 Text(
                                   "size chart",
                                   style: TextStyle(
-                                      color: Colors.blue[600], fontSize: 15),
+                                      color: Colors.blue[600],
+                                      fontSize: subtitleFontSizeStyle - 3),
                                 )
                               ],
                             ),
@@ -539,7 +546,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                         "Select Qty",
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 18),
+                                            fontSize: subtitleFontSizeStyle),
                                       ),
                                       horizontalSpaceMedium,
                                       Container(
@@ -571,7 +578,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                               selectedQty.toString(),
                                               style: TextStyle(
                                                   color: darkRedSmooth,
-                                                  fontSize: 20,
+                                                  fontSize: titleFontSizeStyle,
                                                   fontWeight: FontWeight.bold),
                                             ),
                                             IconButton(
@@ -608,11 +615,12 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                         "Select Color",
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 18),
+                                            fontSize: subtitleFontSizeStyle),
                                       ),
                                       verticalSpace(5),
                                       allColors(
-                                          variations[selectedIndex]["color"]),
+                                        variations[selectedIndex]["color"],
+                                      ),
                                     ],
                                   ),
                           ],
@@ -642,7 +650,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                             "BUY NOW",
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: 18,
+                              fontSize: subtitleFontSizeStyle,
                             ),
                           ),
                         ),
@@ -675,7 +683,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                             "ADD TO CART",
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: 18,
+                              fontSize: subtitleFontSizeStyle,
                             ),
                           ),
                         ),
@@ -685,7 +693,9 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                   verticalSpace(40),
                   Text(
                     "   Description",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: titleFontSizeStyle),
                   ),
                   verticalSpace(5),
                   Card(
@@ -699,13 +709,17 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                         child: Text(
                           widget.data.description,
                           textAlign: TextAlign.justify,
-                          style: TextStyle(fontSize: 13, color: Colors.grey),
+                          style: TextStyle(
+                              fontSize: subtitleFontSizeStyle - 5,
+                              color: Colors.grey),
                         )),
                   ),
                   verticalSpace(40),
                   Text(
                     "   Sold By",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: titleFontSizeStyle),
                   ),
                   verticalSpace(5),
                   Card(
@@ -720,8 +734,9 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                           children: <Widget>[
                             Text(
                               "Pooja Creations",
-                              style:
-                                  TextStyle(fontSize: 18, color: darkRedSmooth),
+                              style: TextStyle(
+                                  fontSize: subtitleFontSizeStyle,
+                                  color: darkRedSmooth),
                             ),
                             verticalSpace(10),
                             Center(
@@ -734,8 +749,9 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                             verticalSpace(10),
                             Text(
                               getTruncatedString(100, widget.data.description),
-                              style:
-                                  TextStyle(fontSize: 13, color: Colors.grey),
+                              style: TextStyle(
+                                  fontSize: subtitleFontSizeStyle - 5,
+                                  color: Colors.grey),
                             )
                           ],
                         )),
@@ -762,5 +778,3 @@ class _ProductIndiViewState extends State<ProductIndiView> {
     );
   }
 }
-
-

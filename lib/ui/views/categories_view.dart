@@ -7,6 +7,7 @@ import 'package:compound/viewmodels/categories_view_model.dart';
 import 'package:compound/viewmodels/grid_view_builder_view_models/categories_view_builder_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider_architecture/provider_architecture.dart';
+import '../shared/shared_styles.dart';
 
 class CategoriesView extends StatefulWidget {
   CategoriesView({Key key}) : super(key: key);
@@ -22,6 +23,7 @@ class _CategoriesViewState extends State<CategoriesView> {
 
   @override
   Widget build(BuildContext context) {
+    const double headingFontSize = headingFontSizeStyle;
     return ViewModelProvider<CategoriesViewModel>.withConsumer(
       viewModel: CategoriesViewModel(),
       onModelReady: (model) => model.init(),
@@ -31,7 +33,7 @@ class _CategoriesViewState extends State<CategoriesView> {
           title: Text(
             "Categories",
             style: TextStyle(
-                fontSize: 25,
+                fontSize: headingFontSize,
                 color: Colors.black,
                 fontFamily: "Raleway",
                 fontWeight: FontWeight.w600),

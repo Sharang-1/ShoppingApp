@@ -2,6 +2,7 @@ import 'package:compound/ui/shared/app_colors.dart';
 import 'package:compound/viewmodels/otp_finished_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider_architecture/provider_architecture.dart';
+import '../shared/shared_styles.dart';
 
 class otpFinishedScreen2 extends StatefulWidget {
   @override
@@ -26,11 +27,12 @@ class _TextFadeState extends State<otpFinishedScreen2>
 
   @override
   Widget build(BuildContext context) {
+    const double headingFontSize = headingFontSizeStyle + 15;
     return ViewModelProvider<OtpFinishedScreenModel>.withConsumer(
       viewModel: OtpFinishedScreenModel(),
-      onModelReady: (model) => model.init(2,false),
+      onModelReady: (model) => model.init(2, false),
       builder: (context, model, child) => Scaffold(
-        backgroundColor: backgroundWhiteCreamColor,
+          backgroundColor: backgroundWhiteCreamColor,
           body: AnimatedBuilder(
               animation: _animation,
               child: Padding(
@@ -42,7 +44,7 @@ class _TextFadeState extends State<otpFinishedScreen2>
                         Text(
                           "Hello",
                           style: TextStyle(
-                            fontSize: 40,
+                            fontSize: headingFontSize,
                             fontFamily: "Raleway",
                           ),
                         ),
@@ -50,7 +52,7 @@ class _TextFadeState extends State<otpFinishedScreen2>
                           model.name,
                           style: TextStyle(
                               fontFamily: "Raleway",
-                              fontSize: 45,
+                              fontSize: headingFontSize + 5,
                               fontWeight: FontWeight.w600),
                         ),
                       ])),

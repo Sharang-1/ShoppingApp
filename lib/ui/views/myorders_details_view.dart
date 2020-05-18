@@ -26,9 +26,9 @@ class MyOrdersDetailsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double subtitleFontSize = 16;
-    double titleFontSize = 18;
-    double headingFontSize = 20;
+    double subtitleFontSize = subtitleFontSizeStyle - 2;
+    double titleFontSize = subtitleFontSizeStyle;
+    double headingFontSize = titleFontSizeStyle;
     return ViewModelProvider<CartViewModel>.withConsumer(
         viewModel: CartViewModel(),
         onModelReady: (model) => model.init(),
@@ -82,7 +82,7 @@ class MyOrdersDetailsView extends StatelessWidget {
                 ),
                 CustomText(
                   "Order ID: #3874608",
-                  fontSize: 16,
+                  fontSize: subtitleFontSize,
                   isTitle: true,
                   color: logoRed,
                   isBold: true,
@@ -367,7 +367,8 @@ class MyOrdersDetailsView extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 15),
                   child: Text(
                     "Help",
-                    style: TextStyle(color: textIconOrange,fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        color: textIconOrange, fontWeight: FontWeight.bold),
                   ),
                 )),
             verticalSpace(20),

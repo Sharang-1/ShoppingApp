@@ -18,6 +18,7 @@ import 'package:compound/viewmodels/search_view_model.dart';
 import 'package:compound/ui/shared/debouncer.dart';
 import 'package:compound/ui/widgets/sellerGridListWidget.dart';
 import '../widgets/cart_icon_badge.dart';
+
 class WishlistView extends StatefulWidget {
   WishlistView({Key key}) : super(key: key);
 
@@ -214,6 +215,7 @@ class _WishlistViewState extends State<WishlistView>
 
   @override
   Widget build(BuildContext context) {
+    const double headingFontSize = headingFontSizeStyle + 5;
     return ViewModelProvider<SearchViewModel>.withConsumer(
       viewModel: SearchViewModel(),
       onModelReady: (model) => model.init(),
@@ -223,8 +225,10 @@ class _WishlistViewState extends State<WishlistView>
             iconTheme: IconThemeData(color: appBarIconColor),
             backgroundColor: backgroundWhiteCreamColor,
             actions: <Widget>[
-              IconButton(onPressed: () {}, icon:CartIconWithBadge()),
-              SizedBox(width: 10,)
+              IconButton(onPressed: () {}, icon: CartIconWithBadge()),
+              SizedBox(
+                width: 10,
+              )
             ],
           ),
           backgroundColor: backgroundWhiteCreamColor,
@@ -249,14 +253,15 @@ class _WishlistViewState extends State<WishlistView>
                         style: TextStyle(
                             fontFamily: headingFont,
                             fontWeight: FontWeight.w700,
-                            fontSize: 30,
+                            fontSize: headingFontSize,
                             color: Colors.black),
                       ),
                     ),
                     bottom: PreferredSize(
                       preferredSize: Size(50, 50),
                       child: Container(
-                        margin: EdgeInsets.fromLTRB(screenPadding, 0, screenPadding, 5),
+                        margin: EdgeInsets.fromLTRB(
+                            screenPadding, 0, screenPadding, 5),
                         padding: EdgeInsets.all(2),
                         decoration: BoxDecoration(
                           // color: Colors.grey[200],

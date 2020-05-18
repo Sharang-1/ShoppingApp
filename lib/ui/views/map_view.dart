@@ -7,6 +7,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../shared/shared_styles.dart';
 
 class MapView extends StatelessWidget {
   String getTruncatedString(int length, String str) {
@@ -15,10 +16,8 @@ class MapView extends StatelessWidget {
   }
 
   Widget clientCard(MapViewModel model, context, Seller client) {
-    double titleFontSize = 20.0;
-    final double ratings = 4;
-    double ratingCountFontSize = 18.0;
-    double tagSize = 14.0;
+    const double titleFontSize = titleFontSizeStyle;
+    const double subtitleFontSize = subtitleFontSizeStyle - 3;
 
     List<String> tags = [
       "Excellent",
@@ -84,7 +83,9 @@ class MapView extends StatelessWidget {
                       Text(
                           getTruncatedString(
                               100, client.operations ?? "No Data"),
-                          style: TextStyle(fontSize: 15, color: Colors.red[300])),
+                          style: TextStyle(
+                              fontSize: subtitleFontSize,
+                              color: Colors.red[300])),
 
                       // Row(children: <Widget>[
                       //   Padding(

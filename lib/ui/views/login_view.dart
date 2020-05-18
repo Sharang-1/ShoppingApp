@@ -8,6 +8,7 @@ import 'package:compound/viewmodels/login_view_model.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../shared/app_colors.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import '../shared/shared_styles.dart';
 
 class LoginView extends StatelessWidget {
   final phoneNoController = TextEditingController();
@@ -44,11 +45,11 @@ class LoginView extends StatelessWidget {
             },
             countries: ['IN', 'US'],
             inputDecoration: InputDecoration(
-              hintText: "Phone Number",
+                hintText: "Phone Number",
                 hintStyle: TextStyle(
                     color: Colors.grey,
                     fontWeight: FontWeight.bold,
-                    fontSize: 20)),
+                    fontSize: titleFontSizeStyle)),
             initialCountry2LetterCode: 'IN',
             errorMessage: model.phoneNoValidation,
             textFieldController: phoneNoController,
@@ -72,7 +73,7 @@ class LoginView extends StatelessWidget {
             "Next",
             style: TextStyle(
                 fontFamily: "Raleway",
-                fontSize: 30,
+                fontSize: headingFontSizeStyle,
                 fontWeight: FontWeight.w300),
           ),
           horizontalSpaceMedium,
@@ -179,7 +180,9 @@ class GenericWelcomeText extends StatelessWidget {
     return Text(
       txt,
       style: TextStyle(
-          fontFamily: "Raleway", fontSize: 27, fontWeight: FontWeight.w600),
+          fontFamily: "Raleway",
+          fontSize: headingFontSizeStyle + 2,
+          fontWeight: FontWeight.w600),
     );
   }
 }

@@ -64,8 +64,11 @@ class _ProfileViewState extends State<ProfileView> {
         builder: (context, model, child) => Scaffold(
             backgroundColor: backgroundWhiteCreamColor,
             bottomNavigationBar: Padding(
-                padding:
-                    EdgeInsets.only(left: screenPadding, right: screenPadding, top: 10, bottom: 10),
+                padding: EdgeInsets.only(
+                    left: screenPadding,
+                    right: screenPadding,
+                    top: 10,
+                    bottom: 10),
                 child: RaisedButton(
                     elevation: 5,
                     onPressed: () {
@@ -75,7 +78,7 @@ class _ProfileViewState extends State<ProfileView> {
                         print(nameString);
                       }
                     },
-                    color: isButtonActive ?green : Colors.grey[400],
+                    color: isButtonActive ? green : Colors.grey[400],
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                       // side: BorderSide(
@@ -85,6 +88,7 @@ class _ProfileViewState extends State<ProfileView> {
                       padding: const EdgeInsets.symmetric(vertical: 15),
                       child: CustomText(
                         "Save ",
+                        fontSize: subtitleFontSizeStyle - 2,
                         isBold: true,
                         color: Colors.white,
                       ),
@@ -125,7 +129,7 @@ class _ProfileViewState extends State<ProfileView> {
                                   style: TextStyle(
                                       fontFamily: headingFont,
                                       fontWeight: FontWeight.w700,
-                                      fontSize: 30),
+                                      fontSize: headingFontSizeStyle),
                                 )),
                             verticalSpace(20),
                             SizedBox(
@@ -142,7 +146,7 @@ class _ProfileViewState extends State<ProfileView> {
                                         children: <Widget>[
                                           CustomText(
                                             "Name",
-                                            fontSize: 15,
+                                            fontSize: subtitleFontSizeStyle - 3,
                                             color: Colors.grey,
                                           ),
                                           verticalSpaceTiny,
@@ -152,7 +156,8 @@ class _ProfileViewState extends State<ProfileView> {
                                                   child: TextFormField(
                                                 focusNode: nameFocusNode,
                                                 style: TextStyle(
-                                                    fontSize: 22,
+                                                    fontSize:
+                                                        titleFontSizeStyle + 2,
                                                     fontFamily: "Open-Sans",
                                                     fontWeight: FontWeight.w500,
                                                     color: Colors.grey[800]),
@@ -215,7 +220,8 @@ class _ProfileViewState extends State<ProfileView> {
                                             children: <Widget>[
                                               CustomText(
                                                 "Mobile No",
-                                                fontSize: 15,
+                                                fontSize:
+                                                    subtitleFontSizeStyle - 3,
                                                 color: Colors.grey,
                                               ),
                                             ],
@@ -225,7 +231,8 @@ class _ProfileViewState extends State<ProfileView> {
                                             children: <Widget>[
                                               CustomText(
                                                 "9875243512",
-                                                fontSize: 17,
+                                                fontSize:
+                                                    subtitleFontSizeStyle - 1,
                                                 fontWeight: FontWeight.w500,
                                                 color: Colors.grey[800],
                                               ),
@@ -238,7 +245,8 @@ class _ProfileViewState extends State<ProfileView> {
                             Column(
                               children: addressMap.keys.map((int key) {
                                 return Container(
-                                    margin: EdgeInsets.only(bottom: spaceBetweenCards),
+                                    margin: EdgeInsets.only(
+                                        bottom: spaceBetweenCards),
                                     child: Card(
                                       clipBehavior: Clip.antiAlias,
                                       shape: RoundedRectangleBorder(
@@ -261,14 +269,16 @@ class _ProfileViewState extends State<ProfileView> {
                                                 CustomText(
                                                   addressMap[key],
                                                   color: Colors.grey,
-                                                  fontSize: 15,
+                                                  fontSize:
+                                                      subtitleFontSizeStyle - 3,
                                                 ),
                                                 verticalSpaceSmall,
                                                 CustomText(
                                                   fullAddressMap[key],
                                                   color: Colors.grey[800],
                                                   fontWeight: FontWeight.w500,
-                                                  fontSize: 17,
+                                                  fontSize:
+                                                      subtitleFontSizeStyle - 1,
                                                 )
                                               ],
                                             )),

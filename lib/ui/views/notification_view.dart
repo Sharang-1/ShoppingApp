@@ -74,6 +74,8 @@ class _NotificationViewState extends State<NotificationView> {
   }
 
   Widget childWidget() {
+    const double headingFontSize = headingFontSizeStyle + 5;
+    const double subtitleFontSize = subtitleFontSizeStyle - 2;
     return Padding(
       padding: EdgeInsets.only(
           left: screenPadding, right: screenPadding, top: 10, bottom: 10),
@@ -89,7 +91,7 @@ class _NotificationViewState extends State<NotificationView> {
                 style: TextStyle(
                     fontFamily: headingFont,
                     fontWeight: FontWeight.w700,
-                    fontSize: 30),
+                    fontSize: headingFontSize),
               ),
               Switch(
                   value: isSwitched,
@@ -140,7 +142,7 @@ class _NotificationViewState extends State<NotificationView> {
                                         top: 10, bottom: 10, left: 15),
                                     child: CustomText(
                                       notificationMap[key],
-                                      fontSize: 16,
+                                      fontSize: subtitleFontSize,
                                       color: Colors.grey[800],
                                     ),
                                   ),
@@ -151,7 +153,7 @@ class _NotificationViewState extends State<NotificationView> {
                                         top: 10, bottom: 10, left: 15),
                                     child: CustomText(
                                       notificationMap[key],
-                                      fontSize: 16,
+                                      fontSize: subtitleFontSize,
                                       color: Colors.grey[800],
                                     ),
                                   ),

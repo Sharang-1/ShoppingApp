@@ -75,7 +75,7 @@ class SettingsView extends StatelessWidget {
                         style: TextStyle(
                             fontFamily: headingFont,
                             fontWeight: FontWeight.w700,
-                            fontSize: 30),
+                            fontSize: headingFontSizeStyle),
                       ),
                       verticalSpace(50),
                       Align(
@@ -113,7 +113,8 @@ class SettingsView extends StatelessWidget {
                                                         vertical: 12),
                                                     child: CustomText(
                                                       "Rate The App ",
-                                                      fontSize: 20,
+                                                      fontSize:
+                                                          titleFontSizeStyle,
                                                       isBold: true,
                                                       color: Colors.grey[800],
                                                     ),
@@ -149,7 +150,8 @@ class SettingsView extends StatelessWidget {
                                                                 buttonNameMap[
                                                                     key],
                                                                 isBold: true,
-                                                                fontSize: 20,
+                                                                fontSize:
+                                                                    titleFontSizeStyle,
                                                                 color: Colors
                                                                     .grey[800],
                                                               )))

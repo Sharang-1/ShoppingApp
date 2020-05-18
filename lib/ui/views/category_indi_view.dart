@@ -12,6 +12,7 @@ import 'package:provider_architecture/provider_architecture.dart';
 class CategoryIndiView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    const double headingFontSize = headingFontSizeStyle;
     return ViewModelProvider<CartViewModel>.withConsumer(
         viewModel: CartViewModel(),
         onModelReady: (model) => model.init(),
@@ -38,7 +39,7 @@ class CategoryIndiView extends StatelessWidget {
                               "Kurtas",
                               color: Colors.white,
                               dotsAfterOverFlow: true,
-                              fontSize: 25,
+                              fontSize: headingFontSize,
                               isBold: true,
                               isTitle: true,
                             )),
@@ -63,7 +64,7 @@ class CategoryIndiView extends StatelessWidget {
                                   ),
                                   Container(
                                     height: 50,
-                                    margin: EdgeInsets.only(top:12),
+                                    margin: EdgeInsets.only(top: 12),
                                     decoration: BoxDecoration(
                                         color: backgroundWhiteCreamColor,
                                         borderRadius: BorderRadius.only(
