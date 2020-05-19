@@ -17,6 +17,7 @@ import 'package:compound/ui/views/verify_otp.dart';
 import 'package:compound/ui/views/otp_finished_screen_1_view.dart';
 import 'package:compound/ui/views/otp_finished_screen_2_view.dart';
 import 'package:compound/ui/views/wishlist_view.dart';
+import './views/seller_indi_view.dart';
 
 import 'package:flutter/material.dart';
 import 'package:compound/constants/route_names.dart';
@@ -164,7 +165,12 @@ Route<dynamic> generateRoute(RouteSettings settings) {
           routeName: settings.name,
           viewToShow: WishlistView(),
           pageTransitionType: transitionType);
-
+  case SellerIndiViewRoute:
+      return _getPageRoute(
+          pageArguments: pageArguments,
+          routeName: settings.name,
+          viewToShow: SellerIndi(),
+          pageTransitionType: transitionType);
     case ProfileViewRoute:
       return _getPageRoute(
           pageArguments: pageArguments,

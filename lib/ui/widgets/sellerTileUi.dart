@@ -1,3 +1,5 @@
+import 'package:compound/constants/route_names.dart';
+import 'package:compound/services/navigation_service.dart';
 import 'package:compound/ui/shared/app_colors.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/models/cart.dart';
@@ -11,6 +13,7 @@ import 'package:compound/viewmodels/grid_view_builder_view_models/cart_grid_view
 import 'package:fimber/fimber.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../../locator.dart';
 import '../shared/shared_styles.dart';
 
 class SellerTileUi extends StatelessWidget {
@@ -24,6 +27,8 @@ class SellerTileUi extends StatelessWidget {
     double subtitleFontSize = fromHome ? 18 * 0.8 : 18;
     double titleFontSize = fromHome ? 18 * 0.8 : 18;
     double multiplyer = fromHome ? 0.8 : 1;
+    final NavigationService _navigationService = locator<NavigationService>();
+  
     // TODO: implement build
     return Container(
         padding: EdgeInsets.only(left: 5,bottom: 10,right: fromHome ? 5: 0),
@@ -31,159 +36,164 @@ class SellerTileUi extends StatelessWidget {
           height: 200 * (fromHome ? 0.8 : 1),
           width:
               (MediaQuery.of(context).size.width - 40) * (fromHome ? 0.8 : 1),
-          child: Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(curve15),
-              ),
-              clipBehavior: Clip.antiAlias,
-              elevation: 5,
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(15, 15, 15, 15),
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 0),
-                            child: ClipRRect(
-                                borderRadius: BorderRadius.circular(curve15),
-                                child: FadeInImage.assetNetwork(
-                                  width: 80 * multiplyer,
-                                  height: 80 * multiplyer,
-                                  fadeInCurve: Curves.easeIn,
-                                  placeholder: "assets/images/placeholder.png",
-                                  image:
-                                      "https://images.unsplash.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-                                  fit: BoxFit.cover,
-                                )),
-                          ),
-                          Expanded(
-                              child: Padding(
-                                  padding: EdgeInsets.only(left: 15),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                    children: <Widget>[
-                                      CustomText(
-                                        data["name"],
-                                        dotsAfterOverFlow: true,
-                                        isTitle: true,
-                                        isBold: true,
-                                        fontSize: titleFontSize,
-                                      ),
-                                      CustomDivider(),
-                                      CustomText(
-                                        data["type"],
-                                        color: data["type"] == "SELLER"
-                                            ? logoRed
-                                            : textIconOrange,
-                                        isBold: true,
-                                        dotsAfterOverFlow: true,
-                                        fontSize: subtitleFontSize - (2*multiplyer),
-                                      ),
-                                    ],
-                                  ))),
-                        ],
-                      ),
-                      verticalSpace(10),
-                      data["type"] == "SELLER"
-                          ? Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                CustomText(
-                                  "Sells         :  ",
-                                  color: Colors.grey,
-                                  isBold: true,
-                                  dotsAfterOverFlow: true,
-                                  fontSize: subtitleFontSize - (4*multiplyer),
-                                ),
-                                verticalSpace(2),
-                                Expanded(
-                                  child: CustomText(
-                                    data["sells"],
-                                    color: Colors.grey[700],
+          child: GestureDetector(
+            onTap: (){
+              _navigationService.navigateTo(SellerIndiViewRoute);
+            },
+                      child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(curve15),
+                ),
+                clipBehavior: Clip.antiAlias,
+                elevation: 5,
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(15, 15, 15, 15),
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 0),
+                              child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(curve15),
+                                  child: FadeInImage.assetNetwork(
+                                    width: 80 * multiplyer,
+                                    height: 80 * multiplyer,
+                                    fadeInCurve: Curves.easeIn,
+                                    placeholder: "assets/images/placeholder.png",
+                                    image:
+                                        "https://images.unsplash.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
+                                    fit: BoxFit.cover,
+                                  )),
+                            ),
+                            Expanded(
+                                child: Padding(
+                                    padding: EdgeInsets.only(left: 15),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      children: <Widget>[
+                                        CustomText(
+                                          data["name"],
+                                          dotsAfterOverFlow: true,
+                                          isTitle: true,
+                                          isBold: true,
+                                          fontSize: titleFontSize,
+                                        ),
+                                        CustomDivider(),
+                                        CustomText(
+                                          data["type"],
+                                          color: data["type"] == "SELLER"
+                                              ? logoRed
+                                              : textIconOrange,
+                                          isBold: true,
+                                          dotsAfterOverFlow: true,
+                                          fontSize: subtitleFontSize - (2*multiplyer),
+                                        ),
+                                      ],
+                                    ))),
+                          ],
+                        ),
+                        verticalSpace(10),
+                        data["type"] == "SELLER"
+                            ? Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  CustomText(
+                                    "Sells         :  ",
+                                    color: Colors.grey,
                                     isBold: true,
                                     dotsAfterOverFlow: true,
                                     fontSize: subtitleFontSize - (4*multiplyer),
                                   ),
-                                ),
-                              ],
-                            )
-                          : Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                CustomText(
-                                  "Speciality          :  ",
-                                  color: Colors.grey,
-                                  isBold: true,
-                                  dotsAfterOverFlow: true,
-                                  fontSize: subtitleFontSize - (4*multiplyer),
-                                ),
-                                verticalSpace(2),
-                                Expanded(
-                                  child: CustomText(
-                                    data["Speciality"],
-                                    color: Colors.grey[700],
-                                    isBold: true,
-                                    dotsAfterOverFlow: true,
-                                    fontSize: subtitleFontSize - (5*multiplyer),
+                                  verticalSpace(2),
+                                  Expanded(
+                                    child: CustomText(
+                                      data["sells"],
+                                      color: Colors.grey[700],
+                                      isBold: true,
+                                      dotsAfterOverFlow: true,
+                                      fontSize: subtitleFontSize - (4*multiplyer),
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                      CustomDivider(),
-                      data["type"] == "SELLER"
-                          ? Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                CustomText(
-                                  "Discount  :  ",
-                                  color: Colors.grey,
-                                  isBold: true,
-                                  dotsAfterOverFlow: true,
-                                  fontSize: subtitleFontSize - (4*multiplyer),
-                                ),
-                                verticalSpace(2),
-                                Expanded(
-                                  child: CustomText(
-                                    data["discount"],
-                                    color: green,
+                                ],
+                              )
+                            : Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  CustomText(
+                                    "Speciality          :  ",
+                                    color: Colors.grey,
                                     isBold: true,
                                     dotsAfterOverFlow: true,
                                     fontSize: subtitleFontSize - (4*multiplyer),
                                   ),
-                                ),
-                              ],
-                            )
-                          : Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                CustomText(
-                                  "Works Offered  :  ",
-                                  color: Colors.grey,
-                                  isBold: true,
-                                  dotsAfterOverFlow: true,
-                                  fontSize: subtitleFontSize - (4*multiplyer),
-                                ),
-                                verticalSpace(2),
-                                Expanded(
-                                  child: CustomText(
-                                    data["WorksOffered"],
-                                    color: Colors.grey[700],
+                                  verticalSpace(2),
+                                  Expanded(
+                                    child: CustomText(
+                                      data["Speciality"],
+                                      color: Colors.grey[700],
+                                      isBold: true,
+                                      dotsAfterOverFlow: true,
+                                      fontSize: subtitleFontSize - (5*multiplyer),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                        CustomDivider(),
+                        data["type"] == "SELLER"
+                            ? Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  CustomText(
+                                    "Discount  :  ",
+                                    color: Colors.grey,
                                     isBold: true,
                                     dotsAfterOverFlow: true,
-                                    fontSize: subtitleFontSize - (5*multiplyer),
+                                    fontSize: subtitleFontSize - (4*multiplyer),
                                   ),
-                                ),
-                              ],
-                            ),
-                    ]),
-              )),
+                                  verticalSpace(2),
+                                  Expanded(
+                                    child: CustomText(
+                                      data["discount"],
+                                      color: green,
+                                      isBold: true,
+                                      dotsAfterOverFlow: true,
+                                      fontSize: subtitleFontSize - (4*multiplyer),
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  CustomText(
+                                    "Works Offered  :  ",
+                                    color: Colors.grey,
+                                    isBold: true,
+                                    dotsAfterOverFlow: true,
+                                    fontSize: subtitleFontSize - (4*multiplyer),
+                                  ),
+                                  verticalSpace(2),
+                                  Expanded(
+                                    child: CustomText(
+                                      data["WorksOffered"],
+                                      color: Colors.grey[700],
+                                      isBold: true,
+                                      dotsAfterOverFlow: true,
+                                      fontSize: subtitleFontSize - (5*multiplyer),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                      ]),
+                )),
+          ),
         ));
   }
 }
