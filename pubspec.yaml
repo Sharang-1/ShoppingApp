@@ -47,6 +47,7 @@ dependencies:
   percent_indicator: "^2.1.1"
   flutter_svg:
   flutter_rating_bar: ^3.0.1+1
+  intl:
 
 dev_dependencies:
   flutter_test:
@@ -85,7 +86,7 @@ flutter:
     - assets/icons/menu.png
     - assets/icons/shopping-cart.png
     - assets/icons/share.svg
-    
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.
 

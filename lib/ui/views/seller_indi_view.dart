@@ -1,3 +1,4 @@
+import 'package:compound/ui/widgets/sellerBottomSheet.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:convert';
 import 'package:compound/locator.dart';
@@ -12,7 +13,12 @@ import '../shared/app_colors.dart';
 import '../views/home_view_slider.dart';
 import '../shared/shared_styles.dart';
 
-class SellerIndi extends StatelessWidget {
+class SellerIndi extends StatefulWidget {
+  @override
+  _SellerIndiState createState() => _SellerIndiState();
+}
+
+class _SellerIndiState extends State<SellerIndi> {
   Map<String, String> sellerDetails = {
     "name": "Ketan Works",
     "type": "BOUTIQUE",
@@ -27,6 +33,7 @@ class SellerIndi extends StatelessWidget {
     "Type": "Type of this is offered",
     "Speciality": "Spec1 , Spec2 , Spec3 , Spec4 , Spec5",
   };
+
   var allDetials = [
     "Works Offered",
     "Operations Offered",
@@ -34,6 +41,7 @@ class SellerIndi extends StatelessWidget {
     "Type",
     "Speciality"
   ];
+
   Map<String, IconData> icons = {
     "Works Offered": Icons.work,
     "Operations Offered": Icons.description,
@@ -41,13 +49,19 @@ class SellerIndi extends StatelessWidget {
     "Type": Icons.category,
     "Speciality": Icons.folder_special,
   };
+
   final double headFont = 22;
+
   final double subHeadFont = 18;
+
   final double smallFont = 16;
+
+  String selectedTime;
+
+  int selectedIndex;
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       backgroundColor: backgroundWhiteCreamColor,
       appBar: AppBar(
@@ -69,6 +83,7 @@ class SellerIndi extends StatelessWidget {
           child: RaisedButton(
               elevation: 5,
               onPressed: () {
+                _showBottomSheet(context);
                 if (sellerDetails["appointment"] != "true") {}
               },
               color: sellerDetails["appointment"] != "true"
@@ -299,8 +314,13 @@ class SellerIndi extends StatelessWidget {
                       return Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Icon(icons[key],color: Colors.grey,),
-                            SizedBox(width: 10,),
+                            Icon(
+                              icons[key],
+                              color: Colors.grey,
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -378,6 +398,21 @@ class SellerIndi extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _showBottomSheet(context) {
+    showModalBottomSheet(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(30))),
+        isScrollControlled: true,
+        clipBehavior: Clip.antiAlias,
+        context: context,
+        builder: (context) {
+          return FractionallySizedBox(
+              heightFactor: 0.5,
+              // child: SingleChildScrollView(
+              child: SellerBottomSheetView());
+        });
   }
 }
 
