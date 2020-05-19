@@ -3,6 +3,7 @@ import 'package:compound/ui/shared/shared_styles.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/ui/views/address_input_form_view.dart';
 import 'package:compound/ui/views/cart_payment_method_view.dart';
+import 'package:compound/ui/widgets/card_with_radioButton.dart';
 import 'package:compound/ui/widgets/custom_stepper.dart';
 import 'package:compound/ui/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
@@ -145,64 +146,25 @@ class _SelectAddressState extends State<SelectAddress> {
               children: addressMap.keys.map((int key) {
                 return Container(
                     margin: EdgeInsets.only(bottom: spaceBetweenCards),
-                    child: Card(
-                      clipBehavior: Clip.antiAlias,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(curve15),
-                      ),
-                      elevation: 5,
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 15, 15, 15),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Radio(
-                              value: key,
-                              groupValue: addressGrpValue,
-                              onChanged: (val) {
-                                setState(() {
-                                  addressRadioValue = val;
-                                });
-                                print(val);
-                              },
-                            ),
-                            Expanded(
-                                child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                CustomText(
-                                  addressMap[key],
-                                  color: Colors.grey[700],
-                                  isBold: true,
-                                ),
-                                verticalSpaceTiny_0,
-                                CustomText(
-                                  fullAddressMap[key],
-                                  color: Colors.grey,
-                                  fontSize: subtitleFontSizeStyle - 4,
-                                )
-                              ],
-                            )),
-                            // IconButton(
-                            //   icon: Icon(Icons.edit),
-                            //   onPressed: () {
-                            //     Navigator.push(
-                            //         context,
-                            //         MaterialPageRoute(
-                            //             builder: (context) =>
-                            //                 AddressInputPage()));
-                            //   },
-                            // )
-                          ],
-                        ),
-                      ),
-                    ));
+                    child: CardWithRadioButton(
+                        address: addressMap[key],
+                        fullAddress: fullAddressMap[key],
+                        radioValue: key,
+                        addressGrpValue: addressGrpValue,
+                        setRadioValue: _setRadioValue));
               }).toList(),
             )
           ],
         ),
       ))),
     );
+  }
+
+  void _setRadioValue(val) {
+    setState(() {
+      addressRadioValue = val;
+    });
+    print(val);
+    print(addressRadioValue);
   }
 }
