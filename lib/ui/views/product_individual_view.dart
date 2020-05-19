@@ -502,7 +502,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                   verticalSpace(20),
                   Card(
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
+                        borderRadius: BorderRadius.circular(curve15),
                       ),
                       elevation: 5,
                       child: Container(
