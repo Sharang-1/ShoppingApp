@@ -19,3 +19,4 @@ const String WishlistRoute = "WishlistView";
 const String ProfileViewRoute = "ProfileView";
 const String CategoryIndiViewRoute = "CategoryIndiView";
 const String SellerIndiViewRoute = "SellerIndiView";
+const String MyAppointmentViewRoute = "MyAppointmentView";

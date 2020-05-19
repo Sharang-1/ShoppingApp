@@ -18,7 +18,7 @@ import 'package:compound/ui/views/otp_finished_screen_1_view.dart';
 import 'package:compound/ui/views/otp_finished_screen_2_view.dart';
 import 'package:compound/ui/views/wishlist_view.dart';
 import './views/seller_indi_view.dart';
-
+import './views/myAppointments_view.dart';
 import 'package:flutter/material.dart';
 import 'package:compound/constants/route_names.dart';
 import 'package:compound/ui/views/login_view.dart';
@@ -170,6 +170,12 @@ Route<dynamic> generateRoute(RouteSettings settings) {
           pageArguments: pageArguments,
           routeName: settings.name,
           viewToShow: SellerIndi(),
+          pageTransitionType: transitionType);
+    case MyAppointmentViewRoute:
+      return _getPageRoute(
+          pageArguments: pageArguments,
+          routeName: settings.name,
+          viewToShow: myAppointments(),
           pageTransitionType: transitionType);
     case ProfileViewRoute:
       return _getPageRoute(

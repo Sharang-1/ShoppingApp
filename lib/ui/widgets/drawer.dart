@@ -173,7 +173,7 @@ class HomeDrawer extends StatelessWidget {
                       ),
                     ),
                     onTap: () {
-                      // _navigationService.navigateTo(routeName)
+                       _navigationService.navigateTo(MyAppointmentViewRoute);
                     },
                   ),
                   Divider(),

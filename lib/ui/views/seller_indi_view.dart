@@ -19,7 +19,7 @@ class SellerIndi extends StatelessWidget {
     "rattings": "4.5",
     "lat": "23.01524",
     "lon": "62.50125",
-    "appointment": "true",
+    "appointment": "false",
     "Address": "A/3 , Ami Apartment , 132 feet ring road , naranpura , ",
     "Works Offered": "Work1 , Work2 , Work3 , Work4",
     "Operations Offered": "Op1 , OP2 , Op3 , Op4",
@@ -35,11 +35,11 @@ class SellerIndi extends StatelessWidget {
     "Speciality"
   ];
   Map<String, IconData> icons = {
-    "Works Offered": Icons.add,
-    "Operations Offered": Icons.add,
-    "People Like Our": Icons.add,
-    "Type": Icons.add,
-    "Speciality": Icons.add,
+    "Works Offered": Icons.work,
+    "Operations Offered": Icons.description,
+    "People Like Our": Icons.favorite,
+    "Type": Icons.category,
+    "Speciality": Icons.folder_special,
   };
   final double headFont = 22;
   final double subHeadFont = 18;
@@ -305,6 +305,7 @@ class SellerIndi extends StatelessWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
+                                  verticalSpace(5),
                                   CustomText(
                                     key,
                                     fontSize: smallFont - 2,
