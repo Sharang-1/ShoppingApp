@@ -105,55 +105,51 @@ class myAppointments extends StatelessWidget {
                         ),
                         verticalSpace(20),
                         productCard(headingSize, subHeadingSize, context),
-                        verticalSpaceMedium,
+                        verticalSpaceSmall,
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
-                          
-                           RaisedButton(
-                                    elevation: 5,
-                                    onPressed: () {
-                                      Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  SelectAddress()));
-                                    },
-                                    color: textIconOrange,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(30),
-                                      // side: BorderSide(
-                                      //     color: Colors.black, width: 0.5)
+                            RaisedButton(
+                                elevation: 5,
+                                onPressed: () {},
+                                color: textIconOrange,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                  // side: BorderSide(
+                                  //     color: Colors.black, width: 0.5)
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 10, horizontal: 10),
+                                  child: Row(children: <Widget>[
+                                    Icon(
+                                      Icons.directions,
+                                      color: Colors.white,
                                     ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 12,horizontal: 10),
-                                      child: Row(children: <Widget>[
-                                        Icon(Icons.directions,color: Colors.white,),
-                                        horizontalSpaceTiny,
-                                        Text(
-                                          "Directions",
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ]),
-                                    )),
-                                      RaisedButton(
+                                    horizontalSpaceTiny,
+                                    Text(
+                                      "Directions",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ]),
+                                )),
+                            RaisedButton(
                                 elevation: 0,
                                 onPressed: () {},
                                 color: backgroundWhiteCreamColor,
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(30),
-                                    side:
-                                        BorderSide(color: logoRed, width: 2)),
+                                    side: BorderSide(color: logoRed, width: 2)),
                                 child: Padding(
                                   padding:
                                       const EdgeInsets.symmetric(vertical: 12),
                                   child: CustomText(
                                     "Cancel",
+                                    fontSize: 16,
                                     isBold: true,
-                                    color:logoRed,
+                                    color: logoRed,
                                   ),
                                 )),
                           ],
@@ -194,7 +190,7 @@ class myAppointments extends StatelessWidget {
                     CustomText(
                       "BOOKING ID",
                       isBold: true,
-                      color: textIconOrange,
+                      color: logoRed,
                       fontSize: subHeadingSize - 2,
                     ),
                     horizontalSpaceSmall,
@@ -203,7 +199,7 @@ class myAppointments extends StatelessWidget {
                       sellerDetails["id"],
                       dotsAfterOverFlow: true,
                       isBold: true,
-                      color: textIconOrange,
+                      color: logoRed,
                       fontSize: subHeadingSize - 2,
                     ))
                   ],
@@ -239,13 +235,14 @@ class myAppointments extends StatelessWidget {
                     ),
                     Container(
                       padding:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                          EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                       decoration: BoxDecoration(
-                          color: logoRed,
+                          color: textIconOrange,
                           borderRadius: BorderRadius.circular(curve30)),
                       child: CustomText(
                         sellerDetails["status"],
                         color: Colors.white,
+                        fontSize: 14,
                         isBold: true,
                       ),
                     )

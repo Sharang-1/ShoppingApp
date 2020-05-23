@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../shared/app_colors.dart';
@@ -40,195 +41,244 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
   int selectedIndex;
   @override
   Widget build(BuildContext context) {
-    return Container(
-        color: backgroundWhiteCreamColor,
-        child: Padding(
-          padding: EdgeInsets.only(
-              left: screenPadding, right: screenPadding, top: 10, bottom: 10),
-          child: Column(
-            children: <Widget>[
-              verticalSpace(20),
-              CustomText(
-                "Ketan Works",
-                isTitle: true,
-                fontWeight: FontWeight.w700,
-                fontSize: headingFontSizeStyle + 5,
+    return SingleChildScrollView(
+      child: Container(
+          color: Colors.white,
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: <
+                  Widget>[
+            Padding(
+              padding: const EdgeInsets.only(top: 8, left: 8),
+              child: IconButton(
+                tooltip: "Close",
+                iconSize: 25,
+                icon: Icon(CupertinoIcons.clear_circled_solid),
+                color: Colors.grey[700],
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
               ),
-              verticalSpaceMedium,
-              Row(
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Container(
-                    clipBehavior: Clip.antiAlias,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.rectangle,
-                      borderRadius: BorderRadius.all(Radius.circular(2)),
-                      border: Border.all(width: 0.6, color: Colors.grey),
-                    ),
-                    child: Wrap(
-                      children: <Widget>[
-                        Container(
-                            decoration: BoxDecoration(
-                                shape: BoxShape.rectangle,
-                                border:
-                                    Border.all(width: 0.7, color: Colors.grey),
-                                borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(10))),
-                            width: 50,
-                            height: 50,
-                            child: Column(
-                              children: <Widget>[
-                                Text(DateFormat('MMM').format(DateTime.now())),
-                                Icon(Icons.calendar_today)
-                              ],
-                            )),
-                        horizontalSpaceTiny_0,
-                        Wrap(
-                          direction: Axis.horizontal,
-                          children: weekDayMap.keys
-                              .map((index) => SizedBox(
-                                  height: 50,
-                                  child: ChoiceChip(
-                                      backgroundColor:
-                                          backgroundWhiteCreamColor,
-                                      // selectedShadowColor: Colors.white,
-                                      shape: RoundedRectangleBorder(
-                                          // borderRadius:
-                                          //     BorderRadius.circular(15),
-                                          side: BorderSide(
-                                              color: selectedWeekDay ==
-                                                      weekDayMap[index]
-                                                  ? darkRedSmooth
-                                                  : Colors.grey,
-                                              width: 0.5,
-                                              style: selectedWeekDay ==
-                                                      weekDayMap[index]
-                                                  ? BorderStyle.solid
-                                                  : BorderStyle.none)),
-                                      labelStyle: TextStyle(
-                                          fontSize: subtitleFontSizeStyle - 4,
-                                          fontWeight: selectedWeekDay ==
-                                                  weekDayMap[index]
-                                              ? FontWeight.w600
-                                              : FontWeight.normal,
-                                          color: selectedWeekDay ==
-                                                  weekDayMap[index]
-                                              ? darkRedSmooth
-                                              : Colors.grey),
-                                      selectedColor: Colors.white,
-                                      label: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: <Widget>[
-                                          Text(index.toString()),
-                                          Text(weekDayMap[index].toString()),
-                                        ],
-                                      ),
-                                      selected:
-                                          selectedWeekDay == weekDayMap[index],
-                                      onSelected: (val) {
-                                        setState(() {
-                                          selectedWeekDay =
-                                              val ? weekDayMap[index] : null;
-                                          selectedIndex = index;
-                                        });
-                                      })))
-                              .toList(),
-                        )
-                      ],
-                    ),
+                  CustomText(
+                    "Ketan Works",
+                    isTitle: true,
+                    fontWeight: FontWeight.w700,
+                    fontSize: titleFontSizeStyle,
                   ),
-                ],
-              ),
-              verticalSpaceMedium,
-              Align(
-                  alignment: Alignment.centerLeft,
-                  child: CustomText("Time",
-                      isTitle: true,
-                      fontWeight: FontWeight.w700,
-                      fontSize: headingFontSizeStyle)),
-              verticalSpaceTiny,
-              Row(
-                children: <Widget>[
-                  Expanded(
-                      child: Container(
-                          height: 50,
-                          child: ListView(
-                            scrollDirection: Axis.horizontal,
-                            children: timeDetails.keys
-                                .map((index) => Padding(
-                                    padding: EdgeInsets.only(right: 5),
-                                    child: ChoiceChip(
-                                        backgroundColor:
-                                            backgroundWhiteCreamColor,
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(15),
-                                            side: BorderSide(
-                                              color: selectedTime ==
-                                                      timeDetails[index]
+                  CustomText(
+                    "Naranpura",
+                    isTitle: true,
+                    color: Colors.grey,
+                    fontSize: titleFontSizeStyle - 2,
+                  ),
+                  verticalSpaceSmall,
+                  Divider(
+                    color: Colors.grey.withOpacity(0.2),
+                  ),
+                  verticalSpaceMedium,
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Container(
+                        // clipBehavior: Clip.antiAlias,
+                        width: MediaQuery.of(context).size.width - 60,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.rectangle,
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(curve15)),
+                          border: Border.all(width: 0.6, color: Colors.grey),
+                        ),
+                        child: Wrap(
+                          children: <Widget>[
+                            Container(
+                                decoration: BoxDecoration(
+                                    color: logoRed,
+                                    shape: BoxShape.rectangle,
+                                    border: Border.all(
+                                        width: 0.7, color: Colors.grey),
+                                    borderRadius:
+                                        BorderRadius.circular(curve15)),
+                                width:
+                                    ((MediaQuery.of(context).size.width - 60) /
+                                            5) -
+                                        1.2,
+                                height: 80,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    CustomText(
+                                      DateFormat('MMM').format(DateTime.now()),
+                                      color: Colors.white,
+                                    ),
+                                    verticalSpaceTiny_0,
+                                    Icon(
+                                      Icons.calendar_today,
+                                      color: Colors.white,
+                                    )
+                                  ],
+                                )),
+                            horizontalSpaceTiny_0,
+                            Wrap(
+                              direction: Axis.horizontal,
+                              children: weekDayMap.keys
+                                  .map((index) => SizedBox(
+                                      height: 80,
+                                      width: (MediaQuery.of(context).size.width - 60) /
+                                          5,
+                                      child: ChoiceChip(
+                                          backgroundColor: Colors.white,
+                                          // selectedShadowColor: Colors.white,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(
+                                                  curve15),
+                                              side: BorderSide(
+                                                  color: selectedWeekDay ==
+                                                          weekDayMap[index]
+                                                      ? darkRedSmooth
+                                                      : Colors.grey,
+                                                  width: 0.5,
+                                                  style: selectedWeekDay ==
+                                                          weekDayMap[index]
+                                                      ? BorderStyle.solid
+                                                      : BorderStyle.none)),
+                                          labelStyle: TextStyle(
+                                              fontSize:
+                                                  subtitleFontSizeStyle - 3,
+                                              fontWeight: selectedWeekDay ==
+                                                      weekDayMap[index]
+                                                  ? FontWeight.w600
+                                                  : FontWeight.normal,
+                                              color: selectedWeekDay == weekDayMap[index]
                                                   ? darkRedSmooth
-                                                  : Colors.grey,
-                                              width: 0.5,
-                                            )),
-                                        labelStyle: TextStyle(
-                                            fontSize: subtitleFontSizeStyle - 4,
-                                            fontWeight: selectedTime ==
-                                                    timeDetails[index]
-                                                ? FontWeight.w600
-                                                : FontWeight.normal,
-                                            color: selectedTime ==
-                                                    timeDetails[index]
-                                                ? darkRedSmooth
-                                                : Colors.grey),
-                                        selectedColor: Colors.white,
-                                        label: Text(timeDetails[index]),
-                                        selected:
-                                            selectedTime == timeDetails[index],
-                                        onSelected: (val) {
-                                          setState(() {
-                                            selectedTime =
-                                                val ? timeDetails[index] : null;
-                                            selectedIndex = index;
-                                          });
-                                          print(selectedTime +
-                                              selectedIndex.toString());
-                                        })))
-                                .toList(),
-                          )))
+                                                  : Colors.grey),
+                                          selectedColor: Colors.white,
+                                          label: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: <Widget>[
+                                              Text(
+                                                  weekDayMap[index].toString()),
+                                              Text(index.toString()),
+                                            ],
+                                          ),
+                                          selected: selectedWeekDay == weekDayMap[index],
+                                          onSelected: (val) {
+                                            setState(() {
+                                              selectedWeekDay = val
+                                                  ? weekDayMap[index]
+                                                  : null;
+                                              selectedIndex = index;
+                                            });
+                                          })))
+                                  .toList(),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  verticalSpace(30),
+                  Align(
+                      alignment: Alignment.centerLeft,
+                      child: CustomText("Time",
+                          isTitle: true,
+                          fontWeight: FontWeight.w700,
+                          fontSize: titleFontSizeStyle)),
+                  verticalSpaceTiny,
+                  Row(
+                    children: <Widget>[
+                      Expanded(
+                          child: Container(
+                              height: 50,
+                              child: ListView(
+                                scrollDirection: Axis.horizontal,
+                                children: timeDetails.keys
+                                    .map((index) => Padding(
+                                        padding: EdgeInsets.only(right: 5),
+                                        child: ChoiceChip(
+                                            backgroundColor: Colors.white,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(15),
+                                                side: BorderSide(
+                                                  color: selectedTime ==
+                                                          timeDetails[index]
+                                                      ? darkRedSmooth
+                                                      : Colors.grey,
+                                                  width: 0.5,
+                                                )),
+                                            labelStyle: TextStyle(
+                                                fontSize:
+                                                    subtitleFontSizeStyle - 4,
+                                                fontWeight: selectedTime ==
+                                                        timeDetails[index]
+                                                    ? FontWeight.w600
+                                                    : FontWeight.normal,
+                                                color: selectedTime ==
+                                                        timeDetails[index]
+                                                    ? darkRedSmooth
+                                                    : Colors.grey),
+                                            selectedColor: Colors.white,
+                                            label: Text(timeDetails[index]),
+                                            selected: selectedTime ==
+                                                timeDetails[index],
+                                            onSelected: (val) {
+                                              setState(() {
+                                                selectedTime = val
+                                                    ? timeDetails[index]
+                                                    : null;
+                                                selectedIndex = index;
+                                              });
+                                              print(selectedTime +
+                                                  selectedIndex.toString());
+                                            })))
+                                    .toList(),
+                              )))
+                    ],
+                  ),
+                  verticalSpaceLarge,
+                  Row(
+                    children: <Widget>[
+                      Expanded(
+                          child: RaisedButton(
+                              elevation: 5,
+                              onPressed: () {
+                                // Navigator.pushReplacement(
+                                //     context,
+                                //     MaterialPageRoute(
+                                //         builder: (context) =>
+                                //             SelectAddress()));
+                              },
+                              color: green,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
+                                // side: BorderSide(
+                                //     color: Colors.black, width: 0.5)
+                              ),
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 15),
+                                child: Text(
+                                  "Book Appointment ",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              )))
+                    ],
+                  )
                 ],
               ),
-              verticalSpaceSmall,
-              Row(
-                children: <Widget>[
-                  Expanded(
-                      child: RaisedButton(
-                          elevation: 5,
-                          onPressed: () {
-                            // Navigator.pushReplacement(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (context) =>
-                            //             SelectAddress()));
-                          },
-                          color: green,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                            // side: BorderSide(
-                            //     color: Colors.black, width: 0.5)
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 12),
-                            child: Text(
-                              "Book Appointment ",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          )))
-                ],
-              )
-            ],
-          ),
-        ));
+            ),
+          ])),
+    );
   }
 }

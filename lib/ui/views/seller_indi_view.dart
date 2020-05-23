@@ -263,16 +263,18 @@ class _SellerIndiState extends State<SellerIndi> {
                                     ),
                                 child: Container(
                                     padding: const EdgeInsets.symmetric(
-                                        vertical: 10),
+                                        vertical: 6),
                                     child: Row(children: <Widget>[
                                       Icon(
                                         Icons.add_location,
+                                        size: 16,
                                         color: logoRed,
                                       ),
                                       horizontalSpaceSmall,
                                       CustomText(
                                         "Locate",
                                         isBold: true,
+                                        fontSize: 14,
                                         color: logoRed,
                                       )
                                     ]))),
@@ -378,16 +380,18 @@ class _SellerIndiState extends State<SellerIndi> {
                           //     color: Colors.black, width: 0.5)
                           ),
                       child: Container(
-                          padding: const EdgeInsets.symmetric(vertical: 15),
+                          padding: const EdgeInsets.symmetric(vertical: 10),
                           child: Row(children: <Widget>[
                             Icon(
                               Icons.edit,
                               color: textIconOrange,
+                              size: 16,
                             ),
                             horizontalSpaceSmall,
                             CustomText(
                               "Write Review",
                               isBold: true,
+                              fontSize: 16,
                               color: textIconOrange,
                             )
                           ]))),
@@ -403,14 +407,13 @@ class _SellerIndiState extends State<SellerIndi> {
   void _showBottomSheet(context) {
     showModalBottomSheet(
         shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(30))),
+            borderRadius: BorderRadius.vertical(top: Radius.circular(curve30))),
         isScrollControlled: true,
         clipBehavior: Clip.antiAlias,
         context: context,
         builder: (context) {
           return FractionallySizedBox(
-              heightFactor: 0.5,
-              // child: SingleChildScrollView(
+              heightFactor: 0.6,
               child: SellerBottomSheetView());
         });
   }
