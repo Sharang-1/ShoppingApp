@@ -50,7 +50,7 @@ class HomeView extends StatelessWidget {
                           ),
                           onPressed: () => model.cart(),
                         ),
-                        horizontalSpaceTiny,
+                        horizontalSpaceSmall,
                       ],
                     )),
 
@@ -70,7 +70,49 @@ class HomeView extends StatelessWidget {
                         automaticallyImplyLeading: false,
                         iconTheme: IconThemeData(color: appBarIconColor),
                         backgroundColor: backgroundWhiteCreamColor,
-                        actions: <Widget>[
+                        title: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                          Expanded(
+                            child: InkWell(
+                              onTap: () {
+                                model.search();
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(top: 15),
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  // color: Colors.grey[200],
+                                  color: backgroundBlueGreyColor,
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 30,
+                                    vertical: 8,
+                                  ),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Icon(
+                                        Icons.search,
+                                        color: appBarIconColor,
+                                      ),
+                                      horizontalSpaceSmall,
+                                      Text(
+                                        "Search",
+                                        style: TextStyle(
+                                            fontSize: subtitleFontSize,
+                                            color: Colors.grey[600],
+                                            fontFamily: "Raleway",
+                                            fontWeight: FontWeight.normal),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
                           Container(
                             margin: EdgeInsets.only(top:10),
                             child: IconButton(
@@ -84,45 +126,7 @@ class HomeView extends StatelessWidget {
                               },
                             ),
                           ),
-                          horizontalSpaceTiny,
-                        ],
-                        title: InkWell(
-                          onTap: () {
-                            model.search();
-                          },
-                          child: Container(
-                            margin: EdgeInsets.only(top: 15),
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              // color: Colors.grey[200],
-                              color: backgroundBlueGreyColor,
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 30,
-                                vertical: 8,
-                              ),
-                              child: Row(
-                                children: <Widget>[
-                                  Icon(
-                                    Icons.search,
-                                    color: appBarIconColor,
-                                  ),
-                                  horizontalSpaceSmall,
-                                  Text(
-                                    "Search",
-                                    style: TextStyle(
-                                        fontSize: subtitleFontSize,
-                                        color: Colors.grey[600],
-                                        fontFamily: "Raleway",
-                                        fontWeight: FontWeight.normal),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
+                        ]),
                       ),
                       SliverList(
                         // Use a delegate to build items as they're scrolled on screen.

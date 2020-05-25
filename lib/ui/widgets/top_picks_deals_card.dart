@@ -1,6 +1,7 @@
 import 'package:compound/ui/shared/app_colors.dart';
 import 'package:compound/ui/shared/shared_styles.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -39,22 +40,25 @@ class TopPicksAndDealsCard extends StatelessWidget {
                             : 1,
                         child: ClipRRect(
                             borderRadius: BorderRadius.circular(curve15),
-                            child: FadeInImage.assetNetwork(
-                              width: 100,
-                              fadeInCurve: Curves.easeIn,
-                              placeholder: "assets/images/placeholder.png",
-                              image:
-                                  "https://images.unsplash.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-                              fit: BoxFit.cover,
-                            ))),
+                            child: data["isExclusive"] != null &&
+                                    data["isExclusive"] == "true"
+                                ? imageWithTag()
+                                : FadeInImage.assetNetwork(
+                                    width: 100,
+                                    fadeInCurve: Curves.easeIn,
+                                    placeholder:
+                                        "assets/images/placeholder.png",
+                                    image:
+                                        "https://images.unsplash.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
+                                    fit: BoxFit.cover,
+                                  ))),
                     (data["isDiscountAvailable"] != null &&
                                 data["isDiscountAvailable"] == "true") ||
                             (data["isExclusive"] != null &&
                                 data["isExclusive"] == "true")
                         ? data["isExclusive"] != null &&
                                 data["isExclusive"] == "true"
-                            ? Positioned(
-                                top: 0, left: 0, right: 0, child: svgRibbon())
+                            ? Container()
                             : Positioned(top: 0, left: 0, child: svgDiscount())
 
                         // Container(
@@ -183,31 +187,73 @@ class TopPicksAndDealsCard extends StatelessWidget {
             decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(curve30)),
-            height: 20,
-            width: 20,
+            height: 15,
+            width: 15,
           )),
       SvgPicture.asset(
         "assets/svg/discount.svg",
         color: logoRed,
-        height: 30,
-        width: 30,
+        height: 25,
+        width: 25,
       ),
     ]);
   }
 
-  Widget svgRibbon() {
-    return Stack(children: [
-      Positioned(
-        top: 0,
-        left: 0,
-        child: SvgPicture.asset(
-          "assets/svg/ribbon.svg",
-          color: logoRed,
-          width: 50,
+  Widget imageWithTag() {
+    return Container(
+      width: 100,
+      child: Stack(children: [
+       
+        Positioned(
+          left: 5,
+          right: 5,
+          top: 0,
+          bottom: 0,
+          child: FadeInImage.assetNetwork(
+            width: 90,
+            fadeInCurve: Curves.easeIn,
+            placeholder: "assets/images/placeholder.png",
+            image:
+                "https://images.unsplash.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
+            fit: BoxFit.cover,
+          ),
         ),
-      ),
-    ]);
+        Positioned(
+            left: 0,
+            right: 0,
+            top: 8,
+            child: Container(
+              height: 18,
+              color: logoRed,
+              child: Center(
+                child: CustomText(
+                  "Exclusive",
+                  color: Colors.white,
+                  isBold: true,
+                  fontSize: 12,
+                ),
+              ),
+            )),
+       
+        Positioned(
+          top: 18,
+          right:-5,
+          child: Transform.rotate(
+            angle:0,
+            child:Icon(Icons.play_arrow,size: 15,color: logoRed,)),
+        ),
+         Positioned(
+          top: 18,
+          left:-5,
+          child: Transform.rotate(
+            angle:45,
+            child:Icon(Icons.play_arrow,size: 15,color: logoRed,)),
+        ),
+     
+      ]),
+    );
   }
+
 }
 
 class CustomDivider extends StatelessWidget {
