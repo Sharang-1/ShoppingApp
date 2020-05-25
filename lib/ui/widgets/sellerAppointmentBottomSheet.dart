@@ -46,18 +46,22 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: <
                   Widget>[
-            Padding(
-              padding: const EdgeInsets.only(top: 8, left: 8),
-              child: IconButton(
-                tooltip: "Close",
-                iconSize: 25,
-                icon: Icon(CupertinoIcons.clear_circled_solid),
-                color: Colors.grey[700],
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(top: 8, right: 8),
+                child: IconButton(
+                  tooltip: "Close",
+                  iconSize: 30,
+                  icon: Icon(CupertinoIcons.clear_circled_solid),
+                  color: Colors.grey[600],
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
               ),
-            ),
+            ]),
             Padding(
               padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
               child: Column(
@@ -106,7 +110,7 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                           BorderRadius.circular(curve15)),
                                   width: ((MediaQuery.of(context).size.width -
                                               60) /
-                                          5) -
+                                          4) -
                                       1.2,
                                   height: 80,
                                   child: Column(
@@ -124,7 +128,7 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                       )
                                     ],
                                   )),
-                              horizontalSpaceTiny,
+                              horizontalSpaceSmall,
                               Wrap(
                                 direction: Axis.horizontal,
                                 children: weekDayMap.keys
@@ -132,8 +136,14 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                         height: 80,
                                         width:
                                             (MediaQuery.of(context).size.width -
-                                                    60) /
-                                                5,
+                                                    60 -
+                                                    ((MediaQuery.of(context)
+                                                                .size
+                                                                .width -
+                                                            60) /
+                                                        4) -
+                                                    10) /
+                                                3,
                                         child: ChoiceChip(
                                             backgroundColor: Colors.white,
                                             // selectedShadowColor: Colors.white,
@@ -280,7 +290,7 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                 //         builder: (context) =>
                                 //             SelectAddress()));
                               },
-                              color: green,
+                              color: logoRed,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(30),
                                 // side: BorderSide(
