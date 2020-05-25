@@ -25,11 +25,6 @@ class HomeView extends StatelessWidget {
               primary: false,
               backgroundColor: backgroundWhiteCreamColor,
               drawer: HomeDrawer(),
-              floatingActionButton: FloatingActionButton.extended(
-                backgroundColor: Colors.grey[800],
-                onPressed: model.logout,
-                label: Text("Logout"),
-              ),
               appBar: AppBar(
                 elevation: 0,
                 automaticallyImplyLeading: false,
@@ -45,8 +40,8 @@ class HomeView extends StatelessWidget {
                           child: SvgPicture.asset(
                         "assets/svg/logo.svg",
                         color: logoRed,
-                        height: 40,
-                        width: 40,
+                        height: 50,
+                        width: 50,
                       )),
                       actions: <Widget>[
                         IconButton(
@@ -55,6 +50,7 @@ class HomeView extends StatelessWidget {
                           ),
                           onPressed: () => model.cart(),
                         ),
+                        horizontalSpaceTiny,
                       ],
                     )),
 
@@ -75,22 +71,27 @@ class HomeView extends StatelessWidget {
                         iconTheme: IconThemeData(color: appBarIconColor),
                         backgroundColor: backgroundWhiteCreamColor,
                         actions: <Widget>[
-                          IconButton(
-                            tooltip: 'map',
-                            icon: Icon(
-                              Icons.map,
-                              color: appBarIconColor,
+                          Container(
+                            margin: EdgeInsets.only(top:10),
+                            child: IconButton(
+                              tooltip: 'map',
+                              icon: Icon(
+                                Icons.map,
+                                color: appBarIconColor,
+                              ),
+                              onPressed: () {
+                                model.openmap();
+                              },
                             ),
-                            onPressed: () {
-                              model.openmap();
-                            },
-                          )
+                          ),
+                          horizontalSpaceTiny,
                         ],
                         title: InkWell(
                           onTap: () {
                             model.search();
                           },
                           child: Container(
+                            margin: EdgeInsets.only(top: 15),
                             width: double.infinity,
                             decoration: BoxDecoration(
                               // color: Colors.grey[200],
@@ -129,7 +130,7 @@ class HomeView extends StatelessWidget {
                           // The builder function returns a ListTile with a title that
                           // displays the index of the current item.
                           (context, index) => Padding(
-                            padding: const EdgeInsets.only(top: 10),
+                            padding: const EdgeInsets.only(top: 20),
                             child: HomeViewList(),
                           ),
                           childCount: 1,

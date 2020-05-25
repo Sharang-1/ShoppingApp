@@ -38,7 +38,7 @@ class HomeViewList extends StatelessWidget {
 
   List<Map<String, String>> bestDealsDataMap = [
     {
-      "name": "ABc",
+      "name": "Nike shoes",
       "sellerName": "Nike",
       "price": "500",
       "discountedPrice": "400",
@@ -60,7 +60,7 @@ class HomeViewList extends StatelessWidget {
   ];
   List<Map<String, String>> sameDayDeliveryDataMap = [
     {
-      "name": "ABc",
+      "name": "Nike shoes",
       "sellerName": "Nike",
       "price": "500",
       "discountedPrice": "400",
@@ -77,7 +77,7 @@ class HomeViewList extends StatelessWidget {
   ];
   List<Map<String, String>> topPicksDataMap = [
     {
-      "name": "ABc",
+      "name": "Nike shoes",
       "sellerName": "Nike",
       "price": "500",
     },
@@ -94,7 +94,7 @@ class HomeViewList extends StatelessWidget {
   ];
   List<Map<String, String>> productAwedDataMap = [
     {
-      "name": "ABc",
+      "name": "Nike shoes",
       "sellerName": "Nike",
       "price": "500",
       "discountedPrice": "400",
@@ -123,29 +123,43 @@ class HomeViewList extends StatelessWidget {
   Widget build(BuildContext context) {
     // const double headingFontSize=25;
     // const double titleFontSize=20;
-    const double subtitleFontSize = subtitleFontSizeStyle;
+    const double subtitleFontSize = subtitleFontSizeStyle + 2;
 
     return Container(
       padding: EdgeInsets.fromLTRB(screenPadding, 10, screenPadding, 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          HomeSlider(),
-          verticalSpaceSmall,
+          Container(
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 5,
+                  blurRadius: 7,
+                  offset: Offset(0, 3), // changes position of shadow
+                ),
+              ],
+            ),
+            child: ClipRRect(
+                borderRadius: BorderRadius.circular(20.0), child: HomeSlider()),
+          ),
+          verticalSpace(40),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Text('Shop By Category',
                   style: TextStyle(
-                      color: Theme.of(context).accentColor,
+                      color: Colors.grey[800],
                       fontSize: subtitleFontSize,
                       fontWeight: FontWeight.w700)),
               InkWell(
                 child: Text(
                   'View All',
                   style: TextStyle(
-                    color: Theme.of(context).accentColor,
+                    fontWeight: FontWeight.bold,
+                    color: textIconBlue,
                   ),
                 ),
                 onTap: () {
@@ -158,14 +172,14 @@ class HomeViewList extends StatelessWidget {
             ],
           ),
           Container(
-              height: 100,
+              height: 120,
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: categories
                     .map((category) => SizedBox(
-                        width: 160,
+                        width: 192,
                         child: Padding(
-                          padding: const EdgeInsets.fromLTRB(5, 10, 0, 0),
+                          padding: const EdgeInsets.fromLTRB(5, 10, 0, 5),
                           child: InkWell(
                             child: Card(
                               clipBehavior: Clip.antiAlias,
@@ -190,16 +204,20 @@ class HomeViewList extends StatelessWidget {
                                       ),
                                 )),
                                 Positioned.fill(
-                                    child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: <Widget>[
-                                      CustomText(category,
-                                          align: TextAlign.center,
-                                          color: Colors.white,
-                                          fontSize: titleFontSizeStyle,
-                                          fontWeight: FontWeight.w600),
-                                    ]))
+                                    child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10),
+                                  child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        CustomText(category,
+                                            align: TextAlign.center,
+                                            color: Colors.white,
+                                            fontSize: subtitleFontSize - 2,
+                                            fontWeight: FontWeight.w600),
+                                      ]),
+                                ))
                               ]),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(curve15),
@@ -211,13 +229,13 @@ class HomeViewList extends StatelessWidget {
                         )))
                     .toList(),
               )),
-          verticalSpaceSmall,
+          verticalSpace(40),
           Row(children: <Widget>[
             Expanded(
               child: Text(
                 'Great Sellers Near You',
                 style: TextStyle(
-                  color: Theme.of(context).accentColor,
+                  color: Colors.grey[800],
                   fontSize: subtitleFontSize,
                   fontWeight: FontWeight.w700,
                 ),
@@ -246,32 +264,21 @@ class HomeViewList extends StatelessWidget {
               ],
             ),
           ),
+          verticalSpace(40),
           Container(
-            padding: EdgeInsets.only(left: 0),
-            height: 175,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: <Widget>[
-                SellerTileUi(
-                  data: sellerCardDetails,
-                  fromHome: true,
-                ),
-                SellerTileUi(
-                  data: sellerCardDetails,
-                  fromHome: true,
-                ),
-                SellerTileUi(
-                  data: sellerCardDetails,
-                  fromHome: true,
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 5,
+                  blurRadius: 7,
+                  offset: Offset(0, 3), // changes position of shadow
                 ),
               ],
             ),
-          ),
-          verticalSpaceMedium,
-          Align(
-            alignment: Alignment.center,
             child: SizedBox(
-                height: 200,
+                height: (MediaQuery.of(context).size.width - 40) * 0.8,
+                width: MediaQuery.of(context).size.width - 40,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(curve15),
                   child: Image(
@@ -281,13 +288,13 @@ class HomeViewList extends StatelessWidget {
                   ),
                 )),
           ),
-          verticalSpaceMedium,
+          verticalSpace(40),
           Row(children: <Widget>[
             Expanded(
               child: Text(
                 'Top Picks For You',
                 style: TextStyle(
-                  color: Theme.of(context).accentColor,
+                  color: Colors.grey[800],
                   fontSize: subtitleFontSize,
                   fontWeight: FontWeight.w700,
                 ),
@@ -307,12 +314,33 @@ class HomeViewList extends StatelessWidget {
                         )))
                     .toList()),
           ),
-          verticalSpaceMedium,
-          Align(
-            alignment: Alignment.center,
+          Container(
+            height: 150,
+            child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: topPicksDataMap
+                    .map((e) => SizedBox(
+                        width: 250,
+                        child: TopPicksAndDealsCard(
+                          data: e,
+                        )))
+                    .toList()),
+          ),
+          verticalSpace(40),
+          Container(
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 5,
+                  blurRadius: 7,
+                  offset: Offset(0, 3), // changes position of shadow
+                ),
+              ],
+            ),
             child: SizedBox(
-                width: 275,
-                height: 250,
+                height: (MediaQuery.of(context).size.width - 40) * 0.8,
+                width: MediaQuery.of(context).size.width - 40,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(curve15),
                   child: Image(
@@ -322,13 +350,13 @@ class HomeViewList extends StatelessWidget {
                   ),
                 )),
           ),
-          verticalSpaceMedium,
+          verticalSpace(40),
           Row(children: <Widget>[
             Expanded(
               child: Text(
                 'Best Deals Today',
                 style: TextStyle(
-                  color: Theme.of(context).accentColor,
+                  color: Colors.grey[800],
                   fontSize: subtitleFontSize,
                   fontWeight: FontWeight.w700,
                 ),
@@ -348,13 +376,25 @@ class HomeViewList extends StatelessWidget {
                         )))
                     .toList()),
           ),
-          verticalSpaceSmall,
+          Container(
+            height: 150,
+            child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: bestDealsDataMap
+                    .map((e) => SizedBox(
+                        width: 250,
+                        child: TopPicksAndDealsCard(
+                          data: e,
+                        )))
+                    .toList()),
+          ),
+          verticalSpace(40),
           Row(children: <Widget>[
             Expanded(
               child: Text(
                 'Boutiques Near You',
                 style: TextStyle(
-                  color: Theme.of(context).accentColor,
+                  color: Colors.grey[800],
                   fontSize: subtitleFontSize,
                   fontWeight: FontWeight.w700,
                 ),
@@ -383,12 +423,21 @@ class HomeViewList extends StatelessWidget {
               ],
             ),
           ),
-          verticalSpaceMedium,
-          Align(
-            alignment: Alignment.center,
+          verticalSpace(40),
+          Container(
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 5,
+                  blurRadius: 7,
+                  offset: Offset(0, 3), // changes position of shadow
+                ),
+              ],
+            ),
             child: SizedBox(
-                width: 275,
-                height: 250,
+                height: (MediaQuery.of(context).size.width - 40) * 0.8,
+                width: MediaQuery.of(context).size.width - 40,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(curve15),
                   child: Image(
@@ -398,14 +447,14 @@ class HomeViewList extends StatelessWidget {
                   ),
                 )),
           ),
-          verticalSpaceMedium,
+          verticalSpace(40),
           Row(
             children: <Widget>[
               Expanded(
                 child: Text(
                   'Products Delivered The Same Day',
                   style: TextStyle(
-                    color: Theme.of(context).accentColor,
+                    color: Colors.grey[800],
                     fontSize: subtitleFontSize,
                     fontWeight: FontWeight.w700,
                   ),
@@ -415,7 +464,7 @@ class HomeViewList extends StatelessWidget {
           ),
           verticalSpaceSmall,
           Container(
-            height: 150,
+            height: 180,
             child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: sameDayDeliveryDataMap
@@ -426,13 +475,13 @@ class HomeViewList extends StatelessWidget {
                         )))
                     .toList()),
           ),
-          verticalSpaceSmall,
+          verticalSpace(30),
           Row(children: <Widget>[
             Expanded(
               child: Text(
                 'Products That Awed Us',
                 style: TextStyle(
-                  color: Theme.of(context).accentColor,
+                  color: Colors.grey[800],
                   fontSize: subtitleFontSize,
                   fontWeight: FontWeight.w700,
                 ),
@@ -441,7 +490,7 @@ class HomeViewList extends StatelessWidget {
           ]),
           verticalSpaceSmall,
           Container(
-            height: 125,
+            height: 150,
             child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: productAwedDataMap
@@ -453,7 +502,7 @@ class HomeViewList extends StatelessWidget {
                     .toList()),
           ),
           Container(
-            height: 125,
+            height: 150,
             child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: productAwedDataMap
@@ -464,13 +513,13 @@ class HomeViewList extends StatelessWidget {
                         )))
                     .toList()),
           ),
-          verticalSpaceSmall,
+          verticalSpace(30),
           Row(children: <Widget>[
             Expanded(
               child: Text(
                 'Popular Categories Near You',
                 style: TextStyle(
-                  color: Theme.of(context).accentColor,
+                  color: Colors.grey[800],
                   fontSize: subtitleFontSize,
                   fontWeight: FontWeight.w700,
                 ),
@@ -478,14 +527,14 @@ class HomeViewList extends StatelessWidget {
             )
           ]),
           Container(
-              height: 100,
+              height: 120,
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: categories
                     .map((category) => SizedBox(
-                        width: 160,
+                        width: 192,
                         child: Padding(
-                          padding: const EdgeInsets.fromLTRB(5, 10, 0, 0),
+                          padding: const EdgeInsets.fromLTRB(5, 10, 0, 5),
                           child: InkWell(
                             child: Card(
                               clipBehavior: Clip.antiAlias,
@@ -510,16 +559,20 @@ class HomeViewList extends StatelessWidget {
                                       ),
                                 )),
                                 Positioned.fill(
-                                    child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: <Widget>[
-                                      CustomText(category,
-                                          align: TextAlign.center,
-                                          color: Colors.white,
-                                          fontSize: titleFontSizeStyle,
-                                          fontWeight: FontWeight.w600),
-                                    ]))
+                                    child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10),
+                                  child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        CustomText(category,
+                                            align: TextAlign.center,
+                                            color: Colors.white,
+                                            fontSize: subtitleFontSizeStyle - 2,
+                                            fontWeight: FontWeight.w600),
+                                      ]),
+                                ))
                               ]),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(curve15),
@@ -531,13 +584,13 @@ class HomeViewList extends StatelessWidget {
                         )))
                     .toList(),
               )),
-          verticalSpaceSmall,
+          verticalSpace(40),
           Row(children: <Widget>[
             Expanded(
               child: Text(
                 'Success Delivering To You',
                 style: TextStyle(
-                  color: Theme.of(context).accentColor,
+                  color: Colors.grey[800],
                   fontSize: subtitleFontSize,
                   fontWeight: FontWeight.w700,
                 ),
@@ -566,43 +619,43 @@ class HomeViewList extends StatelessWidget {
               ],
             ),
           ),
-          verticalSpaceSmall,
+          verticalSpaceMedium,
           Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
             SizedBox(
                 width: MediaQuery.of(context).size.width * 0.6,
                 child: Divider(
-                  color: Colors.black,
+                  color: Colors.grey,
                   thickness: 0.5,
                 ))
           ]),
-          verticalSpaceSmall,
+          verticalSpaceMedium,
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Expanded(
-                  child: SizedBox(
-                      height: 50,
-                      child: RaisedButton(
-                          elevation: 5,
-                          onPressed: () {
-                            // Navigator.pushReplacement(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (context) =>
-                            //             SelectAddress()));
-                          },
-                          color: darkRedSmooth,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(curve30),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 12),
-                            child: Text(
-                              "Locate Tailors ",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ))))
+              SizedBox(
+                  height: 50,
+                  width: MediaQuery.of(context).size.width * 0.6,
+                  child: RaisedButton(
+                      elevation: 5,
+                      onPressed: () {
+                        // Navigator.pushReplacement(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) =>
+                        //             SelectAddress()));
+                      },
+                      color: darkRedSmooth,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(curve30),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 15),
+                        child: Text(
+                          "Locate Tailors ",
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
+                      )))
             ],
           ),
           verticalSpaceLarge_1

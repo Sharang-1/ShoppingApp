@@ -29,7 +29,6 @@ class _HomeSliderState extends State<HomeSlider> {
           return Builder(
             builder: (BuildContext context) {
               return Container(
-                  clipBehavior: Clip.antiAlias,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(curve15)),
                   width: MediaQuery.of(context).size.width,
