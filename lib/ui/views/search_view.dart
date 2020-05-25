@@ -224,8 +224,14 @@ class _SearchViewState extends State<SearchView>
             iconTheme: IconThemeData(color: appBarIconColor),
             backgroundColor: backgroundWhiteCreamColor,
             actions: <Widget>[
-              IconButton(onPressed: () {}, icon: CartIconWithBadge()),
-            SizedBox(width: 5,)
+              IconButton(
+                  onPressed: () {},
+                  icon: CartIconWithBadge(
+                    IconColor: Colors.black,
+                  )),
+              SizedBox(
+                width: 5,
+              )
             ],
             bottom: PreferredSize(
               preferredSize: Size(50, 50),
@@ -256,10 +262,12 @@ class _SearchViewState extends State<SearchView>
                         ProductFilter filterDialogResponse =
                             await showModalBottomSheet(
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20)),
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20)),
                           ),
                           isScrollControlled: true,
-                          clipBehavior:Clip.antiAlias,
+                          clipBehavior: Clip.antiAlias,
                           context: context,
                           builder: (BuildContext context) {
                             return FractionallySizedBox(

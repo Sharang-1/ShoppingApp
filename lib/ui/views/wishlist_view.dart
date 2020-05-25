@@ -225,7 +225,11 @@ class _WishlistViewState extends State<WishlistView>
             iconTheme: IconThemeData(color: appBarIconColor),
             backgroundColor: backgroundWhiteCreamColor,
             actions: <Widget>[
-              IconButton(onPressed: () {}, icon: CartIconWithBadge()),
+              IconButton(
+                  onPressed: () {},
+                  icon: CartIconWithBadge(
+                    IconColor: Colors.black,
+                  )),
               SizedBox(
                 width: 10,
               )

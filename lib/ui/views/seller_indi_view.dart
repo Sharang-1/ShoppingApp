@@ -1,4 +1,4 @@
-import 'package:compound/ui/widgets/sellerBottomSheet.dart';
+import 'package:compound/ui/widgets/sellerAppointmentBottomSheet.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:convert';
 import 'package:compound/locator.dart';
@@ -262,8 +262,8 @@ class _SellerIndiState extends State<SellerIndi> {
                                     //     color: Colors.black, width: 0.5)
                                     ),
                                 child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 6),
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 6),
                                     child: Row(children: <Widget>[
                                       Icon(
                                         Icons.add_location,
@@ -413,8 +413,7 @@ class _SellerIndiState extends State<SellerIndi> {
         context: context,
         builder: (context) {
           return FractionallySizedBox(
-              heightFactor: 0.6,
-              child: SellerBottomSheetView());
+              heightFactor: 0.6, child: SellerBottomSheetView());
         });
   }
 }
