@@ -1,4 +1,5 @@
 // import 'package:compound/services/analytics_service.dart';
+import 'package:compound/services/address_service.dart';
 import 'package:compound/services/authentication_service.dart';
 import 'package:compound/services/api/api_service.dart';
 import 'package:compound/services/location_service.dart';
@@ -18,5 +19,6 @@ void setupLocator() {
   locator.registerLazySingleton(() => ImageSelector());
   locator.registerLazySingleton(() => LocationService());
   locator.registerLazySingleton(() => PushNotificationService());
+  locator.registerLazySingleton(() => AddressService());
   // locator.registerLazySingleton(() => AnalyticsService());
 }

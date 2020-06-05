@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'package:compound/constants/shared_pref.dart';
+import 'package:compound/models/calculatedPrice.dart';
 import 'package:compound/models/cart.dart';
 import 'package:compound/models/categorys.dart';
 import 'package:compound/models/products.dart';
+import 'package:compound/models/promoCode.dart';
 import 'package:compound/models/promotions.dart';
 import 'package:compound/models/reviews.dart';
 import 'package:compound/models/sellers.dart';
@@ -75,14 +77,19 @@ class APIService {
       if (data == null) {
         res = await apiClient.get(path,
             options: options, queryParameters: queryParameters);
-      } else if(options ==null || options.method==null || options.method.toLowerCase() == "post") {
+      } else if (options == null ||
+          options.method == null ||
+          options.method.toLowerCase() == "post") {
         res = await apiClient.post(path,
             data: data, queryParameters: queryParameters, options: options);
-      } else if(options.method.d() == "put") {
+      } else if (options.method.toLowerCase() == "put") {
         res = await apiClient.put(path,
             data: data, queryParameters: queryParameters, options: options);
       }
       Map resJSON = res.data;
+      print("Debug api wrapper");
+      print(res);
+      print(res.data);
       if (resJSON["error"] != null) {
         throw Exception(resJSON["error"]);
       }
@@ -186,7 +193,7 @@ class APIService {
     return null;
   }
 
-  Future<dynamic> getCart({ String queryString = "" }) async {
+  Future<Cart> getCart({String queryString = ""}) async {
     var cartData = await apiWrapper("carts/my?context=productDetails",
         authenticated: true,
         options: Options(headers: {'excludeToken': false}));
@@ -199,7 +206,7 @@ class APIService {
       try {
         Cart cart = Cart.fromJson(cartData);
         return cart;
-      } catch(err) {
+      } catch (err) {
         print(err);
         return null;
       }
@@ -208,20 +215,14 @@ class APIService {
   }
 
   Future<dynamic> addToCart(String productId, int qty, String size) async {
-    var cartData = await apiWrapper(
-      "carts/?context=add",
-      authenticated: true,
-      options: Options(headers: {'excludeToken': false}, method: "put"),
-      data: {
-        "items": [
-          {
-            "productId": productId,
-            "quantity": qty, 
-            "size": size
-          }
-        ]
-      }
-    );
+    var cartData = await apiWrapper("carts/?context=add",
+        authenticated: true,
+        options: Options(headers: {'excludeToken': false}, method: "put"),
+        data: {
+          "items": [
+            {"productId": productId, "quantity": qty, "size": size}
+          ]
+        });
     if (cartData != null) {
       print("...............Cart Item added...............................");
       print(cartData);
@@ -232,23 +233,67 @@ class APIService {
   }
 
   Future<dynamic> removeFromCart(int productId) async {
-    var cartData = await apiWrapper(
-      "carts/?context=remove",
-      authenticated: true,
-      options: Options(headers: {'excludeToken': false}),
-      data: {
-        "items": [
-          {
-            "productId": productId,
-          }
-        ]
-      }
-    );
+    var cartData = await apiWrapper("carts/?context=remove",
+        authenticated: true,
+        options: Options(headers: {'excludeToken': false}, method: "PUT"),
+        data: {
+          "items": [
+            {
+              "productId": productId,
+            }
+          ]
+        });
     if (cartData != null) {
       print("...............Cart Item Removed ..............................");
       print(cartData);
       print("..................................................");
       return cartData;
+    }
+    return null;
+  }
+
+  Future<CalculatedPrice> calculateProductPrice(
+      String productId, int qty) async {
+    final quantity = qty >= 1 ? qty : 1;
+    final calculatedPriceData = await apiWrapper(
+        "/orders​/cost?productKey=$productId&quantity=$quantity",
+        authenticated: true,
+        options: Options(headers: {'excludeToken': false}));
+    if (calculatedPriceData != null) {
+      print("...............Calculte price...............................");
+      print(calculatedPriceData);
+      print("..................................................");
+      try {
+        CalculatedPrice calPrice =
+            CalculatedPrice.fromJson(calculatedPriceData);
+        return calPrice;
+      } catch (err) {
+        print("Calculated Price Error : ");
+        print(err);
+        return null;
+      }
+    }
+    return null;
+  }
+
+  Future<PromoCode> applyPromocode(
+      String productId, int qty, String code, String promotion) async {
+    final quantity = qty >= 1 ? qty : 1;
+    final promoCodeData = await apiWrapper(
+        "/orders​/cost?productKey=$productId&quantity=$quantity&promocode=$code&&promotionId=$promotion",
+        authenticated: true,
+        options: Options(headers: {'excludeToken': false}));
+    if (promoCodeData != null) {
+      print("...............Apply promocode...............................");
+      print(promoCodeData);
+      print("..................................................");
+      try {
+        PromoCode promoCode = PromoCode.fromJson(promoCodeData);
+        return promoCode;
+      } catch (err) {
+        print(err);
+        return null;
+      }
     }
     return null;
   }

@@ -43,3 +43,8 @@ double thirdScreenWidth(BuildContext context) =>
     screenWidthFraction(context, dividedBy: 3);
 
 const String rupeeUnicode = "\u20B9";
+
+
+const double priceFontSize = 16.0;
+const double subtitleFontSize = 18;
+const double titleFontSize = 18;

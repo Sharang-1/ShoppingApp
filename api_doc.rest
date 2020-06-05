@@ -48,7 +48,7 @@ GET http://{{host}}/api/products HTTP/1.1
 
 ###
 
-GET http://{{host}}/api/products/39514135 HTTP/1.1
+GET http://{{host}}/api/products/630565 HTTP/1.1
 
 #### CART -----------------------------
 
@@ -85,12 +85,12 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-    "productId": "39514135",
+    "productId": "630565",
     "billingAddress": "123",
-    "variation": {
-      "size": "NA",
+    "Size": {
+      "size": "S",
       "quantity": 1,
-      "color": "Grey "
+      "color": "Red"
     }
 }
 

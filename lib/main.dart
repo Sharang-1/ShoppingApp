@@ -19,6 +19,14 @@ void main() {
   runApp(MyApp());
 }
 
+class MyBehavior extends ScrollBehavior {
+  @override
+  Widget buildViewportChrome(
+      BuildContext context, Widget child, AxisDirection axisDirection) {
+    return child;
+  }
+}
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -31,17 +39,18 @@ class MyApp extends StatelessWidget {
       navigatorObservers: [
         // locator<AnalyticsService>().getAnalyticsObserver(),
       ],
-      builder: (context, child) => Navigator(
-        key: locator<DialogService>().dialogNavigationKey,
-        onGenerateRoute: (settings) => MaterialPageRoute(
-            builder: (context) => DialogManager(child: child)),
+      builder: (context, child) => ScrollConfiguration(
+        behavior: MyBehavior(),
+        child: Navigator(
+          key: locator<DialogService>().dialogNavigationKey,
+          onGenerateRoute: (settings) => MaterialPageRoute(
+              builder: (context) => DialogManager(child: child)),
+        ),
       ),
       navigatorKey: locator<NavigationService>().navigationKey,
       theme: ThemeData(
         primaryColor: primaryColor,
-        appBarTheme: AppBarTheme(
-          brightness: Brightness.light
-        ),
+        appBarTheme: AppBarTheme(brightness: Brightness.light),
         textTheme: Theme.of(context).textTheme.apply(
               fontFamily: 'Open Sans',
             ),

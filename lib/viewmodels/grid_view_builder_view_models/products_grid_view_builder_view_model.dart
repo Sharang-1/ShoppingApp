@@ -12,7 +12,7 @@ import 'package:compound/viewmodels/grid_view_builder_view_models/base_grid_view
 // import 'package:shared_preferences/shared_preferences.dart';
 
 class ProductsGridViewBuilderViewModel
-    extends BaseGridViewBuilderViewModel<Products> {
+    extends BaseGridViewBuilderViewModel<Products, Product> {
   final APIService _apiService = locator<APIService>();
 
   @override

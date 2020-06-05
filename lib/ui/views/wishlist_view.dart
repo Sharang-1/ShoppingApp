@@ -164,7 +164,7 @@ class _WishlistViewState extends State<WishlistView>
               gridCount: 2,
               viewModel: ProductsGridViewBuilderViewModel(),
               childAspectRatio: 0.75,
-              tileBuilder: (BuildContext context, data, index) {
+              tileBuilder: (BuildContext context, data, index, onDelete, onUpdate) {
                 Fimber.d("test");
                 print((data as Product).toJson());
                 return ProductTileUI(
@@ -185,7 +185,7 @@ class _WishlistViewState extends State<WishlistView>
             gridCount: 2,
             viewModel: SellersGridViewBuilderViewModel(),
             disablePagination: true,
-            tileBuilder: (BuildContext context, data, index) {
+            tileBuilder: (BuildContext context, data, index, onDelete, onUpdate) {
               return Card(
                 child: Center(
                   child: Text(data.name),
@@ -223,7 +223,7 @@ class _WishlistViewState extends State<WishlistView>
             iconTheme: IconThemeData(color: appBarIconColor),
             backgroundColor: backgroundWhiteCreamColor,
             actions: <Widget>[
-              IconButton(onPressed: () {}, icon:CartIconWithBadge()),
+              IconButton(onPressed: () {}, icon:CartIconWithBadge(iconColor: Colors.black,)),
               SizedBox(width: 10,)
             ],
           ),

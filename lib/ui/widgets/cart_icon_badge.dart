@@ -2,13 +2,17 @@ import 'package:flutter/material.dart';
 import '../shared/app_colors.dart';
 
 class CartIconWithBadge extends StatelessWidget {
-  final IconColor;
+  final iconColor;
+  final int count;
 
-  const CartIconWithBadge({Key key,@required this.IconColor}) : super(key: key);
+  const CartIconWithBadge({
+    Key key,
+    @required this.iconColor,
+    this.count = 0,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Stack(
       children: <Widget>[
         SizedBox(
@@ -19,7 +23,7 @@ class CartIconWithBadge extends StatelessWidget {
           top: 5,
           child: Icon(
             Icons.shopping_cart,
-            color: IconColor,
+            color: iconColor,
           ),
         ),
         Positioned(
@@ -32,7 +36,7 @@ class CartIconWithBadge extends StatelessWidget {
             ),
             padding: EdgeInsets.symmetric(vertical: 2, horizontal: 4),
             child: Text(
-              "8",
+              count.toString(),
               style: TextStyle(fontSize: 8),
             ),
           ),

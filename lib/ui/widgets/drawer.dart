@@ -9,6 +9,9 @@ import '../shared/app_colors.dart';
 
 class HomeDrawer extends StatelessWidget {
   final NavigationService _navigationService = locator<NavigationService>();
+  final Function logout;
+
+  HomeDrawer({Key key, this.logout}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -218,6 +221,18 @@ class HomeDrawer extends StatelessWidget {
                     onTap: () {
                       _navigationService.navigateTo(SettingsRoute);
                     },
+                  ),
+                  ListTile(
+                    title: Padding(
+                      padding: EdgeInsets.only(left: 20),
+                      child: CustomText(
+                        'Logout',
+                        color: Colors.grey[800],
+                        isBold: true,
+                        fontSize: 18,
+                      ),
+                    ),
+                    onTap: logout,
                   ),
                 ],
               ),

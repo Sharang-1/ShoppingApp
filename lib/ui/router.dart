@@ -172,10 +172,11 @@ Route<dynamic> generateRoute(RouteSettings settings) {
           pageTransitionType: transitionType);
 
     case CategoryIndiViewRoute:
+      var pargs = pageArguments as ProductPageArg;
       return _getPageRoute(
           pageArguments: pageArguments,
           routeName: settings.name,
-          viewToShow: CategoryIndiView(),
+          viewToShow: CategoryIndiView(queryString: pargs.queryString, subCategory: pargs.subCategory,),
           pageTransitionType: transitionType);
 
     case SettingsRoute:

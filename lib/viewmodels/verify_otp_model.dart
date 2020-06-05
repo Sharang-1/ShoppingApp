@@ -2,7 +2,6 @@ import 'package:compound/constants/route_names.dart';
 import 'package:compound/constants/shared_pref.dart';
 import 'package:compound/locator.dart';
 import 'package:compound/models/route_argument.dart';
-// import 'package:compound/services/analytics_service.dart';
 import 'package:compound/services/authentication_service.dart';
 import 'package:compound/services/dialog_service.dart';
 import 'package:compound/services/navigation_service.dart';
@@ -17,7 +16,6 @@ class VerifyOTPViewModel extends BaseModel {
       locator<AuthenticationService>();
   final DialogService _dialogService = locator<DialogService>();
   final NavigationService _navigationService = locator<NavigationService>();
-  // final AnalyticsService _analyticsService = locator<AnalyticsService>();
 
   String otpValidationMessage = "";
   String phoneNo = "";
@@ -33,8 +31,10 @@ class VerifyOTPViewModel extends BaseModel {
   Future<void> resendOTP() async {
     // resend otp here.
     setBusy(true);
-    var result = await _authenticationService.loginWithPhoneNo(
+    final result = await _authenticationService.loginWithPhoneNo(
         phoneNo: phoneNo, name: "name", resend: true);
+    print("Reset OTP Results : ");
+    print(result);
     setBusy(false);
     return;
   }
@@ -66,7 +66,6 @@ class VerifyOTPViewModel extends BaseModel {
     setBusy(false);
 
     if (result != null) {
-      // await _analyticsService.logLogin();
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString(Authtoken, result["token"]);
       _navigationService.navigateReplaceTo(OtpFinishedScreen1Route);
@@ -77,8 +76,4 @@ class VerifyOTPViewModel extends BaseModel {
       );
     }
   }
-
-  // void navigateToSignUp() {
-  //   _navigationService.navigateTo(SignUpViewRoute);
-  // }
 }

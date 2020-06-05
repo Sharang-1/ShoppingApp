@@ -1,22 +1,14 @@
-
 import 'package:compound/locator.dart';
 import 'package:compound/models/sellers.dart';
 import 'package:compound/models/tailors.dart';
-// import 'package:compound/services/analytics_service.dart';
 import 'package:compound/services/api/api_service.dart';
-import 'package:compound/services/dialog_service.dart';
 import 'package:compound/services/location_service.dart';
-import 'package:compound/services/navigation_service.dart';
-// import 'package:fimber/fimber_base.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'base_model.dart';
 
 class MapViewModel extends BaseModel {
   final LocationService _locationService = locator<LocationService>();
-  final DialogService _dialogService = locator<DialogService>();
-  final NavigationService _navigationService = locator<NavigationService>();
-  // final AnalyticsService _analyticsService = locator<AnalyticsService>();
   final APIService _apiService = locator<APIService>();
 
   bool mapToggle = false;
@@ -56,14 +48,6 @@ class MapViewModel extends BaseModel {
     
     if(sData != null){
       clientsToggle = true;
-      // for (int i = 0; i < tData.tailors.length; ++i) {
-      //   Tailor ct = tData.tailors[i];
-      //   Fimber.d("Tailors Data - >" + ct.contact.geoLocation.latitude.toString() + " " + ct.contact.geoLocation.longitude.toString()) ;
-      //   if(ct.contact.geoLocation !=null && ct.contact.geoLocation.latitude != null && ct.contact.geoLocation.longitude != null){
-      //   }
-      // }
-      // sData.items.forEach((Seller cs) {
-      // });
     }
     notifyListeners();
   }

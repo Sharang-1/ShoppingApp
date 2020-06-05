@@ -224,7 +224,9 @@ class _SearchViewState extends State<SearchView>
             iconTheme: IconThemeData(color: appBarIconColor),
             backgroundColor: backgroundWhiteCreamColor,
             actions: <Widget>[
-              IconButton(onPressed: () {}, icon: CartIconWithBadge()),
+              IconButton(onPressed: () {
+                // model.cart();
+              }, icon: CartIconWithBadge(iconColor: Colors.black,)),
             SizedBox(width: 5,)
             ],
             bottom: PreferredSize(
@@ -494,6 +496,7 @@ class _SearchBarTextField extends StatelessWidget {
               color: Colors.black,
             ),
             onTap: onTap,
+            onSubmitted: (txt) => searchAction(searchController.text.trim()),
             onChanged: onChanged,
             decoration: InputDecoration(
               border: InputBorder.none,

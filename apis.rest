@@ -1,0 +1,113 @@
+@host = http://52.66.141.191
+@token = Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI5MTo4ODY2NTM4MjA0IiwidXNlciI6IntcImFjY291bnROb25Mb2NrZWRcIjp0cnVlLFwiY3JlZGVudGlhbHNOb25FeHBpcmVkXCI6dHJ1ZSxcImFjY291bnROb25FeHBpcmVkXCI6dHJ1ZSxcImVuYWJsZWRcIjp0cnVlLFwidXNlcm5hbWVcIjpcIjkxOjg4NjY1MzgyMDRcIixcInJvbGVzXCI6W1wiUk9MRV9GaXhlZFwiXSxcInVzZXJJZFwiOjk0MDM2MCxcInJvbGVJZFwiOjk0MDM2MCxcImZhY2Vib29rTG9naW5cIjpmYWxzZSxcIm1vYmlsZUxvZ2luXCI6dHJ1ZSxcInJvbGVcIjp7XCJwZXJtaXNzaW9uc1wiOlt7XCJ0eXBlXCI6e1widHlwZVwiOjEwfSxcImxldmVsXCI6e1wibGV2ZWxcIjoxfX0se1widHlwZVwiOntcInR5cGVcIjoxfSxcImxldmVsXCI6e1wibGV2ZWxcIjo0fX0se1widHlwZVwiOntcInR5cGVcIjoyfSxcImxldmVsXCI6e1wibGV2ZWxcIjo0fX0se1widHlwZVwiOntcInR5cGVcIjozfSxcImxldmVsXCI6e1wibGV2ZWxcIjowfX0se1widHlwZVwiOntcInR5cGVcIjo0fSxcImxldmVsXCI6e1wibGV2ZWxcIjo2fX0se1widHlwZVwiOntcInR5cGVcIjo3fSxcImxldmVsXCI6e1wibGV2ZWxcIjo4fX0se1widHlwZVwiOntcInR5cGVcIjoxMX0sXCJsZXZlbFwiOntcImxldmVsXCI6MX19LHtcInR5cGVcIjp7XCJ0eXBlXCI6OH0sXCJsZXZlbFwiOntcImxldmVsXCI6OH19LHtcInR5cGVcIjp7XCJ0eXBlXCI6Nn0sXCJsZXZlbFwiOntcImxldmVsXCI6Nn19LHtcInR5cGVcIjp7XCJ0eXBlXCI6OX0sXCJsZXZlbFwiOntcImxldmVsXCI6OH19XX19IiwiaWF0IjoxNTkxMTgyMjIyLCJleHAiOjE1OTk4MjIyMjJ9.4CADk04jCpkujRMHQ-e2lfqnw1_5VGwqy_Gwc_NiRJQ
+@mobile = "8866538204"
+@otp = 5657
+
+### Authentication APIS
+
+### Email Login
+POST {{host}}/api/message/generate-token
+Content-Type: application/json
+
+{
+    "email": "Himin1946@cuvox.de",
+    "password": "123456"
+}
+
+### OTP Login
+POST {{host}}/api/message/generateOtpToLogin
+Content-Type: application/json
+
+{
+    "mobile": {{mobile}}
+}
+
+### OTP Verify
+
+POST {{host}}/api/message/verifyOtpToLogin?otp={{otp}}
+Content-Type: application/json
+
+{
+    "mobile": {{mobile}}
+}
+
+### Registration
+
+POST {{host}}/api/registrations/customer
+Content-Type: application/json
+
+{
+    "name": "Test User",
+    "email": "Himin1946@cuvox.de",
+    "password": "123456",
+    "phone": {
+        "code": "91",
+        "mobile": "9327501660"
+    },
+    "address": "testing address testing address testing address testing address testing address testing address testing address"
+}
+
+### Product APIS
+
+### Get products
+GET {{host}}/api/products
+
+### Order APIS
+
+GET {{host}}/api/orders
+Authorization: {{token}}
+
+###
+
+GET {{host}}/api/orders​/cost?productKey=630644&quantity=1&promocode=1111&promotionId=
+Authorization: {{token}}
+
+### Cart APIS
+
+GET {{host}}/api/carts/my/
+Authorization: {{token}}
+
+###
+
+PUT {{host}}/api/carts?context=add
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+    "items" :[
+        {
+            "productId" : 630644,
+            "productCategory" : 1,
+            "productSubCategory" : 1,
+            "size": 1,
+            "quantity" : 10,
+            "shipment": {
+                "days": 3
+            },
+            "payment" : {
+                "option" : {
+                    "id" : 4
+                }
+            }
+        }
+    ]
+}
+
+###
+
+PUT {{host}}/api/carts?context=remove
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+    "items" :[
+        {
+            "productId" : 630644
+        }
+    ]
+}
+
+####
+
+GET {{host}}/api/users/me
+Authorization: {{token}}

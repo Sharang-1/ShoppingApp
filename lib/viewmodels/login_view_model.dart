@@ -1,11 +1,7 @@
-import 'dart:developer';
-
 import 'package:compound/constants/route_names.dart';
 import 'package:compound/locator.dart';
 import 'package:compound/models/route_argument.dart';
-// import 'package:compound/services/analytics_service.dart';
 import 'package:compound/services/authentication_service.dart';
-import 'package:compound/services/dialog_service.dart';
 import 'package:compound/services/navigation_service.dart';
 import 'package:fimber/fimber_base.dart';
 import 'package:flutter/foundation.dart';
@@ -16,9 +12,7 @@ import 'base_model.dart';
 class LoginViewModel extends BaseModel {
   final AuthenticationService _authenticationService =
       locator<AuthenticationService>();
-  final DialogService _dialogService = locator<DialogService>();
   final NavigationService _navigationService = locator<NavigationService>();
-  // final AnalyticsService _analyticsService = locator<AnalyticsService>();
 
   String phoneNoValidationMessage = "";
   String get phoneNoValidation => phoneNoValidationMessage;
@@ -41,11 +35,11 @@ class LoginViewModel extends BaseModel {
     notifyListeners();
   }
 
- void validateName(String textFieldValue) {
-    bool isValid = RegExp(r'^[A-Za-z\s]{1,}[\.]{0,1}[A-Za-z\s]{0,}$').hasMatch(textFieldValue);
+  void validateName(String textFieldValue) {
+    bool isValid = RegExp(r'^[A-Za-z\s]{1,}[\.]{0,1}[A-Za-z\s]{0,}$')
+        .hasMatch(textFieldValue);
     if (!isValid) {
-      nameValidationMessage =
-          "Please enter valid name";
+      nameValidationMessage = "Please enter valid name";
     } else {
       nameValidationMessage = "";
     }
@@ -58,36 +52,20 @@ class LoginViewModel extends BaseModel {
   }) async {
     setBusy(true);
 
-    var result =
-        await _authenticationService.loginWithPhoneNo(phoneNo: phoneNo,name:name,resend:false);
+    var result = await _authenticationService.loginWithPhoneNo(
+        phoneNo: phoneNo, name: name, resend: false);
     Fimber.d("---> login " + result.toString());
     setBusy(false);
 
     // if (result is bool) {
-      if (result!=null) {   
-        // Successfully sent otp
-        // await _analyticsService.logLogin();
-        // Navigate to verify otp
-        _navigationService.navigateReplaceTo(VerifyOTPViewRoute,
-            arguments: CustomRouteArgument(
-              type: PageTransitionType.rightToLeft,
-            ));
-      }
-    //  else {
-    //     await _dialogService.showDialog(
-    //       title: 'Login Failed',
-    //       description: 'Please try again later',
-    //     );
-    //   }
-    // } else {
-    //   await _dialogService.showDialog(
-    //     title: 'Login Failed',
-    //     description: result,
-    //   );
-    // }
+    if (result != null) {
+      // Successfully sent otp
+      // await _analyticsService.logLogin();
+      // Navigate to verify otp
+      _navigationService.navigateReplaceTo(VerifyOTPViewRoute,
+          arguments: CustomRouteArgument(
+            type: PageTransitionType.rightToLeft,
+          ));
+    }
   }
-
-  // void navigateToSignUp() {
-  //   _navigationService.navigateTo(SignUpViewRoute);
-  // }
 }
