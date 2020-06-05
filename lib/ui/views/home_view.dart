@@ -18,133 +18,126 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     const double subtitleFontSize = subtitleFontSizeStyle;
     return ViewModelProvider<HomeViewModel>.withConsumer(
-        viewModel: HomeViewModel(),
-        onModelReady: (model) => model.init(),
-        builder: (context, model, child) => Scaffold(
-              drawerEdgeDragWidth: 0,
-              primary: false,
-              backgroundColor: backgroundWhiteCreamColor,
-              drawer: HomeDrawer(),
-              appBar: AppBar(
+      viewModel: HomeViewModel(),
+      onModelReady: (model) => model.init(),
+      builder: (context, model, child) => Scaffold(
+        drawerEdgeDragWidth: 0,
+        primary: false,
+        backgroundColor: backgroundWhiteCreamColor,
+        drawer: HomeDrawer(
+          logout: () => model.logout(),
+        ),
+        appBar: AppBar(
+          elevation: 0,
+          automaticallyImplyLeading: false,
+          iconTheme: IconThemeData(color: appBarIconColor),
+          backgroundColor: backgroundWhiteCreamColor,
+          bottom: PreferredSize(
+              preferredSize: Size.fromHeight(50),
+              child: AppBar(
                 elevation: 0,
+                iconTheme: IconThemeData(color: appBarIconColor),
+                backgroundColor: backgroundWhiteCreamColor,
+                title: Center(
+                    child: SvgPicture.asset(
+                  "assets/svg/logo.svg",
+                  color: logoRed,
+                  height: 40,
+                  width: 40,
+                )),
+                actions: <Widget>[
+                  IconButton(
+                    icon: CartIconWithBadge(
+                      iconColor: appBarIconColor,
+                      count: model.cartCount,
+                    ),
+                    onPressed: () => model.cart(),
+                  ),
+                ],
+              )),
+
+          //Do experiment with this for Icon Button else make
+          //flexiblespace to bottom
+        ),
+        body: SafeArea(
+          top: false,
+          left: false,
+          right: false,
+          child: CustomScrollView(
+            // Add the app bar and list of items as slivers in the next steps.
+            slivers: <Widget>[
+              SliverAppBar(
+                primary: false,
+                floating: true,
                 automaticallyImplyLeading: false,
                 iconTheme: IconThemeData(color: appBarIconColor),
                 backgroundColor: backgroundWhiteCreamColor,
-                bottom: PreferredSize(
-                    preferredSize: Size.fromHeight(50),
-                    child: AppBar(
-                      elevation: 0,
-                      iconTheme: IconThemeData(color: appBarIconColor),
-                      backgroundColor: backgroundWhiteCreamColor,
-                      title: Center(
-                          child: SvgPicture.asset(
-                        "assets/svg/logo.svg",
-                        color: logoRed,
-                        height: 50,
-                        width: 50,
-                      )),
-                      actions: <Widget>[
-                        IconButton(
-                          icon: CartIconWithBadge(
-                            IconColor: appBarIconColor,
-                          ),
-                          onPressed: () => model.cart(),
-                        ),
-                        horizontalSpaceSmall,
-                      ],
-                    )),
-
-                //Do experiment with this for Icon Button else make
-                //flexiblespace to bottom
-              ),
-              body: SafeArea(
-                  top: false,
-                  left: false,
-                  right: false,
-                  child: CustomScrollView(
-                    // Add the app bar and list of items as slivers in the next steps.
-                    slivers: <Widget>[
-                      SliverAppBar(
-                        primary: false,
-                        floating: true,
-                        automaticallyImplyLeading: false,
-                        iconTheme: IconThemeData(color: appBarIconColor),
-                        backgroundColor: backgroundWhiteCreamColor,
-                        title: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                          Expanded(
-                            child: InkWell(
-                              onTap: () {
-                                model.search();
-                              },
-                              child: Container(
-                                margin: EdgeInsets.only(top: 15),
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  // color: Colors.grey[200],
-                                  color: backgroundBlueGreyColor,
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 30,
-                                    vertical: 8,
-                                  ),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Icon(
-                                        Icons.search,
-                                        color: appBarIconColor,
-                                      ),
-                                      horizontalSpaceSmall,
-                                      Text(
-                                        "Search",
-                                        style: TextStyle(
-                                            fontSize: subtitleFontSize,
-                                            color: Colors.grey[600],
-                                            fontFamily: "Raleway",
-                                            fontWeight: FontWeight.normal),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(top:10),
-                            child: IconButton(
-                              tooltip: 'map',
-                              icon: Icon(
-                                Icons.map,
-                                color: appBarIconColor,
-                              ),
-                              onPressed: () {
-                                model.openmap();
-                              },
-                            ),
-                          ),
-                        ]),
-                      ),
-                      SliverList(
-                        // Use a delegate to build items as they're scrolled on screen.
-                        delegate: SliverChildBuilderDelegate(
-                          // The builder function returns a ListTile with a title that
-                          // displays the index of the current item.
-                          (context, index) => Padding(
-                            padding: const EdgeInsets.only(top: 20),
-                            child: HomeViewList(),
-                          ),
-                          childCount: 1,
-                        ),
-                      ),
-                    ],
+                actions: <Widget>[
+                  IconButton(
+                    tooltip: 'map',
+                    icon: Icon(
+                      Icons.map,
+                      color: appBarIconColor,
+                    ),
+                    onPressed: () {
+                      model.openmap();
+                    },
                   )
-                  // Builds 1000 ListTiles
+                ],
+                title: InkWell(
+                  onTap: () {
+                    model.search();
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      // color: Colors.grey[200],
+                      color: backgroundBlueGreyColor,
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 30,
+                        vertical: 8,
+                      ),
+                      child: Row(
+                        children: <Widget>[
+                          Icon(
+                            Icons.search,
+                            color: appBarIconColor,
+                          ),
+                          horizontalSpaceSmall,
+                          Text(
+                            "Search",
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.grey[600],
+                                fontFamily: "Raleway",
+                                fontWeight: FontWeight.normal),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-            ));
+                ),
+              ),
+              SliverList(
+                // Use a delegate to build items as they're scrolled on screen.
+                delegate: SliverChildBuilderDelegate(
+                  // The builder function returns a ListTile with a title that
+                  // displays the index of the current item.
+                  (context, index) => Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: HomeViewList(gotoCategory: model.category),
+                  ),
+                  childCount: 1,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
 

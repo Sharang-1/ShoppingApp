@@ -367,7 +367,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
             IconButton(
               onPressed: () {},
               icon: CartIconWithBadge(
-                IconColor: appBarIconColor,
+                iconColor: appBarIconColor,
               ),
             )
           ],

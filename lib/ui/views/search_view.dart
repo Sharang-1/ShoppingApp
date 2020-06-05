@@ -17,7 +17,6 @@ import 'package:compound/constants/shared_pref.dart';
 import 'package:compound/viewmodels/search_view_model.dart';
 import 'package:compound/ui/shared/debouncer.dart';
 import '../widgets/cart_icon_badge.dart';
-import 'package:compound/ui/widgets/sellerGridListWidget.dart';
 
 class SearchView extends StatefulWidget {
   SearchView({Key key}) : super(key: key);
@@ -164,8 +163,8 @@ class _SearchViewState extends State<SearchView>
               filter: productFilter,
               gridCount: 2,
               viewModel: ProductsGridViewBuilderViewModel(),
-              childAspectRatio: 0.75,
-              tileBuilder: (BuildContext context, data, index) {
+              childAspectRatio: 0.7,
+              tileBuilder: (BuildContext context, data, index, onUpdate, onDelete) {
                 Fimber.d("test");
                 print((data as Product).toJson());
                 return ProductTileUI(
@@ -186,7 +185,7 @@ class _SearchViewState extends State<SearchView>
             gridCount: 2,
             viewModel: SellersGridViewBuilderViewModel(),
             disablePagination: true,
-            tileBuilder: (BuildContext context, data, index) {
+            tileBuilder: (BuildContext context, data, index, onUpdate, onDelete) {
               return Card(
                 child: Center(
                   child: Text(data.name),
@@ -224,14 +223,10 @@ class _SearchViewState extends State<SearchView>
             iconTheme: IconThemeData(color: appBarIconColor),
             backgroundColor: backgroundWhiteCreamColor,
             actions: <Widget>[
-              IconButton(
-                  onPressed: () {},
-                  icon: CartIconWithBadge(
-                    IconColor: Colors.black,
-                  )),
-              SizedBox(
-                width: 5,
-              )
+              IconButton(onPressed: () {
+                // model.cart();
+              }, icon: CartIconWithBadge(iconColor: Colors.black,)),
+            SizedBox(width: 5,)
             ],
             bottom: PreferredSize(
               preferredSize: Size(50, 50),
@@ -502,6 +497,7 @@ class _SearchBarTextField extends StatelessWidget {
               color: Colors.black,
             ),
             onTap: onTap,
+            onSubmitted: (txt) => searchAction(searchController.text.trim()),
             onChanged: onChanged,
             decoration: InputDecoration(
               border: InputBorder.none,

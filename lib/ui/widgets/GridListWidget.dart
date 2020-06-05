@@ -1,6 +1,5 @@
 import 'package:async/async.dart';
 import 'package:compound/models/grid_view_builder_filter_models/base_filter_model.dart';
-import 'package:compound/models/products.dart';
 import 'package:compound/viewmodels/grid_view_builder_view_models/base_grid_view_builder_view_model.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +8,13 @@ import 'package:provider_architecture/provider_architecture.dart';
 
 // Type and Enum declarations
 enum LoadMoreStatus { LOADING, STABLE }
+
 typedef TileFunctionBuilder = Widget Function(
-    BuildContext context, dynamic data, int index);
+    BuildContext context,
+    dynamic data,
+    int index,
+    Future<bool> Function(int) onDelete,
+    Future<bool> Function(int, dynamic) onUpdate);
 
 class GridListWidget<P, I> extends StatelessWidget {
   final BaseFilterModel filter;
@@ -163,7 +167,7 @@ class PaginatedGridView<P, I> extends StatefulWidget {
 class _PaginatedGridViewState<I> extends State<PaginatedGridView> {
   final ScrollController _scrollController = new ScrollController();
   LoadMoreStatus loadMoreStatus = LoadMoreStatus.STABLE;
-  List<I> items;
+  List<I> items = [];
   int currentPage;
   CancelableOperation itemOperation;
 
@@ -187,7 +191,7 @@ class _PaginatedGridViewState<I> extends State<PaginatedGridView> {
       onNotification: !(widget.disablePagination) ? onNotification : null,
       child: items.length != 0
           ? GridView.builder(
-            shrinkWrap: true,
+              shrinkWrap: true,
               scrollDirection: Axis.vertical,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: widget.gridCount,
@@ -196,14 +200,35 @@ class _PaginatedGridViewState<I> extends State<PaginatedGridView> {
               controller: _scrollController,
               itemCount: items.length,
               physics: ScrollPhysics(),
-              itemBuilder: (_, index) =>
-                  widget.tileBuilder(context, items[index], index),
+              itemBuilder: (_, index) => widget.tileBuilder(
+                  context, items[index], index, onDelete, null),
             )
           : Center(
               child: Text("No Items found"),
             ),
     );
   }
+
+  Future<bool> onDelete(int index) async {
+    print("Current ID::::: " + index.toString());
+    final item = items[index];
+    print("Current Item");
+    print(item);
+    final res = await widget.viewModel.deleteData(item);
+    if (res) {
+      setState(() {
+        print("Final Index");
+        items.removeWhere((element) => element == item);
+      });
+      return true;
+    }
+    return false;
+  }
+
+  // Future<bool> onDelete(int index) async {
+  //   final item = items[index];
+  //   return await widget.viewModel.deleteData(item);
+  // }
 
   bool onNotification(ScrollNotification notification) {
     if (notification is ScrollUpdateNotification) {

@@ -11,7 +11,7 @@ import 'package:compound/viewmodels/grid_view_builder_view_models/base_grid_view
 // import 'package:compound/services/navigation_service.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 
-class CartGridViewBuilderViewModel extends BaseGridViewBuilderViewModel<Cart> {
+class CartGridViewBuilderViewModel extends BaseGridViewBuilderViewModel<Cart, Item> {
   final APIService _apiService = locator<APIService>();
 
   @override
@@ -30,5 +30,15 @@ class CartGridViewBuilderViewModel extends BaseGridViewBuilderViewModel<Cart> {
     print(res);
     if (res == null) throw "Error occured";
     return res;
+  }
+
+  @override
+  Future<bool> deleteData(Item item) async {
+    print("Delete ID::::::::::::: " + item.productId.toString());
+    final res = await _apiService.removeFromCart(item.productId);
+    if(res != null) {
+      return true;
+    }
+    return false;
   }
 }

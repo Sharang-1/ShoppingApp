@@ -2,13 +2,11 @@ import 'package:compound/locator.dart';
 import 'package:compound/models/products.dart';
 import 'package:compound/services/api/api_service.dart';
 import 'package:compound/services/dialog_service.dart';
-import 'package:compound/services/navigation_service.dart';
 
 import 'base_model.dart';
 
 class ProductIndividualViewModel extends BaseModel {
   final DialogService _dialogService = locator<DialogService>();
-  final NavigationService _navigationService = locator<NavigationService>();
   final APIService _apiService = locator<APIService>();
 
   Future<void> init() async {

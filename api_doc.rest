@@ -1,7 +1,7 @@
 @host = 52.66.141.191
 @token = eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI5MTo4ODY2NTM4MjA0IiwidXNlciI6IntcImFjY291bnROb25Mb2NrZWRcIjp0cnVlLFwiY3JlZGVudGlhbHNOb25FeHBpcmVkXCI6dHJ1ZSxcImFjY291bnROb25FeHBpcmVkXCI6dHJ1ZSxcImVuYWJsZWRcIjp0cnVlLFwidXNlcm5hbWVcIjpcIjkxOjg4NjY1MzgyMDRcIixcInJvbGVzXCI6W1wiUk9MRV9GaXhlZFwiXSxcInVzZXJJZFwiOjM5ODc4MTE4LFwicm9sZUlkXCI6Mzk4NzgxMTgsXCJmYWNlYm9va0xvZ2luXCI6ZmFsc2UsXCJtb2JpbGVMb2dpblwiOnRydWUsXCJyb2xlXCI6e1wicGVybWlzc2lvbnNcIjpbe1widHlwZVwiOntcInR5cGVcIjo3fSxcImxldmVsXCI6e1wibGV2ZWxcIjo4fX0se1widHlwZVwiOntcInR5cGVcIjoxfSxcImxldmVsXCI6e1wibGV2ZWxcIjo0fX0se1widHlwZVwiOntcInR5cGVcIjozfSxcImxldmVsXCI6e1wibGV2ZWxcIjowfX0se1widHlwZVwiOntcInR5cGVcIjo4fSxcImxldmVsXCI6e1wibGV2ZWxcIjo4fX0se1widHlwZVwiOntcInR5cGVcIjoyfSxcImxldmVsXCI6e1wibGV2ZWxcIjo0fX0se1widHlwZVwiOntcInR5cGVcIjo5fSxcImxldmVsXCI6e1wibGV2ZWxcIjo4fX0se1widHlwZVwiOntcInR5cGVcIjo0fSxcImxldmVsXCI6e1wibGV2ZWxcIjo2fX0se1widHlwZVwiOntcInR5cGVcIjo2fSxcImxldmVsXCI6e1wibGV2ZWxcIjo2fX0se1widHlwZVwiOntcInR5cGVcIjoxMH0sXCJsZXZlbFwiOntcImxldmVsXCI6MX19LHtcInR5cGVcIjp7XCJ0eXBlXCI6MTF9LFwibGV2ZWxcIjp7XCJsZXZlbFwiOjF9fV19fSIsImlhdCI6MTU4ODI2NDM4NSwiZXhwIjoxNTk2OTA0Mzg1fQ.DRRsyHhWR6CfPbCfAg1IzNmefs5chf1Vt9eOF0axx30
 
-####
+#### USER & AUTH -----------------------------
 POST http://{{host}}/api/message/generateOtpToLogin
 Content-Type: application/json
 
@@ -20,9 +20,111 @@ Content-Type: application/json
 
 ###
 
+GET http://{{host}}/api/users/me
+Authorization: Bearer {{token}}
+
+### 
+
+PUT http://{{host}}/api/users/39878118
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "name": "Kaushik Jadav",
+    "email": "kaushikjadav602@gmail.com"
+}
+
+# {
+#     "firstName": "Kaushik",
+#     "lastName": "Jadav",
+#     "details": {
+#         "address": "1, Sohamkunj society, times of India press road, vejalpur, ahmedabad - 380051",
+#     }
+# }
+
+#### PRODUCTS -----------------------------
+
 GET http://{{host}}/api/products HTTP/1.1
 
-####
+###
+
+GET http://{{host}}/api/products/630565 HTTP/1.1
+
+#### CART -----------------------------
 
 GET http://{{host}}/api/carts/my?context=productDetails
 Authorization: Bearer {{token}}
+
+###
+
+PUT http://{{host}}/api/carts/?context=add
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "items": [
+        {
+            "productId": 39514132,
+        }
+    ]
+}
+
+#### PROMOTIONS -----------------------------
+
+
+GET http://{{host}}/api/promotions;active=true
+
+###
+
+GET http://{{host}}/api/promotions;productId=39513102;active=true
+
+#### ORDERS -----------------------------
+
+POST http://{{host}}/api/orders
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "productId": "630565",
+    "billingAddress": "123",
+    "Size": {
+      "size": "S",
+      "quantity": 1,
+      "color": "Red"
+    }
+}
+
+####
+
+GET http://{{host}}/api/orders
+Authorization: Bearer {{token}}
+
+####
+
+GET http://{{host}}/api/orders/40150220
+Authorization: Bearer {{token}}
+
+####
+
+GET http://{{host}}/api/orders/40150220;product=true
+Authorization: Bearer {{token}}
+
+###
+
+PUT http://{{host}}/api/orders/40150220;context=state
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "status": "TEt"
+}
+
+###
+
+GET  http://{{host}}/api/orders​/cost?productKey=18193886&quantity=4&promotionId=18987021
+Authorization: Bearer {{token}}
+# Content-Type: application/json 33416785
+
+###
+
+GET http://{{host}}/api/payments/options

@@ -22,7 +22,6 @@ import './views/myAppointments_view.dart';
 import 'package:flutter/material.dart';
 import 'package:compound/constants/route_names.dart';
 import 'package:compound/ui/views/login_view.dart';
-import 'package:compound/ui/views/product_individual_view.dart';
 import 'package:page_transition/page_transition.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
@@ -185,10 +184,11 @@ Route<dynamic> generateRoute(RouteSettings settings) {
           pageTransitionType: transitionType);
 
     case CategoryIndiViewRoute:
+      var pargs = pageArguments as ProductPageArg;
       return _getPageRoute(
           pageArguments: pageArguments,
           routeName: settings.name,
-          viewToShow: CategoryIndiView(),
+          viewToShow: CategoryIndiView(queryString: pargs.queryString, subCategory: pargs.subCategory,),
           pageTransitionType: transitionType);
 
     case SettingsRoute:
