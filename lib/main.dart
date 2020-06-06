@@ -19,7 +19,7 @@ void main() {
   runApp(MyApp());
 }
 
-class MyBehavior extends ScrollBehavior {
+class CustomScrollOverlayBehaviour extends ScrollBehavior {
   @override
   Widget buildViewportChrome(
       BuildContext context, Widget child, AxisDirection axisDirection) {
@@ -31,20 +31,21 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle(statusBarColor: backgroundWhiteCreamColor));
+      SystemUiOverlayStyle(
+        statusBarColor: backgroundWhiteCreamColor,
+      ),
+    );
     return MaterialApp(
-      title: 'Compound',
-      // debugShowMaterialGrid: true,
+      title: 'DZOR',
       debugShowCheckedModeBanner: false,
-      navigatorObservers: [
-        // locator<AnalyticsService>().getAnalyticsObserver(),
-      ],
+      navigatorObservers: [],
       builder: (context, child) => ScrollConfiguration(
-        behavior: MyBehavior(),
+        behavior: CustomScrollOverlayBehaviour(),
         child: Navigator(
           key: locator<DialogService>().dialogNavigationKey,
           onGenerateRoute: (settings) => MaterialPageRoute(
-              builder: (context) => DialogManager(child: child)),
+            builder: (context) => DialogManager(child: child),
+          ),
         ),
       ),
       navigatorKey: locator<NavigationService>().navigationKey,

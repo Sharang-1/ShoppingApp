@@ -1,14 +1,12 @@
 import 'package:compound/models/grid_view_builder_filter_models/productFilter.dart';
 import 'package:compound/models/products.dart';
 import 'package:compound/ui/shared/app_colors.dart';
-import 'package:compound/ui/shared/dashed_line.dart';
 import 'package:compound/ui/shared/shared_styles.dart';
-import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/ui/widgets/GridListWidget.dart';
 import 'package:compound/ui/widgets/ProductTileUI.dart';
 
 import 'package:compound/ui/widgets/custom_text.dart';
-import 'package:compound/viewmodels/cart_view_model.dart';
+import 'package:compound/viewmodels/categories_view_model.dart';
 import 'package:compound/viewmodels/grid_view_builder_view_models/products_grid_view_builder_view_model.dart';
 import 'package:fimber/fimber.dart';
 
@@ -39,8 +37,8 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
   @override
   Widget build(BuildContext context) {
     const double headingFontSize = headingFontSizeStyle;
-    return ViewModelProvider<CartViewModel>.withConsumer(
-      viewModel: CartViewModel(),
+    return ViewModelProvider<CategoriesViewModel>.withConsumer(
+      viewModel: CategoriesViewModel(),
       onModelReady: (model) => model.init(),
       builder: (context, model, child) => Scaffold(
         backgroundColor: backgroundWhiteCreamColor,
@@ -115,7 +113,7 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
                             print((data as Product).toJson());
                             return ProductTileUI(
                               data: data,
-                              onClick: () => {},
+                              onClick: () => model.goToProductPage(data),
                               index: index,
                             );
                           },

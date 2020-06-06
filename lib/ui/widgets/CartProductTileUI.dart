@@ -2,7 +2,6 @@ import 'package:compound/models/cart.dart';
 import 'package:compound/ui/shared/app_colors.dart';
 import 'package:compound/ui/shared/shared_styles.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
-import 'package:compound/ui/views/cart_select_delivery_view.dart';
 import 'package:compound/ui/widgets/custom_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +13,7 @@ class CartProductTileUI extends StatefulWidget {
   final String shippingCharges;
   final String promoCode;
   final String promoCodeDiscount;
+  final Function proceedToOrder;
 
   CartProductTileUI({
     Key key,
@@ -23,6 +23,7 @@ class CartProductTileUI extends StatefulWidget {
     this.shippingCharges = "",
     this.promoCode = "",
     this.promoCodeDiscount = "",
+    @required this.proceedToOrder,
   }) : super(key: key);
   @override
   _CartProductTileUIState createState() => _CartProductTileUIState();
@@ -41,6 +42,7 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
     "Seller",
     "Qty",
     "Size",
+    "Color",
   ];
   static const orderSummaryDetails2 = [
     "Promo Code",
@@ -66,7 +68,12 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
       "Product Name": widget.item.product.name,
       "Seller": "Nike",
       "Qty": widget.item.quantity.toString(),
-      "Size": widget.item.size ?? "No Size given",
+      "Size": widget.item.size != null && widget.item.size != ""
+          ? widget.item.size
+          : "No Size given",
+      "Color": widget.item.color != null && widget.item.color != ""
+          ? widget.item.color
+          : "No Color given",
       "Promo Code": widget.promoCode,
       "Promo Code Discount": widget.promoCodeDiscount + "%",
       "Price": (price * widget.item.quantity).toString(),
@@ -87,7 +94,12 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
       "Product Name": widget.item.product.name,
       "Seller": "Nike",
       "Qty": widget.item.quantity.toString(),
-      "Size": widget.item.size ?? "No Size given",
+      "Size": widget.item.size != null && widget.item.size != ""
+          ? widget.item.size
+          : "No Size given",
+      "Color": widget.item.color != null && widget.item.color != ""
+          ? widget.item.color
+          : "No Color given",
       "Promo Code": widget.promoCode,
       "Promo Code Discount": widget.promoCodeDiscount + "%",
       "Price": price.toString(),
@@ -200,9 +212,11 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                 showModalBottomSheet<void>(
                     clipBehavior: Clip.antiAlias,
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(30),
-                            topRight: Radius.circular(30))),
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(30),
+                        topRight: Radius.circular(30),
+                      ),
+                    ),
                     isScrollControlled: true,
                     context: context,
                     builder: (context) {
@@ -403,14 +417,7 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                     Expanded(
                       child: RaisedButton(
                         elevation: 5,
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => SelectAddress(),
-                            ),
-                          );
-                        },
+                        onPressed: widget.proceedToOrder,
                         color: green,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),

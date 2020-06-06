@@ -42,13 +42,6 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         pageArguments: pageArguments,
         pageTransitionType: transitionType,
       );
-    // case SignUpViewRoute:
-    //   return _getPageRoute(
-    //     routeName: settings.name,
-    //     viewToShow: SignUpView(),
-    //     pageArguments: pageArguments,
-    //     pageTransitionType: transitionType,
-    //   );
     case HomeViewRoute:
       return _getPageRoute(
         routeName: settings.name,
@@ -101,15 +94,6 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         pageArguments: pageArguments as Product,
         pageTransitionType: transitionType,
       );
-
-    // case CreatePostViewRoute:
-    //   var postToEdit = settings.arguments as Post;
-    //   return _getPageRoute(
-    //     routeName: settings.name,
-    //     viewToShow: CreatePostView(
-    //       edittingPost: postToEdit,
-    //     ),
-    //   );
     case MapViewRoute:
       return _getPageRoute(
           pageArguments: pageArguments,
@@ -164,7 +148,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
           routeName: settings.name,
           viewToShow: WishlistView(),
           pageTransitionType: transitionType);
-  case SellerIndiViewRoute:
+    case SellerIndiViewRoute:
       return _getPageRoute(
           pageArguments: pageArguments,
           routeName: settings.name,
@@ -188,7 +172,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return _getPageRoute(
           pageArguments: pageArguments,
           routeName: settings.name,
-          viewToShow: CategoryIndiView(queryString: pargs.queryString, subCategory: pargs.subCategory,),
+          viewToShow: CategoryIndiView(
+            queryString: pargs.queryString,
+            subCategory: pargs.subCategory,
+          ),
           pageTransitionType: transitionType);
 
     case SettingsRoute:

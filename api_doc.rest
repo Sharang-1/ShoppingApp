@@ -87,10 +87,13 @@ Content-Type: application/json
 {
     "productId": "630565",
     "billingAddress": "123",
-    "Size": {
+    "variation": {
       "size": "S",
       "quantity": 1,
-      "color": "Red"
+      "color": "Red and Black"
+    },
+    "payment": {
+        "option": { "id": 1 }
     }
 }
 

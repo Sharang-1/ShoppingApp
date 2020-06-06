@@ -39,6 +39,7 @@ class Cart {
 class Item {
     num productId;
     String size;
+    String color;
     num quantity;
     String inserted;
     Product product;
@@ -46,6 +47,7 @@ class Item {
     Item({
         this.productId,
         this.size,
+        this.color,
         this.quantity,
         this.inserted,
         this.product,
@@ -54,6 +56,7 @@ class Item {
     factory Item.fromJson(Map<String, dynamic> json) => Item(
         productId: json["productId"],
         size: json["size"] == null ? null : json["size"],
+        color: json["color"] == null ? null : json["color"],
         quantity: json["quantity"] == null ? null : json["quantity"],
         inserted: json["inserted"],
         product: Product.fromJson(json["product"]),
@@ -62,6 +65,7 @@ class Item {
     Map<String, dynamic> toJson() => {
         "productId": productId,
         "size": size == null ? null : size,
+        "color": color == null ? null : color,
         "quantity": quantity == null ? null : quantity,
         "inserted": inserted,
         "product": product.toJson(),

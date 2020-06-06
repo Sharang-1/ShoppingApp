@@ -10,8 +10,6 @@ import 'package:flutter/material.dart';
 class CartTileUI extends StatefulWidget {
   final Item item;
   final Function onDelete;
-  final Function applyPromoCode;
-  final Function calculateProductPrice;
   final int index;
 
   const CartTileUI({
@@ -19,8 +17,6 @@ class CartTileUI extends StatefulWidget {
     this.item,
     this.onDelete,
     this.index,
-    this.applyPromoCode,
-    this.calculateProductPrice,
   }) : super(key: key);
 
   @override
@@ -116,6 +112,7 @@ class _CartTileUIState extends State<CartTileUI> {
             promoCode: promoCode,
             promoCodeDiscount: promoCodeDiscount,
             isPromoCodeApplied: isPromoCodeApplied,
+            proceedToOrder: proceedToOrder,
           ),
         ),
         verticalSpaceMedium,
@@ -189,14 +186,7 @@ class _CartTileUIState extends State<CartTileUI> {
             Expanded(
               child: RaisedButton(
                 elevation: 5,
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => SelectAddress(),
-                    ),
-                  );
-                },
+                onPressed: proceedToOrder,
                 color: green,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
@@ -216,6 +206,23 @@ class _CartTileUIState extends State<CartTileUI> {
           ],
         ),
       ],
+    );
+  }
+
+  void proceedToOrder() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SelectAddress(
+          productId: widget.item.productId.toString(),
+          promoCode: promoCode,
+          promoCodeId: promoCodeId,
+          size: widget.item.size,
+          color: widget.item.color,
+          qty: widget.item.quantity,
+          finalTotal: finalTotal,
+        ),
+      ),
     );
   }
 

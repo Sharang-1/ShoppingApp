@@ -12,6 +12,25 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 
 class SelectAddress extends StatefulWidget {
+  final String finalTotal;
+  final String productId;
+  final String promoCode;
+  final String promoCodeId;
+  final String size;
+  final String color;
+  final int qty;
+
+  const SelectAddress({
+    Key key,
+    @required this.productId,
+    @required this.promoCode,
+    @required this.promoCodeId,
+    @required this.size,
+    @required this.color,
+    @required this.qty,
+    @required this.finalTotal,
+  }) : super(key: key);
+
   @override
   _SelectAddressState createState() => _SelectAddressState();
 }
@@ -23,7 +42,7 @@ class _SelectAddressState extends State<SelectAddress> {
   //   1: "Shivranjani Cross Roads, Satellite,Ahmedabad, Gujarat 380015",
   //   2: "Sarkhej - Gandhinagar Hwy, Bodakdev, Ahmedabad, Gujarat 380059"
   // };
-  String addressRadioValue;
+  String addressRadioValue = "";
   int addressGrpValue = 1;
 
   @override
@@ -60,7 +79,18 @@ class _SelectAddressState extends State<SelectAddress> {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => PaymentMethod(),
+                  builder: (context) => PaymentMethod(
+                    billingAddress: (addressRadioValue == ""
+                        ? model.addresses[0]
+                        : addressRadioValue),
+                    color: widget.color,
+                    productId: widget.productId,
+                    promoCode: widget.promoCode,
+                    promoCodeId: widget.promoCodeId,
+                    qty: widget.qty,
+                    size: widget.size,
+                    finalTotal: widget.finalTotal,
+                  ),
                 ),
               );
             },
@@ -121,7 +151,7 @@ class _SelectAddressState extends State<SelectAddress> {
                           print("New Address Added ............");
                           print(newAddress);
 
-                          if(newAddress != null) {
+                          if (newAddress != null) {
                             model.addAddress(newAddress);
                           }
                         },
