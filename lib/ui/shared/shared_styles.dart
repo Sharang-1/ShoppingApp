@@ -9,7 +9,7 @@ BoxDecoration disabledFieldDecortaion = BoxDecoration(
     borderRadius: BorderRadius.circular(5), color: Colors.grey[100]);
 
 // Field Variables
-const String headingFont = "Raleway";
+const String headingFont = "Lato";
 const String textFont = "Open Sans";
 //FontSizes
 const double titleFontSizeStyle = 20;

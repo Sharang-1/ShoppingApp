@@ -215,6 +215,8 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                           )),
                     ],
                   ),
+                  verticalSpace(10),
+                  CustomText("* appointment can only be booked within 3 days from today",fontSize: 12,color: Colors.grey[400],),
                   verticalSpace(30),
                   Align(
                       alignment: Alignment.centerLeft,

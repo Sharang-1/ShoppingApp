@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
         primaryColor: primaryColor,
         appBarTheme: AppBarTheme(brightness: Brightness.light),
         textTheme: Theme.of(context).textTheme.apply(
-              fontFamily: 'Open Sans',
+              fontFamily: 'Raleway',
             ),
       ),
       home: StartUpView(),

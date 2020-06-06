@@ -40,29 +40,31 @@ class otpFinishedScreen1 extends StatelessWidget {
             ]),
             !fromCart
                 ? Container()
-                : Padding(
-                    padding: const EdgeInsets.fromLTRB(30, 50, 30, 0),
-                    child: Column(children: <Widget>[
-                      Text(
-                        "Your order has been received for",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontFamily: headingFont,
-                            color: Colors.grey[600],
-                            fontWeight: FontWeight.bold,
-                            fontSize: subtitleFontSize),
-                      ),
-                      Text(
-                        "Nike Shoes by Nike pvt lmt.",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontFamily: headingFont,
-                            color: Colors.grey[800],
-                            fontWeight: FontWeight.bold,
-                            fontSize: subtitleFontSize),
+                : !model.displaySymbol
+                    ? Container()
+                    : Padding(
+                        padding: const EdgeInsets.fromLTRB(30, 50, 30, 0),
+                        child: Column(children: <Widget>[
+                          Text(
+                            "Your order has been received for",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontFamily: headingFont,
+                                color: Colors.grey[600],
+                                fontWeight: FontWeight.bold,
+                                fontSize: subtitleFontSize),
+                          ),
+                          Text(
+                            "Nike Shoes by Nike pvt lmt.",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontFamily: headingFont,
+                                color: Colors.grey[800],
+                                fontWeight: FontWeight.bold,
+                                fontSize: subtitleFontSize),
+                          )
+                        ]),
                       )
-                    ]),
-                  )
           ]),
         ),
       ),

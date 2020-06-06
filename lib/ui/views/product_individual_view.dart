@@ -537,6 +537,25 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                             ),
                             verticalSpace(5),
                             allSizes(variations),
+                            selectedIndex == -1
+                                ? Container()
+                                : Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      verticalSpace(20),
+                                      Text(
+                                        "Select Color",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: subtitleFontSizeStyle),
+                                      ),
+                                      verticalSpace(5),
+                                      allColors(
+                                        variations[selectedIndex]["color"],
+                                      ),
+                                    ],
+                                  ),
                             verticalSpace(10),
                             selectedIndex == -1
                                 ? Container()
@@ -604,25 +623,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                       ),
                                     ],
                                   ),
-                            selectedIndex == -1
-                                ? Container()
-                                : Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      verticalSpace(20),
-                                      Text(
-                                        "Select Color",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: subtitleFontSizeStyle),
-                                      ),
-                                      verticalSpace(5),
-                                      allColors(
-                                        variations[selectedIndex]["color"],
-                                      ),
-                                    ],
-                                  ),
+                            
                           ],
                         ),
                       )),
@@ -650,6 +651,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                             "BUY NOW",
                             style: TextStyle(
                               color: Colors.white,
+                              fontWeight: FontWeight.bold,
                               fontSize: subtitleFontSizeStyle,
                             ),
                           ),
@@ -680,9 +682,10 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                             borderRadius: BorderRadius.circular(40)),
                         child: Center(
                           child: Text(
-                            "ADD TO CART",
+                            "ADD TO BAG",
                             style: TextStyle(
                               color: Colors.white,
+                              fontWeight: FontWeight.bold,
                               fontSize: subtitleFontSizeStyle,
                             ),
                           ),
