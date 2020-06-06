@@ -42,12 +42,12 @@ class _SellerIndiState extends State<SellerIndi> {
     "Speciality"
   ];
 
-  Map<String, IconData> icons = {
-    "Works Offered": Icons.work,
-    "Operations Offered": Icons.description,
-    "People Like Our": Icons.favorite,
-    "Type": Icons.category,
-    "Speciality": Icons.folder_special,
+  Map<String, String> icons = {
+    "Works Offered": "assets/svg/dressmaker.svg",
+    "Operations Offered": "assets/svg/crease.svg",
+    "People Like Our": "assets/svg/fabric.svg",
+    "Type": "assets/svg/online.svg",
+    "Speciality": "assets/svg/tumblr-badge.svg",
   };
 
   final double headFont = 22;
@@ -285,8 +285,7 @@ class _SellerIndiState extends State<SellerIndi> {
                   ),
                 ),
               ),
-              verticalSpace(30),
-              verticalSpace(40),
+              verticalSpace(50),
               CustomText(
                 "Everything About",
                 fontSize: headFont - 2,
@@ -316,12 +315,20 @@ class _SellerIndiState extends State<SellerIndi> {
                       return Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Icon(
-                              icons[key],
-                              color: Colors.grey,
-                            ),
+                            key == "Speciality"
+                                ? SvgPicture.asset(
+                                    icons[key],
+                                    height: 30,
+                                    width: 30,
+                                    color: Colors.blue[200],
+                                  )
+                                : SvgPicture.asset(
+                                    icons[key],
+                                    height: 30,
+                                    width: 30,
+                                  ),
                             SizedBox(
-                              width: 10,
+                              width: 20,
                             ),
                             Expanded(
                               child: Column(

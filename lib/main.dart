@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
           brightness: Brightness.light
         ),
         textTheme: Theme.of(context).textTheme.apply(
-              fontFamily: 'Open Sans',
+              fontFamily: 'Raleway',
             ),
       ),
       home: StartUpView(),

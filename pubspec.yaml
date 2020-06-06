@@ -81,6 +81,12 @@ flutter:
     - assets/svg/ribbon.svg
     - assets/svg/discount.svg
     - assets/svg/wishlist.svg
+    - assets/svg/tumblr-badge.svg
+    - assets/svg/crease.svg
+    - assets/svg/dressmaker.svg
+    - assets/svg/fabric.svg
+    - assets/svg/online.svg
+    - assets/svg/bag.svg
     - assets/icons/info.png
     - assets/icons/filter.png
     - assets/icons/like.png
@@ -118,6 +124,14 @@ flutter:
         - asset: assets/fonts/raleway/Raleway-Bold.ttf
           weight: 600
         - asset: assets/fonts/raleway/Raleway-Light.ttf
+          weight: 300
+    - family: Lato
+      fonts:
+        - asset: assets/fonts/lato/Lato-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/lato/Lato-Bold.ttf
+          weight: 600
+        - asset: assets/fonts/lato/Lato-Light.ttf
           weight: 300
   #
   # For details regarding fonts from package dependencies,

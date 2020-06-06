@@ -1,3 +1,4 @@
+import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:compound/ui/shared/app_colors.dart';
 
@@ -61,10 +62,11 @@ class CutomStepper extends StatelessWidget {
         ),
         Stack(
           children: <Widget>[
+            verticalSpace(30),
             Positioned(
               left: 0,
               child: Text(
-                "Cart",
+                "Bag",
                 style: TextStyle(
                   fontSize: step == 1 ? 16 : 14,
                   fontWeight: step == 1 ? FontWeight.bold : FontWeight.normal,
@@ -94,7 +96,7 @@ class CutomStepper extends StatelessWidget {
               ),
             ),
           ],
-        )
+        ),
       ]),
     );
   }
