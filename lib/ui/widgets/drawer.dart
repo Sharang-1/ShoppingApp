@@ -148,7 +148,7 @@ class HomeDrawer extends StatelessWidget {
                       ),
                     ),
                     onTap: () {
-                      _navigationService.navigateTo(WishlistRoute);
+                      _navigationService.navigateTo(WhishListRoute);
                     },
                   ),
                   ListTile(

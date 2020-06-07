@@ -10,6 +10,7 @@ import 'package:compound/ui/views/myorders_view.dart';
 import 'package:compound/ui/views/notification_view.dart';
 import 'package:compound/ui/views/productListView.dart';
 import 'package:compound/ui/views/product_individual_view.dart';
+import 'package:compound/ui/views/product_whishlist_view.dart';
 import 'package:compound/ui/views/profile_view.dart';
 import 'package:compound/ui/views/search_view.dart';
 import 'package:compound/ui/views/settings_page_view.dart';
@@ -80,6 +81,13 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         pageArguments: pageArguments,
         pageTransitionType: transitionType,
       );
+    case WhishListRoute:
+      return _getPageRoute(
+        routeName: settings.name,
+        viewToShow: WhishList(),
+        pageArguments: pageArguments,
+        pageTransitionType: transitionType,
+      );
     case CategoriesRoute:
       return _getPageRoute(
         routeName: settings.name,
@@ -142,12 +150,12 @@ Route<dynamic> generateRoute(RouteSettings settings) {
           routeName: settings.name,
           viewToShow: NotificationView(),
           pageTransitionType: transitionType);
-    case WishlistRoute:
-      return _getPageRoute(
-          pageArguments: pageArguments,
-          routeName: settings.name,
-          viewToShow: WishlistView(),
-          pageTransitionType: transitionType);
+    // case WishlistRoute:
+    //   return _getPageRoute(
+    //       pageArguments: pageArguments,
+    //       routeName: settings.name,
+    //       viewToShow: WishlistView(),
+    //       pageTransitionType: transitionType);
     case SellerIndiViewRoute:
       return _getPageRoute(
           pageArguments: pageArguments,

@@ -17,6 +17,7 @@ const String MyOrdersRoute = " MyOrdersView";
 
 // Product and Categories Routes
 const String ProductsListRoute = "ProductsListView";
+const String WhishListRoute = "WhishListView";
 const String ProductIndividualRoute = "ProductIndividualView";
 const String CategoryIndiViewRoute = "CategoryIndiView";
 

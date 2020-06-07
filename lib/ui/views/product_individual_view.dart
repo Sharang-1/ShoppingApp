@@ -350,7 +350,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
 
     return ViewModelProvider<ProductIndividualViewModel>.withConsumer(
       viewModel: ProductIndividualViewModel(),
-      onModelReady: (model) => model.init(),
+      onModelReady: (model) => model.init(productId),
       builder: (context, model, child) => Scaffold(
         backgroundColor: backgroundWhiteCreamColor,
         appBar: AppBar(
@@ -393,15 +393,24 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                     Positioned(
                       bottom: 20,
                       right: 20,
-                      child: Container(
-                        padding: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            color: Colors.white.withOpacity(1)),
-                        child: WishListIcon(
-                          filled: true,
-                          width: 20,
-                          height: 20,
+                      child: GestureDetector(
+                        onTap: () {
+                          if(model.isProductInWhishlist) {
+                            model.removeFromWhishList(productId);
+                          } else {
+                            model.addToWhishList(productId);
+                          }
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              color: Colors.white.withOpacity(1)),
+                          child: WishListIcon(
+                            filled: model.isProductInWhishlist,
+                            width: 20,
+                            height: 20,
+                          ),
                         ),
                       ),
                     )

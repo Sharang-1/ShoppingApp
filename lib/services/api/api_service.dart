@@ -12,7 +12,7 @@ import 'package:compound/services/api/AppInterceptor.dart';
 import 'package:compound/services/api/CustomLogInterceptor.dart';
 
 import 'package:compound/models/calculatedPrice.dart';
-import 'package:compound/models/cart.dart';
+import 'package:compound/models/cart.dart' as CartModule;
 import 'package:compound/models/categorys.dart';
 import 'package:compound/models/products.dart';
 import 'package:compound/models/promoCode.dart';
@@ -121,6 +121,31 @@ class APIService {
     return null;
   }
 
+  Future<Products> getWhishlistProducts({
+    List<String> list,
+  }) async {
+    final futureList = list.map<Future<Product>>((id) async {
+      final productData = await apiWrapper("products/$id");
+      if (productData != null) {
+        Product singleProduct = Product.fromJson(productData);
+        return singleProduct;
+      }
+      return null;
+    });
+
+    final resolvedList = await Future.wait(futureList);
+    final filteredList = resolvedList.where((element) => element != null).toList();
+
+    Products data = Products(
+      records: filteredList.length,
+      startIndex: 0,
+      limit: filteredList.length,
+      items: filteredList,
+    );
+
+    return data;
+  }
+
   Future<Promotions> getPromotions() async {
     var promotionsData = await apiWrapper("promotions:active=true");
     if (promotionsData != null) {
@@ -173,13 +198,13 @@ class APIService {
     return null;
   }
 
-  Future<Cart> getCart({String queryString = ""}) async {
+  Future<CartModule.Cart> getCart({String queryString = ""}) async {
     var cartData = await apiWrapper("carts/my?context=productDetails",
         authenticated: true,
         options: Options(headers: {'excludeToken': false}));
     if (cartData != null) {
       try {
-        Cart cart = Cart.fromJson(cartData);
+        CartModule.Cart cart = CartModule.Cart.fromJson(cartData);
         Fimber.d("Cart : " + cart.items.map((o) => o.productId).toString());
         return cart;
       } catch (err) {

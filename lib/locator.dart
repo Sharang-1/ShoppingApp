@@ -1,3 +1,4 @@
+import 'package:compound/services/whishlist_service.dart';
 import 'package:get_it/get_it.dart';
 
 // Services
@@ -21,4 +22,5 @@ void setupLocator() {
   locator.registerLazySingleton(() => LocationService());
   locator.registerLazySingleton(() => PushNotificationService());
   locator.registerLazySingleton(() => AddressService());
+  locator.registerLazySingleton(() => WhishListService());
 }
