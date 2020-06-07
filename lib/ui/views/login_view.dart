@@ -1,13 +1,15 @@
-import 'package:compound/ui/shared/ui_helpers.dart';
-import 'package:compound/ui/widgets/app_title.dart';
-import 'package:compound/ui/widgets/busy_button_circular.dart';
-import 'package:compound/ui/widgets/input_field.dart';
+// import 'package:compound/ui/widgets/app_title.dart';
 import 'package:flutter/material.dart';
 import 'package:provider_architecture/provider_architecture.dart';
-import 'package:compound/viewmodels/login_view_model.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../shared/app_colors.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+
+import 'package:compound/ui/shared/ui_helpers.dart';
+import 'package:compound/ui/widgets/busy_button_circular.dart';
+import 'package:compound/ui/widgets/input_field.dart';
+import 'package:compound/viewmodels/login_view_model.dart';
+
+import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 
 class LoginView extends StatelessWidget {
@@ -37,7 +39,7 @@ class LoginView extends StatelessWidget {
           ),
           InternationalPhoneNumberInput(
             onInputChanged: (PhoneNumber number) {
-              model.validatePhoneNo;
+              // model.validatePhoneNo();
             },
             focusNode: _mobileFocus,
             onSubmit: () {

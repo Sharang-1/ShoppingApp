@@ -3,7 +3,6 @@ import 'package:compound/ui/shared/shared_styles.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/ui/views/address_input_form_view.dart';
 import 'package:compound/ui/views/cart_payment_method_view.dart';
-import 'package:compound/ui/widgets/card_with_radioButton.dart';
 import 'package:compound/ui/widgets/custom_stepper.dart';
 import 'package:compound/ui/widgets/custom_text.dart';
 import 'package:compound/viewmodels/cart_select_delivery_view_model.dart';
@@ -226,11 +225,11 @@ class _SelectAddressState extends State<SelectAddress> {
     );
   }
 
-  void _setRadioValue(val) {
-    setState(() {
-      addressRadioValue = val;
-    });
-    print(val);
-    print(addressRadioValue);
-  }
+  // void _setRadioValue(val) {
+  //   setState(() {
+  //     addressRadioValue = val;
+  //   });
+  //   print(val);
+  //   print(addressRadioValue);
+  // }
 }

@@ -1,12 +1,14 @@
+// import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+// import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider_architecture/provider_architecture.dart';
+
 import 'package:compound/models/sellers.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/viewmodels/map_view_model.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:provider_architecture/provider_architecture.dart';
-import 'package:url_launcher/url_launcher.dart';
+
 import '../shared/shared_styles.dart';
 
 class MapView extends StatelessWidget {
@@ -19,10 +21,10 @@ class MapView extends StatelessWidget {
     const double titleFontSize = titleFontSizeStyle;
     const double subtitleFontSize = subtitleFontSizeStyle - 3;
 
-    List<String> tags = [
-      "Excellent",
-      "superb",
-    ];
+    // List<String> tags = [
+    //   "Excellent",
+    //   "superb",
+    // ];
 
     List<String> tempSplitName = client.name.split(" ");
     String shortName = tempSplitName.length > 1

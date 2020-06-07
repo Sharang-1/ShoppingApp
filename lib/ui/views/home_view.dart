@@ -7,7 +7,7 @@ import 'package:flutter_svg/svg.dart';
 import '../shared/app_colors.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 import '../widgets/cart_icon_badge.dart';
-import '../shared/shared_styles.dart';
+// import '../shared/shared_styles.dart';
 
 class HomeView extends StatelessWidget {
   final searchController = TextEditingController();
@@ -16,7 +16,7 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const double subtitleFontSize = subtitleFontSizeStyle;
+    // const double subtitleFontSize = subtitleFontSizeStyle;
     return ViewModelProvider<HomeViewModel>.withConsumer(
       viewModel: HomeViewModel(),
       onModelReady: (model) => model.init(),

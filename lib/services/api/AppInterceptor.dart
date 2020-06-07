@@ -1,14 +1,10 @@
 import 'dart:async';
 
-import 'package:compound/locator.dart';
-import 'package:compound/constants/shared_pref.dart';
 import 'package:dio/dio.dart';
+import 'package:compound/constants/shared_pref.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../dialog_service.dart';
-
 class AppInterceptors extends Interceptor {
-  final DialogService _dialogService = locator<DialogService>();
 
   @override
   Future onRequest(RequestOptions options) async {

@@ -1,9 +1,7 @@
 import 'package:compound/models/grid_view_builder_filter_models/productFilter.dart';
 import 'package:compound/models/products.dart';
 import 'package:compound/ui/shared/app_colors.dart';
-import 'package:compound/ui/shared/dashed_line.dart';
 import 'package:compound/ui/shared/shared_styles.dart';
-import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/ui/widgets/GridListWidget.dart';
 import 'package:compound/ui/widgets/ProductTileUI.dart';
 
@@ -38,7 +36,7 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
 
   @override
   Widget build(BuildContext context) {
-    const double headingFontSize = headingFontSizeStyle;
+    // const double headingFontSize = headingFontSizeStyle;
     return ViewModelProvider<CartViewModel>.withConsumer(
       viewModel: CartViewModel(),
       onModelReady: (model) => model.init(),

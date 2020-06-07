@@ -1,11 +1,12 @@
-import 'package:compound/constants/route_names.dart';
-import 'package:compound/services/navigation_service.dart';
-import 'package:compound/ui/shared/ui_helpers.dart';
-import 'package:compound/ui/views/address_input_form_view.dart';
-import 'package:compound/ui/widgets/custom_stepper.dart';
-import 'package:compound/ui/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+
+import 'package:compound/services/navigation_service.dart';
+import 'package:compound/ui/widgets/custom_stepper.dart';
+import 'package:compound/ui/widgets/custom_text.dart';
+import 'package:compound/ui/shared/ui_helpers.dart';
+import 'package:compound/constants/route_names.dart';
+
 import '../../locator.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';

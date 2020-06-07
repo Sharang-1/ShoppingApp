@@ -1,5 +1,8 @@
 import 'dart:async';
-import 'package:compound/constants/shared_pref.dart';
+import 'package:dio/dio.dart';
+import 'package:fimber/fimber.dart';
+import 'package:flutter/material.dart';
+
 import 'package:compound/models/calculatedPrice.dart';
 import 'package:compound/models/cart.dart';
 import 'package:compound/models/categorys.dart';
@@ -9,16 +12,12 @@ import 'package:compound/models/promotions.dart';
 import 'package:compound/models/reviews.dart';
 import 'package:compound/models/sellers.dart';
 import 'package:compound/models/tailors.dart';
-import 'dart:convert';
+
 import 'package:compound/services/api/AppInterceptor.dart';
 import 'package:compound/services/api/CustomLogInterceptor.dart';
-import 'package:dio/dio.dart';
-import 'package:compound/models/post.dart';
-import 'package:fimber/fimber.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import '../../locator.dart';
+
 import '../dialog_service.dart';
+import '../../locator.dart';
 
 class APIService {
   final apiClient = Dio(BaseOptions(

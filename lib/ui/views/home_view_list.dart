@@ -1,15 +1,17 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:compound/models/cart.dart';
-import 'package:compound/models/categorys.dart';
+// import 'package:cached_network_image/cached_network_image.dart';
+// import 'package:compound/models/cart.dart';
+// import 'package:compound/models/categorys.dart';
+// import 'package:compound/ui/views/categories_view.dart';
+// import 'package:compound/ui/widgets/GridListWidget.dart';
+// import 'package:compound/ui/widgets/categoryTileUI.dart';
+// import 'package:compound/viewmodels/grid_view_builder_view_models/categories_view_builder_view_model.dart';
+import 'package:flutter/material.dart';
+
 import 'package:compound/ui/shared/app_colors.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
-import 'package:compound/ui/views/categories_view.dart';
-import 'package:compound/ui/widgets/GridListWidget.dart';
-import 'package:compound/ui/widgets/categoryTileUI.dart';
 import 'package:compound/ui/widgets/custom_text.dart';
 import 'package:compound/ui/widgets/sellerTileUi.dart';
-import 'package:compound/viewmodels/grid_view_builder_view_models/categories_view_builder_view_model.dart';
-import 'package:flutter/material.dart';
+
 import '../shared/shared_styles.dart';
 import '../widgets/top_picks_deals_card.dart';
 import './home_view_slider.dart';
@@ -24,20 +26,20 @@ class HomeViewList extends StatelessWidget {
     'https://images.unsplash.com/photo-1508704019882-f9cf40e475b4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8c6e5e3aba713b17aa1fe71ab4f0ae5b&auto=format&fit=crop&w=1352&q=80',
     'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80'
   ];
-  Map<String, String> sellerCardDetails = {
+  final Map<String, String> sellerCardDetails = {
     "name": "Sejal Works",
     "type": "SELLER",
     "sells": "Dresses , Kurtas",
     "discount": "10% Upto 30%",
   };
-  Map<String, String> boutiqueCardDetails = {
+  final Map<String, String> boutiqueCardDetails = {
     "name": "Ketan Works",
     "type": "BOUTIQUE",
     "Speciality": "Spec1 , Spec2 , Spec3 , Spec4 , Spec5",
     "WorksOffered": "Work1 , Work2 , Work3 , Work4",
   };
 
-  List<Map<String, String>> bestDealsDataMap = [
+  final List<Map<String, String>> bestDealsDataMap = [
     {
       "name": "Nike shoes",
       "sellerName": "Nike",
@@ -59,7 +61,7 @@ class HomeViewList extends StatelessWidget {
       "isDiscountAvailable": "true"
     }
   ];
-  List<Map<String, String>> sameDayDeliveryDataMap = [
+  final List<Map<String, String>> sameDayDeliveryDataMap = [
     {
       "name": "Nike shoes",
       "sellerName": "Nike",
@@ -76,7 +78,7 @@ class HomeViewList extends StatelessWidget {
       "isSameDayDelivery": "true"
     },
   ];
-  List<Map<String, String>> topPicksDataMap = [
+  final List<Map<String, String>> topPicksDataMap = [
     {
       "name": "Nike shoes",
       "sellerName": "Nike",
@@ -93,7 +95,7 @@ class HomeViewList extends StatelessWidget {
       "price": "300",
     }
   ];
-  List<Map<String, String>> productAwedDataMap = [
+  final List<Map<String, String>> productAwedDataMap = [
     {
       "name": "Nike shoes",
       "sellerName": "Nike",
@@ -117,7 +119,7 @@ class HomeViewList extends StatelessWidget {
     },
   ];
 
-  List<String> categories = ["Kurtas", "Dresses", "Gowns", "Chaniya Cholis"];
+  final List<String> categories = ["Kurtas", "Dresses", "Gowns", "Chaniya Cholis"];
   final String singleImage =
       'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80';
 
