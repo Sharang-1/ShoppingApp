@@ -42,7 +42,8 @@ class _SelectAddressState extends State<SelectAddress> {
   //   2: "Sarkhej - Gandhinagar Hwy, Bodakdev, Ahmedabad, Gujarat 380059"
   // };
   String addressRadioValue = "";
-  int addressGrpValue = 1;
+  String addressGrpValue = "";
+  bool disabledPayment = true;
 
   @override
   Widget build(BuildContext context) {
@@ -74,25 +75,27 @@ class _SelectAddressState extends State<SelectAddress> {
           ),
           child: RaisedButton(
             elevation: 5,
-            onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => PaymentMethod(
-                    billingAddress: (addressRadioValue == ""
-                        ? model.addresses[0]
-                        : addressRadioValue),
-                    color: widget.color,
-                    productId: widget.productId,
-                    promoCode: widget.promoCode,
-                    promoCodeId: widget.promoCodeId,
-                    qty: widget.qty,
-                    size: widget.size,
-                    finalTotal: widget.finalTotal,
-                  ),
-                ),
-              );
-            },
+            onPressed: disabledPayment
+                ? null
+                : () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PaymentMethod(
+                          billingAddress: (addressRadioValue == ""
+                              ? model.addresses[0]
+                              : addressRadioValue),
+                          color: widget.color,
+                          productId: widget.productId,
+                          promoCode: widget.promoCode,
+                          promoCodeId: widget.promoCodeId,
+                          qty: widget.qty,
+                          size: widget.size,
+                          finalTotal: widget.finalTotal,
+                        ),
+                      ),
+                    );
+                  },
             color: green,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(curve30),
@@ -194,51 +197,62 @@ class _SelectAddressState extends State<SelectAddress> {
                   Column(
                     children: model.addresses.map(
                       (String address) {
-                        return Container(
-                          margin: EdgeInsets.only(bottom: spaceBetweenCards),
-                          child: Card(
-                            clipBehavior: Clip.antiAlias,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(curve15),
-                            ),
-                            elevation: 5,
-                            child: Padding(
-                              padding: const EdgeInsets.fromLTRB(0, 15, 15, 15),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  Radio(
-                                    value: address,
-                                    groupValue: addressGrpValue,
-                                    onChanged: (val) {
-                                      setState(() {
-                                        addressRadioValue = val;
-                                      });
-                                      print(val);
-                                    },
-                                  ),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        CustomText(
-                                          "Address",
-                                          color: Colors.grey[700],
-                                          isBold: true,
-                                        ),
-                                        verticalSpaceTiny_0,
-                                        CustomText(
-                                          address,
-                                          color: Colors.grey,
-                                          fontSize: 14,
-                                        ),
-                                      ],
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              addressGrpValue = addressRadioValue = address;
+                              disabledPayment = false;
+                            });
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(bottom: spaceBetweenCards),
+                            child: Card(
+                              clipBehavior: Clip.antiAlias,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(curve15),
+                              ),
+                              elevation: 5,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(0, 15, 15, 15),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    Radio(
+                                      value: address,
+                                      groupValue: addressGrpValue,
+                                      onChanged: (val) {
+                                        // setState(() {
+                                        //   addressGrpValue =
+                                        //       addressRadioValue = val;
+                                        //   disabledPayment = false;
+                                        // });
+                                        print(val);
+                                      },
                                     ),
-                                  ),
-                                ],
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          CustomText(
+                                            "Address",
+                                            color: Colors.grey[700],
+                                            isBold: true,
+                                          ),
+                                          verticalSpaceTiny_0,
+                                          CustomText(
+                                            address,
+                                            color: Colors.grey,
+                                            fontSize: 14,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),

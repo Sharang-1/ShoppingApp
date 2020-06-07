@@ -52,7 +52,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
     4: "Google Pay - Tez"
   };
   int paymentMethodRadioValue = 1;
-  int paymentMethodGrpValue = -1;
+  int paymentMethodGrpValue = 1;
   final NavigationService _navigationService = locator<NavigationService>();
 
   Map<int, Widget> iconpaymentMethodMap = {
@@ -195,37 +195,46 @@ class _PaymentMethodState extends State<PaymentMethod> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: paymentMethodMap.keys.map(
                       (int key) {
-                        return Container(
-                          margin: EdgeInsets.only(bottom: spaceBetweenCards),
-                          child: Card(
-                            elevation: 5,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(curve15),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.fromLTRB(0, 10, 15, 10),
-                              child: Row(
-                                children: <Widget>[
-                                  Radio(
-                                    value: key,
-                                    groupValue: paymentMethodGrpValue,
-                                    onChanged: (val) {
-                                      setState(() {
-                                        paymentMethodRadioValue = val;
-                                      });
-                                      print(val);
-                                    },
-                                  ),
-                                  CustomText(
-                                    paymentMethodMap[key],
-                                    fontSize: titleFontSizeStyle - 4,
-                                    isBold: true,
-                                    color: Colors.grey[700],
-                                  ),
-                                  Spacer(),
-                                  iconpaymentMethodMap[key],
-                                  horizontalSpaceTiny,
-                                ],
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              paymentMethodGrpValue =
+                                  paymentMethodRadioValue = key;
+                            });
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(bottom: spaceBetweenCards),
+                            child: Card(
+                              elevation: 5,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(curve15),
+                              ),
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(0, 10, 15, 10),
+                                child: Row(
+                                  children: <Widget>[
+                                    Radio(
+                                      value: key,
+                                      groupValue: paymentMethodGrpValue,
+                                      onChanged: (val) {
+                                        // setState(() {
+                                        //   paymentMethodRadioValue = val;
+                                        // });
+                                        print(val);
+                                      },
+                                    ),
+                                    CustomText(
+                                      paymentMethodMap[key],
+                                      fontSize: titleFontSizeStyle - 4,
+                                      isBold: true,
+                                      color: Colors.grey[700],
+                                    ),
+                                    Spacer(),
+                                    iconpaymentMethodMap[key],
+                                    horizontalSpaceTiny,
+                                  ],
+                                ),
                               ),
                             ),
                           ),
