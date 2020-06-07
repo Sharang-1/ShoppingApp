@@ -289,7 +289,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
         ),
         GestureDetector(
           onTap: () {
-            model.addToCart(widget.data, 1, "1");
+            model.addToCart(widget.data, 1, "1", "");
           },
           child: Container(
             width: MediaQuery.of(context).size.width / 2,
@@ -663,7 +663,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                   Center(
                     child: GestureDetector(
                       onTap: () {
-                        model.addToCart(widget.data, selectedQty, selectedSize);
+                        model.addToCart(widget.data, selectedQty, selectedSize, selectedColor);
                       },
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.8,

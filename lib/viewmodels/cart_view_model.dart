@@ -2,6 +2,7 @@ import 'package:compound/constants/route_names.dart';
 import 'package:compound/constants/shared_pref.dart';
 import 'package:compound/locator.dart';
 import 'package:compound/models/calculatedPrice.dart';
+import 'package:compound/models/products.dart';
 import 'package:compound/models/promoCode.dart';
 import 'package:compound/services/api/api_service.dart';
 import 'package:compound/services/navigation_service.dart';
@@ -29,10 +30,6 @@ class CartViewModel extends BaseModel {
     prefs.remove(Authtoken);
     prefs.remove(PhoneNo);
     await _navigationService.navigateReplaceTo(LoginViewRoute);
-  }
-
-  Future navigateToCreateView() async {
-    await _navigationService.navigateTo(CreatePostViewRoute);
   }
 
   Future openmap() async {

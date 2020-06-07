@@ -13,10 +13,10 @@ class ProductIndividualViewModel extends BaseModel {
     return;
   }
 
-  Future<bool> addToCart(Product product, int qty, String size) async {
+  Future<bool> addToCart(Product product, int qty, String size, String color) async {
     print("Cart added");
     print(product.key);
-    final res = await _apiService.addToCart(product.key, qty, size);
+    final res = await _apiService.addToCart(product.key, qty, size, color);
     if(res != null) {
       _dialogService.showDialog(
         title: "Product added to cart",

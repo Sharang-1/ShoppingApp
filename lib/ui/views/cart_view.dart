@@ -94,8 +94,6 @@ class _CartViewState extends State<CartView> {
                         onDelete: (int index) async {
                           await onDelete(index);
                         },
-                        applyPromoCode: model.applyPromocode,
-                        calculateProductPrice: model.calculateProductPrice,
                       );
                     },
                   ),

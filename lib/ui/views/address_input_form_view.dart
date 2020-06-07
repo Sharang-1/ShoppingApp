@@ -29,7 +29,6 @@ class _AddressInputPageState extends State<AddressInputPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // extendBodyBehindAppBar: true,
       appBar: AppBar(
         elevation: 1,
         backgroundColor: Colors.white,

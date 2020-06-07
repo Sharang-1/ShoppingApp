@@ -54,10 +54,6 @@ class HomeViewModel extends BaseModel {
     await _navigationService.navigateReplaceTo(LoginViewRoute);
   }
 
-  Future navigateToCreateView() async {
-    await _navigationService.navigateTo(CreatePostViewRoute);
-  }
-
   Future openmap() async {
     await _navigationService.navigateTo(MapViewRoute);
   }
