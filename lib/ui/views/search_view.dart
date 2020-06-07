@@ -164,7 +164,8 @@ class _SearchViewState extends State<SearchView>
               gridCount: 2,
               viewModel: ProductsGridViewBuilderViewModel(),
               childAspectRatio: 0.7,
-              tileBuilder: (BuildContext context, data, index, onUpdate, onDelete) {
+              tileBuilder:
+                  (BuildContext context, data, index, onUpdate, onDelete) {
                 Fimber.d("test");
                 print((data as Product).toJson());
                 return ProductTileUI(
@@ -185,7 +186,8 @@ class _SearchViewState extends State<SearchView>
             gridCount: 2,
             viewModel: SellersGridViewBuilderViewModel(),
             disablePagination: true,
-            tileBuilder: (BuildContext context, data, index, onUpdate, onDelete) {
+            tileBuilder:
+                (BuildContext context, data, index, onUpdate, onDelete) {
               return Card(
                 child: Center(
                   child: Text(data.name),
@@ -223,10 +225,16 @@ class _SearchViewState extends State<SearchView>
             iconTheme: IconThemeData(color: appBarIconColor),
             backgroundColor: backgroundWhiteCreamColor,
             actions: <Widget>[
-              IconButton(onPressed: () {
-                // model.cart();
-              }, icon: CartIconWithBadge(iconColor: Colors.black,)),
-            SizedBox(width: 5,)
+              IconButton(
+                onPressed: () => model.cart(),
+                icon: CartIconWithBadge(
+                  count: model.cartCount,
+                  iconColor: Colors.black,
+                ),
+              ),
+              SizedBox(
+                width: 5,
+              )
             ],
             bottom: PreferredSize(
               preferredSize: Size(50, 50),

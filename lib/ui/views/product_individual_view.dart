@@ -365,8 +365,9 @@ class _ProductIndiViewState extends State<ProductIndiView> {
           )),
           actions: <Widget>[
             IconButton(
-              onPressed: () {},
+              onPressed: () => model.cart(),
               icon: CartIconWithBadge(
+                count: model.cartCount,
                 iconColor: appBarIconColor,
               ),
             )
@@ -623,7 +624,6 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                       ),
                                     ],
                                   ),
-                            
                           ],
                         ),
                       )),
@@ -663,7 +663,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                   Center(
                     child: GestureDetector(
                       onTap: () {
-                        model.addToCart(widget.data, selectedQty, selectedSize, selectedColor);
+                        model.addToCart(widget.data, selectedQty, selectedSize,
+                            selectedColor);
                       },
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.8,
