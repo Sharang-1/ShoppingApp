@@ -4,6 +4,7 @@ import 'package:compound/ui/views/home_view_list.dart';
 import 'package:compound/ui/widgets/custom_text.dart';
 import 'package:compound/ui/widgets/drawer.dart';
 import 'package:compound/viewmodels/home_view_model.dart';
+import 'package:compound/viewmodels/user_details_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -58,9 +59,9 @@ class _ProfileViewState extends State<ProfileView> {
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelProvider<HomeViewModel>.withConsumer(
-        viewModel: HomeViewModel(),
-        onModelReady: (model) => model.init(),
+    return ViewModelProvider<UserDetailsViewModel>.withConsumer(
+        viewModel: UserDetailsViewModel(),
+        onModelReady: (model) => model.getUserDetails(),
         builder: (context, model, child) => Scaffold(
             backgroundColor: backgroundWhiteCreamColor,
             bottomNavigationBar: Padding(
@@ -162,11 +163,12 @@ class _ProfileViewState extends State<ProfileView> {
                                                     fontWeight: FontWeight.w500,
                                                     color: Colors.grey[800]),
                                                 readOnly: !isEditable,
-                                                initialValue: initialString,
+                                                initialValue: model
+                                                    .mUserDetails.firstName,
                                                 validator: (text) {
                                                   if (text.isEmpty ||
                                                       text.trim().length == 0)
-                                                    return "Please enter Proper Address";
+                                                    return "Please enter Proper Name";
                                                   return null;
                                                 },
                                                 onChanged: (value) {

@@ -2,11 +2,14 @@ import 'dart:async';
 import 'package:compound/constants/shared_pref.dart';
 import 'package:compound/models/cart.dart';
 import 'package:compound/models/categorys.dart';
+import 'package:compound/models/orders.dart';
+import 'package:compound/models/payment_options.dart';
 import 'package:compound/models/products.dart';
 import 'package:compound/models/promotions.dart';
 import 'package:compound/models/reviews.dart';
 import 'package:compound/models/sellers.dart';
 import 'package:compound/models/tailors.dart';
+import 'package:compound/models/user_details.dart';
 import 'dart:convert';
 import 'package:compound/services/api/AppInterceptor.dart';
 import 'package:compound/services/api/CustomLogInterceptor.dart';
@@ -16,7 +19,7 @@ import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../locator.dart';
-import '../dialog_service.dart';
+import '../dialog_service.dart';  
 
 class APIService {
   final apiClient = Dio(BaseOptions(
@@ -252,4 +255,37 @@ class APIService {
     }
     return null;
   }
+
+  Future<Orders> getAllOrders() async {
+    var ordersData = await apiWrapper("orders",authenticated: true);
+    if(ordersData != null){
+      return Orders.fromJson(ordersData);
+    }
+  }
+
+  Future<UserDetails> getUserData() async {
+    var userData = await apiWrapper("users/me",authenticated: true);
+    if(userData != null){
+      return UserDetails.fromJson(userData);
+    }
+  }
+
+  Future<List<PaymentOption>> getPaymentOptions() async {
+    var mPaymentOptionsData = await apiWrapper("payments/options");
+    if(mPaymentOptionsData != null){
+      return paymentOptionsFromJson(mPaymentOptionsData);
+    }
+  }
+
+  // List<PaymentOption> mPaymentOptions;
+  // Future getPaymentOptions() async {
+
+  //   setBusy(true);
+  //   final result = await _APIService.getPaymentOptions();
+  //   setBusy(false);
+  //   if (result != null) {
+  //     mPaymentOptions = result;
+  //   }
+  //   notifyListeners();
+  // }
 }
