@@ -22,8 +22,8 @@ class UserDetailsViewModel extends BaseModel {
     if (result != null) {
       mUserDetails = result;
     }
-    print(mUserDetails);
-    print(mUserDetails.firstName);
+    Fimber.e(mUserDetails.firstName);
+    Fimber.e(mUserDetails.details.phone.mobile);
     notifyListeners();
   }
   

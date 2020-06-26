@@ -23,7 +23,7 @@ import '../dialog_service.dart';
 
 class APIService {
   final apiClient = Dio(BaseOptions(
-      baseUrl: "http://52.66.141.191/api/",
+      baseUrl: "http://dzor.in/api/",
       connectTimeout: 15000,
       receiveTimeout: 15000,
       validateStatus: (status) {
