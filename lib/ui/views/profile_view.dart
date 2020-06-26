@@ -4,6 +4,8 @@ import 'package:compound/ui/views/home_view_list.dart';
 import 'package:compound/ui/widgets/custom_text.dart';
 import 'package:compound/ui/widgets/drawer.dart';
 import 'package:compound/viewmodels/home_view_model.dart';
+import 'package:compound/viewmodels/user_details_view_model.dart';
+import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -32,6 +34,7 @@ class _ProfileViewState extends State<ProfileView> {
   bool isEditable;
   final _formKey = GlobalKey<FormState>();
   FocusNode nameFocusNode;
+  FocusNode mobileFocusNode;
 
   Map<int, String> addressMap = {0: "Address 1", 1: "Address 2"};
   Map<int, String> fullAddressMap = {
@@ -46,21 +49,22 @@ class _ProfileViewState extends State<ProfileView> {
     isEditable = false;
 
     nameFocusNode = FocusNode();
+    mobileFocusNode = FocusNode();
   }
 
   @override
   void dispose() {
     // Clean up the focus node when the Form is disposed.
     nameFocusNode.dispose();
-
+    mobileFocusNode.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelProvider<HomeViewModel>.withConsumer(
-        viewModel: HomeViewModel(),
-        onModelReady: (model) => model.init(),
+    return ViewModelProvider<UserDetailsViewModel>.withConsumer(
+        viewModel: UserDetailsViewModel(),
+        onModelReady: (model) => model.getUserDetails(),
         builder: (context, model, child) => Scaffold(
             backgroundColor: backgroundWhiteCreamColor,
             bottomNavigationBar: Padding(
@@ -72,10 +76,9 @@ class _ProfileViewState extends State<ProfileView> {
                 child: RaisedButton(
                     elevation: 5,
                     onPressed: () {
-                      if (isButtonActive) if (_formKey.currentState
-                          .validate()) {
+                      if (isButtonActive) if (_formKey.currentState.validate()) {
                         _formKey.currentState.save();
-                        print(nameString);
+                        Fimber.e(model.mUserDetails.firstName + " " + model.mUserDetails.details.phone.mobile);
                       }
                     },
                     color: isButtonActive ? green : Colors.grey[400],
@@ -162,22 +165,22 @@ class _ProfileViewState extends State<ProfileView> {
                                                     fontWeight: FontWeight.w500,
                                                     color: Colors.grey[800]),
                                                 readOnly: !isEditable,
-                                                initialValue: initialString,
+                                                initialValue: model
+                                                    .mUserDetails?.firstName,
                                                 validator: (text) {
                                                   if (text.isEmpty ||
                                                       text.trim().length == 0)
-                                                    return "Please enter Proper Address";
+                                                    return "Please enter Proper Name";
                                                   return null;
                                                 },
                                                 onChanged: (value) {
                                                   setState(() {
                                                     isButtonActive = true;
                                                   });
+                                                  _formKey.currentState.validate();
                                                 },
                                                 onSaved: (text) {
-                                                  setState(() {
-                                                    nameString = text;
-                                                  });
+                                                  model.mUserDetails.firstName = text;
                                                 },
                                                 decoration:
                                                     const InputDecoration(
@@ -227,67 +230,104 @@ class _ProfileViewState extends State<ProfileView> {
                                             ],
                                           ),
                                           verticalSpaceSmall,
-                                          Row(
+                                         Row(
                                             children: <Widget>[
-                                              CustomText(
-                                                "9875243512",
-                                                fontSize:
-                                                    subtitleFontSizeStyle - 1,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.grey[800],
-                                              ),
+                                              Expanded(
+                                                  child: TextFormField(
+                                                focusNode: mobileFocusNode,
+                                                style: TextStyle(
+                                                    fontSize:
+                                                        titleFontSizeStyle + 2,
+                                                    fontFamily: "Open-Sans",
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.grey[800]),
+                                                readOnly: !isEditable,
+                                                initialValue: model.mUserDetails?.details?.phone?.mobile,
+                                                validator: (text) {
+                                                  if (text.isEmpty || text.trim().length == 0 || text.trim().length < 10 || text.trim().length > 10)
+                                                    return "Please enter Proper Mobile No.";
+                                                  return null;
+                                                },
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    isButtonActive = true;
+                                                  });
+                                                  _formKey.currentState.validate();
+                                                },
+                                                onSaved: (text) {
+                                                  model.mUserDetails.details.phone.mobile = text;
+                                                },
+                                                decoration:
+                                                    const InputDecoration(
+                                                  contentPadding:
+                                                      EdgeInsets.symmetric(
+                                                          vertical: 10),
+                                                  border: InputBorder.none,
+                                                ),
+                                                autofocus: true,
+                                                maxLines: 1,
+                                              )),
+                                              IconButton(
+                                                icon: Icon(Icons.edit),
+                                                onPressed: () {
+                                                  setState(() {
+                                                    isEditable = true;
+                                                  });
+                                                  mobileFocusNode.requestFocus();
+                                                },
+                                              )
                                             ],
                                           )
                                         ],
                                       ),
                                     ))),
                             verticalSpace(spaceBetweenCards),
-                            Column(
-                              children: addressMap.keys.map((int key) {
-                                return Container(
-                                    margin: EdgeInsets.only(
-                                        bottom: spaceBetweenCards),
-                                    child: Card(
-                                      clipBehavior: Clip.antiAlias,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(15),
-                                      ),
-                                      elevation: 5,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(15),
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: <Widget>[
-                                            Expanded(
-                                                child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: <Widget>[
-                                                CustomText(
-                                                  addressMap[key],
-                                                  color: Colors.grey,
-                                                  fontSize:
-                                                      subtitleFontSizeStyle - 3,
-                                                ),
-                                                verticalSpaceSmall,
-                                                CustomText(
-                                                  fullAddressMap[key],
-                                                  color: Colors.grey[800],
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize:
-                                                      subtitleFontSizeStyle - 1,
-                                                )
-                                              ],
-                                            )),
-                                          ],
-                                        ),
-                                      ),
-                                    ));
-                              }).toList(),
-                            ),
+                            // Column(
+                            //   children: addressMap.keys.map((int key) {
+                            //     return Container(
+                            //         margin: EdgeInsets.only(
+                            //             bottom: spaceBetweenCards),
+                            //         child: Card(
+                            //           clipBehavior: Clip.antiAlias,
+                            //           shape: RoundedRectangleBorder(
+                            //             borderRadius: BorderRadius.circular(15),
+                            //           ),
+                            //           elevation: 5,
+                            //           child: Padding(
+                            //             padding: const EdgeInsets.all(15),
+                            //             child: Row(
+                            //               crossAxisAlignment:
+                            //                   CrossAxisAlignment.center,
+                            //               children: <Widget>[
+                            //                 Expanded(
+                            //                     child: Column(
+                            //                   crossAxisAlignment:
+                            //                       CrossAxisAlignment.start,
+                            //                   mainAxisAlignment:
+                            //                       MainAxisAlignment.center,
+                            //                   children: <Widget>[
+                            //                     CustomText(
+                            //                       addressMap[key],
+                            //                       color: Colors.grey,
+                            //                       fontSize:
+                            //                           subtitleFontSizeStyle - 3,
+                            //                     ),
+                            //                     verticalSpaceSmall,
+                            //                     CustomText(
+                            //                       fullAddressMap[key],
+                            //                       color: Colors.grey[800],
+                            //                       fontWeight: FontWeight.w500,
+                            //                       fontSize:
+                            //                           subtitleFontSizeStyle - 1,
+                            //                     )
+                            //                   ],
+                            //                 )),
+                            //               ],
+                            //             ),
+                            //           ),
+                            //         ));
+                            //   }).toList(),
+                            // ),
                             verticalSpaceMedium,
                             RaisedButton(
                                 elevation: 5,

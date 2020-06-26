@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
 
-import 'package:compound/models/order.dart';
+// import 'package:compound/models/order.dart';
 // import 'package:flutter/material.dart';
 // import 'package:dio/dio.dart';
 // import 'package:fimber/fimber.dart';
@@ -14,6 +14,8 @@ import 'package:compound/services/api/CustomLogInterceptor.dart';
 import 'package:compound/models/calculatedPrice.dart';
 import 'package:compound/models/cart.dart' as CartModule;
 import 'package:compound/models/categorys.dart';
+import 'package:compound/models/orders.dart';
+import 'package:compound/models/payment_options.dart';
 import 'package:compound/models/products.dart';
 import 'package:compound/models/promoCode.dart';
 import 'package:compound/models/promotions.dart';
@@ -28,27 +30,27 @@ import '../../locator.dart';
 import '../dialog_service.dart';
 // import '../../locator.dart';
 
+import 'package:compound/models/user_details.dart';
+
 class APIService {
+  final apiClient = Dio(BaseOptions(
+      baseUrl: "http://dzor.in/api/",
+      connectTimeout: 15000,
+      receiveTimeout: 15000,
+      validateStatus: (status) {
+        return status < 500;
+      }
+
+      // 200  response code ... you are good
+      // 400 response code ... means validation error... like in valid data
+      // 401 .. 403 ... issue with login... you will get error message
+      ));
+  // final excludeToken = Options(headers: {"excludeToken": true});
   final DialogService _dialogService = locator<DialogService>();
 
   APIService() {
     apiClient..interceptors.addAll([AppInterceptors(), CustomLogInterceptor()]);
   }
-
-  final apiClient = Dio(
-    BaseOptions(
-      baseUrl: "http://52.66.141.191/api/",
-      connectTimeout: 15000,
-      receiveTimeout: 15000,
-      validateStatus: (status) {
-        // 200  response code ... you are good
-        // 400 response code ... means validation error... like in valid data
-        // 401 .. 403 ... issue with login... you will get error message
-        return status < 500;
-      },
-    ),
-  );
-
   Future apiWrapper(
     String path, {
     data,
@@ -343,6 +345,39 @@ class APIService {
 
     return null;
   }
+
+  Future<Orders> getAllOrders() async {
+    var ordersData = await apiWrapper("orders",authenticated: true);
+    if(ordersData != null){
+      return Orders.fromJson(ordersData);
+    }
+  }
+
+  Future<UserDetails> getUserData() async {
+    var userData = await apiWrapper("users/me",authenticated: true);
+    if(userData != null){
+      return UserDetails.fromJson(userData);
+    }
+  }
+
+  Future<List<PaymentOption>> getPaymentOptions() async {
+    var mPaymentOptionsData = await apiWrapper("payments/options");
+    if(mPaymentOptionsData != null){
+      return paymentOptionsFromJson(mPaymentOptionsData);
+    }
+  }
+
+  // List<PaymentOption> mPaymentOptions;
+  // Future getPaymentOptions() async {
+
+  //   setBusy(true);
+  //   final result = await _APIService.getPaymentOptions();
+  //   setBusy(false);
+  //   if (result != null) {
+  //     mPaymentOptions = result;
+  //   }
+  //   notifyListeners();
+  // }
 }
 
 // Future<T> mApiWrapper<T extends genericModel>() async {
