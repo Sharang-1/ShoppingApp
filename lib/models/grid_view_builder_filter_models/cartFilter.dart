@@ -2,9 +2,14 @@ import 'package:compound/models/grid_view_builder_filter_models/base_filter_mode
 
 class CartFilter implements BaseFilterModel {
   String _queryString;
+  final productId;
 
-  CartFilter() {
+  CartFilter({this.productId = ""}) {
+    print("Cart Filter for product id " + productId.toString());
     _queryString = "";
+    if(productId != null) {
+      _queryString += productId.toString();
+    }
   }
 
   @override

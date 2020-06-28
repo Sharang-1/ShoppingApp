@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:compound/locator.dart';
 import 'package:compound/models/products.dart';
+import 'package:compound/services/dialog_service.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
+import 'package:compound/ui/views/cart_view.dart';
 import 'package:compound/ui/widgets/network_image_with_placeholder.dart';
 import 'package:compound/ui/widgets/reviews.dart';
 import 'package:compound/ui/widgets/wishlist_icon.dart';
@@ -311,6 +313,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
 
   @override
   Widget build(BuildContext context) {
+    final DialogService _dialogService = locator<DialogService>();
     final String originalPhotoName =
         'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80';
     final String productName = widget.data.name ?? "Iphone 11";
@@ -365,7 +368,10 @@ class _ProductIndiViewState extends State<ProductIndiView> {
           )),
           actions: <Widget>[
             IconButton(
-              onPressed: () => model.cart(),
+              onPressed: () async {
+                var res = await model.cart();
+                model.setUpCartCount();
+              },
               icon: CartIconWithBadge(
                 count: model.cartCount,
                 iconColor: appBarIconColor,
@@ -394,11 +400,11 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                       bottom: 20,
                       right: 20,
                       child: GestureDetector(
-                        onTap: () {
+                        onTap: () async {
                           if(model.isProductInWhishlist) {
-                            model.removeFromWhishList(productId);
+                            await model.removeFromWhishList(productId);
                           } else {
-                            model.addToWhishList(productId);
+                            await model.addToWhishList(productId);
                           }
                         },
                         child: Container(
@@ -639,7 +645,18 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                   verticalSpace(30),
                   Center(
                     child: GestureDetector(
-                      onTap: () {},
+                      onTap: (selectedQty == 0 || selectedColor == "" || selectedSize == "") ? null : () async {
+                        var res = await model.buyNow(widget.data, selectedQty, selectedSize,
+                            selectedColor);
+                        if(res != null && res == true) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CartView(productId: widget.data.key),
+                            ),
+                          );
+                        }
+                      },
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.8,
                         padding: EdgeInsets.symmetric(vertical: 10),
@@ -653,7 +670,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                     Offset(0, 3), // changes position of shadow
                               ),
                             ],
-                            color: textIconOrange,
+                            color: (selectedQty == 0 || selectedColor == "" || selectedSize == "") ? backgroundBlueGreyColor : textIconOrange,
                             borderRadius: BorderRadius.circular(40)),
                         child: Center(
                           child: Text(
@@ -671,9 +688,12 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                   verticalSpace(20),
                   Center(
                     child: GestureDetector(
-                      onTap: () {
-                        model.addToCart(widget.data, selectedQty, selectedSize,
+                      onTap: (selectedQty == 0 || selectedColor == "" || selectedSize == "") ? null : () async {
+                        var res = await model.addToCart(widget.data, selectedQty, selectedSize,
                             selectedColor);
+                        if(res == true) {
+                          _dialogService.showDialog(title: "Success!", description: "Product Added to cart.");
+                        }
                       },
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.8,
@@ -688,7 +708,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                     Offset(0, 3), // changes position of shadow
                               ),
                             ],
-                            color: logoRed,
+                            color: (selectedQty == 0 || selectedColor == "" || selectedSize == "") ? backgroundBlueGreyColor : logoRed,
                             borderRadius: BorderRadius.circular(40)),
                         child: Center(
                           child: Text(

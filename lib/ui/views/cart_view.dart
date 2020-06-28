@@ -16,19 +16,20 @@ import '../shared/shared_styles.dart';
 import '../widgets/custom_stepper.dart';
 
 class CartView extends StatefulWidget {
-  CartView({Key key}) : super(key: key);
+  final String productId;
+  CartView({Key key, this.productId = ""}) : super(key: key);
 
   @override
   _CartViewState createState() => _CartViewState();
 }
 
 class _CartViewState extends State<CartView> {
-  CartFilter filter = CartFilter();
+  CartFilter filter;
 
   @override
   Widget build(BuildContext context) {
     return ViewModelProvider<CartViewModel>.withConsumer(
-      viewModel: CartViewModel(),
+      viewModel: CartViewModel(prductId: widget.productId),
       onModelReady: (model) => model.init(),
       builder: (context, model, child) => Scaffold(
         appBar: AppBar(
@@ -77,7 +78,7 @@ class _CartViewState extends State<CartView> {
                   verticalSpace(20),
                   GridListWidget<Cart, Item>(
                     context: context,
-                    filter: filter,
+                    filter: new CartFilter(productId: widget.productId),
                     gridCount: 1,
                     disablePagination: true,
                     viewModel: CartGridViewBuilderViewModel(),
@@ -93,6 +94,7 @@ class _CartViewState extends State<CartView> {
                         item: dItem,
                         onDelete: (int index) async {
                           await onDelete(index);
+                          model.setUpCartCount();
                         },
                       );
                     },

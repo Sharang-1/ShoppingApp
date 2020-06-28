@@ -14,6 +14,7 @@ const String CartViewRoute = "CartView";
 const String CategoriesRoute = "CategoriesView";
 const String PaymentFinishedScreenRoute = "PaymentFinishedScreenView";
 const String MyOrdersRoute = " MyOrdersView";
+const String BuyNowRoute = "BuyNowView";
 
 // Product and Categories Routes
 const String ProductsListRoute = "ProductsListView";

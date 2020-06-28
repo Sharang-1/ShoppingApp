@@ -9,13 +9,9 @@ import 'package:compound/services/navigation_service.dart';
 import 'package:compound/viewmodels/base_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class CartViewModel extends BaseModel {
+class BuyNowViewModel extends BaseModel {
   final NavigationService _navigationService = locator<NavigationService>();
   final APIService _apiService = locator<APIService>();
-
-  final prductId;
-
-  CartViewModel({ this.prductId = "" });
 
   Future init() {
     return null;

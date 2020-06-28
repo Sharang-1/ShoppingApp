@@ -34,7 +34,7 @@ import 'package:compound/models/user_details.dart';
 
 class APIService {
   final apiClient = Dio(BaseOptions(
-      baseUrl: "http://dzor.in/api/",
+      baseUrl: "https://dzor.in/api/",
       connectTimeout: 15000,
       receiveTimeout: 15000,
       validateStatus: (status) {
@@ -79,6 +79,8 @@ class APIService {
         res = await apiClient.put(path,
             data: data, queryParameters: queryParameters, options: options);
       }
+      print("Raw Response From API");
+      print(res.data);
       Map resJSON = res.data;
       print("Debug api wrapper");
       print(res);

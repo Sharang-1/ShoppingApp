@@ -150,12 +150,13 @@ Route<dynamic> generateRoute(RouteSettings settings) {
           routeName: settings.name,
           viewToShow: NotificationView(),
           pageTransitionType: transitionType);
-    // case WishlistRoute:
-    //   return _getPageRoute(
-    //       pageArguments: pageArguments,
-    //       routeName: settings.name,
-    //       viewToShow: WishlistView(),
-    //       pageTransitionType: transitionType);
+    case BuyNowRoute:
+      print("Buy now page args " + pageArguments.toString());
+      return _getPageRoute(
+          pageArguments: pageArguments,
+          routeName: settings.name,
+          viewToShow: CartView(productId: pageArguments.toString(),),
+          pageTransitionType: transitionType);
     case SellerIndiViewRoute:
       return _getPageRoute(
           pageArguments: pageArguments,

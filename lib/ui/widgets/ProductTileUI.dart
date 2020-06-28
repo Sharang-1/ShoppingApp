@@ -1,10 +1,12 @@
 import 'dart:math';
 
 import 'package:compound/models/products.dart';
+import 'package:compound/services/whishlist_service.dart';
 import 'package:compound/ui/shared/shared_styles.dart';
 import 'package:compound/ui/widgets/network_image_with_placeholder.dart';
 import 'package:compound/ui/widgets/wishlist_icon.dart';
 import 'package:compound/utils/tools.dart';
+import '../../locator.dart';
 import '../shared/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -26,7 +28,36 @@ class ProductTileUI extends StatefulWidget {
 }
 
 class _ProductTileUIState extends State<ProductTileUI> {
+  final WhishListService _whishListService = locator<WhishListService>();
   bool toggle = false;
+
+  @override
+  void initState() {
+    isProductInWhishList(widget);
+    super.initState();
+  }
+
+  void isProductInWhishList(widget) async {
+    toggle = await _whishListService.isProductInWhishList(widget.key);
+  }
+
+  void addToWhishList(id) async {
+    var res = await _whishListService.addWhishList(id);
+    if(res == true) {
+      setState(() {
+        toggle = true;
+      });
+    }
+  }
+
+  void removeFromWhishList(id) async {
+    var res = await _whishListService.addWhishList(id);
+    if(res == true) {
+      setState(() {
+        toggle = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -121,9 +152,11 @@ class _ProductTileUIState extends State<ProductTileUI> {
                                           height: 18,
                                         ),
                                   onTap: () {
-                                    setState(() {
-                                      this.toggle = !this.toggle;
-                                    });
+                                    if(toggle == true) {
+                                      removeFromWhishList(widget.data.key);
+                                    } else {
+                                      addToWhishList(widget.data.key);
+                                    }
                                   },
                                 )
                               ],

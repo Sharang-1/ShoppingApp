@@ -6,7 +6,7 @@ import 'package:compound/services/address_service.dart';
 import 'package:compound/services/authentication_service.dart';
 import 'package:compound/services/api/api_service.dart';
 import 'package:compound/services/location_service.dart';
-import 'package:compound/services/push_notification_service.dart';
+// import 'package:compound/services/push_notification_service.dart';
 import 'package:compound/utils/image_selector.dart';
 import 'package:compound/services/navigation_service.dart';
 import 'package:compound/services/dialog_service.dart';
@@ -20,7 +20,7 @@ void setupLocator() {
   locator.registerLazySingleton(() => AuthenticationService());
   locator.registerLazySingleton(() => ImageSelector());
   locator.registerLazySingleton(() => LocationService());
-  locator.registerLazySingleton(() => PushNotificationService());
+  // locator.registerLazySingleton(() => PushNotificationService());
   locator.registerLazySingleton(() => AddressService());
   locator.registerLazySingleton(() => WhishListService());
 }
