@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:compound/locator.dart';
 import 'package:compound/models/products.dart';
@@ -28,6 +29,7 @@ class ProductIndiView extends StatefulWidget {
 class _ProductIndiViewState extends State<ProductIndiView> {
   int selectedQty = 0;
   int selectedIndex = -1;
+  int maxQty = -1;
   String selectedSize = "";
   String selectedColor = "";
   String getTruncatedString(int length, String str) {
@@ -106,25 +108,25 @@ class _ProductIndiViewState extends State<ProductIndiView> {
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
             side: BorderSide(
-              color: selectedSize == variations[i]["size"]
+              color: selectedSize == variations[i].size
                   ? darkRedSmooth
                   : Colors.grey,
               width: 0.5,
             )),
         labelStyle: TextStyle(
             fontSize: subtitleFontSizeStyle - 4,
-            fontWeight: selectedSize == variations[i]["size"]
+            fontWeight: selectedSize == variations[i].size
                 ? FontWeight.w600
                 : FontWeight.normal,
-            color: selectedSize == variations[i]["size"]
+            color: selectedSize == variations[i].size
                 ? darkRedSmooth
                 : Colors.grey),
         selectedColor: Colors.white,
-        label: Text(variations[i]["size"]),
-        selected: selectedSize == variations[i]["size"],
+        label: Text(variations[i].size),
+        selected: selectedSize == variations[i].size,
         onSelected: (val) {
           setState(
-              () => {selectedSize = variations[i]["size"], selectedIndex = i});
+              () => {selectedSize = variations[i].size, selectedIndex = i,selectedQty=0});
         },
       ));
     }
@@ -133,15 +135,37 @@ class _ProductIndiViewState extends State<ProductIndiView> {
   }
 
   Wrap allSizes(variations) {
-    return Wrap(
-      spacing: 8,
-      children: choiceChips(variations),
-    );
+    print("check this "+variations[0].size);
+    if (variations[0].size == "N/A") {
+      print("cond true");
+      selectedSize = "N/A";
+      selectedIndex = 0;
+      return Wrap(
+        spacing: 8,
+        children: [],
+      );
+    } else {
+      return Wrap(
+        spacing: 8,
+        children: choiceChips(variations),
+      );
+    }
   }
 
   Wrap allColors(colors) {
     List<Widget> allColorChips = [];
-    for (String color in colors) {
+    var uniqueColor= new Map();
+    for (var color in colors) {
+      print("check this" + (uniqueColor.containsKey(color.color)).toString() + color.color);
+      if(selectedSize != color.size){
+        continue;
+      }
+      if(!uniqueColor.containsKey(color.color)){
+        uniqueColor[color.color]=true;
+      }
+      else{
+        continue;
+      }
       allColorChips.add(ChoiceChip(
         backgroundColor: Colors.white,
         selectedShadowColor: Colors.white,
@@ -154,13 +178,13 @@ class _ProductIndiViewState extends State<ProductIndiView> {
         labelStyle: TextStyle(
             fontSize: subtitleFontSizeStyle - 4,
             fontWeight:
-                selectedColor == color ? FontWeight.w600 : FontWeight.normal,
-            color: selectedColor == color ? darkRedSmooth : Colors.grey),
+                selectedColor == color.color ? FontWeight.w600 : FontWeight.normal,
+            color: selectedColor == color.color ? darkRedSmooth : Colors.grey),
         selectedColor: Colors.white,
-        label: Text(color),
-        selected: selectedColor == color,
+        label: Text(color.color),
+        selected: selectedColor == color.color,
         onSelected: (val) {
-          setState(() => {selectedColor = color});
+          setState(() => {selectedColor = color.color,maxQty = color.quantity,selectedQty=0});
         },
       ));
     }
@@ -322,12 +346,30 @@ class _ProductIndiViewState extends State<ProductIndiView> {
     final double productPrice = widget.data.price ?? 0.0;
     final double productOldPrice = widget.data.oldPrice ?? 0.0;
     final productRatingObj = widget.data.rating ?? null;
+    final variations =  widget.data.variations ?? null;
+    final variations3 = [
+      {
+        "size": "N/A",
+        "quantity": 4,
+        "color":  "Orange"
+      },
+      {
+        "size": "N/A",
+        "quantity": 6,
+        "color":  "Orange"
+      },
+      {
+        "size": "N/A",
+        "quantity": 10,
+        "color": "Blue",
+      }
+    ];
 
     final String shipment = widget.data.shipment.days == null
         ? "Not Availabel"
         : widget.data.shipment.days.toString() +
             (widget.data.shipment.days == 1 ? " Day" : " Days");
-    final variations = [
+    final variations2 = [
       {
         "size": "X",
         "maxQty": 3,
@@ -401,7 +443,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                       right: 20,
                       child: GestureDetector(
                         onTap: () async {
-                          if(model.isProductInWhishlist) {
+                          if (model.isProductInWhishlist) {
                             await model.removeFromWhishList(productId);
                           } else {
                             await model.addToWhishList(productId);
@@ -533,33 +575,36 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Row(
-                              children: <Widget>[
-                                Expanded(
-                                  child: Text(
-                                    "Select Size",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: subtitleFontSizeStyle),
+                            selectedSize == "N/A"
+                                ? verticalSpace(0)
+                                : Row(
+                                    children: <Widget>[
+                                      Expanded(
+                                        child: Text(
+                                          "Select Size",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: subtitleFontSizeStyle),
+                                        ),
+                                      ),
+                                      Text(
+                                        "size chart",
+                                        style: TextStyle(
+                                            color: Colors.blue[600],
+                                            fontSize:
+                                                subtitleFontSizeStyle - 3),
+                                      )
+                                    ],
                                   ),
-                                ),
-                                Text(
-                                  "size chart",
-                                  style: TextStyle(
-                                      color: Colors.blue[600],
-                                      fontSize: subtitleFontSizeStyle - 3),
-                                )
-                              ],
-                            ),
                             verticalSpace(5),
                             allSizes(variations),
-                            selectedIndex == -1
+                            selectedSize == ""
                                 ? Container()
                                 : Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: <Widget>[
-                                      verticalSpace(20),
+                                      selectedSize == "N/A" ? verticalSpace(0) : verticalSpace(20),
                                       Text(
                                         "Select Color",
                                         style: TextStyle(
@@ -568,95 +613,100 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                       ),
                                       verticalSpace(5),
                                       allColors(
-                                        variations[selectedIndex]["color"],
+                                        variations,
                                       ),
                                     ],
                                   ),
-                            verticalSpace(10),
-                            selectedIndex == -1
-                                ? Container()
-                                : Row(
-                                    children: <Widget>[
-                                      Text(
-                                        "Select Qty",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: subtitleFontSizeStyle),
-                                      ),
-                                      horizontalSpaceMedium,
-                                      Container(
-                                        height: 40,
-                                        padding: EdgeInsets.symmetric(
-                                            vertical: 0, horizontal: 0),
-                                        decoration: BoxDecoration(
-                                            border: Border.all(
-                                                color: darkRedSmooth),
-                                            borderRadius:
-                                                BorderRadius.circular(20)),
-                                        child: Row(
-                                          children: <Widget>[
-                                            IconButton(
-                                              color: selectedQty == 0
-                                                  ? Colors.grey
-                                                  : darkRedSmooth,
-                                              icon: Icon(Icons.remove),
-                                              onPressed: () {
-                                                if (selectedQty != 0) {
-                                                  setState(() {
-                                                    selectedQty =
-                                                        selectedQty - 1;
-                                                  });
-                                                }
-                                              },
-                                            ),
-                                            Text(
-                                              selectedQty.toString(),
-                                              style: TextStyle(
-                                                  color: darkRedSmooth,
-                                                  fontSize: titleFontSizeStyle,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                            IconButton(
-                                              color: variations[selectedIndex]
-                                                          ["maxQty"] ==
-                                                      selectedQty
-                                                  ? Colors.grey
-                                                  : darkRedSmooth,
-                                              icon: Icon(Icons.add),
-                                              onPressed: () {
-                                                if (variations[selectedIndex]
-                                                        ["maxQty"] !=
-                                                    selectedQty) {
-                                                  setState(() {
-                                                    selectedQty =
-                                                        selectedQty + 1;
-                                                  });
-                                                }
-                                              },
-                                            ),
-                                          ],
+                              verticalSpace(10),
+                              selectedColor == ""
+                                  ? Container()
+                                  : Row(
+                                      children: <Widget>[
+                                        Text(
+                                          "Select Qty",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: subtitleFontSizeStyle),
                                         ),
-                                      ),
-                                    ],
-                                  ),
+                                        horizontalSpaceMedium,
+                                        Container(
+                                          height: 40,
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 0, horizontal: 0),
+                                          decoration: BoxDecoration(
+                                              border: Border.all(
+                                                  color: darkRedSmooth),
+                                              borderRadius:
+                                                  BorderRadius.circular(20)),
+                                          child: Row(
+                                            children: <Widget>[
+                                              IconButton(
+                                                color: selectedQty == 0
+                                                    ? Colors.grey
+                                                    : darkRedSmooth,
+                                                icon: Icon(Icons.remove),
+                                                onPressed: () {
+                                                  if (selectedQty != 0) {
+                                                    setState(() {
+                                                      selectedQty =
+                                                          selectedQty - 1;
+                                                    });
+                                                  }
+                                                },
+                                              ),
+                                              Text(
+                                                selectedQty.toString(),
+                                                style: TextStyle(
+                                                    color: darkRedSmooth,
+                                                    fontSize: titleFontSizeStyle,
+                                                    fontWeight: FontWeight.bold),
+                                              ),
+                                              IconButton(
+                                                color: maxQty ==
+                                                        selectedQty
+                                                    ? Colors.grey
+                                                    : darkRedSmooth,
+                                                icon: Icon(Icons.add),
+                                                onPressed: () {
+                                                  print("maxQty"+maxQty.toString());
+                                                  if (maxQty !=
+                                                      selectedQty) {
+                                                    setState(() {
+                                                      selectedQty =
+                                                          selectedQty + 1;
+                                                    });
+                                                  }
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                            
                           ],
                         ),
                       )),
                   verticalSpace(30),
                   Center(
                     child: GestureDetector(
-                      onTap: (selectedQty == 0 || selectedColor == "" || selectedSize == "") ? null : () async {
-                        var res = await model.buyNow(widget.data, selectedQty, selectedSize,
-                            selectedColor);
-                        if(res != null && res == true) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => CartView(productId: widget.data.key),
-                            ),
-                          );
-                        }
-                      },
+                      onTap: (selectedQty == 0 ||
+                              selectedColor == "" ||
+                              selectedSize == "")
+                          ? null
+                          : () async {
+                              var res = await model.buyNow(widget.data,
+                                  selectedQty, selectedSize, selectedColor);
+                              if (res != null && res == true) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        CartView(productId: widget.data.key),
+                                  ),
+                                );
+                              }
+                            },
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.8,
                         padding: EdgeInsets.symmetric(vertical: 10),
@@ -670,7 +720,11 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                     Offset(0, 3), // changes position of shadow
                               ),
                             ],
-                            color: (selectedQty == 0 || selectedColor == "" || selectedSize == "") ? backgroundBlueGreyColor : textIconOrange,
+                            color: (selectedQty == 0 ||
+                                    selectedColor == "" ||
+                                    selectedSize == "")
+                                ? backgroundBlueGreyColor
+                                : textIconOrange,
                             borderRadius: BorderRadius.circular(40)),
                         child: Center(
                           child: Text(
@@ -688,13 +742,19 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                   verticalSpace(20),
                   Center(
                     child: GestureDetector(
-                      onTap: (selectedQty == 0 || selectedColor == "" || selectedSize == "") ? null : () async {
-                        var res = await model.addToCart(widget.data, selectedQty, selectedSize,
-                            selectedColor);
-                        if(res == true) {
-                          _dialogService.showDialog(title: "Success!", description: "Product Added to cart.");
-                        }
-                      },
+                      onTap: (selectedQty == 0 ||
+                              selectedColor == "" ||
+                              selectedSize == "")
+                          ? null
+                          : () async {
+                              var res = await model.addToCart(widget.data,
+                                  selectedQty, selectedSize, selectedColor);
+                              if (res == true) {
+                                _dialogService.showDialog(
+                                    title: "Success!",
+                                    description: "Product Added to cart.");
+                              }
+                            },
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.8,
                         padding: EdgeInsets.symmetric(vertical: 10),
@@ -708,7 +768,11 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                     Offset(0, 3), // changes position of shadow
                               ),
                             ],
-                            color: (selectedQty == 0 || selectedColor == "" || selectedSize == "") ? backgroundBlueGreyColor : logoRed,
+                            color: (selectedQty == 0 ||
+                                    selectedColor == "" ||
+                                    selectedSize == "")
+                                ? backgroundBlueGreyColor
+                                : logoRed,
                             borderRadius: BorderRadius.circular(40)),
                         child: Center(
                           child: Text(
