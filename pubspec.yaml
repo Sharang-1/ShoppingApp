@@ -74,6 +74,7 @@ flutter:
     - assets/images/coupon_1.svg
     - assets/images/cash_icon.png
     - assets/images/gpay_icon.png
+    - assets/images/empty_cart.png
     - assets/images/paytm_icon.png
     - assets/images/phonepe_icon.png
     - assets/svg/DZOR_full_logo_verti.svg

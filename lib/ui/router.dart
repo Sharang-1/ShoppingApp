@@ -155,7 +155,9 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return _getPageRoute(
           pageArguments: pageArguments,
           routeName: settings.name,
-          viewToShow: CartView(productId: pageArguments.toString(),),
+          viewToShow: CartView(
+            productId: pageArguments.toString(),
+          ),
           pageTransitionType: transitionType);
     case SellerIndiViewRoute:
       return _getPageRoute(

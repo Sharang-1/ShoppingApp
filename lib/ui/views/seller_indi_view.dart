@@ -71,6 +71,7 @@ class _SellerIndiState extends State<SellerIndi> {
         centerTitle: true,
         title: Image.asset(
           "assets/images/logo_red.png",
+          color: logoRed,
           height: 40,
           width: 40,
         ),

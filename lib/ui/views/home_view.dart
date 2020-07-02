@@ -76,7 +76,7 @@ class HomeView extends StatelessWidget {
                   IconButton(
                     tooltip: 'map',
                     icon: Icon(
-                      Icons.map,
+                      Icons.home,
                       color: appBarIconColor,
                     ),
                     onPressed: () {

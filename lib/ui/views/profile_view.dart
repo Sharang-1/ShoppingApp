@@ -1,3 +1,4 @@
+import 'package:compound/constants/route_names.dart';
 import 'package:compound/ui/shared/shared_styles.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/ui/views/home_view_list.dart';
@@ -65,307 +66,379 @@ class _ProfileViewState extends State<ProfileView> {
     return ViewModelProvider<UserDetailsViewModel>.withConsumer(
         viewModel: UserDetailsViewModel(),
         onModelReady: (model) => model.getUserDetails(),
-        builder: (context, model, child) => Scaffold(
-            backgroundColor: backgroundWhiteCreamColor,
-            bottomNavigationBar: Padding(
-                padding: EdgeInsets.only(
-                    left: screenPadding,
-                    right: screenPadding,
-                    top: 10,
-                    bottom: 10),
-                child: RaisedButton(
-                    elevation: 5,
-                    onPressed: () {
-                      if (isButtonActive) if (_formKey.currentState.validate()) {
-                        _formKey.currentState.save();
-                        Fimber.e(model.mUserDetails.firstName + " " + model.mUserDetails.details.phone.mobile);
-                      }
-                    },
-                    color: isButtonActive ? green : Colors.grey[400],
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                      // side: BorderSide(
-                      //     color: Colors.black, width: 0.5)
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 15),
-                      child: CustomText(
-                        "Save ",
-                        fontSize: subtitleFontSizeStyle - 2,
-                        isBold: true,
-                        color: Colors.white,
-                      ),
-                    ))),
-            appBar: AppBar(
-              elevation: 0,
-              centerTitle: true,
-              title: SvgPicture.asset(
-                "assets/svg/logo.svg",
-                color: logoRed,
-                height: 35,
-                width: 35,
-              ),
-              iconTheme: IconThemeData(
-                color: appBarIconColor,
-              ),
-              backgroundColor: backgroundWhiteCreamColor,
-            ),
-            body: SafeArea(
-                top: false,
-                left: false,
-                right: false,
-                child: Scrollbar(
-                    child: SingleChildScrollView(
-                  child: Form(
-                      key: _formKey,
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                            left: 20, right: 20, top: 10, bottom: 10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            verticalSpace(20),
-                            Align(
-                                alignment: Alignment.topLeft,
-                                child: Text(
-                                  "Profile",
-                                  style: TextStyle(
-                                      fontFamily: headingFont,
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: headingFontSizeStyle),
-                                )),
-                            verticalSpace(20),
-                            SizedBox(
-                                child: Card(
-                                    elevation: 5,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(curve15)),
-                                    child: Padding(
-                                      padding: EdgeInsets.all(15),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          CustomText(
-                                            "Name",
-                                            fontSize: subtitleFontSizeStyle - 3,
-                                            color: Colors.grey,
-                                          ),
-                                          verticalSpaceTiny,
-                                          Row(
-                                            children: <Widget>[
-                                              Expanded(
-                                                  child: TextFormField(
-                                                focusNode: nameFocusNode,
-                                                style: TextStyle(
-                                                    fontSize:
-                                                        titleFontSizeStyle + 2,
-                                                    fontFamily: "Open-Sans",
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.grey[800]),
-                                                readOnly: !isEditable,
-                                                initialValue: model
-                                                    .mUserDetails?.firstName,
-                                                validator: (text) {
-                                                  if (text.isEmpty ||
-                                                      text.trim().length == 0)
-                                                    return "Please enter Proper Name";
-                                                  return null;
-                                                },
-                                                onChanged: (value) {
-                                                  setState(() {
-                                                    isButtonActive = true;
-                                                  });
-                                                  _formKey.currentState.validate();
-                                                },
-                                                onSaved: (text) {
-                                                  model.mUserDetails.firstName = text;
-                                                },
-                                                decoration:
-                                                    const InputDecoration(
-                                                  contentPadding:
-                                                      EdgeInsets.symmetric(
-                                                          vertical: 10),
-                                                  border: InputBorder.none,
-                                                ),
-                                                autofocus: true,
-                                                maxLines: 1,
-                                              )),
-                                              IconButton(
-                                                icon: Icon(Icons.edit),
-                                                onPressed: () {
-                                                  setState(() {
-                                                    isEditable = true;
-                                                  });
-                                                  nameFocusNode.requestFocus();
-                                                },
-                                              )
-                                            ],
-                                          )
-                                        ],
-                                      ),
-                                    ))),
-                            verticalSpace(spaceBetweenCards),
-                            SizedBox(
-                                child: Card(
-                                    elevation: 5,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(15)),
-                                    child: Padding(
-                                      padding: EdgeInsets.all(15),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Row(
+        builder: (context, model, child) => WillPopScope(
+            onWillPop: () {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      // title: new Text("Are you sure?"),
+                      content: new Text(
+                          "Are you sure you don't want to make a change?"),
+                      actions: <Widget>[
+                        new FlatButton(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          color: green,
+                          child: new Text("Yes"),
+                          onPressed: () {
+                            Navigator.pop(context, true);
+                          },
+                        ),
+                        new FlatButton(
+                          child: new CustomText(
+                            "No",
+                            color: Colors.white,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          color: Colors.grey[400],
+                          onPressed: () {
+                            Navigator.pop(context, false);
+                          },
+                        ),
+                      ],
+                    );
+                  }).then((result) {
+                if (result == null) return;
+                if (result) {
+                  Navigator.of(context).pop();
+                }
+              });
+            },
+            child: Scaffold(
+                backgroundColor: backgroundWhiteCreamColor,
+                bottomNavigationBar: Padding(
+                    padding: EdgeInsets.only(
+                        left: screenPadding,
+                        right: screenPadding,
+                        top: 10,
+                        bottom: 10),
+                    child: RaisedButton(
+                        elevation: 5,
+                        onPressed: () {
+                          if (isButtonActive) if (_formKey.currentState
+                              .validate()) {
+                            _formKey.currentState.save();
+                            Fimber.e(model.mUserDetails.firstName +
+                                " " +
+                                model.mUserDetails.details.phone.mobile);
+                          }
+                        },
+                        color: isButtonActive ? green : Colors.grey[400],
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                          // side: BorderSide(
+                          //     color: Colors.black, width: 0.5)
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 15),
+                          child: CustomText(
+                            "Save ",
+                            fontSize: subtitleFontSizeStyle - 2,
+                            isBold: true,
+                            color: Colors.white,
+                          ),
+                        ))),
+                appBar: AppBar(
+                  elevation: 0,
+                  centerTitle: true,
+                  title: SvgPicture.asset(
+                    "assets/svg/logo.svg",
+                    color: logoRed,
+                    height: 35,
+                    width: 35,
+                  ),
+                  iconTheme: IconThemeData(
+                    color: appBarIconColor,
+                  ),
+                  backgroundColor: backgroundWhiteCreamColor,
+                ),
+                body: SafeArea(
+                    top: false,
+                    left: false,
+                    right: false,
+                    child: Scrollbar(
+                        child: SingleChildScrollView(
+                      child: Form(
+                          key: _formKey,
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                left: 20, right: 20, top: 10, bottom: 10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                verticalSpace(20),
+                                Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Text(
+                                      "Profile",
+                                      style: TextStyle(
+                                          fontFamily: headingFont,
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: headingFontSizeStyle),
+                                    )),
+                                verticalSpace(20),
+                                SizedBox(
+                                    child: Card(
+                                        elevation: 5,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(curve15)),
+                                        child: Padding(
+                                          padding: EdgeInsets.all(15),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: <Widget>[
                                               CustomText(
-                                                "Mobile No",
+                                                "Name",
                                                 fontSize:
                                                     subtitleFontSizeStyle - 3,
                                                 color: Colors.grey,
                                               ),
-                                            ],
-                                          ),
-                                          verticalSpaceSmall,
-                                         Row(
-                                            children: <Widget>[
-                                              Expanded(
-                                                  child: TextFormField(
-                                                focusNode: mobileFocusNode,
-                                                style: TextStyle(
-                                                    fontSize:
-                                                        titleFontSizeStyle + 2,
-                                                    fontFamily: "Open-Sans",
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.grey[800]),
-                                                readOnly: !isEditable,
-                                                initialValue: model.mUserDetails?.details?.phone?.mobile,
-                                                validator: (text) {
-                                                  if (text.isEmpty || text.trim().length == 0 || text.trim().length < 10 || text.trim().length > 10)
-                                                    return "Please enter Proper Mobile No.";
-                                                  return null;
-                                                },
-                                                onChanged: (value) {
-                                                  setState(() {
-                                                    isButtonActive = true;
-                                                  });
-                                                  _formKey.currentState.validate();
-                                                },
-                                                onSaved: (text) {
-                                                  model.mUserDetails.details.phone.mobile = text;
-                                                },
-                                                decoration:
-                                                    const InputDecoration(
-                                                  contentPadding:
-                                                      EdgeInsets.symmetric(
-                                                          vertical: 10),
-                                                  border: InputBorder.none,
-                                                ),
-                                                autofocus: true,
-                                                maxLines: 1,
-                                              )),
-                                              IconButton(
-                                                icon: Icon(Icons.edit),
-                                                onPressed: () {
-                                                  setState(() {
-                                                    isEditable = true;
-                                                  });
-                                                  mobileFocusNode.requestFocus();
-                                                },
+                                              verticalSpaceTiny,
+                                              Row(
+                                                children: <Widget>[
+                                                  Expanded(
+                                                      child: TextFormField(
+                                                    focusNode: nameFocusNode,
+                                                    style: TextStyle(
+                                                        fontSize:
+                                                            titleFontSizeStyle +
+                                                                2,
+                                                        fontFamily: "Open-Sans",
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color:
+                                                            Colors.grey[800]),
+                                                    readOnly: !isEditable,
+                                                    initialValue: model
+                                                        .mUserDetails
+                                                        ?.firstName,
+                                                    validator: (text) {
+                                                      if (text.isEmpty ||
+                                                          text.trim().length ==
+                                                              0)
+                                                        return "Please enter Proper Name";
+                                                      return null;
+                                                    },
+                                                    onChanged: (value) {
+                                                      setState(() {
+                                                        isButtonActive = true;
+                                                      });
+                                                      _formKey.currentState
+                                                          .validate();
+                                                    },
+                                                    onSaved: (text) {
+                                                      model.mUserDetails
+                                                          .firstName = text;
+                                                    },
+                                                    decoration:
+                                                        const InputDecoration(
+                                                      contentPadding:
+                                                          EdgeInsets.symmetric(
+                                                              vertical: 10),
+                                                      border: InputBorder.none,
+                                                    ),
+                                                    autofocus: true,
+                                                    maxLines: 1,
+                                                  )),
+                                                  IconButton(
+                                                    icon: Icon(Icons.edit),
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        isEditable = true;
+                                                      });
+                                                      nameFocusNode
+                                                          .requestFocus();
+                                                    },
+                                                  )
+                                                ],
                                               )
                                             ],
-                                          )
-                                        ],
-                                      ),
-                                    ))),
-                            verticalSpace(spaceBetweenCards),
-                            // Column(
-                            //   children: addressMap.keys.map((int key) {
-                            //     return Container(
-                            //         margin: EdgeInsets.only(
-                            //             bottom: spaceBetweenCards),
-                            //         child: Card(
-                            //           clipBehavior: Clip.antiAlias,
-                            //           shape: RoundedRectangleBorder(
-                            //             borderRadius: BorderRadius.circular(15),
-                            //           ),
-                            //           elevation: 5,
-                            //           child: Padding(
-                            //             padding: const EdgeInsets.all(15),
-                            //             child: Row(
-                            //               crossAxisAlignment:
-                            //                   CrossAxisAlignment.center,
-                            //               children: <Widget>[
-                            //                 Expanded(
-                            //                     child: Column(
-                            //                   crossAxisAlignment:
-                            //                       CrossAxisAlignment.start,
-                            //                   mainAxisAlignment:
-                            //                       MainAxisAlignment.center,
-                            //                   children: <Widget>[
-                            //                     CustomText(
-                            //                       addressMap[key],
-                            //                       color: Colors.grey,
-                            //                       fontSize:
-                            //                           subtitleFontSizeStyle - 3,
-                            //                     ),
-                            //                     verticalSpaceSmall,
-                            //                     CustomText(
-                            //                       fullAddressMap[key],
-                            //                       color: Colors.grey[800],
-                            //                       fontWeight: FontWeight.w500,
-                            //                       fontSize:
-                            //                           subtitleFontSizeStyle - 1,
-                            //                     )
-                            //                   ],
-                            //                 )),
-                            //               ],
-                            //             ),
-                            //           ),
-                            //         ));
-                            //   }).toList(),
-                            // ),
-                            verticalSpaceMedium,
-                            RaisedButton(
-                                elevation: 5,
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              AddressInputPage()));
-                                },
-                                color: darkRedSmooth,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30),
-                                  // side: BorderSide(
-                                  //     color: Colors.black, width: 0.5)
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Icon(
-                                      Icons.add,
-                                      color: Colors.white,
+                                          ),
+                                        ))),
+                                verticalSpace(spaceBetweenCards),
+                                SizedBox(
+                                    child: Card(
+                                        elevation: 5,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15)),
+                                        child: Padding(
+                                          padding: EdgeInsets.all(15),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              Row(
+                                                children: <Widget>[
+                                                  CustomText(
+                                                    "Mobile No",
+                                                    fontSize:
+                                                        subtitleFontSizeStyle -
+                                                            3,
+                                                    color: Colors.grey,
+                                                  ),
+                                                ],
+                                              ),
+                                              verticalSpaceSmall,
+                                              Row(
+                                                children: <Widget>[
+                                                  Expanded(
+                                                      child: TextFormField(
+                                                    focusNode: mobileFocusNode,
+                                                    style: TextStyle(
+                                                        fontSize:
+                                                            titleFontSizeStyle +
+                                                                2,
+                                                        fontFamily: "Open-Sans",
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color:
+                                                            Colors.grey[800]),
+                                                    readOnly: !isEditable,
+                                                    initialValue: model
+                                                        .mUserDetails
+                                                        ?.details
+                                                        ?.phone
+                                                        ?.mobile,
+                                                    validator: (text) {
+                                                      if (text.isEmpty ||
+                                                          text.trim().length ==
+                                                              0 ||
+                                                          text.trim().length <
+                                                              10 ||
+                                                          text.trim().length >
+                                                              10)
+                                                        return "Please enter Proper Mobile No.";
+                                                      return null;
+                                                    },
+                                                    onChanged: (value) {
+                                                      setState(() {
+                                                        isButtonActive = true;
+                                                      });
+                                                      _formKey.currentState
+                                                          .validate();
+                                                    },
+                                                    onSaved: (text) {
+                                                      model.mUserDetails.details
+                                                          .phone.mobile = text;
+                                                    },
+                                                    decoration:
+                                                        const InputDecoration(
+                                                      contentPadding:
+                                                          EdgeInsets.symmetric(
+                                                              vertical: 10),
+                                                      border: InputBorder.none,
+                                                    ),
+                                                    autofocus: true,
+                                                    maxLines: 1,
+                                                  )),
+                                                  IconButton(
+                                                    icon: Icon(Icons.edit),
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        isEditable = true;
+                                                      });
+                                                      mobileFocusNode
+                                                          .requestFocus();
+                                                    },
+                                                  )
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                        ))),
+                                verticalSpace(spaceBetweenCards),
+                                // Column(
+                                //   children: addressMap.keys.map((int key) {
+                                //     return Container(
+                                //         margin: EdgeInsets.only(
+                                //             bottom: spaceBetweenCards),
+                                //         child: Card(
+                                //           clipBehavior: Clip.antiAlias,
+                                //           shape: RoundedRectangleBorder(
+                                //             borderRadius: BorderRadius.circular(15),
+                                //           ),
+                                //           elevation: 5,
+                                //           child: Padding(
+                                //             padding: const EdgeInsets.all(15),
+                                //             child: Row(
+                                //               crossAxisAlignment:
+                                //                   CrossAxisAlignment.center,
+                                //               children: <Widget>[
+                                //                 Expanded(
+                                //                     child: Column(
+                                //                   crossAxisAlignment:
+                                //                       CrossAxisAlignment.start,
+                                //                   mainAxisAlignment:
+                                //                       MainAxisAlignment.center,
+                                //                   children: <Widget>[
+                                //                     CustomText(
+                                //                       addressMap[key],
+                                //                       color: Colors.grey,
+                                //                       fontSize:
+                                //                           subtitleFontSizeStyle - 3,
+                                //                     ),
+                                //                     verticalSpaceSmall,
+                                //                     CustomText(
+                                //                       fullAddressMap[key],
+                                //                       color: Colors.grey[800],
+                                //                       fontWeight: FontWeight.w500,
+                                //                       fontSize:
+                                //                           subtitleFontSizeStyle - 1,
+                                //                     )
+                                //                   ],
+                                //                 )),
+                                //               ],
+                                //             ),
+                                //           ),
+                                //         ));
+                                //   }).toList(),
+                                // ),
+                                verticalSpaceMedium,
+                                RaisedButton(
+                                    elevation: 5,
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  AddressInputPage()));
+                                    },
+                                    color: darkRedSmooth,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(30),
+                                      // side: BorderSide(
+                                      //     color: Colors.black, width: 0.5)
                                     ),
-                                    horizontalSpaceSmall,
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 15),
-                                      child: CustomText(
-                                        "Add Address",
-                                        isBold: true,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ],
-                                )),
-                          ],
-                        ),
-                      )),
-                )))));
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Icon(
+                                          Icons.add,
+                                          color: Colors.white,
+                                        ),
+                                        horizontalSpaceSmall,
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 15),
+                                          child: CustomText(
+                                            "Add Address",
+                                            isBold: true,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ],
+                                    )),
+                              ],
+                            ),
+                          )),
+                    ))))));
   }
 }

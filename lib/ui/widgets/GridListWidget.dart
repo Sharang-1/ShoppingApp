@@ -1,5 +1,6 @@
 import 'package:async/async.dart';
 import 'package:compound/models/grid_view_builder_filter_models/base_filter_model.dart';
+import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/viewmodels/grid_view_builder_view_models/base_grid_view_builder_view_model.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
@@ -204,8 +205,11 @@ class _PaginatedGridViewState<I> extends State<PaginatedGridView> {
                   context, items[index], index, onDelete, null),
             )
           : Center(
-              child: Text("No Items found"),
-            ),
+              child: Column(children: <Widget>[
+              Text("No Products Found!"),
+              verticalSpaceSmall,
+              Image.asset("assets/images/empty_cart.png"),
+            ])),
     );
   }
 

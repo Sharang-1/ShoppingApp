@@ -1,12 +1,18 @@
+import 'package:compound/constants/route_names.dart';
+import 'package:compound/locator.dart';
 import 'package:compound/models/grid_view_builder_filter_models/productFilter.dart';
 import 'package:compound/models/grid_view_builder_filter_models/sellerFilter.dart';
 import 'package:compound/models/products.dart';
 import 'package:compound/models/sellers.dart';
+import 'package:compound/services/navigation_service.dart';
 import 'package:compound/ui/shared/app_colors.dart';
 import 'package:compound/ui/shared/shared_styles.dart';
+import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/ui/widgets/GridListWidget.dart';
 import 'package:compound/ui/widgets/ProductFilterDialog.dart';
 import 'package:compound/ui/widgets/ProductTileUI.dart';
+import 'package:compound/ui/widgets/custom_text.dart';
+
 import 'package:compound/viewmodels/grid_view_builder_view_models/products_grid_view_builder_view_model.dart';
 import 'package:compound/viewmodels/grid_view_builder_view_models/sellers_grid_view_builder_view.dart';
 import 'package:fimber/fimber.dart';
@@ -17,6 +23,7 @@ import 'package:compound/constants/shared_pref.dart';
 import 'package:compound/viewmodels/search_view_model.dart';
 import 'package:compound/ui/shared/debouncer.dart';
 import '../widgets/cart_icon_badge.dart';
+import 'package:compound/ui/widgets/sellerCard.dart';
 
 class SearchView extends StatefulWidget {
   SearchView({Key key}) : super(key: key);
@@ -152,6 +159,8 @@ class _SearchViewState extends State<SearchView>
   }
 
   Widget childWidget(model) {
+    final NavigationService _navigationService = locator<NavigationService>();
+
     return Stack(
       children: <Widget>[
         if (showResults && _tabController.index == 0)
@@ -183,16 +192,13 @@ class _SearchViewState extends State<SearchView>
             key: sellerGridKey,
             context: context,
             filter: sellerFilter,
-            gridCount: 2,
+            gridCount: 1,
             viewModel: SellersGridViewBuilderViewModel(),
             disablePagination: true,
+            childAspectRatio: 2,
             tileBuilder:
                 (BuildContext context, data, index, onUpdate, onDelete) {
-              return Card(
-                child: Center(
-                  child: Text(data.name),
-                ),
-              );
+              return SellerCard(data: data, fromHome: true);
             },
           ),
         if (showRecents && _getListByTabIndex().length != 0)

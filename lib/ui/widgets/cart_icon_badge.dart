@@ -29,21 +29,23 @@ class CartIconWithBadge extends StatelessWidget {
             width: 26,
           ),
         ),
-        Positioned(
-          top: 0,
-          right: 0,
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: logoRed,
-            ),
-            padding: EdgeInsets.symmetric(vertical: 2, horizontal: 4),
-            child: Text(
-              count.toString(),
-              style: TextStyle(fontSize: 8),
-            ),
-          ),
-        )
+        count > 0
+            ? Positioned(
+                top: 0,
+                right: 0,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: logoRed,
+                  ),
+                  padding: EdgeInsets.symmetric(vertical: 2, horizontal: 4),
+                  child: Text(
+                    count.toString(),
+                    style: TextStyle(fontSize: 8),
+                  ),
+                ),
+              )
+            : SizedBox()
       ],
     );
   }

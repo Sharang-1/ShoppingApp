@@ -16,10 +16,10 @@ import 'package:flutter/material.dart';
 import '../../locator.dart';
 import '../shared/shared_styles.dart';
 
-class SellerTileUi extends StatelessWidget {
+class SellerCard extends StatelessWidget {
   final data;
   final bool fromHome;
-  const SellerTileUi({Key key, @required this.data, @required this.fromHome})
+  const SellerCard({Key key, @required this.data, @required this.fromHome})
       : super(key: key);
 
   @override
@@ -80,7 +80,7 @@ class SellerTileUi extends StatelessWidget {
                                       // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                       children: <Widget>[
                                         CustomText(
-                                          data["name"],
+                                          data.name,
                                           dotsAfterOverFlow: true,
                                           isTitle: true,
                                           isBold: true,
@@ -88,8 +88,8 @@ class SellerTileUi extends StatelessWidget {
                                         ),
                                         CustomDivider(),
                                         CustomText(
-                                          data["type"],
-                                          color: data["type"] == "SELLER"
+                                          data.accountType,
+                                          color: data.accountType == "SELLER"
                                               ? logoRed
                                               : textIconOrange,
                                           isBold: true,
@@ -102,7 +102,7 @@ class SellerTileUi extends StatelessWidget {
                           ],
                         ),
                         verticalSpace(10),
-                        data["type"] == "SELLER"
+                        data.accountType == "SELLER"
                             ? Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
@@ -117,7 +117,7 @@ class SellerTileUi extends StatelessWidget {
                                   verticalSpace(2),
                                   Expanded(
                                     child: CustomText(
-                                      data["sells"],
+                                      data.designs,
                                       color: Colors.grey[700],
                                       isBold: true,
                                       dotsAfterOverFlow: true,
@@ -141,7 +141,7 @@ class SellerTileUi extends StatelessWidget {
                                   verticalSpace(2),
                                   Expanded(
                                     child: CustomText(
-                                      data["Speciality"],
+                                      data.known,
                                       color: Colors.grey[700],
                                       isBold: true,
                                       dotsAfterOverFlow: true,
@@ -152,7 +152,7 @@ class SellerTileUi extends StatelessWidget {
                                 ],
                               ),
                         CustomDivider(),
-                        data["type"] == "SELLER"
+                        data.accountType == "SELLER"
                             ? Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
@@ -167,7 +167,7 @@ class SellerTileUi extends StatelessWidget {
                                   verticalSpace(2),
                                   Expanded(
                                     child: CustomText(
-                                      data["discount"],
+                                      "10% Upto 30%",
                                       color: green,
                                       isBold: true,
                                       dotsAfterOverFlow: true,
@@ -191,7 +191,7 @@ class SellerTileUi extends StatelessWidget {
                                   verticalSpace(2),
                                   Expanded(
                                     child: CustomText(
-                                      data["WorksOffered"],
+                                      data.works,
                                       color: Colors.grey[700],
                                       isBold: true,
                                       dotsAfterOverFlow: true,
@@ -264,14 +264,14 @@ class SellerTileUi extends StatelessWidget {
 //                                 ),
 //                                 CustomDivider(),
 //                                 CustomText(
-//                                   data["type"],
+//                                   data.accountType,
 //                                   color: textIconOrange,
 //                                   isBold: true,
 //                                   dotsAfterOverFlow: true,
 //                                   fontSize: subtitleFontSize - 2,
 //                                 ),
 //                                 CustomDivider(),
-//                                 data["type"] == "SELLER"
+//                                 data.accountType == "SELLER"
 //                                     ? Column(
 //                                         crossAxisAlignment:
 //                                             CrossAxisAlignment.start,
@@ -315,7 +315,7 @@ class SellerTileUi extends StatelessWidget {
 //                                         ],
 //                                       ),
 //                                 CustomDivider(),
-//                                 data["type"] == "SELLER"
+//                                 data.accountType == "SELLER"
 //                                     ? Column(
 //                                         crossAxisAlignment:
 //                                             CrossAxisAlignment.start,
@@ -412,11 +412,11 @@ class SellerScreen extends StatelessWidget {
         child: ListView(
           scrollDirection: Axis.horizontal,
           children: <Widget>[
-            SellerTileUi(
+            SellerCard(
               data: sellerCardDetails,
               fromHome: true,
             ),
-            SellerTileUi(
+            SellerCard(
               data: boutiqueCardDetails,
               fromHome: true,
             ),

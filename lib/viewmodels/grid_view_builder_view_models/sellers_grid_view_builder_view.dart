@@ -27,7 +27,8 @@ class SellersGridViewBuilderViewModel
         "startIndex=${pageSize * (pageNumber - 1)};limit=$pageSize;" +
             filterModel.queryString;
     Sellers res = await _apiService.getSellers(queryString: _queryString);
-    if(res == null) throw "Error occured";
+
+    if (res == null) throw "Error occured";
     return res;
   }
 }

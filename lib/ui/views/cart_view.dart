@@ -65,7 +65,7 @@ class _CartViewState extends State<CartView> {
                 children: <Widget>[
                   verticalSpace(20),
                   Text(
-                    "Cart",
+                    "My Bag",
                     style: TextStyle(
                         fontFamily: headingFont,
                         fontWeight: FontWeight.w700,

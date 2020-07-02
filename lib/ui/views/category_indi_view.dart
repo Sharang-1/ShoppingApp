@@ -9,7 +9,7 @@ import 'package:compound/ui/widgets/custom_text.dart';
 import 'package:compound/viewmodels/categories_view_model.dart';
 import 'package:compound/viewmodels/grid_view_builder_view_models/products_grid_view_builder_view_model.dart';
 import 'package:fimber/fimber.dart';
-
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 
@@ -34,9 +34,16 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
     super.initState();
   }
 
+  final _random = new Random();
+
+  int next(int min, int max) => min + _random.nextInt(max - min);
+
   @override
   Widget build(BuildContext context) {
     const double headingFontSize = headingFontSizeStyle;
+    String catBgColor = categoriesIndiBgColorsPallete[
+        next(0, categoriesIndiBgColorsPallete.length - 1)];
+
     return ViewModelProvider<CategoriesViewModel>.withConsumer(
       viewModel: CategoriesViewModel(),
       onModelReady: (model) => model.init(),
@@ -50,7 +57,7 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
             slivers: <Widget>[
               SliverAppBar(
                 elevation: 0,
-                backgroundColor: _colorFromHex("#7062b1"),
+                backgroundColor: _colorFromHex(catBgColor),
                 centerTitle: true,
                 iconTheme: IconThemeData(color: Colors.white),
                 bottom: PreferredSize(
@@ -59,7 +66,7 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
                       primary: false,
                       elevation: 0,
                       automaticallyImplyLeading: false,
-                      backgroundColor: _colorFromHex("#7062b1"),
+                      backgroundColor: _colorFromHex(catBgColor),
                       title: CustomText(
                         widget.subCategory,
                         color: Colors.white,
@@ -85,7 +92,7 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
                           children: <Widget>[
                             Container(
                               height: 60,
-                              color: _colorFromHex("#7062b1"),
+                              color: _colorFromHex(catBgColor),
                             ),
                             Container(
                               height: 50,
