@@ -590,7 +590,7 @@ class HomeViewList extends StatelessWidget {
           Row(children: <Widget>[
             Expanded(
               child: Text(
-                'Success Delivering To You',
+                'Sellers Delivering To You',
                 style: TextStyle(
                   color: Colors.grey[800],
                   fontSize: subtitleFontSize,

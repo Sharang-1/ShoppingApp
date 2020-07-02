@@ -235,14 +235,14 @@ class myAppointments extends StatelessWidget {
                     ),
                     Container(
                       padding:
-                          EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                          EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                       decoration: BoxDecoration(
                           color: textIconOrange,
                           borderRadius: BorderRadius.circular(curve30)),
                       child: CustomText(
                         sellerDetails["status"],
                         color: Colors.white,
-                        fontSize: 14,
+                        fontSize: 12,
                         isBold: true,
                       ),
                     )
