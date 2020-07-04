@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:compound/constants/server_urls.dart';
 import 'package:dio/dio.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +35,7 @@ import 'package:compound/models/user_details.dart';
 
 class APIService {
   final apiClient = Dio(BaseOptions(
-      baseUrl: "https://dzor.in/api/",
+      baseUrl: BASE_URL,
       connectTimeout: 15000,
       receiveTimeout: 15000,
       validateStatus: (status) {
@@ -353,6 +354,7 @@ class APIService {
     if(ordersData != null){
       return Orders.fromJson(ordersData);
     }
+    return null;
   }
 
   Future<UserDetails> getUserData() async {
@@ -360,6 +362,7 @@ class APIService {
     if(userData != null){
       return UserDetails.fromJson(userData);
     }
+    return null;
   }
 
   Future<List<PaymentOption>> getPaymentOptions() async {
@@ -367,6 +370,7 @@ class APIService {
     if(mPaymentOptionsData != null){
       return paymentOptionsFromJson(mPaymentOptionsData);
     }
+    return null;
   }
 
   // List<PaymentOption> mPaymentOptions;

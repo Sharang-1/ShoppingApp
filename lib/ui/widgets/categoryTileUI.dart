@@ -1,6 +1,6 @@
+// import 'package:compound/constants/server_urls.dart';
 import 'package:compound/models/categorys.dart';
 import 'package:compound/ui/shared/shared_styles.dart';
-import 'package:compound/ui/widgets/network_image_with_placeholder.dart';
 import 'package:compound/utils/tools.dart';
 import 'package:flutter/material.dart';
 
@@ -11,52 +11,53 @@ class CategoryTileUI extends StatelessWidget {
     @required this.data,
   }) : super(key: key);
 
-  String getTruncatedString(int length, String str) {
-    return str.length <= length ? str : '${str.substring(0, length)}...';
-  }
-
   @override
   Widget build(BuildContext context) {
     String name = data.name ?? "";
-    String photoName = data.banner != null ? data.banner.originalName : "";
+    // String photoName = data.banner != null ? data.banner.name : "";
     bool isTablet = Tools.checkIfTablet(MediaQuery.of(context));
+    // String bannerURL = '$CATEGORY_PHOTO_BASE_URL/${data.id}/$photoName';
 
     double titleFontSize = isTablet ? 28.0 : 20.0;
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20,10,20,0),
+      padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
       child: Card(
         clipBehavior: Clip.antiAlias,
         color: Colors.grey,
-        child: Stack(children: <Widget>[
-          Positioned.fill(
-              child: ColorFiltered(
-            colorFilter: ColorFilter.mode(
-                Colors.black.withOpacity(0.3), BlendMode.srcATop),
-            child: FadeInImage.assetNetwork(
+        child: Stack(
+          children: <Widget>[
+            Positioned.fill(
+                child: ColorFiltered(
+              colorFilter: ColorFilter.mode(
+                  Colors.black.withOpacity(0.3), BlendMode.srcATop),
+              child: FadeInImage.assetNetwork(
                 fit: BoxFit.fill,
                 fadeInCurve: Curves.easeIn,
                 placeholder: 'assets/images/placeholder.png',
-                image:
-                    // photoName == null?
-
+                image: //photoName == null ?
                     'https://images.pexels.com/photos/934070/pexels-photo-934070.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
-                // : photoName
-
-                ),
-          )),
-          Positioned.fill(
+                    // : bannerURL,
+              ),
+            )),
+            Positioned.fill(
               child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                Text(getTruncatedString(20, name),
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    Tools.getTruncatedString(20, name),
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        color: Colors.white,
-                        fontSize: titleFontSize,
-                        fontWeight: FontWeight.w600)),
-              ]))
-        ]),
+                      color: Colors.white,
+                      fontSize: titleFontSize,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(curve15),
         ),

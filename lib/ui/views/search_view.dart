@@ -1,17 +1,12 @@
-import 'package:compound/constants/route_names.dart';
-import 'package:compound/locator.dart';
 import 'package:compound/models/grid_view_builder_filter_models/productFilter.dart';
 import 'package:compound/models/grid_view_builder_filter_models/sellerFilter.dart';
 import 'package:compound/models/products.dart';
 import 'package:compound/models/sellers.dart';
-import 'package:compound/services/navigation_service.dart';
 import 'package:compound/ui/shared/app_colors.dart';
 import 'package:compound/ui/shared/shared_styles.dart';
-import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/ui/widgets/GridListWidget.dart';
 import 'package:compound/ui/widgets/ProductFilterDialog.dart';
 import 'package:compound/ui/widgets/ProductTileUI.dart';
-import 'package:compound/ui/widgets/custom_text.dart';
 
 import 'package:compound/viewmodels/grid_view_builder_view_models/products_grid_view_builder_view_model.dart';
 import 'package:compound/viewmodels/grid_view_builder_view_models/sellers_grid_view_builder_view.dart';
@@ -159,8 +154,6 @@ class _SearchViewState extends State<SearchView>
   }
 
   Widget childWidget(model) {
-    final NavigationService _navigationService = locator<NavigationService>();
-
     return Stack(
       children: <Widget>[
         if (showResults && _tabController.index == 0)

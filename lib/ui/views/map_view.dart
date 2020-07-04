@@ -1,5 +1,6 @@
 // import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 // import 'package:url_launcher/url_launcher.dart';
+import 'package:compound/utils/tools.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -12,10 +13,6 @@ import 'package:compound/viewmodels/map_view_model.dart';
 import '../shared/shared_styles.dart';
 
 class MapView extends StatelessWidget {
-  String getTruncatedString(int length, String str) {
-    return (str.length <= length ? str : '${str.substring(0, length)}...')
-        .replaceAll("\n", " ");
-  }
 
   Widget clientCard(MapViewModel model, context, Seller client) {
     const double titleFontSize = titleFontSizeStyle;
@@ -75,7 +72,7 @@ class MapView extends StatelessWidget {
                         ),
                         Tooltip(
                             message: client.name,
-                            child: Text(getTruncatedString(20, client.name),
+                            child: Text(Tools.getTruncatedString(20, client.name),
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black,
@@ -83,7 +80,7 @@ class MapView extends StatelessWidget {
                       ]),
                       verticalSpace(15),
                       Text(
-                          getTruncatedString(
+                          Tools.getTruncatedString(
                               100, client.operations ?? "No Data"),
                           style: TextStyle(
                               fontSize: subtitleFontSize,

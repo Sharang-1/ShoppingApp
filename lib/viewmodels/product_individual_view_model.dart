@@ -2,7 +2,7 @@ import 'package:compound/constants/route_names.dart';
 import 'package:compound/locator.dart';
 import 'package:compound/models/products.dart';
 import 'package:compound/services/api/api_service.dart';
-import 'package:compound/services/dialog_service.dart';
+// import 'package:compound/services/dialog_service.dart';
 import 'package:compound/services/navigation_service.dart';
 import 'package:compound/services/whishlist_service.dart';
 
@@ -10,7 +10,7 @@ import 'base_model.dart';
 
 class ProductIndividualViewModel extends BaseModel {
   final NavigationService _navigationService = locator<NavigationService>();
-  final DialogService _dialogService = locator<DialogService>();
+  // final DialogService _dialogService = locator<DialogService>();
   final APIService _apiService = locator<APIService>();
   final WhishListService _whishListService = locator<WhishListService>();
 
@@ -24,7 +24,21 @@ class ProductIndividualViewModel extends BaseModel {
     setUpCartCount();
     isProductInWhishlist =
         await _whishListService.isProductInWhishList(productId);
+    notifyListeners();
     return;
+  }
+
+
+  setUpWhishListIcon(String productId) async {
+    isProductInWhishlist =
+        await _whishListService.isProductInWhishList(productId);
+    notifyListeners();
+  }
+
+
+  checkIsProductInWhishList(String productId) {
+    setUpWhishListIcon(productId);
+    return isProductInWhishlist;
   }
 
   Future<bool> addToCart(
@@ -45,10 +59,6 @@ class ProductIndividualViewModel extends BaseModel {
       return true;
     }
     return false;
-  }
-
-  Future<dynamic> cart() async {
-    return await _navigationService.navigateTo(CartViewRoute);
   }
 
   Future<dynamic> buyNowView(String productId) async {

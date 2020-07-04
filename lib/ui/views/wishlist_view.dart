@@ -5,7 +5,6 @@ import 'package:compound/models/sellers.dart';
 import 'package:compound/ui/shared/app_colors.dart';
 import 'package:compound/ui/shared/shared_styles.dart';
 import 'package:compound/ui/widgets/GridListWidget.dart';
-import 'package:compound/ui/widgets/ProductFilterDialog.dart';
 import 'package:compound/ui/widgets/ProductTileUI.dart';
 import 'package:compound/viewmodels/grid_view_builder_view_models/products_grid_view_builder_view_model.dart';
 import 'package:compound/viewmodels/grid_view_builder_view_models/sellers_grid_view_builder_view.dart';
@@ -16,7 +15,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:compound/constants/shared_pref.dart';
 import 'package:compound/viewmodels/search_view_model.dart';
 import 'package:compound/ui/shared/debouncer.dart';
-import 'package:compound/ui/widgets/sellerGridListWidget.dart';
 import '../widgets/cart_icon_badge.dart';
 
 class WishlistView extends StatefulWidget {
@@ -413,63 +411,63 @@ class _WishlistViewState extends State<WishlistView>
 }
 
 // We have not used InputField widget b'coz of the style of Widget
-class _SearchBarTextField extends StatelessWidget {
-  const _SearchBarTextField({
-    Key key,
-    @required this.searchController,
-    @required this.focusNode,
-    @required this.searchAction,
-    this.autofocus = false,
-    this.onTap,
-    this.onChanged,
-  }) : super(key: key);
+// class _SearchBarTextField extends StatelessWidget {
+//   const _SearchBarTextField({
+//     Key key,
+//     @required this.searchController,
+//     @required this.focusNode,
+//     @required this.searchAction,
+//     this.autofocus = false,
+//     this.onTap,
+//     this.onChanged,
+//   }) : super(key: key);
 
-  final Function searchAction;
-  final TextEditingController searchController;
-  final FocusNode focusNode;
-  final bool autofocus;
-  final Function onTap;
-  final Function onChanged;
+//   final Function searchAction;
+//   final TextEditingController searchController;
+//   final FocusNode focusNode;
+//   final bool autofocus;
+//   final Function onTap;
+//   final Function onChanged;
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 40,
-      padding: EdgeInsets.symmetric(horizontal: 10),
-      decoration: BoxDecoration(
-        // color: Colors.grey[200],
-        color: backgroundBlueGreyColor,
-        borderRadius: BorderRadius.circular(30),
-      ),
-      child: Row(children: <Widget>[
-        IconButton(
-          icon: Icon(Icons.search),
-          color: appBarIconColor,
-          onPressed: () => searchAction(searchController.text.trim()),
-        ),
-        Expanded(
-          child: TextField(
-            autofocus: autofocus,
-            focusNode: focusNode,
-            controller: searchController,
-            style: TextStyle(
-              color: Colors.black,
-            ),
-            onTap: onTap,
-            onChanged: onChanged,
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              hintText: "Search Products or Sellers",
-              hintStyle: TextStyle(
-                color: Colors.grey,
-              ),
-            ),
-          ),
-        ),
-      ]),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       height: 40,
+//       padding: EdgeInsets.symmetric(horizontal: 10),
+//       decoration: BoxDecoration(
+//         // color: Colors.grey[200],
+//         color: backgroundBlueGreyColor,
+//         borderRadius: BorderRadius.circular(30),
+//       ),
+//       child: Row(children: <Widget>[
+//         IconButton(
+//           icon: Icon(Icons.search),
+//           color: appBarIconColor,
+//           onPressed: () => searchAction(searchController.text.trim()),
+//         ),
+//         Expanded(
+//           child: TextField(
+//             autofocus: autofocus,
+//             focusNode: focusNode,
+//             controller: searchController,
+//             style: TextStyle(
+//               color: Colors.black,
+//             ),
+//             onTap: onTap,
+//             onChanged: onChanged,
+//             decoration: InputDecoration(
+//               border: InputBorder.none,
+//               hintText: "Search Products or Sellers",
+//               hintStyle: TextStyle(
+//                 color: Colors.grey,
+//               ),
+//             ),
+//           ),
+//         ),
+//       ]),
+//     );
+//   }
+// }
 
 /*-----------------------------------------------------
 isTyping  | isSearched  | ResultScreen / Action

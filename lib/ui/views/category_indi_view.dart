@@ -40,7 +40,7 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
 
   @override
   Widget build(BuildContext context) {
-    const double headingFontSize = headingFontSizeStyle;
+    // const double headingFontSize = headingFontSizeStyle;
     String catBgColor = categoriesIndiBgColorsPallete[
         next(0, categoriesIndiBgColorsPallete.length - 1)];
 

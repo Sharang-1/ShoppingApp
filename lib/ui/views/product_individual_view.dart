@@ -1,14 +1,12 @@
-import 'dart:convert';
-import 'dart:developer';
 
+import 'package:compound/constants/server_urls.dart';
 import 'package:compound/locator.dart';
 import 'package:compound/models/products.dart';
 import 'package:compound/services/dialog_service.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/ui/views/cart_view.dart';
-import 'package:compound/ui/widgets/network_image_with_placeholder.dart';
-import 'package:compound/ui/widgets/reviews.dart';
 import 'package:compound/ui/widgets/wishlist_icon.dart';
+import 'package:compound/utils/tools.dart';
 import 'package:compound/viewmodels/product_individual_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -32,9 +30,6 @@ class _ProductIndiViewState extends State<ProductIndiView> {
   int maxQty = -1;
   String selectedSize = "";
   String selectedColor = "";
-  String getTruncatedString(int length, String str) {
-    return str.length <= length ? str : '${str.substring(0, length)}...';
-  }
 
   Widget productNameAndDescInfo(productName, variations) {
     return Column(
@@ -135,9 +130,9 @@ class _ProductIndiViewState extends State<ProductIndiView> {
   }
 
   Wrap allSizes(variations) {
-    print("check this "+variations[0].size);
+    // print("check this "+variations[0].size);
     if (variations[0].size == "N/A") {
-      print("cond true");
+      // print("cond true");
       selectedSize = "N/A";
       selectedIndex = 0;
       return Wrap(
@@ -156,7 +151,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
     List<Widget> allColorChips = [];
     var uniqueColor= new Map();
     for (var color in colors) {
-      print("check this" + (uniqueColor.containsKey(color.color)).toString() + color.color);
+      // print("check this" + (uniqueColor.containsKey(color.color)).toString() + color.color);
       if(selectedSize != color.size){
         continue;
       }
@@ -194,10 +189,10 @@ class _ProductIndiViewState extends State<ProductIndiView> {
     );
   }
 
-  Color _colorFromHex(String hexColor) {
-    final hexCode = hexColor.replaceAll('#', '');
-    return Color(int.parse('FF$hexCode', radix: 16));
-  }
+  // Color _colorFromHex(String hexColor) {
+  //   final hexCode = hexColor.replaceAll('#', '');
+  //   return Color(int.parse('FF$hexCode', radix: 16));
+  // }
 
   Widget allTags(tags) {
     var alltags = "";
@@ -338,60 +333,21 @@ class _ProductIndiViewState extends State<ProductIndiView> {
   @override
   Widget build(BuildContext context) {
     final DialogService _dialogService = locator<DialogService>();
-    final String originalPhotoName =
-        'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80';
     final String productName = widget.data.name ?? "Iphone 11";
     final String productId = widget.data.key;
     final double productDiscount = widget.data.discount ?? 0.0;
     final double productPrice = widget.data.price ?? 0.0;
-    final double productOldPrice = widget.data.oldPrice ?? 0.0;
-    final productRatingObj = widget.data.rating ?? null;
     final variations =  widget.data.variations ?? null;
-    final variations3 = [
-      {
-        "size": "N/A",
-        "quantity": 4,
-        "color":  "Orange"
-      },
-      {
-        "size": "N/A",
-        "quantity": 6,
-        "color":  "Orange"
-      },
-      {
-        "size": "N/A",
-        "quantity": 10,
-        "color": "Blue",
-      }
-    ];
-
     final String shipment = widget.data.shipment.days == null
         ? "Not Availabel"
         : widget.data.shipment.days.toString() +
             (widget.data.shipment.days == 1 ? " Day" : " Days");
-    final variations2 = [
-      {
-        "size": "X",
-        "maxQty": 3,
-        "color": ["Blue", "Orange"]
-      },
-      {
-        "size": "XL",
-        "maxQty": 5,
-        "color": ["Red", "Orange"]
-      },
-      {
-        "size": "XXL",
-        "maxQty": 1,
-        "color": ["Black", "Orange"]
-      },
-    ];
-
     final tags = [
       "JustHere",
       "Trending",
     ];
     final bool available = widget.data.available ?? false;
+    final List<String> imageURLs = widget.data.photo.photos.map((e) => '$PRODUCT_PHOTO_BASE_URL/$productId/${e.name}').toList();
 
     return ViewModelProvider<ProductIndividualViewModel>.withConsumer(
       viewModel: ProductIndividualViewModel(),
@@ -411,7 +367,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
           actions: <Widget>[
             IconButton(
               onPressed: () async {
-                var res = await model.cart();
+                await model.cart();
                 model.setUpCartCount();
               },
               icon: CartIconWithBadge(
@@ -437,7 +393,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                         width: MediaQuery.of(context).size.width,
                         child: ClipRRect(
                             borderRadius: BorderRadius.circular(20.0),
-                            child: HomeSlider())),
+                            child: HomeSlider(imgList: imageURLs,))),
                     Positioned(
                       bottom: 20,
                       right: 20,
@@ -455,7 +411,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                               borderRadius: BorderRadius.circular(30),
                               color: Colors.white.withOpacity(1)),
                           child: WishListIcon(
-                            filled: model.isProductInWhishlist,
+                            filled: model.checkIsProductInWhishList(widget.data.key),
                             width: 20,
                             height: 20,
                           ),
@@ -668,7 +624,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                     : darkRedSmooth,
                                                 icon: Icon(Icons.add),
                                                 onPressed: () {
-                                                  print("maxQty"+maxQty.toString());
+                                                  // print("maxQty"+maxQty.toString());
                                                   if (maxQty !=
                                                       selectedQty) {
                                                     setState(() {
@@ -845,7 +801,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                         height: 1))),
                             verticalSpace(10),
                             Text(
-                              getTruncatedString(100, widget.data.description),
+                              Tools.getTruncatedString(100, widget.data.description),
                               style: TextStyle(
                                   fontSize: subtitleFontSizeStyle - 5,
                                   color: Colors.grey),
@@ -875,3 +831,42 @@ class _ProductIndiViewState extends State<ProductIndiView> {
     );
   }
 }
+
+// Unused variables
+// final double productOldPrice = widget.data.oldPrice ?? 0.0;
+// final productRatingObj = widget.data.rating ?? null;
+// final variations3 = [
+//   {
+//     "size": "N/A",
+//     "quantity": 4,
+//     "color":  "Orange"
+//   },
+//   {
+//     "size": "N/A",
+//     "quantity": 6,
+//     "color":  "Orange"
+//   },
+//   {
+//     "size": "N/A",
+//     "quantity": 10,
+//     "color": "Blue",
+//   }
+// ];
+
+// final variations2 = [
+//   {
+//     "size": "X",
+//     "maxQty": 3,
+//     "color": ["Blue", "Orange"]
+//   },
+//   {
+//     "size": "XL",
+//     "maxQty": 5,
+//     "color": ["Red", "Orange"]
+//   },
+//   {
+//     "size": "XXL",
+//     "maxQty": 1,
+//     "color": ["Black", "Orange"]
+//   },
+// ];

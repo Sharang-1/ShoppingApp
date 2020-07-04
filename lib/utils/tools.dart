@@ -10,4 +10,8 @@ class Tools {
     var isTablet = diagonal > 1100.0;
     return isTablet;
   }
+
+  static String getTruncatedString(int length, String str) {
+    return str.length <= length ? str : '${str.substring(0, length)}...';
+  }
 }

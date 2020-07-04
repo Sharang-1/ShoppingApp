@@ -1,5 +1,4 @@
 import 'package:compound/ui/shared/app_colors.dart';
-import 'package:compound/ui/shared/dashed_line.dart';
 import 'package:compound/ui/shared/shared_styles.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
 

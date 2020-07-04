@@ -1,19 +1,10 @@
-import 'package:compound/models/orders.dart';
 import 'package:compound/ui/shared/app_colors.dart';
 import 'package:compound/ui/shared/shared_styles.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
-import 'package:compound/models/cart.dart';
-import 'package:compound/models/grid_view_builder_filter_models/cartFilter.dart';
-import 'package:compound/ui/views/cart_select_delivery_view.dart';
-import 'package:compound/ui/widgets/GridListWidget.dart';
 import 'package:compound/ui/widgets/custom_text.dart';
-import 'package:compound/viewmodels/cart_view_model.dart';
-import 'package:compound/viewmodels/grid_view_builder_view_models/cart_grid_view_builder_view_model.dart';
 import 'package:compound/viewmodels/orders_view_model.dart';
-import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
 import 'package:provider_architecture/provider_architecture.dart';
-import '../shared/dashed_line.dart';
 import './myorders_details_view.dart';
 
 class MyOrdersView extends StatelessWidget {

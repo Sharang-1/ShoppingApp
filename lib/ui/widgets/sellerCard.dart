@@ -2,15 +2,8 @@ import 'package:compound/constants/route_names.dart';
 import 'package:compound/services/navigation_service.dart';
 import 'package:compound/ui/shared/app_colors.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
-import 'package:compound/models/cart.dart';
-import 'package:compound/models/grid_view_builder_filter_models/cartFilter.dart';
-import 'package:compound/ui/views/cart_select_delivery_view.dart';
 
-import 'package:compound/ui/widgets/GridListWidget.dart';
 import 'package:compound/ui/widgets/custom_text.dart';
-import 'package:compound/viewmodels/cart_view_model.dart';
-import 'package:compound/viewmodels/grid_view_builder_view_models/cart_grid_view_builder_view_model.dart';
-import 'package:fimber/fimber.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../locator.dart';
@@ -29,7 +22,6 @@ class SellerCard extends StatelessWidget {
     double multiplyer = fromHome ? 0.8 : 1;
     final NavigationService _navigationService = locator<NavigationService>();
 
-    // TODO: implement build
     return Container(
         padding: EdgeInsets.only(left: 5, bottom: 10, right: fromHome ? 5 : 0),
         child: SizedBox(
@@ -217,7 +209,6 @@ class SellerCard extends StatelessWidget {
 //   Widget build(BuildContext context) {
 //     double subtitleFontSize = 17;
 //     double titleFontSize = 17;
-//     // TODO: implement build
 //     return Container(
 //         padding: EdgeInsets.only(bottom: 10),
 //         child: SizedBox(
@@ -399,7 +390,6 @@ class SellerScreen extends StatelessWidget {
   };
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       appBar: AppBar(
         backgroundColor: backgroundWhiteCreamColor,

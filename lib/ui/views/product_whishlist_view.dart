@@ -2,7 +2,6 @@ import 'package:compound/models/grid_view_builder_filter_models/whishlist_filter
 import 'package:compound/models/products.dart';
 import 'package:compound/ui/shared/app_colors.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
-import 'package:compound/models/grid_view_builder_filter_models/cartFilter.dart';
 
 import 'package:compound/ui/widgets/GridListWidget.dart';
 import 'package:compound/ui/widgets/ProductTileUI.dart';

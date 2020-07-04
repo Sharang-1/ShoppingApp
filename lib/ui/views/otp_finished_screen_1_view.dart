@@ -1,4 +1,3 @@
-import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/viewmodels/otp_finished_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';

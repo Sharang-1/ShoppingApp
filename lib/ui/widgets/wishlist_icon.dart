@@ -11,7 +11,6 @@ class WishListIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return SvgPicture.asset("assets/svg/wishlist.svg",color: filled ? logoRed : Colors.grey,height: height,width: width,);
   }
 }
