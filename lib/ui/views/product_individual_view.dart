@@ -1,6 +1,8 @@
 
 import 'package:compound/constants/server_urls.dart';
 import 'package:compound/locator.dart';
+import 'package:compound/models/CartCountSetUp.dart';
+import 'package:compound/models/WhishListSetUp.dart';
 import 'package:compound/models/products.dart';
 import 'package:compound/services/dialog_service.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
@@ -11,6 +13,7 @@ import 'package:compound/viewmodels/product_individual_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import 'package:provider_architecture/viewmodel_provider.dart';
 import '../shared/app_colors.dart';
 import '../views/home_view_slider.dart';
@@ -366,12 +369,11 @@ class _ProductIndiViewState extends State<ProductIndiView> {
           )),
           actions: <Widget>[
             IconButton(
-              onPressed: () async {
-                await model.cart();
-                model.setUpCartCount();
+              onPressed: () {
+                model.cart();
               },
               icon: CartIconWithBadge(
-                count: model.cartCount,
+                count: Provider.of<CartCountSetUp>(context, listen: true).count,
                 iconColor: appBarIconColor,
               ),
             )
@@ -399,10 +401,12 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                       right: 20,
                       child: GestureDetector(
                         onTap: () async {
-                          if (model.isProductInWhishlist) {
+                          if (Provider.of<WhishListSetUp>(context, listen: false).list.indexOf(productId) != -1) {
                             await model.removeFromWhishList(productId);
+                            Provider.of<WhishListSetUp>(context, listen: false).removeFromWhishList(productId);
                           } else {
                             await model.addToWhishList(productId);
+                            Provider.of<WhishListSetUp>(context, listen: false).addToWhishList(productId);
                           }
                         },
                         child: Container(
@@ -411,7 +415,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                               borderRadius: BorderRadius.circular(30),
                               color: Colors.white.withOpacity(1)),
                           child: WishListIcon(
-                            filled: model.checkIsProductInWhishList(widget.data.key),
+                            filled: Provider.of<WhishListSetUp>(context, listen: true).list.indexOf(productId) != -1,
                             width: 20,
                             height: 20,
                           ),
@@ -706,6 +710,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                               var res = await model.addToCart(widget.data,
                                   selectedQty, selectedSize, selectedColor);
                               if (res == true) {
+                                Provider.of<CartCountSetUp>(context, listen: false).incrementCartCount();
                                 _dialogService.showDialog(
                                     title: "Success!",
                                     description: "Product Added to cart.");

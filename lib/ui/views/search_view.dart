@@ -1,3 +1,4 @@
+import 'package:compound/models/CartCountSetUp.dart';
 import 'package:compound/models/grid_view_builder_filter_models/productFilter.dart';
 import 'package:compound/models/grid_view_builder_filter_models/sellerFilter.dart';
 import 'package:compound/models/products.dart';
@@ -12,6 +13,7 @@ import 'package:compound/viewmodels/grid_view_builder_view_models/products_grid_
 import 'package:compound/viewmodels/grid_view_builder_view_models/sellers_grid_view_builder_view.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:compound/constants/shared_pref.dart';
@@ -227,7 +229,7 @@ class _SearchViewState extends State<SearchView>
               IconButton(
                 onPressed: () => model.cart(),
                 icon: CartIconWithBadge(
-                  count: model.cartCount,
+                  count: Provider.of<CartCountSetUp>(context, listen: true).count,
                   iconColor: Colors.black,
                 ),
               ),

@@ -76,7 +76,6 @@ class _BuyNowViewState extends State<BuyNowView> {
                     item: null,
                     onDelete: (int index) async {
                       // await onDelete(index);
-                      model.setUpCartCount();
                     },
                   ),
                 ],

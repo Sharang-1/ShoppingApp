@@ -83,11 +83,12 @@ class APIService {
       print("Raw Response From API");
       print(res.data);
       Map resJSON = res.data;
-      print("Debug api wrapper");
-      print(res);
-      print(res.data);
-      if (resJSON["error"] != null) {
-        throw Exception(resJSON["error"]);
+      print("resJSON");
+      print(resJSON);
+      print("error");
+      print(resJSON.containsKey("error"));
+      if (resJSON.containsKey("error") == true) {
+        throw Exception("Testing");
       }
       return resJSON;
     } catch (e, stacktrace) {
@@ -213,6 +214,24 @@ class APIService {
         Fimber.d("Cart : " + cart.items.map((o) => o.productId).toString());
         return cart;
       } catch (err) {
+        print(err);
+        return null;
+      }
+    }
+    return null;
+  }
+
+  Future<int> getCartCount() async {
+    var cartData = await apiWrapper("carts/my",
+        authenticated: true,
+        options: Options(headers: {'excludeToken': false}));
+    if (cartData != null) {
+      try {
+        final count = cartData["items"]?.length ?? 0;
+        print("cart items : " + count.toString());
+        return count;
+      } catch (err) {
+        print("Error in api_service.dart > getCartCount");
         print(err);
         return null;
       }

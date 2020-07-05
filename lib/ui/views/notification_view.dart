@@ -41,7 +41,6 @@ class _NotificationViewState extends State<NotificationView> {
   Widget build(BuildContext context) {
     return ViewModelProvider<HomeViewModel>.withConsumer(
         viewModel: HomeViewModel(),
-        onModelReady: (model) => model.init(),
         builder: (context, model, child) => Scaffold(
               backgroundColor: backgroundWhiteCreamColor,
               body: SafeArea(

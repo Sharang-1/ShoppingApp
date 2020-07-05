@@ -13,10 +13,7 @@ class BaseModel extends ChangeNotifier {
       locator<AuthenticationService>();
   final NavigationService _navigationService = locator<NavigationService>();
 
-  int cartCount = 0;
-
   User get currentUser => _authenticationService.currentUser;
-
   bool _busy = false;
   bool get busy => _busy;
 
@@ -25,47 +22,14 @@ class BaseModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> setUpCartCount() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    cartCount = prefs.getInt(CartCount);
-    notifyListeners();
-    return;
-  }
-
-  Future<void> incrementCartCount() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    cartCount = prefs.getInt(CartCount);
-    if(cartCount != null)
-      cartCount += 1;
-    else 
-      cartCount = 1;
-    
-    prefs.setInt(CartCount, cartCount);
-    notifyListeners();
-    return;
-  }
-
-  Future<void> decrementCartCount() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    cartCount = prefs.getInt(CartCount);
-    if(cartCount != null && cartCount != 0)
-      cartCount -= 1;
-    else 
-      cartCount = 0;
-    
-    prefs.setInt(CartCount, cartCount);
-    notifyListeners();
-    return;
-  }
-
   // Goto Pages
 
   Future<void> search() async {
     await _navigationService.navigateTo(SearchViewRoute);
   }
 
-  Future<void> cart() async {
-    await _navigationService.navigateTo(CartViewRoute);
+  Future<dynamic> cart() async {
+    return await _navigationService.navigateTo(CartViewRoute);
   }
 
   Future<void> category() async {

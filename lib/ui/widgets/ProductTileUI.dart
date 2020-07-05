@@ -1,10 +1,12 @@
 
 import 'package:compound/constants/server_urls.dart';
+import 'package:compound/models/WhishListSetUp.dart';
 import 'package:compound/models/products.dart';
 import 'package:compound/services/whishlist_service.dart';
 import 'package:compound/ui/shared/shared_styles.dart';
 import 'package:compound/ui/widgets/wishlist_icon.dart';
 import 'package:compound/utils/tools.dart';
+import 'package:provider/provider.dart';
 import '../../locator.dart';
 import '../shared/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -31,35 +33,25 @@ class _ProductTileUIState extends State<ProductTileUI> {
 
   @override
   void initState() {
-    isProductInWhishList(widget);
     super.initState();
-  }
-
-  void isProductInWhishList(widget) async {
-    toggle = await _whishListService.isProductInWhishList(widget.key);
   }
 
   void addToWhishList(id) async {
     var res = await _whishListService.addWhishList(id);
     if(res == true) {
-      setState(() {
-        toggle = true;
-      });
+      Provider.of<WhishListSetUp>(context, listen: false).addToWhishList(id);
     }
   }
 
   void removeFromWhishList(id) async {
-    var res = await _whishListService.addWhishList(id);
+    var res = await _whishListService.removeWhishList(id);
     if(res == true) {
-      setState(() {
-        toggle = false;
-      });
+      Provider.of<WhishListSetUp>(context, listen: false).removeFromWhishList(id);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    isProductInWhishList(widget);
     bool isTablet = Tools.checkIfTablet(MediaQuery.of(context));
 
     double titleFontSize =
@@ -85,6 +77,7 @@ class _ProductTileUIState extends State<ProductTileUI> {
     // final productRatingValue =
     //     productRatingObj != null ? productRatingObj.rate : 0.0;
     final String fontFamily = "Raleway";
+    print("Take this step");
 
     // double tagSize = isTablet ? 14.0 : 10.0;
 
@@ -132,7 +125,7 @@ class _ProductTileUIState extends State<ProductTileUI> {
                                           fontWeight: FontWeight.bold)),
                                 ),
                                 InkWell(
-                                  child: this.toggle
+                                  child: Provider.of<WhishListSetUp>(context, listen: true).list.indexOf(widget.data.key) != -1
                                       ? WishListIcon(
                                           filled: true,
                                           width: 18,
@@ -144,7 +137,7 @@ class _ProductTileUIState extends State<ProductTileUI> {
                                           height: 18,
                                         ),
                                   onTap: () {
-                                    if(toggle == true) {
+                                    if(Provider.of<WhishListSetUp>(context, listen: false).list.indexOf(widget.data.key) != -1) {
                                       removeFromWhishList(widget.data.key);
                                     } else {
                                       addToWhishList(widget.data.key);
@@ -154,7 +147,7 @@ class _ProductTileUIState extends State<ProductTileUI> {
                               ],
                               // )
                             ),
-                            Text("By Anita's Creation",
+                            Text("By ${widget.data.owner.key.toString()}",
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                     fontFamily: fontFamily,

@@ -1,3 +1,4 @@
+import 'package:compound/models/CartCountSetUp.dart';
 import 'package:compound/ui/shared/app_colors.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/models/cart.dart';
@@ -11,6 +12,7 @@ import 'package:fimber/fimber.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 import '../shared/shared_styles.dart';
 import '../widgets/custom_stepper.dart';
@@ -93,8 +95,10 @@ class _CartViewState extends State<CartView> {
                         index: index,
                         item: dItem,
                         onDelete: (int index) async {
-                          await onDelete(index);
-                          model.setUpCartCount();
+                          final value = await onDelete(index);
+                          if(value != true) return;
+                          await model.decrementCartCount();
+                          Provider.of<CartCountSetUp>(context, listen: false).decrementCartCount();
                         },
                       );
                     },

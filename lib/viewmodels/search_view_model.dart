@@ -2,7 +2,6 @@ import 'base_model.dart';
 
 class SearchViewModel extends BaseModel {
   Future<void> init() async {
-    setUpCartCount();
     return;
   }
 

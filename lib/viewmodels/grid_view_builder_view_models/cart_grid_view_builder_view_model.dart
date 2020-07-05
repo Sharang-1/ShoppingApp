@@ -21,18 +21,6 @@ class CartGridViewBuilderViewModel extends BaseGridViewBuilderViewModel<Cart, It
     return null;
   }
 
-  Future<void> decrementCartCount() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var cartCount = prefs.getInt(CartCount);
-    if(cartCount != null && cartCount != 0)
-      cartCount -= 1;
-    else 
-      cartCount = 0;
-    
-    prefs.setInt(CartCount, cartCount);
-    return;
-  }
-
   @override
   Future<Cart> getData(
       {BaseFilterModel filterModel, int pageNumber, int pageSize = 10}) async {

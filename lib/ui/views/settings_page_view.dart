@@ -43,7 +43,6 @@ class SettingsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelProvider<HomeViewModel>.withConsumer(
         viewModel: HomeViewModel(),
-        onModelReady: (model) => model.init(),
         builder: (context, model, child) => Scaffold(
             backgroundColor: backgroundWhiteCreamColor,
             // drawer: HomeDrawer(),
