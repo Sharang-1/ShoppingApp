@@ -10,7 +10,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 
 class ReviewWidget extends StatelessWidget {
-  ReviewWidget(@required productId);
+  ReviewWidget(productId);
   String productId;
 
   @override
