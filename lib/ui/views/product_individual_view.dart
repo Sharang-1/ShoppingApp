@@ -125,8 +125,11 @@ class _ProductIndiViewState extends State<ProductIndiView> {
         label: Text(variations[i].size),
         selected: selectedSize == variations[i].size,
         onSelected: (val) {
-          setState(
-              () => {selectedSize = variations[i].size, selectedIndex = i,selectedQty=0});
+          setState(() => {
+                selectedSize = variations[i].size,
+                selectedIndex = i,
+                selectedQty = 0
+              });
         },
       ));
     }
@@ -135,7 +138,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
   }
 
   Wrap allSizes(variations) {
-    print("check this "+variations[0].size);
+    print("check this " + variations[0].size);
     if (variations[0].size == "N/A") {
       print("cond true");
       selectedSize = "N/A";
@@ -154,16 +157,17 @@ class _ProductIndiViewState extends State<ProductIndiView> {
 
   Wrap allColors(colors) {
     List<Widget> allColorChips = [];
-    var uniqueColor= new Map();
+    var uniqueColor = new Map();
     for (var color in colors) {
-      print("check this" + (uniqueColor.containsKey(color.color)).toString() + color.color);
-      if(selectedSize != color.size){
+      print("check this" +
+          (uniqueColor.containsKey(color.color)).toString() +
+          color.color);
+      if (selectedSize != color.size) {
         continue;
       }
-      if(!uniqueColor.containsKey(color.color)){
-        uniqueColor[color.color]=true;
-      }
-      else{
+      if (!uniqueColor.containsKey(color.color)) {
+        uniqueColor[color.color] = true;
+      } else {
         continue;
       }
       allColorChips.add(ChoiceChip(
@@ -177,14 +181,19 @@ class _ProductIndiViewState extends State<ProductIndiView> {
             )),
         labelStyle: TextStyle(
             fontSize: subtitleFontSizeStyle - 4,
-            fontWeight:
-                selectedColor == color.color ? FontWeight.w600 : FontWeight.normal,
+            fontWeight: selectedColor == color.color
+                ? FontWeight.w600
+                : FontWeight.normal,
             color: selectedColor == color.color ? darkRedSmooth : Colors.grey),
         selectedColor: Colors.white,
         label: Text(color.color),
         selected: selectedColor == color.color,
         onSelected: (val) {
-          setState(() => {selectedColor = color.color,maxQty = color.quantity,selectedQty=0});
+          setState(() => {
+                selectedColor = color.color,
+                maxQty = color.quantity,
+                selectedQty = 0
+              });
         },
       ));
     }
@@ -346,18 +355,10 @@ class _ProductIndiViewState extends State<ProductIndiView> {
     final double productPrice = widget.data.price ?? 0.0;
     final double productOldPrice = widget.data.oldPrice ?? 0.0;
     final productRatingObj = widget.data.rating ?? null;
-    final variations =  widget.data.variations ?? null;
+    final variations = widget.data.variations ?? null;
     final variations3 = [
-      {
-        "size": "N/A",
-        "quantity": 4,
-        "color":  "Orange"
-      },
-      {
-        "size": "N/A",
-        "quantity": 6,
-        "color":  "Orange"
-      },
+      {"size": "N/A", "quantity": 4, "color": "Orange"},
+      {"size": "N/A", "quantity": 6, "color": "Orange"},
       {
         "size": "N/A",
         "quantity": 10,
@@ -456,8 +457,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                               color: Colors.white.withOpacity(1)),
                           child: WishListIcon(
                             filled: model.isProductInWhishlist,
-                            width: 20,
-                            height: 20,
+                            width: 15,
+                            height: 15,
                           ),
                         ),
                       ),
@@ -479,7 +480,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                       )
                     ],
                   ),
-                  tags.length == 0
+                  true || tags.length == 0
                       ? Container()
                       : Column(
                           children: <Widget>[
@@ -547,7 +548,12 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                             color: Colors.white),
                         child: Row(
                           children: <Widget>[
-                            Icon(Icons.add),
+                            SvgPicture.asset(
+                              "assets/icons/address.svg",
+                              color: Colors.black,
+                              width: 20,
+                              height: 20,
+                            ),
                             horizontalSpaceSmall,
                             Text("Add Address")
                           ],
@@ -604,7 +610,9 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: <Widget>[
-                                      selectedSize == "N/A" ? verticalSpace(0) : verticalSpace(20),
+                                      selectedSize == "N/A"
+                                          ? verticalSpace(0)
+                                          : verticalSpace(20),
                                       Text(
                                         "Select Color",
                                         style: TextStyle(
@@ -617,73 +625,71 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                       ),
                                     ],
                                   ),
-                              verticalSpace(10),
-                              selectedColor == ""
-                                  ? Container()
-                                  : Row(
-                                      children: <Widget>[
-                                        Text(
-                                          "Select Qty",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: subtitleFontSizeStyle),
+                            verticalSpace(10),
+                            selectedColor == ""
+                                ? Container()
+                                : Row(
+                                    children: <Widget>[
+                                      Text(
+                                        "Select Qty",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: subtitleFontSizeStyle),
+                                      ),
+                                      horizontalSpaceMedium,
+                                      Container(
+                                        height: 40,
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 0, horizontal: 0),
+                                        decoration: BoxDecoration(
+                                            border: Border.all(
+                                                color: darkRedSmooth),
+                                            borderRadius:
+                                                BorderRadius.circular(20)),
+                                        child: Row(
+                                          children: <Widget>[
+                                            IconButton(
+                                              color: selectedQty == 0
+                                                  ? Colors.grey
+                                                  : darkRedSmooth,
+                                              icon: Icon(Icons.remove),
+                                              onPressed: () {
+                                                if (selectedQty != 0) {
+                                                  setState(() {
+                                                    selectedQty =
+                                                        selectedQty - 1;
+                                                  });
+                                                }
+                                              },
+                                            ),
+                                            Text(
+                                              selectedQty.toString(),
+                                              style: TextStyle(
+                                                  color: darkRedSmooth,
+                                                  fontSize: titleFontSizeStyle,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            IconButton(
+                                              color: maxQty == selectedQty
+                                                  ? Colors.grey
+                                                  : darkRedSmooth,
+                                              icon: Icon(Icons.add),
+                                              onPressed: () {
+                                                print("maxQty" +
+                                                    maxQty.toString());
+                                                if (maxQty != selectedQty) {
+                                                  setState(() {
+                                                    selectedQty =
+                                                        selectedQty + 1;
+                                                  });
+                                                }
+                                              },
+                                            ),
+                                          ],
                                         ),
-                                        horizontalSpaceMedium,
-                                        Container(
-                                          height: 40,
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: 0, horizontal: 0),
-                                          decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  color: darkRedSmooth),
-                                              borderRadius:
-                                                  BorderRadius.circular(20)),
-                                          child: Row(
-                                            children: <Widget>[
-                                              IconButton(
-                                                color: selectedQty == 0
-                                                    ? Colors.grey
-                                                    : darkRedSmooth,
-                                                icon: Icon(Icons.remove),
-                                                onPressed: () {
-                                                  if (selectedQty != 0) {
-                                                    setState(() {
-                                                      selectedQty =
-                                                          selectedQty - 1;
-                                                    });
-                                                  }
-                                                },
-                                              ),
-                                              Text(
-                                                selectedQty.toString(),
-                                                style: TextStyle(
-                                                    color: darkRedSmooth,
-                                                    fontSize: titleFontSizeStyle,
-                                                    fontWeight: FontWeight.bold),
-                                              ),
-                                              IconButton(
-                                                color: maxQty ==
-                                                        selectedQty
-                                                    ? Colors.grey
-                                                    : darkRedSmooth,
-                                                icon: Icon(Icons.add),
-                                                onPressed: () {
-                                                  print("maxQty"+maxQty.toString());
-                                                  if (maxQty !=
-                                                      selectedQty) {
-                                                    setState(() {
-                                                      selectedQty =
-                                                          selectedQty + 1;
-                                                    });
-                                                  }
-                                                },
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                            
+                                      ),
+                                    ],
+                                  ),
                           ],
                         ),
                       )),

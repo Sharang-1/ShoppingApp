@@ -21,11 +21,17 @@ class BusyButtonCicular extends StatefulWidget {
 class _BusyButtonCircularState extends State<BusyButtonCicular> {
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton(heroTag: "Kaushik",onPressed:  widget.enabled ? widget.onPressed: null,backgroundColor: widget.enabled ? logoRed : logoRed,child: Icon(Icons.arrow_forward,color: Colors.white,),);
+    return FloatingActionButton(
+      heroTag: "Kaushik",
+      onPressed: widget.enabled ? widget.onPressed : null,
+      backgroundColor: widget.enabled ? logoRed : Colors.grey,
+      child: Icon(
+        Icons.arrow_forward,
+        color: Colors.white,
+      ),
+    );
   }
 }
-
-
 
 // class _BusyButtonState extends State<BusyButtonCicular> {
 //   @override

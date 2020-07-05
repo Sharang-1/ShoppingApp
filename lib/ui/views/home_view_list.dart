@@ -119,7 +119,12 @@ class HomeViewList extends StatelessWidget {
     },
   ];
 
-  final List<String> categories = ["Kurtas", "Dresses", "Gowns", "Chaniya Cholis"];
+  final List<String> categories = [
+    "Kurtas",
+    "Dresses",
+    "Gowns",
+    "Chaniya Cholis"
+  ];
   final String singleImage =
       'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80';
 
@@ -174,63 +179,63 @@ class HomeViewList extends StatelessWidget {
             ],
           ),
           Container(
-              height: 120,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: categories
-                    .map((category) => SizedBox(
-                        width: 192,
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(5, 10, 0, 5),
-                          child: InkWell(
-                            child: Card(
-                              clipBehavior: Clip.antiAlias,
-                              color: Colors.grey,
-                              child: Stack(children: <Widget>[
-                                Positioned.fill(
-                                    child: ColorFiltered(
-                                  colorFilter: ColorFilter.mode(
-                                      Colors.black.withOpacity(0.3),
-                                      BlendMode.srcATop),
-                                  child: FadeInImage.assetNetwork(
-                                      fit: BoxFit.fill,
-                                      fadeInCurve: Curves.easeIn,
-                                      placeholder:
-                                          'assets/images/placeholder.png',
-                                      image:
-                                          // photoName == null?
+            height: 120,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: categories
+                  .map((category) => SizedBox(
+                      width: 192,
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(5, 10, 0, 5),
+                        child: InkWell(
+                          child: Card(
+                            clipBehavior: Clip.antiAlias,
+                            color: Colors.grey,
+                            child: Stack(children: <Widget>[
+                              Positioned.fill(
+                                  child: ColorFiltered(
+                                colorFilter: ColorFilter.mode(
+                                    Colors.black.withOpacity(0.3),
+                                    BlendMode.srcATop),
+                                child: FadeInImage.assetNetwork(
+                                    fit: BoxFit.fill,
+                                    fadeInCurve: Curves.easeIn,
+                                    placeholder:
+                                        'assets/images/placeholder.png',
+                                    image:
+                                        // photoName == null?
 
-                                          'https://images.pexels.com/photos/934070/pexels-photo-934070.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
-                                      // : photoName
+                                        'https://images.pexels.com/photos/934070/pexels-photo-934070.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
+                                    // : photoName
 
-                                      ),
-                                )),
-                                Positioned.fill(
-                                    child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10),
-                                  child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        CustomText(category,
-                                            align: TextAlign.center,
-                                            color: Colors.white,
-                                            fontSize: subtitleFontSize - 2,
-                                            fontWeight: FontWeight.w600),
-                                      ]),
-                                ))
-                              ]),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(curve15),
-                              ),
-                              elevation: 5,
+                                    ),
+                              )),
+                              Positioned.fill(
+                                  child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      CustomText(category,
+                                          align: TextAlign.center,
+                                          color: Colors.white,
+                                          fontSize: subtitleFontSize - 2,
+                                          fontWeight: FontWeight.w600),
+                                    ]),
+                              ))
+                            ]),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(curve15),
                             ),
-                            onTap: () {},
+                            elevation: 5,
                           ),
-                        )))
-                    .toList(),
-              )),
+                          onTap: () {},
+                        ),
+                      )))
+                  .toList(),
+            ),
+          ),
           verticalSpace(40),
           Row(children: <Widget>[
             Expanded(

@@ -266,7 +266,8 @@ class _SearchViewState extends State<SearchView>
                 actions: <Widget>[
                   if (showResults && currentTabIndex == 0)
                     IconButton(
-                      icon: Icon(Icons.filter_list),
+                      iconSize: 50,
+                      icon: Image.asset("assets/icons/filter.png"),
                       onPressed: () async {
                         ProductFilter filterDialogResponse =
                             await showModalBottomSheet(

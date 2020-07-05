@@ -166,10 +166,7 @@ class _SelectAddressState extends State<SelectAddress> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Icon(
-                              Icons.add_location,
-                              color: Colors.white,
-                            ),
+                            SvgPicture.asset("assets/icons/address.svg",color: Colors.white,width:25,height: 25,),
                             horizontalSpaceSmall,
                             Padding(
                               padding: const EdgeInsets.symmetric(vertical: 15),

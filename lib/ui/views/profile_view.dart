@@ -73,6 +73,8 @@ class _ProfileViewState extends State<ProfileView> {
                   builder: (BuildContext context) {
                     return AlertDialog(
                       // title: new Text("Are you sure?"),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(15))),
                       content: new Text(
                           "Are you sure you don't want to make a change?"),
                       actions: <Widget>[
@@ -80,7 +82,7 @@ class _ProfileViewState extends State<ProfileView> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
                           ),
-                          color: green,
+                          color: logoRed,
                           child: new Text("Yes"),
                           onPressed: () {
                             Navigator.pop(context, true);
@@ -420,9 +422,11 @@ class _ProfileViewState extends State<ProfileView> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: <Widget>[
-                                        Icon(
-                                          Icons.add,
+                                        SvgPicture.asset(
+                                          "assets/icons/address.svg",
                                           color: Colors.white,
+                                          width: 25,
+                                          height: 25,
                                         ),
                                         horizontalSpaceSmall,
                                         Padding(

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
-
+import 'package:international_phone_input/international_phone_input.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/ui/widgets/busy_button_circular.dart';
 import 'package:compound/ui/widgets/input_field.dart';
@@ -18,6 +18,7 @@ class LoginView extends StatelessWidget {
   final FocusNode _nameFocus = FocusNode();
   final FocusNode _mobileFocus = FocusNode();
 
+  void onValidated() {}
   Widget inputFields(model, context) {
     return Padding(
       padding: const EdgeInsets.only(right: 20),
@@ -39,11 +40,16 @@ class LoginView extends StatelessWidget {
           ),
           InternationalPhoneNumberInput(
             onInputChanged: (PhoneNumber number) {
-              // model.validatePhoneNo();
+              // model.validatePhoneNo(number.toString());
             },
             focusNode: _mobileFocus,
             onSubmit: () {
               _mobileFocus.unfocus();
+            },
+            onInputValidated: (bool flag) {
+              if (flag) {
+                _mobileFocus.unfocus();
+              }
             },
             countries: ['IN', 'US'],
             inputDecoration: InputDecoration(
@@ -52,13 +58,18 @@ class LoginView extends StatelessWidget {
                     color: Colors.grey,
                     fontWeight: FontWeight.bold,
                     fontSize: titleFontSizeStyle)),
-            initialCountry2LetterCode: 'IN',
             errorMessage: model.phoneNoValidation,
             textFieldController: phoneNoController,
             isEnabled: true,
+            selectorType: PhoneInputSelectorType.DIALOG,
             autoValidate: true,
             formatInput: true,
           ),
+          // InternationalPhoneInput(
+          //     initialPhoneNumber: "",
+
+          //     initialSelection: "IND",
+          //     enabledCountries: ['+91', '+1']),
         ],
       )),
     );

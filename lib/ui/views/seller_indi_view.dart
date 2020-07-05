@@ -27,25 +27,26 @@ class _SellerIndiState extends State<SellerIndi> {
     "lon": "62.50125",
     "appointment": "false",
     "Address": "A/3 , Ami Apartment , 132 feet ring road , naranpura , ",
-    "Works Offered": "Work1 , Work2 , Work3 , Work4",
-    "Operations Offered": "Op1 , OP2 , Op3 , Op4",
-    "People Like Our": "Item1 , Itm2 , Item3 , Item4 ",
-    "Type": "Type of this is offered",
     "Speciality": "Spec1 , Spec2 , Spec3 , Spec4 , Spec5",
+    "Designs & Creates": "Item1 , Itm2 , Item3 , Item4 ",
+    "Services offered": "Op1 , OP2 , Op3 , Op4",
+    "Works Offered": "Work1 , Work2 , Work3 , Work4",
+    "Type": "Type of this is offered",
+    "Note from Seller": "Sellers bio here"
   };
 
   var allDetials = [
+    "Speciality",
+    "Designs & Creates",
+    "Services offered",
     "Works Offered",
-    "Operations Offered",
-    "People Like Our",
     "Type",
-    "Speciality"
   ];
 
   Map<String, String> icons = {
     "Works Offered": "assets/svg/dressmaker.svg",
-    "Operations Offered": "assets/svg/crease.svg",
-    "People Like Our": "assets/svg/fabric.svg",
+    "Services offered": "assets/svg/crease.svg",
+    "Designs & Creates": "assets/svg/fabric.svg",
     "Type": "assets/svg/online.svg",
     "Speciality": "assets/svg/tumblr-badge.svg",
   };
@@ -321,7 +322,7 @@ class _SellerIndiState extends State<SellerIndi> {
                                     icons[key],
                                     height: 30,
                                     width: 30,
-                                    color: Colors.blue[200],
+                                    color: Colors.blue[500],
                                   )
                                 : SvgPicture.asset(
                                     icons[key],
@@ -350,7 +351,7 @@ class _SellerIndiState extends State<SellerIndi> {
                                     color: Colors.grey[700],
                                     align: TextAlign.left,
                                   ),
-                                  key == "Speciality"
+                                  key == "Type"
                                       ? Container()
                                       : Container(
                                           padding: EdgeInsets.symmetric(
@@ -370,6 +371,35 @@ class _SellerIndiState extends State<SellerIndi> {
                             ),
                           ]);
                     }).toList(),
+                  ),
+                ),
+              ),
+              verticalSpace(20),
+              Card(
+                elevation: 5,
+                clipBehavior: Clip.antiAlias,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(curve15),
+                ),
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      CustomText(
+                        "Note from Seller",
+                        fontSize: subHeadFont,
+                        isBold: true,
+                        color: Colors.grey[700],
+                      ),
+                      verticalSpace(10),
+                      CustomText(
+                        "Sellers bio here",
+                        fontSize: smallFont,
+                        color: Colors.grey,
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -413,6 +443,7 @@ class _SellerIndiState extends State<SellerIndi> {
   }
 
   void _showBottomSheet(context) {
+    print("check this " + MediaQuery.of(context).size.height.toString());
     showModalBottomSheet(
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(top: Radius.circular(curve30))),
@@ -421,7 +452,10 @@ class _SellerIndiState extends State<SellerIndi> {
         context: context,
         builder: (context) {
           return FractionallySizedBox(
-              heightFactor: 0.6, child: SellerBottomSheetView());
+              heightFactor: MediaQuery.of(context).size.height > 600
+                  ? MediaQuery.of(context).size.height > 800 ? 0.650 : 0.7
+                  : 0.8,
+              child: SellerBottomSheetView());
         });
   }
 }
