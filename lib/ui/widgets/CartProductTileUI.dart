@@ -1,3 +1,4 @@
+import 'package:compound/constants/server_urls.dart';
 import 'package:compound/models/cart.dart';
 import 'package:compound/ui/shared/app_colors.dart';
 import 'package:compound/ui/shared/shared_styles.dart';
@@ -35,6 +36,7 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
   double discount;
   double deliveryCharges;
   double discountedPrice;
+  String productImage;
   Map<String, String> orderSummaryDetails;
 
   static const orderSummaryDetails1 = [
@@ -61,6 +63,7 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
     clicked = false;
     price = widget.item.product.price;
     discount = widget.item.product.discount;
+    productImage = widget.item.product.photo?.photos[0]?.name ?? null;
     deliveryCharges = 0;
     discountedPrice = price - (price * discount / 100);
 
@@ -132,7 +135,7 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                 width: 120,
                 fadeInCurve: Curves.easeIn,
                 placeholder: "assets/images/placeholder.png",
-                image:
+                image: productImage != null ? '$PRODUCT_PHOTO_BASE_URL/${widget.item.productId}/$productImage' :
                     "https://images.unsplashr.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
                 fit: BoxFit.cover,
               ),

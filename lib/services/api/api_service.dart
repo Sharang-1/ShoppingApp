@@ -88,7 +88,7 @@ class APIService {
       print("error");
       print(resJSON.containsKey("error"));
       if (resJSON.containsKey("error") == true) {
-        throw Exception("Testing");
+        throw Exception(resJSON["error"]);
       }
       return resJSON;
     } catch (e, stacktrace) {
