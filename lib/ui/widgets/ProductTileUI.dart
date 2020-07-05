@@ -1,15 +1,15 @@
-import 'dart:math';
 
+import 'package:compound/constants/server_urls.dart';
+import 'package:compound/models/WhishListSetUp.dart';
 import 'package:compound/models/products.dart';
 import 'package:compound/services/whishlist_service.dart';
 import 'package:compound/ui/shared/shared_styles.dart';
-import 'package:compound/ui/widgets/network_image_with_placeholder.dart';
 import 'package:compound/ui/widgets/wishlist_icon.dart';
 import 'package:compound/utils/tools.dart';
+import 'package:provider/provider.dart';
 import '../../locator.dart';
 import '../shared/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class ProductTileUI extends StatefulWidget {
   final Product data;
@@ -33,29 +33,20 @@ class _ProductTileUIState extends State<ProductTileUI> {
 
   @override
   void initState() {
-    isProductInWhishList(widget);
     super.initState();
-  }
-
-  void isProductInWhishList(widget) async {
-    toggle = await _whishListService.isProductInWhishList(widget.key);
   }
 
   void addToWhishList(id) async {
     var res = await _whishListService.addWhishList(id);
     if(res == true) {
-      setState(() {
-        toggle = true;
-      });
+      Provider.of<WhishListSetUp>(context, listen: false).addToWhishList(id);
     }
   }
 
   void removeFromWhishList(id) async {
-    var res = await _whishListService.addWhishList(id);
+    var res = await _whishListService.removeWhishList(id);
     if(res == true) {
-      setState(() {
-        toggle = false;
-      });
+      Provider.of<WhishListSetUp>(context, listen: false).removeFromWhishList(id);
     }
   }
 
@@ -76,31 +67,25 @@ class _ProductTileUIState extends State<ProductTileUI> {
 
     final photo = widget.data.photo ?? null;
     final photos = photo != null ? photo.photos ?? null : null;
-    final String originalPhotoName =
-        photos != null ? photos[0].originalName ?? null : null;
+    final String photoURL =
+        photos != null ? photos[0].name ?? null : null;
     final String productName = widget.data.name ?? "No name";
     final double productDiscount = widget.data.discount ?? 0.0;
     final double productPrice = widget.data.price ?? 0.0;
-    final double productOldPrice = widget.data.oldPrice ?? 0.0;
-    final productRatingObj = widget.data.rating ?? null;
-    final productRatingValue =
-        productRatingObj != null ? productRatingObj.rate : 0.0;
+    // final double productOldPrice = widget.data.oldPrice ?? 0.0;
+    // final productRatingObj = widget.data.rating ?? null;
+    // final productRatingValue =
+    //     productRatingObj != null ? productRatingObj.rate : 0.0;
     final String fontFamily = "Raleway";
-    String getTruncatedString(int length, String str) {
-      return str.length <= length ? str : '${str.substring(0, length)}...';
-    }
+    print("Take this step");
 
-    double tagSize = isTablet ? 14.0 : 10.0;
+    // double tagSize = isTablet ? 14.0 : 10.0;
 
-    List<String> tags = [
-      "Coats",
-      "Trending",
-      "211",
-      // "212343"
-    ];
-    // print("Image : ::::::::::::::::::::::::::::::::");
-    // print("http://52.66.141.191/api/photos/" + originalName.toString());
-    // print("http://52.66.141.191/api/photos/" + name.toString());
+    // List<String> tags = [
+    //   "Coats",
+    //   "Trending",
+    //   "211",
+    // ];
 
     return GestureDetector(
         onTap: widget.onClick,
@@ -119,7 +104,7 @@ class _ProductTileUIState extends State<ProductTileUI> {
                   Expanded(
                       flex: 13,
                       child: _imageStackview(
-                          originalPhotoName, productDiscount, priceFontSize)),
+                          photoURL, productDiscount, priceFontSize)),
                   Expanded(
                       flex: 7,
                       child: Padding(
@@ -140,7 +125,7 @@ class _ProductTileUIState extends State<ProductTileUI> {
                                           fontWeight: FontWeight.bold)),
                                 ),
                                 InkWell(
-                                  child: this.toggle
+                                  child: Provider.of<WhishListSetUp>(context, listen: true).list.indexOf(widget.data.key) != -1
                                       ? WishListIcon(
                                           filled: true,
                                           width: 18,
@@ -152,7 +137,7 @@ class _ProductTileUIState extends State<ProductTileUI> {
                                           height: 18,
                                         ),
                                   onTap: () {
-                                    if(toggle == true) {
+                                    if(Provider.of<WhishListSetUp>(context, listen: false).list.indexOf(widget.data.key) != -1) {
                                       removeFromWhishList(widget.data.key);
                                     } else {
                                       addToWhishList(widget.data.key);
@@ -162,7 +147,7 @@ class _ProductTileUIState extends State<ProductTileUI> {
                               ],
                               // )
                             ),
-                            Text("By Anita's Creation",
+                            Text("By ${widget.data.owner.key.toString()}",
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                     fontFamily: fontFamily,
@@ -207,7 +192,7 @@ class _ProductTileUIState extends State<ProductTileUI> {
         ));
   }
 
-  Widget _imageStackview(originalPhotoName, discount, priceFontSize) {
+  Widget _imageStackview(photoURL, discount, priceFontSize) {
     return Stack(fit: StackFit.loose, children: <Widget>[
       Positioned.fill(
         child: FractionallySizedBox(
@@ -220,12 +205,12 @@ class _ProductTileUIState extends State<ProductTileUI> {
                         Colors.transparent.withOpacity(0.12),
                         BlendMode.srcATop),
                     child: FadeInImage.assetNetwork(
-                        fit: BoxFit.fill,
+                        fit: BoxFit.cover,
                         fadeInCurve: Curves.easeIn,
                         placeholder: 'assets/images/placeholder.png',
-                        image: originalPhotoName == null
+                        image: photoURL == null
                             ? 'https://images.pexels.com/photos/157675/fashion-men-s-individuality-black-and-white-157675.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
-                            : originalPhotoName)))),
+                            : '$PRODUCT_PHOTO_BASE_URL/${widget.data.key}/$photoURL')))),
       ),
       discount != 0.0
           ? Positioned(

@@ -1,14 +1,10 @@
 import 'package:compound/ui/widgets/sellerAppointmentBottomSheet.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'dart:convert';
-import 'package:compound/locator.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/ui/widgets/custom_text.dart';
-import 'package:compound/ui/widgets/network_image_with_placeholder.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:provider_architecture/viewmodel_provider.dart';
 import '../shared/app_colors.dart';
 import '../views/home_view_slider.dart';
 import '../shared/shared_styles.dart';

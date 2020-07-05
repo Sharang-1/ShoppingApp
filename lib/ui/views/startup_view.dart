@@ -1,4 +1,3 @@
-import 'package:compound/ui/widgets/app_title.dart';
 import 'package:compound/viewmodels/startup_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider_architecture/provider_architecture.dart';

@@ -1,4 +1,3 @@
-import 'package:compound/ui/shared/shared_styles.dart';
 import 'package:flutter/material.dart';
 import '../shared/app_colors.dart';
 

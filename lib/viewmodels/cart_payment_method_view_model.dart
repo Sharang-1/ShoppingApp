@@ -1,11 +1,11 @@
-import 'package:compound/constants/route_names.dart';
+// import 'package:compound/constants/route_names.dart';
 import 'package:compound/locator.dart';
 import 'package:compound/services/api/api_service.dart';
-import 'package:compound/services/navigation_service.dart';
+// import 'package:compound/services/navigation_service.dart';
 import 'package:compound/viewmodels/base_model.dart';
 
 class CartPaymentMethodViewModel extends BaseModel {
-  final NavigationService _navigationService = locator<NavigationService>();
+  // final NavigationService _navigationService = locator<NavigationService>();
   final APIService _apiService = locator<APIService>();
 
   final paymentOptions = [
@@ -17,18 +17,6 @@ class CartPaymentMethodViewModel extends BaseModel {
 
   Future init() {
     return null;
-  }
-
-  Future<void> search() async {
-    await _navigationService.navigateTo(SearchViewRoute);
-  }
-
-  Future<void> cart() async {
-    await _navigationService.navigateTo(CartViewRoute);
-  }
-
-  Future openmap() async {
-    await _navigationService.navigateTo(MapViewRoute);
   }
 
   Future<bool> createOrder(

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-// TODO: Change this widget to show either loading bar or products / sellers grid
-// TODO: Add filter and sorting actions
 class SellerGridListWidget extends StatelessWidget {
   const SellerGridListWidget({
     Key key,

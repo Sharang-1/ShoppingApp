@@ -29,7 +29,6 @@ class _CircularProgressIndicatorWidgetState
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return AnimatedBuilder(animation: _animation,
     builder: (context, child) {
                 return CircularPercentIndicator(

@@ -1,9 +1,12 @@
+import 'package:compound/models/CartCountSetUp.dart';
+import 'package:compound/models/WhishListSetUp.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/ui/views/home_view_list.dart';
 import 'package:compound/ui/widgets/drawer.dart';
 import 'package:compound/viewmodels/home_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 import '../shared/app_colors.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 import '../widgets/cart_icon_badge.dart';
@@ -19,7 +22,12 @@ class HomeView extends StatelessWidget {
     // const double subtitleFontSize = subtitleFontSizeStyle;
     return ViewModelProvider<HomeViewModel>.withConsumer(
       viewModel: HomeViewModel(),
-      onModelReady: (model) => model.init(),
+      onModelReady: (model) async {
+        final values = await model.init(context);
+        Provider.of<CartCountSetUp>(context, listen: false).setCartCount(values[0]);
+        Provider.of<WhishListSetUp>(context, listen: false).setUpWhishList(values[1]);
+        print("After Calling init " + Provider.of<CartCountSetUp>(context, listen: false).count.toString());
+      },
       builder: (context, model, child) => Scaffold(
         drawerEdgeDragWidth: 0,
         primary: false,
@@ -49,7 +57,7 @@ class HomeView extends StatelessWidget {
                   IconButton(
                     icon: CartIconWithBadge(
                       iconColor: appBarIconColor,
-                      count: model.cartCount,
+                      count: Provider.of<CartCountSetUp>(context, listen: true).count,
                     ),
                     onPressed: () => model.cart(),
                   ),

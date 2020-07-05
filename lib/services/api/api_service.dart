@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:compound/constants/server_urls.dart';
 import 'package:dio/dio.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +35,7 @@ import 'package:compound/models/user_details.dart';
 
 class APIService {
   final apiClient = Dio(BaseOptions(
-      baseUrl: "https://dzor.in/api/",
+      baseUrl: BASE_URL,
       connectTimeout: 15000,
       receiveTimeout: 15000,
       validateStatus: (status) {
@@ -82,11 +83,12 @@ class APIService {
       print("Raw Response From API");
       print(res.data);
       Map resJSON = res.data;
-      print("Debug api wrapper");
-      print(res);
-      print(res.data);
-      if (resJSON["error"] != null) {
-        throw Exception(resJSON["error"]);
+      print("resJSON");
+      print(resJSON);
+      print("error");
+      print(resJSON.containsKey("error"));
+      if (resJSON.containsKey("error") == true) {
+        throw Exception("Testing");
       }
       return resJSON;
     } catch (e, stacktrace) {
@@ -212,6 +214,24 @@ class APIService {
         Fimber.d("Cart : " + cart.items.map((o) => o.productId).toString());
         return cart;
       } catch (err) {
+        print(err);
+        return null;
+      }
+    }
+    return null;
+  }
+
+  Future<int> getCartCount() async {
+    var cartData = await apiWrapper("carts/my",
+        authenticated: true,
+        options: Options(headers: {'excludeToken': false}));
+    if (cartData != null) {
+      try {
+        final count = cartData["items"]?.length ?? 0;
+        print("cart items : " + count.toString());
+        return count;
+      } catch (err) {
+        print("Error in api_service.dart > getCartCount");
         print(err);
         return null;
       }
@@ -353,6 +373,7 @@ class APIService {
     if(ordersData != null){
       return Orders.fromJson(ordersData);
     }
+    return null;
   }
 
   Future<UserDetails> getUserData() async {
@@ -360,6 +381,7 @@ class APIService {
     if(userData != null){
       return UserDetails.fromJson(userData);
     }
+    return null;
   }
 
   Future<List<PaymentOption>> getPaymentOptions() async {
@@ -367,6 +389,7 @@ class APIService {
     if(mPaymentOptionsData != null){
       return paymentOptionsFromJson(mPaymentOptionsData);
     }
+    return null;
   }
 
   // List<PaymentOption> mPaymentOptions;

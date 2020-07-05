@@ -17,7 +17,6 @@ import 'package:compound/ui/views/settings_page_view.dart';
 import 'package:compound/ui/views/verify_otp.dart';
 import 'package:compound/ui/views/otp_finished_screen_1_view.dart';
 import 'package:compound/ui/views/otp_finished_screen_2_view.dart';
-import 'package:compound/ui/views/wishlist_view.dart';
 import './views/seller_indi_view.dart';
 import './views/myAppointments_view.dart';
 import 'package:flutter/material.dart';

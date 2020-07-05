@@ -1,18 +1,12 @@
-import 'package:compound/constants/route_names.dart';
 import 'package:compound/ui/shared/shared_styles.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
-import 'package:compound/ui/views/home_view_list.dart';
 import 'package:compound/ui/widgets/custom_text.dart';
-import 'package:compound/ui/widgets/drawer.dart';
-import 'package:compound/viewmodels/home_view_model.dart';
 import 'package:compound/viewmodels/user_details_view_model.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../shared/app_colors.dart';
 import 'package:provider_architecture/provider_architecture.dart';
-import '../widgets/cart_icon_badge.dart';
 import 'address_input_form_view.dart';
 
 class ProfileView extends StatefulWidget {

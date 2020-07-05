@@ -1,7 +1,6 @@
 import 'package:compound/ui/shared/app_colors.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/models/grid_view_builder_filter_models/cartFilter.dart';
-import 'package:compound/ui/views/cart_select_delivery_view.dart';
 import 'package:compound/ui/widgets/custom_text.dart';
 import 'package:compound/viewmodels/cart_view_model.dart';
 import 'package:flutter/cupertino.dart';
@@ -51,12 +50,12 @@ class myAppointments extends StatelessWidget {
     "Total"
   ];
 
-  TextEditingController _controller = new TextEditingController();
+  // TextEditingController _controller = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    const double priceFontSize = subtitleFontSizeStyle - 2;
-    const double titleFontSize = subtitleFontSizeStyle;
+    // const double priceFontSize = subtitleFontSizeStyle - 2;
+    // const double titleFontSize = subtitleFontSizeStyle;
     const double headingFontSize = headingFontSizeStyle + 5;
     const double headingSize = 20;
     const double subHeadingSize = 18;

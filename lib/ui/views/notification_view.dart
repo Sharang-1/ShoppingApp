@@ -1,10 +1,6 @@
 import 'package:compound/ui/shared/app_colors.dart';
 import 'package:compound/ui/shared/shared_styles.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
-import 'package:compound/ui/views/address_input_form_view.dart';
-import 'package:compound/ui/views/cart_payment_method_view.dart';
-import 'package:compound/ui/widgets/cart_icon_badge.dart';
-import 'package:compound/ui/widgets/custom_stepper.dart';
 import 'package:compound/ui/widgets/custom_text.dart';
 import 'package:compound/viewmodels/home_view_model.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +18,6 @@ class _NotificationViewState extends State<NotificationView> {
     2: "Notification 3",
     3: "Notification 4",
     4: "Notification 5",
-    0: "Notification 1 is to inform about ur doings and outings ",
     5: "Notification 2 Notification 1 is to inform about ur doings and outings ",
     6: "Notification 3",
     7: "Notification 4",
@@ -46,7 +41,6 @@ class _NotificationViewState extends State<NotificationView> {
   Widget build(BuildContext context) {
     return ViewModelProvider<HomeViewModel>.withConsumer(
         viewModel: HomeViewModel(),
-        onModelReady: (model) => model.init(),
         builder: (context, model, child) => Scaffold(
               backgroundColor: backgroundWhiteCreamColor,
               body: SafeArea(
