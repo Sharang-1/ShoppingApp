@@ -4,6 +4,7 @@ import 'package:compound/locator.dart';
 import 'package:compound/models/products.dart';
 import 'package:compound/models/user.dart';
 import 'package:compound/services/authentication_service.dart';
+import 'package:compound/services/cart_local_store_service.dart';
 import 'package:compound/services/navigation_service.dart';
 import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,6 +13,7 @@ class BaseModel extends ChangeNotifier {
   final AuthenticationService _authenticationService =
       locator<AuthenticationService>();
   final NavigationService _navigationService = locator<NavigationService>();
+  final CartLocalStoreService _cartLocalStoreService = locator<CartLocalStoreService>();
 
   User get currentUser => _authenticationService.currentUser;
   bool _busy = false;
@@ -20,6 +22,20 @@ class BaseModel extends ChangeNotifier {
   void setBusy(bool value) {
     _busy = value;
     notifyListeners();
+  }
+
+  // For local cart items persistance
+
+  Future<void> setCartList(List<String> list) {
+    return _cartLocalStoreService.setCartList(list);
+  }
+
+  Future<int> addToCartLocalStore(String productId) {
+    return _cartLocalStoreService.addToCartLocalStore(productId);
+  }
+
+  Future<void> removeFromCartLocalStore(String productId) {
+    return _cartLocalStoreService.removeFromCartLocalStore(productId);
   }
 
   // Goto Pages
@@ -40,14 +56,14 @@ class BaseModel extends ChangeNotifier {
     return _navigationService.navigateTo(ProductIndividualRoute, arguments: data);
   }
 
+  Future openmap() async {
+    await _navigationService.navigateTo(MapViewRoute);
+  } 
+
   Future<void> logout() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove(Authtoken);
     prefs.remove(PhoneNo);
     await _navigationService.navigateReplaceTo(LoginViewRoute);
   }
-
-  Future openmap() async {
-    await _navigationService.navigateTo(MapViewRoute);
-  }  
 }

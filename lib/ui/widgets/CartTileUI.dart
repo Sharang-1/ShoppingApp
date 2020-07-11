@@ -6,6 +6,7 @@ import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/ui/views/cart_select_delivery_view.dart';
 import 'package:compound/ui/widgets/CartProductTileUI.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 
 class CartTileUI extends StatefulWidget {
   final Item item;
@@ -210,10 +211,10 @@ class _CartTileUIState extends State<CartTileUI> {
   }
 
   void proceedToOrder() {
-    Navigator.push(
+    Navigator.pushReplacement(
       context,
-      MaterialPageRoute(
-        builder: (context) => SelectAddress(
+      PageTransition(
+        child: SelectAddress(
           productId: widget.item.productId.toString(),
           promoCode: promoCode,
           promoCodeId: promoCodeId,
@@ -222,6 +223,7 @@ class _CartTileUIState extends State<CartTileUI> {
           qty: widget.item.quantity,
           finalTotal: finalTotal,
         ),
+        type: PageTransitionType.rightToLeft,
       ),
     );
   }

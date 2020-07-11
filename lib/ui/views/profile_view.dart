@@ -5,6 +5,7 @@ import 'package:compound/viewmodels/user_details_view_model.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:page_transition/page_transition.dart';
 import '../shared/app_colors.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 import 'address_input_form_view.dart';
@@ -401,10 +402,12 @@ class _ProfileViewState extends State<ProfileView> {
                                     elevation: 5,
                                     onPressed: () {
                                       Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  AddressInputPage()));
+                                        context,
+                                        PageTransition(
+                                          child: AddressInputPage(),
+                                          type: PageTransitionType.rightToLeft,
+                                        ),
+                                      );
                                     },
                                     color: darkRedSmooth,
                                     shape: RoundedRectangleBorder(

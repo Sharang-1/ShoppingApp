@@ -1,4 +1,4 @@
-import 'package:compound/services/cart_count_service.dart';
+import 'package:compound/services/cart_local_store_service.dart';
 import 'package:compound/services/whishlist_service.dart';
 import 'package:get_it/get_it.dart';
 
@@ -24,5 +24,5 @@ void setupLocator() {
   // locator.registerLazySingleton(() => PushNotificationService());
   locator.registerLazySingleton(() => AddressService());
   locator.registerLazySingleton(() => WhishListService());
-  locator.registerLazySingleton(() => CartCountService());
+  locator.registerLazySingleton(() => CartLocalStoreService());
 }

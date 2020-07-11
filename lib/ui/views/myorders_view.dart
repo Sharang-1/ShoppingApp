@@ -4,6 +4,7 @@ import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/ui/widgets/custom_text.dart';
 import 'package:compound/viewmodels/orders_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 import './myorders_details_view.dart';
 
@@ -224,10 +225,13 @@ class MyOrdersView extends StatelessWidget {
                                         ),
                                         onPressed: () {
                                           Navigator.push(
-                                              context,
-                                              new MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      MyOrdersDetailsView()));
+                                            context,
+                                            PageTransition(
+                                              child: MyOrdersDetailsView(),
+                                              type: PageTransitionType
+                                                  .rightToLeft,
+                                            ),
+                                          );
                                         },
                                       )
                                     ],

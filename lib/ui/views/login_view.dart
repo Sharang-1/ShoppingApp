@@ -74,40 +74,6 @@ class LoginView extends StatelessWidget {
     );
   }
 
-  Widget bottomBar(model) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 0, 20, 20),
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Text(
-            "Next",
-            style: TextStyle(
-                fontFamily: "Raleway",
-                fontSize: headingFontSizeStyle,
-                fontWeight: FontWeight.w300),
-          ),
-          horizontalSpaceMedium,
-          BusyButtonCicular(
-            enabled: model.phoneNoValidation == "" &&
-                phoneNoController.text != "" &&
-                model.nameValidation == "" &&
-                nameController.text != "",
-            title: 'Next',
-            busy: model.busy,
-            onPressed: () {
-              print((phoneNoController.text).replaceAll(" ", ""));
-              model.login(
-                  phoneNo: (phoneNoController.text).replaceAll(" ", ""),
-                  name: nameController.text);
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return ViewModelProvider<LoginViewModel>.withConsumer(
@@ -117,7 +83,36 @@ class LoginView extends StatelessWidget {
           bottomNavigationBar: BottomAppBar(
             elevation: 0,
             color: Colors.transparent,
-            child: bottomBar(model),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 20, 20),
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    "Next",
+                    style: TextStyle(
+                        fontFamily: "Raleway",
+                        fontSize: headingFontSizeStyle,
+                        fontWeight: FontWeight.w300),
+                  ),
+                  horizontalSpaceMedium,
+                  BusyButtonCicular(
+                    enabled: model.phoneNoValidation == "" &&
+                        phoneNoController.text != "" &&
+                        model.nameValidation == "" &&
+                        nameController.text != "",
+                    title: 'Next',
+                    busy: model.busy,
+                    onPressed: () async {
+                      await model.login(
+                          phoneNo: (phoneNoController.text).replaceAll(" ", ""),
+                          name: nameController.text);
+                    },
+                  ),
+                ],
+              ),
+            ),
           ),
           backgroundColor: backgroundWhiteCreamColor,
           body: SingleChildScrollView(
