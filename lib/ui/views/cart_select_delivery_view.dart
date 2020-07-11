@@ -8,6 +8,7 @@ import 'package:compound/ui/widgets/custom_text.dart';
 import 'package:compound/viewmodels/cart_select_delivery_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 
 class SelectAddress extends StatefulWidget {
@@ -80,20 +81,20 @@ class _SelectAddressState extends State<SelectAddress> {
                 : () {
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => PaymentMethod(
-                          billingAddress: (addressRadioValue == ""
-                              ? model.addresses[0]
-                              : addressRadioValue),
-                          color: widget.color,
-                          productId: widget.productId,
-                          promoCode: widget.promoCode,
-                          promoCodeId: widget.promoCodeId,
-                          qty: widget.qty,
-                          size: widget.size,
-                          finalTotal: widget.finalTotal,
-                        ),
-                      ),
+                      PageTransition(
+                          child: PaymentMethod(
+                            billingAddress: (addressRadioValue == ""
+                                ? model.addresses[0]
+                                : addressRadioValue),
+                            color: widget.color,
+                            productId: widget.productId,
+                            promoCode: widget.promoCode,
+                            promoCodeId: widget.promoCodeId,
+                            qty: widget.qty,
+                            size: widget.size,
+                            finalTotal: widget.finalTotal,
+                          ),
+                          type: PageTransitionType.rightToLeft),
                     );
                   },
             color: green,
@@ -145,8 +146,9 @@ class _SelectAddressState extends State<SelectAddress> {
                         onPressed: () async {
                           final newAddress = await Navigator.push<String>(
                             context,
-                            MaterialPageRoute(
-                              builder: (context) => AddressInputPage(),
+                            PageTransition(
+                              child: AddressInputPage(),
+                              type: PageTransitionType.rightToLeft,
                             ),
                           );
 
@@ -166,7 +168,12 @@ class _SelectAddressState extends State<SelectAddress> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            SvgPicture.asset("assets/icons/address.svg",color: Colors.white,width:25,height: 25,),
+                            SvgPicture.asset(
+                              "assets/icons/address.svg",
+                              color: Colors.white,
+                              width: 25,
+                              height: 25,
+                            ),
                             horizontalSpaceSmall,
                             Padding(
                               padding: const EdgeInsets.symmetric(vertical: 15),

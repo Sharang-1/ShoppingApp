@@ -1,4 +1,3 @@
-
 import 'package:compound/constants/server_urls.dart';
 import 'package:compound/locator.dart';
 import 'package:compound/models/CartCountSetUp.dart';
@@ -13,6 +12,7 @@ import 'package:compound/viewmodels/product_individual_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:provider_architecture/viewmodel_provider.dart';
 import '../shared/app_colors.dart';
@@ -33,6 +33,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
   int maxQty = -1;
   String selectedSize = "";
   String selectedColor = "";
+
+  bool disabledAddToCartBtn = false;
 
   Widget productNameAndDescInfo(productName, variations) {
     return Column(
@@ -321,9 +323,19 @@ class _ProductIndiViewState extends State<ProductIndiView> {
           )),
         ),
         GestureDetector(
-          onTap: () {
-            model.addToCart(widget.data, 1, "1", "");
-          },
+          onTap: disabledAddToCartBtn
+              ? null
+              : () async {
+                  setState(() {
+                    disabledAddToCartBtn = true;
+                  });
+
+                  await model.addToCart(widget.data, 1, "1", "");
+
+                  setState(() {
+                    disabledAddToCartBtn = false;
+                  });
+                },
           child: Container(
             width: MediaQuery.of(context).size.width / 2,
             height: 60,
@@ -349,7 +361,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
     final String productId = widget.data.key;
     final double productDiscount = widget.data.discount ?? 0.0;
     final double productPrice = widget.data.price ?? 0.0;
-    final variations =  widget.data.variations ?? null;
+    final variations = widget.data.variations ?? null;
     final String shipment = widget.data.shipment.days == null
         ? "Not Availabel"
         : widget.data.shipment.days.toString() +
@@ -359,7 +371,9 @@ class _ProductIndiViewState extends State<ProductIndiView> {
       "Trending",
     ];
     final bool available = widget.data.available ?? false;
-    final List<String> imageURLs = widget.data.photo.photos.map((e) => '$PRODUCT_PHOTO_BASE_URL/$productId/${e.name}').toList();
+    final List<String> imageURLs = widget.data.photo.photos
+        .map((e) => '$PRODUCT_PHOTO_BASE_URL/$productId/${e.name}')
+        .toList();
 
     return ViewModelProvider<ProductIndividualViewModel>.withConsumer(
       viewModel: ProductIndividualViewModel(),
@@ -404,18 +418,26 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                         width: MediaQuery.of(context).size.width,
                         child: ClipRRect(
                             borderRadius: BorderRadius.circular(20.0),
-                            child: HomeSlider(imgList: imageURLs,))),
+                            child: HomeSlider(
+                              imgList: imageURLs,
+                            ))),
                     Positioned(
                       bottom: 20,
                       right: 20,
                       child: GestureDetector(
                         onTap: () async {
-                          if (Provider.of<WhishListSetUp>(context, listen: false).list.indexOf(productId) != -1) {
+                          if (Provider.of<WhishListSetUp>(context,
+                                      listen: false)
+                                  .list
+                                  .indexOf(productId) !=
+                              -1) {
                             await model.removeFromWhishList(productId);
-                            Provider.of<WhishListSetUp>(context, listen: false).removeFromWhishList(productId);
+                            Provider.of<WhishListSetUp>(context, listen: false)
+                                .removeFromWhishList(productId);
                           } else {
                             await model.addToWhishList(productId);
-                            Provider.of<WhishListSetUp>(context, listen: false).addToWhishList(productId);
+                            Provider.of<WhishListSetUp>(context, listen: false)
+                                .addToWhishList(productId);
                           }
                         },
                         child: Container(
@@ -424,7 +446,11 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                               borderRadius: BorderRadius.circular(30),
                               color: Colors.white.withOpacity(1)),
                           child: WishListIcon(
-                            filled: Provider.of<WhishListSetUp>(context, listen: true).list.indexOf(productId) != -1,
+                            filled: Provider.of<WhishListSetUp>(context,
+                                        listen: true)
+                                    .list
+                                    .indexOf(productId) !=
+                                -1,
                             width: 20,
                             height: 20,
                           ),
@@ -674,9 +700,9 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                               if (res != null && res == true) {
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        CartView(productId: widget.data.key),
+                                  PageTransition(
+                                    child: CartView(productId: widget.data.key),
+                                    type: PageTransitionType.rightToLeft,
                                   ),
                                 );
                               }
@@ -716,19 +742,28 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                   verticalSpace(20),
                   Center(
                     child: GestureDetector(
-                      onTap: (selectedQty == 0 ||
+                      onTap: disabledAddToCartBtn ||
+                              selectedQty == 0 ||
                               selectedColor == "" ||
-                              selectedSize == "")
+                              selectedSize == ""
                           ? null
                           : () async {
+                              setState(() {
+                                disabledAddToCartBtn = true;
+                              });
+
                               var res = await model.addToCart(widget.data,
                                   selectedQty, selectedSize, selectedColor);
-                              if (res == true) {
-                                Provider.of<CartCountSetUp>(context, listen: false).incrementCartCount();
-                                _dialogService.showDialog(
-                                    title: "Success!",
-                                    description: "Product Added to cart.");
+
+                              if (res == 1) {
+                                Provider.of<CartCountSetUp>(context,
+                                        listen: false)
+                                    .incrementCartCount();
                               }
+
+                              setState(() {
+                                disabledAddToCartBtn = false;
+                              });
                             },
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.8,
@@ -820,7 +855,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                         height: 1))),
                             verticalSpace(10),
                             Text(
-                              Tools.getTruncatedString(100, widget.data.description),
+                              Tools.getTruncatedString(
+                                  100, widget.data.description),
                               style: TextStyle(
                                   fontSize: subtitleFontSizeStyle - 5,
                                   color: Colors.grey),

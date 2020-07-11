@@ -221,17 +221,18 @@ class APIService {
     return null;
   }
 
-  Future<int> getCartCount() async {
-    var cartData = await apiWrapper("carts/my",
+  Future<List<String>> getCartProductItemList() async {
+    var cartData = await apiWrapper("carts/my?context=productDetails",
         authenticated: true,
         options: Options(headers: {'excludeToken': false}));
     if (cartData != null) {
       try {
-        final count = cartData["items"]?.length ?? 0;
-        print("cart items : " + count.toString());
-        return count;
+        CartModule.Cart cart = CartModule.Cart.fromJson(cartData);
+        Fimber.d("Cart : " + cart.items.map((o) => o.productId).toString());
+        final list = cart.items.map((e) => e.productId.toString()).toList();
+        return list;
       } catch (err) {
-        print("Error in api_service.dart > getCartCount");
+        print("Error in api_service.dart > getCartProductItemList");
         print(err);
         return null;
       }
