@@ -420,6 +420,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                             borderRadius: BorderRadius.circular(20.0),
                             child: HomeSlider(
                               imgList: imageURLs,
+                              aspectRatio: 1,
                             ))),
                     Positioned(
                       bottom: 20,
