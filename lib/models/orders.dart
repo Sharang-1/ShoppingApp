@@ -91,7 +91,7 @@ class Order {
         orderCost: OrderCost.fromJson(json["orderCost"]),
         status: Status.fromJson(json["status"]),
         deliveryDate: json["deliveryDate"],
-        product: _Product.fromJson(json["product"]),
+        product: json["product"] != null ? _Product.fromJson(json["product"]) : null,
         payment: Payment.fromJson(json["payment"]),
       );
 
@@ -136,35 +136,21 @@ class BillingPhone {
 }
 
 class OrderCost {
-    OrderCost({
-        this.productId,
-        this.productPrice,
-        this.quantity,
-        this.shippingCharge,
-        this.cost,
-        this.promocodeId,
-        this.promocode,
-        this.promocodeDiscount,
-        this.promocodeDiscountCost,
-        this.promotionId,
-        this.promotionDiscount,
-        this.promotionDiscountCost,
-    });
+  OrderCost({
+    this.productId,
+    this.productPrice,
+    this.quantity,
+    this.shippingCharge,
+    this.cost,
+  });
 
-    String productId;
-    num productPrice;
-    num quantity;
-    num shippingCharge;
-    double cost;
-    String promocodeId;
-    String promocode;
-    num promocodeDiscount;
-    num promocodeDiscountCost;
-    String promotionId;
-    num promotionDiscount;
-    double promotionDiscountCost;
+  String productId;
+  num productPrice;
+  num quantity;
+  num shippingCharge;
+  num cost;
 
-    factory OrderCost.fromJson(Map<String, dynamic> json) => OrderCost(
+  factory OrderCost.fromJson(Map<String, dynamic> json) => OrderCost(
         productId: json["productId"],
         productPrice: json["productPrice"],
         quantity: json["quantity"],
@@ -186,8 +172,7 @@ class Payment {
     this.option,
   });
 
-    Option option;
-    num id;
+  Option option;
 
   factory Payment.fromJson(Map<String, dynamic> json) => Payment(
         option: Option.fromJson(json["option"]),
@@ -204,8 +189,8 @@ class Option {
     this.name,
   });
 
-    num id;
-    String name;
+  num id;
+  String name;
 
   factory Option.fromJson(Map<String, dynamic> json) => Option(
         id: json["id"],
@@ -343,7 +328,6 @@ class Account {
   Account({
     this.key,
   });
-    num days;
 
   String key;
 
@@ -456,9 +440,9 @@ class Variation {
     this.color,
   });
 
-    String size;
-    num quantity;
-    String color;
+  String size;
+  num quantity;
+  String color;
 
   factory Variation.fromJson(Map<String, dynamic> json) => Variation(
         size: json["size"],

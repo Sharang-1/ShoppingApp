@@ -121,7 +121,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                 _navigationService
                     .navigateReplaceTo(PaymentFinishedScreenRoute);
               } else {
-                _navigationService.navigateReplaceTo(CartViewRoute);
+                _navigationService.navigateReplaceTo(HomeViewRoute);
               }
             },
             color: green,

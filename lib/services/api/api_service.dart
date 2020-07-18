@@ -336,7 +336,7 @@ class APIService {
     final quantity = qty >= 1 ? qty : 1;
 
     final orderData = await apiWrapper(
-      "orders​/",
+      "orders​/?context=productDetails",
       authenticated: true,
       options: Options(headers: {'excludeToken': false}, method: "POST"),
       data: {
