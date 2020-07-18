@@ -16,6 +16,7 @@ import 'package:compound/models/calculatedPrice.dart';
 import 'package:compound/models/cart.dart' as CartModule;
 import 'package:compound/models/categorys.dart';
 import 'package:compound/models/orders.dart';
+import 'package:compound/models/order.dart' as OrderModule;
 import 'package:compound/models/payment_options.dart';
 import 'package:compound/models/products.dart';
 import 'package:compound/models/promoCode.dart';
@@ -323,7 +324,7 @@ class APIService {
     return null;
   }
 
-  Future<Order> createOrder(
+  Future<OrderModule.Order> createOrder(
     String billingAddress,
     String productId,
     String promoCode,
@@ -358,7 +359,7 @@ class APIService {
 
     if (orderData != null) {
       try {
-        Order order = Order.fromJson(orderData);
+        OrderModule.Order order = OrderModule.Order.fromJson(orderData);
         Fimber.d("Order : " + order.key);
         return order;
       } catch (err) {

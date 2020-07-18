@@ -5,8 +5,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 
 class HomeSlider extends StatefulWidget {
   final List<String> imgList;
+  final double aspectRatio;
 
-  const HomeSlider({Key key, this.imgList}) : super(key: key);
+  const HomeSlider({Key key, this.imgList, this.aspectRatio = 1.6})
+      : super(key: key);
 
   @override
   _HomeSliderState createState() => _HomeSliderState();
@@ -34,7 +36,7 @@ class _HomeSliderState extends State<HomeSlider> {
     return CarouselSlider(
         autoPlay: false,
         pauseAutoPlayOnTouch: Duration(seconds: 10),
-        aspectRatio: 1.6,
+        aspectRatio: widget.aspectRatio,
         enableInfiniteScroll: false,
         viewportFraction: 1.0,
         items: imgList.map((i) {

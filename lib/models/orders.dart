@@ -91,7 +91,7 @@ class Order {
         orderCost: OrderCost.fromJson(json["orderCost"]),
         status: Status.fromJson(json["status"]),
         deliveryDate: json["deliveryDate"],
-        product: json["product"] != null ? _Product.fromJson(json["product"]) : null,
+        product: _Product.fromJson(json["product"]),
         payment: Payment.fromJson(json["payment"]),
       );
 
@@ -175,11 +175,11 @@ class Payment {
   Option option;
 
   factory Payment.fromJson(Map<String, dynamic> json) => Payment(
-        option: Option.fromJson(json["option"]),
+        option: json["option"] != null  ? Option.fromJson(json["option"]) : null,
       );
 
   Map<String, dynamic> toJson() => {
-        "option": option.toJson(),
+        "option": option?.toJson(),
       };
 }
 
@@ -272,7 +272,7 @@ class _Product {
         account: Account.fromJson(json["account"]),
         owner: Account.fromJson(json["owner"]),
         price: json["price"],
-        whoMadeIt: BlousePadding.fromJson(json["whoMadeIt"]),
+        whoMadeIt: json["whoMadeIt"] != null ? BlousePadding.fromJson(json["whoMadeIt"]) : null,
         shipment: Shipment.fromJson(json["shipment"]),
         available: json["available"],
         variations: List<Variation>.from(
@@ -280,15 +280,15 @@ class _Product {
         typeOfWork: json["typeOfWork"],
         fabricDetails: json["fabricDetails"],
         margin: json["margin"],
-        productFor: BlousePadding.fromJson(json["productFor"]),
-        category: BlousePadding.fromJson(json["category"]),
+        productFor: json["productFor"] != null ? BlousePadding.fromJson(json["productFor"]) : null,
+        category: json["category"] != null ? BlousePadding.fromJson(json["category"]) : null,
         waist: json["waist"],
         length: json["length"],
         flair: json["flair"],
-        blousePadding: BlousePadding.fromJson(json["blousePadding"]),
-        pieces: BlousePadding.fromJson(json["pieces"]),
-        rating: Rating.fromJson(json["rating"]),
-        photo: ProductPhoto.fromJson(json["photo"]),
+        blousePadding: json["blousePadding"] != null ? BlousePadding.fromJson(json["blousePadding"]) : null,
+        pieces: json["pieces"] != null ? BlousePadding.fromJson(json["pieces"]) : null,
+        rating: json["rating"] != null ? Rating.fromJson(json["rating"]) : null,
+        photo: json["photo"] != null ? ProductPhoto.fromJson(json["photo"]) : null,
         discount: json["discount"],
         productNew: json["new"],
       );
@@ -315,7 +315,7 @@ class _Product {
         "waist": waist,
         "length": length,
         "flair": flair,
-        "blousePadding": blousePadding.toJson(),
+        "blousePadding": blousePadding?.toJson(),
         "pieces": pieces.toJson(),
         "rating": rating.toJson(),
         "photo": photo.toJson(),
