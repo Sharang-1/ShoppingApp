@@ -1,5 +1,6 @@
 // import 'package:compound/constants/route_names.dart';
 import 'package:compound/locator.dart';
+import 'package:compound/models/orders.dart';
 import 'package:compound/services/api/api_service.dart';
 // import 'package:compound/services/navigation_service.dart';
 import 'package:compound/viewmodels/base_model.dart';
@@ -19,7 +20,7 @@ class CartPaymentMethodViewModel extends BaseModel {
     return null;
   }
 
-  Future<bool> createOrder(
+  Future<Order> createOrder(
     String billingAddress,
     String productId,
     String promoCode,
@@ -31,9 +32,9 @@ class CartPaymentMethodViewModel extends BaseModel {
   ) async {
     final res = await _apiService.createOrder(billingAddress, productId, promoCode, promoCodeId, size, color, qty, paymentOptionId);
     if(res != null) {
-      return true;
+      return res;
     }
 
-    return false;
+    return null;
   }
 }

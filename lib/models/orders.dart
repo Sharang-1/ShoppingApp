@@ -16,9 +16,9 @@ class Orders {
         this.orders,
     });
 
-    int records;
-    int startIndex;
-    int limit;
+    num records;
+    num startIndex;
+    num limit;
     List<Order> orders;
 
     factory Orders.fromJson(Map<String, dynamic> json) => Orders(
@@ -165,16 +165,16 @@ class OrderCost {
     });
 
     String productId;
-    int productPrice;
-    int quantity;
-    int shippingCharge;
+    num productPrice;
+    num quantity;
+    num shippingCharge;
     double cost;
     String promocodeId;
     String promocode;
-    int promocodeDiscount;
-    int promocodeDiscountCost;
+    num promocodeDiscount;
+    num promocodeDiscountCost;
     String promotionId;
-    int promotionDiscount;
+    num promotionDiscount;
     double promotionDiscountCost;
 
     factory OrderCost.fromJson(Map<String, dynamic> json) => OrderCost(
@@ -215,7 +215,7 @@ class Payment {
     });
 
     Option option;
-    int id;
+    num id;
 
     factory Payment.fromJson(Map<String, dynamic> json) => Payment(
         option: Option.fromJson(json["option"]),
@@ -234,7 +234,7 @@ class Option {
         this.name,
     });
 
-    int id;
+    num id;
     String name;
 
     factory Option.fromJson(Map<String, dynamic> json) => Option(
@@ -253,7 +253,7 @@ class Shipment {
         this.days,
     });
 
-    int days;
+    num days;
 
     factory Shipment.fromJson(Map<String, dynamic> json) => Shipment(
         days: json["days"],
@@ -270,7 +270,7 @@ class Status {
         this.state,
     });
 
-    int id;
+    num id;
     String state;
 
     factory Status.fromJson(Map<String, dynamic> json) => Status(
@@ -292,7 +292,7 @@ class Variation {
     });
 
     String size;
-    int quantity;
+    num quantity;
     String color;
 
     factory Variation.fromJson(Map<String, dynamic> json) => Variation(

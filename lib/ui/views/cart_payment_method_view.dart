@@ -117,9 +117,11 @@ class _PaymentMethodState extends State<PaymentMethod> {
                 paymentMethodRadioValue,
               );
 
-              if (res) {
+              if (res != null) {
                 _navigationService
                     .navigateReplaceTo(PaymentFinishedScreenRoute);
+              } else {
+                _navigationService.navigateReplaceTo(CartViewRoute);
               }
             },
             color: green,
