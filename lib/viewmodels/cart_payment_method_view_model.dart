@@ -1,6 +1,6 @@
 // import 'package:compound/constants/route_names.dart';
 import 'package:compound/locator.dart';
-import 'package:compound/models/orders.dart';
+import 'package:compound/models/order.dart';
 import 'package:compound/services/api/api_service.dart';
 // import 'package:compound/services/navigation_service.dart';
 import 'package:compound/viewmodels/base_model.dart';

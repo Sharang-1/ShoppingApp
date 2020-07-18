@@ -107,11 +107,11 @@ class OrderCost {
     });
 
     String productId;
-    int productPrice;
-    int quantity;
-    int shippingCharge;
-    int cost;
-    int costToSeller;
+    num productPrice;
+    num quantity;
+    num shippingCharge;
+    num cost;
+    num costToSeller;
 
     factory OrderCost.fromJson(Map<String, dynamic> json) => OrderCost(
         productId: json["productId"],
@@ -154,7 +154,7 @@ class Option {
         this.name,
     });
 
-    int id;
+    num id;
     String name;
 
     factory Option.fromJson(Map<String, dynamic> json) => Option(
@@ -173,7 +173,7 @@ class Shipment {
         this.days,
     });
 
-    int days;
+    num days;
 
     factory Shipment.fromJson(Map<String, dynamic> json) => Shipment(
         days: json["days"],
@@ -190,7 +190,7 @@ class Status {
         this.state,
     });
 
-    int id;
+    num id;
     String state;
 
     factory Status.fromJson(Map<String, dynamic> json) => Status(
@@ -212,7 +212,7 @@ class Variation {
     });
 
     String size;
-    int quantity;
+    num quantity;
     String color;
 
     factory Variation.fromJson(Map<String, dynamic> json) => Variation(
