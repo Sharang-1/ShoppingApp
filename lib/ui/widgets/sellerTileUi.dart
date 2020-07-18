@@ -144,7 +144,9 @@ class SellerTileUi extends StatelessWidget {
                                 ],
                               ),
                         CustomDivider(),
-                        data["type"] == "SELLER"
+                        data["type"] == "SELLER" &&
+                                (data["discount"] != null &&
+                                    data["discount"] != "0")
                             ? Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[

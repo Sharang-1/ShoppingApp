@@ -127,6 +127,8 @@ class HomeViewList extends StatelessWidget {
   ];
   final String singleImage =
       'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80';
+  final ScrollController _scrollController1 = new ScrollController();
+  final ScrollController _scrollController2 = new ScrollController();
 
   HomeViewList({Key key, @required this.gotoCategory}) : super(key: key);
   @override
@@ -168,6 +170,7 @@ class HomeViewList extends StatelessWidget {
                 child: Text(
                   'View All',
                   style: TextStyle(
+                    fontSize: subtitleFontSize - 8,
                     fontWeight: FontWeight.bold,
                     color: textIconBlue,
                   ),
@@ -309,30 +312,40 @@ class HomeViewList extends StatelessWidget {
             )
           ]),
           verticalSpaceSmall,
-          Container(
-            height: 150,
-            child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: topPicksDataMap
-                    .map((e) => SizedBox(
-                        width: 250,
-                        child: TopPicksAndDealsCard(
-                          data: e,
-                        )))
-                    .toList()),
-          ),
-          Container(
-            height: 150,
-            child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: topPicksDataMap
-                    .map((e) => SizedBox(
-                        width: 250,
-                        child: TopPicksAndDealsCard(
-                          data: e,
-                        )))
-                    .toList()),
-          ),
+          NotificationListener<ScrollNotification>(
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    height: 150,
+                    child: ListView(
+                        controller: _scrollController1,
+                        scrollDirection: Axis.horizontal,
+                        children: topPicksDataMap
+                            .map((e) => SizedBox(
+                                width: 250,
+                                child: TopPicksAndDealsCard(
+                                  data: e,
+                                )))
+                            .toList()),
+                  ),
+                  Container(
+                    height: 150,
+                    child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        controller: _scrollController2,
+                        children: topPicksDataMap
+                            .map((e) => SizedBox(
+                                width: 250,
+                                child: TopPicksAndDealsCard(
+                                  data: e,
+                                )))
+                            .toList()),
+                  ),
+                ],
+              ),
+              onNotification: (_) {
+                _scrollController1.jumpTo(_scrollController2.offset);
+              }),
           verticalSpace(40),
           Container(
             decoration: BoxDecoration(
@@ -629,7 +642,7 @@ class HomeViewList extends StatelessWidget {
           verticalSpaceMedium,
           Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
             SizedBox(
-                width: MediaQuery.of(context).size.width * 0.6,
+                width: MediaQuery.of(context).size.width * 0.80,
                 child: Divider(
                   color: Colors.grey,
                   thickness: 0.5,

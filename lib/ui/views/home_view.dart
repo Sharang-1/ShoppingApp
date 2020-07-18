@@ -24,9 +24,14 @@ class HomeView extends StatelessWidget {
       viewModel: HomeViewModel(),
       onModelReady: (model) async {
         final values = await model.init(context);
-        Provider.of<CartCountSetUp>(context, listen: false).setCartCount(values[0]);
-        Provider.of<WhishListSetUp>(context, listen: false).setUpWhishList(values[1]);
-        print("After Calling init " + Provider.of<CartCountSetUp>(context, listen: false).count.toString());
+        Provider.of<CartCountSetUp>(context, listen: false)
+            .setCartCount(values[0]);
+        Provider.of<WhishListSetUp>(context, listen: false)
+            .setUpWhishList(values[1]);
+        print("After Calling init " +
+            Provider.of<CartCountSetUp>(context, listen: false)
+                .count
+                .toString());
       },
       builder: (context, model, child) => Scaffold(
         drawerEdgeDragWidth: 0,
@@ -41,7 +46,7 @@ class HomeView extends StatelessWidget {
           iconTheme: IconThemeData(color: appBarIconColor),
           backgroundColor: backgroundWhiteCreamColor,
           bottom: PreferredSize(
-              preferredSize: Size.fromHeight(50),
+              preferredSize: Size.fromHeight(25),
               child: AppBar(
                 elevation: 0,
                 iconTheme: IconThemeData(color: appBarIconColor),
@@ -57,7 +62,8 @@ class HomeView extends StatelessWidget {
                   IconButton(
                     icon: CartIconWithBadge(
                       iconColor: appBarIconColor,
-                      count: Provider.of<CartCountSetUp>(context, listen: true).count,
+                      count: Provider.of<CartCountSetUp>(context, listen: true)
+                          .count,
                     ),
                     onPressed: () => model.cart(),
                   ),
