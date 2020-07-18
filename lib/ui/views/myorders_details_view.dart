@@ -1,3 +1,4 @@
+import 'package:compound/models/orders.dart';
 import 'package:compound/ui/shared/app_colors.dart';
 import 'package:compound/ui/shared/shared_styles.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
@@ -22,6 +23,8 @@ class MyOrdersDetailsView extends StatelessWidget {
     "Delivery Charges": rupeeUnicode + "40",
     "Total": rupeeUnicode + "310"
   };
+  Order mOrder;
+  MyOrdersDetailsView(this.mOrder);
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +83,7 @@ class MyOrdersDetailsView extends StatelessWidget {
                   fontSize: headingFontSize + 2,
                 ),
                 CustomText(
-                  "Order ID: #3874608",
+                  "Order ID: " + mOrder.key,
                   fontSize: subtitleFontSize,
                   isTitle: true,
                   color: logoRed,
@@ -121,25 +124,25 @@ class MyOrdersDetailsView extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               CustomText(
-                                "Nike T-Shirt",
+                                mOrder.product.name,
                                 isBold: true,
                                 color: Colors.grey[800],
                                 dotsAfterOverFlow: true,
                                 fontSize: titleFontSize,
                               ),
                               CustomText(
-                                rupeeUnicode + '100',
+                                rupeeUnicode + mOrder.orderCost.cost.toString(),
                                 dotsAfterOverFlow: true,
                                 fontSize: titleFontSize,
                                 isBold: true,
                                 color: textIconOrange,
                               ),
-                              CustomText("XL",
+                              CustomText(mOrder.variation.size,
                                   dotsAfterOverFlow: true,
                                   color: Colors.grey,
                                   fontSize: subtitleFontSize),
                               CustomText(
-                                "Shipping",
+                                mOrder.status.state,
                                 fontSize: subtitleFontSize,
                                 isBold: true,
                                 color: Colors.grey,
@@ -182,7 +185,7 @@ class MyOrdersDetailsView extends StatelessWidget {
                       color: Colors.grey,
                     ),
                     CustomText(
-                      "2 June 2020",
+                      mOrder.deliveryDate,
                       fontSize: subtitleFontSize - 1,
                       isBold: true,
                       color: Colors.grey[600],
@@ -234,7 +237,7 @@ class MyOrdersDetailsView extends StatelessWidget {
                       child: Column(
                         children: <Widget>[
                           CustomText(
-                            "A/4 ,Arjun Tower , near ankur , Naranpura",
+                            mOrder.billingAddress,
                             align: TextAlign.end,
                             color: Colors.grey[600],
                             fontSize: subtitleFontSize - 1,
@@ -268,7 +271,7 @@ class MyOrdersDetailsView extends StatelessWidget {
                       isBold: true,
                     ),
                     CustomText(
-                      "Paytm",
+                      mOrder.payment.option.name,
                       color: Colors.grey[600],
                       fontSize: subtitleFontSize - 1,
                       isBold: true,
@@ -286,7 +289,7 @@ class MyOrdersDetailsView extends StatelessWidget {
                       isBold: true,
                     ),
                     CustomText(
-                      rupeeUnicode + "300",
+                      rupeeUnicode + mOrder.product.price.toString(),
                       color: Colors.grey[600],
                       fontSize: subtitleFontSize - 1,
                       isBold: true,
@@ -304,7 +307,7 @@ class MyOrdersDetailsView extends StatelessWidget {
                       color: Colors.grey,
                     ),
                     CustomText(
-                      rupeeUnicode + "270",
+                      rupeeUnicode + mOrder.orderCost.productPrice.toString(),
                       color: Colors.grey[600],
                       fontSize: subtitleFontSize - 1,
                       isBold: true,
@@ -322,7 +325,9 @@ class MyOrdersDetailsView extends StatelessWidget {
                       color: Colors.grey,
                     ),
                     CustomText(
-                      "Free Delivery",
+                      mOrder.orderCost.shippingCharge == 0
+                          ? "Free Delivery"
+                          : mOrder.orderCost.shippingCharge,
                       color: green,
                       fontSize: subtitleFontSize - 1,
                       isBold: true,
@@ -345,7 +350,7 @@ class MyOrdersDetailsView extends StatelessWidget {
                       color: Colors.grey,
                     ),
                     CustomText(
-                      rupeeUnicode + "270",
+                      rupeeUnicode + mOrder.orderCost.cost.toString(),
                       color: textIconOrange,
                       fontSize: subtitleFontSize + 2,
                       isBold: true,

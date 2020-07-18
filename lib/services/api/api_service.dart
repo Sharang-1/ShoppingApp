@@ -140,7 +140,8 @@ class APIService {
     });
 
     final resolvedList = await Future.wait(futureList);
-    final filteredList = resolvedList.where((element) => element != null).toList();
+    final filteredList =
+        resolvedList.where((element) => element != null).toList();
 
     Products data = Products(
       records: filteredList.length,
@@ -370,16 +371,17 @@ class APIService {
   }
 
   Future<Orders> getAllOrders() async {
-    var ordersData = await apiWrapper("orders",authenticated: true);
-    if(ordersData != null){
+    var ordersData =
+        await apiWrapper("orders;product=true", authenticated: true);
+    if (ordersData != null) {
       return Orders.fromJson(ordersData);
     }
     return null;
   }
 
   Future<UserDetails> getUserData() async {
-    var userData = await apiWrapper("users/me",authenticated: true);
-    if(userData != null){
+    var userData = await apiWrapper("users/me", authenticated: true);
+    if (userData != null) {
       return UserDetails.fromJson(userData);
     }
     return null;
@@ -387,7 +389,7 @@ class APIService {
 
   Future<List<PaymentOption>> getPaymentOptions() async {
     var mPaymentOptionsData = await apiWrapper("payments/options");
-    if(mPaymentOptionsData != null){
+    if (mPaymentOptionsData != null) {
       return paymentOptionsFromJson(mPaymentOptionsData);
     }
     return null;
