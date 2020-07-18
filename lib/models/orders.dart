@@ -136,21 +136,35 @@ class BillingPhone {
 }
 
 class OrderCost {
-  OrderCost({
-    this.productId,
-    this.productPrice,
-    this.quantity,
-    this.shippingCharge,
-    this.cost,
-  });
+    OrderCost({
+        this.productId,
+        this.productPrice,
+        this.quantity,
+        this.shippingCharge,
+        this.cost,
+        this.promocodeId,
+        this.promocode,
+        this.promocodeDiscount,
+        this.promocodeDiscountCost,
+        this.promotionId,
+        this.promotionDiscount,
+        this.promotionDiscountCost,
+    });
 
-  String productId;
-  num productPrice;
-  num quantity;
-  num shippingCharge;
-  num cost;
+    String productId;
+    num productPrice;
+    num quantity;
+    num shippingCharge;
+    double cost;
+    String promocodeId;
+    String promocode;
+    num promocodeDiscount;
+    num promocodeDiscountCost;
+    String promotionId;
+    num promotionDiscount;
+    double promotionDiscountCost;
 
-  factory OrderCost.fromJson(Map<String, dynamic> json) => OrderCost(
+    factory OrderCost.fromJson(Map<String, dynamic> json) => OrderCost(
         productId: json["productId"],
         productPrice: json["productPrice"],
         quantity: json["quantity"],
@@ -172,7 +186,8 @@ class Payment {
     this.option,
   });
 
-  Option option;
+    Option option;
+    num id;
 
   factory Payment.fromJson(Map<String, dynamic> json) => Payment(
         option: Option.fromJson(json["option"]),
@@ -189,8 +204,8 @@ class Option {
     this.name,
   });
 
-  num id;
-  String name;
+    num id;
+    String name;
 
   factory Option.fromJson(Map<String, dynamic> json) => Option(
         id: json["id"],
@@ -328,6 +343,7 @@ class Account {
   Account({
     this.key,
   });
+    num days;
 
   String key;
 
@@ -440,9 +456,9 @@ class Variation {
     this.color,
   });
 
-  String size;
-  num quantity;
-  String color;
+    String size;
+    num quantity;
+    String color;
 
   factory Variation.fromJson(Map<String, dynamic> json) => Variation(
         size: json["size"],

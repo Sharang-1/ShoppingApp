@@ -497,8 +497,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                               color: logoRed,
                               fontWeight: FontWeight.w600)),
 
-                  verticalSpace(20),
-                  Row(
+                  if(available) verticalSpace(20),
+                  if(available) Row(
                     children: <Widget>[
                       Text(
                         "Delivery In :",
@@ -515,8 +515,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                       ),
                     ],
                   ),
-                  verticalSpace(5),
-                  Row(
+                  if(available) verticalSpace(5),
+                  if(available) Row(
                     children: <Widget>[
                       Text(
                         "Delivery To :",
@@ -563,8 +563,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                       // )),
                     ],
                   ),
-                  verticalSpace(20),
-                  Card(
+                  if(available) verticalSpace(20),
+                  if(available) Card(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(curve15),
                       ),
@@ -687,8 +687,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                           ],
                         ),
                       )),
-                  verticalSpace(30),
-                  Center(
+                  if(available) verticalSpace(30),
+                  if(available) Center(
                     child: GestureDetector(
                       onTap: (selectedQty == 0 ||
                               selectedColor == "" ||
@@ -698,6 +698,10 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                               var res = await model.buyNow(widget.data,
                                   selectedQty, selectedSize, selectedColor);
                               if (res != null && res == true) {
+                                Provider.of<CartCountSetUp>(context,
+                                        listen: false)
+                                    .incrementCartCount();
+                                    
                                 Navigator.push(
                                   context,
                                   PageTransition(
@@ -739,8 +743,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                       ),
                     ),
                   ),
-                  verticalSpace(20),
-                  Center(
+                  if(available) verticalSpace(20),
+                  if(available) Center(
                     child: GestureDetector(
                       onTap: disabledAddToCartBtn ||
                               selectedQty == 0 ||

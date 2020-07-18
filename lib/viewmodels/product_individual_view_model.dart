@@ -22,8 +22,8 @@ class ProductIndividualViewModel extends BaseModel {
 
   Future<void> init(String productId) async {}
 
-  Future<int> addToCart(
-      Product product, int qty, String size, String color) async {
+  Future<int> addToCart(Product product, int qty, String size, String color,
+      {bool showDialog: true}) async {
     print("Cart added");
     print(product.key);
     final res = await _apiService.addToCart(product.key, qty, size, color);
@@ -31,16 +31,20 @@ class ProductIndividualViewModel extends BaseModel {
       final localStoreResult =
           await _cartLocalStoreService.addToCartLocalStore(product.key);
       if (localStoreResult == -1) {
-        await _dialogService.showDialog(
-          title: "Success",
-          description: "Product in Cart Updated Successfully",
-        );
+        if (showDialog) {
+          await _dialogService.showDialog(
+            title: "Success",
+            description: "Product in Cart Updated Successfully",
+          );
+        }
         return -1;
       } else {
-        await _dialogService.showDialog(
-          title: "Success",
-          description: "Product Added Successfully",
-        );
+        if (showDialog) {
+          await _dialogService.showDialog(
+            title: "Success",
+            description: "Product Added Successfully",
+          );
+        }
       }
       return 1;
     }
@@ -49,7 +53,7 @@ class ProductIndividualViewModel extends BaseModel {
 
   Future<bool> buyNow(
       Product product, int qty, String size, String color) async {
-    var res = await addToCart(product, qty, size, color);
+    var res = await addToCart(product, qty, size, color, showDialog: false);
     if (res != null) {
       return true;
     }
