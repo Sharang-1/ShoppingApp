@@ -10,6 +10,9 @@ import '../views/home_view_slider.dart';
 import '../shared/shared_styles.dart';
 
 class SellerIndi extends StatefulWidget {
+  final data;
+  const SellerIndi({Key key, this.data}) : super(key: key);
+
   @override
   _SellerIndiState createState() => _SellerIndiState();
 }
@@ -59,6 +62,7 @@ class _SellerIndiState extends State<SellerIndi> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.data);
     return Scaffold(
       backgroundColor: backgroundWhiteCreamColor,
       appBar: AppBar(

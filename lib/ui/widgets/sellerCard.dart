@@ -1,26 +1,27 @@
-import 'package:compound/constants/route_names.dart';
-import 'package:compound/services/navigation_service.dart';
 import 'package:compound/ui/shared/app_colors.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
 
 import 'package:compound/ui/widgets/custom_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../locator.dart';
 import '../shared/shared_styles.dart';
 
 class SellerCard extends StatelessWidget {
   final data;
   final bool fromHome;
-  const SellerCard({Key key, @required this.data, @required this.fromHome})
-      : super(key: key);
+  final Function onClick;
+  const SellerCard({
+    Key key,
+    @required this.data,
+    @required this.fromHome,
+    this.onClick,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     double subtitleFontSize = fromHome ? 18 * 0.8 : 18;
     double titleFontSize = fromHome ? 18 * 0.8 : 18;
     double multiplyer = fromHome ? 0.8 : 1;
-    final NavigationService _navigationService = locator<NavigationService>();
 
     return Container(
         padding: EdgeInsets.only(left: 5, bottom: 10, right: fromHome ? 5 : 0),
@@ -29,9 +30,7 @@ class SellerCard extends StatelessWidget {
           width:
               (MediaQuery.of(context).size.width - 40) * (fromHome ? 0.8 : 1),
           child: GestureDetector(
-            onTap: () {
-              _navigationService.navigateTo(SellerIndiViewRoute);
-            },
+            onTap: onClick,
             child: Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(curve15),
