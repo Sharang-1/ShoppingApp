@@ -78,30 +78,35 @@ class _CartViewState extends State<CartView> {
                     step: 1,
                   ),
                   verticalSpace(20),
-                  GridListWidget<Cart, Item>(
-                    context: context,
-                    filter: new CartFilter(productId: widget.productId),
-                    gridCount: 1,
-                    disablePagination: true,
-                    viewModel: CartGridViewBuilderViewModel(),
-                    childAspectRatio: 1,
-                    tileBuilder: (BuildContext context, data, index, onDelete,
-                        onUpdate) {
-                      Fimber.d("test");
-                      print((data as Item).toJson());
-                      final Item dItem = data as Item;
+                  FutureBuilder(
+                    future: Future.delayed(Duration(seconds: 1)),
+                    builder: (c, s) => s.connectionState == ConnectionState.done ? GridListWidget<Cart, Item>(
+                      context: context,
+                      filter: new CartFilter(productId: widget.productId),
+                      gridCount: 1,
+                      disablePagination: true,
+                      viewModel: CartGridViewBuilderViewModel(),
+                      childAspectRatio: 1,
+                      tileBuilder: (BuildContext context, data, index, onDelete,
+                          onUpdate) {
+                        Fimber.d("test");
+                        print((data as Item).toJson());
+                        final Item dItem = data as Item;
 
-                      return CartTileUI(
-                        index: index,
-                        item: dItem,
-                        onDelete: (int index) async {
-                          final value = await onDelete(index);
-                          if(value != true) return;
-                          await model.removeFromCartLocalStore(dItem.productId.toString());
-                          Provider.of<CartCountSetUp>(context, listen: false).decrementCartCount();
-                        },
-                      );
-                    },
+                        return CartTileUI(
+                          index: index,
+                          item: dItem,
+                          onDelete: (int index) async {
+                            final value = await onDelete(index);
+                            if (value != true) return;
+                            await model.removeFromCartLocalStore(
+                                dItem.productId.toString());
+                            Provider.of<CartCountSetUp>(context, listen: false)
+                                .decrementCartCount();
+                          },
+                        );
+                      },
+                    ) : Container(),
                   ),
                 ],
               ),

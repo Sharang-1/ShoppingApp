@@ -24,6 +24,9 @@ class GridListWidget<P, I> extends StatelessWidget {
   final int gridCount;
   final double childAspectRatio;
   final bool disablePagination;
+  final Axis scrollDirection;
+  final Widget emptyListWidget;
+  final Widget loadingWidget;
 
   const GridListWidget({
     Key key,
@@ -34,6 +37,9 @@ class GridListWidget<P, I> extends StatelessWidget {
     @required this.tileBuilder,
     this.childAspectRatio = 1.0,
     this.disablePagination = false,
+    this.scrollDirection = Axis.vertical,
+    this.emptyListWidget,
+    this.loadingWidget,
   }) : super(key: key);
 
   final BuildContext context;
@@ -50,7 +56,12 @@ class GridListWidget<P, I> extends StatelessWidget {
               tileBuilder: tileBuilder,
               model: model,
               childAspectRatio: childAspectRatio,
-              disablePagination: disablePagination)
+              disablePagination: disablePagination,
+              scrollDirection: scrollDirection,
+              emptyListWidget:
+                  emptyListWidget == null ? EmptyListWidget() : emptyListWidget,
+              loadingWidget: loadingWidget,
+            )
           : Container(
               child: null,
             ),
@@ -67,6 +78,9 @@ class CustomGridViewFutureBuilder<P, I> extends StatefulWidget {
     @required this.model,
     this.childAspectRatio = 1.0,
     this.disablePagination,
+    this.scrollDirection = Axis.vertical,
+    this.emptyListWidget,
+    this.loadingWidget,
   }) : super(key: key);
 
   final BaseFilterModel filter;
@@ -75,6 +89,9 @@ class CustomGridViewFutureBuilder<P, I> extends StatefulWidget {
   final BaseGridViewBuilderViewModel model;
   final double childAspectRatio;
   final bool disablePagination;
+  final Axis scrollDirection;
+  final Widget emptyListWidget;
+  final Widget loadingWidget;
 
   @override
   _CustomGridViewFutureBuilderState<P, I> createState() =>
@@ -88,9 +105,6 @@ class _CustomGridViewFutureBuilderState<P, I>
 
   @override
   void initState() {
-    print("------------------------------------------------------");
-    print(widget.filter);
-    print("------------------------------------------------------");
     filter = widget.filter;
     future = widget.model.getData(
       filterModel: filter,
@@ -120,7 +134,9 @@ class _CustomGridViewFutureBuilderState<P, I>
         }
         switch (snapshots.connectionState) {
           case ConnectionState.waiting:
-            return Center(child: CircularProgressIndicator());
+            return widget.loadingWidget == null
+                ? Center(child: CircularProgressIndicator())
+                : widget.loadingWidget;
           case ConnectionState.done:
             print("snapshots.data");
             print(snapshots.data);
@@ -132,6 +148,8 @@ class _CustomGridViewFutureBuilderState<P, I>
               tileBuilder: widget.tileBuilder,
               childAspectRatio: widget.childAspectRatio,
               disablePagination: widget.disablePagination,
+              scrollDirection: widget.scrollDirection,
+              emptyListWidget: widget.emptyListWidget,
             );
           default:
             return null;
@@ -149,6 +167,8 @@ class PaginatedGridView<P, I> extends StatefulWidget {
   final int gridCount;
   final double childAspectRatio;
   final bool disablePagination;
+  final Axis scrollDirection;
+  final Widget emptyListWidget;
 
   const PaginatedGridView({
     Key key,
@@ -159,6 +179,8 @@ class PaginatedGridView<P, I> extends StatefulWidget {
     @required this.tileBuilder,
     this.childAspectRatio = 1,
     this.disablePagination,
+    this.scrollDirection = Axis.vertical,
+    this.emptyListWidget,
   }) : super(key: key);
 
   @override
@@ -192,10 +214,12 @@ class _PaginatedGridViewState<I> extends State<PaginatedGridView> {
       onNotification: !(widget.disablePagination) ? onNotification : null,
       child: items.length != 0
           ? GridView.builder(
-              shrinkWrap: true,
-              scrollDirection: Axis.vertical,
+              shrinkWrap: widget.scrollDirection == Axis.vertical,
+              scrollDirection: widget.scrollDirection,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: widget.gridCount,
+                crossAxisCount: widget.scrollDirection == Axis.vertical
+                    ? widget.gridCount
+                    : 1,
                 childAspectRatio: widget.childAspectRatio,
               ),
               controller: _scrollController,
@@ -204,12 +228,7 @@ class _PaginatedGridViewState<I> extends State<PaginatedGridView> {
               itemBuilder: (_, index) => widget.tileBuilder(
                   context, items[index], index, onDelete, null),
             )
-          : Center(
-              child: Column(children: <Widget>[
-              Text("No Products Found!"),
-              verticalSpaceSmall,
-              Image.asset("assets/images/empty_cart.png"),
-            ])),
+          : widget.emptyListWidget,
     );
   }
 
@@ -256,5 +275,26 @@ class _PaginatedGridViewState<I> extends State<PaginatedGridView> {
       }
     }
     return true;
+  }
+}
+
+class EmptyListWidget extends StatelessWidget {
+  final String text;
+  const EmptyListWidget({
+    Key key,
+    this.text = "No Products Found!",
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        children: <Widget>[
+          Text(text),
+          verticalSpaceSmall,
+          Image.asset("assets/images/empty_cart.png"),
+        ],
+      ),
+    );
   }
 }

@@ -139,7 +139,10 @@ class HomeView extends StatelessWidget {
                   // displays the index of the current item.
                   (context, index) => Padding(
                     padding: const EdgeInsets.only(top: 10),
-                    child: HomeViewList(gotoCategory: model.category),
+                    child: HomeViewList(
+                      gotoCategory: model.category,
+                      model: model,
+                    ),
                   ),
                   childCount: 1,
                 ),

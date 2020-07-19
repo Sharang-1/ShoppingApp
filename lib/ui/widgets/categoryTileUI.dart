@@ -20,49 +20,46 @@ class CategoryTileUI extends StatelessWidget {
 
     double titleFontSize = isTablet ? 28.0 : 20.0;
 
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
-      child: Card(
-        clipBehavior: Clip.antiAlias,
-        color: Colors.grey,
-        child: Stack(
-          children: <Widget>[
-            Positioned.fill(
-                child: ColorFiltered(
-              colorFilter: ColorFilter.mode(
-                  Colors.black.withOpacity(0.3), BlendMode.srcATop),
-              child: FadeInImage.assetNetwork(
-                fit: BoxFit.fill,
-                fadeInCurve: Curves.easeIn,
-                placeholder: 'assets/images/placeholder.png',
-                image: //photoName == null ?
-                    'https://images.pexels.com/photos/934070/pexels-photo-934070.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
-                    // : bannerURL,
-              ),
-            )),
-            Positioned.fill(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    Tools.getTruncatedString(20, name),
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: titleFontSize,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ],
-              ),
+    return Card(
+      clipBehavior: Clip.antiAlias,
+      color: Colors.grey,
+      child: Stack(
+        children: <Widget>[
+          Positioned.fill(
+              child: ColorFiltered(
+            colorFilter: ColorFilter.mode(
+                Colors.black.withOpacity(0.3), BlendMode.srcATop),
+            child: FadeInImage.assetNetwork(
+              fit: BoxFit.fill,
+              fadeInCurve: Curves.easeIn,
+              placeholder: 'assets/images/placeholder.png',
+              image: //photoName == null ?
+                  'https://images.pexels.com/photos/934070/pexels-photo-934070.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
+                  // : bannerURL,
             ),
-          ],
-        ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(curve15),
-        ),
-        elevation: 5,
+          )),
+          Positioned.fill(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  Tools.getTruncatedString(20, name),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: titleFontSize,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(curve15),
+      ),
+      elevation: 5,
     );
 
     // Card(

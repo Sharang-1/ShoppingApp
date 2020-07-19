@@ -5,6 +5,11 @@
 // import 'package:compound/ui/widgets/GridListWidget.dart';
 // import 'package:compound/ui/widgets/categoryTileUI.dart';
 // import 'package:compound/viewmodels/grid_view_builder_view_models/categories_view_builder_view_model.dart';
+import 'package:compound/models/categorys.dart';
+import 'package:compound/models/grid_view_builder_filter_models/categoryFilter.dart';
+import 'package:compound/ui/widgets/GridListWidget.dart';
+import 'package:compound/ui/widgets/categoryTileUI.dart';
+import 'package:compound/viewmodels/grid_view_builder_view_models/categories_view_builder_view_model.dart';
 import 'package:flutter/material.dart';
 
 import 'package:compound/ui/shared/app_colors.dart';
@@ -17,6 +22,7 @@ import '../widgets/top_picks_deals_card.dart';
 import './home_view_slider.dart';
 
 class HomeViewList extends StatelessWidget {
+  final model;
   final gotoCategory;
   final List<String> imgList = [
     'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
@@ -130,7 +136,11 @@ class HomeViewList extends StatelessWidget {
   final ScrollController _scrollController1 = new ScrollController();
   final ScrollController _scrollController2 = new ScrollController();
 
-  HomeViewList({Key key, @required this.gotoCategory}) : super(key: key);
+  HomeViewList({
+    Key key,
+    @required this.gotoCategory,
+    this.model,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     // const double headingFontSize=25;
@@ -181,62 +191,38 @@ class HomeViewList extends StatelessWidget {
               ),
             ],
           ),
-          Container(
-            height: 120,
-            child: ListView(
+          // Container(
+          //   height: 120,
+          //   child: CategoriesHomeList(
+          //     categories: categories,
+          //     subtitleFontSize: subtitleFontSize,
+          //   ),
+          // ),
+          verticalSpace(20),
+          SizedBox(
+            height: 140,
+            child: GridListWidget<Categorys, Category>(
+              key: UniqueKey(),
+              context: context,
+              filter: new CategoryFilter(),
+              gridCount: 1,
+              childAspectRatio: 0.5,
+              viewModel: CategoriesGridViewBuilderViewModel(),
+              disablePagination: true,
               scrollDirection: Axis.horizontal,
-              children: categories
-                  .map((category) => SizedBox(
-                      width: 192,
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(5, 10, 0, 5),
-                        child: InkWell(
-                          child: Card(
-                            clipBehavior: Clip.antiAlias,
-                            color: Colors.grey,
-                            child: Stack(children: <Widget>[
-                              Positioned.fill(
-                                  child: ColorFiltered(
-                                colorFilter: ColorFilter.mode(
-                                    Colors.black.withOpacity(0.3),
-                                    BlendMode.srcATop),
-                                child: FadeInImage.assetNetwork(
-                                    fit: BoxFit.fill,
-                                    fadeInCurve: Curves.easeIn,
-                                    placeholder:
-                                        'assets/images/placeholder.png',
-                                    image:
-                                        // photoName == null?
-
-                                        'https://images.pexels.com/photos/934070/pexels-photo-934070.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
-                                    // : photoName
-
-                                    ),
-                              )),
-                              Positioned.fill(
-                                  child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 10),
-                                child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      CustomText(category,
-                                          align: TextAlign.center,
-                                          color: Colors.white,
-                                          fontSize: subtitleFontSize - 2,
-                                          fontWeight: FontWeight.w600),
-                                    ]),
-                              ))
-                            ]),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(curve15),
-                            ),
-                            elevation: 5,
-                          ),
-                          onTap: () {},
-                        ),
-                      )))
-                  .toList(),
+              emptyListWidget: Container(),
+              tileBuilder:
+                  (BuildContext context, data, index, onDelete, onUpdate) {
+                return GestureDetector(
+                  onTap: () => model.showProducts(
+                    data.filter,
+                    data.name,
+                  ),
+                  child: CategoryTileUI(
+                    data: data,
+                  ),
+                );
+              },
             ),
           ),
           verticalSpace(40),
@@ -681,6 +667,73 @@ class HomeViewList extends StatelessWidget {
           verticalSpaceLarge_1
         ],
       ),
+    );
+  }
+}
+
+class CategoriesHomeList extends StatelessWidget {
+  const CategoriesHomeList({
+    Key key,
+    @required this.categories,
+    @required this.subtitleFontSize,
+  }) : super(key: key);
+
+  final List<String> categories;
+  final double subtitleFontSize;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      scrollDirection: Axis.horizontal,
+      children: categories
+          .map((category) => SizedBox(
+              width: 192,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(5, 10, 0, 5),
+                child: InkWell(
+                  child: Card(
+                    clipBehavior: Clip.antiAlias,
+                    color: Colors.grey,
+                    child: Stack(children: <Widget>[
+                      Positioned.fill(
+                          child: ColorFiltered(
+                        colorFilter: ColorFilter.mode(
+                            Colors.black.withOpacity(0.3), BlendMode.srcATop),
+                        child: FadeInImage.assetNetwork(
+                            fit: BoxFit.fill,
+                            fadeInCurve: Curves.easeIn,
+                            placeholder: 'assets/images/placeholder.png',
+                            image:
+                                // photoName == null?
+
+                                'https://images.pexels.com/photos/934070/pexels-photo-934070.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
+                            // : photoName
+
+                            ),
+                      )),
+                      Positioned.fill(
+                          child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              CustomText(category,
+                                  align: TextAlign.center,
+                                  color: Colors.white,
+                                  fontSize: subtitleFontSize - 2,
+                                  fontWeight: FontWeight.w600),
+                            ]),
+                      ))
+                    ]),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(curve15),
+                    ),
+                    elevation: 5,
+                  ),
+                  onTap: () {},
+                ),
+              )))
+          .toList(),
     );
   }
 }

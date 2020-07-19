@@ -63,18 +63,19 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
                 bottom: PreferredSize(
                   preferredSize: Size.fromHeight(50),
                   child: AppBar(
-                      primary: false,
-                      elevation: 0,
-                      automaticallyImplyLeading: false,
-                      backgroundColor: _colorFromHex(catBgColor),
-                      title: CustomText(
-                        widget.subCategory,
-                        color: Colors.white,
-                        dotsAfterOverFlow: true,
-                        fontSize: 25,
-                        isBold: true,
-                        isTitle: true,
-                      )),
+                    primary: false,
+                    elevation: 0,
+                    automaticallyImplyLeading: false,
+                    backgroundColor: _colorFromHex(catBgColor),
+                    title: CustomText(
+                      widget.subCategory,
+                      color: Colors.white,
+                      dotsAfterOverFlow: true,
+                      fontSize: 25,
+                      isBold: true,
+                      isTitle: true,
+                    ),
+                  ),
                 ),
               ),
               SliverList(
@@ -107,23 +108,30 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
                             ),
                           ],
                         ),
-                        GridListWidget<Products, Product>(
-                          key: key,
-                          context: context,
-                          filter: filter,
-                          gridCount: 2,
-                          viewModel: ProductsGridViewBuilderViewModel(),
-                          childAspectRatio: 0.7,
-                          tileBuilder: (BuildContext context, data, index,
-                              onUpdate, onDelete) {
-                            Fimber.d("test");
-                            print((data as Product).toJson());
-                            return ProductTileUI(
-                              data: data,
-                              onClick: () => model.goToProductPage(data),
-                              index: index,
-                            );
-                          },
+                        FutureBuilder(
+                          future: Future.delayed(Duration(milliseconds: 500)),
+                          builder: (c, s) => s.connectionState ==
+                                  ConnectionState.done
+                              ? GridListWidget<Products, Product>(
+                                  key: key,
+                                  context: context,
+                                  filter: filter,
+                                  gridCount: 2,
+                                  viewModel: ProductsGridViewBuilderViewModel(),
+                                  childAspectRatio: 0.7,
+                                  tileBuilder: (BuildContext context, data,
+                                      index, onUpdate, onDelete) {
+                                    Fimber.d("test");
+                                    print((data as Product).toJson());
+                                    return ProductTileUI(
+                                      data: data,
+                                      onClick: () =>
+                                          model.goToProductPage(data),
+                                      index: index,
+                                    );
+                                  },
+                                )
+                              : Container(),
                         ),
                       ],
                     ),

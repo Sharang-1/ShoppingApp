@@ -77,28 +77,35 @@ class _WhishListState extends State<WhishList> {
                         fontSize: 30),
                   ),
                   verticalSpace(20),
-                  GridListWidget<Products, Product>(
-                    key: whishListKey,
-                    context: context,
-                    filter: filter,
-                    gridCount: 2,
-                    disablePagination: true,
-                    viewModel: WhishListGridViewBuilderViewModel(),
-                    childAspectRatio: 0.7,
-                    tileBuilder: (BuildContext context, data, index, onDelete,
-                        onUpdate) {
-                      final Product dProduct = data as Product;
-                      return ProductTileUI(
-                        index: index,
-                        data: data,
-                        onClick: () {
-                          model.goToProductPage(dProduct).then((value) => setState(() {
-                            whishListKey = UniqueKey();
-                          }));
-                        },
-                      );
-                    },
-                  ),
+                  FutureBuilder(
+                    future: Future.delayed(Duration(milliseconds: 500)),
+                    builder: (c, s) => s.connectionState == ConnectionState.done
+                        ? GridListWidget<Products, Product>(
+                            key: whishListKey,
+                            context: context,
+                            filter: filter,
+                            gridCount: 2,
+                            disablePagination: true,
+                            viewModel: WhishListGridViewBuilderViewModel(),
+                            childAspectRatio: 0.7,
+                            tileBuilder: (BuildContext context, data, index,
+                                onDelete, onUpdate) {
+                              final Product dProduct = data as Product;
+                              return ProductTileUI(
+                                index: index,
+                                data: data,
+                                onClick: () {
+                                  model
+                                      .goToProductPage(dProduct)
+                                      .then((value) => setState(() {
+                                            whishListKey = UniqueKey();
+                                          }));
+                                },
+                              );
+                            },
+                          )
+                        : Container(),
+                  )
                 ],
               ),
             ),

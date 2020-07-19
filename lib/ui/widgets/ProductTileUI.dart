@@ -1,4 +1,3 @@
-
 import 'package:compound/constants/server_urls.dart';
 import 'package:compound/models/WhishListSetUp.dart';
 import 'package:compound/models/products.dart';
@@ -15,12 +14,14 @@ class ProductTileUI extends StatefulWidget {
   final Product data;
   final Function onClick;
   final int index;
+  final EdgeInsets cardPadding;
 
   const ProductTileUI({
     Key key,
     this.data,
     this.onClick,
     this.index,
+    this.cardPadding,
   }) : super(key: key);
 
   @override
@@ -38,15 +39,16 @@ class _ProductTileUIState extends State<ProductTileUI> {
 
   void addToWhishList(id) async {
     var res = await _whishListService.addWhishList(id);
-    if(res == true) {
+    if (res == true) {
       Provider.of<WhishListSetUp>(context, listen: false).addToWhishList(id);
     }
   }
 
   void removeFromWhishList(id) async {
     var res = await _whishListService.removeWhishList(id);
-    if(res == true) {
-      Provider.of<WhishListSetUp>(context, listen: false).removeFromWhishList(id);
+    if (res == true) {
+      Provider.of<WhishListSetUp>(context, listen: false)
+          .removeFromWhishList(id);
     }
   }
 
@@ -63,12 +65,12 @@ class _ProductTileUIState extends State<ProductTileUI> {
     EdgeInsetsGeometry paddingCard = widget.index % 2 == 0
         ? const EdgeInsets.fromLTRB(screenPadding, 0, 0, 10)
         : const EdgeInsets.fromLTRB(0, 0, screenPadding, 10);
+    paddingCard = widget.cardPadding == null ? paddingCard : widget.cardPadding;
     // final BlousePadding sellerName=widget.data.whoMadeIt;
 
     final photo = widget.data.photo ?? null;
     final photos = photo != null ? photo.photos ?? null : null;
-    final String photoURL =
-        photos != null ? photos[0].name ?? null : null;
+    final String photoURL = photos != null ? photos[0].name ?? null : null;
     final String productName = widget.data.name ?? "No name";
     final double productDiscount = widget.data.discount ?? 0.0;
     final double productPrice = widget.data.price ?? 0.0;
@@ -125,7 +127,11 @@ class _ProductTileUIState extends State<ProductTileUI> {
                                           fontWeight: FontWeight.bold)),
                                 ),
                                 InkWell(
-                                  child: Provider.of<WhishListSetUp>(context, listen: true).list.indexOf(widget.data.key) != -1
+                                  child: Provider.of<WhishListSetUp>(context,
+                                                  listen: true)
+                                              .list
+                                              .indexOf(widget.data.key) !=
+                                          -1
                                       ? WishListIcon(
                                           filled: true,
                                           width: 18,
@@ -137,7 +143,11 @@ class _ProductTileUIState extends State<ProductTileUI> {
                                           height: 18,
                                         ),
                                   onTap: () {
-                                    if(Provider.of<WhishListSetUp>(context, listen: false).list.indexOf(widget.data.key) != -1) {
+                                    if (Provider.of<WhishListSetUp>(context,
+                                                listen: false)
+                                            .list
+                                            .indexOf(widget.data.key) !=
+                                        -1) {
                                       removeFromWhishList(widget.data.key);
                                     } else {
                                       addToWhishList(widget.data.key);

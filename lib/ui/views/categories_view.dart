@@ -46,25 +46,34 @@ class _CategoriesViewState extends State<CategoriesView> {
           top: false,
           left: false,
           right: false,
-          child: GridListWidget<Categorys, Category>(
-            key: categoriesGridKey,
-            context: context,
-            filter: categoryFilter,
-            gridCount: 1,
-            childAspectRatio: 3,
-            viewModel: CategoriesGridViewBuilderViewModel(),
-            disablePagination: true,
-            tileBuilder: (BuildContext context, data, index, onDelete, onUpdate) {
-              return GestureDetector(
-                onTap: () => model.showProducts(
-                  data.filter,
-                  data.name,
-                ),
-                child: CategoryTileUI(
-                  data: data,
-                ),
-              );
-            },
+          child: FutureBuilder(
+            future: Future.delayed(Duration(milliseconds: 500)),
+            builder: (c, s) => s.connectionState == ConnectionState.done
+                ? GridListWidget<Categorys, Category>(
+                    key: categoriesGridKey,
+                    context: context,
+                    filter: categoryFilter,
+                    gridCount: 1,
+                    childAspectRatio: 3,
+                    viewModel: CategoriesGridViewBuilderViewModel(),
+                    disablePagination: true,
+                    tileBuilder: (BuildContext context, data, index, onDelete,
+                        onUpdate) {
+                      return GestureDetector(
+                        onTap: () => model.showProducts(
+                          data.filter,
+                          data.name,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+                          child: CategoryTileUI(
+                            data: data,
+                          ),
+                        ),
+                      );
+                    },
+                  )
+                : Container(),
           ),
         ),
       ),
