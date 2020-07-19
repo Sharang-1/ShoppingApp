@@ -135,8 +135,9 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                 width: 120,
                 fadeInCurve: Curves.easeIn,
                 placeholder: "assets/images/placeholder.png",
-                image: productImage != null ? '$PRODUCT_PHOTO_BASE_URL/${widget.item.productId}/$productImage' :
-                    "https://images.unsplashr.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
+                image: productImage != null
+                    ? '$PRODUCT_PHOTO_BASE_URL/${widget.item.productId}/$productImage'
+                    : "https://images.unsplashr.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
                 fit: BoxFit.cover,
               ),
             ),
@@ -171,17 +172,22 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                           fontSize: priceFontSize,
                         ),
                         horizontalSpaceTiny,
-                        Expanded(
-                          child: Text(
-                            "\u20B9" + orderSummaryDetails["Price"],
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              color: Colors.grey,
-                              decoration: TextDecoration.lineThrough,
-                              fontSize: priceFontSize - 2,
-                            ),
-                          ),
-                        )
+                        orderSummaryDetails["Total"]
+                                    .replaceAll(rupeeUnicode, "") !=
+                                orderSummaryDetails["Price"]
+                                    .replaceAll(rupeeUnicode, "")
+                            ? Expanded(
+                                child: Text(
+                                  "\u20B9" + orderSummaryDetails["Price"],
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                    decoration: TextDecoration.lineThrough,
+                                    fontSize: priceFontSize - 2,
+                                  ),
+                                ),
+                              )
+                            : SizedBox()
                       ],
                     ),
                     verticalSpaceTiny,
@@ -242,7 +248,9 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
 
   Widget bottomSheetDetailsTable(titleFontSize, subtitleFontSize) {
     return FractionallySizedBox(
-      heightFactor: 0.7,
+      heightFactor: MediaQuery.of(context).size.height > 600
+          ? MediaQuery.of(context).size.height > 800 ? 0.75 : 0.88
+          : 0.92,
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,

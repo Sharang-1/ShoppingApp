@@ -55,8 +55,8 @@ class HomeView extends StatelessWidget {
                     child: SvgPicture.asset(
                   "assets/svg/logo.svg",
                   color: logoRed,
-                  height: 40,
-                  width: 40,
+                  height: 35,
+                  width: 35,
                 )),
                 actions: <Widget>[
                   IconButton(

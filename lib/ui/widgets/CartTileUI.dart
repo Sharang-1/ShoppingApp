@@ -2,6 +2,7 @@ import 'package:compound/locator.dart';
 import 'package:compound/models/cart.dart';
 import 'package:compound/services/api/api_service.dart';
 import 'package:compound/ui/shared/app_colors.dart';
+import 'package:compound/ui/shared/shared_styles.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/ui/views/cart_select_delivery_view.dart';
 import 'package:compound/ui/widgets/CartProductTileUI.dart';
@@ -117,54 +118,61 @@ class _CartTileUIState extends State<CartTileUI> {
           ),
         ),
         verticalSpaceMedium,
-        SizedBox(
-          height: 50,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Expanded(
+        Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(curve15),
+            ),
+            clipBehavior: Clip.antiAlias,
+            elevation: 5,
+            child: SizedBox(
+                height: 50,
                 child: Padding(
-                  padding: EdgeInsets.only(
-                    left: 10,
-                    right: 30,
-                    bottom: 10,
+                  padding: EdgeInsets.only(right: 5),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(10, 15, 10, 15),
+                          child: TextField(
+                            controller: _controller,
+                            decoration: const InputDecoration(
+                              contentPadding: EdgeInsets.symmetric(vertical: 5),
+                              labelText: '  Promo Code',
+                              labelStyle: TextStyle(fontSize: 18),
+                              alignLabelWithHint: true,
+                              border: InputBorder.none,
+                              isDense: true,
+                            ),
+                            autofocus: false,
+                            maxLines: 1,
+                          ),
+                        ),
+                      ),
+                      FractionallySizedBox(
+                        heightFactor: 0.7,
+                        child: RaisedButton(
+                          elevation: 5,
+                          onPressed: applyPromoCode,
+                          color: darkRedSmooth,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            // side: BorderSide(
+                            //     color: Colors.black, width: 0.5)
+                          ),
+                          child: Text(
+                            "Apply",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  child: TextField(
-                    controller: _controller,
-                    decoration: const InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(vertical: 5),
-                      labelText: '  Promo Code',
-                      labelStyle: TextStyle(fontSize: 18),
-                      alignLabelWithHint: true,
-                      isDense: true,
-                    ),
-                    autofocus: false,
-                    maxLines: 1,
-                  ),
-                ),
-              ),
-              FractionallySizedBox(
-                heightFactor: 0.7,
-                child: RaisedButton(
-                  elevation: 5,
-                  onPressed: applyPromoCode,
-                  color: darkRedSmooth,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                    // side: BorderSide(
-                    //     color: Colors.black, width: 0.5)
-                  ),
-                  child: Text(
-                    "Apply",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        verticalSpaceMedium,
-        Row(
+                ))),
+        verticalSpaceSmall,
+        Expanded(
+            child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             RaisedButton(
@@ -205,7 +213,7 @@ class _CartTileUIState extends State<CartTileUI> {
               ),
             ),
           ],
-        ),
+        )),
       ],
     );
   }
