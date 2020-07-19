@@ -2,6 +2,7 @@ import 'package:compound/constants/route_names.dart';
 import 'package:compound/constants/shared_pref.dart';
 import 'package:compound/locator.dart';
 import 'package:compound/models/products.dart';
+import 'package:compound/models/sellers.dart';
 import 'package:compound/models/user.dart';
 import 'package:compound/services/authentication_service.dart';
 import 'package:compound/services/cart_local_store_service.dart';
@@ -54,6 +55,10 @@ class BaseModel extends ChangeNotifier {
 
   Future<dynamic> goToProductPage(Product data) {
     return _navigationService.navigateTo(ProductIndividualRoute, arguments: data);
+  }
+
+  Future<dynamic> goToSellerPage(Seller data) {
+    return _navigationService.navigateTo(SellerIndiViewRoute, arguments: data);
   }
 
   Future openmap() async {

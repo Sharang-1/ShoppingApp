@@ -83,13 +83,14 @@ class _SearchViewState extends State<SearchView>
     setState(() {
       currentTabIndex = _tabController.index;
       showResults = false;
+      _searchBarFocusNode.requestFocus();
     });
   }
 
   void _showRecentWhenFocusOnSearchBar() {
     if (_searchBarFocusNode.hasFocus) {
       setState(() {
-        showRecents = true;
+        showResults = true;
       });
     } else {
       setState(() {
@@ -193,7 +194,13 @@ class _SearchViewState extends State<SearchView>
             childAspectRatio: 2,
             tileBuilder:
                 (BuildContext context, data, index, onUpdate, onDelete) {
-              return SellerCard(data: data, fromHome: true);
+              return SellerCard(
+                data: data,
+                fromHome: true,
+                onClick: () {
+                  model.goToSellerPage(data);
+                },
+              );
             },
           ),
         if (showRecents && _getListByTabIndex().length != 0)
@@ -229,7 +236,8 @@ class _SearchViewState extends State<SearchView>
               IconButton(
                 onPressed: () => model.cart(),
                 icon: CartIconWithBadge(
-                  count: Provider.of<CartCountSetUp>(context, listen: true).count,
+                  count:
+                      Provider.of<CartCountSetUp>(context, listen: true).count,
                   iconColor: Colors.black,
                 ),
               ),
@@ -250,11 +258,11 @@ class _SearchViewState extends State<SearchView>
                   focusNode: _searchBarFocusNode,
                   autofocus: true,
                   onTap: () {
-                    setState(() {
-                      if (!showRecents) {
-                        showRecents = true;
-                      }
-                    });
+                    // setState(() {
+                    //   if (!showRecents) {
+                    //     showRecents = true;
+                    //   }
+                    // });
                   },
                   onChanged: _searchBarOnChange,
                 ),
@@ -300,67 +308,136 @@ class _SearchViewState extends State<SearchView>
             top: false,
             left: false,
             right: false,
-            child: CustomScrollView(
-              slivers: <Widget>[
-                SliverAppBar(
-                  primary: false,
-                  floating: true,
-                  snap: true,
-                  elevation: 0,
-                  iconTheme: IconThemeData(color: Colors.black),
-                  backgroundColor: backgroundWhiteCreamColor,
-                  automaticallyImplyLeading: false,
-                  title: Container(
-                    padding: EdgeInsets.all(2),
-                    decoration: BoxDecoration(
-                      // color: Colors.grey[200],
-                      color: backgroundBlueGreyColor,
-                      borderRadius: BorderRadius.circular(curve30),
-                    ),
-                    width: MediaQuery.of(context).size.width,
-                    child: TabBar(
-                      unselectedLabelColor: Colors.black,
-                      labelColor: Colors.black,
-                      indicatorSize: TabBarIndicatorSize.tab,
-                      indicator: BoxDecoration(
-                        color: Colors.white,
+            child: SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  AppBar(
+                    primary: false,
+                    // floating: true,
+                    // snap: true,
+                    elevation: 0,
+                    iconTheme: IconThemeData(color: Colors.black),
+                    backgroundColor: backgroundWhiteCreamColor,
+                    automaticallyImplyLeading: false,
+                    title: Container(
+                      padding: EdgeInsets.all(2),
+                      decoration: BoxDecoration(
+                        // color: Colors.grey[200],
+                        color: backgroundBlueGreyColor,
                         borderRadius: BorderRadius.circular(curve30),
                       ),
-                      controller: _tabController,
-                      tabs: <Widget>[
-                        Container(
-                          height: 30,
-                          child: Tab(
-                              child: Text(
-                            "Products",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "Raleway"),
-                          )),
+                      width: MediaQuery.of(context).size.width,
+                      child: TabBar(
+                        unselectedLabelColor: Colors.black,
+                        labelColor: Colors.black,
+                        indicatorSize: TabBarIndicatorSize.tab,
+                        indicator: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(curve30),
                         ),
-                        Container(
-                          height: 30,
-                          child: Tab(
-                              child: Text(
-                            "Sellers",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "Raleway"),
-                          )),
-                        ),
-                      ],
+                        controller: _tabController,
+                        tabs: <Widget>[
+                          Container(
+                            height: 30,
+                            child: Tab(
+                                child: Text(
+                              "Products",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: "Raleway"),
+                            )),
+                          ),
+                          Container(
+                            height: 30,
+                            child: Tab(
+                                child: Text(
+                              "Sellers",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: "Raleway"),
+                            )),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    // The builder function returns a ListTile with a title that
-                    // displays the index of the current item.
-                    (context, index) => childWidget(model),
-                    childCount: 1,
-                  ),
-                )
-              ],
+                  // SliverList(
+                  //   delegate: SliverChildBuilderDelegate(
+                  //     // The builder function returns a ListTile with a title that
+                  //     // displays the index of the current item.
+                  //     (context, index) => childWidget(model),
+                  //     childCount: 1,
+                  //   ),
+                  // )
+                  Stack(
+                    children: <Widget>[
+                      if (showResults && _tabController.index == 0)
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                          child: GridListWidget<Products, Product>(
+                            key: productGridKey,
+                            context: context,
+                            filter: productFilter,
+                            gridCount: 2,
+                            viewModel: ProductsGridViewBuilderViewModel(),
+                            childAspectRatio: 0.7,
+                            tileBuilder: (BuildContext context, data, index,
+                                onUpdate, onDelete) {
+                              Fimber.d("test");
+                              print((data as Product).toJson());
+                              return ProductTileUI(
+                                index: index,
+                                data: data,
+                                onClick: () {
+                                  model.goToProductPage(data);
+                                },
+                              );
+                            },
+                          ),
+                        ),
+                      if (showResults && _tabController.index == 1)
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                          child: GridListWidget<Sellers, Seller>(
+                            key: sellerGridKey,
+                            context: context,
+                            filter: sellerFilter,
+                            gridCount: 1,
+                            viewModel: SellersGridViewBuilderViewModel(),
+                            disablePagination: true,
+                            childAspectRatio: 2,
+                            tileBuilder: (BuildContext context, data, index,
+                                onUpdate, onDelete) {
+                              return SellerCard(
+                                data: data,
+                                fromHome: true,
+                                onClick: () {
+                                  model.goToSellerPage(data);
+                                },
+                              );
+                            },
+                          ),
+                        ),
+                      if (showRecents == true)
+                        GestureDetector(
+                          onTap: _changeSearchFieldFocus,
+                          child: Container(
+                            height: 1000,
+                            color: Colors.black.withAlpha(150),
+                          ),
+                        ),
+                      if (showRecents == true)
+                        Container(
+                          color: backgroundWhiteCreamColor,
+                          child: ListView(
+                            shrinkWrap: true,
+                            children: _getRecentSearchListUI(),
+                          ),
+                        ),
+                    ],
+                  )
+                ],
+              ),
             ),
           )),
     );
@@ -454,12 +531,12 @@ class _SearchViewState extends State<SearchView>
   }
 
   void _changeSearchFieldFocus() {
-    setState(() {
-      if (showResults) {
-        showRecents = false;
-      }
       _searchBarFocusNode.nextFocus();
-    });
+    // setState(() {
+    //   if (showResults) {
+    //     showRecents = false;
+    //   }
+    // });
   }
 }
 
