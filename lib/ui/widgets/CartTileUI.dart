@@ -117,7 +117,7 @@ class _CartTileUIState extends State<CartTileUI> {
             proceedToOrder: proceedToOrder,
           ),
         ),
-        verticalSpaceMedium,
+        verticalSpaceSmall,
         Card(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(curve15),
@@ -125,7 +125,7 @@ class _CartTileUIState extends State<CartTileUI> {
             clipBehavior: Clip.antiAlias,
             elevation: 5,
             child: SizedBox(
-                height: 50,
+                height: 40,
                 child: Padding(
                   padding: EdgeInsets.only(right: 5),
                   child: Row(
@@ -134,14 +134,11 @@ class _CartTileUIState extends State<CartTileUI> {
                     children: <Widget>[
                       Expanded(
                         child: Padding(
-                          padding: EdgeInsets.fromLTRB(10, 15, 10, 15),
+                          padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                           child: TextField(
                             controller: _controller,
                             decoration: const InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(vertical: 5),
-                              labelText: '  Promo Code',
-                              labelStyle: TextStyle(fontSize: 18),
-                              alignLabelWithHint: true,
+                              hintText: 'Promo Code',
                               border: InputBorder.none,
                               isDense: true,
                             ),
@@ -150,29 +147,28 @@ class _CartTileUIState extends State<CartTileUI> {
                           ),
                         ),
                       ),
-                      FractionallySizedBox(
-                        heightFactor: 0.7,
-                        child: RaisedButton(
-                          elevation: 5,
-                          onPressed: applyPromoCode,
-                          color: darkRedSmooth,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                            // side: BorderSide(
-                            //     color: Colors.black, width: 0.5)
-                          ),
-                          child: Text(
-                            "Apply",
-                            style: TextStyle(color: Colors.white),
-                          ),
+                      RaisedButton(
+                        elevation: 0,
+                        padding: EdgeInsets.all(0),
+                        onPressed: applyPromoCode,
+                        color: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                          // side: BorderSide(
+                          //     color: Colors.black, width: 0.5)
+                        ),
+                        child: Text(
+                          "Apply",
+                          style: TextStyle(
+                              color: darkRedSmooth,
+                              fontWeight: FontWeight.bold),
                         ),
                       ),
                     ],
                   ),
                 ))),
-        verticalSpaceSmall,
-        Expanded(
-            child: Row(
+        verticalSpaceTiny,
+        Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             RaisedButton(
@@ -213,7 +209,7 @@ class _CartTileUIState extends State<CartTileUI> {
               ),
             ),
           ],
-        )),
+        ),
       ],
     );
   }

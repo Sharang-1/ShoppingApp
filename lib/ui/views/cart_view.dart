@@ -96,9 +96,11 @@ class _CartViewState extends State<CartView> {
                         item: dItem,
                         onDelete: (int index) async {
                           final value = await onDelete(index);
-                          if(value != true) return;
-                          await model.removeFromCartLocalStore(dItem.productId.toString());
-                          Provider.of<CartCountSetUp>(context, listen: false).decrementCartCount();
+                          if (value != true) return;
+                          await model.removeFromCartLocalStore(
+                              dItem.productId.toString());
+                          Provider.of<CartCountSetUp>(context, listen: false)
+                              .decrementCartCount();
                         },
                       );
                     },
