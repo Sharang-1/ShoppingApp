@@ -23,8 +23,13 @@ class ProductIndividualViewModel extends BaseModel {
   Seller selleDetail;
   // bool isProductInWhishlist = false;
 
-  Future<void> init(String productId) async {
-    selleDetail = await _apiService.getSellerByID(productId);
+  Future<void> init(String sellerId) async {
+    selleDetail = await _apiService.getSellerByID(sellerId);
+    notifyListeners();
+  }
+
+  gotoSellerIndiView() {
+    _navigationService.navigateTo(SellerIndiViewRoute, arguments: selleDetail);
   }
 
   Future<int> addToCart(Product product, int qty, String size, String color,

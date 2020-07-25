@@ -67,7 +67,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
 
   bool disabledAddToCartBtn = false;
 
-  Widget productNameAndDescInfo(productName, variations) {
+  Widget productNameAndDescInfo(productName, variations, sellerModal) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -83,10 +83,13 @@ class _ProductIndiViewState extends State<ProductIndiView> {
         SizedBox(
           height: 2,
         ),
-        Text(
-          "By Anita's Creation",
-          style: TextStyle(
-              fontSize: subtitleFontSizeStyle - 2, color: Colors.grey),
+        GestureDetector(
+          child: Text(
+            "By " + sellerModal.selleDetail?.name ?? "",
+            style: TextStyle(
+                fontSize: subtitleFontSizeStyle - 2, color: Colors.grey),
+          ),
+          onTap: sellerModal.gotoSellerIndiView,
         ),
         SizedBox(
           height: 5,
@@ -264,6 +267,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
     final double productPrice = widget.data.price ?? 0.0;
     final variations = widget.data.variations ?? null;
     var date = new DateTime.now().toString();
+    final uniqueKey = UniqueKey();
     var dateParse = DateTime.parse(date);
     var newDate = new DateTime(
         dateParse.year,
@@ -322,7 +326,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  productNameAndDescInfo(productName, widget.data.variations),
+                  productNameAndDescInfo(
+                      productName, widget.data.variations, model),
                   SizedBox(
                     height: 15,
                   ),
@@ -373,7 +378,6 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                     )
                   ]),
                   verticalSpace(20),
-                  // Text(model.selleDetail.name),
                   Row(
                     children: <Widget>[
                       Expanded(
@@ -809,7 +813,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                   SizedBox(
                     height: 200,
                     child: GridListWidget<Products, Product>(
-                      key: UniqueKey(),
+                      key: uniqueKey,
                       context: context,
                       filter: ProductFilter(
                           existingQueryString:
@@ -843,7 +847,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                   SizedBox(
                     height: 200,
                     child: GridListWidget<Products, Product>(
-                      key: UniqueKey(),
+                      key: uniqueKey,
                       context: context,
                       filter: ProductFilter(
                           existingQueryString:
