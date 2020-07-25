@@ -24,6 +24,32 @@ import '../shared/app_colors.dart';
 import '../views/home_view_slider.dart';
 import '../widgets/cart_icon_badge.dart';
 import '../shared/shared_styles.dart';
+import '../../services/api/api_service.dart';
+
+const weekday = [
+  "Monday",
+  "Tuesday",
+  "wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday"
+];
+
+var month = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December"
+];
 
 class ProductIndiView extends StatefulWidget {
   final Product data;
@@ -225,138 +251,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
     );
   }
 
-  Widget rattingsInfo() {
-    return Row(
-      children: <Widget>[
-        Container(
-          width: 80,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(15.0)),
-            color: Colors.lightGreen,
-          ),
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
-            child: Row(
-              children: <Widget>[
-                Text(
-                  "3.5",
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(
-                  width: 5,
-                ),
-                Icon(
-                  Icons.star,
-                  color: Colors.white,
-                )
-              ],
-            ),
-          ),
-        ),
-        SizedBox(
-          width: 10,
-        ),
-        Text(
-          "1050 ratings",
-          style: TextStyle(height: 1.5, color: Color(0xFF6F8398)),
-        )
-      ],
-    );
-  }
-
   Widget paddingWidget(Widget item) {
     return Padding(child: item, padding: EdgeInsets.fromLTRB(0, 10, 0, 0));
-  }
-
-  Widget tableLeftText(String item) {
-    return paddingWidget(Text(
-      item,
-      style: TextStyle(color: Colors.grey, fontSize: 15),
-    ));
-  }
-
-  Widget tableRightText(String item) {
-    return paddingWidget(Text(
-      item,
-      style: TextStyle(fontSize: 15),
-    ));
-  }
-
-  Widget otherDetails() {
-    return Column(
-      children: <Widget>[
-        Table(
-          children: [
-            TableRow(children: [
-              Text(
-                "Product Details",
-                style: TextStyle(fontSize: 17),
-              ),
-              tableRightText(""),
-            ]),
-            TableRow(children: [
-              tableLeftText("color"),
-              tableRightText("grey"),
-            ]),
-            TableRow(children: [
-              tableLeftText("Sizes"),
-              tableRightText("X M L"),
-            ]),
-            TableRow(children: [
-              tableLeftText("Stiches"),
-              tableRightText("multitype"),
-            ]),
-          ],
-        )
-      ],
-    );
-  }
-
-  Widget bottomBar(ProductIndividualViewModel model) {
-    return new Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        Container(
-          width: MediaQuery.of(context).size.width / 2,
-          height: 60,
-          child: Center(
-              child: Text(
-            "ADD TO WISHLIST ",
-            style: TextStyle(
-                color: Colors.black, fontSize: 17, fontWeight: FontWeight.w500),
-          )),
-        ),
-        GestureDetector(
-          onTap: disabledAddToCartBtn
-              ? null
-              : () async {
-                  setState(() {
-                    disabledAddToCartBtn = true;
-                  });
-
-                  await model.addToCart(widget.data, 1, "1", "");
-
-                  setState(() {
-                    disabledAddToCartBtn = false;
-                  });
-                },
-          child: Container(
-            width: MediaQuery.of(context).size.width / 2,
-            height: 60,
-            color: lightGrey,
-            child: Center(
-                child: Text(
-              "ADD TO CART ",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 17,
-                  fontWeight: FontWeight.w500),
-            )),
-          ),
-        )
-      ],
-    );
   }
 
   @override
@@ -367,10 +263,22 @@ class _ProductIndiViewState extends State<ProductIndiView> {
     final double productDiscount = widget.data.discount ?? 0.0;
     final double productPrice = widget.data.price ?? 0.0;
     final variations = widget.data.variations ?? null;
-    final String shipment = widget.data.shipment.days == null
-        ? "Not Availabel"
-        : widget.data.shipment.days.toString() +
-            (widget.data.shipment.days == 1 ? " Day" : " Days");
+    var date = new DateTime.now().toString();
+    var dateParse = DateTime.parse(date);
+    var newDate = new DateTime(
+        dateParse.year,
+        dateParse.month,
+        dateParse.day +
+            (widget.data.shipment.days == null
+                ? 0
+                : widget.data.shipment.days));
+    dateParse = DateTime.parse(newDate.toString());
+    var formattedDate =
+        "${weekday[dateParse.weekday - 1]} , ${dateParse.day} ${month[dateParse.month - 1]}";
+
+    final String shipment =
+        widget.data.shipment.days == null ? "Not Availabel" : formattedDate;
+
     final tags = [
       "JustHere",
       "Trending",
@@ -382,7 +290,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
 
     return ViewModelProvider<ProductIndividualViewModel>.withConsumer(
       viewModel: ProductIndividualViewModel(),
-      onModelReady: (model) => model.init(productId),
+      onModelReady: (model) => model.init(widget.data.account.key),
       builder: (context, model, child) => Scaffold(
         backgroundColor: backgroundWhiteCreamColor,
         appBar: AppBar(
@@ -465,6 +373,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                     )
                   ]),
                   verticalSpace(20),
+                  // Text(model.selleDetail.name),
                   Row(
                     children: <Widget>[
                       Expanded(
@@ -502,14 +411,13 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                               fontSize: titleFontSizeStyle,
                               color: logoRed,
                               fontWeight: FontWeight.w600)),
-
                   if (available)
                     verticalSpace(20),
                   if (available)
                     Row(
                       children: <Widget>[
                         Text(
-                          "Delivery In :",
+                          "Delivery By :",
                           style: TextStyle(
                             fontSize: subtitleFontSizeStyle - 3,
                           ),
@@ -524,7 +432,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                       ],
                     ),
                   if (available)
-                    verticalSpace(5),
+                    verticalSpace(10),
                   if (available)
                     Row(
                       children: <Widget>[
@@ -603,7 +511,9 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                         Text(
                                           "size chart",
                                           style: TextStyle(
-                                              color: Colors.blue[600],
+                                              color: darkRedSmooth,
+                                              decoration:
+                                                  TextDecoration.underline,
                                               fontSize:
                                                   subtitleFontSizeStyle - 3),
                                         )
@@ -901,14 +811,16 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                     child: GridListWidget<Products, Product>(
                       key: UniqueKey(),
                       context: context,
-                      filter: ProductFilter(existingQueryString: "subCategory=${widget.data.category.id}"),
+                      filter: ProductFilter(
+                          existingQueryString:
+                              "subCategory=${widget.data.category.id}"),
                       gridCount: 2,
                       viewModel: ProductsGridViewBuilderViewModel(),
                       childAspectRatio: 1.35,
                       scrollDirection: Axis.horizontal,
                       disablePagination: false,
-                      tileBuilder: (BuildContext context, productData, index, onUpdate,
-                          onDelete) {
+                      tileBuilder: (BuildContext context, productData, index,
+                          onUpdate, onDelete) {
                         Fimber.d("test");
                         print((productData as Product).toJson());
                         return ProductTileUI(
@@ -933,14 +845,16 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                     child: GridListWidget<Products, Product>(
                       key: UniqueKey(),
                       context: context,
-                      filter: ProductFilter(existingQueryString: "accountKey=${widget.data.account.key}"),
+                      filter: ProductFilter(
+                          existingQueryString:
+                              "accountKey=${widget.data.account.key}"),
                       gridCount: 2,
                       viewModel: ProductsGridViewBuilderViewModel(),
                       childAspectRatio: 1.35,
                       scrollDirection: Axis.horizontal,
                       disablePagination: false,
-                      tileBuilder: (BuildContext context, productData, index, onUpdate,
-                          onDelete) {
+                      tileBuilder: (BuildContext context, productData, index,
+                          onUpdate, onDelete) {
                         Fimber.d("test");
                         print((productData as Product).toJson());
                         return ProductTileUI(

@@ -1,4 +1,5 @@
 import 'package:compound/ui/widgets/sellerAppointmentBottomSheet.dart';
+import 'package:fimber/fimber.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/ui/widgets/custom_text.dart';
@@ -18,22 +19,6 @@ class SellerIndi extends StatefulWidget {
 }
 
 class _SellerIndiState extends State<SellerIndi> {
-  Map<String, String> sellerDetails = {
-    "name": "Ketan Works",
-    "type": "BOUTIQUE",
-    "rattings": "4.5",
-    "lat": "23.01524",
-    "lon": "62.50125",
-    "appointment": "false",
-    "Address": "A/3 , Ami Apartment , 132 feet ring road , naranpura , ",
-    "Speciality": "Spec1 , Spec2 , Spec3 , Spec4 , Spec5",
-    "Designs & Creates": "Item1 , Itm2 , Item3 , Item4 ",
-    "Services offered": "Op1 , OP2 , Op3 , Op4",
-    "Works Offered": "Work1 , Work2 , Work3 , Work4",
-    "Type": "Type of this is offered",
-    "Note from Seller": "Sellers bio here"
-  };
-
   var allDetials = [
     "Speciality",
     "Designs & Creates",
@@ -62,7 +47,23 @@ class _SellerIndiState extends State<SellerIndi> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.data);
+    print("la t  " + widget.data.contact.geoLocation.latitude.toString());
+    Map<String, String> sellerDetails = {
+      "name": widget.data.name,
+      "type": widget.data.accountType,
+      "rattings": "4.5",
+      "lat": widget.data.contact.geoLocation.latitude.toString(),
+      "lon": widget.data.contact.geoLocation.longitude.toString(),
+      "appointment": "false",
+      "Address": "A/3 , Ami Apartment , 132 feet ring road , naranpura , ",
+      "Speciality": widget.data.known,
+      "Designs & Creates": widget.data.designs,
+      "Services offered": widget.data.operations,
+      "Works Offered": widget.data.works,
+      "Type": widget.data.accountType,
+      "Note from Seller": widget.data.bio
+    };
+
     return Scaffold(
       backgroundColor: backgroundWhiteCreamColor,
       appBar: AppBar(
@@ -395,7 +396,7 @@ class _SellerIndiState extends State<SellerIndi> {
                       ),
                       verticalSpace(10),
                       CustomText(
-                        "Sellers bio here",
+                        sellerDetails["Note from Seller"],
                         fontSize: smallFont,
                         color: Colors.grey,
                       ),

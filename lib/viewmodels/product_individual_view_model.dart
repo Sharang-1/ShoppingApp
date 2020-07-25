@@ -1,12 +1,14 @@
 import 'package:compound/constants/route_names.dart';
 import 'package:compound/locator.dart';
 import 'package:compound/models/products.dart';
+import 'package:compound/models/sellers.dart';
 import 'package:compound/services/api/api_service.dart';
 import 'package:compound/services/cart_local_store_service.dart';
 import 'package:compound/services/dialog_service.dart';
 // import 'package:compound/services/dialog_service.dart';
 import 'package:compound/services/navigation_service.dart';
 import 'package:compound/services/whishlist_service.dart';
+import '../services/api/api_service.dart';
 
 import 'base_model.dart';
 
@@ -18,9 +20,12 @@ class ProductIndividualViewModel extends BaseModel {
   final WhishListService _whishListService = locator<WhishListService>();
   final DialogService _dialogService = locator<DialogService>();
 
+  Seller selleDetail;
   // bool isProductInWhishlist = false;
 
-  Future<void> init(String productId) async {}
+  Future<void> init(String productId) async {
+    selleDetail = await _apiService.getSellerByID(productId);
+  }
 
   Future<int> addToCart(Product product, int qty, String size, String color,
       {bool showDialog: true}) async {
