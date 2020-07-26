@@ -778,7 +778,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              "Pooja Creations",
+                              model.selleDetail?.name ?? "",
                               style: TextStyle(
                                   fontSize: subtitleFontSizeStyle,
                                   color: darkRedSmooth),
@@ -794,7 +794,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                             verticalSpace(10),
                             Text(
                               Tools.getTruncatedString(
-                                  100, widget.data.description),
+                                  100, model.selleDetail?.bio ?? ""),
                               style: TextStyle(
                                   fontSize: subtitleFontSizeStyle - 5,
                                   color: Colors.grey),
