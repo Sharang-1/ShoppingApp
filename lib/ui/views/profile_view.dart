@@ -449,9 +449,9 @@ class _ProfileViewState extends State<ProfileView> {
                                                     .rightToLeft,
                                               ),
                                             );
-                                            if(pickedPlace != null){
-                                              pickedPlace = (PickResult) pickedPlace;
-                                            print(pickedPlace);
+                                            if (pickedPlace != null) {
+                                              // pickedPlace = (PickResult) pickedPlace;
+                                              print(pickedPlace);
                                             }
                                           },
                                           color: darkRedSmooth,
