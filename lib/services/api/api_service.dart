@@ -388,6 +388,17 @@ class APIService {
     return null;
   }
 
+  Future<UserDetails> updateUserData(UserDetails mUserDetails) async {
+    var userData = await apiWrapper("users/" + mUserDetails.key,
+        authenticated: true,
+        data: userDetailsToJson(mUserDetails),
+        options: Options(headers: {'excludeToken': false}, method: "put"));
+    if (userData != null) {
+      return UserDetails.fromJson(userData);
+    }
+    return null;
+  }
+
   Future<List<PaymentOption>> getPaymentOptions() async {
     var mPaymentOptionsData = await apiWrapper("payments/options");
     if (mPaymentOptionsData != null) {

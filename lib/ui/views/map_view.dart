@@ -13,7 +13,6 @@ import 'package:compound/viewmodels/map_view_model.dart';
 import '../shared/shared_styles.dart';
 
 class MapView extends StatelessWidget {
-
   Widget clientCard(MapViewModel model, context, Seller client) {
     const double titleFontSize = titleFontSizeStyle;
     const double subtitleFontSize = subtitleFontSizeStyle - 3;
@@ -72,7 +71,8 @@ class MapView extends StatelessWidget {
                         ),
                         Tooltip(
                             message: client.name,
-                            child: Text(Tools.getTruncatedString(20, client.name),
+                            child: Text(
+                                Tools.getTruncatedString(20, client.name),
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black,
@@ -215,89 +215,91 @@ class MapView extends StatelessWidget {
       viewModel: MapViewModel(),
       onModelReady: (model) => model.init(),
       builder: (context, model, child) => Scaffold(
-        body: Stack(children: <Widget>[
-          GoogleMap(
-            onMapCreated: model.onMapCreated,
-            myLocationEnabled: true,
-            myLocationButtonEnabled: true,
-            mapType: MapType.normal,
-            markers: getMarkers(context, model),
-            initialCameraPosition: CameraPosition(
-              target: new LatLng(model.currentLocation.latitude,
-                  model.currentLocation.longitude),
-              zoom: 8,
-            ),
-          ),
-          Positioned(
-              top: MediaQuery.of(context).size.height - 250.0,
-              left: 10.0,
-              child: Container(
-                  height: 180.0,
-                  width: MediaQuery.of(context).size.width,
-                  child: model.clientsToggle
-                      ? ListView(
-                          scrollDirection: Axis.horizontal,
-                          padding: EdgeInsets.all(8.0),
-                          children: model.sData.items.map((element) {
-                            return clientCard(model, context, element);
-                          }).toList(),
-                        )
-                      : Container(height: 1.0, width: 1.0))),
-          model.resetToggle
-              ? Positioned(
-                  top: MediaQuery.of(context).size.height -
-                      (MediaQuery.of(context).size.height - 50.0),
-                  right: 15.0,
-                  child: FloatingActionButton(
-                    onPressed: model.resetCamera,
-                    mini: true,
-                    backgroundColor: Colors.red,
-                    child: Icon(Icons.refresh),
-                  ))
-              : Container(),
-          model.resetToggle
-              ? Positioned(
-                  top: MediaQuery.of(context).size.height -
-                      (MediaQuery.of(context).size.height - 50.0),
-                  right: 60.0,
-                  child: FloatingActionButton(
-                      onPressed: model.addBearing,
-                      mini: true,
-                      backgroundColor: Colors.green,
-                      child: Icon(Icons.rotate_left)))
-              : Container(),
-          model.resetToggle
-              ? Positioned(
-                  top: MediaQuery.of(context).size.height -
-                      (MediaQuery.of(context).size.height - 50.0),
-                  right: 110.0,
-                  child: FloatingActionButton(
-                      onPressed: model.removeBearing,
-                      mini: true,
-                      backgroundColor: Colors.blue,
-                      child: Icon(Icons.rotate_right)))
-              : Container(),
-          if (model.showBottomSheet)
-            Container(
-              color: Colors.red,
-              height: 50,
-              child: Card(
-                child: InkWell(
-                  onTap: () => showModalBottomSheet(
-                      context: context,
-                      builder: (context) {
-                        return Column(children: <Widget>[
-                          Text(model.currentClient.name),
-                          Container(
-                            height: 200,
-                            color: Colors.blue,
-                          )
-                        ]);
-                      }),
-                ),
+        body: SafeArea(
+          child: Stack(children: <Widget>[
+            GoogleMap(
+              onMapCreated: model.onMapCreated,
+              myLocationEnabled: true,
+              myLocationButtonEnabled: true,
+              mapType: MapType.normal,
+              markers: getMarkers(context, model),
+              initialCameraPosition: CameraPosition(
+                target: new LatLng(model.currentLocation.latitude,
+                    model.currentLocation.longitude),
+                zoom: 12,
               ),
-            )
-        ]),
+            ),
+            Positioned(
+                top: MediaQuery.of(context).size.height - 250.0,
+                left: 10.0,
+                child: Container(
+                    height: 180.0,
+                    width: MediaQuery.of(context).size.width,
+                    child: model.clientsToggle
+                        ? ListView(
+                            scrollDirection: Axis.horizontal,
+                            padding: EdgeInsets.all(8.0),
+                            children: model.sData.items.map((element) {
+                              return clientCard(model, context, element);
+                            }).toList(),
+                          )
+                        : Container(height: 1.0, width: 1.0))),
+            model.resetToggle
+                ? Positioned(
+                    top: MediaQuery.of(context).size.height -
+                        (MediaQuery.of(context).size.height - 50.0),
+                    right: 15.0,
+                    child: FloatingActionButton(
+                      onPressed: model.resetCamera,
+                      mini: true,
+                      backgroundColor: Colors.red,
+                      child: Icon(Icons.refresh),
+                    ))
+                : Container(),
+            model.resetToggle
+                ? Positioned(
+                    top: MediaQuery.of(context).size.height -
+                        (MediaQuery.of(context).size.height - 50.0),
+                    right: 60.0,
+                    child: FloatingActionButton(
+                        onPressed: model.addBearing,
+                        mini: true,
+                        backgroundColor: Colors.green,
+                        child: Icon(Icons.rotate_left)))
+                : Container(),
+            model.resetToggle
+                ? Positioned(
+                    top: MediaQuery.of(context).size.height -
+                        (MediaQuery.of(context).size.height - 50.0),
+                    right: 110.0,
+                    child: FloatingActionButton(
+                        onPressed: model.removeBearing,
+                        mini: true,
+                        backgroundColor: Colors.blue,
+                        child: Icon(Icons.rotate_right)))
+                : Container(),
+            if (model.showBottomSheet)
+              Container(
+                color: Colors.red,
+                height: 50,
+                child: Card(
+                  child: InkWell(
+                    onTap: () => showModalBottomSheet(
+                        context: context,
+                        builder: (context) {
+                          return Column(children: <Widget>[
+                            Text(model.currentClient.name),
+                            Container(
+                              height: 200,
+                              color: Colors.blue,
+                            )
+                          ]);
+                        }),
+                  ),
+                ),
+              )
+          ]),
+        ),
       ),
     );
   }
