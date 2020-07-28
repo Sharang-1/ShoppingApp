@@ -49,21 +49,22 @@ class _ExpansionListState extends State<ExpansionList> {
         physics: NeverScrollableScrollPhysics(),
         padding: const EdgeInsets.all(0),
         children: <Widget>[
-          ExpansionListItem(
-            title: selectedValue,
-            onTap: () {
-              setState(() {
-                expanded = !expanded;
-              });
-            },
-            showArrow: true,
-            smallVersion: widget.smallVersion,
-          ),
-          Container(
-            height: 2,
-            color: Colors.grey[300],
-          ),
-        ] + _getDropdownListItems(),
+              ExpansionListItem(
+                title: selectedValue,
+                onTap: () {
+                  setState(() {
+                    expanded = !expanded;
+                  });
+                },
+                showArrow: true,
+                smallVersion: widget.smallVersion,
+              ),
+              Container(
+                height: 2,
+                color: Colors.grey[300],
+              ),
+            ] +
+            _getDropdownListItems(),
       ),
     );
   }
@@ -128,7 +129,7 @@ class ExpansionListItem extends StatelessWidget {
                 title ?? '',
                 style: Theme.of(context)
                     .textTheme
-                    .subtitle1
+                    .subtitle
                     .copyWith(fontSize: smallVersion ? 12 : 15),
               ),
             ),

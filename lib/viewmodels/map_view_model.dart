@@ -19,49 +19,52 @@ class MapViewModel extends BaseModel {
   var clients = [];
   Seller currentClient;
   var currentBearing;
-  
+
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
-  BitmapDescriptor iconS,iconT; 
+  BitmapDescriptor iconS, iconT;
   GoogleMapController mapController;
 
   Tailors tData;
-  Sellers sData ;
+  Sellers sData;
   Future<void> init() async {
-    currentLocation = _locationService.currentLocation;
+    currentLocation = _locationService.currentLocation ??
+        UserLocation(
+            latitude: 0.0, longitude: 0.0); //Default Value for current Location
     mapToggle = true;
     populateClients();
-    
+
     ImageConfiguration configuration = ImageConfiguration();
-    iconT = await BitmapDescriptor.fromAssetImage(configuration, 'assets/marker.png');
-    iconS = await BitmapDescriptor.fromAssetImage(configuration, 'assets/marker2.png');
+    iconT = await BitmapDescriptor.fromAssetImage(
+        configuration, 'assets/marker.png');
+    iconS = await BitmapDescriptor.fromAssetImage(
+        configuration, 'assets/marker2.png');
     return;
   }
 
-   populateClients() async {
+  populateClients() async {
     clients = [];
     Future<Tailors> tailors = _apiService.getTailors();
     Future<Sellers> sellers = _apiService.getSellers();
-    List apiData = await Future.wait([tailors,sellers]);
+    List apiData = await Future.wait([tailors, sellers]);
 
     tData = apiData[0];
     sData = apiData[1];
-    
-    if(sData != null){
+
+    if (sData != null) {
       clientsToggle = true;
     }
     notifyListeners();
   }
 
-  
-   void onMapCreated(controller) {
-      mapController = controller;
+  void onMapCreated(controller) {
+    mapController = controller;
   }
 
   zoomInMarker(Seller client) {
     mapController
         .animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-            target: LatLng(
-                client.contact.geoLocation.latitude, client.contact.geoLocation.longitude),
+            target: LatLng(client.contact.geoLocation.latitude,
+                client.contact.geoLocation.longitude),
             zoom: 17.0,
             bearing: 90.0,
             tilt: 45.0)))
@@ -73,8 +76,9 @@ class MapViewModel extends BaseModel {
 
   resetCamera() {
     mapController
-        .animateCamera(CameraUpdate.newCameraPosition(
-            CameraPosition(target: LatLng(currentLocation.latitude,currentLocation.longitude), zoom: 10.0)))
+        .animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+            target: LatLng(currentLocation.latitude, currentLocation.longitude),
+            zoom: 10.0)))
         .then((val) {
       resetToggle = false;
       notifyListeners();

@@ -11,7 +11,6 @@ class UserDetailsViewModel extends BaseModel {
 
   UserDetails mUserDetails;
   Future getUserDetails() async {
-
     setBusy(true);
     final result = await _apiService.getUserData();
     setBusy(false);
@@ -22,6 +21,16 @@ class UserDetailsViewModel extends BaseModel {
     Fimber.e(mUserDetails.details.phone.mobile);
     notifyListeners();
   }
-  
-}
 
+  Future updateUserDetails() async {
+    setBusy(true);
+    final result = await _apiService.updateUserData(mUserDetails);
+    setBusy(false);
+    if (result != null) {
+      mUserDetails = result;
+    }
+    Fimber.e(mUserDetails.firstName);
+    Fimber.e(mUserDetails.details.phone.mobile);
+    notifyListeners();
+  }
+}

@@ -13,7 +13,7 @@
         android:label="dzor_app"
         android:icon="@mipmap/launcher_icon">
         <meta-data android:name="com.google.android.geo.API_KEY"
-               android:value="AIzaSyBPScs0VYZoRnnUbNWN2rVqyYNTYl6nxds"/>
+               android:value="AIzaSyCQo523YX7WkavuVVYLdFNXf79sJ89X2Ns"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
