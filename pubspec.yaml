@@ -46,7 +46,7 @@ dependencies:
   pin_code_text_field: ^1.2.1
   url_launcher: ^5.4.2
   percent_indicator: "^2.1.1"
-  flutter_svg:0.18.0
+  flutter_svg: 0.18.0
   flutter_rating_bar: ^3.0.1+1
   international_phone_input: ^1.0.4
   intl:
