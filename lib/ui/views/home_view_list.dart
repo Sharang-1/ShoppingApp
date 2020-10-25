@@ -7,9 +7,17 @@
 // import 'package:compound/viewmodels/grid_view_builder_view_models/categories_view_builder_view_model.dart';
 import 'package:compound/models/categorys.dart';
 import 'package:compound/models/grid_view_builder_filter_models/categoryFilter.dart';
+import 'package:compound/models/grid_view_builder_filter_models/productFilter.dart';
+import 'package:compound/models/grid_view_builder_filter_models/sellerFilter.dart';
+import 'package:compound/models/products.dart';
+import 'package:compound/models/sellers.dart';
 import 'package:compound/ui/widgets/GridListWidget.dart';
+import 'package:compound/ui/widgets/ProductTileUI.dart';
 import 'package:compound/ui/widgets/categoryTileUI.dart';
 import 'package:compound/viewmodels/grid_view_builder_view_models/categories_view_builder_view_model.dart';
+import 'package:compound/viewmodels/grid_view_builder_view_models/products_grid_view_builder_view_model.dart';
+import 'package:compound/viewmodels/grid_view_builder_view_models/sellers_grid_view_builder_view.dart';
+import 'package:fimber/fimber_base.dart';
 import 'package:flutter/material.dart';
 
 import 'package:compound/ui/shared/app_colors.dart';
@@ -24,6 +32,7 @@ import './home_view_slider.dart';
 class HomeViewList extends StatelessWidget {
   final model;
   final gotoCategory;
+  final productUniqueKey = new UniqueKey();
   final List<String> imgList = [
     'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
     'https://images.unsplash.com/photo-1522205408450-add114ad53fe?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=368f45b0888aeb0b7b08e3a1084d3ede&auto=format&fit=crop&w=1950&q=80',
@@ -229,7 +238,7 @@ class HomeViewList extends StatelessWidget {
           Row(children: <Widget>[
             Expanded(
               child: Text(
-                'Great Sellers Near You',
+                'Recommended Products',
                 style: TextStyle(
                   color: Colors.grey[800],
                   fontSize: subtitleFontSize,
@@ -239,27 +248,51 @@ class HomeViewList extends StatelessWidget {
             )
           ]),
           verticalSpaceSmall,
-          Container(
-            padding: EdgeInsets.only(left: 0),
-            height: 175,
-            child: ListView(
+          SizedBox(
+            height: 200,
+            child: GridListWidget<Products, Product>(
+              key: productUniqueKey,
+              context: context,
+              filter: ProductFilter(),
+              gridCount: 2,
+              viewModel: ProductsGridViewBuilderViewModel(),
+              childAspectRatio: 1.35,
               scrollDirection: Axis.horizontal,
-              children: <Widget>[
-                SellerTileUi(
-                  data: sellerCardDetails,
-                  fromHome: true,
-                ),
-                SellerTileUi(
-                  data: sellerCardDetails,
-                  fromHome: true,
-                ),
-                SellerTileUi(
-                  data: sellerCardDetails,
-                  fromHome: true,
-                ),
-              ],
+              disablePagination: false,
+              tileBuilder: (BuildContext context, productData, index, onUpdate,
+                  onDelete) {
+                Fimber.d("test");
+                print((productData as Product).toJson());
+                return ProductTileUI(
+                  data: productData,
+                  onClick: () => model.goToProductPage(productData),
+                  index: index,
+                  cardPadding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                );
+              },
             ),
           ),
+          // Container(
+          //   padding: EdgeInsets.only(left: 0),
+          //   height: 175,
+          //   child: ListView(
+          //     scrollDirection: Axis.horizontal,
+          //     children: <Widget>[
+          //       SellerTileUi(
+          //         data: sellerCardDetails,
+          //         fromHome: true,
+          //       ),
+          //       SellerTileUi(
+          //         data: sellerCardDetails,
+          //         fromHome: true,
+          //       ),
+          //       SellerTileUi(
+          //         data: sellerCardDetails,
+          //         fromHome: true,
+          //       ),
+          //     ],
+          //   ),
+          // ),
           verticalSpace(40),
           Container(
             decoration: BoxDecoration(
