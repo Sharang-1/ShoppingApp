@@ -427,7 +427,7 @@ class APIService {
     try {
       if (res.data != null) data = Appointments.fromJson(res.data);
     } catch (e) {
-      String error = res.data;
+      String error = res.data["error"];
       Fimber.e(error);
     }
     return data;

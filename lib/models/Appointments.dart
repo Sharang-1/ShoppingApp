@@ -74,7 +74,7 @@ class AppointmentData {
   String userId;
   DateTime timeSlotStart;
   DateTime timeSlotEnd;
-  int status;
+  dynamic status;
   String customerMessage;
   String sellerMessage;
 

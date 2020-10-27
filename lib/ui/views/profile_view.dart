@@ -33,12 +33,6 @@ class _ProfileViewState extends State<ProfileView> {
   FocusNode nameFocusNode;
   FocusNode mobileFocusNode;
 
-  Map<int, String> addressMap = {0: "Address 1", 1: "Address 2"};
-  Map<int, String> fullAddressMap = {
-    0: "103 /, First Floor, Royal Bldg, Janjikar Street, Masjid Bunder (w), Mumbai, Maharashtra-400003",
-    1: "Shivranjani Cross Roads, Satellite,Ahmedabad, Gujarat 380015",
-    2: "Sarkhej - Gandhinagar Hwy, Bodakdev, Ahmedabad, Gujarat 380059"
-  };
   void initState() {
     super.initState();
     initialString = "Dzor";
@@ -390,53 +384,55 @@ class _ProfileViewState extends State<ProfileView> {
                                                 ),
                                               ))),
                                       verticalSpace(spaceBetweenCards),
-                                      // Column(
-                                      //   children: addressMap.keys.map((int key) {
-                                      //     return Container(
-                                      //         margin: EdgeInsets.only(
-                                      //             bottom: spaceBetweenCards),
-                                      //         child: Card(
-                                      //           clipBehavior: Clip.antiAlias,
-                                      //           shape: RoundedRectangleBorder(
-                                      //             borderRadius: BorderRadius.circular(15),
-                                      //           ),
-                                      //           elevation: 5,
-                                      //           child: Padding(
-                                      //             padding: const EdgeInsets.all(15),
-                                      //             child: Row(
-                                      //               crossAxisAlignment:
-                                      //                   CrossAxisAlignment.center,
-                                      //               children: <Widget>[
-                                      //                 Expanded(
-                                      //                     child: Column(
-                                      //                   crossAxisAlignment:
-                                      //                       CrossAxisAlignment.start,
-                                      //                   mainAxisAlignment:
-                                      //                       MainAxisAlignment.center,
-                                      //                   children: <Widget>[
-                                      //                     CustomText(
-                                      //                       addressMap[key],
-                                      //                       color: Colors.grey,
-                                      //                       fontSize:
-                                      //                           subtitleFontSizeStyle - 3,
-                                      //                     ),
-                                      //                     verticalSpaceSmall,
-                                      //                     CustomText(
-                                      //                       fullAddressMap[key],
-                                      //                       color: Colors.grey[800],
-                                      //                       fontWeight: FontWeight.w500,
-                                      //                       fontSize:
-                                      //                           subtitleFontSizeStyle - 1,
-                                      //                     )
-                                      //                   ],
-                                      //                 )),
-                                      //               ],
-                                      //             ),
-                                      //           ),
-                                      //         ));
-                                      //   }).toList(),
-                                      // ),
-                                      verticalSpaceMedium,
+                                      Container(
+                                          margin: EdgeInsets.only(
+                                              bottom: spaceBetweenCards),
+                                          child: Card(
+                                            clipBehavior: Clip.antiAlias,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                            ),
+                                            elevation: 5,
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(15),
+                                              child: Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: <Widget>[
+                                                  Expanded(
+                                                      child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: <Widget>[
+                                                      CustomText(
+                                                        "Address",
+                                                        color: Colors.grey,
+                                                        fontSize:
+                                                            subtitleFontSizeStyle -
+                                                                3,
+                                                      ),
+                                                      verticalSpaceSmall,
+                                                      CustomText(
+                                                        model.mUserDetails
+                                                            .details.address,
+                                                        color: Colors.grey[800],
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        fontSize:
+                                                            subtitleFontSizeStyle -
+                                                                1,
+                                                      )
+                                                    ],
+                                                  )),
+                                                ],
+                                              ),
+                                            ),
+                                          )),
                                       RaisedButton(
                                           elevation: 5,
                                           onPressed: () async {
@@ -452,6 +448,8 @@ class _ProfileViewState extends State<ProfileView> {
                                             if (pickedPlace != null) {
                                               // pickedPlace = (PickResult) pickedPlace;
                                               print(pickedPlace);
+                                              model.mUserDetails.details
+                                                  .address = pickedPlace;
                                             }
                                           },
                                           color: darkRedSmooth,
@@ -477,7 +475,11 @@ class _ProfileViewState extends State<ProfileView> {
                                                     const EdgeInsets.symmetric(
                                                         vertical: 15),
                                                 child: CustomText(
-                                                  "Add Address",
+                                                  model.mUserDetails.details
+                                                              .address !=
+                                                          null
+                                                      ? "Change Address"
+                                                      : "Add Address",
                                                   isBold: true,
                                                   color: Colors.white,
                                                 ),

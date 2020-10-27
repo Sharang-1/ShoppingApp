@@ -199,7 +199,10 @@ class myAppointments extends StatelessWidget {
                               color: textIconOrange,
                               borderRadius: BorderRadius.circular(curve30)),
                           child: CustomText(
-                            appointmentStatus[data.appointment.status],
+                            (data.appointment.status is String)
+                                ? appointmentStatus[
+                                    int.parse(data.appointment.status)]
+                                : appointmentStatus[data.appointment.status],
                             color: Colors.white,
                             fontSize: 12,
                             isBold: true,
@@ -238,7 +241,7 @@ class myAppointments extends StatelessWidget {
                     ),
                   ]),
                 )),
-            (data.appointment.status != 2
+            ((data.appointment.status != 2 && data.appointment.status != "2")
                 ? RaisedButton(
                     elevation: 0,
                     onPressed: () {
