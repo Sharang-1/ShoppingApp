@@ -67,6 +67,23 @@ class _ProductIndiViewState extends State<ProductIndiView> {
 
   bool disabledAddToCartBtn = false;
 
+  _showDialog(context, sellerId, cid) {
+    return showDialog<void>(
+      context: context,
+      child: new AlertDialog(
+        contentPadding: const EdgeInsets.all(16.0),
+        content: new Row(
+          children: <Widget>[
+            new Expanded(
+              child: Image.network(
+                  "${BASE_URL}sellers/$sellerId/categories/$cid/sizechart"),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget productNameAndDescInfo(productName, variations, sellerModal) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -471,7 +488,13 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                 height: 20,
                               ),
                               horizontalSpaceSmall,
-                              Text("Add Address")
+                              InkWell(
+                                  onTap: () {
+                                    model.gotoAddView(context);
+                                  },
+                                  child: model.defaultAddress == null
+                                      ? Text("Add Address")
+                                      : Text(model.defaultAddress))
                             ],
                           ),
                         )
@@ -512,14 +535,20 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                     subtitleFontSizeStyle),
                                           ),
                                         ),
-                                        Text(
-                                          "size chart",
-                                          style: TextStyle(
-                                              color: darkRedSmooth,
-                                              decoration:
-                                                  TextDecoration.underline,
-                                              fontSize:
-                                                  subtitleFontSizeStyle - 3),
+                                        InkWell(
+                                          onTap: () {
+                                            _showDialog(context,
+                                                model.selleDetail.key, 1);
+                                          },
+                                          child: Text(
+                                            "size chart",
+                                            style: TextStyle(
+                                                color: darkRedSmooth,
+                                                decoration:
+                                                    TextDecoration.underline,
+                                                fontSize:
+                                                    subtitleFontSizeStyle - 3),
+                                          ),
                                         )
                                       ],
                                     ),

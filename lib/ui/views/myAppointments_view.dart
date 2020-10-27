@@ -1,68 +1,29 @@
+import 'package:compound/models/Appointments.dart';
 import 'package:compound/ui/shared/app_colors.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/models/grid_view_builder_filter_models/cartFilter.dart';
 import 'package:compound/ui/widgets/custom_text.dart';
+import 'package:compound/viewmodels/appointments_view_model.dart';
 import 'package:compound/viewmodels/cart_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 import '../shared/shared_styles.dart';
 
 class myAppointments extends StatelessWidget {
-  final searchController = TextEditingController();
+  double headingFontSize = headingFontSizeStyle + 5;
 
-  final filter = CartFilter();
-  bool clicked = false;
-  static double price = 300, discount = 30, deliveryCharges = 0;
-  static double discountedPrice = price - (price * discount / 100);
+  double headingSize = 20;
 
-  Map<String, String> orderSummaryDetails = {
-    "Product Name": "Nike T-Shirt",
-    "Seller": "Nike",
-    "Qty": "1",
-    "Size": "S",
-    "Shipping To": "Rohan Shah",
-    "Shipping Address": "ABC appartment,Naranpura-380013",
-    "Price": rupeeUnicode + price.toString(),
-    "Discount": discount.toString() + "%",
-    "Order Total": rupeeUnicode + discountedPrice.toString(),
-    "Delivery Charges": deliveryCharges.toString(),
-    "Total": rupeeUnicode + (discountedPrice + deliveryCharges).toString()
-  };
-  Map<String, String> sellerDetails = {
-    "name": "Ketan Works",
-    "id": "#4324558",
-    "date": "22",
-    "month": "March",
-    "year": "2020",
-    "day": "Tuesday",
-    "time": "2:40 pm",
-    "status": "pending",
-  };
-  static const orderSummaryDetails1 = ["Product Name", "Seller", "Qty", "Size"];
-  static const orderSummaryDetails2 = ["Shipping To", "Shipping Address"];
-  static const orderSummaryDetails3 = [
-    "Price",
-    "Discount",
-    "Order Total",
-    "Delivery Charges",
-    "Total"
-  ];
-
-  // TextEditingController _controller = new TextEditingController();
+  double subHeadingSize = 18;
 
   @override
   Widget build(BuildContext context) {
-    // const double priceFontSize = subtitleFontSizeStyle - 2;
-    // const double titleFontSize = subtitleFontSizeStyle;
-    const double headingFontSize = headingFontSizeStyle + 5;
-    const double headingSize = 20;
-    const double subHeadingSize = 18;
-
-    return ViewModelProvider<CartViewModel>.withConsumer(
-        viewModel: CartViewModel(),
-        onModelReady: (model) => model.init(),
+    return ViewModelProvider<AppointmentsViewModel>.withConsumer(
+        viewModel: AppointmentsViewModel(),
+        onModelReady: (model) => model.getAppointments(),
         builder: (context, model, child) => Scaffold(
               appBar: AppBar(
                 elevation: 0,
@@ -103,56 +64,10 @@ class myAppointments extends StatelessWidget {
                               fontSize: headingFontSize),
                         ),
                         verticalSpace(20),
-                        productCard(headingSize, subHeadingSize, context),
-                        verticalSpaceSmall,
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            RaisedButton(
-                                elevation: 5,
-                                onPressed: () {},
-                                color: textIconOrange,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30),
-                                  // side: BorderSide(
-                                  //     color: Colors.black, width: 0.5)
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 10, horizontal: 10),
-                                  child: Row(children: <Widget>[
-                                    Icon(
-                                      Icons.directions,
-                                      color: Colors.white,
-                                    ),
-                                    horizontalSpaceTiny,
-                                    Text(
-                                      "Directions",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ]),
-                                )),
-                            RaisedButton(
-                                elevation: 0,
-                                onPressed: () {},
-                                color: backgroundWhiteCreamColor,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30),
-                                    side: BorderSide(color: logoRed, width: 2)),
-                                child: Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 12),
-                                  child: CustomText(
-                                    "Cancel",
-                                    fontSize: 16,
-                                    isBold: true,
-                                    color: logoRed,
-                                  ),
-                                )),
-                          ],
-                        ),
+                        if (model.busy) CircularProgressIndicator(),
+                        if (!model.busy)
+                          ...model.data.appointments
+                              .map((data) => productCard(context, data, model)),
                       ]),
                 )),
               ),
@@ -161,93 +76,195 @@ class myAppointments extends StatelessWidget {
             ));
   }
 
-  Widget productCard(headingSize, subHeadingSize, context) {
-    return Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(curve15),
+  _showDialog(context, AppointmentElement data, AppointmentsViewModel model) {
+    final msgTextController = TextEditingController();
+    return showDialog<String>(
+      context: context,
+      child: new AlertDialog(
+        contentPadding: const EdgeInsets.all(16.0),
+        content: new Row(
+          children: <Widget>[
+            new Expanded(
+              child: new TextField(
+                controller: msgTextController,
+                autofocus: true,
+                decoration:
+                    new InputDecoration(hintText: 'Reason for Cancellation ?'),
+              ),
+            )
+          ],
         ),
-        clipBehavior: Clip.antiAlias,
-        elevation: 5,
-        child: Container(
-            width: MediaQuery.of(context).size.width - 40,
-            padding: EdgeInsets.all(20),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                verticalSpaceTiny,
-                CustomText(
-                  sellerDetails["name"],
-                  dotsAfterOverFlow: true,
-                  isTitle: true,
-                  isBold: true,
-                  fontSize: headingSize,
-                ),
-                verticalSpaceTiny,
-                Row(
+        actions: <Widget>[
+          new FlatButton(
+              child: const Text('OK'),
+              onPressed: () {
+                model.cancelAppointment(
+                    data.appointment.id, msgTextController.text);
+                Navigator.pop(context);
+              }),
+        ],
+      ),
+    );
+  }
+
+  Widget productCard(
+      context, AppointmentElement data, AppointmentsViewModel model) {
+    const appointmentStatus = [
+      "Pending",
+      "Confirmed",
+      "Cancelled",
+      "Completed",
+      "Missed"
+    ];
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(curve15),
+            ),
+            clipBehavior: Clip.antiAlias,
+            elevation: 5,
+            child: Container(
+                width: MediaQuery.of(context).size.width - 40,
+                padding: EdgeInsets.all(20),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
+                    verticalSpaceTiny,
                     CustomText(
-                      "BOOKING ID",
-                      isBold: true,
-                      color: logoRed,
-                      fontSize: subHeadingSize - 2,
-                    ),
-                    horizontalSpaceSmall,
-                    Expanded(
-                        child: CustomText(
-                      sellerDetails["id"],
+                      data.seller.name,
                       dotsAfterOverFlow: true,
+                      isTitle: true,
                       isBold: true,
-                      color: logoRed,
-                      fontSize: subHeadingSize - 2,
-                    ))
-                  ],
-                ),
-                verticalSpaceMedium,
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: <Widget>[
-                    Expanded(
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            CustomText(
-                              sellerDetails["date"] +
-                                  " , " +
-                                  sellerDetails["month"] +
-                                  " , " +
-                                  sellerDetails["year"],
-                              isBold: true,
-                              color: Colors.grey[600],
-                              fontSize: subHeadingSize,
-                            ),
-                            verticalSpaceTiny,
-                            CustomText(
-                              sellerDetails["time"] +
-                                  " , " +
-                                  sellerDetails["day"],
-                              isBold: true,
-                              color: Colors.grey[600],
-                              fontSize: subHeadingSize,
-                            ),
-                          ]),
+                      fontSize: headingSize,
                     ),
-                    Container(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                      decoration: BoxDecoration(
-                          color: textIconOrange,
-                          borderRadius: BorderRadius.circular(curve30)),
-                      child: CustomText(
-                        sellerDetails["status"],
-                        color: Colors.white,
-                        fontSize: 12,
-                        isBold: true,
-                      ),
+                    verticalSpaceTiny,
+                    Row(
+                      children: <Widget>[
+                        CustomText(
+                          "BOOKING ID",
+                          isBold: true,
+                          color: logoRed,
+                          fontSize: subHeadingSize - 2,
+                        ),
+                        horizontalSpaceSmall,
+                        Expanded(
+                            child: CustomText(
+                          data.appointment.id,
+                          dotsAfterOverFlow: true,
+                          isBold: true,
+                          color: logoRed,
+                          fontSize: subHeadingSize - 2,
+                        ))
+                      ],
+                    ),
+                    verticalSpaceMedium,
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: <Widget>[
+                        Expanded(
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                CustomText(
+                                  new DateFormat.yMMMEd()
+                                      .format(data.appointment.timeSlotStart)
+                                      .toString(),
+                                  isBold: true,
+                                  color: Colors.grey[600],
+                                  fontSize: subHeadingSize,
+                                ),
+                                verticalSpaceTiny,
+                                CustomText(
+                                  DateFormat("h:mma")
+                                          .format(
+                                              data.appointment.timeSlotStart)
+                                          .toString() +
+                                      " - " +
+                                      DateFormat("h:mma")
+                                          .format(data.appointment.timeSlotEnd)
+                                          .toString(),
+                                  isBold: true,
+                                  color: Colors.grey[600],
+                                  fontSize: subHeadingSize,
+                                ),
+                              ]),
+                        ),
+                        Container(
+                          padding:
+                              EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                          decoration: BoxDecoration(
+                              color: textIconOrange,
+                              borderRadius: BorderRadius.circular(curve30)),
+                          child: CustomText(
+                            (data.appointment.status is String)
+                                ? appointmentStatus[
+                                    int.parse(data.appointment.status)]
+                                : appointmentStatus[data.appointment.status],
+                            color: Colors.white,
+                            fontSize: 12,
+                            isBold: true,
+                          ),
+                        )
+                      ],
                     )
                   ],
-                )
-              ],
-            )));
+                ))),
+        verticalSpaceSmall,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            RaisedButton(
+                elevation: 5,
+                onPressed: () {},
+                color: textIconOrange,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  // side: BorderSide(
+                  //     color: Colors.black, width: 0.5)
+                ),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  child: Row(children: <Widget>[
+                    Icon(
+                      Icons.directions,
+                      color: Colors.white,
+                    ),
+                    horizontalSpaceTiny,
+                    Text(
+                      "Directions",
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
+                  ]),
+                )),
+            ((data.appointment.status != 2 && data.appointment.status != "2")
+                ? RaisedButton(
+                    elevation: 0,
+                    onPressed: () {
+                      _showDialog(context, data, model);
+                    },
+                    color: backgroundWhiteCreamColor,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        side: BorderSide(color: logoRed, width: 2)),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      child: CustomText(
+                        "Cancel",
+                        fontSize: 16,
+                        isBold: true,
+                        color: logoRed,
+                      ),
+                    ))
+                : SizedBox.shrink())
+          ],
+        ),
+        verticalSpaceMedium,
+      ],
+    );
   }
 }

@@ -2,12 +2,16 @@ import 'package:compound/constants/route_names.dart';
 import 'package:compound/locator.dart';
 import 'package:compound/models/products.dart';
 import 'package:compound/models/sellers.dart';
+import 'package:compound/services/address_service.dart';
 import 'package:compound/services/api/api_service.dart';
 import 'package:compound/services/cart_local_store_service.dart';
 import 'package:compound/services/dialog_service.dart';
 // import 'package:compound/services/dialog_service.dart';
 import 'package:compound/services/navigation_service.dart';
 import 'package:compound/services/whishlist_service.dart';
+import 'package:compound/ui/views/address_input_form_view.dart';
+import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import '../services/api/api_service.dart';
 
 import 'base_model.dart';
@@ -19,17 +23,31 @@ class ProductIndividualViewModel extends BaseModel {
   final APIService _apiService = locator<APIService>();
   final WhishListService _whishListService = locator<WhishListService>();
   final DialogService _dialogService = locator<DialogService>();
+  final AddressService _addressService = locator<AddressService>();
 
   Seller selleDetail;
+  String defaultAddress;
   // bool isProductInWhishlist = false;
 
   Future<void> init(String sellerId) async {
     selleDetail = await _apiService.getSellerByID(sellerId);
+    defaultAddress = (await _addressService.getAddresses()).first;
     notifyListeners();
   }
 
   gotoSellerIndiView() {
     _navigationService.navigateTo(SellerIndiViewRoute, arguments: selleDetail);
+  }
+
+  gotoAddView(context) async {
+    var pickedPlace = await Navigator.push(
+        context,
+        PageTransition(
+          child: AddressInputPage(),
+          type: PageTransitionType.rightToLeft,
+        ));
+    defaultAddress = pickedPlace;
+    notifyListeners();
   }
 
   Future<int> addToCart(Product product, int qty, String size, String color,

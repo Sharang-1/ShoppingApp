@@ -35,7 +35,7 @@ class _AddressInputPageState extends State<AddressInputPage> {
       //   backgroundColor: Colors.white,
       //   actions: <Widget>[
       //     IconButton(
-      //       icon: Icon(Icons.my_location),
+      //       icon: Icon(Icons.my_location),a
       //       onPressed: () {},
       //     )
       //   ],
@@ -48,29 +48,29 @@ class _AddressInputPageState extends State<AddressInputPage> {
         child: Center(
           child: PlacePicker(
             apiKey: "AIzaSyCQo523YX7WkavuVVYLdFNXf79sJ89X2Ns",
-            onPlacePicked: (result) {
-              print(result.addressComponents);
-              Navigator.of(context).pop(result);
-            },
+            // onPlacePicked: (result) {
+            //   print(result.addressComponents);
+            //   Navigator.of(context).pop(result);
+            // },
             onGeocodingSearchFailed: (data) {
               print(data);
             },
-            // selectedPlaceWidgetBuilder:
-            //     (_, selectedPlace, state, isSearchBarFocused) {
-            //   return isSearchBarFocused
-            //       ? Container()
-            //       // Use FloatingCard or just create your own Widget.
-            //       : state == SearchingState.Searching
-            //           ? Center(child: CircularProgressIndicator())
-            //           : FloatingCard(
-            //               borderRadius: BorderRadius.circular(12.0),
-            //               child: BottomSheetForAddress(
-            //                 locationStringController: _locationStringController,
-            //                 addressStringController: _addressStringController,
-            //                 selectedPlace: selectedPlace,
-            //               ),
-            //             );
-            // },
+            selectedPlaceWidgetBuilder:
+                (_, selectedPlace, state, isSearchBarFocused) {
+              return isSearchBarFocused
+                  ? Container()
+                  // Use FloatingCard or just create your own Widget.
+                  : state == SearchingState.Searching
+                      ? Center(child: CircularProgressIndicator())
+                      : FloatingCard(
+                          borderRadius: BorderRadius.circular(12.0),
+                          child: BottomSheetForAddress(
+                            locationStringController: _locationStringController,
+                            addressStringController: _addressStringController,
+                            selectedPlace: selectedPlace,
+                          ),
+                        );
+            },
             initialPosition: new LatLng(0.0, 0.0),
             useCurrentLocation: true,
           ),

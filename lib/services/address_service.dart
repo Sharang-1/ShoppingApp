@@ -12,9 +12,14 @@ class AddressService {
 
     if (list == null) {
       prefs.setStringList(AddressList, [
-        "103 /, First Floor, Royal Bldg, Janjikar Street, Masjid Bunder (w), Mumbai, Maharashtra-400003"
+        // "103 /, First Floor, Royal Bldg, Janjikar Street, Masjid Bunder (w), Mumbai, Maharashtra-400003"
       ]);
     }
+  }
+
+  Future<void> setUpAddress(String address) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setStringList(AddressList, [address]);
   }
 
   Future<List<String>> getAddresses() async {
