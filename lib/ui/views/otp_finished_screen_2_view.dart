@@ -30,7 +30,7 @@ class _TextFadeState extends State<otpFinishedScreen2>
     const double headingFontSize = headingFontSizeStyle + 15;
     return ViewModelProvider<OtpFinishedScreenModel>.withConsumer(
       viewModel: OtpFinishedScreenModel(),
-      onModelReady: (model) => model.init(2, false),
+      onModelReady: (model) => model.init(2, false, false),
       builder: (context, model, child) => Scaffold(
           backgroundColor: backgroundWhiteCreamColor,
           body: AnimatedBuilder(

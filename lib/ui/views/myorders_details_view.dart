@@ -11,18 +11,6 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 
 class MyOrdersDetailsView extends StatelessWidget {
-  Map<String, String> orderSummaryDetails = {
-    "Deliver To": "Ahmedabad",
-    "Delivery Address": "ABC appartment,Naranpura-380013",
-    "Placed On": "02/05/2020",
-    "Delivery On": "08/05/2020",
-    "Pay Via": "Cash",
-    "Price": rupeeUnicode + "300",
-    "Discount": "30%",
-    "Order Total": rupeeUnicode + "270",
-    "Delivery Charges": rupeeUnicode + "40",
-    "Total": rupeeUnicode + "310"
-  };
   Order mOrder;
   MyOrdersDetailsView(this.mOrder);
 
@@ -237,7 +225,8 @@ class MyOrdersDetailsView extends StatelessWidget {
                       child: Column(
                         children: <Widget>[
                           CustomText(
-                            mOrder.billingAddress,
+                            mOrder.billingAddress ??
+                                "B/4/6, Raman Smurti Flats, Ahmedabad - 380 007",
                             align: TextAlign.end,
                             color: Colors.grey[600],
                             fontSize: subtitleFontSize - 1,

@@ -86,7 +86,7 @@ class _SellerIndiState extends State<SellerIndi> {
           child: RaisedButton(
               elevation: 5,
               onPressed: () {
-                _showBottomSheet(context);
+                _showBottomSheet(context, sellerDetails);
                 if (sellerDetails["appointment"] != "true") {}
               },
               color: sellerDetails["appointment"] != "true"
@@ -443,7 +443,7 @@ class _SellerIndiState extends State<SellerIndi> {
     );
   }
 
-  void _showBottomSheet(context) {
+  void _showBottomSheet(context, sellerDetails) {
     print("check this " + MediaQuery.of(context).size.height.toString());
     showModalBottomSheet(
         shape: RoundedRectangleBorder(
@@ -456,7 +456,7 @@ class _SellerIndiState extends State<SellerIndi> {
               heightFactor: MediaQuery.of(context).size.height > 600
                   ? MediaQuery.of(context).size.height > 800 ? 0.650 : 0.7
                   : 0.8,
-              child: SellerBottomSheetView());
+              child: SellerBottomSheetView(sellerData: widget.data));
         });
   }
 }

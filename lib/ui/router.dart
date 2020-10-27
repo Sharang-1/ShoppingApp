@@ -135,7 +135,15 @@ Route<dynamic> generateRoute(RouteSettings settings) {
             fromCart: true,
           ),
           pageTransitionType: PageTransitionType.rightToLeft);
-
+    case AppointmentBookedScreenRoute:
+      return _getPageRoute(
+          pageArguments: pageArguments,
+          routeName: settings.name,
+          viewToShow: otpFinishedScreen1(
+            fromCart: false,
+            fromAppointment: true,
+          ),
+          pageTransitionType: PageTransitionType.rightToLeft);
     case MyOrdersRoute:
       return _getPageRoute(
           pageArguments: pageArguments,
@@ -162,7 +170,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return _getPageRoute(
           pageArguments: pageArguments,
           routeName: settings.name,
-          viewToShow: SellerIndi(data : pageArguments),
+          viewToShow: SellerIndi(data: pageArguments),
           pageTransitionType: transitionType);
     case MyAppointmentViewRoute:
       return _getPageRoute(

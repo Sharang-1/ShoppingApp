@@ -8,14 +8,16 @@ import '../shared/app_colors.dart';
 
 class otpFinishedScreen1 extends StatelessWidget {
   final bool fromCart;
-
-  const otpFinishedScreen1({Key key, this.fromCart}) : super(key: key);
+  final bool fromAppointment;
+  const otpFinishedScreen1(
+      {Key key, this.fromCart, this.fromAppointment = false})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     const double subtitleFontSize = subtitleFontSizeStyle - 1;
     return ViewModelProvider<OtpFinishedScreenModel>.withConsumer(
       viewModel: OtpFinishedScreenModel(),
-      onModelReady: (model) => model.init(1, fromCart),
+      onModelReady: (model) => model.init(1, fromCart, fromAppointment),
       builder: (context, model, child) => Scaffold(
         backgroundColor: backgroundWhiteCreamColor,
         body: Center(

@@ -11,17 +11,21 @@ class OtpFinishedScreenModel extends BaseModel {
   String name = "";
   bool displaySymbol = false;
 
-  Future init(int i, bool fromCart) async {
+  Future init(int i, bool fromCart, bool fromAppointment) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     name = prefs.getString(Name);
     notifyListeners();
 
     Future.delayed(Duration(milliseconds: 2500), () async {
-      if (fromCart) {
-        displaySymbol=true;
+      if (fromCart || fromAppointment) {
+        displaySymbol = true;
         notifyListeners();
         Future.delayed(Duration(milliseconds: 2000), () async {
-          _navigationService.navigateReplaceTo(CartViewRoute);
+          if (fromAppointment) {
+            _navigationService.navigateReplaceTo(MyAppointmentViewRoute);
+          } else {
+            _navigationService.navigateReplaceTo(CartViewRoute);
+          }
         });
       } else {
         if (i == 1) {

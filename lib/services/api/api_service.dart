@@ -1,5 +1,8 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:compound/constants/server_urls.dart';
+import 'package:compound/models/Appointments.dart';
+import 'package:compound/models/TimeSlots.dart';
 import 'package:dio/dio.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
@@ -47,11 +50,22 @@ class APIService {
       // 400 response code ... means validation error... like in valid data
       // 401 .. 403 ... issue with login... you will get error message
       ));
+
+  final appointmentClient = Dio(BaseOptions(
+      baseUrl: APPOINTMENT_URL,
+      connectTimeout: 15000,
+      receiveTimeout: 15000,
+      validateStatus: (status) {
+        return status < 500;
+      }));
+
   // final excludeToken = Options(headers: {"excludeToken": true});
   final DialogService _dialogService = locator<DialogService>();
 
   APIService() {
     apiClient..interceptors.addAll([AppInterceptors(), CustomLogInterceptor()]);
+    appointmentClient
+      ..interceptors.addAll([AppInterceptors(), CustomLogInterceptor()]);
   }
   Future apiWrapper(
     String path, {
@@ -405,6 +419,52 @@ class APIService {
       return paymentOptionsFromJson(mPaymentOptionsData);
     }
     return null;
+  }
+
+  Future<Appointments> getUserAppointments() async {
+    var res = await appointmentClient.get("");
+    var data;
+    try {
+      if (res.data != null) data = Appointments.fromJson(res.data);
+    } catch (e) {
+      String error = res.data;
+      Fimber.e(error);
+    }
+    return data;
+  }
+
+  Future<String> cancelAppointment(String id, String msg) async {
+    var res = await appointmentClient.post("$id/action", data: {
+      "action": "0",
+      "status": 3,
+      "customerMessage": msg,
+    });
+    if (res.statusCode != HttpStatus.ok) {
+      return res.data;
+    }
+  }
+
+  Future<TimeSlots> getAvaliableTimeSlots(String sellerId) async {
+    print("hello");
+    var res = await appointmentClient.get("availableSlot?sellerId=$sellerId");
+    try {
+      if (res.data != null) return TimeSlots.fromJson(res.data);
+    } catch (e) {
+      String error = res.data;
+    }
+  }
+
+  Future<String> bookAppointment(String sellerId, String timeSlotStart,
+      String timeSlotEnd, String customerMessage) async {
+    var res = await appointmentClient.post("", data: {
+      "sellerId": sellerId,
+      "timeSlotStart": timeSlotStart,
+      "timeSlotEnd": timeSlotEnd,
+      "customerMessage": customerMessage
+    });
+    if (res.statusCode != HttpStatus.ok) {
+      return res.data["error"];
+    }
   }
 
   // List<PaymentOption> mPaymentOptions;

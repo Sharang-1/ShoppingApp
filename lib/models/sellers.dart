@@ -101,8 +101,12 @@ class Contact {
   });
 
   factory Contact.fromJson(Map<String, dynamic> json) => Contact(
-        geoLocation: GeoLocation.fromJson(json["geoLocation"]),
-        primaryNumber: PrimaryNumber.fromJson(json["primaryNumber"]),
+        geoLocation: json["geoLocation"] != null
+            ? GeoLocation.fromJson(json["geoLocation"])
+            : null,
+        primaryNumber: json["primaryNumber"] != null
+            ? PrimaryNumber.fromJson(json["primaryNumber"])
+            : null,
       );
 
   Map<String, dynamic> toJson() => {
