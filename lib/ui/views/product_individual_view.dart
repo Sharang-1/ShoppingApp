@@ -305,7 +305,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
       "Trending",
     ];
     final bool available = widget.data.available ?? false;
-    final List<String> imageURLs = widget.data.photo.photos
+    final List<String> imageURLs = widget?.data?.photo?.photos ?? []
         .map((e) => '$PRODUCT_PHOTO_BASE_URL/$productId/${e.name}')
         .toList();
 
@@ -848,7 +848,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                           existingQueryString:
                               "subCategory=${widget.data.category.id}"),
                       gridCount: 2,
-                      viewModel: ProductsGridViewBuilderViewModel(),
+                      viewModel: ProductsGridViewBuilderViewModel(filteredProductKey: widget.data.key),
                       childAspectRatio: 1.35,
                       scrollDirection: Axis.horizontal,
                       disablePagination: false,
@@ -882,7 +882,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                           existingQueryString:
                               "accountKey=${widget.data.account.key}"),
                       gridCount: 2,
-                      viewModel: ProductsGridViewBuilderViewModel(),
+                      viewModel: ProductsGridViewBuilderViewModel(filteredProductKey: widget.data.key),
                       childAspectRatio: 1.35,
                       scrollDirection: Axis.horizontal,
                       disablePagination: false,

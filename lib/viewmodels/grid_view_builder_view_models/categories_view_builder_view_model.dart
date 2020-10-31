@@ -29,6 +29,8 @@ class CategoriesGridViewBuilderViewModel
     Categorys res =
         await _apiService.getCategory(queryString: _queryString);
     if (res == null) throw "Error occured";
+
+    res.items = res.items.where((element) => element.name.trim().toLowerCase() != "n/a").toList();
     return res;
   }
 }

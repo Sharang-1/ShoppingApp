@@ -31,7 +31,14 @@ class ProductIndividualViewModel extends BaseModel {
 
   Future<void> init(String sellerId) async {
     selleDetail = await _apiService.getSellerByID(sellerId);
-    defaultAddress = (await _addressService.getAddresses()).first;
+    var addresses = await _addressService.getAddresses();
+    print("address");
+    print(addresses);
+    if(addresses != null && addresses.length != 0) {
+      defaultAddress = addresses.first;
+    } else {
+      defaultAddress = "";
+    }
     notifyListeners();
   }
 

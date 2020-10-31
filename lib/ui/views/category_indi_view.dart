@@ -121,8 +121,6 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
                                   childAspectRatio: 0.7,
                                   tileBuilder: (BuildContext context, data,
                                       index, onUpdate, onDelete) {
-                                    Fimber.d("test");
-                                    print((data as Product).toJson());
                                     return ProductTileUI(
                                       data: data,
                                       onClick: () =>

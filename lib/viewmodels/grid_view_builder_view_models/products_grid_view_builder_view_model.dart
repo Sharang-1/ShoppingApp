@@ -15,6 +15,12 @@ class ProductsGridViewBuilderViewModel
     extends BaseGridViewBuilderViewModel<Products, Product> {
   final APIService _apiService = locator<APIService>();
 
+  final String filteredProductKey;
+  
+  ProductsGridViewBuilderViewModel({this.filteredProductKey}) {
+
+  }
+
   @override
   Future init() {
     return null;
@@ -27,6 +33,13 @@ class ProductsGridViewBuilderViewModel
         "startIndex=${pageSize * (pageNumber - 1)};limit=$pageSize;" +
             filterModel.queryString;
     Products res = await _apiService.getProducts(queryString: _queryString);
+    
+    if(this.filteredProductKey != null) {
+      res.items = res.items.where((element) => element.key != this.filteredProductKey).toList();
+      res.records = res.records - 1;
+      res.limit = res.limit - 1;
+    }
+
     if(res == null) throw "Error occured";
     return res;
   }
