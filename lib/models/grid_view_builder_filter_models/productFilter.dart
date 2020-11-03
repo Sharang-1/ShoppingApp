@@ -35,7 +35,7 @@ class ProductFilter implements BaseFilterModel {
     if (categories != null) _queryString += "categories=$categories;";
     if (subCategories != null)
       _queryString +=
-          subCategories.map((String value) => "subCategories=$value;").join("");
+          subCategories.map((String value) => "subCategory=$value;").join("");
     if (size != null)
       _queryString += size.map((String value) => "size=$size;").join("");
     if (minPrice != null) _queryString += "minPrice=$minPrice;";
