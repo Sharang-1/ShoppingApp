@@ -1,10 +1,18 @@
+import 'package:compound/services/address_service.dart';
+import 'package:compound/services/location_service.dart';
 import 'package:compound/ui/shared/app_colors.dart';
 import 'package:compound/ui/shared/shared_styles.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/ui/widgets/custom_text.dart';
+import 'package:compound/viewmodels/address_view_model.dart';
+import 'package:compound/viewmodels/appointments_view_model.dart';
+import 'package:fimber/fimber_base.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_place_picker/google_maps_place_picker.dart';
+import 'package:provider_architecture/viewmodel_provider.dart';
+
+import '../../locator.dart';
 
 class AddressInputPage extends StatefulWidget {
   @override
@@ -12,8 +20,12 @@ class AddressInputPage extends StatefulWidget {
 }
 
 class _AddressInputPageState extends State<AddressInputPage> {
+  final LocationService _locationService = locator<LocationService>();
+  final AddressService _addressService = locator<AddressService>();
+
   final _locationStringController = TextEditingController();
   final _addressStringController = TextEditingController();
+  PickResult selectedPlace;
 
   @override
   void initState() {
@@ -29,58 +41,68 @@ class _AddressInputPageState extends State<AddressInputPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // appBar: AppBar(
-      //   elevation: 1,
-      //   backgroundColor: Colors.white,
-      //   actions: <Widget>[
-      //     IconButton(
-      //       icon: Icon(Icons.my_location),a
-      //       onPressed: () {},
-      //     )
-      //   ],
-      //   iconTheme: IconThemeData(color: appBarIconColor),
-      // ),
-      // bottomSheet: BottomSheetForAddress(
-      //     locationStringController: _locationStringController,
-      //     addressStringController: _addressStringController),
-      body: SafeArea(
-        child: Center(
-          child: PlacePicker(
-            apiKey: "AIzaSyCQo523YX7WkavuVVYLdFNXf79sJ89X2Ns",
-            // onPlacePicked: (result) {
-            //   print(result.addressComponents);
-            //   Navigator.of(context).pop(result);
-            // },
-            onGeocodingSearchFailed: (data) {
-              print(data);
-            },
-            selectedPlaceWidgetBuilder:
-                (_, selectedPlace, state, isSearchBarFocused) {
-              return isSearchBarFocused
-                  ? Container()
-                  // Use FloatingCard or just create your own Widget.
-                  : state == SearchingState.Searching
-                      ? Center(child: CircularProgressIndicator())
-                      : FloatingCard(
-                          borderRadius: BorderRadius.circular(12.0),
-                          child: BottomSheetForAddress(
-                            locationStringController: _locationStringController,
-                            addressStringController: _addressStringController,
-                            selectedPlace: selectedPlace,
-                          ),
-                        );
-            },
-            initialPosition: new LatLng(0.0, 0.0),
-            useCurrentLocation: true,
-          ),
-        ),
-      ),
-    );
+    return ViewModelProvider<AddressViewModel>.withConsumer(
+        viewModel: AddressViewModel(),
+        // onModelReady: (model) => model.getAppointments(),
+        builder: (context, model, child) => Scaffold(
+              body: SafeArea(
+                child: Stack(
+                  children: [
+                    PlacePicker(
+                      resizeToAvoidBottomInset: true,
+                      initialPosition: new LatLng(
+                          _locationService.currentLocation?.latitude ?? 0.0,
+                          _locationService.currentLocation?.longitude ?? 0.0),
+                      useCurrentLocation: true,
+                      selectInitialPosition: true,
+                      forceSearchOnZoomChanged: true,
+                      forceAndroidLocationManager: true,
+                      searchingText: "",
+                      strictbounds: true,
+                      usePinPointingSearch: true,
+                      region: 'in',
+                      apiKey: "AIzaSyCQo523YX7WkavuVVYLdFNXf79sJ89X2Ns",
+                      onGeocodingSearchFailed: (data) {
+                        Fimber.e(data);
+                      },
+                      selectedPlaceWidgetBuilder:
+                          (_, selectedPlace, state, isSearchBarFocused) {
+                        model.selectedResult = selectedPlace;
+                        return Container();
+                      },
+                    ),
+                    SizedBox.expand(
+                      child: DraggableScrollableSheet(
+                        initialChildSize: 0.30,
+                        minChildSize: 0.2,
+                        maxChildSize: 0.5,
+                        builder: (BuildContext context,
+                            ScrollController scrollController) {
+                          return SingleChildScrollView(
+                            controller: scrollController,
+                            child: BottomSheetForAddress(
+                                locationStringController:
+                                    _locationStringController,
+                                addressStringController:
+                                    _addressStringController,
+                                selectedPlace: model.selectedResult ??
+                                    PickResult(formattedAddress: "")),
+                          );
+                        },
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ));
   }
 }
 
 class BottomSheetForAddress extends StatelessWidget {
+  final TextEditingController _locationStringController;
+  final TextEditingController _addressStringController;
+  final PickResult _selectedPlace;
+
   BottomSheetForAddress(
       {Key key,
       TextEditingController locationStringController,
@@ -93,19 +115,18 @@ class BottomSheetForAddress extends StatelessWidget {
     _addressStringController.text = selectedPlace.formattedAddress;
   }
 
-  TextEditingController _locationStringController;
-  TextEditingController _addressStringController;
-  PickResult _selectedPlace;
   @override
   Widget build(BuildContext context) {
-    return Material(
-      elevation: 5,
-      borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-      color: backgroundWhiteCreamColor,
-      child: SingleChildScrollView(
+    return Card(
+      elevation: 12.0,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+      margin: const EdgeInsets.all(0),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(24),
+        ),
         child: Padding(
-          padding: EdgeInsets.only(left: 30, right: 30, top: 10),
+          padding: EdgeInsets.all(35),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
@@ -118,15 +139,19 @@ class BottomSheetForAddress extends StatelessWidget {
               ),
               verticalSpace(10),
               SizedBox(
-                height: 60,
+                height: 160,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Expanded(
+                    Flexible(
+                      fit: FlexFit.tight,
                       child: Padding(
                         padding: EdgeInsets.only(bottom: 15),
                         child: TextFormField(
-                          controller: _locationStringController,
+                          style: TextStyle(
+                            fontSize: 13,
+                          ),
+                          controller: _addressStringController,
                           validator: (text) {
                             if (text.isEmpty || text.trim().length == 0)
                               return "Please enter Proper Address";
@@ -137,27 +162,27 @@ class BottomSheetForAddress extends StatelessWidget {
                             isDense: true,
                           ),
                           autofocus: false,
-                          maxLines: 1,
+                          enabled: false,
+                          maxLines: 4,
                         ),
                       ),
                     ),
                     horizontalSpaceMedium,
-                    FractionallySizedBox(
-                      child: RaisedButton(
-                        elevation: 5,
-                        onPressed: () {},
-                        color: darkRedSmooth,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                          // side: BorderSide(
-                          //     color: Colors.black, width: 0.5)
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: CustomText(
-                            "Change",
-                            color: Colors.white,
-                          ),
+                    RaisedButton(
+                      elevation: 5,
+                      onPressed: () {},
+                      color: darkRedSmooth,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        // side: BorderSide(
+                        //     color: Colors.black, width: 0.5)
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 4),
+                        child: CustomText(
+                          "Change",
+                          color: Colors.white,
+                          fontSize: 12,
                         ),
                       ),
                     ),
@@ -165,13 +190,13 @@ class BottomSheetForAddress extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: 80,
+                height: 90,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Expanded(
                       child: TextFormField(
-                        controller: _addressStringController,
+                        controller: _locationStringController,
                         maxLines: 3,
                         validator: (text) {
                           if (text.isEmpty || text.trim().length == 0)
@@ -183,12 +208,15 @@ class BottomSheetForAddress extends StatelessWidget {
                           isDense: true,
                         ),
                         autofocus: false,
+                        enabled: false,
                       ),
                     ),
                   ],
                 ),
               ),
               verticalSpaceMedium,
+
+              //Save Btn Row
               Row(
                 children: <Widget>[
                   Expanded(
@@ -205,7 +233,7 @@ class BottomSheetForAddress extends StatelessWidget {
                           return;
                         }
                         print("Address saved :::: " + addresString);
-                        Navigator.of(context).pop<String>(addresString);
+                        Navigator.of(context).pop<PickResult>(_selectedPlace);
                       },
                       color: green,
                       shape: RoundedRectangleBorder(
