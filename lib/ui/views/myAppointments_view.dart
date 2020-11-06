@@ -80,6 +80,7 @@ class myAppointments extends StatelessWidget {
     final msgTextController = TextEditingController();
     return showDialog<String>(
       context: context,
+      useRootNavigator: false,
       child: new AlertDialog(
         contentPadding: const EdgeInsets.all(16.0),
         content: new Row(
@@ -100,7 +101,8 @@ class myAppointments extends StatelessWidget {
               onPressed: () {
                 model.cancelAppointment(
                     data.appointment.id, msgTextController.text);
-                Navigator.pop(context);
+                Navigator.of(context).pop();
+                model.getAppointments();
               }),
         ],
       ),

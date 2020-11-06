@@ -81,10 +81,16 @@ class AppointmentsViewModel extends BaseModel {
     };
     DateTime now = new DateTime.now()
         .toUtc(); //.add(Duration(days: weekDayMap[selectedWeekDay]));
-    DateTime timeSlotStart = new DateTime(now.year, now.month,
-        now.day + weekDayMap[selectedWeekDay] - now.weekday, seltectedTime);
-    DateTime timeSlotEnd = new DateTime(now.year, now.month,
-        now.day + weekDayMap[selectedWeekDay] - now.weekday, seltectedTime + 1);
+
+    var dayDiff = weekDayMap[selectedWeekDay] - now.weekday;
+    if (dayDiff < 0) {
+      dayDiff += 7;
+    }
+
+    DateTime timeSlotStart =
+        new DateTime(now.year, now.month, now.day + dayDiff, seltectedTime);
+    DateTime timeSlotEnd =
+        new DateTime(now.year, now.month, now.day + dayDiff, seltectedTime + 1);
 
     var res = await _apiService.bookAppointment(sellerId,
         timeSlotStart.toIso8601String(), timeSlotEnd.toIso8601String(), msg);

@@ -436,7 +436,7 @@ class APIService {
   Future<String> cancelAppointment(String id, String msg) async {
     var res = await appointmentClient.post("$id/action", data: {
       "action": "0",
-      "status": 3,
+      "status": 2,
       "customerMessage": msg,
     });
     if (res.statusCode != HttpStatus.ok) {
@@ -445,7 +445,6 @@ class APIService {
   }
 
   Future<TimeSlots> getAvaliableTimeSlots(String sellerId) async {
-    print("hello");
     var res = await appointmentClient.get("availableSlot?sellerId=$sellerId");
     try {
       if (res.data != null) return TimeSlots.fromJson(res.data);
