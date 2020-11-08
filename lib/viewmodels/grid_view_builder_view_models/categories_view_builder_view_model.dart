@@ -31,6 +31,7 @@ class CategoriesGridViewBuilderViewModel
     if (res == null) throw "Error occured";
 
     res.items = res.items.where((element) => element.name.trim().toLowerCase() != "n/a").toList();
+    res.items.shuffle();
     return res;
   }
 }

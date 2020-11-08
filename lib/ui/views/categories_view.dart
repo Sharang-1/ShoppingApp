@@ -7,6 +7,7 @@ import 'package:compound/viewmodels/categories_view_model.dart';
 import 'package:compound/viewmodels/grid_view_builder_view_models/categories_view_builder_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider_architecture/provider_architecture.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../shared/shared_styles.dart';
 
 class CategoriesView extends StatefulWidget {
@@ -18,8 +19,9 @@ class CategoriesView extends StatefulWidget {
 
 class _CategoriesViewState extends State<CategoriesView> {
   final searchController = TextEditingController();
-  final categoriesGridKey = UniqueKey();
+  UniqueKey categoriesGridKey = UniqueKey();
   final CategoryFilter categoryFilter = CategoryFilter();
+  final refreshController = RefreshController(initialRefresh: false);
 
   @override
   Widget build(BuildContext context) {
@@ -46,34 +48,53 @@ class _CategoriesViewState extends State<CategoriesView> {
           top: false,
           left: false,
           right: false,
-          child: FutureBuilder(
-            future: Future.delayed(Duration(milliseconds: 500)),
-            builder: (c, s) => s.connectionState == ConnectionState.done
-                ? GridListWidget<Categorys, Category>(
-                    key: categoriesGridKey,
-                    context: context,
-                    filter: categoryFilter,
-                    gridCount: 1,
-                    childAspectRatio: 3,
-                    viewModel: CategoriesGridViewBuilderViewModel(),
-                    disablePagination: true,
-                    tileBuilder: (BuildContext context, data, index, onDelete,
-                        onUpdate) {
-                      return GestureDetector(
-                        onTap: () => model.showProducts(
-                          data.filter,
-                          data.name,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
-                          child: CategoryTileUI(
-                            data: data,
+          child: SmartRefresher(
+            enablePullDown: true,
+            enablePullUp: true,
+            header: WaterDropHeader(
+              waterDropColor: Colors.blue,
+              refresh: Container(),
+              complete: Container(),
+            ),
+            controller: refreshController,
+            onRefresh: () async {
+              setState(() {
+                categoriesGridKey = new UniqueKey();
+              });
+
+              await Future.delayed(Duration(milliseconds: 500));
+
+              refreshController.refreshCompleted(resetFooterState: true);
+            },
+            child: FutureBuilder(
+              future: Future.delayed(Duration(milliseconds: 500)),
+              builder: (c, s) => s.connectionState == ConnectionState.done
+                  ? GridListWidget<Categorys, Category>(
+                      key: categoriesGridKey,
+                      context: context,
+                      filter: categoryFilter,
+                      gridCount: 1,
+                      childAspectRatio: 3,
+                      viewModel: CategoriesGridViewBuilderViewModel(),
+                      disablePagination: true,
+                      tileBuilder: (BuildContext context, data, index, onDelete,
+                          onUpdate) {
+                        return GestureDetector(
+                          onTap: () => model.showProducts(
+                            data.filter,
+                            data.name,
                           ),
-                        ),
-                      );
-                    },
-                  )
-                : Container(),
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+                            child: CategoryTileUI(
+                              data: data,
+                            ),
+                          ),
+                        );
+                      },
+                    )
+                  : Container(),
+            ),
           ),
         ),
       ),

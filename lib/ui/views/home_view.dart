@@ -46,7 +46,7 @@ class HomeView extends StatelessWidget {
           iconTheme: IconThemeData(color: appBarIconColor),
           backgroundColor: backgroundWhiteCreamColor,
           bottom: PreferredSize(
-              preferredSize: Size.fromHeight(25),
+              preferredSize: Size.fromHeight(30),
               child: AppBar(
                 elevation: 0,
                 iconTheme: IconThemeData(color: appBarIconColor),

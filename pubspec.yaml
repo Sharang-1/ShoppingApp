@@ -50,6 +50,7 @@ dependencies:
   flutter_rating_bar: ^3.0.1+1
   international_phone_input: ^1.0.4
   intl:
+  pull_to_refresh: ^1.6.1
 
 dev_dependencies:
   flutter_test:

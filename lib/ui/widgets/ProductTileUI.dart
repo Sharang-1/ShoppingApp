@@ -90,116 +90,145 @@ class _ProductTileUIState extends State<ProductTileUI> {
     // ];
 
     return GestureDetector(
-        onTap: widget.onClick,
-        child: Container(
-          padding: paddingCard,
-          child: Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(curve15),
-            ),
-            elevation: 8,
-            clipBehavior: Clip.antiAlias,
-            color: Colors.white,
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Expanded(
-                      flex: 13,
-                      child: _imageStackview(
-                          photoURL, productDiscount, priceFontSize)),
-                  Expanded(
-                      flex: 7,
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(10, 8.0, 6, 6),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                Expanded(
-                                  child: Text(productName,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                          fontSize: titleFontSize,
-                                          fontFamily: fontFamily,
-                                          fontWeight: FontWeight.bold)),
-                                ),
-                                InkWell(
-                                  child: Provider.of<WhishListSetUp>(context,
-                                                  listen: true)
-                                              .list
-                                              .indexOf(widget.data.key) !=
-                                          -1
-                                      ? WishListIcon(
-                                          filled: true,
-                                          width: 18,
-                                          height: 18,
-                                        )
-                                      : WishListIcon(
-                                          filled: false,
-                                          width: 18,
-                                          height: 18,
-                                        ),
-                                  onTap: () {
-                                    if (Provider.of<WhishListSetUp>(context,
-                                                listen: false)
-                                            .list
-                                            .indexOf(widget.data.key) !=
-                                        -1) {
-                                      removeFromWhishList(widget.data.key);
-                                    } else {
-                                      addToWhishList(widget.data.key);
-                                    }
-                                  },
-                                )
-                              ],
-                              // )
-                            ),
-                            Text("By ${widget.data.owner.key.toString()}",
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                    fontFamily: fontFamily,
-                                    fontSize: subtitleFontSize,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.grey)),
-                            Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  Text(
-                                    "\u20B9" +
-                                        '${productPrice.toInt().toString()}',
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                        color: productDiscount != 0.0
-                                            ? logoRed
-                                            : textIconBlue,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: priceFontSize),
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  productDiscount != 0.0
-                                      ? Text(
-                                          "\u20B9" +
-                                              '${(productPrice / (1 - (productDiscount / 100))).toString()}',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              color: Colors.grey,
-                                              decoration:
-                                                  TextDecoration.lineThrough,
-                                              fontSize: priceFontSize),
-                                        )
-                                      : Container(),
-                                ]),
-                          ],
-                        ),
-                      )),
-                ]),
+      onTap: widget.onClick,
+      child: Container(
+        padding: paddingCard,
+        child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(curve15),
           ),
-        ));
+          elevation: 8,
+          clipBehavior: Clip.antiAlias,
+          color: Colors.white,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Expanded(
+                flex: 13,
+                child: _imageStackview(
+                  photoURL,
+                  productDiscount,
+                  priceFontSize,
+                ),
+              ),
+              Expanded(
+                flex: 7,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 8.0, 6, 6),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Expanded(
+                            child: Text(
+                              productName,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: titleFontSize,
+                                fontFamily: fontFamily,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          InkWell(
+                            child: Provider.of<WhishListSetUp>(context,
+                                            listen: true)
+                                        .list
+                                        .indexOf(widget.data.key) !=
+                                    -1
+                                ? WishListIcon(
+                                    filled: true,
+                                    width: 18,
+                                    height: 18,
+                                  )
+                                : WishListIcon(
+                                    filled: false,
+                                    width: 18,
+                                    height: 18,
+                                  ),
+                            onTap: () {
+                              if (Provider.of<WhishListSetUp>(context,
+                                          listen: false)
+                                      .list
+                                      .indexOf(widget.data.key) !=
+                                  -1) {
+                                removeFromWhishList(widget.data.key);
+                              } else {
+                                addToWhishList(widget.data.key);
+                              }
+                            },
+                          )
+                        ],
+                        // )
+                      ),
+                      Text(
+                        "By ${widget.data.owner.key.toString()}",
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          fontFamily: fontFamily,
+                          fontSize: subtitleFontSize,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      Text(
+                            "\u20B9" + '${productPrice.toInt().toString()}',
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                              color: productDiscount != 0.0
+                                  ? logoRed
+                                  : textIconBlue,
+                              fontWeight: FontWeight.bold,
+                              fontSize: priceFontSize,
+                            ),
+                          ),
+                      // Row(
+                      //   crossAxisAlignment: CrossAxisAlignment.center,
+                      //   children: <Widget>[
+                      //     Text(
+                      //       "\u20B9" + '${productPrice.toInt().toString()}',
+                      //       overflow: TextOverflow.ellipsis,
+                      //       textAlign: TextAlign.left,
+                      //       style: TextStyle(
+                      //         color: productDiscount != 0.0
+                      //             ? logoRed
+                      //             : textIconBlue,
+                      //         fontWeight: FontWeight.bold,
+                      //         fontSize: priceFontSize,
+                      //       ),
+                      //     ),
+                      //     if (productDiscount != 0.0)
+                      //       SizedBox(
+                      //         width: 10,
+                      //       ),
+                      //     if (productDiscount != 0.0)
+                      //       Text(
+                      //         "\u20B9" +
+                      //             '${(productPrice / (1 - (productDiscount / 100))).toString()}',
+                      //         textAlign: TextAlign.center,
+                      //         overflow: TextOverflow.ellipsis,
+                      //         style: TextStyle(
+                      //           color: Colors.grey,
+                      //           decoration: TextDecoration.lineThrough,
+                      //           fontSize: priceFontSize,
+                      //         ),
+                      //       ),
+                      //   ],
+                      // ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   Widget _imageStackview(photoURL, discount, priceFontSize) {

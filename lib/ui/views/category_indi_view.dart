@@ -12,6 +12,7 @@ import 'package:fimber/fimber.dart';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider_architecture/provider_architecture.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class CategoryIndiView extends StatefulWidget {
   final String queryString;
@@ -27,6 +28,7 @@ class CategoryIndiView extends StatefulWidget {
 class _CategoryIndiViewState extends State<CategoryIndiView> {
   ProductFilter filter;
   UniqueKey key = UniqueKey();
+  final refreshController = RefreshController(initialRefresh: false);
 
   @override
   void initState() {
@@ -48,97 +50,117 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
       viewModel: CategoriesViewModel(),
       onModelReady: (model) => model.init(),
       builder: (context, model, child) => Scaffold(
-        backgroundColor: backgroundWhiteCreamColor,
+        backgroundColor: _colorFromHex(catBgColor),
         body: SafeArea(
           top: true,
           left: false,
           right: false,
-          child: CustomScrollView(
-            slivers: <Widget>[
-              SliverAppBar(
-                elevation: 0,
-                backgroundColor: _colorFromHex(catBgColor),
-                centerTitle: true,
-                iconTheme: IconThemeData(color: Colors.white),
-                bottom: PreferredSize(
-                  preferredSize: Size.fromHeight(50),
-                  child: AppBar(
-                    primary: false,
-                    elevation: 0,
-                    automaticallyImplyLeading: false,
-                    backgroundColor: _colorFromHex(catBgColor),
-                    title: CustomText(
-                      widget.subCategory,
-                      color: Colors.white,
-                      dotsAfterOverFlow: true,
-                      fontSize: 25,
-                      isBold: true,
-                      isTitle: true,
+          child: SmartRefresher(
+            enablePullDown: true,
+            enablePullUp: true,
+            header: WaterDropHeader(
+              waterDropColor: Colors.blue,
+              refresh: Container(),
+              complete: Container(),
+            ),
+            controller: refreshController,
+            onRefresh: () async {
+              setState(() {
+                key = new UniqueKey();
+              });
+
+              await Future.delayed(Duration(milliseconds: 1000));
+
+              refreshController.refreshCompleted(resetFooterState: true);
+            },
+            child: CustomScrollView(
+              slivers: <Widget>[
+                SliverAppBar(
+                  elevation: 0,
+                  backgroundColor: _colorFromHex(catBgColor),
+                  centerTitle: true,
+                  iconTheme: IconThemeData(color: Colors.white),
+                  bottom: PreferredSize(
+                    preferredSize: Size.fromHeight(50),
+                    child: AppBar(
+                      primary: false,
+                      elevation: 0,
+                      automaticallyImplyLeading: false,
+                      backgroundColor: _colorFromHex(catBgColor),
+                      title: CustomText(
+                        widget.subCategory,
+                        color: Colors.white,
+                        dotsAfterOverFlow: true,
+                        fontSize: 25,
+                        isBold: true,
+                        isTitle: true,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              SliverList(
-                // Use a delegate to build items as they're scrolled on screen.
-                delegate: SliverChildBuilderDelegate(
-                  // The builder function returns a ListTile with a title that
-                  // displays the index of the current item.
-                  (context, index) => Container(
-                    color: backgroundWhiteCreamColor,
-                    height: 1000,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Stack(
-                          children: <Widget>[
-                            Container(
-                              height: 60,
-                              color: _colorFromHex(catBgColor),
-                            ),
-                            Container(
-                              height: 50,
-                              margin: EdgeInsets.only(top: 12),
-                              decoration: BoxDecoration(
-                                color: backgroundWhiteCreamColor,
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(curve30),
-                                  topRight: Radius.circular(curve30),
+                SliverList(
+                  // Use a delegate to build items as they're scrolled on screen.
+                  delegate: SliverChildBuilderDelegate(
+                    // The builder function returns a ListTile with a title that
+                    // displays the index of the current item.
+                    (context, index) => Container(
+                      color: backgroundWhiteCreamColor,
+                      height: 5000,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Stack(
+                            children: <Widget>[
+                              Container(
+                                height: 60,
+                                color: _colorFromHex(catBgColor),
+                              ),
+                              Container(
+                                height: 50,
+                                margin: EdgeInsets.only(top: 12),
+                                decoration: BoxDecoration(
+                                  color: backgroundWhiteCreamColor,
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(curve30),
+                                    topRight: Radius.circular(curve30),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                        FutureBuilder(
-                          future: Future.delayed(Duration(milliseconds: 500)),
-                          builder: (c, s) => s.connectionState ==
-                                  ConnectionState.done
-                              ? GridListWidget<Products, Product>(
-                                  key: key,
-                                  context: context,
-                                  filter: filter,
-                                  gridCount: 2,
-                                  viewModel: ProductsGridViewBuilderViewModel(),
-                                  childAspectRatio: 0.7,
-                                  tileBuilder: (BuildContext context, data,
-                                      index, onUpdate, onDelete) {
-                                    return ProductTileUI(
-                                      data: data,
-                                      onClick: () =>
-                                          model.goToProductPage(data),
-                                      index: index,
-                                    );
-                                  },
-                                )
-                              : Container(),
-                        ),
-                      ],
+                            ],
+                          ),
+                          FutureBuilder(
+                            future: Future.delayed(Duration(milliseconds: 500)),
+                            builder: (c, s) =>
+                                s.connectionState == ConnectionState.done
+                                    ? GridListWidget<Products, Product>(
+                                        key: key,
+                                        context: context,
+                                        filter: filter,
+                                        gridCount: 2,
+                                        viewModel:
+                                            ProductsGridViewBuilderViewModel(),
+                                        childAspectRatio: 0.7,
+                                        tileBuilder: (BuildContext context,
+                                            data, index, onUpdate, onDelete) {
+                                          return ProductTileUI(
+                                            data: data,
+                                            onClick: () =>
+                                                model.goToProductPage(data),
+                                            index: index,
+                                          );
+                                        },
+                                      )
+                                    : Container(),
+                          ),
+                        ],
+                      ),
                     ),
+                    childCount: 1,
                   ),
-                  childCount: 1,
                 ),
-              ),
-              //
-            ],
+                //
+              ],
+            ),
           ),
         ),
       ),
