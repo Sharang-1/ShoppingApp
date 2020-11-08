@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:provider_architecture/provider_architecture.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../shared/shared_styles.dart';
 import '../widgets/custom_stepper.dart';
 
@@ -27,6 +28,8 @@ class CartView extends StatefulWidget {
 
 class _CartViewState extends State<CartView> {
   CartFilter filter;
+  UniqueKey key = UniqueKey();
+  final refreshController = RefreshController(initialRefresh: false);
 
   @override
   Widget build(BuildContext context) {
@@ -53,65 +56,86 @@ class _CartViewState extends State<CartView> {
           top: true,
           left: false,
           right: false,
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.only(
-                left: screenPadding,
-                right: screenPadding,
-                top: 10,
-                bottom: 10,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  verticalSpace(20),
-                  Text(
-                    "My Bag",
-                    style: TextStyle(
-                        fontFamily: headingFont,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 30),
-                  ),
-                  verticalSpace(10),
-                  const CutomStepper(
-                    step: 1,
-                  ),
-                  verticalSpace(20),
-                  FutureBuilder(
-                    future: Future.delayed(Duration(seconds: 1)),
-                    builder: (c, s) => s.connectionState == ConnectionState.done
-                        ? GridListWidget<Cart, Item>(
-                            context: context,
-                            filter: new CartFilter(productId: widget.productId),
-                            gridCount: 1,
-                            disablePagination: true,
-                            viewModel: CartGridViewBuilderViewModel(),
-                            childAspectRatio: 1,
-                            tileBuilder: (BuildContext context, data, index,
-                                onDelete, onUpdate) {
-                              Fimber.d("test");
-                              print((data as Item).toJson());
-                              final Item dItem = data as Item;
+          child: SmartRefresher(
+            enablePullDown: true,
+            enablePullUp: true,
+            header: WaterDropHeader(
+              waterDropColor: Colors.blue,
+              refresh: Container(),
+              complete: Container(),
+            ),
+            controller: refreshController,
+            onRefresh: () async {
+              setState(() {
+                key = new UniqueKey();
+              });
 
-                              return CartTileUI(
-                                index: index,
-                                item: dItem,
-                                onDelete: (int index) async {
-                                  final value = await onDelete(index);
-                                  if (value != true) return;
-                                  await model.removeFromCartLocalStore(
-                                      dItem.productId.toString());
-                                  Provider.of<CartCountSetUp>(context,
-                                          listen: false)
-                                      .decrementCartCount();
-                                },
-                              );
-                            },
-                          )
-                        : Container(),
-                  ),
-                ],
+              await Future.delayed(Duration(milliseconds: 100));
+
+              refreshController.refreshCompleted(resetFooterState: true);
+            },
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.only(
+                  left: screenPadding,
+                  right: screenPadding,
+                  top: 10,
+                  bottom: 10,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    verticalSpace(20),
+                    Text(
+                      "My Bag",
+                      style: TextStyle(
+                          fontFamily: headingFont,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 30),
+                    ),
+                    verticalSpace(10),
+                    const CutomStepper(
+                      step: 1,
+                    ),
+                    verticalSpace(20),
+                    FutureBuilder(
+                      future: Future.delayed(Duration(seconds: 1)),
+                      builder: (c, s) => s.connectionState ==
+                              ConnectionState.done
+                          ? GridListWidget<Cart, Item>(
+                              context: context,
+                              filter:
+                                  new CartFilter(productId: widget.productId),
+                              gridCount: 1,
+                              disablePagination: true,
+                              viewModel: CartGridViewBuilderViewModel(),
+                              childAspectRatio: 1,
+                              tileBuilder: (BuildContext context, data, index,
+                                  onDelete, onUpdate) {
+                                Fimber.d("test");
+                                print((data as Item).toJson());
+                                final Item dItem = data as Item;
+
+                                return CartTileUI(
+                                  index: index,
+                                  item: dItem,
+                                  onDelete: (int index) async {
+                                    final value = await onDelete(index);
+                                    if (value != true) return;
+                                    await model.removeFromCartLocalStore(
+                                        dItem.productId.toString());
+                                    Provider.of<CartCountSetUp>(context,
+                                            listen: false)
+                                        .decrementCartCount();
+                                  },
+                                );
+                              },
+                            )
+                          : Container(),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
