@@ -8,21 +8,27 @@ import 'package:url_launcher/url_launcher.dart';
 import '../shared/app_colors.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 import '../widgets/bottom_tag.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:compound/ui/shared/app_colors.dart';
+import 'package:compound/viewmodels/otp_finished_view_model.dart';
+import 'package:flutter/material.dart';
+import 'package:provider_architecture/provider_architecture.dart';
+import '../shared/shared_styles.dart';
+import 'package:mailto/mailto.dart';
 
 class SettingsView extends StatelessWidget {
   SettingsView({Key key}) : super(key: key);
 
   Map<int, String> buttonNameMap = {
-    1: "Send Feedback",
-    2: "Customer Service",
-    3: "Legal",
-    4: "Terms & Conditions",
+    1: "Customer Service",
+    2: "Terms & Conditions",
+
   };
   Map<int, String> buttonToURLMap = {
-    1: 'https://dzor.in/policy.html?source=c',
-    2: 'https://dzor.in/policy.html?source=c',
-    3: 'https://dzor.in/policy.html?source=c',
-    4: 'https://dzor.in/policy.html?source=c',
+
+    1: 'https://dzor.in/#/contact-us',
+    2: 'https://dzor.in/#/terms-of-use',
+
   };
   AppBar appbar = AppBar(
     elevation: 0,
@@ -116,6 +122,37 @@ class SettingsView extends StatelessWidget {
                                                     ),
                                                   )))
                                         ]),
+    Row(children: <Widget>[
+    Expanded(
+    child: RaisedButton(
+    elevation: 0,
+    onPressed: () {
+    const url =
+    'mailto:admin@dzor.in';
+    _launchURL(url);
+    },
+    color: Colors.transparent,
+    shape: RoundedRectangleBorder(
+    borderRadius:
+    BorderRadius.circular(
+    30),
+    // side: BorderSide(
+    //     color: Colors.black, width: 0.5)
+    ),
+    child: Padding(
+    padding: const EdgeInsets
+        .symmetric(
+    vertical: 12),
+    child: CustomText(
+    "Send Feedback ",
+    fontSize:
+    titleFontSizeStyle,
+    isBold: true,
+    color: Colors.grey[800],
+    ),
+    )))
+    ]),
+
                                         Opacity(
                                             opacity: 0.9,
                                             child: SizedBox(
@@ -172,24 +209,7 @@ class SettingsView extends StatelessWidget {
                                     ),
                                   )))),
                       verticalSpace(50),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          FloatingActionButton.extended(
-                            backgroundColor: Colors.transparent,
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(curve30),
-                                side: BorderSide(color: logoRed, width: 2.5)),
-                            onPressed: model.logout,
-                            label: CustomText(
-                              "Logout",
-                              color: logoRed,
-                              isBold: true,
-                            ),
-                          ),
-                        ],
-                      ),
+
                     ],
                   ),
                 ),
