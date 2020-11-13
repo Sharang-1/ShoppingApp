@@ -133,9 +133,7 @@ class _SellerIndiState extends State<SellerIndi> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              ClipRRect(
-                  borderRadius: BorderRadius.circular(20.0),
-                  child: HomeSlider()),
+              HomeSlider(),
               verticalSpace(20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -454,7 +452,9 @@ class _SellerIndiState extends State<SellerIndi> {
         builder: (context) {
           return FractionallySizedBox(
               heightFactor: MediaQuery.of(context).size.height > 600
-                  ? MediaQuery.of(context).size.height > 800 ? 0.650 : 0.7
+                  ? MediaQuery.of(context).size.height > 800
+                      ? 0.650
+                      : 0.7
                   : 0.8,
               child: SellerBottomSheetView(sellerData: widget.data));
         });

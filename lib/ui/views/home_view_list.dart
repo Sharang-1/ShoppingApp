@@ -161,20 +161,7 @@ class HomeViewList extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Container(
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 5,
-                  blurRadius: 7,
-                  offset: Offset(0, 3), // changes position of shadow
-                ),
-              ],
-            ),
-            child: ClipRRect(
-                borderRadius: BorderRadius.circular(20.0), child: HomeSlider()),
-          ),
+          HomeSlider(fromHome: true,),
           verticalSpace(40),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

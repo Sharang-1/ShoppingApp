@@ -350,16 +350,12 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                     height: 15,
                   ),
                   Stack(children: <Widget>[
-                    Container(
-                        width: MediaQuery.of(context).size.width,
-                        child: ClipRRect(
-                            borderRadius: BorderRadius.circular(20.0),
-                            child: HomeSlider(
-                              imgList: imageURLs,
-                              aspectRatio: 1,
-                            ))),
+                    HomeSlider(
+                      imgList: imageURLs,
+                      aspectRatio: 1,
+                    ),
                     Positioned(
-                      bottom: 20,
+                      bottom: imageURLs.length > 1 || imageURLs.length == 0 ? 45: 20,
                       right: 20,
                       child: GestureDetector(
                         onTap: () async {
