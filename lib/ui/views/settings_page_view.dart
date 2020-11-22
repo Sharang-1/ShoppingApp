@@ -14,7 +14,7 @@ import 'package:compound/viewmodels/otp_finished_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 import '../shared/shared_styles.dart';
-import 'package:mailto/mailto.dart';
+// import 'package:mailto/mailto.dart';
 
 class SettingsView extends StatelessWidget {
   SettingsView({Key key}) : super(key: key);
