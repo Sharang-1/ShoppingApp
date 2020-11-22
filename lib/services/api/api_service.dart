@@ -133,7 +133,7 @@ class APIService {
   }
 
   Future<Products> getProducts({String queryString = ""}) async {
-    var productData = await apiWrapper("products;$queryString");
+    var productData = await apiWrapper("products;$queryString;seller=true;");
     if (productData != null) {
       Products products = Products.fromJson(productData);
       Fimber.d("products : " + products.items.map((o) => o.name).toString());
@@ -146,7 +146,7 @@ class APIService {
     List<String> list,
   }) async {
     final futureList = list.map<Future<Product>>((id) async {
-      final productData = await apiWrapper("products/$id");
+      final productData = await apiWrapper("products/$id;seller=true");
       if (productData != null) {
         Product singleProduct = Product.fromJson(productData);
         return singleProduct;
@@ -171,10 +171,17 @@ class APIService {
   Future<Promotions> getPromotions() async {
     var promotionsData = await apiWrapper("promotions:active=true");
     if (promotionsData != null) {
-      Promotions promotions = Promotions.fromJson(promotionsData);
-      Fimber.d("promotions : " +
-          promotions.promotions.map((o) => o.name).toString());
-      return promotions;
+      try {
+        Promotions promotions = Promotions.fromJson(promotionsData);
+        Fimber.d("promotions : " +
+            promotions.promotions.map((o) => o.name).toString());
+        return promotions;
+      } catch (e) {
+        print(e);
+        Fimber.e("TestError");
+        Fimber.e(e);
+        return null;
+      }
     }
     return null;
   }

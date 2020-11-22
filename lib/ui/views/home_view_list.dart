@@ -8,16 +8,14 @@
 import 'package:compound/models/categorys.dart';
 import 'package:compound/models/grid_view_builder_filter_models/categoryFilter.dart';
 import 'package:compound/models/grid_view_builder_filter_models/productFilter.dart';
-import 'package:compound/models/grid_view_builder_filter_models/sellerFilter.dart';
 import 'package:compound/models/products.dart';
-import 'package:compound/models/sellers.dart';
+import 'package:compound/models/promotions.dart';
 import 'package:compound/ui/widgets/GridListWidget.dart';
-import 'package:compound/ui/widgets/ProductTileUI.dart';
 import 'package:compound/ui/widgets/categoryTileUI.dart';
+import 'package:compound/ui/widgets/promotion_slider.dart';
 import 'package:compound/viewmodels/grid_view_builder_view_models/categories_view_builder_view_model.dart';
 import 'package:compound/viewmodels/grid_view_builder_view_models/products_grid_view_builder_view_model.dart';
-import 'package:compound/viewmodels/grid_view_builder_view_models/sellers_grid_view_builder_view.dart';
-import 'package:fimber/fimber_base.dart';
+import 'package:compound/viewmodels/home_view_model.dart';
 import 'package:flutter/material.dart';
 
 import 'package:compound/ui/shared/app_colors.dart';
@@ -30,7 +28,7 @@ import '../widgets/top_picks_deals_card.dart';
 import './home_view_slider.dart';
 
 class HomeViewList extends StatelessWidget {
-  final model;
+  final HomeViewModel model;
   final gotoCategory;
   final productUniqueKey = new UniqueKey();
   final List<String> imgList = [
@@ -161,7 +159,34 @@ class HomeViewList extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          HomeSlider(fromHome: true,),
+          FutureBuilder(
+            future: model.getPromotions(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Container(
+                  height: 200,
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              }
+
+              if (!snapshot.hasData) {
+                return Container(
+                  height: 200,
+                  child: Center(
+                    child: Text("No Data"),
+                  ),
+                );
+              }
+
+              var data = snapshot.data as List<Promotion>;
+              data = data
+                  .where((element) => element.position.toLowerCase() == "top")
+                  .toList();
+              return PromotionSlider(promotions: data);
+            },
+          ),
           verticalSpace(40),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -187,13 +212,6 @@ class HomeViewList extends StatelessWidget {
               ),
             ],
           ),
-          // Container(
-          //   height: 120,
-          //   child: CategoriesHomeList(
-          //     categories: categories,
-          //     subtitleFontSize: subtitleFontSize,
-          //   ),
-          // ),
           verticalSpace(20),
           SizedBox(
             height: 140,
@@ -225,7 +243,7 @@ class HomeViewList extends StatelessWidget {
           Row(children: <Widget>[
             Expanded(
               child: Text(
-                'Recommended Products',
+                'Top Picks for you',
                 style: TextStyle(
                   color: Colors.grey[800],
                   fontSize: subtitleFontSize,
@@ -236,50 +254,39 @@ class HomeViewList extends StatelessWidget {
           ]),
           verticalSpaceSmall,
           SizedBox(
-            height: 200,
+            height: 170,
             child: GridListWidget<Products, Product>(
               key: productUniqueKey,
               context: context,
               filter: ProductFilter(),
               gridCount: 2,
-              viewModel: ProductsGridViewBuilderViewModel(),
-              childAspectRatio: 1.35,
+              viewModel: ProductsGridViewBuilderViewModel(randomize: true),
+              childAspectRatio: 0.65,
               scrollDirection: Axis.horizontal,
-              disablePagination: false,
+              disablePagination: true,
               tileBuilder: (BuildContext context, productData, index, onUpdate,
                   onDelete) {
-                Fimber.d("test");
-                print((productData as Product).toJson());
-                return ProductTileUI(
-                  data: productData,
-                  onClick: () => model.goToProductPage(productData),
-                  index: index,
-                  cardPadding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                var product = productData as Product;
+                return GestureDetector(
+                  onTap: () => model.goToProductPage(productData),
+                  child: TopPicksAndDealsCard(
+                    data: {
+                      "key": product?.key ?? "Test",
+                      "name": product?.name ?? "Test",
+                      "price": product?.price ?? 0,
+                      "discount": product?.discount ?? 0,
+                      "photo": product?.photo?.photos?.first?.name,
+                      "sellerName": product?.seller?.name ?? "",
+                      "isDiscountAvailable":
+                          product?.discount != null && product.discount != 0
+                              ? "true"
+                              : null,
+                    },
+                  ),
                 );
               },
             ),
           ),
-          // Container(
-          //   padding: EdgeInsets.only(left: 0),
-          //   height: 175,
-          //   child: ListView(
-          //     scrollDirection: Axis.horizontal,
-          //     children: <Widget>[
-          //       SellerTileUi(
-          //         data: sellerCardDetails,
-          //         fromHome: true,
-          //       ),
-          //       SellerTileUi(
-          //         data: sellerCardDetails,
-          //         fromHome: true,
-          //       ),
-          //       SellerTileUi(
-          //         data: sellerCardDetails,
-          //         fromHome: true,
-          //       ),
-          //     ],
-          //   ),
-          // ),
           verticalSpace(40),
           Container(
             decoration: BoxDecoration(
@@ -308,78 +315,6 @@ class HomeViewList extends StatelessWidget {
           Row(children: <Widget>[
             Expanded(
               child: Text(
-                'Top Picks For You',
-                style: TextStyle(
-                  color: Colors.grey[800],
-                  fontSize: subtitleFontSize,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            )
-          ]),
-          verticalSpaceSmall,
-          NotificationListener<ScrollNotification>(
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    height: 150,
-                    child: ListView(
-                        controller: _scrollController1,
-                        scrollDirection: Axis.horizontal,
-                        children: topPicksDataMap
-                            .map((e) => SizedBox(
-                                width: 250,
-                                child: TopPicksAndDealsCard(
-                                  data: e,
-                                )))
-                            .toList()),
-                  ),
-                  Container(
-                    height: 150,
-                    child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        controller: _scrollController2,
-                        children: topPicksDataMap
-                            .map((e) => SizedBox(
-                                width: 250,
-                                child: TopPicksAndDealsCard(
-                                  data: e,
-                                )))
-                            .toList()),
-                  ),
-                ],
-              ),
-              onNotification: (_) {
-                _scrollController1.jumpTo(_scrollController2.offset);
-              }),
-          verticalSpace(40),
-          Container(
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 5,
-                  blurRadius: 7,
-                  offset: Offset(0, 3), // changes position of shadow
-                ),
-              ],
-            ),
-            child: SizedBox(
-                height: (MediaQuery.of(context).size.width - 40) * 0.8,
-                width: MediaQuery.of(context).size.width - 40,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(curve15),
-                  child: Image(
-                    fit: BoxFit.cover,
-                    image: NetworkImage(
-                        "https://previews.123rf.com/images/3art/3art1703/3art170300446/73904198-banner-or-poster-design-for-indian-festival-happy-holi-.jpg"),
-                  ),
-                )),
-          ),
-          verticalSpace(40),
-          Row(children: <Widget>[
-            Expanded(
-              child: Text(
                 'Best Deals Today',
                 style: TextStyle(
                   color: Colors.grey[800],
@@ -390,29 +325,39 @@ class HomeViewList extends StatelessWidget {
             )
           ]),
           verticalSpaceSmall,
-          Container(
-            height: 150,
-            child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: bestDealsDataMap
-                    .map((e) => SizedBox(
-                        width: 250,
-                        child: TopPicksAndDealsCard(
-                          data: e,
-                        )))
-                    .toList()),
-          ),
-          Container(
-            height: 150,
-            child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: bestDealsDataMap
-                    .map((e) => SizedBox(
-                        width: 250,
-                        child: TopPicksAndDealsCard(
-                          data: e,
-                        )))
-                    .toList()),
+          SizedBox(
+            height: 170,
+            child: GridListWidget<Products, Product>(
+              key: productUniqueKey,
+              context: context,
+              filter: ProductFilter(minDiscount: 5),
+              gridCount: 2,
+              viewModel: ProductsGridViewBuilderViewModel(randomize: true),
+              childAspectRatio: 0.65,
+              scrollDirection: Axis.horizontal,
+              disablePagination: true,
+              tileBuilder: (BuildContext context, productData, index, onUpdate,
+                  onDelete) {
+                var product = productData as Product;
+                return GestureDetector(
+                  onTap: () => model.goToProductPage(productData),
+                  child: TopPicksAndDealsCard(
+                    data: {
+                      "key": product?.key ?? "Test",
+                      "name": product?.name ?? "Test",
+                      "price": product?.price ?? 0,
+                      "discount": product?.discount ?? 0,
+                      "photo": product?.photo?.photos?.first?.name,
+                      "sellerName": product?.seller?.name ?? "",
+                      "isDiscountAvailable":
+                          product?.discount != null && product.discount != 0
+                              ? "true"
+                              : null,
+                    },
+                  ),
+                );
+              },
+            ),
           ),
           verticalSpace(40),
           Row(children: <Widget>[
@@ -469,6 +414,229 @@ class HomeViewList extends StatelessWidget {
                   child: Image(
                     fit: BoxFit.cover,
                     image: NetworkImage(
+                        "https://previews.123rf.com/images/3art/3art1703/3art170300446/73904198-banner-or-poster-design-for-indian-festival-happy-holi-.jpg"),
+                  ),
+                )),
+          ),
+          verticalSpace(40),
+          Row(children: <Widget>[
+            Expanded(
+              child: Text(
+                'Product Delivered Same Day',
+                style: TextStyle(
+                  color: Colors.grey[800],
+                  fontSize: subtitleFontSize,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            )
+          ]),
+          verticalSpaceSmall,
+          SizedBox(
+            height: 170,
+            child: GridListWidget<Products, Product>(
+              key: productUniqueKey,
+              context: context,
+              filter: ProductFilter(),
+              gridCount: 2,
+              viewModel: ProductsGridViewBuilderViewModel(randomize: true, sameDayDelivery: true),
+              childAspectRatio: 0.65,
+              scrollDirection: Axis.horizontal,
+              disablePagination: true,
+              tileBuilder: (BuildContext context, productData, index, onUpdate,
+                  onDelete) {
+                var product = productData as Product;
+                return GestureDetector(
+                  onTap: () => model.goToProductPage(productData),
+                  child: TopPicksAndDealsCard(
+                    data: {
+                      "key": product?.key ?? "Test",
+                      "name": product?.name ?? "Test",
+                      "price": product?.price ?? 0,
+                      "discount": product?.discount ?? 0,
+                      "photo": product?.photo?.photos?.first?.name,
+                      "sellerName": product?.seller?.name ?? "",
+                      "isDiscountAvailable":
+                          product?.discount != null && product.discount != 0
+                              ? "true"
+                              : null,
+                    },
+                  ),
+                );
+              },
+            ),
+          ),
+          verticalSpace(40),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Text('Popular Cateogories\nNear You',
+                  style: TextStyle(
+                      color: Colors.grey[800],
+                      fontSize: subtitleFontSize,
+                      fontWeight: FontWeight.w700)),
+              InkWell(
+                child: Text(
+                  'View All',
+                  style: TextStyle(
+                    fontSize: subtitleFontSize - 8,
+                    fontWeight: FontWeight.bold,
+                    color: textIconBlue,
+                  ),
+                ),
+                onTap: () {
+                  gotoCategory();
+                },
+              ),
+            ],
+          ),
+          verticalSpace(20),
+          SizedBox(
+            height: 140,
+            child: GridListWidget<Categorys, Category>(
+              key: UniqueKey(),
+              context: context,
+              filter: new CategoryFilter(),
+              gridCount: 1,
+              childAspectRatio: 0.5,
+              viewModel: CategoriesGridViewBuilderViewModel(popularCategories: true),
+              disablePagination: true,
+              scrollDirection: Axis.horizontal,
+              emptyListWidget: Container(),
+              tileBuilder:
+                  (BuildContext context, data, index, onDelete, onUpdate) {
+                return GestureDetector(
+                  onTap: () => model.showProducts(
+                    data.filter,
+                    data.name,
+                  ),
+                  child: CategoryTileUI(
+                    data: data,
+                  ),
+                );
+              },
+            ),
+          ),
+          verticalSpace(40),
+          Container(
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 5,
+                  blurRadius: 7,
+                  offset: Offset(0, 3), // changes position of shadow
+                ),
+              ],
+            ),
+            child: SizedBox(
+              height: (MediaQuery.of(context).size.width - 40) * 0.8,
+              width: MediaQuery.of(context).size.width - 40,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(curve15),
+                child: Image(
+                  fit: BoxFit.cover,
+                  image: NetworkImage(
+                      "https://templates.designwizard.com/663467c0-7840-11e7-81f8-bf6782823ae8.jpg"),
+                ),
+              ),
+            ),
+          ),
+          verticalSpace(40),
+          Row(children: <Widget>[
+            Expanded(
+              child: Text(
+                'Sellers Delivering To You',
+                style: TextStyle(
+                  color: Colors.grey[800],
+                  fontSize: subtitleFontSize,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            )
+          ]),
+          verticalSpaceSmall,
+          Container(
+            padding: EdgeInsets.only(left: 0),
+            height: 175,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: <Widget>[
+                SellerTileUi(
+                  data: sellerCardDetails,
+                  fromHome: true,
+                ),
+                SellerTileUi(
+                  data: sellerCardDetails,
+                  fromHome: true,
+                ),
+                SellerTileUi(
+                  data: sellerCardDetails,
+                  fromHome: true,
+                ),
+              ],
+            ),
+          ),
+          /*
+          verticalSpace(40),
+          Row(children: <Widget>[
+            Expanded(
+              child: Text(
+                'Best Deals Today',
+                style: TextStyle(
+                  color: Colors.grey[800],
+                  fontSize: subtitleFontSize,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            )
+          ]),
+          verticalSpaceSmall,
+          Container(
+            height: 150,
+            child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: bestDealsDataMap
+                    .map((e) => SizedBox(
+                        width: 250,
+                        child: TopPicksAndDealsCard(
+                          data: e,
+                        )))
+                    .toList()),
+          ),
+          Container(
+            height: 150,
+            child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: bestDealsDataMap
+                    .map((e) => SizedBox(
+                        width: 250,
+                        child: TopPicksAndDealsCard(
+                          data: e,
+                        )))
+                    .toList()),
+          ),
+          verticalSpace(40),
+          Container(
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 5,
+                  blurRadius: 7,
+                  offset: Offset(0, 3), // changes position of shadow
+                ),
+              ],
+            ),
+            child: SizedBox(
+                height: (MediaQuery.of(context).size.width - 40) * 0.8,
+                width: MediaQuery.of(context).size.width - 40,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(curve15),
+                  child: Image(
+                    fit: BoxFit.cover,
+                    image: NetworkImage(
                         "https://mir-s3-cdn-cf.behance.net/projects/404/8417d853121653.Y3JvcCwxNjAzLDEyNTUsMCww.png"),
                   ),
                 )),
@@ -494,11 +662,14 @@ class HomeViewList extends StatelessWidget {
             child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: sameDayDeliveryDataMap
-                    .map((e) => SizedBox(
+                    .map(
+                      (e) => SizedBox(
                         width: 250,
                         child: TopPicksAndDealsCard(
                           data: e,
-                        )))
+                        ),
+                      ),
+                    )
                     .toList()),
           ),
           verticalSpace(30),
@@ -540,18 +711,20 @@ class HomeViewList extends StatelessWidget {
                     .toList()),
           ),
           verticalSpace(30),
-          Row(children: <Widget>[
-            Expanded(
-              child: Text(
-                'Popular Categories Near You',
-                style: TextStyle(
-                  color: Colors.grey[800],
-                  fontSize: subtitleFontSize,
-                  fontWeight: FontWeight.w700,
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: Text(
+                  'Products Delivered The Same Day',
+                  style: TextStyle(
+                    color: Colors.grey[800],
+                    fontSize: subtitleFontSize,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
-            )
-          ]),
+            ],
+          ),
           Container(
               height: 120,
               child: ListView(
@@ -654,6 +827,7 @@ class HomeViewList extends StatelessWidget {
                   thickness: 0.5,
                 ))
           ]),
+          */
           verticalSpaceMedium,
           Row(
             mainAxisAlignment: MainAxisAlignment.center,

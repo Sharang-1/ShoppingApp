@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:compound/models/sellers.dart';
+
 Products productsFromJson(String str) => Products.fromJson(json.decode(str));
 
 String productsToJson(Products data) => json.encode(data.toJson());
@@ -80,6 +82,7 @@ class Product {
   BlousePadding made;
   String typeOfSaree;
   num oldPrice;
+  Seller seller;
 
   Product({
     this.key,
@@ -124,6 +127,7 @@ class Product {
     this.made,
     this.typeOfSaree,
     this.oldPrice,
+    this.seller
   });
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
@@ -194,6 +198,7 @@ class Product {
             json["made"] == null ? null : BlousePadding.fromJson(json["made"]),
         typeOfSaree: json["typeOfSaree"] == null ? null : json["typeOfSaree"],
         oldPrice: json["oldPrice"] == null ? null : json["oldPrice"],
+        seller: json["seller"] == null ? null : Seller.fromJson(json["seller"])
       );
 
   Map<String, dynamic> toJson() => {
@@ -243,6 +248,7 @@ class Product {
         "made": made == null ? null : made.toJson(),
         "typeOfSaree": typeOfSaree == null ? null : typeOfSaree,
         "oldPrice": oldPrice == null ? null : oldPrice,
+        "seller": seller == null ? null : seller.toJson(),
       };
 }
 

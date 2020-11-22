@@ -2,6 +2,7 @@
 import 'package:compound/constants/route_names.dart';
 import 'package:compound/locator.dart';
 import 'package:compound/models/productPageArg.dart';
+import 'package:compound/models/promotions.dart';
 import 'package:compound/services/api/api_service.dart';
 import 'package:compound/services/cart_local_store_service.dart';
 import 'package:compound/services/whishlist_service.dart';
@@ -47,5 +48,12 @@ class HomeViewModel extends BaseModel {
         subCategory: name,
       ),
     );
+  }
+
+  Future<List<Promotion>> getPromotions() async {
+    final promotions = await _apiService.getPromotions();
+    print("list of promotions");
+    print(promotions.promotions.map((e) => e.name).join(";"));
+    return promotions.promotions;
   }
 }

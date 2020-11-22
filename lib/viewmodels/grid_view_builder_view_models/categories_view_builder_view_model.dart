@@ -13,7 +13,10 @@ import 'package:compound/viewmodels/grid_view_builder_view_models/base_grid_view
 
 class CategoriesGridViewBuilderViewModel
     extends BaseGridViewBuilderViewModel<Categorys, Category> {
+  final bool popularCategories;
   final APIService _apiService = locator<APIService>();
+
+  CategoriesGridViewBuilderViewModel({this.popularCategories = false});
 
   @override
   Future init() {
@@ -32,6 +35,10 @@ class CategoriesGridViewBuilderViewModel
 
     res.items = res.items.where((element) => element.name.trim().toLowerCase() != "n/a").toList();
     res.items.shuffle();
+
+    if(this.popularCategories) {
+      res.items = res.items.take(4).toList();
+    }
     return res;
   }
 }

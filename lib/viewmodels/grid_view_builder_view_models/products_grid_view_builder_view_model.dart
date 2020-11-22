@@ -16,8 +16,10 @@ class ProductsGridViewBuilderViewModel
   final APIService _apiService = locator<APIService>();
 
   final String filteredProductKey;
+  final bool randomize;
+  final bool sameDayDelivery;
   
-  ProductsGridViewBuilderViewModel({this.filteredProductKey}) {
+  ProductsGridViewBuilderViewModel({this.filteredProductKey, this.randomize = false, this.sameDayDelivery = false}) {
 
   }
 
@@ -33,6 +35,7 @@ class ProductsGridViewBuilderViewModel
         "startIndex=${pageSize * (pageNumber - 1)};limit=$pageSize;" +
             filterModel.queryString;
     Products res = await _apiService.getProducts(queryString: _queryString);
+    if(res == null) throw "Error occured";
     
     if(this.filteredProductKey != null) {
       res.items = res.items.where((element) => element.key != this.filteredProductKey).toList();
@@ -40,7 +43,14 @@ class ProductsGridViewBuilderViewModel
       res.limit = res.limit - 1;
     }
 
-    if(res == null) throw "Error occured";
+    if(this.randomize) {
+      res.items.shuffle();
+    }
+
+    if(this.sameDayDelivery) {
+      res.items = res.items.where((element) => (element?.shipment?.days ?? 0) == 1).take(6).toList();
+    }
+
     return res;
   }
 }

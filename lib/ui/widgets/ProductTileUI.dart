@@ -71,7 +71,7 @@ class _ProductTileUIState extends State<ProductTileUI> {
     final photo = widget.data.photo ?? null;
     final photos = photo != null ? photo.photos ?? null : null;
     final String photoURL = photos != null ? photos[0].name ?? null : null;
-    final String productName = widget.data.name ?? "No name";
+    final String productName = widget?.data?.name ?? "No name";
     final double productDiscount = widget.data.discount ?? 0.0;
     final double productPrice = widget.data.price ?? 0.0;
     // final double productOldPrice = widget.data.oldPrice ?? 0.0;
@@ -165,7 +165,7 @@ class _ProductTileUIState extends State<ProductTileUI> {
                         // )
                       ),
                       Text(
-                        "By ${widget.data.owner.key.toString()}",
+                        "By ${widget?.data?.seller?.name.toString() ?? 'No Name'}",
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.left,
                         style: TextStyle(

@@ -8,7 +8,6 @@ import 'package:compound/ui/widgets/ProductTileUI.dart';
 import 'package:compound/ui/widgets/custom_text.dart';
 import 'package:compound/viewmodels/categories_view_model.dart';
 import 'package:compound/viewmodels/grid_view_builder_view_models/products_grid_view_builder_view_model.dart';
-import 'package:fimber/fimber.dart';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider_architecture/provider_architecture.dart';

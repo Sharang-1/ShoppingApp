@@ -9,9 +9,9 @@ Promotions promotionsFromJson(String str) => Promotions.fromJson(json.decode(str
 String promotionsToJson(Promotions data) => json.encode(data.toJson());
 
 class Promotions {
-    int records;
-    int startIndex;
-    int limit;
+    num records;
+    num startIndex;
+    num limit;
     List<Promotion> promotions;
 
     Promotions({
@@ -44,13 +44,13 @@ class Promotion {
     String modified;
     String startDate;
     String endDate;
-    int discount;
+    num discount;
     bool exclusive;
     String position;
     Banner banner;
-    List<int> products;
+    List<num> products;
     String filter;
-    int time;
+    num time;
 
     Promotion({
         this.key,
@@ -81,7 +81,7 @@ class Promotion {
         exclusive: json["exclusive"] == null ? null : json["exclusive"],
         position: json["position"] == null ? null : json["position"],
         banner: json["banner"] == null ? null : Banner.fromJson(json["banner"]),
-        products: json["products"] == null ? null : List<int>.from(json["products"].map((x) => x)),
+        products: json["products"] == null ? null : List<num>.from(json["products"].map((x) => x)),
         filter: json["filter"] == null ? null : json["filter"],
         time: json["time"] == null ? null : json["time"],
     );

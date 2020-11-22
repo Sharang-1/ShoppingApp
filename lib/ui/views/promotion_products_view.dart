@@ -13,21 +13,22 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 import '../shared/shared_styles.dart';
 
-class WhishList extends StatefulWidget {
-  WhishList({Key key}) : super(key: key);
+class PromotionProduct extends StatefulWidget {
+  final List<String> productIds;
+  PromotionProduct({Key key, @required this.productIds}) : super(key: key);
 
   @override
-  _WhishListState createState() => _WhishListState();
+  _PromotionProductState createState() => _PromotionProductState();
 }
 
-class _WhishListState extends State<WhishList> {
+class _PromotionProductState extends State<PromotionProduct> {
   WhishListFilter filter = WhishListFilter();
-  Key whishListKey = UniqueKey();
+  Key promotionProductKey = UniqueKey();
 
   @mustCallSuper
   @protected
   void didUpdateWidget(covariant oldWidget) {
-    whishListKey = UniqueKey();
+    promotionProductKey = UniqueKey();
     super.didUpdateWidget(oldWidget);
   }
 
@@ -70,7 +71,7 @@ class _WhishListState extends State<WhishList> {
                 children: <Widget>[
                   verticalSpace(20),
                   Text(
-                    "Whishlist",
+                    "Products",
                     style: TextStyle(
                         fontFamily: headingFont,
                         fontWeight: FontWeight.w700,
@@ -81,12 +82,12 @@ class _WhishListState extends State<WhishList> {
                     future: Future.delayed(Duration(milliseconds: 500)),
                     builder: (c, s) => s.connectionState == ConnectionState.done
                         ? GridListWidget<Products, Product>(
-                            key: whishListKey,
+                            key: promotionProductKey,
                             context: context,
                             filter: filter,
                             gridCount: 2,
                             disablePagination: true,
-                            viewModel: WhishListGridViewBuilderViewModel(),
+                            viewModel: WhishListGridViewBuilderViewModel(productIds: widget.productIds),
                             childAspectRatio: 0.8,
                             tileBuilder: (BuildContext context, data, index,
                                 onDelete, onUpdate) {
@@ -98,7 +99,7 @@ class _WhishListState extends State<WhishList> {
                                   model
                                       .goToProductPage(dProduct)
                                       .then((value) => setState(() {
-                                            whishListKey = UniqueKey();
+                                            promotionProductKey = UniqueKey();
                                           }));
                                 },
                               );
