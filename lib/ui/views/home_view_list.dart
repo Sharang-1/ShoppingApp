@@ -5,11 +5,13 @@
 // import 'package:compound/ui/widgets/GridListWidget.dart';
 // import 'package:compound/ui/widgets/categoryTileUI.dart';
 // import 'package:compound/viewmodels/grid_view_builder_view_models/categories_view_builder_view_model.dart';
+import 'package:compound/constants/server_urls.dart';
 import 'package:compound/models/categorys.dart';
 import 'package:compound/models/grid_view_builder_filter_models/categoryFilter.dart';
 import 'package:compound/models/grid_view_builder_filter_models/productFilter.dart';
 import 'package:compound/models/products.dart';
 import 'package:compound/models/promotions.dart';
+import 'package:compound/ui/views/promotion_products_view.dart';
 import 'package:compound/ui/widgets/GridListWidget.dart';
 import 'package:compound/ui/widgets/categoryTileUI.dart';
 import 'package:compound/ui/widgets/promotion_slider.dart';
@@ -25,26 +27,33 @@ import 'package:compound/ui/widgets/sellerTileUi.dart';
 
 import '../shared/shared_styles.dart';
 import '../widgets/top_picks_deals_card.dart';
-import './home_view_slider.dart';
 
-class HomeViewList extends StatelessWidget {
+class HomeViewList extends StatefulWidget {
   final HomeViewModel model;
   final gotoCategory;
+
+  HomeViewList({
+    Key key,
+    @required this.gotoCategory,
+    this.model,
+  }) : super(key: key);
+
+  @override
+  _HomeViewListState createState() => _HomeViewListState();
+}
+
+class _HomeViewListState extends State<HomeViewList> {
   final productUniqueKey = new UniqueKey();
-  final List<String> imgList = [
-    'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
-    'https://images.unsplash.com/photo-1522205408450-add114ad53fe?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=368f45b0888aeb0b7b08e3a1084d3ede&auto=format&fit=crop&w=1950&q=80',
-    // 'https://images.unsplash.com/photo-15x`19125323398-675f0ddb6308?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=94a1e718d89ca60a6337a6008341ca50&auto=format&fit=crop&w=1950&q=80',
-    'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80',
-    'https://images.unsplash.com/photo-1508704019882-f9cf40e475b4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8c6e5e3aba713b17aa1fe71ab4f0ae5b&auto=format&fit=crop&w=1352&q=80',
-    'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80'
-  ];
+  List<Promotion> bottomPromotion = [];
+  bool bottomPromotionUpdated = false;
+
   final Map<String, String> sellerCardDetails = {
     "name": "Sejal Works",
     "type": "SELLER",
     "sells": "Dresses , Kurtas",
     "discount": "10% Upto 30%",
   };
+
   final Map<String, String> boutiqueCardDetails = {
     "name": "Ketan Works",
     "type": "BOUTIQUE",
@@ -52,102 +61,6 @@ class HomeViewList extends StatelessWidget {
     "WorksOffered": "Work1 , Work2 , Work3 , Work4",
   };
 
-  final List<Map<String, String>> bestDealsDataMap = [
-    {
-      "name": "Nike shoes",
-      "sellerName": "Nike",
-      "price": "500",
-      "discountedPrice": "400",
-      "isDiscountAvailable": "true"
-    },
-    {
-      "name": "Kurta",
-      "sellerName": "Nike",
-      "price": "200",
-      "isDiscountAvailable": "false"
-    },
-    {
-      "name": "Sari",
-      "sellerName": "Nike",
-      "price": "300",
-      "discountedPrice": "200",
-      "isDiscountAvailable": "true"
-    }
-  ];
-  final List<Map<String, String>> sameDayDeliveryDataMap = [
-    {
-      "name": "Nike shoes",
-      "sellerName": "Nike",
-      "price": "500",
-      "discountedPrice": "400",
-      "isDiscountAvailable": "true",
-      "isSameDayDelivery": "true"
-    },
-    {
-      "name": "Kurta",
-      "sellerName": "Nike",
-      "price": "200",
-      "isDiscountAvailable": "false",
-      "isSameDayDelivery": "true"
-    },
-  ];
-  final List<Map<String, String>> topPicksDataMap = [
-    {
-      "name": "Nike shoes",
-      "sellerName": "Nike",
-      "price": "500",
-    },
-    {
-      "name": "Kurta",
-      "sellerName": "Nike",
-      "price": "200",
-    },
-    {
-      "name": "Sari",
-      "sellerName": "Nike",
-      "price": "300",
-    }
-  ];
-  final List<Map<String, String>> productAwedDataMap = [
-    {
-      "name": "Nike shoes",
-      "sellerName": "Nike",
-      "price": "500",
-      "discountedPrice": "400",
-      "isDiscountAvailable": "true",
-      "isExclusive": "true"
-    },
-    {
-      "name": "Sari",
-      "sellerName": "Nike",
-      "price": "300",
-      "isExclusive": "true"
-    },
-    {
-      "name": "Kurta",
-      "sellerName": "Nike",
-      "price": "200",
-      "isDiscountAvailable": "false",
-      "isExclusive": "true"
-    },
-  ];
-
-  final List<String> categories = [
-    "Kurtas",
-    "Dresses",
-    "Gowns",
-    "Chaniya Cholis"
-  ];
-  final String singleImage =
-      'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80';
-  final ScrollController _scrollController1 = new ScrollController();
-  final ScrollController _scrollController2 = new ScrollController();
-
-  HomeViewList({
-    Key key,
-    @required this.gotoCategory,
-    this.model,
-  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     // const double headingFontSize=25;
@@ -160,7 +73,7 @@ class HomeViewList extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           FutureBuilder(
-            future: model.getPromotions(),
+            future: widget.model.getPromotions(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Container(
@@ -181,9 +94,16 @@ class HomeViewList extends StatelessWidget {
               }
 
               var data = snapshot.data as List<Promotion>;
+
+              bottomPromotion = data
+                  .where(
+                      (element) => element.position.toLowerCase() == "bottom")
+                  .toList();
+
               data = data
                   .where((element) => element.position.toLowerCase() == "top")
                   .toList();
+
               return PromotionSlider(promotions: data);
             },
           ),
@@ -207,7 +127,7 @@ class HomeViewList extends StatelessWidget {
                   ),
                 ),
                 onTap: () {
-                  gotoCategory();
+                  widget.gotoCategory();
                 },
               ),
             ],
@@ -228,7 +148,7 @@ class HomeViewList extends StatelessWidget {
               tileBuilder:
                   (BuildContext context, data, index, onDelete, onUpdate) {
                 return GestureDetector(
-                  onTap: () => model.showProducts(
+                  onTap: () => widget.model.showProducts(
                     data.filter,
                     data.name,
                   ),
@@ -268,7 +188,7 @@ class HomeViewList extends StatelessWidget {
                   onDelete) {
                 var product = productData as Product;
                 return GestureDetector(
-                  onTap: () => model.goToProductPage(productData),
+                  onTap: () => widget.model.goToProductPage(productData),
                   child: TopPicksAndDealsCard(
                     data: {
                       "key": product?.key ?? "Test",
@@ -287,30 +207,53 @@ class HomeViewList extends StatelessWidget {
               },
             ),
           ),
-          verticalSpace(40),
-          Container(
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 5,
-                  blurRadius: 7,
-                  offset: Offset(0, 3), // changes position of shadow
-                ),
-              ],
-            ),
-            child: SizedBox(
-                height: (MediaQuery.of(context).size.width - 40) * 0.8,
-                width: MediaQuery.of(context).size.width - 40,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(curve15),
-                  child: Image(
-                    fit: BoxFit.cover,
-                    image: NetworkImage(
-                        "https://templates.designwizard.com/663467c0-7840-11e7-81f8-bf6782823ae8.jpg"),
+          if (bottomPromotion != null && bottomPromotion.length > 0)
+            verticalSpace(40),
+          if (bottomPromotion != null && bottomPromotion.length > 0)
+            GestureDetector(
+              onTap: () {
+                List<String> productIds = bottomPromotion[0]
+                    ?.products
+                    ?.map((e) => e.toString())
+                    ?.toList();
+                print(productIds);
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                    builder: (context) => PromotionProduct(
+                      productIds: productIds ?? [],
+                    ),
                   ),
-                )),
-          ),
+                );
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: Offset(0, 3), // changes position of shadow
+                    ),
+                  ],
+                ),
+                child: SizedBox(
+                  height: (MediaQuery.of(context).size.width - 40) * 0.8,
+                  width: MediaQuery.of(context).size.width - 40,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(curve15),
+                    child: Image(
+                      fit: BoxFit.cover,
+                      image: NetworkImage(
+                        bottomPromotion[0]?.banner != null
+                            ? "$PROMOTION_PHOTO_BASE_URL/${bottomPromotion[0]?.key}"
+                            : "https://templates.designwizard.com/663467c0-7840-11e7-81f8-bf6782823ae8.jpg",
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
           verticalSpace(40),
           Row(children: <Widget>[
             Expanded(
@@ -340,7 +283,7 @@ class HomeViewList extends StatelessWidget {
                   onDelete) {
                 var product = productData as Product;
                 return GestureDetector(
-                  onTap: () => model.goToProductPage(productData),
+                  onTap: () => widget.model.goToProductPage(productData),
                   child: TopPicksAndDealsCard(
                     data: {
                       "key": product?.key ?? "Test",
@@ -394,30 +337,53 @@ class HomeViewList extends StatelessWidget {
               ],
             ),
           ),
-          verticalSpace(40),
-          Container(
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 5,
-                  blurRadius: 7,
-                  offset: Offset(0, 3), // changes position of shadow
-                ),
-              ],
-            ),
-            child: SizedBox(
-                height: (MediaQuery.of(context).size.width - 40) * 0.8,
-                width: MediaQuery.of(context).size.width - 40,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(curve15),
-                  child: Image(
-                    fit: BoxFit.cover,
-                    image: NetworkImage(
-                        "https://previews.123rf.com/images/3art/3art1703/3art170300446/73904198-banner-or-poster-design-for-indian-festival-happy-holi-.jpg"),
+          if (bottomPromotion != null && bottomPromotion.length > 1)
+            verticalSpace(40),
+          if (bottomPromotion != null && bottomPromotion.length > 1)
+            GestureDetector(
+              onTap: () {
+                List<String> productIds = bottomPromotion[1]
+                    ?.products
+                    ?.map((e) => e.toString())
+                    ?.toList();
+                print(productIds);
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                    builder: (context) => PromotionProduct(
+                      productIds: productIds ?? [],
+                    ),
                   ),
-                )),
-          ),
+                );
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: Offset(0, 3), // changes position of shadow
+                    ),
+                  ],
+                ),
+                child: SizedBox(
+                  height: (MediaQuery.of(context).size.width - 40) * 0.8,
+                  width: MediaQuery.of(context).size.width - 40,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(curve15),
+                    child: Image(
+                      fit: BoxFit.cover,
+                      image: NetworkImage(
+                        bottomPromotion[0]?.banner != null
+                            ? "$PROMOTION_PHOTO_BASE_URL/${bottomPromotion[1]?.key}"
+                            : "https://templates.designwizard.com/663467c0-7840-11e7-81f8-bf6782823ae8.jpg",
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
           verticalSpace(40),
           Row(children: <Widget>[
             Expanded(
@@ -439,7 +405,8 @@ class HomeViewList extends StatelessWidget {
               context: context,
               filter: ProductFilter(),
               gridCount: 2,
-              viewModel: ProductsGridViewBuilderViewModel(randomize: true, sameDayDelivery: true),
+              viewModel: ProductsGridViewBuilderViewModel(
+                  randomize: true, sameDayDelivery: true),
               childAspectRatio: 0.65,
               scrollDirection: Axis.horizontal,
               disablePagination: true,
@@ -447,7 +414,7 @@ class HomeViewList extends StatelessWidget {
                   onDelete) {
                 var product = productData as Product;
                 return GestureDetector(
-                  onTap: () => model.goToProductPage(productData),
+                  onTap: () => widget.model.goToProductPage(productData),
                   child: TopPicksAndDealsCard(
                     data: {
                       "key": product?.key ?? "Test",
@@ -486,7 +453,7 @@ class HomeViewList extends StatelessWidget {
                   ),
                 ),
                 onTap: () {
-                  gotoCategory();
+                  widget.gotoCategory();
                 },
               ),
             ],
@@ -500,14 +467,15 @@ class HomeViewList extends StatelessWidget {
               filter: new CategoryFilter(),
               gridCount: 1,
               childAspectRatio: 0.5,
-              viewModel: CategoriesGridViewBuilderViewModel(popularCategories: true),
+              viewModel:
+                  CategoriesGridViewBuilderViewModel(popularCategories: true),
               disablePagination: true,
               scrollDirection: Axis.horizontal,
               emptyListWidget: Container(),
               tileBuilder:
                   (BuildContext context, data, index, onDelete, onUpdate) {
                 return GestureDetector(
-                  onTap: () => model.showProducts(
+                  onTap: () => widget.model.showProducts(
                     data.filter,
                     data.name,
                   ),
@@ -518,31 +486,53 @@ class HomeViewList extends StatelessWidget {
               },
             ),
           ),
-          verticalSpace(40),
-          Container(
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 5,
-                  blurRadius: 7,
-                  offset: Offset(0, 3), // changes position of shadow
+          if (bottomPromotion != null && bottomPromotion.length > 2)
+            verticalSpace(40),
+          if (bottomPromotion != null && bottomPromotion.length > 2)
+            GestureDetector(
+              onTap: () {
+                List<String> productIds = bottomPromotion[2]
+                    ?.products
+                    ?.map((e) => e.toString())
+                    ?.toList();
+                print(productIds);
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                    builder: (context) => PromotionProduct(
+                      productIds: productIds ?? [],
+                    ),
+                  ),
+                );
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: Offset(0, 3), // changes position of shadow
+                    ),
+                  ],
                 ),
-              ],
-            ),
-            child: SizedBox(
-              height: (MediaQuery.of(context).size.width - 40) * 0.8,
-              width: MediaQuery.of(context).size.width - 40,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(curve15),
-                child: Image(
-                  fit: BoxFit.cover,
-                  image: NetworkImage(
-                      "https://templates.designwizard.com/663467c0-7840-11e7-81f8-bf6782823ae8.jpg"),
+                child: SizedBox(
+                  height: (MediaQuery.of(context).size.width - 40) * 0.8,
+                  width: MediaQuery.of(context).size.width - 40,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(curve15),
+                    child: Image(
+                      fit: BoxFit.cover,
+                      image: NetworkImage(
+                        bottomPromotion[0]?.banner != null
+                            ? "$PROMOTION_PHOTO_BASE_URL/${bottomPromotion[2]?.key}"
+                            : "https://templates.designwizard.com/663467c0-7840-11e7-81f8-bf6782823ae8.jpg",
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),
-          ),
           verticalSpace(40),
           Row(children: <Widget>[
             Expanded(
