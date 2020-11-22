@@ -6,6 +6,7 @@ import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:flutter/material.dart';
 import '../widgets/custom_text.dart';
 import '../shared/app_colors.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeDrawer extends StatelessWidget {
   final NavigationService _navigationService = locator<NavigationService>();
@@ -204,9 +205,7 @@ class HomeDrawer extends StatelessWidget {
                         fontSize: 18,
                       ),
                     ),
-                    onTap: () {
-                      // _navigationService.navigateTo(routeName)
-                    },
+                      onTap: () => launch('https://dzor.in/#/partner-with-us')
                   ),
                   ListTile(
                     title: Padding(
