@@ -374,44 +374,44 @@ class CustomDivider extends StatelessWidget {
   }
 }
 
-class SellerScreen extends StatelessWidget {
-  Map<String, String> sellerCardDetails = {
-    "name": "Sejal Works",
-    "type": "SELLER",
-    "sells": "Dresses , Kurtas",
-    "discount": "10% Upto 30%",
-  };
-  Map<String, String> boutiqueCardDetails = {
-    "name": "Ketan Works",
-    "type": "BOUTIQUE",
-    "Speciality": "Spec1 , Spec2 , Spec3 , Spec4 , Spec5",
-    "WorksOffered": "Work1 , Work2 , Work3 , Work4",
-  };
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: backgroundWhiteCreamColor,
-        elevation: 0,
-      ),
-      backgroundColor: backgroundWhiteCreamColor,
-      body: Container(
-        padding: EdgeInsets.only(left: 20),
-        height: 175,
-        child: ListView(
-          scrollDirection: Axis.horizontal,
-          children: <Widget>[
-            SellerCard(
-              data: sellerCardDetails,
-              fromHome: true,
-            ),
-            SellerCard(
-              data: boutiqueCardDetails,
-              fromHome: true,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+// class SellerScreen extends StatelessWidget {
+//   Map<String, String> sellerCardDetails = {
+//     "name": "Sejal Works",
+//     "type": "SELLER",
+//     "sells": "Dresses , Kurtas",
+//     "discount": "10% Upto 30%",
+//   };
+//   Map<String, String> boutiqueCardDetails = {
+//     "name": "Ketan Works",
+//     "type": "BOUTIQUE",
+//     "Speciality": "Spec1 , Spec2 , Spec3 , Spec4 , Spec5",
+//     "WorksOffered": "Work1 , Work2 , Work3 , Work4",
+//   };
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         backgroundColor: backgroundWhiteCreamColor,
+//         elevation: 0,
+//       ),
+//       backgroundColor: backgroundWhiteCreamColor,
+//       body: Container(
+//         padding: EdgeInsets.only(left: 20),
+//         height: 175,
+//         child: ListView(
+//           scrollDirection: Axis.horizontal,
+//           children: <Widget>[
+//             SellerCard(
+//               data: sellerCardDetails,
+//               fromHome: true,
+//             ),
+//             SellerCard(
+//               data: boutiqueCardDetails,
+//               fromHome: true,
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }

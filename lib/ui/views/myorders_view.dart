@@ -139,6 +139,7 @@ class MyOrdersView extends StatelessWidget {
                                               ],
                                             )),
                                             IconButton(
+                                              onPressed: () {},
                                               icon: Icon(
                                                 Icons.arrow_forward_ios,
                                                 color: Colors.grey,

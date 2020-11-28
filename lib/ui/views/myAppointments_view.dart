@@ -1,10 +1,8 @@
 import 'package:compound/models/Appointments.dart';
 import 'package:compound/ui/shared/app_colors.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
-import 'package:compound/models/grid_view_builder_filter_models/cartFilter.dart';
 import 'package:compound/ui/widgets/custom_text.dart';
 import 'package:compound/viewmodels/appointments_view_model.dart';
-import 'package:compound/viewmodels/cart_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -13,11 +11,9 @@ import 'package:provider_architecture/provider_architecture.dart';
 import '../shared/shared_styles.dart';
 
 class myAppointments extends StatelessWidget {
-  double headingFontSize = headingFontSizeStyle + 5;
-
-  double headingSize = 20;
-
-  double subHeadingSize = 18;
+  final double headingFontSize = headingFontSizeStyle + 5;
+  final double headingSize = 20;
+  final double subHeadingSize = 18;
 
   @override
   Widget build(BuildContext context) {

@@ -65,6 +65,7 @@ class _PromotionSliderState extends State<PromotionSlider> {
                   builder: (BuildContext context) {
                     return GestureDetector(
                       onTap: () {
+                        var promoTitle = i?.name;
                         List<String> productIds = i?.products?.map((e) => e.toString())?.toList();
                         print(productIds);
                         Navigator.push(
@@ -72,6 +73,7 @@ class _PromotionSliderState extends State<PromotionSlider> {
                           new MaterialPageRoute(
                             builder: (context) => PromotionProduct(
                               productIds: productIds ?? [],
+                              promotionTitle: promoTitle,
                             ),
                           ),
                         );

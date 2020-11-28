@@ -1,11 +1,9 @@
-import 'package:compound/services/address_service.dart';
 import 'package:compound/services/location_service.dart';
 import 'package:compound/ui/shared/app_colors.dart';
 import 'package:compound/ui/shared/shared_styles.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/ui/widgets/custom_text.dart';
 import 'package:compound/viewmodels/address_view_model.dart';
-import 'package:compound/viewmodels/appointments_view_model.dart';
 import 'package:fimber/fimber_base.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -21,7 +19,6 @@ class AddressInputPage extends StatefulWidget {
 
 class _AddressInputPageState extends State<AddressInputPage> {
   final LocationService _locationService = locator<LocationService>();
-  final AddressService _addressService = locator<AddressService>();
 
   final _locationStringController = TextEditingController();
   final _addressStringController = TextEditingController();

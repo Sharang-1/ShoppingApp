@@ -14,6 +14,10 @@ import 'package:compound/viewmodels/grid_view_builder_view_models/base_grid_view
 class SellersGridViewBuilderViewModel
     extends BaseGridViewBuilderViewModel<Sellers, Seller> {
   final APIService _apiService = locator<APIService>();
+  final bool boutiquesOnly;
+  final bool random;
+
+  SellersGridViewBuilderViewModel({this.boutiquesOnly = false, this.random = false});
 
   @override
   Future init() {
@@ -28,6 +32,14 @@ class SellersGridViewBuilderViewModel
             filterModel.queryString;
     Sellers res = await _apiService.getSellers(queryString: _queryString);
 
+    if(this.boutiquesOnly != null && this.boutiquesOnly == true) {
+      res.items = res.items.where((element) => element?.establishmentTypeId == 1).toList();
+    }
+
+    if(this.random) {
+      res.items.shuffle();
+    }
+ 
     if (res == null) throw "Error occured";
     return res;
   }

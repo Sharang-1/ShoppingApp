@@ -1,4 +1,5 @@
 // import 'package:compound/constants/server_urls.dart';
+import 'package:compound/constants/server_urls.dart';
 import 'package:compound/models/categorys.dart';
 import 'package:compound/ui/shared/shared_styles.dart';
 import 'package:compound/utils/tools.dart';
@@ -30,13 +31,14 @@ class CategoryTileUI extends StatelessWidget {
             colorFilter: ColorFilter.mode(
                 Colors.black.withOpacity(0.3), BlendMode.srcATop),
             child: FadeInImage.assetNetwork(
-              fit: BoxFit.fill,
-              fadeInCurve: Curves.easeIn,
-              placeholder: 'assets/images/placeholder.png',
-              image: //photoName == null ?
-                  'https://images.pexels.com/photos/934070/pexels-photo-934070.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
-                  // : bannerURL,
-            ),
+                fit: BoxFit.fill,
+                fadeInCurve: Curves.easeIn,
+                placeholder: 'assets/images/placeholder.png',
+                image: //data?.id != null
+                    // ? '$CATEGORY_PHOTO_BASE_URL/${data.id}' :
+                    'https://images.pexels.com/photos/934070/pexels-photo-934070.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
+                // : bannerURL,
+                ),
           )),
           Positioned.fill(
             child: Column(

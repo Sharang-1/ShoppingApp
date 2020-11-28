@@ -19,9 +19,7 @@ class ProductsGridViewBuilderViewModel
   final bool randomize;
   final bool sameDayDelivery;
   
-  ProductsGridViewBuilderViewModel({this.filteredProductKey, this.randomize = false, this.sameDayDelivery = false}) {
-
-  }
+  ProductsGridViewBuilderViewModel({this.filteredProductKey, this.randomize = false, this.sameDayDelivery = false});
 
   @override
   Future init() {
@@ -43,12 +41,21 @@ class ProductsGridViewBuilderViewModel
       res.limit = res.limit - 1;
     }
 
-    if(this.randomize) {
-      res.items.shuffle();
+    if(this.sameDayDelivery) {
+      res
+        .items
+        .sort((a, b) => a.shipment.days.toInt().compareTo(a.shipment.days.toInt()));
+
+      print("test ---------------------------------------------->>>>" + res.items.length.toString());
+
+      res.items = res
+        .items
+        .take(6)
+        .toList();
     }
 
-    if(this.sameDayDelivery) {
-      res.items = res.items.where((element) => (element?.shipment?.days ?? 0) == 1).take(6).toList();
+    if(this.randomize) {
+      res.items.shuffle();
     }
 
     return res;

@@ -1,10 +1,8 @@
 import 'package:compound/constants/server_urls.dart';
-import 'package:compound/locator.dart';
 import 'package:compound/models/CartCountSetUp.dart';
 import 'package:compound/models/WhishListSetUp.dart';
 import 'package:compound/models/grid_view_builder_filter_models/productFilter.dart';
 import 'package:compound/models/products.dart';
-import 'package:compound/services/dialog_service.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/ui/views/cart_view.dart';
 import 'package:compound/ui/widgets/GridListWidget.dart';
@@ -24,7 +22,6 @@ import '../shared/app_colors.dart';
 import '../views/home_view_slider.dart';
 import '../widgets/cart_icon_badge.dart';
 import '../shared/shared_styles.dart';
-import '../../services/api/api_service.dart';
 
 const weekday = [
   "Monday",
@@ -119,7 +116,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
     return Row(
       children: <Widget>[
         Text(
-          '\u20B9${productPrice.toString()}',
+          productDiscount != 0.0 ? '\u20B9${(productPrice - (productPrice * productDiscount / 100)).toString()}': '\u20B9${productPrice.toString()}',
           style: TextStyle(
               fontSize: titleFontSizeStyle + 2, fontWeight: FontWeight.bold),
         ),
@@ -129,7 +126,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                 children: <Widget>[
                   SizedBox(width: 10),
                   Text(
-                    '${(productPrice / (1 - (productDiscount / 100))).toString()}',
+                    '\u20B9${productPrice.toString()}',
                     style: TextStyle(
                         color: Colors.grey,
                         fontSize: subtitleFontSizeStyle - 3,
@@ -277,7 +274,6 @@ class _ProductIndiViewState extends State<ProductIndiView> {
 
   @override
   Widget build(BuildContext context) {
-    final DialogService _dialogService = locator<DialogService>();
     final String productName = widget.data.name ?? "Iphone 11";
     final String productId = widget.data.key;
     final double productDiscount = widget.data.discount ?? 0.0;
@@ -300,10 +296,10 @@ class _ProductIndiViewState extends State<ProductIndiView> {
     final String shipment =
         widget.data.shipment.days == null ? "Not Availabel" : formattedDate;
 
-    final tags = [
-      "JustHere",
-      "Trending",
-    ];
+    // final tags = [
+    //   "JustHere",
+    //   "Trending",
+    // ];
     final bool available = widget.data.available ?? false;
     final List<String> imageURLs =
         (widget?.data?.photo?.photos ?? new List<PhotoElement>())
@@ -407,14 +403,15 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                       )
                     ],
                   ),
-                  true || tags.length == 0
-                      ? Container()
-                      : Column(
-                          children: <Widget>[
-                            verticalSpace(10),
-                            allTags(tags),
-                          ],
-                        ),
+                  Container(),
+                  // true || tags.length == 0
+                  //     ? Container()
+                  //     : Column(
+                  //         children: <Widget>[
+                  //           verticalSpace(10),
+                  //           allTags(tags),
+                  //         ],
+                  //       ),
                   verticalSpace(20),
                   available
                       ? Text(
@@ -1043,7 +1040,7 @@ class ProductDescriptionTable extends StatelessWidget {
               ),
             ],
           ),
-        if (product?.topsLength != null && product?.topsLength.id != -1)
+        if (product?.topsLength != null && product?.topsLength?.id != -1)
           TableRow(
             children: [
               TableCell(

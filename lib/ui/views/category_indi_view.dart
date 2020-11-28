@@ -49,7 +49,7 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
       viewModel: CategoriesViewModel(),
       onModelReady: (model) => model.init(),
       builder: (context, model, child) => Scaffold(
-        backgroundColor: _colorFromHex(catBgColor),
+        backgroundColor: logoRed,
         body: SafeArea(
           top: true,
           left: false,
@@ -76,7 +76,7 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
               slivers: <Widget>[
                 SliverAppBar(
                   elevation: 0,
-                  backgroundColor: _colorFromHex(catBgColor),
+                  backgroundColor: logoRed,
                   centerTitle: true,
                   iconTheme: IconThemeData(color: Colors.white),
                   bottom: PreferredSize(
@@ -85,7 +85,7 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
                       primary: false,
                       elevation: 0,
                       automaticallyImplyLeading: false,
-                      backgroundColor: _colorFromHex(catBgColor),
+                      backgroundColor: logoRed,
                       title: CustomText(
                         widget.subCategory,
                         color: Colors.white,
@@ -112,7 +112,7 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
                             children: <Widget>[
                               Container(
                                 height: 60,
-                                color: _colorFromHex(catBgColor),
+                                color: logoRed,
                               ),
                               Container(
                                 height: 50,

@@ -4,14 +4,11 @@ import 'package:compound/constants/route_names.dart';
 import 'package:compound/locator.dart';
 import 'package:compound/models/Appointments.dart';
 import 'package:compound/models/TimeSlots.dart';
-import 'package:compound/models/post.dart';
-import 'package:compound/models/products.dart';
 import 'package:compound/services/api/api_service.dart';
 import 'package:compound/services/dialog_service.dart';
 import 'package:compound/services/navigation_service.dart';
 import 'package:compound/viewmodels/base_model.dart';
 import 'package:fimber/fimber.dart';
-import 'package:intl/intl.dart';
 
 class AppointmentsViewModel extends BaseModel {
   final APIService _apiService = locator<APIService>();

@@ -95,16 +95,14 @@ class APIService {
         res = await apiClient.put(path,
             data: data, queryParameters: queryParameters, options: options);
       }
-      print("Raw Response From API");
-      print(res.data);
+      print("Fetched Raw Response From API");
       Map resJSON = res.data;
-      print("resJSON");
-      print(resJSON);
-      print("error");
-      print(resJSON.containsKey("error"));
+      print("Response converted to json");
+
       if (resJSON.containsKey("error") == true) {
         throw Exception(resJSON["error"]);
       }
+      
       return resJSON;
     } catch (e, stacktrace) {
       Fimber.e("Api Service error", ex: e, stacktrace: stacktrace);

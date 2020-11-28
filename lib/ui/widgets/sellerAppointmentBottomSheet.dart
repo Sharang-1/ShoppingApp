@@ -8,7 +8,6 @@ import '../shared/app_colors.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/ui/widgets/custom_text.dart';
 import '../shared/shared_styles.dart';
-import 'input_field.dart';
 
 class SellerBottomSheetView extends StatefulWidget {
   final sellerData;

@@ -57,57 +57,57 @@ class _WhishListState extends State<WhishList> {
           left: false,
           right: false,
           child: SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.only(
-                left: screenPadding,
-                right: screenPadding,
-                top: 10,
-                bottom: 10,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  verticalSpace(20),
-                  Text(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                verticalSpace(20),
+                Padding(
+                  padding: EdgeInsets.only(
+                    left: screenPadding,
+                    right: screenPadding,
+                    top: 10,
+                    bottom: 10,
+                  ),
+                  child: Text(
                     "Whishlist",
                     style: TextStyle(
                         fontFamily: headingFont,
                         fontWeight: FontWeight.w700,
                         fontSize: 30),
                   ),
-                  verticalSpace(20),
-                  FutureBuilder(
-                    future: Future.delayed(Duration(milliseconds: 500)),
-                    builder: (c, s) => s.connectionState == ConnectionState.done
-                        ? GridListWidget<Products, Product>(
-                            key: whishListKey,
-                            context: context,
-                            filter: filter,
-                            gridCount: 2,
-                            disablePagination: true,
-                            viewModel: WhishListGridViewBuilderViewModel(),
-                            childAspectRatio: 0.8,
-                            tileBuilder: (BuildContext context, data, index,
-                                onDelete, onUpdate) {
-                              final Product dProduct = data as Product;
-                              return ProductTileUI(
-                                index: index,
-                                data: data,
-                                onClick: () {
-                                  model
-                                      .goToProductPage(dProduct)
-                                      .then((value) => setState(() {
-                                            whishListKey = UniqueKey();
-                                          }));
-                                },
-                              );
-                            },
-                          )
-                        : Container(),
-                  )
-                ],
-              ),
+                ),
+                verticalSpace(20),
+                FutureBuilder(
+                  future: Future.delayed(Duration(milliseconds: 500)),
+                  builder: (c, s) => s.connectionState == ConnectionState.done
+                      ? GridListWidget<Products, Product>(
+                          key: whishListKey,
+                          context: context,
+                          filter: filter,
+                          gridCount: 2,
+                          disablePagination: true,
+                          viewModel: WhishListGridViewBuilderViewModel(),
+                          childAspectRatio: 0.8,
+                          tileBuilder: (BuildContext context, data, index,
+                              onDelete, onUpdate) {
+                            final Product dProduct = data as Product;
+                            return ProductTileUI(
+                              index: index,
+                              data: data,
+                              onClick: () {
+                                model
+                                    .goToProductPage(dProduct)
+                                    .then((value) => setState(() {
+                                          whishListKey = UniqueKey();
+                                        }));
+                              },
+                            );
+                          },
+                        )
+                      : Container(),
+                )
+              ],
             ),
           ),
         ),

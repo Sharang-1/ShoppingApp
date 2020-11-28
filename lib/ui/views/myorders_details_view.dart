@@ -11,7 +11,7 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 
 class MyOrdersDetailsView extends StatelessWidget {
-  Order mOrder;
+  final Order mOrder;
   MyOrdersDetailsView(this.mOrder);
 
   @override

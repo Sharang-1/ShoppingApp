@@ -8,6 +8,7 @@ import 'package:compound/ui/shared/shared_styles.dart';
 import 'package:compound/ui/widgets/GridListWidget.dart';
 import 'package:compound/ui/widgets/ProductFilterDialog.dart';
 import 'package:compound/ui/widgets/ProductTileUI.dart';
+import 'package:compound/ui/widgets/sellerTileUi.dart';
 
 import 'package:compound/viewmodels/grid_view_builder_view_models/products_grid_view_builder_view_model.dart';
 import 'package:compound/viewmodels/grid_view_builder_view_models/sellers_grid_view_builder_view.dart';
@@ -408,7 +409,7 @@ class _SearchViewState extends State<SearchView>
                             childAspectRatio: 2,
                             tileBuilder: (BuildContext context, data, index,
                                 onUpdate, onDelete) {
-                              return SellerCard(
+                              return SellerTileUi(
                                 data: data,
                                 fromHome: true,
                                 onClick: () {
@@ -478,7 +479,6 @@ class _SearchViewState extends State<SearchView>
   void _searchAction(String searchKey) {
     // Checking tab controller index
     // If index is 0 then do search for product page else sellers page
-    print("dsfdfsdfsdfsdfssssssssssssssssssssssssssssssssssssssssssssssssssss");
 
     if (!_searchFilterRegex.hasMatch(searchKey)) return;
 

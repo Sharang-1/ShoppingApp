@@ -15,7 +15,10 @@ import '../shared/shared_styles.dart';
 
 class PromotionProduct extends StatefulWidget {
   final List<String> productIds;
-  PromotionProduct({Key key, @required this.productIds}) : super(key: key);
+  final String promotionTitle;
+  PromotionProduct(
+      {Key key, @required this.productIds, @required this.promotionTitle})
+      : super(key: key);
 
   @override
   _PromotionProductState createState() => _PromotionProductState();
@@ -58,57 +61,60 @@ class _PromotionProductState extends State<PromotionProduct> {
           left: false,
           right: false,
           child: SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.only(
-                left: screenPadding,
-                right: screenPadding,
-                top: 10,
-                bottom: 10,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  verticalSpace(20),
-                  Text(
-                    "Products",
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                verticalSpace(20),
+                Padding(
+                  padding: EdgeInsets.only(
+                    left: screenPadding,
+                    right: screenPadding,
+                    top: 10,
+                    bottom: 10,
+                  ),
+                  child: Text(
+                    widget.promotionTitle == null || widget.promotionTitle == ""
+                        ? "Products"
+                        : widget.promotionTitle,
                     style: TextStyle(
                         fontFamily: headingFont,
                         fontWeight: FontWeight.w700,
                         fontSize: 30),
                   ),
-                  verticalSpace(20),
-                  FutureBuilder(
-                    future: Future.delayed(Duration(milliseconds: 500)),
-                    builder: (c, s) => s.connectionState == ConnectionState.done
-                        ? GridListWidget<Products, Product>(
-                            key: promotionProductKey,
-                            context: context,
-                            filter: filter,
-                            gridCount: 2,
-                            disablePagination: true,
-                            viewModel: WhishListGridViewBuilderViewModel(productIds: widget.productIds),
-                            childAspectRatio: 0.8,
-                            tileBuilder: (BuildContext context, data, index,
-                                onDelete, onUpdate) {
-                              final Product dProduct = data as Product;
-                              return ProductTileUI(
-                                index: index,
-                                data: data,
-                                onClick: () {
-                                  model
-                                      .goToProductPage(dProduct)
-                                      .then((value) => setState(() {
-                                            promotionProductKey = UniqueKey();
-                                          }));
-                                },
-                              );
-                            },
-                          )
-                        : Container(),
-                  )
-                ],
-              ),
+                ),
+                verticalSpace(20),
+                FutureBuilder(
+                  future: Future.delayed(Duration(milliseconds: 500)),
+                  builder: (c, s) => s.connectionState == ConnectionState.done
+                      ? GridListWidget<Products, Product>(
+                          key: promotionProductKey,
+                          context: context,
+                          filter: filter,
+                          gridCount: 2,
+                          disablePagination: true,
+                          viewModel: WhishListGridViewBuilderViewModel(
+                              productIds: widget.productIds),
+                          childAspectRatio: 0.8,
+                          tileBuilder: (BuildContext context, data, index,
+                              onDelete, onUpdate) {
+                            final Product dProduct = data as Product;
+                            return ProductTileUI(
+                              index: index,
+                              data: data,
+                              onClick: () {
+                                model
+                                    .goToProductPage(dProduct)
+                                    .then((value) => setState(() {
+                                          promotionProductKey = UniqueKey();
+                                        }));
+                              },
+                            );
+                          },
+                        )
+                      : Container(),
+                )
+              ],
             ),
           ),
         ),

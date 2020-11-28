@@ -282,7 +282,7 @@ class EmptyListWidget extends StatelessWidget {
   final String text;
   const EmptyListWidget({
     Key key,
-    this.text = "No Products Found!",
+    this.text = "No Data Found!",
   }) : super(key: key);
 
   @override

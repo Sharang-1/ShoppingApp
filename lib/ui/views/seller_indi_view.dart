@@ -1,5 +1,4 @@
 import 'package:compound/ui/widgets/sellerAppointmentBottomSheet.dart';
-import 'package:fimber/fimber.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/ui/widgets/custom_text.dart';
@@ -47,13 +46,13 @@ class _SellerIndiState extends State<SellerIndi> {
 
   @override
   Widget build(BuildContext context) {
-    print("la t  " + widget.data.contact.geoLocation.latitude.toString());
+    print("la t  " + widget?.data?.contact?.geoLocation?.latitude?.toString());
     Map<String, String> sellerDetails = {
       "name": widget.data.name,
       "type": widget.data.accountType,
       "rattings": "4.5",
-      "lat": widget.data.contact.geoLocation.latitude.toString(),
-      "lon": widget.data.contact.geoLocation.longitude.toString(),
+      "lat": widget?.data?.contact?.geoLocation?.latitude?.toString(),
+      "lon": widget?.data?.contact?.geoLocation?.longitude?.toString(),
       "appointment": "false",
       "Address": "A/3 , Ami Apartment , 132 feet ring road , naranpura , ",
       "Speciality": widget.data.known,

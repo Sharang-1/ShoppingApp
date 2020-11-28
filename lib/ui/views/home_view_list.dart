@@ -9,14 +9,17 @@ import 'package:compound/constants/server_urls.dart';
 import 'package:compound/models/categorys.dart';
 import 'package:compound/models/grid_view_builder_filter_models/categoryFilter.dart';
 import 'package:compound/models/grid_view_builder_filter_models/productFilter.dart';
+import 'package:compound/models/grid_view_builder_filter_models/sellerFilter.dart';
 import 'package:compound/models/products.dart';
 import 'package:compound/models/promotions.dart';
+import 'package:compound/models/sellers.dart';
 import 'package:compound/ui/views/promotion_products_view.dart';
 import 'package:compound/ui/widgets/GridListWidget.dart';
 import 'package:compound/ui/widgets/categoryTileUI.dart';
 import 'package:compound/ui/widgets/promotion_slider.dart';
 import 'package:compound/viewmodels/grid_view_builder_view_models/categories_view_builder_view_model.dart';
 import 'package:compound/viewmodels/grid_view_builder_view_models/products_grid_view_builder_view_model.dart';
+import 'package:compound/viewmodels/grid_view_builder_view_models/sellers_grid_view_builder_view.dart';
 import 'package:compound/viewmodels/home_view_model.dart';
 import 'package:flutter/material.dart';
 
@@ -212,6 +215,8 @@ class _HomeViewListState extends State<HomeViewList> {
           if (bottomPromotion != null && bottomPromotion.length > 0)
             GestureDetector(
               onTap: () {
+                var promoTitle = bottomPromotion[0]
+                    ?.name;
                 List<String> productIds = bottomPromotion[0]
                     ?.products
                     ?.map((e) => e.toString())
@@ -222,6 +227,7 @@ class _HomeViewListState extends State<HomeViewList> {
                   new MaterialPageRoute(
                     builder: (context) => PromotionProduct(
                       productIds: productIds ?? [],
+                      promotionTitle: promoTitle,
                     ),
                   ),
                 );
@@ -316,25 +322,29 @@ class _HomeViewListState extends State<HomeViewList> {
             )
           ]),
           verticalSpaceSmall,
-          Container(
-            padding: EdgeInsets.only(left: 0),
-            height: 175,
-            child: ListView(
+          SizedBox(
+            height: 190,
+            child: GridListWidget<Sellers, Seller>(
+              key: UniqueKey(),
+              context: context,
+              filter: new SellerFilter(),
+              gridCount: 1,
+              childAspectRatio: 0.65,
+              viewModel:
+                  SellersGridViewBuilderViewModel(boutiquesOnly: true, random: true),
+              disablePagination: true,
               scrollDirection: Axis.horizontal,
-              children: <Widget>[
-                SellerTileUi(
-                  data: boutiqueCardDetails,
-                  fromHome: true,
-                ),
-                SellerTileUi(
-                  data: boutiqueCardDetails,
-                  fromHome: true,
-                ),
-                SellerTileUi(
-                  data: boutiqueCardDetails,
-                  fromHome: true,
-                ),
-              ],
+              emptyListWidget: Container(),
+              tileBuilder:
+                  (BuildContext context, data, index, onDelete, onUpdate) {
+                return GestureDetector(
+                  onTap: () => {},
+                  child: SellerTileUi(
+                    data: data,
+                    fromHome: true,
+                  ),
+                );
+              },
             ),
           ),
           if (bottomPromotion != null && bottomPromotion.length > 1)
@@ -342,6 +352,8 @@ class _HomeViewListState extends State<HomeViewList> {
           if (bottomPromotion != null && bottomPromotion.length > 1)
             GestureDetector(
               onTap: () {
+                var promoTitle = bottomPromotion[0]
+                    ?.name;
                 List<String> productIds = bottomPromotion[1]
                     ?.products
                     ?.map((e) => e.toString())
@@ -352,6 +364,7 @@ class _HomeViewListState extends State<HomeViewList> {
                   new MaterialPageRoute(
                     builder: (context) => PromotionProduct(
                       productIds: productIds ?? [],
+                      promotionTitle: promoTitle,
                     ),
                   ),
                 );
@@ -491,6 +504,8 @@ class _HomeViewListState extends State<HomeViewList> {
           if (bottomPromotion != null && bottomPromotion.length > 2)
             GestureDetector(
               onTap: () {
+                var promoTitle = bottomPromotion[0]
+                    ?.name;
                 List<String> productIds = bottomPromotion[2]
                     ?.products
                     ?.map((e) => e.toString())
@@ -501,6 +516,7 @@ class _HomeViewListState extends State<HomeViewList> {
                   new MaterialPageRoute(
                     builder: (context) => PromotionProduct(
                       productIds: productIds ?? [],
+                      promotionTitle: promoTitle,
                     ),
                   ),
                 );
@@ -547,25 +563,29 @@ class _HomeViewListState extends State<HomeViewList> {
             )
           ]),
           verticalSpaceSmall,
-          Container(
-            padding: EdgeInsets.only(left: 0),
-            height: 175,
-            child: ListView(
+          SizedBox(
+            height: 190,
+            child: GridListWidget<Sellers, Seller>(
+              key: UniqueKey(),
+              context: context,
+              filter: new SellerFilter(),
+              gridCount: 1,
+              childAspectRatio: 0.65,
+              viewModel:
+                  SellersGridViewBuilderViewModel(random: true),
+              disablePagination: true,
               scrollDirection: Axis.horizontal,
-              children: <Widget>[
-                SellerTileUi(
-                  data: sellerCardDetails,
-                  fromHome: true,
-                ),
-                SellerTileUi(
-                  data: sellerCardDetails,
-                  fromHome: true,
-                ),
-                SellerTileUi(
-                  data: sellerCardDetails,
-                  fromHome: true,
-                ),
-              ],
+              emptyListWidget: Container(),
+              tileBuilder:
+                  (BuildContext context, data, index, onDelete, onUpdate) {
+                return GestureDetector(
+                  onTap: () => {},
+                  child: SellerTileUi(
+                    data: data,
+                    fromHome: true,
+                  ),
+                );
+              },
             ),
           ),
           /*
