@@ -50,7 +50,6 @@ class _CategoriesViewState extends State<CategoriesView> {
           right: false,
           child: SmartRefresher(
             enablePullDown: true,
-            enablePullUp: true,
             header: WaterDropHeader(
               waterDropColor: Colors.blue,
               refresh: Container(),
@@ -61,9 +60,6 @@ class _CategoriesViewState extends State<CategoriesView> {
               setState(() {
                 categoriesGridKey = new UniqueKey();
               });
-
-              await Future.delayed(Duration(milliseconds: 500));
-
               refreshController.refreshCompleted(resetFooterState: true);
             },
             child: FutureBuilder(

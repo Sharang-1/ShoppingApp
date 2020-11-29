@@ -56,7 +56,6 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
           right: false,
           child: SmartRefresher(
             enablePullDown: true,
-            enablePullUp: true,
             header: WaterDropHeader(
               waterDropColor: Colors.blue,
               refresh: Container(),

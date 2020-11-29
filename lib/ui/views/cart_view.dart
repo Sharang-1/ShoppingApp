@@ -58,7 +58,6 @@ class _CartViewState extends State<CartView> {
           right: false,
           child: SmartRefresher(
             enablePullDown: true,
-            enablePullUp: true,
             footer: null,
             header: WaterDropHeader(
               waterDropColor: Colors.blue,
