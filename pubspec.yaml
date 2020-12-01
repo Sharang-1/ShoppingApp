@@ -32,7 +32,7 @@ dependencies:
   # firebase_storage:
   image_picker:
   cached_network_image:
-  firebase_messaging:
+  firebase_messaging: ^7.0.3
   firebase_analytics:
   dio: 3.0.9
   shared_preferences: 0.5.6+2

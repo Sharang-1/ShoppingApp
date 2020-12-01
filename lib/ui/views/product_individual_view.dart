@@ -99,7 +99,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
         ),
         GestureDetector(
           child: Text(
-            "By " +( sellerModal.selleDetail?.name ?? ""),
+            "By " + (sellerModal.selleDetail?.name ?? ""),
             style: TextStyle(
                 fontSize: subtitleFontSizeStyle - 2, color: Colors.grey),
           ),
@@ -116,7 +116,9 @@ class _ProductIndiViewState extends State<ProductIndiView> {
     return Row(
       children: <Widget>[
         Text(
-          productDiscount != 0.0 ? '\u20B9${(productPrice - (productPrice * productDiscount / 100)).toString()}': '\u20B9${productPrice.toString()}',
+          productDiscount != 0.0
+              ? '\u20B9${(productPrice - (productPrice * productDiscount / 100)).toString()}'
+              : '\u20B9${productPrice.toString()}',
           style: TextStyle(
               fontSize: titleFontSizeStyle + 2, fontWeight: FontWeight.bold),
         ),
@@ -274,7 +276,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
 
   @override
   Widget build(BuildContext context) {
-    final String productName = widget?.data?.name ?? "Iphone 11";
+    final String productName = widget?.data?.name ?? "Test Product";
     final String productId = widget?.data?.key;
     final double productDiscount = widget?.data?.discount ?? 0.0;
     final double productPrice = widget?.data?.price ?? 0.0;
@@ -351,7 +353,9 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                       aspectRatio: 1,
                     ),
                     Positioned(
-                      bottom: imageURLs.length > 1 || imageURLs.length == 0 ? 45: 20,
+                      bottom: imageURLs.length > 1 || imageURLs.length == 0
+                          ? 45
+                          : 20,
                       right: 20,
                       child: GestureDetector(
                         onTap: () async {
@@ -655,8 +659,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                   Navigator.push(
                                     context,
                                     PageTransition(
-                                      child:
-                                          CartView(productId: widget?.data?.key),
+                                      child: CartView(
+                                          productId: widget?.data?.key),
                                       type: PageTransitionType.rightToLeft,
                                     ),
                                   );
@@ -770,7 +774,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                       width: MediaQuery.of(context).size.width,
                       padding: EdgeInsets.all(20),
                       child: Text(
-                        widget?.data?.description,
+                        widget?.data?.description ?? "",
                         textAlign: TextAlign.justify,
                         style: TextStyle(
                           fontSize: subtitleFontSizeStyle - 5,
@@ -851,7 +855,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                       context: context,
                       filter: ProductFilter(
                           existingQueryString:
-                              "subCategory=${widget?.data?.category?.id};"),
+                              "subCategory=${widget?.data?.category?.id ?? -1};"),
                       gridCount: 2,
                       viewModel: ProductsGridViewBuilderViewModel(
                           filteredProductKey: widget?.data?.key),
@@ -886,7 +890,9 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                       context: context,
                       filter: ProductFilter(
                           existingQueryString:
-                              "accountKey=${widget?.data?.account?.key};"),
+                              widget?.data?.account?.key != null
+                                  ? "accountKey=${widget?.data?.account?.key};"
+                                  : ""),
                       gridCount: 2,
                       viewModel: ProductsGridViewBuilderViewModel(
                           filteredProductKey: widget?.data?.key),
@@ -940,7 +946,7 @@ class ProductDescriptionTable extends StatelessWidget {
   Widget build(BuildContext context) {
     return Table(
       children: [
-        if (product?.neck != null)
+        if (product?.neck != null && product?.neck != "")
           TableRow(
             children: [
               TableCell(
@@ -990,7 +996,7 @@ class ProductDescriptionTable extends StatelessWidget {
               ),
             ],
           ),
-        if (product?.typeOfSaree != null)
+        if (product?.typeOfSaree != null && product?.typeOfSaree != "")
           TableRow(
             children: [
               TableCell(
@@ -1190,7 +1196,7 @@ class ProductDescriptionTable extends StatelessWidget {
               ),
             ],
           ),
-        if (product?.backCut != null)
+        if (product?.backCut != null && product?.backCut != "")
           TableRow(
             children: [
               TableCell(
@@ -1215,7 +1221,7 @@ class ProductDescriptionTable extends StatelessWidget {
               ),
             ],
           ),
-        if (product?.neckCut != null)
+        if (product?.neckCut != null && product?.neckCut != "")
           TableRow(
             children: [
               TableCell(
@@ -1240,7 +1246,7 @@ class ProductDescriptionTable extends StatelessWidget {
               ),
             ],
           ),
-        if (product?.dimensions != null)
+        if (product?.dimensions != null && product?.dimensions != "")
           TableRow(
             children: [
               TableCell(
@@ -1265,7 +1271,7 @@ class ProductDescriptionTable extends StatelessWidget {
               ),
             ],
           ),
-        if (product?.style != null)
+        if (product?.style != null && product?.style != "")
           TableRow(
             children: [
               TableCell(
@@ -1315,7 +1321,7 @@ class ProductDescriptionTable extends StatelessWidget {
               ),
             ],
           ),
-        if (product?.breath != null)
+        if (product?.breath != null && product?.breath != 0)
           TableRow(
             children: [
               TableCell(
@@ -1340,7 +1346,7 @@ class ProductDescriptionTable extends StatelessWidget {
               ),
             ],
           ),
-        if (product?.fabricDetails != null)
+        if (product?.fabricDetails != null && product?.fabricDetails != "")
           TableRow(
             children: [
               TableCell(
@@ -1365,7 +1371,7 @@ class ProductDescriptionTable extends StatelessWidget {
               ),
             ],
           ),
-        if (product?.typeOfWork != null)
+        if (product?.typeOfWork != null && product?.typeOfWork != "")
           TableRow(
             children: [
               TableCell(
