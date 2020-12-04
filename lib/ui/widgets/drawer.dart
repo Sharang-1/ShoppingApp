@@ -92,7 +92,7 @@ class HomeDrawer extends StatelessWidget {
                       ),
                     ),
                     onTap: () {
-                      _navigationService.navigateTo(HomeViewRoute);
+                      Navigator.pushNamed(context, HomeViewRoute);
                     },
                   ),
                   ListTile(
@@ -177,7 +177,7 @@ class HomeDrawer extends StatelessWidget {
                       ),
                     ),
                     onTap: () {
-                       _navigationService.navigateTo(MyAppointmentViewRoute);
+                      _navigationService.navigateTo(MyAppointmentViewRoute);
                     },
                   ),
                   Divider(),
@@ -196,17 +196,16 @@ class HomeDrawer extends StatelessWidget {
                     },
                   ),
                   ListTile(
-                    title: Padding(
-                      padding: EdgeInsets.only(left: 20),
-                      child: CustomText(
-                        'Sell On Dzor',
-                        color: Colors.grey[800],
-                        isBold: true,
-                        fontSize: 18,
+                      title: Padding(
+                        padding: EdgeInsets.only(left: 20),
+                        child: CustomText(
+                          'Sell On Dzor',
+                          color: Colors.grey[800],
+                          isBold: true,
+                          fontSize: 18,
+                        ),
                       ),
-                    ),
-                      onTap: () => launch('https://dzor.in/#/partner-with-us')
-                  ),
+                      onTap: () => launch('https://dzor.in/#/partner-with-us')),
                   ListTile(
                     title: Padding(
                       padding: EdgeInsets.only(left: 20),
@@ -221,7 +220,7 @@ class HomeDrawer extends StatelessWidget {
                       _navigationService.navigateTo(SettingsRoute);
                     },
                   ),
-                  ListTile(
+                  /*ListTile(
                     title: Padding(
                       padding: EdgeInsets.only(left: 20),
                       child: CustomText(
@@ -232,7 +231,7 @@ class HomeDrawer extends StatelessWidget {
                       ),
                     ),
                     onTap: logout,
-                  ),
+                  ),*/
                 ],
               ),
             ),
