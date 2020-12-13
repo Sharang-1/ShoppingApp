@@ -32,10 +32,10 @@ class ProductFilter implements BaseFilterModel {
     }
 
     if (fullText != null) _queryString += "freeText=$fullText;";
-    if (categories != null) _queryString += "categories=$categories;";
+    // if (categories != null) _queryString += "categories=$categories;";
     if (subCategories != null)
       _queryString +=
-          subCategories.map((String value) => "subCategory=$value;").join("");
+          subCategories.map((String value) => "category=$value;").join("");
     if (size != null)
       _queryString += size.map((String value) => "size=$size;").join("");
     if (minPrice != null) _queryString += "minPrice=$minPrice;";
@@ -44,6 +44,9 @@ class ProductFilter implements BaseFilterModel {
     if (sortField != null) _queryString += "sortField=$sortField;";
     if (isSortOrderDesc != null)
       _queryString += "sortOrder=${isSortOrderDesc ? 'desc' : 'asc'};";
+
+    print("query string for product filter");
+    print(_queryString);
   }
 
   @override

@@ -1,5 +1,6 @@
 import 'package:compound/logger.dart';
 import 'package:compound/models/CartCountSetUp.dart';
+import 'package:compound/models/LookupSetUp.dart';
 import 'package:compound/models/WhishListSetUp.dart';
 // import 'package:compound/services/analytics_service.dart';
 import 'package:compound/ui/shared/app_colors.dart';
@@ -7,6 +8,7 @@ import 'package:compound/ui/views/startup_view.dart';
 import 'package:flutter/material.dart';
 import 'package:compound/services/navigation_service.dart';
 import 'package:compound/services/dialog_service.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'managers/dialog_manager.dart';
 import 'ui/router.dart';
@@ -44,8 +46,9 @@ class MyApp extends StatelessWidget {
             create: (context) => CartCountSetUp(count: 0)),
         ChangeNotifierProvider<WhishListSetUp>(
             create: (context) => WhishListSetUp(list: [])),
+        ChangeNotifierProvider<LookupSetUp>(create: (context) => LookupSetUp()),
       ],
-      child: MaterialApp(
+      child: GetMaterialApp(
         title: 'DZOR',
         debugShowCheckedModeBanner: false,
         navigatorObservers: [],

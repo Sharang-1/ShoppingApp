@@ -1,4 +1,5 @@
 import 'package:compound/models/CartCountSetUp.dart';
+import 'package:compound/models/LookupSetUp.dart';
 import 'package:compound/models/WhishListSetUp.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/ui/views/home_view_list.dart';
@@ -28,10 +29,8 @@ class HomeView extends StatelessWidget {
             .setCartCount(values[0]);
         Provider.of<WhishListSetUp>(context, listen: false)
             .setUpWhishList(values[1]);
-        print("After Calling init " +
-            Provider.of<CartCountSetUp>(context, listen: false)
-                .count
-                .toString());
+        Provider.of<LookupSetUp>(context, listen: false)
+            .setUpLookups(values[2]);
       },
       builder: (context, model, child) => Scaffold(
         drawerEdgeDragWidth: 0,

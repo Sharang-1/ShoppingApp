@@ -282,7 +282,7 @@ class _HomeViewListState extends State<HomeViewList> {
               filter: ProductFilter(minDiscount: 5),
               gridCount: 2,
               viewModel: ProductsGridViewBuilderViewModel(randomize: true),
-              childAspectRatio: 0.65,
+              childAspectRatio: 0.57,
               scrollDirection: Axis.horizontal,
               disablePagination: true,
               tileBuilder: (BuildContext context, productData, index, onUpdate,

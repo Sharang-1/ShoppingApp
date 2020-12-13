@@ -51,17 +51,29 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
     'Indo-Western': false,
     'Blouses': false,
     'Dupattas': false,
+    'Accessories - Fabric Bags': false,
+    'Accessories -  Tradition…es/Ethnic wear footwear': false,
+    'Accessories - Home Made Jewellery': false,
+    'Saree': false,
+    'Cloth Materials': false,
+    'Lenghas': false
   };
   Map<String, int> subCategoriesAPIValue = {
     'All': -1,
-    'Dresses': 1,
-    'Kurtas': 2,
+    'Kurtas': 1,
+    'Dresses': 2,
     'Gowns': 3,
     'Chaniya Cholies': 4,
     'Suit Sets': 5,
     'Indo-Western': 6,
     'Blouses': 7,
     'Dupattas': 8,
+    'Accessories - Fabric Bags': 9,
+    'Accessories -  Tradition…es/Ethnic wear footwear': 10,
+    'Accessories - Home Made Jewellery': 11,
+    'Saree': 12,
+    'Cloth Materials': 13,
+    'Lenghas': 14
   };
   Map<int, String> subCategoriesAPIIntToValue = {
     -1: 'All',
@@ -73,6 +85,12 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
     6: 'Indo-Western',
     7: 'Blouses',
     8: 'Dupattas',
+    9: 'Accessories - Fabric Bags',
+    10: 'Accessories -  Tradition…es/Ethnic wear footwear',
+    11: 'Accessories - Home Made Jewellery',
+    12: 'Saree',
+    13: 'Cloth Materials',
+    14: 'Lenghas'
   };
 
   final _formKey = GlobalKey();

@@ -18,9 +18,10 @@ class HomeViewModel extends BaseModel {
 
   // Returns cart count
   Future<List> init(BuildContext context) async {
-    final whishList = await _whishListService.getWhishList();
     final count = await setUpCartListAndGetCount();
-    return [count, whishList];
+    final whishList = await _whishListService.getWhishList();
+    final lookups = await _apiService.getLookups();
+    return [count, whishList, lookups];
   }
 
   Future<int> setUpCartListAndGetCount({ bool withNetworkCall = true }) async {

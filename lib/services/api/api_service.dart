@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:compound/constants/server_urls.dart';
 import 'package:compound/models/Appointments.dart';
 import 'package:compound/models/TimeSlots.dart';
+import 'package:compound/models/lookups.dart';
 import 'package:dio/dio.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
@@ -24,15 +25,17 @@ import 'package:compound/models/payment_options.dart';
 import 'package:compound/models/products.dart';
 import 'package:compound/models/promoCode.dart';
 import 'package:compound/models/promotions.dart';
+import 'package:compound/models/lookups.dart';
 import 'package:compound/models/reviews.dart';
 import 'package:compound/models/sellers.dart';
 import 'package:compound/models/tailors.dart';
+import 'package:get/get.dart' as GetModule;
 
 // import 'package:compound/services/api/AppInterceptor.dart';
 // import 'package:compound/services/api/CustomLogInterceptor.dart';
 
-import '../../locator.dart';
-import '../dialog_service.dart';
+// import '../../locator.dart';
+// import '../dialog_service.dart';
 // import '../../locator.dart';
 
 import 'package:compound/models/user_details.dart';
@@ -60,7 +63,7 @@ class APIService {
       }));
 
   // final excludeToken = Options(headers: {"excludeToken": true});
-  final DialogService _dialogService = locator<DialogService>();
+  // final DialogService _dialogService = locator<DialogService>();
 
   APIService() {
     apiClient..interceptors.addAll([AppInterceptors(), CustomLogInterceptor()]);
@@ -102,11 +105,23 @@ class APIService {
       if (resJSON.containsKey("error") == true) {
         throw Exception(resJSON["error"]);
       }
-      
+
       return resJSON;
     } catch (e, stacktrace) {
       Fimber.e("Api Service error", ex: e, stacktrace: stacktrace);
-      _dialogService.showDialog(description: e.toString(), title: "Error");
+      // _dialogService.showDialog(description: e.toString(), title: "Error");
+      GetModule.Get.snackbar(
+        "Error",
+        e.toString(),
+        snackPosition: GetModule.SnackPosition.BOTTOM,
+        isDismissible: true,
+        snackStyle: GetModule.SnackStyle.FLOATING,
+        margin: EdgeInsets.only(
+          bottom: 20,
+          left: 10,
+          right: 10,
+        ),
+      );
     }
   }
 
@@ -117,6 +132,17 @@ class APIService {
   Future verifyOTP({@required String phoneNo, @required String otp}) {
     return apiWrapper("message/verifyOtpToLogin",
         data: {"mobile": phoneNo}, queryParameters: {"otp": otp});
+  }
+
+  Future<List<Lookups>> getLookups() async {
+    var lookupData = await apiWrapper("options");
+    if (lookupData != null) {
+      List<Lookups> lookups = lookupsFromJson(lookupData);
+      Fimber.d("lookupData : " + lookups.map((o) => o.name).toString());
+      return lookups;
+    }
+
+    return null;
   }
 
   Future<Reviews> getReviews({String productId}) async {
@@ -131,7 +157,8 @@ class APIService {
   }
 
   Future<Products> getProducts({String queryString = ""}) async {
-    var productData = await apiWrapper("products;$queryString;seller=true;");
+    var productData =
+        await apiWrapper("products;$queryString;seller=true;active=true");
     if (productData != null) {
       Products products = Products.fromJson(productData);
       Fimber.d("products : " + products.items.map((o) => o.name).toString());
@@ -144,7 +171,8 @@ class APIService {
     List<String> list,
   }) async {
     final futureList = list.map<Future<Product>>((id) async {
-      final productData = await apiWrapper("products/$id;seller=true");
+      final productData =
+          await apiWrapper("products/$id;seller=true;active=true");
       if (productData != null) {
         Product singleProduct = Product.fromJson(productData);
         return singleProduct;
@@ -167,7 +195,7 @@ class APIService {
   }
 
   Future<Promotions> getPromotions() async {
-    var promotionsData = await apiWrapper("promotions:active=true");
+    var promotionsData = await apiWrapper("promotions;active=true");
     if (promotionsData != null) {
       try {
         Promotions promotions = Promotions.fromJson(promotionsData);
@@ -196,7 +224,7 @@ class APIService {
   }
 
   Future<Sellers> getSellers({String queryString = ""}) async {
-    var sellersData = await apiWrapper("sellers;$queryString");
+    var sellersData = await apiWrapper("sellers;$queryString;active=true");
     if (sellersData != null) {
       Sellers sellers = Sellers.fromJson(sellersData);
       Fimber.d("Sellers : " + sellers.items.map((o) => o.name).toString());
