@@ -68,7 +68,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         pageArguments: pageArguments,
         pageTransitionType: transitionType,
       );
-    case loaderRoute:
+    case LoaderRoute:
       return _getPageRoute(
         routeName: settings.name,
         viewToShow: loader(),
