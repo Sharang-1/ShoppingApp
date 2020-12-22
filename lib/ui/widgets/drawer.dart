@@ -92,7 +92,7 @@ class HomeDrawer extends StatelessWidget {
                       ),
                     ),
                     onTap: () {
-                      _navigationService.navigateTo(HomeViewRoute, popNavbar: true);
+                      _navigationService.pop();
                     },
                   ),
                   ListTile(
