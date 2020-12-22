@@ -92,7 +92,7 @@ class HomeDrawer extends StatelessWidget {
                       ),
                     ),
                     onTap: () {
-                      _navigationService.navigateTo(HomeViewRoute);
+                      _navigationService.navigateTo(HomeViewRoute, popNavbar: true);
                     },
                   ),
                   ListTile(
@@ -106,7 +106,7 @@ class HomeDrawer extends StatelessWidget {
                       ),
                     ),
                     onTap: () {
-                      _navigationService.navigateTo(CategoriesRoute);
+                      _navigationService.navigateTo(CategoriesRoute, popNavbar: true);
                     },
                   ),
                   ListTile(
@@ -120,7 +120,7 @@ class HomeDrawer extends StatelessWidget {
                       ),
                     ),
                     onTap: () {
-                      _navigationService.navigateTo(MapViewRoute);
+                      _navigationService.navigateTo(MapViewRoute, popNavbar: true);
                     },
                   ),
                   Divider(),
@@ -135,7 +135,7 @@ class HomeDrawer extends StatelessWidget {
                       ),
                     ),
                     onTap: () {
-                      _navigationService.navigateTo(MyOrdersRoute);
+                      _navigationService.navigateTo(MyOrdersRoute, popNavbar: true);
                     },
                   ),
                   ListTile(
@@ -149,7 +149,7 @@ class HomeDrawer extends StatelessWidget {
                       ),
                     ),
                     onTap: () {
-                      _navigationService.navigateTo(WhishListRoute);
+                      _navigationService.navigateTo(WhishListRoute, popNavbar: true);
                     },
                   ),
                   ListTile(
@@ -163,7 +163,7 @@ class HomeDrawer extends StatelessWidget {
                       ),
                     ),
                     onTap: () {
-                      _navigationService.navigateTo(ProfileViewRoute);
+                      _navigationService.navigateTo(ProfileViewRoute, popNavbar: true);
                     },
                   ),
                   ListTile(
@@ -177,7 +177,7 @@ class HomeDrawer extends StatelessWidget {
                       ),
                     ),
                     onTap: () {
-                       _navigationService.navigateTo(MyAppointmentViewRoute);
+                       _navigationService.navigateTo(MyAppointmentViewRoute, popNavbar: true);
                     },
                   ),
                   Divider(),
@@ -192,7 +192,7 @@ class HomeDrawer extends StatelessWidget {
                       ),
                     ),
                     onTap: () {
-                      _navigationService.navigateTo(NotifcationViewRoute);
+                      _navigationService.navigateTo(NotifcationViewRoute, popNavbar: true);
                     },
                   ),
                   ListTile(
@@ -218,7 +218,7 @@ class HomeDrawer extends StatelessWidget {
                       ),
                     ),
                     onTap: () {
-                      _navigationService.navigateTo(SettingsRoute);
+                      _navigationService.navigateTo(SettingsRoute, popNavbar: true);
                     },
                   ),
                   ListTile(
