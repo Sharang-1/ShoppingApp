@@ -9,6 +9,7 @@ class NavigationService {
   }
 
   Future<dynamic> navigateTo(String routeName, {dynamic arguments}) {
+    pop();
     return _navigationKey.currentState
         .pushNamed(routeName, arguments: arguments);
   }
