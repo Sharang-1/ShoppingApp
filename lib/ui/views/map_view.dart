@@ -29,7 +29,9 @@ class MapView extends StatelessWidget {
         : tempSplitName[0].substring(0, 2);
     print(client.operations ?? "No data");
     return Padding(
-        padding: EdgeInsets.only(left: 10.0, top: 10.0),
+        padding: EdgeInsets.only(
+          top: 0,
+        ),
         child: InkWell(
           onTap: () {
             model.currentClient = client;
@@ -44,7 +46,8 @@ class MapView extends StatelessWidget {
             elevation: 5,
             child: Container(
               padding: EdgeInsets.fromLTRB(20, 20, 5, 10),
-              width: MediaQuery.of(context).size.width * 0.8,
+              width: MediaQuery.of(context).size.width * 1,
+              height: MediaQuery.of(context).size.width * 1.3,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5.0),
                   color: Colors.white),
