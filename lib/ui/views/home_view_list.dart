@@ -71,7 +71,8 @@ class _HomeViewListState extends State<HomeViewList> {
     const double subtitleFontSize = subtitleFontSizeStyle + 2;
 
     return Container(
-      padding: EdgeInsets.fromLTRB(screenPadding, 10, screenPadding, 10),
+      padding:
+          EdgeInsets.fromLTRB(screenPadding - 15, 5, screenPadding - 15, 5),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -115,11 +116,14 @@ class _HomeViewListState extends State<HomeViewList> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Text('Shop By Category',
-                  style: TextStyle(
-                      color: Colors.grey[800],
-                      fontSize: subtitleFontSize,
-                      fontWeight: FontWeight.w700)),
+              Padding(
+                padding: const EdgeInsets.only(left: 15.0),
+                child: Text('Shop By Category',
+                    style: TextStyle(
+                        color: Colors.grey[800],
+                        fontSize: subtitleFontSize,
+                        fontWeight: FontWeight.w700)),
+              ),
               InkWell(
                 child: Text(
                   'View All',
@@ -165,12 +169,15 @@ class _HomeViewListState extends State<HomeViewList> {
           verticalSpace(40),
           Row(children: <Widget>[
             Expanded(
-              child: Text(
-                'Top Picks for you',
-                style: TextStyle(
-                  color: Colors.grey[800],
-                  fontSize: subtitleFontSize,
-                  fontWeight: FontWeight.w700,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 15.0),
+                child: Text(
+                  'Top Picks for you',
+                  style: TextStyle(
+                    color: Colors.grey[800],
+                    fontSize: subtitleFontSize,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
             )
@@ -215,8 +222,7 @@ class _HomeViewListState extends State<HomeViewList> {
           if (bottomPromotion != null && bottomPromotion.length > 0)
             GestureDetector(
               onTap: () {
-                var promoTitle = bottomPromotion[0]
-                    ?.name;
+                var promoTitle = bottomPromotion[0]?.name;
                 List<String> productIds = bottomPromotion[0]
                     ?.products
                     ?.map((e) => e.toString())
@@ -245,7 +251,7 @@ class _HomeViewListState extends State<HomeViewList> {
                 ),
                 child: SizedBox(
                   height: (MediaQuery.of(context).size.width - 40) * 0.8,
-                  width: MediaQuery.of(context).size.width - 40,
+                  width: MediaQuery.of(context).size.width,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(curve15),
                     child: Image(
@@ -263,12 +269,15 @@ class _HomeViewListState extends State<HomeViewList> {
           verticalSpace(40),
           Row(children: <Widget>[
             Expanded(
-              child: Text(
-                'Best Deals Today',
-                style: TextStyle(
-                  color: Colors.grey[800],
-                  fontSize: subtitleFontSize,
-                  fontWeight: FontWeight.w700,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 15.0),
+                child: Text(
+                  'Best Deals Today',
+                  style: TextStyle(
+                    color: Colors.grey[800],
+                    fontSize: subtitleFontSize,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
             )
@@ -311,12 +320,15 @@ class _HomeViewListState extends State<HomeViewList> {
           verticalSpace(40),
           Row(children: <Widget>[
             Expanded(
-              child: Text(
-                'Boutiques Near You',
-                style: TextStyle(
-                  color: Colors.grey[800],
-                  fontSize: subtitleFontSize,
-                  fontWeight: FontWeight.w700,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 15.0),
+                child: Text(
+                  'Boutiques Near You',
+                  style: TextStyle(
+                    color: Colors.grey[800],
+                    fontSize: subtitleFontSize,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
             )
@@ -330,8 +342,8 @@ class _HomeViewListState extends State<HomeViewList> {
               filter: new SellerFilter(),
               gridCount: 1,
               childAspectRatio: 0.65,
-              viewModel:
-                  SellersGridViewBuilderViewModel(boutiquesOnly: true, random: true),
+              viewModel: SellersGridViewBuilderViewModel(
+                  boutiquesOnly: true, random: true),
               disablePagination: true,
               scrollDirection: Axis.horizontal,
               emptyListWidget: Container(),
@@ -352,8 +364,7 @@ class _HomeViewListState extends State<HomeViewList> {
           if (bottomPromotion != null && bottomPromotion.length > 1)
             GestureDetector(
               onTap: () {
-                var promoTitle = bottomPromotion[0]
-                    ?.name;
+                var promoTitle = bottomPromotion[0]?.name;
                 List<String> productIds = bottomPromotion[1]
                     ?.products
                     ?.map((e) => e.toString())
@@ -382,7 +393,7 @@ class _HomeViewListState extends State<HomeViewList> {
                 ),
                 child: SizedBox(
                   height: (MediaQuery.of(context).size.width - 40) * 0.8,
-                  width: MediaQuery.of(context).size.width - 40,
+                  width: MediaQuery.of(context).size.width,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(curve15),
                     child: Image(
@@ -400,12 +411,15 @@ class _HomeViewListState extends State<HomeViewList> {
           verticalSpace(40),
           Row(children: <Widget>[
             Expanded(
-              child: Text(
-                'Product Delivered Same Day',
-                style: TextStyle(
-                  color: Colors.grey[800],
-                  fontSize: subtitleFontSize,
-                  fontWeight: FontWeight.w700,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 15.0),
+                child: Text(
+                  'Product Delivered Same Day',
+                  style: TextStyle(
+                    color: Colors.grey[800],
+                    fontSize: subtitleFontSize,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
             )
@@ -451,11 +465,14 @@ class _HomeViewListState extends State<HomeViewList> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Text('Popular Cateogories\nNear You',
-                  style: TextStyle(
-                      color: Colors.grey[800],
-                      fontSize: subtitleFontSize,
-                      fontWeight: FontWeight.w700)),
+              Padding(
+                padding: const EdgeInsets.only(left: 15.0),
+                child: Text('Popular Cateogories\nNear You',
+                    style: TextStyle(
+                        color: Colors.grey[800],
+                        fontSize: subtitleFontSize,
+                        fontWeight: FontWeight.w700)),
+              ),
               InkWell(
                 child: Text(
                   'View All',
@@ -504,8 +521,7 @@ class _HomeViewListState extends State<HomeViewList> {
           if (bottomPromotion != null && bottomPromotion.length > 2)
             GestureDetector(
               onTap: () {
-                var promoTitle = bottomPromotion[0]
-                    ?.name;
+                var promoTitle = bottomPromotion[0]?.name;
                 List<String> productIds = bottomPromotion[2]
                     ?.products
                     ?.map((e) => e.toString())
@@ -534,7 +550,7 @@ class _HomeViewListState extends State<HomeViewList> {
                 ),
                 child: SizedBox(
                   height: (MediaQuery.of(context).size.width - 40) * 0.8,
-                  width: MediaQuery.of(context).size.width - 40,
+                  width: MediaQuery.of(context).size.width,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(curve15),
                     child: Image(
@@ -552,12 +568,15 @@ class _HomeViewListState extends State<HomeViewList> {
           verticalSpace(40),
           Row(children: <Widget>[
             Expanded(
-              child: Text(
-                'Sellers Delivering To You',
-                style: TextStyle(
-                  color: Colors.grey[800],
-                  fontSize: subtitleFontSize,
-                  fontWeight: FontWeight.w700,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 15.0),
+                child: Text(
+                  'Sellers Delivering To You',
+                  style: TextStyle(
+                    color: Colors.grey[800],
+                    fontSize: subtitleFontSize,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
             )
@@ -571,8 +590,7 @@ class _HomeViewListState extends State<HomeViewList> {
               filter: new SellerFilter(),
               gridCount: 1,
               childAspectRatio: 0.65,
-              viewModel:
-                  SellersGridViewBuilderViewModel(random: true),
+              viewModel: SellersGridViewBuilderViewModel(random: true),
               disablePagination: true,
               scrollDirection: Axis.horizontal,
               emptyListWidget: Container(),
