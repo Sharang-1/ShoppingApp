@@ -24,6 +24,32 @@ import 'package:flutter/material.dart';
 import 'package:compound/constants/route_names.dart';
 import 'package:compound/ui/views/login_view.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:compound/models/productPageArg.dart';
+import 'package:compound/models/products.dart';
+import 'package:compound/models/route_argument.dart';
+import 'package:compound/ui/views/cart_view.dart';
+import 'package:compound/ui/views/categories_view.dart';
+import 'package:compound/ui/views/category_indi_view.dart';
+import 'package:compound/ui/views/home_view.dart';
+import 'package:compound/ui/views/map_view.dart';
+import 'package:compound/ui/views/myorders_view.dart';
+import 'package:compound/ui/views/notification_view.dart';
+import 'package:compound/ui/views/productListView.dart';
+import 'package:compound/ui/views/product_individual_view.dart';
+import 'package:compound/ui/views/product_whishlist_view.dart';
+import 'package:compound/ui/views/profile_view.dart';
+import 'package:compound/ui/views/search_view.dart';
+import 'package:compound/ui/views/settings_page_view.dart';
+import 'package:compound/ui/views/verify_otp.dart';
+import 'package:compound/ui/views/otp_finished_screen_1_view.dart';
+import 'package:compound/ui/views/otp_finished_screen_2_view.dart';
+import './views/seller_indi_view.dart';
+import './views/myAppointments_view.dart';
+import 'package:flutter/material.dart';
+import 'package:compound/constants/route_names.dart';
+import 'package:compound/ui/views/login_view.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:compound/ui/views/loader.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   PageTransitionType transitionType = PageTransitionType.fade;
@@ -43,10 +69,16 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         pageArguments: pageArguments,
         pageTransitionType: transitionType,
       );
+
     case MyHomePageRoute:
       return _getPageRoute(
         routeName: settings.name,
         viewToShow: MyHomePage(),
+
+    case LoaderRoute:
+      return _getPageRoute(
+        routeName: settings.name,
+        viewToShow: loader(),
         pageArguments: pageArguments,
         pageTransitionType: transitionType,
       );

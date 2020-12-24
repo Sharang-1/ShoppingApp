@@ -946,6 +946,7 @@ class ProductDescriptionTable extends StatelessWidget {
   Widget build(BuildContext context) {
     return Table(
       children: [
+        divider,
         if (product?.neck != null && product?.neck != "")
           TableRow(
             children: [
@@ -971,6 +972,7 @@ class ProductDescriptionTable extends StatelessWidget {
               ),
             ],
           ),
+        divider,
         if (product?.waist != null)
           TableRow(
             children: [
@@ -996,6 +998,7 @@ class ProductDescriptionTable extends StatelessWidget {
               ),
             ],
           ),
+        divider,
         if (product?.typeOfSaree != null && product?.typeOfSaree != "")
           TableRow(
             children: [
@@ -1021,6 +1024,7 @@ class ProductDescriptionTable extends StatelessWidget {
               ),
             ],
           ),
+        divider,
         if (product?.pieces != null && product?.pieces?.id != -1)
           TableRow(
             children: [
@@ -1046,6 +1050,7 @@ class ProductDescriptionTable extends StatelessWidget {
               ),
             ],
           ),
+        divider,
         if (product?.topsLength != null && product?.topsLength?.id != -1)
           TableRow(
             children: [
@@ -1071,6 +1076,7 @@ class ProductDescriptionTable extends StatelessWidget {
               ),
             ],
           ),
+        divider,
         if (product?.made != null && product?.made?.id != -1)
           TableRow(
             children: [
@@ -1096,6 +1102,7 @@ class ProductDescriptionTable extends StatelessWidget {
               ),
             ],
           ),
+        divider,
         if (product?.flair != null)
           TableRow(
             children: [
@@ -1121,6 +1128,7 @@ class ProductDescriptionTable extends StatelessWidget {
               ),
             ],
           ),
+        divider,
         if (product?.sleeveLength != null && product?.sleeveLength?.id != -1)
           TableRow(
             children: [
@@ -1146,6 +1154,7 @@ class ProductDescriptionTable extends StatelessWidget {
               ),
             ],
           ),
+        divider,
         if (product?.stitchingType != null && product?.stitchingType?.id != -1)
           TableRow(
             children: [
@@ -1171,6 +1180,7 @@ class ProductDescriptionTable extends StatelessWidget {
               ),
             ],
           ),
+        divider,
         if (product?.blousePadding != null && product?.blousePadding?.id != -1)
           TableRow(
             children: [
@@ -1196,6 +1206,7 @@ class ProductDescriptionTable extends StatelessWidget {
               ),
             ],
           ),
+        divider,
         if (product?.backCut != null && product?.backCut != "")
           TableRow(
             children: [
@@ -1221,6 +1232,7 @@ class ProductDescriptionTable extends StatelessWidget {
               ),
             ],
           ),
+        divider,
         if (product?.neckCut != null && product?.neckCut != "")
           TableRow(
             children: [
@@ -1246,6 +1258,7 @@ class ProductDescriptionTable extends StatelessWidget {
               ),
             ],
           ),
+        divider,
         if (product?.dimensions != null && product?.dimensions != "")
           TableRow(
             children: [
@@ -1271,6 +1284,7 @@ class ProductDescriptionTable extends StatelessWidget {
               ),
             ],
           ),
+        divider,
         if (product?.style != null && product?.style != "")
           TableRow(
             children: [
@@ -1296,6 +1310,7 @@ class ProductDescriptionTable extends StatelessWidget {
               ),
             ],
           ),
+        divider,
         if (product?.length != null)
           TableRow(
             children: [
@@ -1321,6 +1336,7 @@ class ProductDescriptionTable extends StatelessWidget {
               ),
             ],
           ),
+        divider,
         if (product?.breath != null && product?.breath != 0)
           TableRow(
             children: [
@@ -1346,6 +1362,7 @@ class ProductDescriptionTable extends StatelessWidget {
               ),
             ],
           ),
+        divider,
         if (product?.fabricDetails != null && product?.fabricDetails != "")
           TableRow(
             children: [
@@ -1371,6 +1388,7 @@ class ProductDescriptionTable extends StatelessWidget {
               ),
             ],
           ),
+        divider,
         if (product?.typeOfWork != null && product?.typeOfWork != "")
           TableRow(
             children: [
@@ -1439,3 +1457,21 @@ class ProductDescriptionTable extends StatelessWidget {
 //     "color": ["Black", "Orange"]
 //   },
 // ];
+const rowSpacer = TableRow(children: [
+  SizedBox(
+    height: 3,
+  ),
+  SizedBox(
+    height: 3,
+  )
+]);
+const divider = TableRow(children: [
+  Divider(
+    color: Colors.grey,
+    thickness: 1.1,
+  ),
+  Divider(
+    color: Colors.grey,
+    thickness: 1.1,
+  )
+]);

@@ -589,6 +589,7 @@ class _SearchBarTextField extends StatelessWidget {
             decoration: InputDecoration(
               border: InputBorder.none,
               hintText: "Search Products or Sellers",
+              contentPadding: EdgeInsets.only(bottom: 8.0),
               hintStyle: TextStyle(
                 color: Colors.grey,
               ),

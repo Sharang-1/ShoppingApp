@@ -90,6 +90,7 @@ flutter:
     - assets/images/empty_cart.png
     - assets/images/paytm_icon.png
     - assets/images/phonepe_icon.png
+    - assets/images/loading.gif
     - assets/svg/DZOR_full_logo_verti.svg
     - assets/svg/logo.svg
     - assets/svg/ribbon.svg
