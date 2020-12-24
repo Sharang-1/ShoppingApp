@@ -8,6 +8,8 @@ const String OtpFinishedScreen2Route = "OtpFinishedScreen2View";
 const String HomeViewRoute = "HomeView";
 const String SearchViewRoute = "SearchView";
 const String MapViewRoute = "MapView";
+const String LoaderRoute = "loader";
+const String ProdLoaderRoute = "prodloader";
 
 // Cart and Order Routes
 const String CartViewRoute = "CartView";
@@ -21,6 +23,7 @@ const String AppointmentBookedScreenRoute = "AppointmentBookedScreenRoute";
 const String ProductsListRoute = "ProductsListView";
 const String WhishListRoute = "WhishListView";
 const String ProductIndividualRoute = "ProductIndividualView";
+const String Product1IndividualRoute = "ProductIndiView";
 const String CategoryIndiViewRoute = "CategoryIndiView";
 
 // Sellers Routes
