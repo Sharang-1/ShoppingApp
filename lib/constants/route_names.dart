@@ -9,7 +9,7 @@ const String HomeViewRoute = "HomeView";
 const String SearchViewRoute = "SearchView";
 const String MapViewRoute = "MapView";
 const String LoaderRoute = "loader";
-const String prodLoaderRoute = "prodloader";
+const String ProdLoaderRoute = "prodloader";
 
 // Cart and Order Routes
 const String CartViewRoute = "CartView";
