@@ -15,6 +15,7 @@ import 'package:compound/ui/views/profile_view.dart';
 import 'package:compound/ui/views/search_view.dart';
 import 'package:compound/ui/views/settings_page_view.dart';
 import 'package:compound/ui/views/verify_otp.dart';
+import 'package:compound/ui/views/intro.dart';
 import 'package:compound/ui/views/otp_finished_screen_1_view.dart';
 import 'package:compound/ui/views/otp_finished_screen_2_view.dart';
 import './views/seller_indi_view.dart';
@@ -68,6 +69,12 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         pageArguments: pageArguments,
         pageTransitionType: transitionType,
       );
+
+    case MyHomePageRoute:
+      return _getPageRoute(
+        routeName: settings.name,
+        viewToShow: MyHomePage(),
+
     case LoaderRoute:
       return _getPageRoute(
         routeName: settings.name,

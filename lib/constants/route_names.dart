@@ -8,8 +8,11 @@ const String OtpFinishedScreen2Route = "OtpFinishedScreen2View";
 const String HomeViewRoute = "HomeView";
 const String SearchViewRoute = "SearchView";
 const String MapViewRoute = "MapView";
+
+const String MyHomePageRoute = "MyHomePage";
 const String LoaderRoute = "loader";
 const String ProdLoaderRoute = "prodloader";
+
 
 // Cart and Order Routes
 const String CartViewRoute = "CartView";
