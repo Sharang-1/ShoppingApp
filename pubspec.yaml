@@ -53,6 +53,7 @@ dependencies:
   pull_to_refresh: ^1.6.1
   photo_view: ^0.10.2
   get: ^3.22.2
+  intro_slider: ^1.0.8
 
 dev_dependencies:
   flutter_test:
@@ -111,6 +112,9 @@ flutter:
     - assets/icons/share.svg
     - assets/icons/DZOR_full_logo_verti.png
     - assets/icons/map.png
+    - assets/images/screen1.png
+    - assets/images/screen2.png
+    - assets/images/screen3.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.
