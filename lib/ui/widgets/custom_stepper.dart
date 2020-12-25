@@ -5,7 +5,7 @@ import 'package:compound/ui/shared/app_colors.dart';
 class CutomStepper extends StatelessWidget {
   final int step;
 
-  const CutomStepper({Key key,@required this.step}) : super(key: key);
+  const CutomStepper({Key key, @required this.step}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -49,10 +49,14 @@ class CutomStepper extends StatelessWidget {
                 child: Container(
                   height: 10,
                   width: (MediaQuery.of(context).size.width - 60) *
-                      (step == 1 ? 0.15 : step == 2 ? 0.52 : 1),
+                      (step == 1
+                          ? 0.15
+                          : step == 2
+                              ? 0.52
+                              : 1),
                   decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          colors: [textIconOrange, logoRed]),
+                      gradient:
+                          LinearGradient(colors: [textIconOrange, logoRed]),
                       borderRadius: BorderRadius.circular(30)),
                 ),
               )
