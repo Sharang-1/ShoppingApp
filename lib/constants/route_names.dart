@@ -1,8 +1,8 @@
 // Auth routes
 const String LoginViewRoute = "LoginView";
 const String VerifyOTPViewRoute = "VerifyOTPView";
-const String OtpFinishedScreen1Route = "OtpFinishedScreen1View";
-const String OtpFinishedScreen2Route = "OtpFinishedScreen2View";
+const String OtpVerifiedRoute = "OtpVerifiedView";
+const String OtpVerified2Route = "OtpVerifiedView2";
 
 // Home routes
 const String HomeViewRoute = "HomeView";

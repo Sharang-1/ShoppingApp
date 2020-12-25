@@ -8,25 +8,21 @@ import 'package:url_launcher/url_launcher.dart';
 import '../shared/app_colors.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 import '../widgets/bottom_tag.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:compound/ui/shared/app_colors.dart';
-import 'package:compound/viewmodels/otp_finished_view_model.dart';
-import 'package:flutter/material.dart';
-import 'package:provider_architecture/provider_architecture.dart';
 import '../shared/shared_styles.dart';
 
 class SettingsView extends StatelessWidget {
   SettingsView({Key key}) : super(key: key);
 
-  Map<int, String> buttonNameMap = {
+  final Map<int, String> buttonNameMap = {
     1: "Customer Service",
     2: "Terms & Conditions",
   };
-  Map<int, String> buttonToURLMap = {
+  final Map<int, String> buttonToURLMap = {
     1: 'https://dzor.in/#/contact-us',
     2: 'https://dzor.in/#/terms-of-use',
   };
-  AppBar appbar = AppBar(
+  final AppBar appbar = AppBar(
     elevation: 0,
     centerTitle: true,
     title: SvgPicture.asset(

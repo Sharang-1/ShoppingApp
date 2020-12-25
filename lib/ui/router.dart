@@ -1,6 +1,7 @@
 import 'package:compound/models/productPageArg.dart';
 import 'package:compound/models/products.dart';
 import 'package:compound/models/route_argument.dart';
+import 'package:compound/ui/views/appointment_booked_view.dart';
 import 'package:compound/ui/views/cart_view.dart';
 import 'package:compound/ui/views/categories_view.dart';
 import 'package:compound/ui/views/category_indi_view.dart';
@@ -8,6 +9,9 @@ import 'package:compound/ui/views/home_view.dart';
 import 'package:compound/ui/views/map_view.dart';
 import 'package:compound/ui/views/myorders_view.dart';
 import 'package:compound/ui/views/notification_view.dart';
+import 'package:compound/ui/views/order_placed_view.dart';
+import 'package:compound/ui/views/otp_verified_view.dart';
+import 'package:compound/ui/views/otp_verified_2_view.dart';
 import 'package:compound/ui/views/productListView.dart';
 import 'package:compound/ui/views/product_individual_view.dart';
 import 'package:compound/ui/views/product_whishlist_view.dart';
@@ -16,14 +20,22 @@ import 'package:compound/ui/views/search_view.dart';
 import 'package:compound/ui/views/settings_page_view.dart';
 import 'package:compound/ui/views/verify_otp.dart';
 import 'package:compound/ui/views/intro.dart';
+<<<<<<< HEAD
 import 'package:compound/ui/views/otp_finished_screen_1_view.dart';
 import 'package:compound/ui/views/otp_finished_screen_2_view.dart';
+=======
+>>>>>>> Separated code for better maintenance, added dynamic name in drawer, refactored code, and some changes.
 import './views/seller_indi_view.dart';
 import './views/myAppointments_view.dart';
 import 'package:flutter/material.dart';
 import 'package:compound/constants/route_names.dart';
 import 'package:compound/ui/views/login_view.dart';
 import 'package:page_transition/page_transition.dart';
+<<<<<<< HEAD
+=======
+import 'package:compound/ui/views/seller_indi_view.dart';
+import 'package:compound/ui/views/myAppointments_view.dart';
+>>>>>>> Separated code for better maintenance, added dynamic name in drawer, refactored code, and some changes.
 import 'package:compound/ui/views/loader.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
@@ -78,6 +90,20 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         viewToShow: VerifyOTPView(),
         pageArguments: pageArguments,
         pageTransitionType: transitionType,
+      );
+    case OtpVerifiedRoute : 
+      return _getPageRoute(
+        pageArguments: pageArguments, 
+        routeName: settings.name, 
+        viewToShow: OtpVerifiedView(), 
+        pageTransitionType: transitionType
+      );
+    case OtpVerified2Route : 
+      return _getPageRoute(
+        pageArguments: pageArguments, 
+        routeName: settings.name, 
+        viewToShow: OtpVerifiedView2(), 
+        pageTransitionType: PageTransitionType.upToDown
       );
     case SearchViewRoute:
       return _getPageRoute(
@@ -136,36 +162,17 @@ Route<dynamic> generateRoute(RouteSettings settings) {
           routeName: settings.name,
           viewToShow: ProductIndiView(data: pageArguments),
           pageTransitionType: PageTransitionType.rightToLeft);
-    case OtpFinishedScreen1Route:
-      return _getPageRoute(
-          pageArguments: pageArguments,
-          routeName: settings.name,
-          viewToShow: otpFinishedScreen1(
-            fromCart: false,
-          ),
-          pageTransitionType: transitionType);
-    case OtpFinishedScreen2Route:
-      return _getPageRoute(
-          pageArguments: pageArguments,
-          routeName: settings.name,
-          viewToShow: otpFinishedScreen2(),
-          pageTransitionType: transitionType);
     case PaymentFinishedScreenRoute:
       return _getPageRoute(
           pageArguments: pageArguments,
           routeName: settings.name,
-          viewToShow: otpFinishedScreen1(
-            fromCart: true,
-          ),
+          viewToShow: OrderPlacedView(),
           pageTransitionType: PageTransitionType.rightToLeft);
     case AppointmentBookedScreenRoute:
       return _getPageRoute(
           pageArguments: pageArguments,
           routeName: settings.name,
-          viewToShow: otpFinishedScreen1(
-            fromCart: false,
-            fromAppointment: true,
-          ),
+          viewToShow: AppointmentBookedView(),
           pageTransitionType: PageTransitionType.rightToLeft);
     case MyOrdersRoute:
       return _getPageRoute(

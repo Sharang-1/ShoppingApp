@@ -25,7 +25,6 @@ import 'package:compound/models/payment_options.dart';
 import 'package:compound/models/products.dart';
 import 'package:compound/models/promoCode.dart';
 import 'package:compound/models/promotions.dart';
-import 'package:compound/models/lookups.dart';
 import 'package:compound/models/reviews.dart';
 import 'package:compound/models/sellers.dart';
 import 'package:compound/models/tailors.dart';

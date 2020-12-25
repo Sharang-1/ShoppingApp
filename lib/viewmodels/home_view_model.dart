@@ -7,6 +7,8 @@ import 'package:compound/services/api/api_service.dart';
 import 'package:compound/services/cart_local_store_service.dart';
 import 'package:compound/services/whishlist_service.dart';
 import 'package:compound/services/navigation_service.dart';
+import 'package:compound/constants/shared_pref.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:compound/viewmodels/base_model.dart';
 import 'package:flutter/material.dart';
 
@@ -15,6 +17,8 @@ class HomeViewModel extends BaseModel {
   final WhishListService _whishListService = locator<WhishListService>();
   final NavigationService _navigationService = locator<NavigationService>();
   final APIService _apiService = locator<APIService>();
+
+  String name = "";
 
   // Returns cart count
   Future<List> init(BuildContext context) async {
@@ -56,5 +60,11 @@ class HomeViewModel extends BaseModel {
     print("list of promotions");
     print(promotions.promotions.map((e) => e.name).join(";"));
     return promotions.promotions;
+  }
+
+  Future setName() async {
+     SharedPreferences prefs = await SharedPreferences.getInstance();
+     name = prefs.getString(Name);
+     notifyListeners();
   }
 }
