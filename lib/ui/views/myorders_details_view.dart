@@ -12,7 +12,7 @@ import 'package:provider_architecture/provider_architecture.dart';
 
 class MyOrdersDetailsView extends StatelessWidget {
   final Order mOrder;
-  final orderStatuses = [1,2,3,4,5,7];
+  final orderStatuses = [1, 2, 3, 4, 5, 7];
   MyOrdersDetailsView(this.mOrder);
 
   @override
@@ -20,7 +20,7 @@ class MyOrdersDetailsView extends StatelessWidget {
     double subtitleFontSize = subtitleFontSizeStyle - 2;
     double titleFontSize = subtitleFontSizeStyle;
     double headingFontSize = titleFontSizeStyle;
-    
+
     return ViewModelProvider<CartViewModel>.withConsumer(
         viewModel: CartViewModel(),
         onModelReady: (model) => model.init(),
@@ -146,18 +146,34 @@ class MyOrdersDetailsView extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                CustomText(
-                  "Delivery Status",
-                  fontSize: headingFontSize,
-                  isTitle: true,
-                  isBold: true,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    CustomText(
+                      "Delivery Status",
+                      fontSize: headingFontSize,
+                      isTitle: true,
+                      isBold: true,
+                    ),
+                    CustomText(
+                      "Ready to be shipped",
+                      fontSize: headingFontSize,
+                      isTitle: true,
+                      isBold: true,
+                    ),
+                  ],
                 ),
                 verticalSpace(15),
                 Padding(
                   padding: EdgeInsets.only(left: 5, right: 5),
                   child: LinearPercentIndicator(
                     lineHeight: 15.0,
-                    percent: orderStatuses.contains(mOrder?.status?.id ?? 0) ? (orderStatuses.indexOf(mOrder.status.id) + 1) * 100 / orderStatuses.length : 100,
+                    percent: orderStatuses.contains(mOrder?.status?.id ?? 0)
+                        ? (orderStatuses.indexOf(mOrder.status.id) + 1) *
+                            100 /
+                            orderStatuses.length
+                        : 100,
                     padding: EdgeInsets.zero,
                     linearStrokeCap: LinearStrokeCap.roundAll,
                     linearGradient:
@@ -331,6 +347,22 @@ class MyOrdersDetailsView extends StatelessWidget {
                   thickness: 1.5,
                 ),
                 verticalSpaceSmall,
+                Row(
+                  children: <Widget>[
+                    CustomText(
+                      "Delivery Status",
+                      fontSize: subtitleFontSize,
+                      isBold: true,
+                      color: Colors.grey,
+                    ),
+                    CustomText(
+                      "Delivery Confirmed",
+                      color: textIconOrange,
+                      fontSize: subtitleFontSize + 2,
+                      isBold: true,
+                    ),
+                  ],
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[

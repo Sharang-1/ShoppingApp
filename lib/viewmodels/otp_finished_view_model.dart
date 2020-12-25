@@ -31,7 +31,7 @@ class OtpFinishedScreenModel extends BaseModel {
         if (i == 1) {
           _navigationService.navigateReplaceTo(OtpFinishedScreen2Route);
         } else {
-          _navigationService.navigateReplaceTo(loaderRoute);
+          _navigationService.navigateReplaceTo(LoaderRoute);
         }
       }
     });
