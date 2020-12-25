@@ -5,7 +5,6 @@ import 'package:compound/models/WhishListSetUp.dart';
 // import 'package:compound/services/analytics_service.dart';
 import 'package:compound/ui/shared/app_colors.dart';
 import 'package:compound/ui/views/startup_view.dart';
-import 'package:compound/ui/views/intro.dart';
 import 'package:flutter/material.dart';
 import 'package:compound/services/navigation_service.dart';
 import 'package:compound/services/dialog_service.dart';

@@ -13,7 +13,7 @@ class OtpVerifiedView extends StatelessWidget {
        builder: (context, model, child) => Scaffold(
          backgroundColor: backgroundWhiteCreamColor,
         body: Center(
-          child: CircularProgressIndicatorWidget(),
+          child: CircularProgressIndicatorWidget(fromCart: false,),
         ),
        ),
     );

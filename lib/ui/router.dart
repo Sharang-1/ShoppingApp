@@ -19,23 +19,13 @@ import 'package:compound/ui/views/profile_view.dart';
 import 'package:compound/ui/views/search_view.dart';
 import 'package:compound/ui/views/settings_page_view.dart';
 import 'package:compound/ui/views/verify_otp.dart';
+import 'package:compound/ui/views/myAppointments_view.dart';
+import 'package:compound/ui/views/seller_indi_view.dart';
 import 'package:compound/ui/views/intro.dart';
-<<<<<<< HEAD
-import 'package:compound/ui/views/otp_finished_screen_1_view.dart';
-import 'package:compound/ui/views/otp_finished_screen_2_view.dart';
-=======
->>>>>>> Separated code for better maintenance, added dynamic name in drawer, refactored code, and some changes.
-import './views/seller_indi_view.dart';
-import './views/myAppointments_view.dart';
 import 'package:flutter/material.dart';
 import 'package:compound/constants/route_names.dart';
 import 'package:compound/ui/views/login_view.dart';
 import 'package:page_transition/page_transition.dart';
-<<<<<<< HEAD
-=======
-import 'package:compound/ui/views/seller_indi_view.dart';
-import 'package:compound/ui/views/myAppointments_view.dart';
->>>>>>> Separated code for better maintenance, added dynamic name in drawer, refactored code, and some changes.
 import 'package:compound/ui/views/loader.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
@@ -89,14 +79,14 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         routeName: settings.name,
         viewToShow: VerifyOTPView(),
         pageArguments: pageArguments,
-        pageTransitionType: transitionType,
+        pageTransitionType: PageTransitionType.rightToLeft,
       );
     case OtpVerifiedRoute : 
       return _getPageRoute(
         pageArguments: pageArguments, 
         routeName: settings.name, 
         viewToShow: OtpVerifiedView(), 
-        pageTransitionType: transitionType
+        pageTransitionType: PageTransitionType.rightToLeft
       );
     case OtpVerified2Route : 
       return _getPageRoute(
@@ -231,7 +221,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
           pageArguments: pageArguments,
           routeName: settings.name,
           viewToShow: SettingsView(),
-          pageTransitionType: transitionType);
+          pageTransitionType:  PageTransitionType.rightToLeft);
     default:
       return MaterialPageRoute(
           builder: (_) => Scaffold(
