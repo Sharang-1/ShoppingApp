@@ -44,6 +44,13 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         pageArguments: pageArguments,
         pageTransitionType: transitionType,
       );
+    case MyHomePageRoute:
+      return _getPageRoute(
+        routeName: settings.name,
+        viewToShow: MyHomePage(),
+        pageArguments: pageArguments,
+        pageTransitionType: transitionType,
+      );
     case LoaderRoute:
       return _getPageRoute(
         routeName: settings.name,
