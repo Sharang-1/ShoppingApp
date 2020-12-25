@@ -91,6 +91,8 @@ flutter:
     - assets/images/paytm_icon.png
     - assets/images/phonepe_icon.png
     - assets/images/loading.gif
+    - assets/images/preloading1.png
+    - assets/images/preloading2.png
     - assets/svg/DZOR_full_logo_verti.svg
     - assets/svg/logo.svg
     - assets/svg/ribbon.svg

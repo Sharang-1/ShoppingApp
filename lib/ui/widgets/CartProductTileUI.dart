@@ -118,128 +118,163 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(curve15),
-      ),
-      clipBehavior: Clip.antiAlias,
-      elevation: 5,
+    return Container(
+      height: 180,
+      margin: EdgeInsets.only(top: 20, bottom: 20),
       child: Padding(
-        padding: EdgeInsets.fromLTRB(10, 15, 0, 15),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            ClipRRect(
-              borderRadius: BorderRadius.circular(curve15),
-              child: FadeInImage.assetNetwork(
-                width: 120,
-                fadeInCurve: Curves.easeIn,
-                placeholder: "assets/images/placeholder.png",
-                image: productImage != null
-                    ? '$PRODUCT_PHOTO_BASE_URL/${widget.item.productId}/$productImage'
-                    : "https://images.unsplashr.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-                fit: BoxFit.cover,
+        padding: const EdgeInsets.only(left: 5, bottom: 8.0, right: 5),
+        child: Stack(
+          children: [
+            Card(
+              margin: EdgeInsets.only(top: 20, left: 10, right: 10, bottom: 10),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15.0),
               ),
-            ),
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.only(left: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    verticalSpaceTiny,
-                    CustomText(
-                      orderSummaryDetails["Product Name"],
-                      dotsAfterOverFlow: true,
-                      isTitle: true,
-                      isBold: true,
-                      fontSize: titleFontSize,
-                    ),
-                    verticalSpaceTiny,
-                    CustomText(
-                      "By Nike",
-                      color: Colors.grey,
-                      dotsAfterOverFlow: true,
-                      fontSize: subtitleFontSize - 2,
-                    ),
-                    verticalSpaceSmall,
-                    Row(
+              color: Colors.white,
+              clipBehavior: Clip.antiAlias,
+              elevation: 6,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(0.0),
+                    child: Stack(
                       children: <Widget>[
-                        CustomText(
-                          orderSummaryDetails["Total"],
-                          color: darkRedSmooth,
-                          isBold: true,
-                          fontSize: priceFontSize,
+                        Container(
+                          width: 140.0,
+                          height: 145.0,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: AssetImage(
+                                    'assets/images/placeholder.png')),
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(8),
+                                bottomLeft: Radius.circular(10)),
+                            color: Colors.redAccent,
+                          ),
                         ),
-                        horizontalSpaceTiny,
-                        orderSummaryDetails["Total"]
-                                    .replaceAll(rupeeUnicode, "") !=
-                                orderSummaryDetails["Price"]
-                                    .replaceAll(rupeeUnicode, "")
-                            ? Expanded(
-                                child: Text(
-                                  "\u20B9" + orderSummaryDetails["Price"],
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    color: Colors.grey,
-                                    decoration: TextDecoration.lineThrough,
-                                    fontSize: priceFontSize - 2,
+                        // ClipRRect(
+                        //   borderRadius: BorderRadius.circular(curve15),
+                        //   child: FadeInImage.assetNetwork(
+                        //     width: 120,
+                        //     fadeInCurve: Curves.easeIn,
+                        //     placeholder: "assets/images/placeholder.png",
+                        //     image: productImage != null
+                        //         ? '$PRODUCT_PHOTO_BASE_URL/${widget.item.productId}/$productImage'
+                        //         : "https://images.unsplashr.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
+                        //     fit: BoxFit.cover,
+                        //   ),
+                        // ),
+                        Expanded(
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                verticalSpaceTiny,
+                                CustomText(
+                                  orderSummaryDetails["Product Name"],
+                                  dotsAfterOverFlow: true,
+                                  isTitle: true,
+                                  isBold: true,
+                                  fontSize: titleFontSize,
+                                ),
+                                verticalSpaceTiny,
+                                CustomText(
+                                  "By Nike",
+                                  color: Colors.grey,
+                                  dotsAfterOverFlow: true,
+                                  fontSize: subtitleFontSize - 2,
+                                ),
+                                verticalSpaceSmall,
+                                Row(
+                                  children: <Widget>[
+                                    CustomText(
+                                      orderSummaryDetails["Total"],
+                                      color: darkRedSmooth,
+                                      isBold: true,
+                                      fontSize: priceFontSize,
+                                    ),
+                                    horizontalSpaceTiny,
+                                    orderSummaryDetails["Total"]
+                                                .replaceAll(rupeeUnicode, "") !=
+                                            orderSummaryDetails["Price"]
+                                                .replaceAll(rupeeUnicode, "")
+                                        ? Expanded(
+                                            child: Text(
+                                              "\u20B9" +
+                                                  orderSummaryDetails["Price"],
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                color: Colors.grey,
+                                                decoration:
+                                                    TextDecoration.lineThrough,
+                                                fontSize: priceFontSize - 2,
+                                              ),
+                                            ),
+                                          )
+                                        : SizedBox()
+                                  ],
+                                ),
+                                verticalSpaceTiny,
+                                CustomText(
+                                  "Qty : ${orderSummaryDetails["Qty"]} Piece(s)",
+                                  dotsAfterOverFlow: true,
+                                  color: Colors.grey,
+                                  fontSize: subtitleFontSize - 2,
+                                ),
+                                verticalSpaceTiny,
+                                CustomText(
+                                  "Size : ${orderSummaryDetails["Size"]}",
+                                  dotsAfterOverFlow: true,
+                                  color: Colors.grey,
+                                  fontSize: subtitleFontSize - 2,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                          icon: Icon(
+                            !clicked
+                                ? Icons.keyboard_arrow_down
+                                : Icons.keyboard_arrow_up,
+                            color: Colors.grey,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              clicked = true;
+                            });
+
+                            showModalBottomSheet<void>(
+                                clipBehavior: Clip.antiAlias,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(30),
+                                    topRight: Radius.circular(30),
                                   ),
                                 ),
-                              )
-                            : SizedBox()
+                                isScrollControlled: true,
+                                context: context,
+                                builder: (context) {
+                                  return bottomSheetDetailsTable(
+                                    titleFontSize,
+                                    subtitleFontSize,
+                                  );
+                                }).whenComplete(() {
+                              setState(() {
+                                clicked = false;
+                              });
+                            });
+                          },
+                        )
                       ],
                     ),
-                    verticalSpaceTiny,
-                    CustomText(
-                      "Qty : ${orderSummaryDetails["Qty"]} Piece(s)",
-                      dotsAfterOverFlow: true,
-                      color: Colors.grey,
-                      fontSize: subtitleFontSize - 2,
-                    ),
-                    verticalSpaceTiny,
-                    CustomText(
-                      "Size : ${orderSummaryDetails["Size"]}",
-                      dotsAfterOverFlow: true,
-                      color: Colors.grey,
-                      fontSize: subtitleFontSize - 2,
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-            IconButton(
-              icon: Icon(
-                !clicked ? Icons.keyboard_arrow_down : Icons.keyboard_arrow_up,
-                color: Colors.grey,
-              ),
-              onPressed: () {
-                setState(() {
-                  clicked = true;
-                });
-
-                showModalBottomSheet<void>(
-                    clipBehavior: Clip.antiAlias,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(30),
-                        topRight: Radius.circular(30),
-                      ),
-                    ),
-                    isScrollControlled: true,
-                    context: context,
-                    builder: (context) {
-                      return bottomSheetDetailsTable(
-                        titleFontSize,
-                        subtitleFontSize,
-                      );
-                    }).whenComplete(() {
-                  setState(() {
-                    clicked = false;
-                  });
-                });
-              },
-            )
           ],
         ),
       ),
@@ -249,7 +284,9 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
   Widget bottomSheetDetailsTable(titleFontSize, subtitleFontSize) {
     return FractionallySizedBox(
       heightFactor: MediaQuery.of(context).size.height > 600
-          ? MediaQuery.of(context).size.height > 800 ? 0.75 : 0.88
+          ? MediaQuery.of(context).size.height > 800
+              ? 0.75
+              : 0.88
           : 0.92,
       child: Scaffold(
         appBar: AppBar(
