@@ -274,13 +274,36 @@ class _ProductIndiViewState extends State<ProductIndiView> {
     return Padding(child: item, padding: EdgeInsets.fromLTRB(0, 10, 0, 0));
   }
 
+  Text stockWidget({List<Variation> variations, bool available}) {
+    int totalQuantity = 0;
+    variations.forEach((variation) { totalQuantity += variation.quantity.toInt(); });
+    String text = (totalQuantity == 0)
+     ? "Sold out"
+     : (available) 
+     ? (totalQuantity == 2) 
+     ? "Only 2 left" 
+     : (totalQuantity == 1)
+     ? "Last piece left"
+     : "In Stock" 
+     : "Not available";
+
+    return Text(
+          text,
+          style: TextStyle(
+              fontSize: titleFontSizeStyle,
+              color: available ? green: logoRed,
+              fontWeight: FontWeight.w600),
+        );
+    }
+
   @override
   Widget build(BuildContext context) {
     final String productName = widget?.data?.name ?? "Test Product";
     final String productId = widget?.data?.key;
     final double productDiscount = widget?.data?.discount ?? 0.0;
     final double productPrice = widget?.data?.price ?? 0.0;
-    final variations = widget?.data?.variations ?? null;
+    final List<Variation> variations = widget?.data?.variations ?? null;
+
     var date = new DateTime.now().toString();
     final uniqueKey = UniqueKey();
     var dateParse = DateTime.parse(date);
@@ -417,19 +440,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                   //         ],
                   //       ),
                   verticalSpace(20),
-                  available
-                      ? Text(
-                          "In Stock",
-                          style: TextStyle(
-                              fontSize: titleFontSizeStyle,
-                              color: green,
-                              fontWeight: FontWeight.w600),
-                        )
-                      : Text("Out Of Stock",
-                          style: TextStyle(
-                              fontSize: titleFontSizeStyle,
-                              color: logoRed,
-                              fontWeight: FontWeight.w600)),
+                  stockWidget(variations: variations, available: available),
                   if (available) verticalSpace(20),
                   if (available)
                     Row(
