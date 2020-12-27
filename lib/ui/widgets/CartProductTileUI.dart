@@ -84,6 +84,8 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
       "Order Total":
           rupeeUnicode + (discountedPrice * widget.item.quantity).toString(),
       "Delivery Charges": widget.shippingCharges,
+      "Discounted Price":
+          discount != 0.0 ? (price - (price * discount / 100)).toString() : "",
       "Total": rupeeUnicode + widget.finalTotal,
     };
 
@@ -164,13 +166,22 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                           width: 40,
                           height: 30,
                           child: Center(
-                              child: Text(
-                            "10%",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold),
-                          ))),
+                            child: CustomText(
+                              orderSummaryDetails["Discount"],
+                              dotsAfterOverFlow: true,
+                              isTitle: true,
+                              isBold: true,
+                              fontSize: titleFontSize - 5,
+                              color: Colors.white,
+                            ),
+                            //     Text(
+                            //   "10%",
+                            //   style: TextStyle(
+                            //       color: Colors.white,
+                            //       fontSize: 15,
+                            //       fontWeight: FontWeight.bold),
+                            // )
+                          )),
                     )
                   ],
                 ),
@@ -214,13 +225,16 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                         Row(
                           children: <Widget>[
                             Container(
-                                child: Text(
-                              "₹ 1000",
-                              style: TextStyle(
-                                  decoration: TextDecoration.lineThrough,
-                                  color: Colors.grey[500],
-                                  fontSize: priceFontSize - 3),
-                            )),
+                                child: (discount == 0)
+                                    ? null
+                                    : Text(
+                                        "₹${orderSummaryDetails["Price"]}",
+                                        style: TextStyle(
+                                            decoration:
+                                                TextDecoration.lineThrough,
+                                            color: Colors.grey[500],
+                                            fontSize: priceFontSize - 3),
+                                      )),
                             SizedBox(
                               width: 3,
                             ),
@@ -228,7 +242,7 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                               orderSummaryDetails["Total"],
                               color: Colors.grey[900],
                               isBold: true,
-                              fontSize: priceFontSize - 1,
+                              fontSize: priceFontSize - 3,
                             ),
                             horizontalSpaceTiny,
                             orderSummaryDetails["Total"]
