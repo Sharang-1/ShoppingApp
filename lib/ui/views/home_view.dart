@@ -88,7 +88,7 @@ class HomeView extends StatelessWidget {
                 actions: <Widget>[
                   IconButton(
                     tooltip: 'map',
-                    icon: new Image.asset("assets/icons/map.png"),
+                    icon: new Image.asset("assets/icons/location.png"),
                     onPressed: () {
                       model.openmap();
                     },

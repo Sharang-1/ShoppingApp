@@ -155,33 +155,35 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 0.0, top: 0),
-                      child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(8),
-                              bottomRight: Radius.circular(16),
-                            ),
-                            color: Color.fromARGB(200, 235, 105, 105),
-                          ),
-                          width: 40,
-                          height: 30,
-                          child: Center(
-                            child: CustomText(
-                              orderSummaryDetails["Discount"],
-                              dotsAfterOverFlow: true,
-                              isTitle: true,
-                              isBold: true,
-                              fontSize: titleFontSize - 5,
-                              color: Colors.white,
-                            ),
-                            //     Text(
-                            //   "10%",
-                            //   style: TextStyle(
-                            //       color: Colors.white,
-                            //       fontSize: 15,
-                            //       fontWeight: FontWeight.bold),
-                            // )
-                          )),
+                      child: (discount == 0)
+                          ? null
+                          : Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(8),
+                                  bottomRight: Radius.circular(16),
+                                ),
+                                color: Color.fromARGB(200, 235, 105, 105),
+                              ),
+                              width: 40,
+                              height: 30,
+                              child: Center(
+                                child: CustomText(
+                                  orderSummaryDetails["Discount"],
+                                  dotsAfterOverFlow: true,
+                                  isTitle: true,
+                                  isBold: true,
+                                  fontSize: titleFontSize - 5,
+                                  color: Colors.white,
+                                ),
+                                //     Text(
+                                //   "10%",
+                                //   style: TextStyle(
+                                //       color: Colors.white,
+                                //       fontSize: 15,
+                                //       fontWeight: FontWeight.bold),
+                                // )
+                              )),
                     )
                   ],
                 ),
