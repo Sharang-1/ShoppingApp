@@ -36,6 +36,7 @@ const String MyAppointmentViewRoute = "MyAppointmentView";
 const String ProfileViewRoute = "ProfileView";
 const String SettingsRoute = "SettingsView";
 const String NotifcationViewRoute = "NotificationView";
+const String NotificationContentViewRoute = "NotificationContentView";
 
 // Unused Routes
 const String CreatePostViewRoute = "CreatePostView";

@@ -166,6 +166,14 @@ class APIService {
     return null;
   }
 
+  Future<Product> getProductById({@required String productId})async {
+    if(productId == null) return null;
+    var productData = await apiWrapper("products/$productId;seller=true;active=true");
+    if(productData == null) return null;
+    Product product = Product.fromJson(productData);
+    return product;
+  }
+
   Future<Products> getWhishlistProducts({
     List<String> list,
   }) async {
