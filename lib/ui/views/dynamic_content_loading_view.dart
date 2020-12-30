@@ -14,8 +14,7 @@ class DynamicContentLoadingView extends StatefulWidget {
       _DynamicContentLoadingViewState();
 }
 
-class _DynamicContentLoadingViewState
-    extends State<DynamicContentLoadingView> {
+class _DynamicContentLoadingViewState extends State<DynamicContentLoadingView> {
   @override
   Widget build(BuildContext context) {
     return ViewModelProvider<DynamicContentViewModel>.withConsumer(
@@ -24,7 +23,12 @@ class _DynamicContentLoadingViewState
       builder: (context, model, child) => Scaffold(
         backgroundColor: backgroundWhiteCreamColor,
         body: Center(
-          child: CircularProgressIndicatorWidget(),
+          child: Container(
+            child: FittedBox(
+              child: Image.asset("assets/images/loading.gif", height: 900),
+              fit: BoxFit.cover,
+            ),
+          ),
         ),
       ),
     );
