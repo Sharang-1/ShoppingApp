@@ -4,21 +4,19 @@ import 'package:compound/models/sellers.dart';
 import 'package:compound/locator.dart';
 import 'package:compound/services/api/api_service.dart';
 import 'package:compound/services/navigation_service.dart';
-import 'package:compound/utils/notification_type.dart';
 import 'base_model.dart';
 
-class NotificationContentViewModel extends BaseModel {
+class DynamicContentViewModel extends BaseModel {
   final APIService _apiService = locator<APIService>();
   final NavigationService _navigationService = locator<NavigationService>();
 
   Future<void> init({data}) async {
     Future.delayed(Duration(seconds: 1), () async {
       if (data == null) _navigationService.navigateReplaceTo(HomeViewRoute);
-      NotificationType nType = data?.nType;
       
-      switch (nType) {
+      switch (data?.contentType) {
 
-        case NotificationType.product:
+        case 'product':
         if(data.productId == null) break;
           Product product =
               await _apiService.getProductById(productId: data?.productId);
@@ -27,7 +25,7 @@ class NotificationContentViewModel extends BaseModel {
               arguments: product);
           return;
 
-        case NotificationType.seller:
+        case 'seller':
           if(data.sellerId == null) break;
             Seller seller =
                 await _apiService.getSellerByID(data?.sellerId);

@@ -8,7 +8,7 @@ import 'package:compound/ui/views/category_indi_view.dart';
 import 'package:compound/ui/views/home_view.dart';
 import 'package:compound/ui/views/map_view.dart';
 import 'package:compound/ui/views/myorders_view.dart';
-import 'package:compound/ui/views/notification_content_loading_view.dart';
+import 'package:compound/ui/views/dynamic_content_loading_view.dart';
 import 'package:compound/ui/views/notification_view.dart';
 import 'package:compound/ui/views/order_placed_view.dart';
 import 'package:compound/ui/views/otp_verified_view.dart';
@@ -179,10 +179,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
           viewToShow: NotificationView(),
           pageTransitionType: PageTransitionType.rightToLeft);
 
-    case NotificationContentViewRoute: 
+    case DynamicContentViewRoute: 
       return _getPageRoute(pageArguments: pageArguments, 
       routeName: settings.name, 
-      viewToShow: NotificationContentLoadingView(data: pageArguments), 
+      viewToShow: DynamicContentLoadingView(data: pageArguments), 
       pageTransitionType: PageTransitionType.downToUp);
 
     case BuyNowRoute:

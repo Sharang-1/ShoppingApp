@@ -1,5 +1,0 @@
-
-enum NotificationType {
-  product,
-  seller
-}
