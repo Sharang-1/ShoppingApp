@@ -13,5 +13,21 @@ class DynamicLinkService {
       minimumVersion: '0',
       ),
   );
+
+  Future handleDynamicLink() async {
+    final PendingDynamicLinkData data = await FirebaseDynamicLinks.instance.getInitialLink();
+    final Uri deepLink = data?.link;
+    print("Deep Link : ${deepLink.data}");
+    FirebaseDynamicLinks.instance.onLink(
+      onSuccess : (PendingDynamicLinkData linkData) async {
+        print("Deep Link : $linkData");
+        //Functionality to be added
+      },
+      onError: (OnLinkErrorException e) {
+        print("Dynamic Link Failed : ${e.message}");
+      }
+    );
+    return;
+  }
  
 }

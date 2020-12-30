@@ -2,6 +2,7 @@ import 'package:compound/constants/route_names.dart';
 import 'package:compound/constants/shared_pref.dart';
 import 'package:compound/locator.dart';
 import 'package:compound/services/authentication_service.dart';
+import 'package:compound/services/dynamic_link_service.dart';
 import 'package:compound/services/navigation_service.dart';
 import 'package:compound/viewmodels/base_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -10,6 +11,7 @@ class StartUpViewModel extends BaseModel {
   final AuthenticationService _authenticationService =
       locator<AuthenticationService>();
   final NavigationService _navigationService = locator<NavigationService>();
+  final DynamicLinkService _linkService = locator<DynamicLinkService>();
 
   Future init() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -22,6 +24,8 @@ class StartUpViewModel extends BaseModel {
       prefs.setStringList(ProductSearchHistoryList, []);
     if (sellerSearchHistoryList == null)
       prefs.setStringList(SellerSearchHistoryList, []);
+
+    _linkService.handleDynamicLink();
 
     Future.delayed(Duration(milliseconds: 2000), () async {
       // SharedPreferences prefs = await SharedPreferences.getInstance();
