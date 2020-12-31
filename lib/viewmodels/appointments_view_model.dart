@@ -4,16 +4,21 @@ import 'package:compound/constants/route_names.dart';
 import 'package:compound/locator.dart';
 import 'package:compound/models/Appointments.dart';
 import 'package:compound/models/TimeSlots.dart';
+import 'package:compound/services/address_service.dart';
 import 'package:compound/services/api/api_service.dart';
 import 'package:compound/services/dialog_service.dart';
 import 'package:compound/services/navigation_service.dart';
 import 'package:compound/viewmodels/base_model.dart';
 import 'package:fimber/fimber.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class AppointmentsViewModel extends BaseModel {
   final APIService _apiService = locator<APIService>();
   final DialogService _dialogService = locator<DialogService>();
   final NavigationService _navigationService = locator<NavigationService>();
+  final AddressService _addressService = locator<AddressService>();
 
   Appointments _data;
   Appointments get data => _data;
@@ -44,10 +49,32 @@ class AppointmentsViewModel extends BaseModel {
     }
   }
 
-  Future getAvaliableTimeSlots(String sellerId) async {
+  Future getAvaliableTimeSlots(String sellerId, BuildContext context) async {
     setBusy(true);
+
+    var adds = await _addressService.getAddresses();
+    if (adds == null || adds.length == 0) {
+      Get.defaultDialog(
+        title: "Please enter address before booking an appointment",
+        onConfirm: () {
+          this.goToAddressInputPage();
+        },
+        onCancel: () {},
+      );
+
+      // ,
+      // snackPosition: SnackPosition.BOTTOM,
+      // isDismissible: true,
+      // snackStyle: SnackStyle.FLOATING,
+      // margin: EdgeInsets.only(
+      //   bottom: 20,
+      //   left: 10,
+      //   right: 10,
+      // ),
+      Navigator.of(context).pop();
+    }
+
     TimeSlots result = await _apiService.getAvaliableTimeSlots(sellerId);
-    setBusy(false);
     if (result != null) {
       Fimber.d(result.toString());
       const weekDayMap = {
@@ -63,6 +90,9 @@ class AppointmentsViewModel extends BaseModel {
       selectedWeekDay = result.timeSlot.first.day;
       seltectedTime = result.timeSlot.first.time.first;
       _timeSlotsData = result;
+      setBusy(false);
+    } else {
+      Navigator.of(context).pop();
     }
   }
 

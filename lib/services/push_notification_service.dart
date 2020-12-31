@@ -2,15 +2,24 @@ import 'dart:io';
 
 import 'package:compound/constants/route_names.dart';
 import 'package:compound/locator.dart';
+import 'package:compound/models/productPageArg.dart';
 import 'package:compound/services/navigation_service.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+
+class PushNotificationData {
+  String type; //order details or promotion
+  String pageName;
+
+  String id;
+  String title;
+  String description; //order => updated status, order => changed deliveryDate
+}
 
 class PushNotificationService {
   final FirebaseMessaging _fcm = FirebaseMessaging();
   final NavigationService _navigationService = locator<NavigationService>();
 
   Future initialise() async {
-    
     _fcm.requestNotificationPermissions();
     _fcm.configure();
 
@@ -41,12 +50,25 @@ class PushNotificationService {
 
   void _serialiseAndNavigate(Map<String, dynamic> message) {
     var notificationData = message['data'];
-    var view = notificationData['view'];
+    var type = notificationData['type'];
 
-    if (view != null) {
+    if (type != null) {
       // Navigate to the create post view
-      if (view == 'create_post') {
-        _navigationService.navigateTo(CreatePostViewRoute);
+      // if (view == 'create_post') {
+      //   _navigationService.navigateTo(CreatePostViewRoute);
+      // }
+      switch (type) {
+        case 1:
+        case 2:
+          //Todo : Add my order detail route, call data api based on order it
+          _navigationService.navigateTo(MyOrdersRoute);
+          break;
+        case 3:
+          _navigationService.navigateTo(PromotionProductRoute,
+              arguments:
+                  new PromotionProductsPageArg(promoTitle: message['id']));
+          break;
+        default:
       }
     }
   }

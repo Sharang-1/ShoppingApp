@@ -7,3 +7,8 @@ class ProductPageArg {
     this.subCategory,
   });
 }
+
+class PromotionProductsPageArg {
+  final String promoTitle;
+  PromotionProductsPageArg({this.promoTitle});
+}

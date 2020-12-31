@@ -7,6 +7,7 @@ import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/ui/views/cart_view.dart';
 import 'package:compound/ui/widgets/GridListWidget.dart';
 import 'package:compound/ui/widgets/ProductTileUI.dart';
+import 'package:compound/ui/widgets/reviews.dart';
 import 'package:compound/ui/widgets/wishlist_icon.dart';
 import 'package:compound/utils/tools.dart';
 import 'package:compound/viewmodels/grid_view_builder_view_models/products_grid_view_builder_view_model.dart';
@@ -490,7 +491,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                   },
                                   child: model.defaultAddress == null
                                       ? Text("Add Address")
-                                      : Text(model.defaultAddress))
+                                      : Text(
+                                          model.defaultAddress.googleAddress))
                             ],
                           ),
                         )
@@ -923,6 +925,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                   // otherDetails(),
                   // verticalSpaceMedium,
                   // ReviewWidget(productId),
+                  verticalSpaceMedium,
+                  ReviewWidget(id: productId),
                   verticalSpaceMedium,
                 ],
               ),

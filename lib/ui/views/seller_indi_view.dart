@@ -1,4 +1,7 @@
+import 'package:compound/models/sellers.dart';
+import 'package:compound/ui/widgets/reviews.dart';
 import 'package:compound/ui/widgets/sellerAppointmentBottomSheet.dart';
+import 'package:compound/ui/widgets/writeReview.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/ui/widgets/custom_text.dart';
@@ -10,7 +13,7 @@ import '../views/home_view_slider.dart';
 import '../shared/shared_styles.dart';
 
 class SellerIndi extends StatefulWidget {
-  final data;
+  final Seller data;
   const SellerIndi({Key key, this.data}) : super(key: key);
 
   @override
@@ -48,18 +51,19 @@ class _SellerIndiState extends State<SellerIndi> {
   Widget build(BuildContext context) {
     print("la t  " + widget?.data?.contact?.geoLocation?.latitude?.toString());
     Map<String, String> sellerDetails = {
+      "key": widget.data.key,
       "name": widget.data.name,
-      "type": widget.data.accountType,
+      "type": widget.data.accountType.toString(),
       "rattings": "4.5",
       "lat": widget?.data?.contact?.geoLocation?.latitude?.toString(),
       "lon": widget?.data?.contact?.geoLocation?.longitude?.toString(),
       "appointment": "false",
-      "Address": "A/3 , Ami Apartment , 132 feet ring road , naranpura , ",
+      "Address": widget.data.operations,
       "Speciality": widget.data.known,
       "Designs & Creates": widget.data.designs,
       "Services offered": widget.data.operations,
       "Works Offered": widget.data.works,
-      "Type": widget.data.accountType,
+      "Type": widget.data.accountType.toString(),
       "Note from Seller": widget.data.bio
     };
 
@@ -402,37 +406,9 @@ class _SellerIndiState extends State<SellerIndi> {
                 ),
               ),
               verticalSpace(30),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  RaisedButton(
-                      onPressed: () {},
-                      color: backgroundWhiteCreamColor,
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                          side: BorderSide(width: 1.5, color: textIconOrange)
-                          // side: BorderSide(
-                          //     color: Colors.black, width: 0.5)
-                          ),
-                      child: Container(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: Row(children: <Widget>[
-                            Icon(
-                              Icons.edit,
-                              color: textIconOrange,
-                              size: 16,
-                            ),
-                            horizontalSpaceSmall,
-                            CustomText(
-                              "Write Review",
-                              isBold: true,
-                              fontSize: 16,
-                              color: textIconOrange,
-                            )
-                          ]))),
-                ],
-              ),
+              ReviewWidget(id: sellerDetails["key"]),
+              verticalSpaceMedium,
+              WriteReviewWidget(sellerDetails["key"]),
             ],
           ),
         ),
@@ -455,7 +431,10 @@ class _SellerIndiState extends State<SellerIndi> {
                       ? 0.650
                       : 0.7
                   : 0.8,
-              child: SellerBottomSheetView(sellerData: widget.data));
+              child: SellerBottomSheetView(
+                sellerData: widget.data,
+                context: context,
+              ));
         });
   }
 }

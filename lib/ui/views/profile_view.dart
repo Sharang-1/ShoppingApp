@@ -30,7 +30,7 @@ class _ProfileViewState extends State<ProfileView> {
   bool isEditable;
   final _formKey = GlobalKey<FormState>();
   FocusNode nameFocusNode;
-  FocusNode mobileFocusNode;
+  // FocusNode mobileFocusNode;
 
   void initState() {
     super.initState();
@@ -39,14 +39,14 @@ class _ProfileViewState extends State<ProfileView> {
     isEditable = false;
 
     nameFocusNode = FocusNode();
-    mobileFocusNode = FocusNode();
+    // mobileFocusNode = FocusNode();
   }
 
   @override
   void dispose() {
     // Clean up the focus node when the Form is disposed.
     nameFocusNode.dispose();
-    mobileFocusNode.dispose();
+    // mobileFocusNode.dispose();
     super.dispose();
   }
 
@@ -115,9 +115,9 @@ class _ProfileViewState extends State<ProfileView> {
                             _formKey.currentState.save();
 
                             model.updateUserDetails();
-                            Fimber.e(model.mUserDetails.firstName +
+                            Fimber.e(model.mUserDetails.name +
                                 " " +
-                                model.mUserDetails.details.phone.mobile);
+                                model.mUserDetails.contact.phone.mobile);
                           }
                         },
                         color: isButtonActive ? green : Colors.grey[400],
@@ -228,7 +228,7 @@ class _ProfileViewState extends State<ProfileView> {
                                                                         .trim()
                                                                         .length ==
                                                                     0)
-                                                              return "Please enter Proper Name";
+                                                              return "Add your Name";
                                                             return null;
                                                           },
                                                           onChanged: (value) {
@@ -305,8 +305,8 @@ class _ProfileViewState extends State<ProfileView> {
                                                         Expanded(
                                                             child:
                                                                 TextFormField(
-                                                          focusNode:
-                                                              mobileFocusNode,
+                                                          // focusNode:
+                                                          //     mobileFocusNode,
                                                           style: TextStyle(
                                                               fontSize:
                                                                   titleFontSizeStyle +
@@ -318,41 +318,41 @@ class _ProfileViewState extends State<ProfileView> {
                                                                       .w500,
                                                               color: Colors
                                                                   .grey[800]),
-                                                          readOnly: !isEditable,
+                                                          readOnly: true,
                                                           initialValue: model
                                                               .mUserDetails
-                                                              ?.details
+                                                              ?.contact
                                                               ?.phone
                                                               ?.mobile,
-                                                          validator: (text) {
-                                                            if (text.isEmpty ||
-                                                                text
-                                                                        .trim()
-                                                                        .length ==
-                                                                    0 ||
-                                                                text
-                                                                        .trim()
-                                                                        .length !=
-                                                                    10)
-                                                              return "Please enter Proper Mobile No.";
-                                                            return null;
-                                                          },
-                                                          onChanged: (value) {
-                                                            setState(() {
-                                                              isButtonActive =
-                                                                  true;
-                                                            });
-                                                            _formKey
-                                                                .currentState
-                                                                .validate();
-                                                          },
-                                                          onSaved: (text) {
-                                                            model
-                                                                .mUserDetails
-                                                                .details
-                                                                .phone
-                                                                .mobile = text;
-                                                          },
+                                                          // validator: (text) {
+                                                          //   if (text.isEmpty ||
+                                                          //       text
+                                                          //               .trim()
+                                                          //               .length ==
+                                                          //           0 ||
+                                                          //       text
+                                                          //               .trim()
+                                                          //               .length !=
+                                                          //           10)
+                                                          //     return "Please enter Proper Mobile No.";
+                                                          //   return null;
+                                                          // },
+                                                          // onChanged: (value) {
+                                                          //   setState(() {
+                                                          //     isButtonActive =
+                                                          //         true;
+                                                          //   });
+                                                          //   _formKey
+                                                          //       .currentState
+                                                          //       .validate();
+                                                          // },
+                                                          // onSaved: (text) {
+                                                          //   model
+                                                          //       .mUserDetails
+                                                          //       .details
+                                                          //       .phone
+                                                          //       .mobile = text;
+                                                          // },
                                                           decoration:
                                                               const InputDecoration(
                                                             contentPadding:
@@ -363,20 +363,21 @@ class _ProfileViewState extends State<ProfileView> {
                                                             border: InputBorder
                                                                 .none,
                                                           ),
+                                                          enabled: false,
                                                           autofocus: true,
                                                           maxLines: 1,
                                                         )),
-                                                        IconButton(
-                                                          icon:
-                                                              Icon(Icons.edit),
-                                                          onPressed: () {
-                                                            setState(() {
-                                                              isEditable = true;
-                                                            });
-                                                            mobileFocusNode
-                                                                .requestFocus();
-                                                          },
-                                                        )
+                                                        // IconButton(
+                                                        //   icon:
+                                                        //       Icon(Icons.edit),
+                                                        //   onPressed: () {
+                                                        //     setState(() {
+                                                        //       isEditable = true;
+                                                        //     });
+                                                        //     mobileFocusNode
+                                                        //         .requestFocus();
+                                                        //   },
+                                                        // )
                                                       ],
                                                     )
                                                   ],
@@ -417,8 +418,15 @@ class _ProfileViewState extends State<ProfileView> {
                                                       ),
                                                       verticalSpaceSmall,
                                                       CustomText(
-                                                        model.mUserDetails
-                                                            .details.address,
+                                                        model
+                                                                .mUserDetails
+                                                                .contact
+                                                                .address +
+                                                            "\n" +
+                                                            model
+                                                                .mUserDetails
+                                                                .contact
+                                                                .googleAddress,
                                                         color: Colors.grey[800],
                                                         fontWeight:
                                                             FontWeight.w500,
@@ -447,7 +455,7 @@ class _ProfileViewState extends State<ProfileView> {
                                             if (pickedPlace != null) {
                                               // pickedPlace = (PickResult) pickedPlace;
                                               print(pickedPlace);
-                                              model.mUserDetails.details
+                                              model.mUserDetails.contact
                                                   .address = pickedPlace;
                                             }
                                           },
@@ -474,8 +482,8 @@ class _ProfileViewState extends State<ProfileView> {
                                                     const EdgeInsets.symmetric(
                                                         vertical: 15),
                                                 child: CustomText(
-                                                  model.mUserDetails.details
-                                                              .address !=
+                                                  model.mUserDetails.contact
+                                                              .googleAddress !=
                                                           null
                                                       ? "Change Address"
                                                       : "Add Address",

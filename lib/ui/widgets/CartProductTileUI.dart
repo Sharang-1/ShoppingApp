@@ -63,7 +63,8 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
     clicked = false;
     price = widget.item.product.price;
     discount = widget.item.product.discount;
-    productImage = widget.item.product.photo?.photos[0]?.name ?? null;
+    productImage =
+        widget.item.product.photo?.photos?.elementAt(0)?.name ?? null;
     deliveryCharges = 0;
     discountedPrice = price - (price * discount / 100);
 
@@ -249,7 +250,9 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
   Widget bottomSheetDetailsTable(titleFontSize, subtitleFontSize) {
     return FractionallySizedBox(
       heightFactor: MediaQuery.of(context).size.height > 600
-          ? MediaQuery.of(context).size.height > 800 ? 0.75 : 0.88
+          ? MediaQuery.of(context).size.height > 800
+              ? 0.75
+              : 0.88
           : 0.92,
       child: Scaffold(
         appBar: AppBar(

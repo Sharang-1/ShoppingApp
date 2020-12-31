@@ -1,3 +1,4 @@
+import 'package:compound/models/user_details.dart';
 import 'package:compound/ui/shared/app_colors.dart';
 import 'package:compound/ui/shared/shared_styles.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
@@ -42,8 +43,8 @@ class _SelectAddressState extends State<SelectAddress> {
   //   1: "Shivranjani Cross Roads, Satellite,Ahmedabad, Gujarat 380015",
   //   2: "Sarkhej - Gandhinagar Hwy, Bodakdev, Ahmedabad, Gujarat 380059"
   // };
-  String addressRadioValue = "";
-  String addressGrpValue = "";
+  UserDetailsContact addressRadioValue;
+  UserDetailsContact addressGrpValue;
   bool disabledPayment = true;
 
   @override
@@ -83,7 +84,7 @@ class _SelectAddressState extends State<SelectAddress> {
                       context,
                       PageTransition(
                           child: PaymentMethod(
-                            billingAddress: (addressRadioValue == ""
+                            billingAddress: (addressRadioValue == null
                                 ? model.addresses[0]
                                 : addressRadioValue),
                             color: widget.color,
@@ -144,7 +145,8 @@ class _SelectAddressState extends State<SelectAddress> {
                     child: RaisedButton(
                         elevation: 5,
                         onPressed: () async {
-                          final newAddress = await Navigator.push<String>(
+                          UserDetailsContact newAddress =
+                              await Navigator.push<UserDetailsContact>(
                             context,
                             PageTransition(
                               child: AddressInputPage(),
@@ -200,7 +202,7 @@ class _SelectAddressState extends State<SelectAddress> {
                   verticalSpace(15),
                   Column(
                     children: model.addresses.map(
-                      (String address) {
+                      (UserDetailsContact address) {
                         return GestureDetector(
                           onTap: () {
                             setState(() {
@@ -248,7 +250,7 @@ class _SelectAddressState extends State<SelectAddress> {
                                           ),
                                           verticalSpaceTiny_0,
                                           CustomText(
-                                            address,
+                                            address.googleAddress,
                                             color: Colors.grey,
                                             fontSize: 14,
                                           ),

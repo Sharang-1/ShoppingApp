@@ -1,3 +1,4 @@
+import 'package:compound/models/user_details.dart';
 import 'package:compound/services/location_service.dart';
 import 'package:compound/ui/shared/app_colors.dart';
 import 'package:compound/ui/shared/shared_styles.dart';
@@ -6,6 +7,7 @@ import 'package:compound/ui/widgets/custom_text.dart';
 import 'package:compound/viewmodels/address_view_model.dart';
 import 'package:fimber/fimber_base.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_place_picker/google_maps_place_picker.dart';
 import 'package:provider_architecture/viewmodel_provider.dart';
@@ -22,6 +24,7 @@ class _AddressInputPageState extends State<AddressInputPage> {
 
   final _locationStringController = TextEditingController();
   final _addressStringController = TextEditingController();
+  final _pinCodeController = TextEditingController();
   PickResult selectedPlace;
 
   @override
@@ -54,7 +57,7 @@ class _AddressInputPageState extends State<AddressInputPage> {
                       selectInitialPosition: true,
                       forceSearchOnZoomChanged: true,
                       forceAndroidLocationManager: true,
-                      searchingText: "",
+                      searchingText: "Loading",
                       strictbounds: true,
                       usePinPointingSearch: true,
                       region: 'in',
@@ -82,6 +85,7 @@ class _AddressInputPageState extends State<AddressInputPage> {
                                     _locationStringController,
                                 addressStringController:
                                     _addressStringController,
+                                pinCodeController: _pinCodeController,
                                 selectedPlace: model.selectedResult ??
                                     PickResult(formattedAddress: "")),
                           );
@@ -98,15 +102,18 @@ class _AddressInputPageState extends State<AddressInputPage> {
 class BottomSheetForAddress extends StatelessWidget {
   final TextEditingController _locationStringController;
   final TextEditingController _addressStringController;
+  final TextEditingController _pinCodeController;
   final PickResult _selectedPlace;
 
   BottomSheetForAddress(
       {Key key,
       TextEditingController locationStringController,
       TextEditingController addressStringController,
+      TextEditingController pinCodeController,
       PickResult selectedPlace})
       : _locationStringController = locationStringController,
         _addressStringController = addressStringController,
+        _pinCodeController = pinCodeController,
         _selectedPlace = selectedPlace,
         super(key: key) {
     _addressStringController.text = selectedPlace.formattedAddress;
@@ -164,25 +171,25 @@ class BottomSheetForAddress extends StatelessWidget {
                         ),
                       ),
                     ),
-                    horizontalSpaceMedium,
-                    RaisedButton(
-                      elevation: 5,
-                      onPressed: () {},
-                      color: darkRedSmooth,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                        // side: BorderSide(
-                        //     color: Colors.black, width: 0.5)
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 4),
-                        child: CustomText(
-                          "Change",
-                          color: Colors.white,
-                          fontSize: 12,
-                        ),
-                      ),
-                    ),
+                    // horizontalSpaceMedium,
+                    // RaisedButton(
+                    //   elevation: 5,
+                    //   onPressed: () {},
+                    //   color: darkRedSmooth,
+                    //   shape: RoundedRectangleBorder(
+                    //     borderRadius: BorderRadius.circular(30),
+                    //     // side: BorderSide(
+                    //     //     color: Colors.black, width: 0.5)
+                    //   ),
+                    //   child: Padding(
+                    //     padding: const EdgeInsets.symmetric(vertical: 4),
+                    //     child: CustomText(
+                    //       "Change",
+                    //       color: Colors.white,
+                    //       fontSize: 12,
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
               ),
@@ -211,6 +218,36 @@ class BottomSheetForAddress extends StatelessWidget {
                   ],
                 ),
               ),
+              SizedBox(
+                height: 90,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Expanded(
+                      child: TextFormField(
+                        controller: _pinCodeController,
+                        maxLines: 3,
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
+                        ],
+                        validator: (text) {
+                          if (text.isEmpty ||
+                              text.trim().length == 0 ||
+                              text.trim().length != 7)
+                            return "Please enter Proper Pincode";
+                          return null;
+                        },
+                        decoration: const InputDecoration(
+                          labelText: 'Pincode',
+                          isDense: true,
+                        ),
+                        autofocus: false,
+                        enabled: false,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               verticalSpaceMedium,
 
               //Save Btn Row
@@ -230,7 +267,14 @@ class BottomSheetForAddress extends StatelessWidget {
                           return;
                         }
                         print("Address saved :::: " + addresString);
-                        Navigator.of(context).pop<PickResult>(_selectedPlace);
+                        Navigator.of(context)
+                            .pop<UserDetailsContact>(new UserDetailsContact(
+                          address: addresString,
+                          googleAddress: locationString,
+                          pincode: 380007,
+                          city: "",
+                          state: "",
+                        ));
                       },
                       color: green,
                       shape: RoundedRectangleBorder(

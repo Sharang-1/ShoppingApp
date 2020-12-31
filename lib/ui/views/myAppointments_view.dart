@@ -239,7 +239,7 @@ class myAppointments extends StatelessWidget {
                     ),
                   ]),
                 )),
-            ((data.appointment.status != 2 && data.appointment.status != "2")
+            ((data.appointment.status < 2 || data.appointment.status == "1" || data.appointment.status == "0")
                 ? RaisedButton(
                     elevation: 0,
                     onPressed: () {

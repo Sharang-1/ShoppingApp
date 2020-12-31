@@ -1,37 +1,47 @@
+import 'dart:convert';
+
 import 'package:compound/constants/shared_pref.dart';
+import 'package:compound/models/user_details.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AddressService {
   AddressService() {
-    setUpAddresses();
+    setUpAddress(null);
   }
 
-  Future<void> setUpAddresses() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final list = prefs.getStringList(AddressList);
+  // Future<void> setUpAddresses() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   final list = prefs.getStringList(AddressList);
 
-    if (list == null) {
-      prefs.setStringList(AddressList, [
-        // "103 /, First Floor, Royal Bldg, Janjikar Street, Masjid Bunder (w), Mumbai, Maharashtra-400003"
-      ]);
+  //   if (list == null) {
+  //     prefs.setStringList(AddressList, [
+  //       // "103 /, First Floor, Royal Bldg, Janjikar Street, Masjid Bunder (w), Mumbai, Maharashtra-400003"
+  //     ]);
+  //   }
+  // }
+
+  Future<void> setUpAddress(UserDetailsContact address) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final List<String> addArr = [];
+    if (address != null) {
+      addArr.add(jsonEncode(address.toJson()));
     }
+    prefs.setStringList(AddressList, addArr);
   }
 
-  Future<void> setUpAddress(String address) async {
+  Future<List<UserDetailsContact>> getAddresses() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setStringList(AddressList, [address]);
+    return prefs
+        .getStringList(AddressList)
+        .map((e) => UserDetailsContact.fromJson(jsonDecode(e)))
+        .toList();
   }
 
-  Future<List<String>> getAddresses() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getStringList(AddressList);
-  }
-
-  Future<bool> addAddresses(String address) async {
-    print("Address Service : addAddresses");
+  Future<bool> addAddresses(UserDetailsContact userAddress) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final list = prefs.getStringList(AddressList);
     print(list);
+    var address = jsonEncode(userAddress.toJson());
     print("Index of : " + list.indexOf(address).toString());
     if (list.indexOf(address) == -1) {
       list.add(address);
@@ -42,9 +52,9 @@ class AddressService {
     return false;
   }
 
-  Future<bool> removeAddresses(String address) async {
+  Future<bool> removeAddresses(UserDetailsContact address) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final list = prefs.getStringList(AddressList);
-    return list.remove(address);
+    return list.remove(jsonEncode(address.toJson()));
   }
 }

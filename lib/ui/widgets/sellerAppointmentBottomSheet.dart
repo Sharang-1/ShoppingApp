@@ -11,7 +11,9 @@ import '../shared/shared_styles.dart';
 
 class SellerBottomSheetView extends StatefulWidget {
   final sellerData;
-  const SellerBottomSheetView({Key key, this.sellerData}) : super(key: key);
+  final context;
+  const SellerBottomSheetView({Key key, this.sellerData, this.context})
+      : super(key: key);
 
   @override
   _SellerBottomSheetViewState createState() => _SellerBottomSheetViewState();
@@ -20,12 +22,19 @@ class SellerBottomSheetView extends StatefulWidget {
 class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
   @override
   Widget build(BuildContext context) {
-    final msgController = TextEditingController();
+    final userMessages = <String>[
+      'Alterations',
+      'Customised stitching',
+      'Design new Apparel',
+      'Browse & Shop',
+      'Other'
+    ];
+    String selectedUserMessage = "";
 
     return ViewModelProvider<AppointmentsViewModel>.withConsumer(
         viewModel: AppointmentsViewModel(),
         onModelReady: (model) =>
-            model.getAvaliableTimeSlots(widget.sellerData.key),
+            model.getAvaliableTimeSlots(widget.sellerData.key, widget.context),
         builder: (context, model, child) {
           return model.busy
               ? Center(child: CircularProgressIndicator())
@@ -301,6 +310,30 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                   //   controller: msgController,
                                   //   textInputType: TextInputType.text,
                                   // ),
+                                  DropdownButton<String>(
+                                    value: selectedUserMessage,
+                                    icon: Icon(Icons.arrow_downward),
+                                    iconSize: 24,
+                                    elevation: 16,
+                                    style: TextStyle(color: Colors.deepPurple),
+                                    underline: Container(
+                                      height: 2,
+                                      color: Colors.deepPurpleAccent,
+                                    ),
+                                    onChanged: (String newValue) {
+                                      setState(() {
+                                        selectedUserMessage = newValue;
+                                      });
+                                    },
+                                    items: userMessages
+                                        .map<DropdownMenuItem<String>>(
+                                            (String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(value),
+                                      );
+                                    }).toList(),
+                                  ),
                                   verticalSpaceMedium,
                                   Row(
                                     children: <Widget>[
@@ -310,7 +343,7 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                               onPressed: () {
                                                 model.bookAppointment(
                                                     widget.sellerData.key,
-                                                    msgController.text);
+                                                    selectedUserMessage);
                                               },
                                               color: logoRed,
                                               shape: RoundedRectangleBorder(

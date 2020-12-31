@@ -2,6 +2,7 @@ import 'package:compound/constants/route_names.dart';
 import 'package:compound/locator.dart';
 import 'package:compound/models/products.dart';
 import 'package:compound/models/sellers.dart';
+import 'package:compound/models/user_details.dart';
 import 'package:compound/services/address_service.dart';
 import 'package:compound/services/api/api_service.dart';
 import 'package:compound/services/cart_local_store_service.dart';
@@ -11,6 +12,7 @@ import 'package:compound/services/navigation_service.dart';
 import 'package:compound/services/whishlist_service.dart';
 import 'package:compound/ui/views/address_input_form_view.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_place_picker/google_maps_place_picker.dart';
 import 'package:page_transition/page_transition.dart';
 import '../services/api/api_service.dart';
 
@@ -26,7 +28,7 @@ class ProductIndividualViewModel extends BaseModel {
   final AddressService _addressService = locator<AddressService>();
 
   Seller selleDetail;
-  String defaultAddress;
+  UserDetailsContact defaultAddress;
   // bool isProductInWhishlist = false;
 
   Future<void> init(String sellerId) async {
@@ -34,10 +36,10 @@ class ProductIndividualViewModel extends BaseModel {
     var addresses = await _addressService.getAddresses();
     print("address");
     print(addresses);
-    if(addresses != null && addresses.length != 0) {
+    if (addresses != null && addresses.length != 0) {
       defaultAddress = addresses.first;
     } else {
-      defaultAddress = "";
+      defaultAddress = null;
     }
     notifyListeners();
   }
@@ -47,7 +49,7 @@ class ProductIndividualViewModel extends BaseModel {
   }
 
   gotoAddView(context) async {
-    var pickedPlace = await Navigator.push(
+    UserDetailsContact pickedPlace = await Navigator.push(
         context,
         PageTransition(
           child: AddressInputPage(),

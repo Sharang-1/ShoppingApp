@@ -288,23 +288,24 @@ class MyOrdersDetailsView extends StatelessWidget {
                   ],
                 ),
                 verticalSpaceSmall,
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    CustomText(
-                      "Discounted Price",
-                      isBold: true,
-                      fontSize: subtitleFontSize - 1,
-                      color: Colors.grey,
-                    ),
-                    CustomText(
-                      rupeeUnicode + mOrder.orderCost.productPrice.toString(),
-                      color: Colors.grey[600],
-                      fontSize: subtitleFontSize - 1,
-                      isBold: true,
-                    ),
-                  ],
-                ),
+                if (mOrder.orderCost.productPrice != mOrder.product.price)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      CustomText(
+                        "Discounted Price",
+                        isBold: true,
+                        fontSize: subtitleFontSize - 1,
+                        color: Colors.grey,
+                      ),
+                      CustomText(
+                        rupeeUnicode + mOrder.orderCost.productPrice.toString(),
+                        color: Colors.grey[600],
+                        fontSize: subtitleFontSize - 1,
+                        isBold: true,
+                      ),
+                    ],
+                  ),
                 verticalSpaceSmall,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -318,7 +319,7 @@ class MyOrdersDetailsView extends StatelessWidget {
                     CustomText(
                       mOrder.orderCost.shippingCharge == 0
                           ? "Free Delivery"
-                          : mOrder.orderCost.shippingCharge,
+                          : mOrder.orderCost.shippingCharge.toString(),
                       color: green,
                       fontSize: subtitleFontSize - 1,
                       isBold: true,

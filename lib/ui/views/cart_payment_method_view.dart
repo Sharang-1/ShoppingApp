@@ -1,3 +1,4 @@
+import 'package:compound/models/user_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -20,7 +21,7 @@ import '../shared/shared_styles.dart';
 
 class PaymentMethod extends StatefulWidget {
   final String finalTotal;
-  final String billingAddress;
+  final UserDetailsContact billingAddress;
   final String productId;
   final String promoCode;
   final String promoCodeId;
@@ -66,7 +67,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
   void initState() {
     print("Cart Payment");
     print("final totle " + widget.finalTotal);
-    print("billing add " + widget.billingAddress);
+    print("billing add " + widget.billingAddress.googleAddress);
     print("product id " + widget.productId);
     print("promo code " + widget.promoCode);
     print("promo id" + widget.promoCodeId);
@@ -107,7 +108,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
             elevation: 5,
             onPressed: () async {
               final res = await model.createOrder(
-                widget.billingAddress,
+                widget.billingAddress.googleAddress,
                 widget.productId,
                 widget.promoCode,
                 widget.promoCodeId,

@@ -1,6 +1,7 @@
 import 'package:compound/models/productPageArg.dart';
 import 'package:compound/models/products.dart';
 import 'package:compound/models/route_argument.dart';
+import 'package:compound/ui/views/address_input_form_view.dart';
 import 'package:compound/ui/views/cart_view.dart';
 import 'package:compound/ui/views/categories_view.dart';
 import 'package:compound/ui/views/category_indi_view.dart';
@@ -12,6 +13,7 @@ import 'package:compound/ui/views/productListView.dart';
 import 'package:compound/ui/views/product_individual_view.dart';
 import 'package:compound/ui/views/product_whishlist_view.dart';
 import 'package:compound/ui/views/profile_view.dart';
+import 'package:compound/ui/views/promotion_products_view.dart';
 import 'package:compound/ui/views/search_view.dart';
 import 'package:compound/ui/views/settings_page_view.dart';
 import 'package:compound/ui/views/verify_otp.dart';
@@ -195,7 +197,20 @@ Route<dynamic> generateRoute(RouteSettings settings) {
             subCategory: pargs.subCategory,
           ),
           pageTransitionType: PageTransitionType.rightToLeft);
-
+    case AddressInputPageRoute:
+      return _getPageRoute(
+          pageArguments: pageArguments,
+          routeName: settings.name,
+          viewToShow: AddressInputPage(),
+          pageTransitionType: PageTransitionType.rightToLeft);
+    case PromotionProductRoute:
+      var pargs = pageArguments as PromotionProductsPageArg;
+      return _getPageRoute(
+          pageArguments: pageArguments,
+          routeName: settings.name,
+          viewToShow: PromotionProduct(
+              productIds: [], promotionTitle: pargs.promoTitle),
+          pageTransitionType: transitionType);
     case SettingsRoute:
       return _getPageRoute(
           pageArguments: pageArguments,

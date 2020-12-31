@@ -15,9 +15,10 @@ class MapViewModel extends BaseModel {
   bool clientsToggle = false;
   bool resetToggle = false;
   bool showBottomSheet = false;
+  bool showSailors = true;
   UserLocation currentLocation;
   var clients = [];
-  Seller currentClient;
+  dynamic currentClient;
   var currentBearing;
 
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
@@ -29,16 +30,17 @@ class MapViewModel extends BaseModel {
   Future<void> init() async {
     currentLocation = _locationService.currentLocation ??
         UserLocation(
-            latitude: 0.0, longitude: 0.0); //Default Value for current Location
+            latitude: 23.0204975,
+            longitude: 72.43931); //Default Value for current Location
     mapToggle = true;
     populateClients();
 
-    ImageConfiguration configuration = ImageConfiguration();
+    ImageConfiguration configuration = ImageConfiguration(size: Size(2, 2));
     iconT = await BitmapDescriptor.fromAssetImage(
-        configuration, 'assets/marker.png');
+        configuration, 'assets/images/location.png');
+    // iconT = Icons.shopping_cart;
     iconS = await BitmapDescriptor.fromAssetImage(
-        configuration, 'assets/marker2.png');
-    return;
+        configuration, 'assets/images/pin.png');
   }
 
   populateClients() async {
@@ -47,9 +49,9 @@ class MapViewModel extends BaseModel {
     Future<Sellers> sellers = _apiService.getSellers();
     List apiData = await Future.wait([tailors, sellers]);
 
-    tData = apiData[0];
-    sData = apiData[1];
-
+    tData = apiData[0] as Tailors;
+    sData = apiData[1] as Sellers;
+    sData.items = sData.items.where((s) => s.accountType != '2').toList();
     if (sData != null) {
       clientsToggle = true;
     }
@@ -60,11 +62,15 @@ class MapViewModel extends BaseModel {
     mapController = controller;
   }
 
-  zoomInMarker(Seller client) {
+  setClientCardsToSeller(bool toSeller) {
+    showSailors = toSeller;
+    notifyListeners();
+  }
+
+  zoomInMarker(double latitude, double longitude) {
     mapController
         .animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-            target: LatLng(client.contact.geoLocation.latitude,
-                client.contact.geoLocation.longitude),
+            target: LatLng(latitude, longitude),
             zoom: 17.0,
             bearing: 90.0,
             tilt: 45.0)))
