@@ -5,7 +5,7 @@ import 'package:compound/services/navigation_service.dart';
 import 'package:compound/viewmodels/base_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class OtpFinishedScreenModel extends BaseModel {
+class loadModel extends BaseModel {
   final NavigationService _navigationService = locator<NavigationService>();
 
   String name = "";
@@ -31,7 +31,7 @@ class OtpFinishedScreenModel extends BaseModel {
         if (i == 1) {
           _navigationService.navigateReplaceTo(OtpFinishedScreen2Route);
         } else {
-          _navigationService.navigateReplaceTo(LoaderRoute);
+          _navigationService.navigateReplaceTo(HomeViewRoute);
         }
       }
     });
