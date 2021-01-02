@@ -1078,7 +1078,8 @@ class ProductDescriptionTable extends StatelessWidget {
                     ),
                     TableCell(
                       child: Text(
-                        getNameFromLookupId(productSection, "pieces", product?.pieces?.id),
+                        getNameFromLookupId(
+                            productSection, "pieces", product?.pieces?.id),
                         textAlign: TextAlign.justify,
                         style: TextStyle(
                           fontSize: subtitleFontSizeStyle - 5,
@@ -1104,7 +1105,8 @@ class ProductDescriptionTable extends StatelessWidget {
                     ),
                     TableCell(
                       child: Text(
-                        getNameFromLookupId(productSection, "topsLength", product?.topsLength?.id),
+                        getNameFromLookupId(productSection, "topsLength",
+                            product?.topsLength?.id),
                         textAlign: TextAlign.justify,
                         style: TextStyle(
                           fontSize: subtitleFontSizeStyle - 5,
@@ -1130,7 +1132,8 @@ class ProductDescriptionTable extends StatelessWidget {
                     ),
                     TableCell(
                       child: Text(
-                        getNameFromLookupId(productSection, "made", product?.made?.id),
+                        getNameFromLookupId(
+                            productSection, "made", product?.made?.id),
                         textAlign: TextAlign.justify,
                         style: TextStyle(
                           fontSize: subtitleFontSizeStyle - 5,
@@ -1146,7 +1149,7 @@ class ProductDescriptionTable extends StatelessWidget {
                   children: [
                     TableCell(
                       child: Text(
-                        "Made",
+                        "Flair",
                         textAlign: TextAlign.justify,
                         style: TextStyle(
                           fontSize: subtitleFontSizeStyle - 5,
@@ -1183,7 +1186,8 @@ class ProductDescriptionTable extends StatelessWidget {
                     ),
                     TableCell(
                       child: Text(
-                        getNameFromLookupId(productSection, "sleeveLenght", product?.sleeveLength?.id),
+                        getNameFromLookupId(productSection, "sleeveLength",
+                            product?.sleeveLength?.id),
                         textAlign: TextAlign.justify,
                         style: TextStyle(
                           fontSize: subtitleFontSizeStyle - 5,
@@ -1210,7 +1214,8 @@ class ProductDescriptionTable extends StatelessWidget {
                     ),
                     TableCell(
                       child: Text(
-                        getNameFromLookupId(productSection, "stitchingType", product?.stitchingType?.id),
+                        getNameFromLookupId(productSection, "stitchingType",
+                            product?.stitchingType?.id),
                         textAlign: TextAlign.justify,
                         style: TextStyle(
                           fontSize: subtitleFontSizeStyle - 5,
@@ -1237,7 +1242,8 @@ class ProductDescriptionTable extends StatelessWidget {
                     ),
                     TableCell(
                       child: Text(
-                        getNameFromLookupId(productSection, "blousePadding", product?.blousePadding?.id),
+                        getNameFromLookupId(productSection, "blousePadding",
+                            product?.blousePadding?.id),
                         textAlign: TextAlign.justify,
                         style: TextStyle(
                           fontSize: subtitleFontSizeStyle - 5,
