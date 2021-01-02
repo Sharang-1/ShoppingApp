@@ -135,10 +135,11 @@ class APIService {
   }
 
   Future<List<Lookups>> getLookups() async {
-    var lookupData = await apiWrapper("options");
+    var lookupRes = await apiClient.get("options");
+    var lookupData = lookupRes.data;
     if (lookupData != null) {
-      List<Lookups> lookups = lookupsFromJson(lookupData);
-      Fimber.d("lookupData : " + lookups.map((o) => o.name).toString());
+      List<Lookups> lookups = lookupData.map<Lookups>((e) => Lookups.fromJson(e)).toList();
+      print(lookups);
       return lookups;
     }
 

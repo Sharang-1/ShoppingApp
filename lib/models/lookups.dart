@@ -10,26 +10,46 @@ String lookupsToJson(List<Lookups> data) => json.encode(List<dynamic>.from(data.
 
 class Lookups {
     Lookups({
-        this.name,
-        this.options,
+        this.sectionName,
+        this.sections,
     });
 
-    String name;
-    List<Lookup> options;
+    String sectionName;
+    List<Section> sections;
 
     factory Lookups.fromJson(Map<String, dynamic> json) => Lookups(
-        name: json["name"],
-        options: List<Lookup>.from(json["options"].map((x) => Lookup.fromJson(x))),
+        sectionName: json["sectionName"],
+        sections: List<Section>.from(json["sections"].map((x) => Section.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
-        "name": name,
-        "options": List<dynamic>.from(options.map((x) => x.toJson())),
+        "sectionName": sectionName,
+        "sections": List<dynamic>.from(sections.map((x) => x.toJson())),
     };
 }
 
-class Lookup {
-    Lookup({
+class Section {
+    Section({
+        this.option,
+        this.values,
+    });
+
+    String option;
+    List<Value> values;
+
+    factory Section.fromJson(Map<String, dynamic> json) => Section(
+        option: json["option"],
+        values: List<Value>.from(json["values"].map((x) => Value.fromJson(x))),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "option": option,
+        "values": List<dynamic>.from(values.map((x) => x.toJson())),
+    };
+}
+
+class Value {
+    Value({
         this.id,
         this.name,
     });
@@ -37,7 +57,7 @@ class Lookup {
     int id;
     String name;
 
-    factory Lookup.fromJson(Map<String, dynamic> json) => Lookup(
+    factory Value.fromJson(Map<String, dynamic> json) => Value(
         id: json["id"],
         name: json["name"],
     );

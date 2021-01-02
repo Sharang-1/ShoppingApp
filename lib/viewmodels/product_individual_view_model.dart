@@ -1,5 +1,6 @@
 import 'package:compound/constants/route_names.dart';
 import 'package:compound/locator.dart';
+import 'package:compound/models/lookups.dart';
 import 'package:compound/models/products.dart';
 import 'package:compound/models/sellers.dart';
 import 'package:compound/services/address_service.dart';
@@ -55,6 +56,10 @@ class ProductIndividualViewModel extends BaseModel {
         ));
     defaultAddress = pickedPlace;
     notifyListeners();
+  }
+
+  Future<List<Lookups>> getLookups() {
+    return _apiService.getLookups();
   }
 
   Future<int> addToCart(Product product, int qty, String size, String color,
