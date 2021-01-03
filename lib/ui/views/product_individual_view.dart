@@ -785,7 +785,14 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                       ),
                     ),
                   ),
-                  verticalSpace(10),
+                  verticalSpace(40),
+                  Text(
+                    "   Product Details",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: titleFontSizeStyle),
+                  ),
+                  verticalSpace(5),
                   Card(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
@@ -986,487 +993,101 @@ class ProductDescriptionTable extends StatelessWidget {
             children: [
               divider,
               if (product?.neck != null && product?.neck != "")
-                TableRow(
-                  children: [
-                    TableCell(
-                      child: Text(
-                        "Neck",
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                          fontSize: subtitleFontSizeStyle - 5,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                    TableCell(
-                      child: Text(
-                        product?.neck,
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                          fontSize: subtitleFontSizeStyle - 5,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  getProductDetailsRow("Neck", product?.neck?.toString()),
               divider,
               if (product?.waist != null)
-                TableRow(
-                  children: [
-                    TableCell(
-                      child: Text(
-                        "Waist",
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                          fontSize: subtitleFontSizeStyle - 5,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                    TableCell(
-                      child: Text(
-                        product?.waist?.toString(),
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                          fontSize: subtitleFontSizeStyle - 5,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  getProductDetailsRow("Waist", product?.waist?.toString()),
               divider,
               if (product?.typeOfSaree != null && product?.typeOfSaree != "")
-                TableRow(
-                  children: [
-                    TableCell(
-                      child: Text(
-                        "Type of Saree",
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                          fontSize: subtitleFontSizeStyle - 5,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                    TableCell(
-                      child: Text(
-                        product?.typeOfSaree,
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                          fontSize: subtitleFontSizeStyle - 5,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  getProductDetailsRow("Type of Saree", product?.typeOfSaree),
               divider,
               if (product?.pieces != null && product?.pieces?.id != -1)
-                TableRow(
-                  children: [
-                    TableCell(
-                      child: Text(
-                        "Pieces",
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                          fontSize: subtitleFontSizeStyle - 5,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                    TableCell(
-                      child: Text(
-                        getNameFromLookupId(
-                            productSection, "pieces", product?.pieces?.id),
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                          fontSize: subtitleFontSizeStyle - 5,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  getProductDetailsRow("Pieces", getNameFromLookupId(
+                    productSection, "pieces", product?.pieces?.id)),
               divider,
               if (product?.topsLength != null && product?.topsLength?.id != -1)
-                TableRow(
-                  children: [
-                    TableCell(
-                      child: Text(
-                        "Top's length",
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                          fontSize: subtitleFontSizeStyle - 5,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                    TableCell(
-                      child: Text(
-                        getNameFromLookupId(productSection, "topsLength",
-                            product?.topsLength?.id),
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                          fontSize: subtitleFontSizeStyle - 5,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                   getProductDetailsRow("Top's length", getNameFromLookupId(
+                     productSection, "topsLength", product?.topsLength?.id)),
               divider,
               if (product?.made != null && product?.made?.id != -1)
-                TableRow(
-                  children: [
-                    TableCell(
-                      child: Text(
-                        "Made",
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                          fontSize: subtitleFontSizeStyle - 5,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                    TableCell(
-                      child: Text(
-                        getNameFromLookupId(
-                            productSection, "made", product?.made?.id),
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                          fontSize: subtitleFontSizeStyle - 5,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                getProductDetailsRow("Made", getNameFromLookupId(
+                            productSection, "made", product?.made?.id)),
               divider,
               if (product?.flair != null)
-                TableRow(
-                  children: [
-                    TableCell(
-                      child: Text(
-                        "Flair",
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                          fontSize: subtitleFontSizeStyle - 5,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                    TableCell(
-                      child: Text(
-                        product?.flair?.toString(),
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                          fontSize: subtitleFontSizeStyle - 5,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                getProductDetailsRow("Flair", product?.flair?.toString()),
               divider,
               if (product?.sleeveLength != null &&
                   product?.sleeveLength?.id != -1)
-                TableRow(
-                  children: [
-                    TableCell(
-                      child: Text(
-                        "Sleeve Length",
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                          fontSize: subtitleFontSizeStyle - 5,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                    TableCell(
-                      child: Text(
-                        getNameFromLookupId(productSection, "sleeveLength",
-                            product?.sleeveLength?.id),
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                          fontSize: subtitleFontSizeStyle - 5,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  getProductDetailsRow("Sleeve Length",  getNameFromLookupId(productSection, "sleeveLength",
+                            product?.sleeveLength?.id),),
               divider,
               if (product?.stitchingType != null &&
                   product?.stitchingType?.id != -1)
-                TableRow(
-                  children: [
-                    TableCell(
-                      child: Text(
-                        "Stiching Type",
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                          fontSize: subtitleFontSizeStyle - 5,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                    TableCell(
-                      child: Text(
-                        getNameFromLookupId(productSection, "stitchingType",
-                            product?.stitchingType?.id),
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                          fontSize: subtitleFontSizeStyle - 5,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  getProductDetailsRow("Stiching Type",  getNameFromLookupId(productSection, "stitchingType",
+                            product?.stitchingType?.id),),
               divider,
               if (product?.blousePadding != null &&
                   product?.blousePadding?.id != -1)
-                TableRow(
-                  children: [
-                    TableCell(
-                      child: Text(
-                        "Blouse Padding",
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                          fontSize: subtitleFontSizeStyle - 5,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                    TableCell(
-                      child: Text(
-                        getNameFromLookupId(productSection, "blousePadding",
-                            product?.blousePadding?.id),
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                          fontSize: subtitleFontSizeStyle - 5,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  getProductDetailsRow("Blouse Padding",   getNameFromLookupId(productSection, "blousePadding",
+                            product?.blousePadding?.id),),
               divider,
               if (product?.backCut != null && product?.backCut != "")
-                TableRow(
-                  children: [
-                    TableCell(
-                      child: Text(
-                        "Back Cut",
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                          fontSize: subtitleFontSizeStyle - 5,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                    TableCell(
-                      child: Text(
-                        product?.backCut,
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                          fontSize: subtitleFontSizeStyle - 5,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  getProductDetailsRow("Back Cut",product?.backCut,),
               divider,
               if (product?.neckCut != null && product?.neckCut != "")
-                TableRow(
-                  children: [
-                    TableCell(
-                      child: Text(
-                        "Neck Cut",
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                          fontSize: subtitleFontSizeStyle - 5,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                    TableCell(
-                      child: Text(
-                        product?.neckCut,
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                          fontSize: subtitleFontSizeStyle - 5,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  getProductDetailsRow("Neck Cut", product?.neckCut,),
               divider,
               if (product?.dimensions != null && product?.dimensions != "")
-                TableRow(
-                  children: [
-                    TableCell(
-                      child: Text(
-                        "Dimensions",
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                          fontSize: subtitleFontSizeStyle - 5,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                    TableCell(
-                      child: Text(
-                        product?.dimensions,
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                          fontSize: subtitleFontSizeStyle - 5,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  getProductDetailsRow("Dimensions", product?.dimensions,),
               divider,
               if (product?.style != null && product?.style != "")
-                TableRow(
-                  children: [
-                    TableCell(
-                      child: Text(
-                        "Style",
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                          fontSize: subtitleFontSizeStyle - 5,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                    TableCell(
-                      child: Text(
-                        product?.style,
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                          fontSize: subtitleFontSizeStyle - 5,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                   getProductDetailsRow("Style", product?.style,),
               divider,
               if (product?.length != null)
-                TableRow(
-                  children: [
-                    TableCell(
-                      child: Text(
-                        "Length",
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                          fontSize: subtitleFontSizeStyle - 5,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                    TableCell(
-                      child: Text(
-                        product?.length?.toString(),
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                          fontSize: subtitleFontSizeStyle - 5,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                   getProductDetailsRow("Length",  product?.length?.toString(),),
               divider,
               if (product?.breath != null && product?.breath != 0)
-                TableRow(
-                  children: [
-                    TableCell(
-                      child: Text(
-                        "Breath",
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                          fontSize: subtitleFontSizeStyle - 5,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                    TableCell(
-                      child: Text(
-                        product?.breath?.toString(),
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                          fontSize: subtitleFontSizeStyle - 5,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  getProductDetailsRow("Breath",  product?.breath?.toString(),),
               divider,
               if (product?.fabricDetails != null &&
                   product?.fabricDetails != "")
-                TableRow(
-                  children: [
-                    TableCell(
-                      child: Text(
-                        "Fabric Details",
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                          fontSize: subtitleFontSizeStyle - 5,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                    TableCell(
-                      child: Text(
-                        product?.fabricDetails,
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                          fontSize: subtitleFontSizeStyle - 5,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  getProductDetailsRow("Fabric Details",  product?.fabricDetails,),
               divider,
               if (product?.typeOfWork != null && product?.typeOfWork != "")
-                TableRow(
-                  children: [
-                    TableCell(
-                      child: Text(
-                        "Type Of Work",
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                          fontSize: subtitleFontSizeStyle - 5,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                    TableCell(
-                      child: Text(
-                        product?.typeOfWork,
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                          fontSize: subtitleFontSizeStyle - 5,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  getProductDetailsRow("Type Of Work",   product?.typeOfWork,),
             ],
           );
         }
         return Container();
       },
+    );
+  }
+
+  TableRow getProductDetailsRow(productDetailsKey, productDetailsValue) {
+    return TableRow(
+      children: [
+        TableCell(
+          child: Text(
+            productDetailsKey,
+            textAlign: TextAlign.left,
+            style: TextStyle(
+              fontSize: subtitleFontSizeStyle - 1,
+              color: Colors.grey,
+            ),
+          ),
+        ),
+        TableCell(
+          child: Text(
+            productDetailsValue,
+            textAlign: TextAlign.left,
+            style: TextStyle(
+              fontSize: subtitleFontSizeStyle - 1,
+              fontWeight: FontWeight.w400,
+              color: Colors.black,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -1520,10 +1141,10 @@ const rowSpacer = TableRow(children: [
 const divider = TableRow(children: [
   Divider(
     color: Colors.grey,
-    thickness: 1.1,
+    thickness: 0.2,
   ),
   Divider(
     color: Colors.grey,
-    thickness: 1.1,
+    thickness: 0.2,
   )
 ]);
