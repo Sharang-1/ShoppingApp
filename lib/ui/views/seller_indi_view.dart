@@ -235,7 +235,7 @@ class _SellerIndiState extends State<SellerIndi> {
                         },
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: <Widget>[
                             Row(
                               children: <Widget>[
@@ -285,20 +285,49 @@ class _SellerIndiState extends State<SellerIndi> {
                   ),
                 ),
               ),
-              verticalSpace(50),
+              verticalSpace(20),
+              Card(
+                elevation: 5,
+                clipBehavior: Clip.antiAlias,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(curve15),
+                ),
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      CustomText(
+                        "Note from Seller",
+                        fontSize: subHeadFont,
+                        isBold: true,
+                        color: Colors.black,
+                      ),
+                      verticalSpace(10),
+                      CustomText(
+                        sellerDetails["Note from Seller"],
+                        fontSize: smallFont,
+                        color: Colors.grey[600],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              verticalSpace(30),
               CustomText(
-                "Everything About",
+                "Everything About ${sellerDetails["name"]}",
                 fontSize: headFont - 2,
                 fontFamily: headingFont,
                 isBold: true,
               ),
-              verticalSpace(5),
-              CustomText(
-                sellerDetails["name"],
-                fontSize: headFont - 2,
-                fontFamily: headingFont,
-                isBold: true,
-              ),
+              // verticalSpace(5),
+              // CustomText(
+              //   sellerDetails["name"],
+              //   fontSize: headFont - 2,
+              //   fontFamily: headingFont,
+              //   isBold: true,
+              // ),
               verticalSpace(10),
               Card(
                 elevation: 5,
@@ -369,35 +398,6 @@ class _SellerIndiState extends State<SellerIndi> {
                             ),
                           ]);
                     }).toList(),
-                  ),
-                ),
-              ),
-              verticalSpace(20),
-              Card(
-                elevation: 5,
-                clipBehavior: Clip.antiAlias,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(curve15),
-                ),
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      CustomText(
-                        "Note from Seller",
-                        fontSize: subHeadFont,
-                        isBold: true,
-                        color: Colors.grey[700],
-                      ),
-                      verticalSpace(10),
-                      CustomText(
-                        sellerDetails["Note from Seller"],
-                        fontSize: smallFont,
-                        color: Colors.grey,
-                      ),
-                    ],
                   ),
                 ),
               ),
