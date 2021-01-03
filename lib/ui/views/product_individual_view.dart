@@ -991,68 +991,68 @@ class ProductDescriptionTable extends StatelessWidget {
           }
           return Table(
             children: [
-              divider,
+              // divider,
               if (product?.neck != null && product?.neck != "")
                   getProductDetailsRow("Neck", product?.neck?.toString()),
-              divider,
+              // divider,
               if (product?.waist != null)
                   getProductDetailsRow("Waist", product?.waist?.toString()),
-              divider,
+              // divider,
               if (product?.typeOfSaree != null && product?.typeOfSaree != "")
                   getProductDetailsRow("Type of Saree", product?.typeOfSaree),
-              divider,
+              // divider,
               if (product?.pieces != null && product?.pieces?.id != -1)
                   getProductDetailsRow("Pieces", getNameFromLookupId(
                     productSection, "pieces", product?.pieces?.id)),
-              divider,
+              // divider,
               if (product?.topsLength != null && product?.topsLength?.id != -1)
                    getProductDetailsRow("Top's length", getNameFromLookupId(
                      productSection, "topsLength", product?.topsLength?.id)),
-              divider,
+              // divider,
               if (product?.made != null && product?.made?.id != -1)
                 getProductDetailsRow("Made", getNameFromLookupId(
                             productSection, "made", product?.made?.id)),
-              divider,
+              // divider,
               if (product?.flair != null)
                 getProductDetailsRow("Flair", product?.flair?.toString()),
-              divider,
+              // divider,
               if (product?.sleeveLength != null &&
                   product?.sleeveLength?.id != -1)
                   getProductDetailsRow("Sleeve Length",  getNameFromLookupId(productSection, "sleeveLength",
                             product?.sleeveLength?.id),),
-              divider,
+              // divider,
               if (product?.stitchingType != null &&
                   product?.stitchingType?.id != -1)
                   getProductDetailsRow("Stiching Type",  getNameFromLookupId(productSection, "stitchingType",
                             product?.stitchingType?.id),),
-              divider,
+              // divider,
               if (product?.blousePadding != null &&
                   product?.blousePadding?.id != -1)
                   getProductDetailsRow("Blouse Padding",   getNameFromLookupId(productSection, "blousePadding",
                             product?.blousePadding?.id),),
-              divider,
+              // divider,
               if (product?.backCut != null && product?.backCut != "")
                   getProductDetailsRow("Back Cut",product?.backCut,),
-              divider,
+              // divider,
               if (product?.neckCut != null && product?.neckCut != "")
                   getProductDetailsRow("Neck Cut", product?.neckCut,),
-              divider,
+              // divider,
               if (product?.dimensions != null && product?.dimensions != "")
                   getProductDetailsRow("Dimensions", product?.dimensions,),
-              divider,
+              // divider,
               if (product?.style != null && product?.style != "")
                    getProductDetailsRow("Style", product?.style,),
-              divider,
+              // divider,
               if (product?.length != null)
                    getProductDetailsRow("Length",  product?.length?.toString(),),
-              divider,
+              // divider,
               if (product?.breath != null && product?.breath != 0)
                   getProductDetailsRow("Breath",  product?.breath?.toString(),),
-              divider,
+              // divider,
               if (product?.fabricDetails != null &&
                   product?.fabricDetails != "")
                   getProductDetailsRow("Fabric Details",  product?.fabricDetails,),
-              divider,
+              // divider,
               if (product?.typeOfWork != null && product?.typeOfWork != "")
                   getProductDetailsRow("Type Of Work",   product?.typeOfWork,),
             ],
@@ -1065,25 +1065,36 @@ class ProductDescriptionTable extends StatelessWidget {
 
   TableRow getProductDetailsRow(productDetailsKey, productDetailsValue) {
     return TableRow(
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(color: Colors.grey, width: 0.2),
+          ),
+      ),
       children: [
-        TableCell(
-          child: Text(
-            productDetailsKey,
-            textAlign: TextAlign.left,
-            style: TextStyle(
-              fontSize: subtitleFontSizeStyle - 1,
-              color: Colors.grey,
+        Padding(
+          padding: EdgeInsets.all(10.0),
+          child: TableCell(
+            child: Text(
+              productDetailsKey,
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                fontSize: subtitleFontSizeStyle - 1,
+                color: Colors.grey,
+              ),
             ),
           ),
         ),
-        TableCell(
-          child: Text(
-            productDetailsValue,
-            textAlign: TextAlign.left,
-            style: TextStyle(
-              fontSize: subtitleFontSizeStyle - 1,
-              fontWeight: FontWeight.w400,
-              color: Colors.black,
+        Padding(
+          padding: EdgeInsets.all(10.0),
+          child: TableCell(
+            child: Text(
+              productDetailsValue,
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                fontSize: subtitleFontSizeStyle - 1,
+                fontWeight: FontWeight.w400,
+                color: Colors.black,
+              ),
             ),
           ),
         ),
