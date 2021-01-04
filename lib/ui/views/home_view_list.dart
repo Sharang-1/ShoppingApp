@@ -184,14 +184,14 @@ class _HomeViewListState extends State<HomeViewList> {
           ]),
           verticalSpaceSmall,
           SizedBox(
-            height: 170,
+            height: 250,
             child: GridListWidget<Products, Product>(
               key: productUniqueKey,
               context: context,
               filter: ProductFilter(),
               gridCount: 2,
               viewModel: ProductsGridViewBuilderViewModel(randomize: true),
-              childAspectRatio: 0.65,
+              childAspectRatio: 1.50,
               scrollDirection: Axis.horizontal,
               disablePagination: true,
               tileBuilder: (BuildContext context, productData, index, onUpdate,
@@ -284,14 +284,14 @@ class _HomeViewListState extends State<HomeViewList> {
           ]),
           verticalSpaceSmall,
           SizedBox(
-            height: 170,
+            height: 250,
             child: GridListWidget<Products, Product>(
               key: productUniqueKey,
               context: context,
               filter: ProductFilter(minDiscount: 5),
               gridCount: 2,
               viewModel: ProductsGridViewBuilderViewModel(randomize: true),
-              childAspectRatio: 0.57,
+              childAspectRatio: 1.50,
               scrollDirection: Axis.horizontal,
               disablePagination: true,
               tileBuilder: (BuildContext context, productData, index, onUpdate,
@@ -426,7 +426,7 @@ class _HomeViewListState extends State<HomeViewList> {
           ]),
           verticalSpaceSmall,
           SizedBox(
-            height: 170,
+            height: 250,
             child: GridListWidget<Products, Product>(
               key: productUniqueKey,
               context: context,
@@ -434,7 +434,7 @@ class _HomeViewListState extends State<HomeViewList> {
               gridCount: 2,
               viewModel: ProductsGridViewBuilderViewModel(
                   randomize: true, sameDayDelivery: true),
-              childAspectRatio: 0.65,
+              childAspectRatio: 1.50,
               scrollDirection: Axis.horizontal,
               disablePagination: true,
               tileBuilder: (BuildContext context, productData, index, onUpdate,

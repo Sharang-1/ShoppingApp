@@ -16,71 +16,94 @@ class TopPicksAndDealsCard extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    final num discountedPrice = data['price'] != null && data['discount'] != null ? (data['price'] - (data['discount'] * data['price']) / 100) : 0;
+    final num discountedPrice =
+        data['price'] != null && data['discount'] != null
+            ? (data['price'] - (data['discount'] * data['price']) / 100)
+            : 0;
     return Container(
-      padding: EdgeInsets.only(bottom: 10),
+      // padding: EdgeInsets.only(bottom: 10),
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(curve15),
         ),
         clipBehavior: Clip.antiAlias,
         elevation: 5,
-        child: Padding(
-          padding: EdgeInsets.all(10),
-          child: Column(
-            children: <Widget>[
-              Expanded(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Stack(children: <Widget>[
-                      Opacity(
-                        opacity: (data["isDiscountAvailable"] != null &&
-                                    data["isDiscountAvailable"] == "true") ||
-                                (data["isExclusive"] != null &&
-                                    data["isExclusive"] == "true")
-                            ? 1
-                            : 1,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(curve15),
-                          child: data["isExclusive"] != null &&
-                                  data["isExclusive"] == "true"
-                              ? imageWithTag()
-                              : FadeInImage.assetNetwork(
-                                  width: 100,
-                                  height: 150,
-                                  fadeInCurve: Curves.easeIn,
-                                  placeholder: "assets/images/placeholder.png",
-                                  image: data['key'] != null &&
-                                          data['photo'] != null
-                                      ? '$PRODUCT_PHOTO_BASE_URL/${data["key"]}/${data["photo"]}'
-                                      : "https://images.unsplash.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-                                  fit: BoxFit.cover,
-                                ),
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Expanded(
+                    flex: 3,
+                    child: Padding(
+                      padding: EdgeInsets.only(bottom: 8.0),
+                      child: Stack(children: <Widget>[
+                        Opacity(
+                          opacity: (data["isDiscountAvailable"] != null &&
+                                      data["isDiscountAvailable"] == "true") ||
+                                  (data["isExclusive"] != null &&
+                                      data["isExclusive"] == "true")
+                              ? 1
+                              : 1,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(curve15),
+                            child: data["isExclusive"] != null &&
+                                    data["isExclusive"] == "true"
+                                ? imageWithTag()
+                                : FadeInImage.assetNetwork(
+                                    width: 500,
+                                    height: 500,
+                                    fadeInCurve: Curves.easeIn,
+                                    placeholder:
+                                        "assets/images/placeholder.png",
+                                    image: data['key'] != null &&
+                                            data['photo'] != null
+                                        ? '$PRODUCT_PHOTO_BASE_URL/${data["key"]}/${data["photo"]}'
+                                        : "https://images.unsplash.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
+                                    fit: BoxFit.cover,
+                                  ),
+                          ),
                         ),
-                      ),
-                      (data["isDiscountAvailable"] != null &&
-                                  data["isDiscountAvailable"] == "true") ||
-                              (data["isExclusive"] != null &&
-                                  data["isExclusive"] == "true")
-                          ? data["isExclusive"] != null &&
-                                  data["isExclusive"] == "true"
-                              ? Container()
-                              : Positioned(
-                                  top: 0,
-                                  left: 0,
-                                  child: svgDiscount(),
-                                )
-                          : Container()
-                    ]),
-                    Expanded(
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 10, right: 10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            CustomText(
+                        if (data["isDiscountAvailable"] != null &&
+                            data["isDiscountAvailable"] == "true")
+                          Positioned(
+                            top: 0,
+                            right: 0,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: logoRed,
+                                borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(10),
+                                ),
+                              ),
+                              width: 40,
+                              height: 20,
+                              child: Center(
+                                child: Text(
+                                  "${data['discount'].toInt().toString()} %",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: priceFontSize - 4),
+                                ),
+                              ),
+                            ),
+                          ),
+                      ]),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          Expanded(
+                            flex: 2,
+                            child: CustomText(
                               data['name'],
                               dotsAfterOverFlow: true,
                               isTitle: true,
@@ -88,27 +111,30 @@ class TopPicksAndDealsCard extends StatelessWidget {
                               color: Colors.grey[800],
                               fontSize: subtitleFontSizeStyle - 2,
                             ),
-                            CustomDivider(),
-                            data["isDiscountAvailable"] == null ||
-                                    (data["isDiscountAvailable"] != null &&
-                                        data["isDiscountAvailable"] != "true")
-                                ? Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      CustomText(
-                                        'By ${data['sellerName']}',
-                                        color: Colors.grey,
-                                        dotsAfterOverFlow: true,
-                                        fontSize: subtitleFontSizeStyle - 4,
-                                      ),
-                                      CustomDivider(),
-                                    ],
-                                  )
-                                : Container(),
-                            Row(
+                          ),
+                          Expanded(
+                            flex: 3,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                CustomText(rupeeUnicode + discountedPrice.toString(),
+                                Expanded(
+                                  child: CustomText(
+                                    'By ${data['sellerName']}',
+                                    color: Colors.grey,
+                                    dotsAfterOverFlow: true,
+                                    fontSize: subtitleFontSizeStyle - 4,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            flex: 2,
+                            child: Row(
+                              children: <Widget>[
+                                CustomText(
+                                    rupeeUnicode + discountedPrice.toString(),
                                     color: textIconBlue,
                                     isBold: true,
                                     fontSize: subtitleFontSizeStyle - 2),
@@ -128,48 +154,50 @@ class TopPicksAndDealsCard extends StatelessWidget {
                                     : Container(),
                               ],
                             ),
-                            data["isDiscountAvailable"] != null &&
-                                    data["isDiscountAvailable"] == "true"
-                                ? Column(
-                                    children: <Widget>[
-                                      CustomDivider(),
-                                      CustomText(
-                                        "${data['discount'].toString()} % Discount",
-                                        fontSize: subtitleFontSizeStyle - 4,
-                                        isBold: true,
-                                        color: green,
-                                      ),
-                                    ],
-                                  )
-                                : Container(),
-                          ],
-                        ),
+                          ),
+                          // Expanded(
+                          //   flex:2,
+                          //   child: data["isDiscountAvailable"] != null &&
+                          //         data["isDiscountAvailable"] == "true"
+                          //     ? Column(
+                          //           children: <Widget>[
+                          //             Expanded(
+                          //                 child: CustomText(
+                          //                 "${data['discount'].toString()} % Discount",
+                          //                 fontSize: subtitleFontSizeStyle - 4,
+                          //                 isBold: true,
+                          //                 color: green,
+                          //               ),
+                          //             ),
+                          //           ],
+                          //         )
+                          //     : Container(),),
+                        ],
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              data["isSameDayDelivery"] != null &&
-                      data["isSameDayDelivery"] == "true"
-                  ? Column(
-                      children: <Widget>[
-                        CustomDivider(),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            CustomText(
-                              "Same Day Delivery",
-                              isBold: true,
-                              fontSize: subtitleFontSizeStyle - 4,
-                              color: textIconOrange,
-                            )
-                          ],
-                        )
-                      ],
-                    )
-                  : verticalSpace(0)
-            ],
-          ),
+            ),
+            data["isSameDayDelivery"] != null &&
+                    data["isSameDayDelivery"] == "true"
+                ? Column(
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          CustomText(
+                            "Same Day Delivery",
+                            isBold: true,
+                            fontSize: subtitleFontSizeStyle - 4,
+                            color: textIconOrange,
+                          )
+                        ],
+                      )
+                    ],
+                  )
+                : verticalSpace(8)
+          ],
         ),
       ),
     );
@@ -182,8 +210,9 @@ class TopPicksAndDealsCard extends StatelessWidget {
         left: 5,
         child: Container(
           decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(curve30)),
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(curve30),
+          ),
           height: 15,
           width: 15,
         ),
@@ -271,10 +300,11 @@ class CustomDivider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-        child: Divider(
-          thickness: 1,
-          color: Colors.grey[400].withOpacity(0.1),
-        ));
+      padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+      child: Divider(
+        thickness: 1,
+        color: Colors.grey[400].withOpacity(0.1),
+      ),
+    );
   }
 }

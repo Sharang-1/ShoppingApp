@@ -116,7 +116,7 @@ class _ProductTileUIState extends State<ProductTileUI> {
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(10, 8.0, 6, 6),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Row(
