@@ -138,7 +138,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                   ),
                   SizedBox(width: 10),
                   Text(
-                    '${productDiscount.toString()}% off',
+                    '${productDiscount.toInt().toString()}% off',
                     style: TextStyle(
                         fontSize: subtitleFontSizeStyle - 2,
                         color: Colors.green[600],
@@ -418,7 +418,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                   //           allTags(tags),
                   //         ],
                   //       ),
-                  verticalSpace(20),
+                  verticalSpace(10),
                   available
                       ? Text(
                           "In Stock",
@@ -439,6 +439,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                         Text(
                           "Delivery By :",
                           style: TextStyle(
+                            fontWeight: FontWeight.bold,
                             fontSize: subtitleFontSizeStyle - 3,
                           ),
                         ),
@@ -458,6 +459,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                         Text(
                           "Delivery To :",
                           style: TextStyle(
+                            fontWeight: FontWeight.bold,
                             fontSize: subtitleFontSizeStyle - 3,
                           ),
                         ),
@@ -490,7 +492,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                   onTap: () {
                                     model.gotoAddView(context);
                                   },
-                                  child: model.defaultAddress == null
+                                  child: model.defaultAddress == null || model.defaultAddress == ""
                                       ? Text("Add Address")
                                       : Text(model.defaultAddress))
                             ],
@@ -767,7 +769,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                         ),
                       ),
                     ),
-                  verticalSpace(40),
+                  verticalSpace(30),
                   Text(
                     "   Description",
                     style: TextStyle(
@@ -793,7 +795,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                       ),
                     ),
                   ),
-                  verticalSpace(40),
+                  verticalSpace(20),
                   Text(
                     "   Product Details",
                     style: TextStyle(
@@ -813,7 +815,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                           product: widget.data, model: model),
                     ),
                   ),
-                  verticalSpace(40),
+                  verticalSpace(20),
                   Text(
                     "   Sold By",
                     style: TextStyle(
@@ -856,7 +858,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                           ],
                         )),
                   ),
-                  verticalSpace(40),
+                  verticalSpace(20),
                   Text(
                     "   Recommended Products",
                     style: TextStyle(
@@ -891,7 +893,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                       },
                     ),
                   ),
-                  verticalSpace(40),
+                  verticalSpace(20),
                   Text(
                     "   More From Seller",
                     style: TextStyle(
