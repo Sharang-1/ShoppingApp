@@ -11,7 +11,7 @@ class DynamicContentViewModel extends BaseModel {
   final NavigationService _navigationService = locator<NavigationService>();
 
   Future<void> init({data}) async {
-    Future.delayed(Duration(seconds: 1), () async {
+
       if (data == null) _navigationService.navigateReplaceTo(HomeViewRoute);
       
       switch (data?.contentType) {
@@ -38,6 +38,5 @@ class DynamicContentViewModel extends BaseModel {
       }
       _navigationService.navigateReplaceTo(HomeViewRoute);
       return;
-    });
   }
 }
