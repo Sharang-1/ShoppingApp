@@ -1,18 +1,16 @@
 // Auth routes
 const String LoginViewRoute = "LoginView";
 const String VerifyOTPViewRoute = "VerifyOTPView";
-const String OtpFinishedScreen1Route = "OtpFinishedScreen1View";
-const String OtpFinishedScreen2Route = "OtpFinishedScreen2View";
+const String OtpVerifiedRoute = "OtpVerifiedView";
+const String OtpVerified2Route = "OtpVerifiedView2";
 
 // Home routes
 const String HomeViewRoute = "HomeView";
 const String SearchViewRoute = "SearchView";
 const String MapViewRoute = "MapView";
-
-const String MyHomePageRoute = "MyHomePage";
 const String LoaderRoute = "loader";
 const String ProdLoaderRoute = "prodloader";
-
+const String MyHomePageRoute = "MyHomePage";
 
 // Cart and Order Routes
 const String CartViewRoute = "CartView";
@@ -38,6 +36,7 @@ const String MyAppointmentViewRoute = "MyAppointmentView";
 const String ProfileViewRoute = "ProfileView";
 const String SettingsRoute = "SettingsView";
 const String NotifcationViewRoute = "NotificationView";
+const String DynamicContentViewRoute = "DynamicContentView";
 
 // Unused Routes
 const String CreatePostViewRoute = "CreatePostView";

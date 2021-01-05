@@ -1,15 +1,15 @@
 import 'package:compound/ui/shared/app_colors.dart';
-import 'package:compound/viewmodels/otp_finished_view_model.dart';
+import 'package:compound/viewmodels/verify_otp_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 import '../shared/shared_styles.dart';
 
-class otpFinishedScreen2 extends StatefulWidget {
+class OtpVerifiedView2 extends StatefulWidget {
   @override
   _TextFadeState createState() => _TextFadeState();
 }
 
-class _TextFadeState extends State<otpFinishedScreen2>
+class _TextFadeState extends State<OtpVerifiedView2>
     with SingleTickerProviderStateMixin {
   Animation _animation;
   AnimationController _animationController;
@@ -28,9 +28,9 @@ class _TextFadeState extends State<otpFinishedScreen2>
   @override
   Widget build(BuildContext context) {
     const double headingFontSize = headingFontSizeStyle + 15;
-    return ViewModelProvider<OtpFinishedScreenModel>.withConsumer(
-      viewModel: OtpFinishedScreenModel(),
-      onModelReady: (model) => model.init(2, false, false),
+    return ViewModelProvider<VerifyOTPViewModel>.withConsumer(
+      viewModel: VerifyOTPViewModel(),
+      onModelReady: (model) => model.otpVerified(loader: true),
       builder: (context, model, child) => Scaffold(
           backgroundColor: backgroundWhiteCreamColor,
           body: AnimatedBuilder(

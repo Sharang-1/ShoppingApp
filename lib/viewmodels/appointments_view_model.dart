@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:compound/constants/route_names.dart';
 import 'package:compound/locator.dart';
 import 'package:compound/models/Appointments.dart';
@@ -101,4 +100,12 @@ class AppointmentsViewModel extends BaseModel {
       );
     }
   }
+
+  //method, which is called after appointment is booked 
+  Future appointmentBooked() async {
+     Future.delayed(Duration(milliseconds: 2000), () async {
+        _navigationService.navigateReplaceTo(MyAppointmentViewRoute);
+     });
+  }
+
 }

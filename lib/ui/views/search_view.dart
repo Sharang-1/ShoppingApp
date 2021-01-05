@@ -41,6 +41,7 @@ class _SearchViewState extends State<SearchView>
   int currentTabIndex = 0;
   bool showRecents = true;
   bool showResults = false;
+  bool showRandomSellers = true;
   RegExp _searchFilterRegex = RegExp(r"\w+", caseSensitive: true);
   Key productGridKey = UniqueKey();
   Key sellerGridKey = UniqueKey();
@@ -83,8 +84,19 @@ class _SearchViewState extends State<SearchView>
   void _onTabChange() {
     setState(() {
       currentTabIndex = _tabController.index;
-      showResults = false;
-      _searchBarFocusNode.requestFocus();
+      if (currentTabIndex == 1 && showRandomSellers) {
+        Future.delayed(Duration(milliseconds: 200), () {
+          setState(() {
+            sellerFilter = new SellerFilter(name: "");
+            showResults = true;
+            if (showRecents) showRecents = false;
+            _changeSearchFieldFocus();
+          });
+        });
+      } else {
+        showResults = false;
+        _searchBarFocusNode.requestFocus();
+      }
     });
   }
 
@@ -264,6 +276,7 @@ class _SearchViewState extends State<SearchView>
                     //     showRecents = true;
                     //   }
                     // });
+                    showRandomSellers = false;
                   },
                   onChanged: _searchBarOnChange,
                 ),
@@ -404,7 +417,8 @@ class _SearchViewState extends State<SearchView>
                             context: context,
                             filter: sellerFilter,
                             gridCount: 1,
-                            viewModel: SellersGridViewBuilderViewModel(),
+                            viewModel: SellersGridViewBuilderViewModel(
+                                random: showRandomSellers),
                             disablePagination: true,
                             childAspectRatio: 2,
                             tileBuilder: (BuildContext context, data, index,
@@ -502,8 +516,8 @@ class _SearchViewState extends State<SearchView>
         showResults = true;
         if (showRecents) showRecents = false;
         // Append to shared pref only when new element is inserted
-        if (finalSellerHistoryList.indexOf(searchKey) == -1)
-          finalSellerHistoryList = finalSellerHistoryList + [searchKey];
+        // if (finalSellerHistoryList.indexOf(searchKey) == -1)
+        //   finalSellerHistoryList = finalSellerHistoryList + [searchKey];
       });
       _updateRecentSharedPrefs();
     }
@@ -531,7 +545,7 @@ class _SearchViewState extends State<SearchView>
   }
 
   void _changeSearchFieldFocus() {
-      _searchBarFocusNode.nextFocus();
+    _searchBarFocusNode.nextFocus();
     // setState(() {
     //   if (showResults) {
     //     showRecents = false;

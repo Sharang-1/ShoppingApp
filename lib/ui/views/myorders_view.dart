@@ -9,12 +9,8 @@ import './myorders_details_view.dart';
 import 'package:compound/constants/route_names.dart';
 import 'package:compound/locator.dart';
 import 'package:compound/services/navigation_service.dart';
-import 'package:compound/ui/shared/shared_styles.dart';
-import 'package:compound/ui/shared/ui_helpers.dart';
-import 'package:flutter/material.dart';
 import '../widgets/custom_text.dart';
 import '../shared/app_colors.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class MyOrdersView extends StatelessWidget {
   final NavigationService _navigationService = locator<NavigationService>();
@@ -154,6 +150,9 @@ class MyOrdersView extends StatelessWidget {
                                                 Icons.arrow_forward_ios,
                                                 color: Colors.grey,
                                               ),
+                                              onPressed: (){
+                                                
+                                              },
                                             )
                                           ],
                                         ),

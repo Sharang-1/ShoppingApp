@@ -25,7 +25,6 @@ import 'package:compound/models/payment_options.dart';
 import 'package:compound/models/products.dart';
 import 'package:compound/models/promoCode.dart';
 import 'package:compound/models/promotions.dart';
-import 'package:compound/models/lookups.dart';
 import 'package:compound/models/reviews.dart';
 import 'package:compound/models/sellers.dart';
 import 'package:compound/models/tailors.dart';
@@ -166,6 +165,14 @@ class APIService {
       return products;
     }
     return null;
+  }
+
+  Future<Product> getProductById({@required String productId})async {
+    if(productId == null) return null;
+    var productData = await apiWrapper("products/$productId;seller=true;active=true");
+    if(productData == null) return null;
+    Product product = Product.fromJson(productData);
+    return product;
   }
 
   Future<Products> getWhishlistProducts({
