@@ -39,7 +39,7 @@ class SellerTileUi extends StatelessWidget {
               (MediaQuery.of(context).size.width - 40) * (fromHome ? 0.8 : 1),
           child: GestureDetector(
             onTap: () {
-              _navigationService.navigateTo(SellerIndiViewRoute);
+              _navigationService.navigateTo(SellerIndiViewRoute, arguments: data);
             },
             child: Card(
               shape: RoundedRectangleBorder(
