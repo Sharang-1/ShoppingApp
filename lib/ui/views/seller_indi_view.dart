@@ -49,7 +49,7 @@ class _SellerIndiState extends State<SellerIndi> {
     print("la t  " + widget?.data?.contact?.geoLocation?.latitude?.toString());
     Map<String, String> sellerDetails = {
       "name": widget.data.name,
-      "type": widget.data.accountType.toString().split('.').last,
+      "type": widget?.data?.establishmentType?.name?.toString(),
       "rattings": "4.5",
       "lat": widget?.data?.contact?.geoLocation?.latitude?.toString(),
       "lon": widget?.data?.contact?.geoLocation?.longitude?.toString(),
@@ -59,7 +59,7 @@ class _SellerIndiState extends State<SellerIndi> {
       "Designs & Creates": widget.data.designs,
       "Services offered": widget.data.operations,
       "Works Offered": widget.data.works,
-      "Type": widget.data.accountType.toString().split('.').last,
+      "Type": widget.data.accountType.toString().split('.').last.toLowerCase(),
       "Note from Seller": widget.data.bio
     };
 
