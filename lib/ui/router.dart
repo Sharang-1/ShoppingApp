@@ -87,7 +87,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         pageArguments: pageArguments, 
         routeName: settings.name, 
         viewToShow: OtpVerifiedView2(), 
-        pageTransitionType: PageTransitionType.upToDown
+        pageTransitionType: PageTransitionType.rightToLeft
       );
     case SearchViewRoute:
       return _getPageRoute(
