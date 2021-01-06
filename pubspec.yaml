@@ -86,6 +86,8 @@ flutter:
     - assets/images/DZOR_full_logo.png
     - assets/images/tile_ui_placeholder.jpg
     - assets/images/placeholder.png
+    - assets/images/product_preloading.png
+    - assets/images/promotion_preloading.png
     - assets/images/coupon_1.svg
     - assets/images/cash_icon.png
     - assets/images/gpay_icon.png
