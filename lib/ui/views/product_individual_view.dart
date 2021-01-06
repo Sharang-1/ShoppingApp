@@ -24,6 +24,8 @@ import '../shared/app_colors.dart';
 import '../views/home_view_slider.dart';
 import '../widgets/cart_icon_badge.dart';
 import '../shared/shared_styles.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 const weekday = [
   "Monday",
@@ -63,6 +65,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
   int maxQty = -1;
   String selectedSize = "";
   String selectedColor = "";
+  UniqueKey key = UniqueKey();
+  final refreshController = RefreshController(initialRefresh: false);
 
   bool disabledAddToCartBtn = false;
 
@@ -152,38 +156,42 @@ class _ProductIndiViewState extends State<ProductIndiView> {
 
   List<Widget> choiceChips(variations) {
     List<Widget> allChips = [];
+    List<String> sizes = [];
     // List jsonParsed = json.decode(variations.toString());
     for (int i = 0; i < variations.length; i++) {
-      allChips.add(ChoiceChip(
-        backgroundColor: Colors.white,
-        selectedShadowColor: Colors.white,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
-            side: BorderSide(
+      if (!sizes.contains(variations[i].size)) {
+        allChips.add(ChoiceChip(
+          backgroundColor: Colors.white,
+          selectedShadowColor: Colors.white,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+              side: BorderSide(
+                color: selectedSize == variations[i].size
+                    ? darkRedSmooth
+                    : Colors.grey,
+                width: 0.5,
+              )),
+          labelStyle: TextStyle(
+              fontSize: subtitleFontSizeStyle - 4,
+              fontWeight: selectedSize == variations[i].size
+                  ? FontWeight.w600
+                  : FontWeight.normal,
               color: selectedSize == variations[i].size
                   ? darkRedSmooth
-                  : Colors.grey,
-              width: 0.5,
-            )),
-        labelStyle: TextStyle(
-            fontSize: subtitleFontSizeStyle - 4,
-            fontWeight: selectedSize == variations[i].size
-                ? FontWeight.w600
-                : FontWeight.normal,
-            color: selectedSize == variations[i].size
-                ? darkRedSmooth
-                : Colors.grey),
-        selectedColor: Colors.white,
-        label: Text(variations[i].size),
-        selected: selectedSize == variations[i].size,
-        onSelected: (val) {
-          setState(() => {
-                selectedSize = variations[i].size,
-                selectedIndex = i,
-                selectedQty = 0
-              });
-        },
-      ));
+                  : Colors.grey),
+          selectedColor: Colors.white,
+          label: Text(variations[i].size),
+          selected: selectedSize == variations[i].size,
+          onSelected: (val) {
+            setState(() => {
+                  selectedSize = variations[i].size,
+                  selectedIndex = i,
+                  selectedQty = 0
+                });
+          },
+        ));
+        sizes.add(variations[i].size);
+      }
     }
 
     return allChips;
@@ -278,25 +286,27 @@ class _ProductIndiViewState extends State<ProductIndiView> {
 
   Text stockWidget({List<Variation> variations, bool available}) {
     int totalQuantity = 0;
-    variations.forEach((variation) { totalQuantity += variation.quantity.toInt(); });
+    variations.forEach((variation) {
+      totalQuantity += variation.quantity.toInt();
+    });
     String text = (totalQuantity == 0)
-     ? "Sold out"
-     : (available) 
-     ? (totalQuantity == 2) 
-     ? "Only 2 left" 
-     : (totalQuantity == 1)
-     ? "Last piece left"
-     : "In Stock" 
-     : "Not available";
+        ? "Sold out"
+        : (available)
+            ? (totalQuantity == 2)
+                ? "Only 2 left"
+                : (totalQuantity == 1)
+                    ? "Last piece left"
+                    : "In Stock"
+            : "Not available";
 
     return Text(
-          text,
-          style: TextStyle(
-              fontSize: titleFontSizeStyle,
-              color: available ? green: logoRed,
-              fontWeight: FontWeight.w600),
-        );
-    }
+      text,
+      style: TextStyle(
+          fontSize: titleFontSizeStyle,
+          color: available ? green : logoRed,
+          fontWeight: FontWeight.w600),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -360,600 +370,646 @@ class _ProductIndiViewState extends State<ProductIndiView> {
             )
           ],
         ),
-        body: SingleChildScrollView(
-          child: Container(
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  productNameAndDescInfo(
-                      productName, widget?.data?.variations ?? [], model),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Stack(children: <Widget>[
-                    HomeSlider(
-                      imgList: imageURLs,
-                      aspectRatio: 1,
+        body: SmartRefresher(
+          enablePullDown: true,
+          footer: null,
+          header: WaterDropHeader(
+            waterDropColor: logoRed,
+            refresh: Container(),
+            complete: Container(),
+          ),
+          controller: refreshController,
+          onRefresh: () async {
+            setState(() {
+              key = new UniqueKey();
+            });
+
+            await Future.delayed(Duration(milliseconds: 100));
+
+            refreshController.refreshCompleted();
+          },
+          child: SingleChildScrollView(
+            child: Container(
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    productNameAndDescInfo(
+                        productName, widget?.data?.variations ?? [], model),
+                    SizedBox(
+                      height: 15,
                     ),
-                    Positioned(
-                      bottom: imageURLs.length > 1 || imageURLs.length == 0
-                          ? 45
-                          : 20,
-                      right: 20,
-                      child: GestureDetector(
-                        onTap: () async {
-                          if (Provider.of<WhishListSetUp>(context,
-                                      listen: false)
-                                  .list
-                                  .indexOf(productId) !=
-                              -1) {
-                            await model.removeFromWhishList(productId);
-                            Provider.of<WhishListSetUp>(context, listen: false)
-                                .removeFromWhishList(productId);
-                          } else {
-                            await model.addToWhishList(productId);
-                            Provider.of<WhishListSetUp>(context, listen: false)
-                                .addToWhishList(productId);
-                          }
-                        },
-                        child: Container(
-                          padding: EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(30),
-                              color: Colors.white.withOpacity(1)),
-                          child: WishListIcon(
-                            filled: Provider.of<WhishListSetUp>(context,
-                                        listen: true)
+                    Stack(children: <Widget>[
+                      HomeSlider(
+                        imgList: imageURLs,
+                        aspectRatio: 1,
+                      ),
+                    ]),
+                    verticalSpace(20),
+                    Row(
+                      children: <Widget>[
+                        Expanded(
+                            child: priceInfo(
+                          productPrice,
+                          productDiscount,
+                        ),),
+                        GestureDetector(
+                          onTap: () async {
+                            if (Provider.of<WhishListSetUp>(context,
+                                        listen: false)
                                     .list
                                     .indexOf(productId) !=
-                                -1,
-                            width: 20,
-                            height: 20,
+                                -1) {
+                              await model.removeFromWhishList(productId);
+                              Provider.of<WhishListSetUp>(context,
+                                      listen: false)
+                                  .removeFromWhishList(productId);
+                            } else {
+                              await model.addToWhishList(productId);
+                              Provider.of<WhishListSetUp>(context,
+                                      listen: false)
+                                  .addToWhishList(productId);
+                            }
+                          },
+                          child: Container(
+                            padding: EdgeInsets.all(10),
+                            // decoration: BoxDecoration(
+                            //     borderRadius: BorderRadius.circular(30),
+                            //     color: Colors.white.withOpacity(1)),
+                            child: WishListIcon(
+                              filled: Provider.of<WhishListSetUp>(context,
+                                          listen: true)
+                                      .list
+                                      .indexOf(productId) !=
+                                  -1,
+                              width: 20,
+                              height: 20,
+                            ),
                           ),
                         ),
-                      ),
-                    )
-                  ]),
-                  verticalSpace(20),
-                  Row(
-                    children: <Widget>[
-                      Expanded(
-                          child: priceInfo(
-                        productPrice,
-                        productDiscount,
-                      )),
-                      SvgPicture.asset(
-                        "assets/icons/share.svg",
-                        width: 30,
-                        height: 30,
-                        color: appBarIconColor,
-                      )
-                    ],
-                  ),
-                  Container(),
-                  // true || tags.length == 0
-                  //     ? Container()
-                  //     : Column(
-                  //         children: <Widget>[
-                  //           verticalSpace(10),
-                  //           allTags(tags),
-                  //         ],
-                  //       ),
-                  verticalSpace(10),
-                  stockWidget(variations: variations, available: available),
-                  if (available) verticalSpace(20),
-                  if (available)
-                    Row(
-                      children: <Widget>[
-                        Text(
-                          "Delivery By :",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: subtitleFontSizeStyle - 3,
-                          ),
-                        ),
-                        horizontalSpaceSmall,
-                        Text(
-                          shipment,
-                          style: TextStyle(
-                            fontSize: subtitleFontSizeStyle - 3,
-                          ),
-                        ),
-                      ],
-                    ),
-                  if (available) verticalSpace(10),
-                  if (available)
-                    Row(
-                      children: <Widget>[
-                        Text(
-                          "Delivery To :",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: subtitleFontSizeStyle - 3,
-                          ),
-                        ),
-                        horizontalSpaceSmall,
                         Container(
-                          padding:
-                              EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-                          decoration: BoxDecoration(
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
-                                  spreadRadius: 2,
-                                  blurRadius: 4,
-                                  offset: Offset(
-                                      0, 3), // changes position of shadow
-                                ),
-                              ],
-                              borderRadius: BorderRadius.circular(30),
-                              color: Colors.white),
-                          child: Row(
-                            children: <Widget>[
-                              SvgPicture.asset(
-                                "assets/icons/address.svg",
-                                color: Colors.black,
-                                width: 20,
-                                height: 20,
-                              ),
-                              horizontalSpaceSmall,
-                              InkWell(
-                                  onTap: () {
-                                    model.gotoAddView(context);
-                                  },
-                                  child: model.defaultAddress == null || model.defaultAddress == ""
-                                      ? Text("Add Address")
-                                      : Text(model.defaultAddress))
-                            ],
+                          padding: EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Image.asset(
+                            "assets/images/share_icon.png",
+                            width: 30,
+                            height: 30,
                           ),
-                        )
-                        // Expanded(
-                        //     child: Text(
-                        //   "Add ur address here",
-                        //   overflow: TextOverflow.ellipsis,
-                        //   style: TextStyle(
-                        //     fontSize: 15,
-                        //   ),
-                        // )),
+                        ),
                       ],
                     ),
-                  if (available) verticalSpace(20),
-                  if (available)
-                    Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(curve15),
-                        ),
-                        elevation: 5,
-                        child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          padding: EdgeInsets.all(20),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              selectedSize == "N/A"
-                                  ? verticalSpace(0)
-                                  : Row(
-                                      children: <Widget>[
-                                        Expanded(
-                                          child: Text(
-                                            "Select Size",
+                    Container(),
+                    // true || tags.length == 0
+                    //     ? Container()
+                    //     : Column(
+                    //         children: <Widget>[
+                    //           verticalSpace(10),
+                    //           allTags(tags),
+                    //         ],
+                    //       ),
+                    verticalSpace(10),
+                    stockWidget(variations: variations, available: available),
+                    if (available) verticalSpace(20),
+                    if (available)
+                      Row(
+                        children: <Widget>[
+                          Text(
+                            "Delivery By :",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: subtitleFontSizeStyle - 3,
+                            ),
+                          ),
+                          horizontalSpaceSmall,
+                          Text(
+                            shipment,
+                            style: TextStyle(
+                              fontSize: subtitleFontSizeStyle - 3,
+                            ),
+                          ),
+                        ],
+                      ),
+                    if (available) verticalSpace(10),
+                    if (available)
+                      Row(
+                        children: <Widget>[
+                          Text(
+                            "Delivery To :",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: subtitleFontSizeStyle - 3,
+                            ),
+                          ),
+                          horizontalSpaceSmall,
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 5, horizontal: 15),
+                            decoration: BoxDecoration(
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 2,
+                                    blurRadius: 4,
+                                    offset: Offset(
+                                        0, 3), // changes position of shadow
+                                  ),
+                                ],
+                                borderRadius: BorderRadius.circular(30),
+                                color: Colors.white),
+                            child: Row(
+                              children: <Widget>[
+                                SvgPicture.asset(
+                                  "assets/icons/address.svg",
+                                  color: Colors.black,
+                                  width: 20,
+                                  height: 20,
+                                ),
+                                horizontalSpaceSmall,
+                                InkWell(
+                                    onTap: () {
+                                      model.gotoAddView(context);
+                                    },
+                                    child: model.defaultAddress == null ||
+                                            model.defaultAddress == ""
+                                        ? Text("Add Address")
+                                        : Text(model.defaultAddress))
+                              ],
+                            ),
+                          )
+                          // Expanded(
+                          //     child: Text(
+                          //   "Add ur address here",
+                          //   overflow: TextOverflow.ellipsis,
+                          //   style: TextStyle(
+                          //     fontSize: 15,
+                          //   ),
+                          // )),
+                        ],
+                      ),
+                    if (available) verticalSpace(20),
+                    if (available)
+                      Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(curve15),
+                          ),
+                          elevation: 5,
+                          child: Container(
+                            width: MediaQuery.of(context).size.width,
+                            padding: EdgeInsets.all(20),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                selectedSize == "N/A"
+                                    ? verticalSpace(0)
+                                    : Row(
+                                        children: <Widget>[
+                                          Expanded(
+                                            child: Text(
+                                              "Select Size",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize:
+                                                      subtitleFontSizeStyle),
+                                            ),
+                                          ),
+                                          InkWell(
+                                            onTap: () {
+                                              _showDialog(context,
+                                                  model.selleDetail.key, 1);
+                                            },
+                                            child: Text(
+                                              "size chart",
+                                              style: TextStyle(
+                                                  color: darkRedSmooth,
+                                                  decoration:
+                                                      TextDecoration.underline,
+                                                  fontSize:
+                                                      subtitleFontSizeStyle -
+                                                          3),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                verticalSpace(5),
+                                allSizes(variations),
+                                selectedSize == ""
+                                    ? Container()
+                                    : Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          selectedSize == "N/A"
+                                              ? verticalSpace(0)
+                                              : verticalSpace(20),
+                                          Text(
+                                            "Select Color",
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 fontSize:
                                                     subtitleFontSizeStyle),
                                           ),
-                                        ),
-                                        InkWell(
-                                          onTap: () {
-                                            _showDialog(context,
-                                                model.selleDetail.key, 1);
-                                          },
-                                          child: Text(
-                                            "size chart",
-                                            style: TextStyle(
-                                                color: darkRedSmooth,
-                                                decoration:
-                                                    TextDecoration.underline,
-                                                fontSize:
-                                                    subtitleFontSizeStyle - 3),
+                                          verticalSpace(5),
+                                          allColors(
+                                            variations,
                                           ),
-                                        )
-                                      ],
-                                    ),
-                              verticalSpace(5),
-                              allSizes(variations),
-                              selectedSize == ""
-                                  ? Container(
-                                      child: Text(
-                                        "Please select size carefully",
+                                        ],
+                                      ),
+                                verticalSpace(10),
+                                selectedColor == ""
+                                    ? Container()
+                                    : Row(
+                                        children: <Widget>[
+                                          Text(
+                                            "Select Qty",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize:
+                                                    subtitleFontSizeStyle),
+                                          ),
+                                          horizontalSpaceMedium,
+                                          Container(
+                                            height: 40,
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 0, horizontal: 0),
+                                            decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    color: darkRedSmooth),
+                                                borderRadius:
+                                                    BorderRadius.circular(20)),
+                                            child: Row(
+                                              children: <Widget>[
+                                                IconButton(
+                                                  color: selectedQty == 0
+                                                      ? Colors.grey
+                                                      : darkRedSmooth,
+                                                  icon: Icon(Icons.remove),
+                                                  onPressed: () {
+                                                    if (selectedQty != 0) {
+                                                      setState(() {
+                                                        selectedQty =
+                                                            selectedQty - 1;
+                                                      });
+                                                    }
+                                                  },
+                                                ),
+                                                Text(
+                                                  selectedQty.toString(),
+                                                  style: TextStyle(
+                                                      color: darkRedSmooth,
+                                                      fontSize:
+                                                          titleFontSizeStyle,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                IconButton(
+                                                  color: maxQty == selectedQty
+                                                      ? Colors.grey
+                                                      : darkRedSmooth,
+                                                  icon: Icon(Icons.add),
+                                                  onPressed: () {
+                                                    print("maxQty" +
+                                                        maxQty.toString());
+                                                    if (maxQty != selectedQty) {
+                                                      setState(() {
+                                                        selectedQty =
+                                                            selectedQty + 1;
+                                                      });
+                                                    }
+                                                  },
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                Padding(
+                                  padding: EdgeInsets.only(top: 8.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "*Please select size, color, quantity carefully by referring to the size chart.",
                                         style: TextStyle(
-                                          color: darkRedSmooth,
-                                          fontSize: subtitleFontSizeStyle - 2,
+                                          color: Colors.grey,
+                                          fontSize: subtitleFontSizeStyle - 7,
                                         ),
                                       ),
-                                    )
-                                  : Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        selectedSize == "N/A"
-                                            ? verticalSpace(0)
-                                            : verticalSpace(20),
-                                        Text(
-                                          "Select Color",
+                                      GestureDetector(
+                                        onTap: () async {
+                                          if (await canLaunch(
+                                              "https://dzor.in/#/return-policy"))
+                                            await launch(
+                                                "https://dzor.in/#/return-policy");
+                                        },
+                                        child: Text(
+                                          "Return Policy",
                                           style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: subtitleFontSizeStyle),
+                                              color: Colors.grey,
+                                              fontSize:
+                                                  subtitleFontSizeStyle - 7,
+                                              decoration:
+                                                  TextDecoration.underline),
                                         ),
-                                        verticalSpace(5),
-                                        allColors(
-                                          variations,
-                                        ),
-                                      ],
-                                    ),
-                              verticalSpace(10),
-                              selectedColor == ""
-                                  ? Container()
-                                  : Row(
-                                      children: <Widget>[
-                                        Text(
-                                          "Select Qty",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: subtitleFontSizeStyle),
-                                        ),
-                                        horizontalSpaceMedium,
-                                        Container(
-                                          height: 40,
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: 0, horizontal: 0),
-                                          decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  color: darkRedSmooth),
-                                              borderRadius:
-                                                  BorderRadius.circular(20)),
-                                          child: Row(
-                                            children: <Widget>[
-                                              IconButton(
-                                                color: selectedQty == 0
-                                                    ? Colors.grey
-                                                    : darkRedSmooth,
-                                                icon: Icon(Icons.remove),
-                                                onPressed: () {
-                                                  if (selectedQty != 0) {
-                                                    setState(() {
-                                                      selectedQty =
-                                                          selectedQty - 1;
-                                                    });
-                                                  }
-                                                },
-                                              ),
-                                              Text(
-                                                selectedQty.toString(),
-                                                style: TextStyle(
-                                                    color: darkRedSmooth,
-                                                    fontSize:
-                                                        titleFontSizeStyle,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                              IconButton(
-                                                color: maxQty == selectedQty
-                                                    ? Colors.grey
-                                                    : darkRedSmooth,
-                                                icon: Icon(Icons.add),
-                                                onPressed: () {
-                                                  print("maxQty" +
-                                                      maxQty.toString());
-                                                  if (maxQty != selectedQty) {
-                                                    setState(() {
-                                                      selectedQty =
-                                                          selectedQty + 1;
-                                                    });
-                                                  }
-                                                },
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                            ],
-                          ),
-                        )),
-                  if (available) verticalSpace(30),
-                  if (available)
-                    Center(
-                      child: GestureDetector(
-                        onTap: (selectedQty == 0 ||
-                                selectedColor == "" ||
-                                selectedSize == "")
-                            ? null
-                            : () async {
-                                var res = await model.buyNow(widget?.data,
-                                    selectedQty, selectedSize, selectedColor);
-                                if (res != null && res == true) {
-                                  Provider.of<CartCountSetUp>(context,
-                                          listen: false)
-                                      .incrementCartCount();
-
-                                  Navigator.push(
-                                    context,
-                                    PageTransition(
-                                      child: CartView(
-                                          productId: widget?.data?.key),
-                                      type: PageTransitionType.rightToLeft,
-                                    ),
-                                  );
-                                }
-                              },
-                        child: Container(
-                          width: MediaQuery.of(context).size.width * 0.8,
-                          padding: EdgeInsets.symmetric(vertical: 10),
-                          decoration: BoxDecoration(
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
-                                  spreadRadius: 2,
-                                  blurRadius: 4,
-                                  offset: Offset(
-                                      0, 3), // changes position of shadow
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ],
-                              color: (selectedQty == 0 ||
-                                      selectedColor == "" ||
-                                      selectedSize == "")
-                                  ? backgroundBlueGreyColor
-                                  : textIconOrange,
-                              borderRadius: BorderRadius.circular(40)),
-                          child: Center(
-                            child: Text(
-                              "BUY NOW",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: subtitleFontSizeStyle,
-                              ),
                             ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  if (available) verticalSpace(20),
-                  if (available)
-                    Center(
-                      child: GestureDetector(
-                        onTap: disabledAddToCartBtn ||
-                                selectedQty == 0 ||
-                                selectedColor == "" ||
-                                selectedSize == ""
-                            ? null
-                            : () async {
-                                setState(() {
-                                  disabledAddToCartBtn = true;
-                                });
+                          )),
+                    if (available) verticalSpace(30),
+                    if (available)
+                      Center(
+                        child: GestureDetector(
+                          onTap: (selectedQty == 0 ||
+                                  selectedColor == "" ||
+                                  selectedSize == "")
+                              ? null
+                              : () async {
+                                  var res = await model.buyNow(widget?.data,
+                                      selectedQty, selectedSize, selectedColor);
+                                  if (res != null && res == true) {
+                                    Provider.of<CartCountSetUp>(context,
+                                            listen: false)
+                                        .incrementCartCount();
 
-                                var res = await model.addToCart(widget?.data,
-                                    selectedQty, selectedSize, selectedColor);
-
-                                if (res == 1) {
-                                  Provider.of<CartCountSetUp>(context,
-                                          listen: false)
-                                      .incrementCartCount();
-                                }
-
-                                setState(() {
-                                  disabledAddToCartBtn = false;
-                                });
-                              },
-                        child: Container(
-                          width: MediaQuery.of(context).size.width * 0.8,
-                          padding: EdgeInsets.symmetric(vertical: 10),
-                          decoration: BoxDecoration(
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
-                                  spreadRadius: 2,
-                                  blurRadius: 4,
-                                  offset: Offset(
-                                      0, 3), // changes position of shadow
-                                ),
-                              ],
-                              color: (selectedQty == 0 ||
-                                      selectedColor == "" ||
-                                      selectedSize == "")
-                                  ? backgroundBlueGreyColor
-                                  : logoRed,
-                              borderRadius: BorderRadius.circular(40)),
-                          child: Center(
-                            child: Text(
-                              "ADD TO BAG",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: subtitleFontSizeStyle,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  verticalSpace(30),
-                  Text(
-                    "   Description",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: titleFontSizeStyle),
-                  ),
-                  verticalSpace(5),
-                  Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    elevation: 5,
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      padding: EdgeInsets.all(20),
-                      child: Text(
-                        widget?.data?.description ?? "",
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                          fontSize: subtitleFontSizeStyle - 5,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                  ),
-                  verticalSpace(20),
-                  Text(
-                    "   Product Details",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: titleFontSizeStyle),
-                  ),
-                  verticalSpace(5),
-                  Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    elevation: 5,
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      padding: EdgeInsets.all(20),
-                      child: ProductDescriptionTable(
-                          product: widget.data, model: model),
-                    ),
-                  ),
-                  verticalSpace(20),
-                  Text(
-                    "   Sold By",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: titleFontSizeStyle),
-                  ),
-                  verticalSpace(5),
-                  Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    elevation: 5,
-                    child: Container(
-                        padding: EdgeInsets.all(20),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              model.selleDetail?.name ?? "",
-                              style: TextStyle(
+                                    Navigator.push(
+                                      context,
+                                      PageTransition(
+                                        child: CartView(
+                                            productId: widget?.data?.key),
+                                        type: PageTransitionType.rightToLeft,
+                                      ),
+                                    );
+                                  }
+                                },
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                            decoration: BoxDecoration(
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 2,
+                                    blurRadius: 4,
+                                    offset: Offset(
+                                        0, 3), // changes position of shadow
+                                  ),
+                                ],
+                                color: (selectedQty == 0 ||
+                                        selectedColor == "" ||
+                                        selectedSize == "")
+                                    ? backgroundBlueGreyColor
+                                    : textIconOrange,
+                                borderRadius: BorderRadius.circular(40)),
+                            child: Center(
+                              child: Text(
+                                "BUY NOW",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
                                   fontSize: subtitleFontSizeStyle,
-                                  color: darkRedSmooth),
+                                ),
+                              ),
                             ),
-                            verticalSpace(10),
-                            Center(
-                                child: Container(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.4,
-                                    child: Divider(
-                                        color: Colors.grey.withOpacity(0.5),
-                                        height: 1))),
-                            verticalSpace(10),
-                            Text(
-                              Tools.getTruncatedString(
-                                  100, model.selleDetail?.bio ?? ""),
-                              style: TextStyle(
-                                  fontSize: subtitleFontSizeStyle - 5,
-                                  color: Colors.grey),
-                            )
-                          ],
-                        )),
-                  ),
-                  verticalSpace(20),
-                  Text(
-                    "   Recommended Products",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: titleFontSizeStyle),
-                  ),
-                  verticalSpace(5),
-                  SizedBox(
-                    height: 200,
-                    child: GridListWidget<Products, Product>(
-                      key: uniqueKey,
-                      context: context,
-                      filter: ProductFilter(
-                          existingQueryString:
-                              "subCategory=${widget?.data?.category?.id ?? -1};"),
-                      gridCount: 2,
-                      viewModel: ProductsGridViewBuilderViewModel(
-                          filteredProductKey: widget?.data?.key),
-                      childAspectRatio: 1.35,
-                      scrollDirection: Axis.horizontal,
-                      disablePagination: false,
-                      tileBuilder: (BuildContext context, productData, index,
-                          onUpdate, onDelete) {
-                        Fimber.d("test");
-                        print((productData as Product).toJson());
-                        return ProductTileUI(
-                          data: productData,
-                          onClick: () => model.goToProductPage(productData),
-                          index: index,
-                          cardPadding: EdgeInsets.fromLTRB(0, 0, 0, 10),
-                        );
-                      },
+                          ),
+                        ),
+                      ),
+                    if (available) verticalSpace(20),
+                    if (available)
+                      Center(
+                        child: GestureDetector(
+                          onTap: disabledAddToCartBtn ||
+                                  selectedQty == 0 ||
+                                  selectedColor == "" ||
+                                  selectedSize == ""
+                              ? null
+                              : () async {
+                                  setState(() {
+                                    disabledAddToCartBtn = true;
+                                  });
+
+                                  var res = await model.addToCart(widget?.data,
+                                      selectedQty, selectedSize, selectedColor);
+
+                                  if (res == 1) {
+                                    Provider.of<CartCountSetUp>(context,
+                                            listen: false)
+                                        .incrementCartCount();
+                                  }
+
+                                  setState(() {
+                                    disabledAddToCartBtn = false;
+                                  });
+                                },
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                            decoration: BoxDecoration(
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 2,
+                                    blurRadius: 4,
+                                    offset: Offset(
+                                        0, 3), // changes position of shadow
+                                  ),
+                                ],
+                                color: (selectedQty == 0 ||
+                                        selectedColor == "" ||
+                                        selectedSize == "")
+                                    ? backgroundBlueGreyColor
+                                    : logoRed,
+                                borderRadius: BorderRadius.circular(40)),
+                            child: Center(
+                              child: Text(
+                                "ADD TO BAG",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: subtitleFontSizeStyle,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    verticalSpace(30),
+                    Text(
+                      "   Description",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: titleFontSizeStyle),
                     ),
-                  ),
-                  verticalSpace(20),
-                  Text(
-                    "   More From Seller",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: titleFontSizeStyle),
-                  ),
-                  verticalSpace(5),
-                  SizedBox(
-                    height: 200,
-                    child: GridListWidget<Products, Product>(
-                      key: uniqueKey,
-                      context: context,
-                      filter: ProductFilter(
-                          existingQueryString:
-                              widget?.data?.account?.key != null
-                                  ? "accountKey=${widget?.data?.account?.key};"
-                                  : ""),
-                      gridCount: 2,
-                      viewModel: ProductsGridViewBuilderViewModel(
-                          filteredProductKey: widget?.data?.key),
-                      childAspectRatio: 1.35,
-                      scrollDirection: Axis.horizontal,
-                      disablePagination: false,
-                      tileBuilder: (BuildContext context, productData, index,
-                          onUpdate, onDelete) {
-                        Fimber.d("test");
-                        print((productData as Product).toJson());
-                        return ProductTileUI(
-                          data: productData,
-                          onClick: () => model.goToProductPage(productData),
-                          index: index,
-                          cardPadding: EdgeInsets.fromLTRB(0, 0, 0, 10),
-                        );
-                      },
+                    verticalSpace(5),
+                    Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      elevation: 5,
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        padding: EdgeInsets.all(20),
+                        child: Text(
+                          widget?.data?.description ?? "",
+                          textAlign: TextAlign.justify,
+                          style: TextStyle(
+                            fontSize: subtitleFontSizeStyle - 5,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                  // bottomTag()
-                  // SizedBox(
-                  //   height: 20,
-                  // ),
-                  // rattingsInfo(),
-                  // SizedBox(
-                  //   height: 40,
-                  // ),
-                  // otherDetails(),
-                  // verticalSpaceMedium,
-                  // ReviewWidget(productId),
-                  verticalSpaceMedium,
-                ],
+                    verticalSpace(20),
+                    Text(
+                      "   Product Details",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: titleFontSizeStyle),
+                    ),
+                    verticalSpace(5),
+                    Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      elevation: 5,
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        padding: EdgeInsets.all(20),
+                        child: ProductDescriptionTable(
+                            product: widget.data, model: model),
+                      ),
+                    ),
+                    verticalSpace(20),
+                    Text(
+                      "   Sold By",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: titleFontSizeStyle),
+                    ),
+                    verticalSpace(5),
+                    Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      elevation: 5,
+                      child: Container(
+                          padding: EdgeInsets.all(20),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                model.selleDetail?.name ?? "",
+                                style: TextStyle(
+                                    fontSize: subtitleFontSizeStyle,
+                                    color: darkRedSmooth),
+                              ),
+                              verticalSpace(10),
+                              Center(
+                                  child: Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.4,
+                                      child: Divider(
+                                          color: Colors.grey.withOpacity(0.5),
+                                          height: 1))),
+                              verticalSpace(10),
+                              Text(
+                                Tools.getTruncatedString(
+                                    100, model.selleDetail?.bio ?? ""),
+                                style: TextStyle(
+                                    fontSize: subtitleFontSizeStyle - 5,
+                                    color: Colors.grey),
+                              )
+                            ],
+                          )),
+                    ),
+                    verticalSpace(20),
+                    Text(
+                      "   Recommended Products",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: titleFontSizeStyle),
+                    ),
+                    verticalSpace(5),
+                    SizedBox(
+                      height: 200,
+                      child: GridListWidget<Products, Product>(
+                        key: uniqueKey,
+                        context: context,
+                        filter: ProductFilter(
+                            existingQueryString:
+                                "subCategory=${widget?.data?.category?.id ?? -1};"),
+                        gridCount: 2,
+                        viewModel: ProductsGridViewBuilderViewModel(
+                            filteredProductKey: widget?.data?.key),
+                        childAspectRatio: 1.35,
+                        scrollDirection: Axis.horizontal,
+                        disablePagination: false,
+                        tileBuilder: (BuildContext context, productData, index,
+                            onUpdate, onDelete) {
+                          Fimber.d("test");
+                          print((productData as Product).toJson());
+                          return ProductTileUI(
+                            data: productData,
+                            onClick: () => model.goToProductPage(productData),
+                            index: index,
+                            cardPadding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                          );
+                        },
+                      ),
+                    ),
+                    verticalSpace(20),
+                    Text(
+                      "   More From Seller",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: titleFontSizeStyle),
+                    ),
+                    verticalSpace(5),
+                    SizedBox(
+                      height: 200,
+                      child: GridListWidget<Products, Product>(
+                        key: uniqueKey,
+                        context: context,
+                        filter: ProductFilter(
+                            existingQueryString: widget?.data?.account?.key !=
+                                    null
+                                ? "accountKey=${widget?.data?.account?.key};"
+                                : ""),
+                        gridCount: 2,
+                        viewModel: ProductsGridViewBuilderViewModel(
+                            filteredProductKey: widget?.data?.key),
+                        childAspectRatio: 1.35,
+                        scrollDirection: Axis.horizontal,
+                        disablePagination: false,
+                        tileBuilder: (BuildContext context, productData, index,
+                            onUpdate, onDelete) {
+                          Fimber.d("test");
+                          print((productData as Product).toJson());
+                          return ProductTileUI(
+                            data: productData,
+                            onClick: () => model.goToProductPage(productData),
+                            index: index,
+                            cardPadding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                          );
+                        },
+                      ),
+                    ),
+                    // bottomTag()
+                    // SizedBox(
+                    //   height: 20,
+                    // ),
+                    // rattingsInfo(),
+                    // SizedBox(
+                    //   height: 40,
+                    // ),
+                    // otherDetails(),
+                    // verticalSpaceMedium,
+                    // ReviewWidget(productId),
+                    verticalSpaceMedium,
+                  ],
+                ),
               ),
             ),
           ),

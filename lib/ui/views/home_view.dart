@@ -11,12 +11,34 @@ import 'package:provider/provider.dart';
 import '../shared/app_colors.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 import '../widgets/cart_icon_badge.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+
 // import '../shared/shared_styles.dart';
 
-class HomeView extends StatelessWidget {
-  final searchController = TextEditingController();
+class HomeView extends StatefulWidget {
 
   HomeView({Key key}) : super(key: key);
+
+  @override
+  _HomeViewState createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  final searchController = TextEditingController();
+
+  UniqueKey key = UniqueKey();
+  UniqueKey productKey = UniqueKey();
+
+  final RefreshController refreshController = RefreshController(initialRefresh: false);
+
+  void _onRefresh() async {
+      setState(() {
+      key = UniqueKey();
+      productKey = UniqueKey();
+      });
+      await Future.delayed(Duration(milliseconds: 100));
+      refreshController.refreshCompleted(resetFooterState: true);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,77 +98,89 @@ class HomeView extends StatelessWidget {
           top: false,
           left: false,
           right: false,
-          child: CustomScrollView(
-            // Add the app bar and list of items as slivers in the next steps.
-            slivers: <Widget>[
-              SliverAppBar(
-                primary: false,
-                floating: true,
-                automaticallyImplyLeading: false,
-                iconTheme: IconThemeData(color: appBarIconColor),
-                backgroundColor: backgroundWhiteCreamColor,
-                actions: <Widget>[
-                  IconButton(
-                    tooltip: 'map',
-                    icon: new Image.asset("assets/icons/map.png"),
-                    onPressed: () {
-                      model.openmap();
+          child: SmartRefresher(
+      enablePullDown: true,
+      footer: null,
+      header: WaterDropHeader(
+        waterDropColor: logoRed,
+        refresh: Container(),
+        complete: Container(),
+      ),
+      controller: refreshController,
+      onRefresh: _onRefresh,
+      child: CustomScrollView(
+              // Add the app bar and list of items as slivers in the next steps.
+              slivers: <Widget>[
+                SliverAppBar(
+                  primary: false,
+                  floating: true,
+                  automaticallyImplyLeading: false,
+                  iconTheme: IconThemeData(color: appBarIconColor),
+                  backgroundColor: backgroundWhiteCreamColor,
+                  actions: <Widget>[
+                    IconButton(
+                      tooltip: 'map',
+                      icon: new Image.asset("assets/icons/map.png"),
+                      onPressed: () {
+                        model.openmap();
+                      },
+                    )
+                  ],
+                  title: InkWell(
+                    onTap: () {
+                      model.search();
                     },
-                  )
-                ],
-                title: InkWell(
-                  onTap: () {
-                    model.search();
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      // color: Colors.grey[200],
-                      color: backgroundBlueGreyColor,
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 30,
-                        vertical: 8,
+                    child: Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        // color: Colors.grey[200],
+                        color: backgroundBlueGreyColor,
+                        borderRadius: BorderRadius.circular(30),
                       ),
-                      child: Row(
-                        children: <Widget>[
-                          Icon(
-                            Icons.search,
-                            color: appBarIconColor,
-                          ),
-                          horizontalSpaceSmall,
-                          Text(
-                            "Search",
-                            style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.grey[600],
-                                fontFamily: "Raleway",
-                                fontWeight: FontWeight.normal),
-                          ),
-                        ],
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 30,
+                          vertical: 8,
+                        ),
+                        child: Row(
+                          children: <Widget>[
+                            Icon(
+                              Icons.search,
+                              color: appBarIconColor,
+                            ),
+                            horizontalSpaceSmall,
+                            Text(
+                              "Search",
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.grey[600],
+                                  fontFamily: "Raleway",
+                                  fontWeight: FontWeight.normal),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              SliverList(
-                // Use a delegate to build items as they're scrolled on screen.
-                delegate: SliverChildBuilderDelegate(
-                  // The builder function returns a ListTile with a title that
-                  // displays the index of the current item.
-                  (context, index) => Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: HomeViewList(
-                      gotoCategory: model.category,
-                      model: model,
+                SliverList(
+                  // Use a delegate to build items as they're scrolled on screen.
+                  delegate: SliverChildBuilderDelegate(
+                    // The builder function returns a ListTile with a title that
+                    // displays the index of the current item.
+                    (context, index) => Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: HomeViewList(
+                        gotoCategory: model.category,
+                        model: model,
+                        productUniqueKey: productKey,
+                      ),
                     ),
+                    childCount: 1,
                   ),
-                  childCount: 1,
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

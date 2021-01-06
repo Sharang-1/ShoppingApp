@@ -35,11 +35,13 @@ import '../widgets/top_picks_deals_card.dart';
 class HomeViewList extends StatefulWidget {
   final HomeViewModel model;
   final gotoCategory;
+  final productUniqueKey;
 
   HomeViewList({
     Key key,
     @required this.gotoCategory,
     this.model,
+    this.productUniqueKey
   }) : super(key: key);
 
   @override
@@ -190,7 +192,7 @@ class _HomeViewListState extends State<HomeViewList> {
           SizedBox(
             height: 220,
             child: GridListWidget<Products, Product>(
-              key: productUniqueKey,
+              key: widget.productUniqueKey ?? productUniqueKey,
               context: context,
               filter: ProductFilter(),
               gridCount: 2,
@@ -290,7 +292,7 @@ class _HomeViewListState extends State<HomeViewList> {
           SizedBox(
             height: 220,
             child: GridListWidget<Products, Product>(
-              key: productUniqueKey,
+              key: widget.productUniqueKey ?? productUniqueKey,
               context: context,
               filter: ProductFilter(minDiscount: 5),
               gridCount: 2,
@@ -432,7 +434,7 @@ class _HomeViewListState extends State<HomeViewList> {
           SizedBox(
             height: 220,
             child: GridListWidget<Products, Product>(
-              key: productUniqueKey,
+              key: widget.productUniqueKey ?? productUniqueKey,
               context: context,
               filter: ProductFilter(),
               gridCount: 2,
