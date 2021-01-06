@@ -27,6 +27,7 @@ import 'package:compound/ui/shared/app_colors.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/ui/widgets/custom_text.dart';
 import 'package:compound/ui/widgets/sellerTileUi.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../shared/shared_styles.dart';
 import '../widgets/top_picks_deals_card.dart';
@@ -111,7 +112,7 @@ class _HomeViewListState extends State<HomeViewList> {
               return PromotionSlider(promotions: data);
             },
           ),
-          verticalSpace(30),
+          verticalSpace(25),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -125,12 +126,15 @@ class _HomeViewListState extends State<HomeViewList> {
                         fontWeight: FontWeight.w700)),
               ),
               InkWell(
-                child: Text(
-                  'View All',
-                  style: TextStyle(
-                    fontSize: subtitleFontSize - 8,
-                    fontWeight: FontWeight.bold,
-                    color: textIconBlue,
+                child: Padding(
+                  padding: EdgeInsets.only(right: 8.0),
+                  child: Text(
+                    'View All',
+                    style: TextStyle(
+                      fontSize: subtitleFontSize - 8,
+                      fontWeight: FontWeight.bold,
+                      color: textIconBlue,
+                    ),
                   ),
                 ),
                 onTap: () {
@@ -144,7 +148,7 @@ class _HomeViewListState extends State<HomeViewList> {
             height: 140,
             child: GridListWidget<Categorys, Category>(
               key: UniqueKey(),
-            context: context,
+              context: context,
               filter: new CategoryFilter(),
               gridCount: 1,
               childAspectRatio: 0.5,
@@ -184,7 +188,7 @@ class _HomeViewListState extends State<HomeViewList> {
           ]),
           verticalSpaceSmall,
           SizedBox(
-            height: 240,
+            height: 220,
             child: GridListWidget<Products, Product>(
               key: productUniqueKey,
               context: context,
@@ -284,7 +288,7 @@ class _HomeViewListState extends State<HomeViewList> {
           ]),
           verticalSpaceSmall,
           SizedBox(
-            height: 250,
+            height: 220,
             child: GridListWidget<Products, Product>(
               key: productUniqueKey,
               context: context,
@@ -426,7 +430,7 @@ class _HomeViewListState extends State<HomeViewList> {
           ]),
           verticalSpaceSmall,
           SizedBox(
-            height: 250,
+            height: 220,
             child: GridListWidget<Products, Product>(
               key: productUniqueKey,
               context: context,
@@ -474,12 +478,15 @@ class _HomeViewListState extends State<HomeViewList> {
                         fontWeight: FontWeight.w700)),
               ),
               InkWell(
-                child: Text(
-                  'View All',
-                  style: TextStyle(
-                    fontSize: subtitleFontSize - 8,
-                    fontWeight: FontWeight.bold,
-                    color: textIconBlue,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: Text(
+                    'View All',
+                    style: TextStyle(
+                      fontSize: subtitleFontSize - 8,
+                      fontWeight: FontWeight.bold,
+                      color: textIconBlue,
+                    ),
                   ),
                 ),
                 onTap: () {
@@ -861,32 +868,67 @@ class _HomeViewListState extends State<HomeViewList> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               SizedBox(
-                  height: 50,
-                  width: MediaQuery.of(context).size.width * 0.6,
-                  child: RaisedButton(
-                      elevation: 5,
-                      onPressed: () {
-                        // Navigator.pushReplacement(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (context) =>
-                        //             SelectAddress()));
-                      },
-                      color: darkRedSmooth,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(curve30),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 15),
-                        child: Text(
-                          "Locate Tailors ",
-                          style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold),
-                        ),
-                      )))
+                height: 50,
+                width: MediaQuery.of(context).size.width * 0.6,
+                child: RaisedButton(
+                  elevation: 5,
+                  onPressed: () {
+                    // Navigator.pushReplacement(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (context) =>
+                    //             SelectAddress()));
+                  },
+                  color: darkRedSmooth,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(curve30),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 15),
+                    child: Text(
+                      "Locate Tailors ",
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
-          verticalSpaceLarge_1
+          verticalSpaceMedium,
+          Container(
+            color: Colors.grey[300],
+            height: 80,
+            padding:
+                EdgeInsets.symmetric(horizontal: screenPadding, vertical: 10),
+            child: Row(
+              children: <Widget>[
+                SvgPicture.asset(
+                  "assets/svg/DZOR_full_logo_verti.svg",
+                  color: Colors.grey[800],
+                  height: 35,
+                  width: 35,
+                ),
+                Expanded(
+                  child: Container(
+                    padding: EdgeInsets.only(left: 20),
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            "Made with Love in India!",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: Colors.grey[800],
+                                fontWeight: FontWeight.bold,
+                                fontSize: 25),
+                          ),
+                        ]),
+                  ),
+                )
+              ],
+            ),
+          ),
         ],
       ),
     );

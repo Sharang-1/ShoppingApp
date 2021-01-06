@@ -56,7 +56,7 @@ class TopPicksAndDealsCard extends StatelessWidget {
                                     height: 500,
                                     fadeInCurve: Curves.easeIn,
                                     placeholder:
-                                        "assets/images/placeholder.png",
+                                        "assets/images/product_preloading.png",
                                     image: data['key'] != null &&
                                             data['photo'] != null
                                         ? '$PRODUCT_PHOTO_BASE_URL/${data["key"]}/${data["photo"]}'
