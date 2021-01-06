@@ -35,7 +35,7 @@ class TopPicksAndDealsCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Expanded(
-                    flex: 3,
+                    flex: 2,
                     child: Padding(
                       padding: EdgeInsets.only(bottom: 8.0),
                       child: Stack(children: <Widget>[
@@ -113,7 +113,7 @@ class TopPicksAndDealsCard extends StatelessWidget {
                             ),
                           ),
                           Expanded(
-                            flex: 3,
+                            flex: 2,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -133,11 +133,14 @@ class TopPicksAndDealsCard extends StatelessWidget {
                             flex: 2,
                             child: Row(
                               children: <Widget>[
-                                CustomText(
-                                    rupeeUnicode + discountedPrice.toString(),
-                                    color: textIconBlue,
-                                    isBold: true,
-                                    fontSize: subtitleFontSizeStyle - 2),
+                                Padding(
+                                  padding: EdgeInsets.only(bottom: 8.0),
+                                  child: CustomText(
+                                      rupeeUnicode + discountedPrice.toString(),
+                                      color: textIconBlue,
+                                      isBold: true,
+                                      fontSize: subtitleFontSizeStyle - 2),
+                                ),
                                 horizontalSpaceTiny,
                                 data["isDiscountAvailable"] != null &&
                                         data["isDiscountAvailable"] == "true"

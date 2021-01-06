@@ -111,7 +111,7 @@ class _HomeViewListState extends State<HomeViewList> {
               return PromotionSlider(promotions: data);
             },
           ),
-          verticalSpace(40),
+          verticalSpace(30),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -139,12 +139,12 @@ class _HomeViewListState extends State<HomeViewList> {
               ),
             ],
           ),
-          verticalSpace(20),
+          verticalSpaceSmall,
           SizedBox(
             height: 140,
             child: GridListWidget<Categorys, Category>(
               key: UniqueKey(),
-              context: context,
+            context: context,
               filter: new CategoryFilter(),
               gridCount: 1,
               childAspectRatio: 0.5,
@@ -166,7 +166,7 @@ class _HomeViewListState extends State<HomeViewList> {
               },
             ),
           ),
-          verticalSpace(40),
+          verticalSpace(30),
           Row(children: <Widget>[
             Expanded(
               child: Padding(
@@ -184,7 +184,7 @@ class _HomeViewListState extends State<HomeViewList> {
           ]),
           verticalSpaceSmall,
           SizedBox(
-            height: 250,
+            height: 240,
             child: GridListWidget<Products, Product>(
               key: productUniqueKey,
               context: context,
@@ -218,7 +218,7 @@ class _HomeViewListState extends State<HomeViewList> {
             ),
           ),
           if (bottomPromotion != null && bottomPromotion.length > 0)
-            verticalSpace(40),
+            verticalSpace(30),
           if (bottomPromotion != null && bottomPromotion.length > 0)
             GestureDetector(
               onTap: () {
@@ -250,7 +250,7 @@ class _HomeViewListState extends State<HomeViewList> {
                   ],
                 ),
                 child: SizedBox(
-                  height: (MediaQuery.of(context).size.width - 40) * 0.8,
+                  height: (MediaQuery.of(context).size.width) / 1.6,
                   width: MediaQuery.of(context).size.width,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(curve15),
@@ -266,7 +266,7 @@ class _HomeViewListState extends State<HomeViewList> {
                 ),
               ),
             ),
-          verticalSpace(40),
+          verticalSpace(30),
           Row(children: <Widget>[
             Expanded(
               child: Padding(
@@ -317,7 +317,7 @@ class _HomeViewListState extends State<HomeViewList> {
               },
             ),
           ),
-          verticalSpace(40),
+          verticalSpace(30),
           Row(children: <Widget>[
             Expanded(
               child: Padding(
@@ -360,7 +360,7 @@ class _HomeViewListState extends State<HomeViewList> {
             ),
           ),
           if (bottomPromotion != null && bottomPromotion.length > 1)
-            verticalSpace(40),
+            verticalSpace(30),
           if (bottomPromotion != null && bottomPromotion.length > 1)
             GestureDetector(
               onTap: () {
@@ -392,7 +392,7 @@ class _HomeViewListState extends State<HomeViewList> {
                   ],
                 ),
                 child: SizedBox(
-                  height: (MediaQuery.of(context).size.width - 40) * 0.8,
+                  height: (MediaQuery.of(context).size.width) / 1.6,
                   width: MediaQuery.of(context).size.width,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(curve15),
@@ -408,7 +408,7 @@ class _HomeViewListState extends State<HomeViewList> {
                 ),
               ),
             ),
-          verticalSpace(40),
+          verticalSpace(30),
           Row(children: <Widget>[
             Expanded(
               child: Padding(
@@ -460,14 +460,14 @@ class _HomeViewListState extends State<HomeViewList> {
               },
             ),
           ),
-          verticalSpace(40),
+          verticalSpace(30),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.only(left: 15.0),
-                child: Text('Popular Cateogories\nNear You',
+                child: Text('Popular Categories\nNear You',
                     style: TextStyle(
                         color: Colors.grey[800],
                         fontSize: subtitleFontSize,
@@ -488,7 +488,7 @@ class _HomeViewListState extends State<HomeViewList> {
               ),
             ],
           ),
-          verticalSpace(20),
+          verticalSpaceSmall,
           SizedBox(
             height: 140,
             child: GridListWidget<Categorys, Category>(
@@ -517,7 +517,7 @@ class _HomeViewListState extends State<HomeViewList> {
             ),
           ),
           if (bottomPromotion != null && bottomPromotion.length > 2)
-            verticalSpace(40),
+            verticalSpace(30),
           if (bottomPromotion != null && bottomPromotion.length > 2)
             GestureDetector(
               onTap: () {
@@ -549,7 +549,7 @@ class _HomeViewListState extends State<HomeViewList> {
                   ],
                 ),
                 child: SizedBox(
-                  height: (MediaQuery.of(context).size.width - 40) * 0.8,
+                  height: (MediaQuery.of(context).size.width) / 1.6,
                   width: MediaQuery.of(context).size.width,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(curve15),
@@ -565,7 +565,7 @@ class _HomeViewListState extends State<HomeViewList> {
                 ),
               ),
             ),
-          verticalSpace(40),
+          verticalSpace(30),
           Row(children: <Widget>[
             Expanded(
               child: Padding(
