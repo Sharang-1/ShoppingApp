@@ -95,7 +95,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
           productName,
           // overflow: TextOverflow.ellipsis,
           style: TextStyle(
-            fontSize: titleFontSizeStyle,
+            fontSize: titleFontSizeStyle + 12,
             fontFamily: headingFont,
             fontWeight: FontWeight.bold,
           ),
@@ -107,7 +107,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
           child: Text(
             "By " + (sellerModal.selleDetail?.name ?? ""),
             style: TextStyle(
-                fontSize: subtitleFontSizeStyle - 2, color: Colors.grey),
+                fontSize: subtitleFontSizeStyle - 2, color: darkGrey),
           ),
           onTap: sellerModal.gotoSellerIndiView,
         ),
@@ -126,7 +126,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
               ? '\u20B9${(productPrice - (productPrice * productDiscount / 100)).toString()}'
               : '\u20B9${productPrice.toString()}',
           style: TextStyle(
-              fontSize: titleFontSizeStyle + 2, fontWeight: FontWeight.bold),
+              fontSize: titleFontSizeStyle + 8, fontWeight: FontWeight.bold),
         ),
         productDiscount == 0.0
             ? Container()
@@ -443,8 +443,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                       .list
                                       .indexOf(productId) !=
                                   -1,
-                              width: 20,
-                              height: 20,
+                              width: 25,
+                              height: 25,
                             ),
                           ),
                         ),

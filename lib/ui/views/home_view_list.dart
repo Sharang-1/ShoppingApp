@@ -347,7 +347,7 @@ class _HomeViewListState extends State<HomeViewList> {
               context: context,
               filter: new SellerFilter(),
               gridCount: 1,
-              childAspectRatio: 0.65,
+              childAspectRatio: 0.60,
               viewModel: SellersGridViewBuilderViewModel(
                   boutiquesOnly: true, random: true),
               disablePagination: true,

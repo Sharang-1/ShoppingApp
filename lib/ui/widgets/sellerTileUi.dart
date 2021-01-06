@@ -60,10 +60,10 @@ class SellerTileUi extends StatelessWidget {
                           child: ClipRRect(
                               borderRadius: BorderRadius.circular(curve15),
                               child: FadeInImage.assetNetwork(
-                                width: 80 * multiplyer,
-                                height: 80 * multiplyer,
+                                width: 100 * multiplyer,
+                                height: 100 * multiplyer,
                                 fadeInCurve: Curves.easeIn,
-                                placeholder: "assets/images/placeholder.png",
+                                placeholder: "assets/images/product_preloading.png",
                                 image: data?.key != null
                                     ? "$SELLER_PHOTO_BASE_URL/${data.key}"
                                     : "https://images.unsplash.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
@@ -83,7 +83,7 @@ class SellerTileUi extends StatelessWidget {
                                       dotsAfterOverFlow: true,
                                       isTitle: true,
                                       isBold: true,
-                                      fontSize: titleFontSize,
+                                      fontSize: 25,
                                     ),
                                     CustomDivider(),
                                     CustomText(
@@ -95,7 +95,7 @@ class SellerTileUi extends StatelessWidget {
                                       isBold: true,
                                       dotsAfterOverFlow: true,
                                       fontSize:
-                                          subtitleFontSize - (2 * multiplyer),
+                                          subtitleFontSize + 2 - (2 * multiplyer),
                                     ),
                                   ],
                                 ))),
@@ -107,8 +107,8 @@ class SellerTileUi extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               CustomText(
-                                "Sells         :  ",
-                                color: Colors.grey,
+                                "Designs         :  ",
+                                color: textIconBlue,
                                 isBold: true,
                                 dotsAfterOverFlow: true,
                                 fontSize: subtitleFontSize - (4 * multiplyer),
@@ -153,7 +153,7 @@ class SellerTileUi extends StatelessWidget {
                       children: <Widget>[
                         CustomText(
                           "Works Offered  :  ",
-                          color: Colors.grey,
+                          color: textIconBlue,
                           isBold: true,
                           dotsAfterOverFlow: true,
                           fontSize: subtitleFontSize - (4 * multiplyer),
