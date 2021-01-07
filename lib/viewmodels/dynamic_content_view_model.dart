@@ -14,21 +14,21 @@ class DynamicContentViewModel extends BaseModel {
 
       if (data == null) _navigationService.navigateReplaceTo(HomeViewRoute);
       
-      switch (data?.contentType) {
+      switch (data["contentType"]) {
 
-        case 'product':
-        if(data.productId == null) break;
+        case "product":
+        if(data["id"] == null) break;
           Product product =
-              await _apiService.getProductById(productId: data?.productId);
+              await _apiService.getProductById(productId: data["id"]);
           if(product == null) break;
           _navigationService.navigateReplaceTo(ProductIndividualRoute,
               arguments: product);
           return;
 
-        case 'seller':
-          if(data.sellerId == null) break;
+        case "seller":
+          if(data["id"] == null) break;
             Seller seller =
-                await _apiService.getSellerByID(data?.sellerId);
+                await _apiService.getSellerByID(data["id"]);
             if(seller == null) break;
             _navigationService.navigateReplaceTo(SellerIndiViewRoute,
                 arguments: seller);

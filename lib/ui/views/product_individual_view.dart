@@ -29,6 +29,9 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:compound/services/navigation_service.dart';
 import 'package:compound/locator.dart';
 import 'package:compound/constants/route_names.dart';
+import 'package:share/share.dart';
+import 'package:compound/constants/dynamic_links.dart';
+import 'package:compound/services/dynamic_link_service.dart';
 
 
 
@@ -73,6 +76,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
   UniqueKey key = UniqueKey();
   final refreshController = RefreshController(initialRefresh: false);
   final NavigationService _navigationService = locator<NavigationService>();
+  final DynamicLinkService _dynamicLinkService = locator<DynamicLinkService>();
 
 
   bool disabledAddToCartBtn = false;
@@ -456,12 +460,17 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                             ),
                           ),
                         ),
-                        Container(
-                          padding: EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Image.asset(
-                            "assets/images/share_icon.png",
-                            width: 30,
-                            height: 30,
+                        GestureDetector(
+                            onTap: () async {
+                              await Share.share(await _dynamicLinkService.createLink(productLink + productId));
+                            },
+                            child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Image.asset(
+                              "assets/images/share_icon.png",
+                              width: 30,
+                              height: 30,
+                            ),
                           ),
                         ),
                       ],

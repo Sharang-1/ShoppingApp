@@ -8,6 +8,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../shared/app_colors.dart';
 import '../views/home_view_slider.dart';
 import '../shared/shared_styles.dart';
+import 'package:share/share.dart';
+import 'package:compound/constants/dynamic_links.dart';
+import 'package:compound/services/dynamic_link_service.dart';
+import 'package:compound/locator.dart';
+
+
 
 class SellerIndi extends StatefulWidget {
   final data;
@@ -18,6 +24,7 @@ class SellerIndi extends StatefulWidget {
 }
 
 class _SellerIndiState extends State<SellerIndi> {
+
   var allDetials = [
     "Speciality",
     "Designs & Creates",
@@ -43,6 +50,8 @@ class _SellerIndiState extends State<SellerIndi> {
   String selectedTime;
 
   int selectedIndex;
+
+  final DynamicLinkService _dynamicLinkService = locator<DynamicLinkService>();
 
   @override
   Widget build(BuildContext context) {
@@ -188,10 +197,15 @@ class _SellerIndiState extends State<SellerIndi> {
                         ),
                       ),
                       verticalSpaceSmall,
-                      SvgPicture.asset(
-                        "assets/icons/share.svg",
-                        width: 25,
-                        height: 25,
+                      GestureDetector(
+                          onTap: () async {
+                            await Share.share(await _dynamicLinkService.createLink(sellerLink + widget.data?.key));
+                          },
+                          child: Image.asset(
+                          "assets/images/share_icon.png",
+                          width: 30,
+                          height: 30,
+                        ),
                       )
                     ],
                   ),
