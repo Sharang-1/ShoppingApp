@@ -26,6 +26,11 @@ import '../widgets/cart_icon_badge.dart';
 import '../shared/shared_styles.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:compound/services/navigation_service.dart';
+import 'package:compound/locator.dart';
+import 'package:compound/constants/route_names.dart';
+
+
 
 const weekday = [
   "Monday",
@@ -67,6 +72,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
   String selectedColor = "";
   UniqueKey key = UniqueKey();
   final refreshController = RefreshController(initialRefresh: false);
+  final NavigationService _navigationService = locator<NavigationService>();
+
 
   bool disabledAddToCartBtn = false;
 
@@ -106,8 +113,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
         GestureDetector(
           child: Text(
             "By " + (sellerModal.selleDetail?.name ?? ""),
-            style: TextStyle(
-                fontSize: subtitleFontSizeStyle - 2, color: darkGrey),
+            style:
+                TextStyle(fontSize: subtitleFontSizeStyle - 2, color: darkGrey),
           ),
           onTap: sellerModal.gotoSellerIndiView,
         ),
@@ -410,10 +417,11 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                     Row(
                       children: <Widget>[
                         Expanded(
-                            child: priceInfo(
-                          productPrice,
-                          productDiscount,
-                        ),),
+                          child: priceInfo(
+                            productPrice,
+                            productDiscount,
+                          ),
+                        ),
                         GestureDetector(
                           onTap: () async {
                             if (Provider.of<WhishListSetUp>(context,
@@ -889,38 +897,55 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                           fontSize: titleFontSizeStyle),
                     ),
                     verticalSpace(5),
-                    Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      elevation: 5,
-                      child: Container(
-                          padding: EdgeInsets.all(20),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                model.selleDetail?.name ?? "",
-                                style: TextStyle(
-                                    fontSize: subtitleFontSizeStyle,
-                                    color: darkRedSmooth),
+                    GestureDetector(
+                      onTap: () {
+                        _navigationService.navigateTo(SellerIndiViewRoute, arguments: model?.selleDetail);
+                      },
+                      child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          elevation: 5,
+                          child: Row(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.all(20),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      model.selleDetail?.name ?? "",
+                                      style: TextStyle(
+                                          fontSize: subtitleFontSizeStyle,
+                                          color: darkRedSmooth),
+                                    ),
+                                    verticalSpace(10),
+                                    Center(
+                                        child: Container(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.4,
+                                            child: Divider(
+                                                color: Colors.grey
+                                                    .withOpacity(0.5),
+                                                height: 1))),
+                                    verticalSpace(10),
+                                    Text(
+                                      Tools.getTruncatedString(
+                                          100, model.selleDetail?.bio ?? ""),
+                                      style: TextStyle(
+                                          fontSize: subtitleFontSizeStyle - 5,
+                                          color: Colors.grey),
+                                    )
+                                  ],
+                                ),
                               ),
-                              verticalSpace(10),
-                              Center(
-                                  child: Container(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.4,
-                                      child: Divider(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          height: 1))),
-                              verticalSpace(10),
-                              Text(
-                                Tools.getTruncatedString(
-                                    100, model.selleDetail?.bio ?? ""),
-                                style: TextStyle(
-                                    fontSize: subtitleFontSizeStyle - 5,
-                                    color: Colors.grey),
-                              )
+                              Icon(
+                                Icons.navigate_next,
+                                color: lightGrey,
+                                size: 50,
+                              ),
                             ],
                           )),
                     ),
