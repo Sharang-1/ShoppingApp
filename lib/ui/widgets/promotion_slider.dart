@@ -71,6 +71,7 @@ class _PromotionSliderState extends State<PromotionSlider> {
                         context,
                         new MaterialPageRoute(
                           builder: (context) => PromotionProduct(
+                            promotionId: i?.key,
                             productIds: productIds ?? [],
                             promotionTitle: promoTitle,
                           ),

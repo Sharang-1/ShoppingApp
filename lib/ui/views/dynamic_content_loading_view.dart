@@ -19,7 +19,7 @@ class _DynamicContentLoadingViewState extends State<DynamicContentLoadingView> {
   Widget build(BuildContext context) {
     return ViewModelProvider<DynamicContentViewModel>.withConsumer(
       viewModel: DynamicContentViewModel(),
-      onModelReady: (model) => model.init(data: widget.data),
+      onModelReady: (model) => model.init(context, data: widget.data),
       builder: (context, model, child) => Scaffold(
         backgroundColor: backgroundWhiteCreamColor,
         body: Center(

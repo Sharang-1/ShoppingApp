@@ -36,11 +36,11 @@ class DynamicLinkService {
     uriPrefix: "http://dzor.page.link",
     link: Uri.parse(url),
     androidParameters: AndroidParameters(
-      packageName: "com.example.dzor_app", 
+      packageName: "in.dzor.dzor_app", 
       minimumVersion: 0
       ),
     iosParameters: IosParameters(
-      bundleId: "com.example.dzor_app", 
+      bundleId: "in.dzor.dzor_app", 
       minimumVersion: '0',
       ),
   );

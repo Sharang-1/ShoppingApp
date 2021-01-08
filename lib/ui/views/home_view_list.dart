@@ -280,6 +280,7 @@ class _HomeViewListState extends State<HomeViewList> {
                   context,
                   new MaterialPageRoute(
                     builder: (context) => PromotionProduct(
+                      promotionId: bottomPromotion[0]?.key,
                       productIds: productIds ?? [],
                       promotionTitle: promoTitle,
                     ),
@@ -370,7 +371,7 @@ class _HomeViewListState extends State<HomeViewList> {
           if (bottomPromotion != null && bottomPromotion.length > 1)
             GestureDetector(
               onTap: () {
-                var promoTitle = bottomPromotion[0]?.name;
+                var promoTitle = bottomPromotion[1]?.name;
                 List<String> productIds = bottomPromotion[1]
                     ?.products
                     ?.map((e) => e.toString())
@@ -380,6 +381,7 @@ class _HomeViewListState extends State<HomeViewList> {
                   context,
                   new MaterialPageRoute(
                     builder: (context) => PromotionProduct(
+                      promotionId: bottomPromotion[1]?.key,
                       productIds: productIds ?? [],
                       promotionTitle: promoTitle,
                     ),
@@ -530,7 +532,7 @@ class _HomeViewListState extends State<HomeViewList> {
           if (bottomPromotion != null && bottomPromotion.length > 2)
             GestureDetector(
               onTap: () {
-                var promoTitle = bottomPromotion[0]?.name;
+                var promoTitle = bottomPromotion[2]?.name;
                 List<String> productIds = bottomPromotion[2]
                     ?.products
                     ?.map((e) => e.toString())
@@ -540,6 +542,7 @@ class _HomeViewListState extends State<HomeViewList> {
                   context,
                   new MaterialPageRoute(
                     builder: (context) => PromotionProduct(
+                      promotionId: bottomPromotion[2]?.key,
                       productIds: productIds ?? [],
                       promotionTitle: promoTitle,
                     ),
