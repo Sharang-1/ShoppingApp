@@ -105,8 +105,8 @@ class _PromotionProductState extends State<PromotionProduct> {
                         },
                         child: Image.asset(
                           'assets/images/share_icon.png',
-                          width: 30,
-                          height: 30,
+                          width: 25,
+                          height: 25,
                         ),
                       ),
                     ),

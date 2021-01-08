@@ -282,7 +282,7 @@ class EmptyListWidget extends StatelessWidget {
   final String text;
   const EmptyListWidget({
     Key key,
-    this.text = "No Data Found!",
+    this.text = "Fill Me Up!",
   }) : super(key: key);
 
   @override
@@ -290,7 +290,14 @@ class EmptyListWidget extends StatelessWidget {
     return Center(
       child: Column(
         children: <Widget>[
-          Text(text),
+          Text(
+            text,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.grey[600],
+              fontSize: 20,
+            ),
+          ),
           verticalSpaceSmall,
           Image.asset("assets/images/empty_cart.png"),
         ],

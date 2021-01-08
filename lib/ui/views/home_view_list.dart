@@ -37,12 +37,9 @@ class HomeViewList extends StatefulWidget {
   final gotoCategory;
   final productUniqueKey;
 
-  HomeViewList({
-    Key key,
-    @required this.gotoCategory,
-    this.model,
-    this.productUniqueKey
-  }) : super(key: key);
+  HomeViewList(
+      {Key key, @required this.gotoCategory, this.model, this.productUniqueKey})
+      : super(key: key);
 
   @override
   _HomeViewListState createState() => _HomeViewListState();
@@ -172,7 +169,7 @@ class _HomeViewListState extends State<HomeViewList> {
               },
             ),
           ),
-           verticalSpace(30),
+          verticalSpace(30),
           Row(children: <Widget>[
             Expanded(
               child: Padding(
@@ -618,6 +615,48 @@ class _HomeViewListState extends State<HomeViewList> {
               },
             ),
           ),
+          verticalSpace(30),
+          Row(children: <Widget>[
+            Expanded(
+              flex: 8,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 15.0),
+                child: Text(
+                  'All Designers',
+                  style: TextStyle(
+                    color: Colors.grey[800],
+                    fontSize: subtitleFontSize,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            ),
+          ]),
+          verticalSpaceSmall,
+          SizedBox(
+            // height: 300,
+            child: GridListWidget<Sellers, Seller>(
+              key: UniqueKey(),
+              context: context,
+              filter: new SellerFilter(),
+              gridCount: 1,
+              childAspectRatio: 1.80,
+              viewModel: SellersGridViewBuilderViewModel(random: true),
+              disablePagination: true,
+              scrollDirection: Axis.vertical,
+              emptyListWidget: Container(),
+              tileBuilder:
+                  (BuildContext context, data, index, onDelete, onUpdate) {
+                return GestureDetector(
+                  onTap: () => {},
+                  child: SellerTileUi(
+                    data: data,
+                    fromHome: true,
+                  ),
+                );
+              },
+            ),
+          ),
           /*
           verticalSpace(40),
           Row(children: <Widget>[
@@ -868,6 +907,38 @@ class _HomeViewListState extends State<HomeViewList> {
                 ))
           ]),
           */
+          // verticalSpaceMedium,
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.center,
+          //   children: <Widget>[
+          //     SizedBox(
+          //       height: 50,
+          //       width: MediaQuery.of(context).size.width * 0.6,
+          //       child: RaisedButton(
+          //         elevation: 5,
+          //         onPressed: () {
+          //           // Navigator.pushReplacement(
+          //           //     context,
+          //           //     MaterialPageRoute(
+          //           //         builder: (context) =>
+          //           //             SelectAddress()));
+          //         },
+          //         color: darkRedSmooth,
+          //         shape: RoundedRectangleBorder(
+          //           borderRadius: BorderRadius.circular(curve30),
+          //         ),
+          //         child: Padding(
+          //           padding: const EdgeInsets.symmetric(vertical: 15),
+          //           child: Text(
+          //             "Locate Tailors ",
+          //             style: TextStyle(
+          //                 color: Colors.white, fontWeight: FontWeight.bold),
+          //           ),
+          //         ),
+          //       ),
+          //     ),
+          //   ],
+          // ),
           verticalSpaceMedium,
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -877,13 +948,7 @@ class _HomeViewListState extends State<HomeViewList> {
                 width: MediaQuery.of(context).size.width * 0.6,
                 child: RaisedButton(
                   elevation: 5,
-                  onPressed: () {
-                    // Navigator.pushReplacement(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (context) =>
-                    //             SelectAddress()));
-                  },
+                  onPressed: () {},
                   color: darkRedSmooth,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(curve30),
@@ -891,7 +956,7 @@ class _HomeViewListState extends State<HomeViewList> {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 15),
                     child: Text(
-                      "Locate Tailors ",
+                      "View All",
                       style: TextStyle(
                           color: Colors.white, fontWeight: FontWeight.bold),
                     ),
