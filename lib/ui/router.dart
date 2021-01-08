@@ -192,7 +192,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
           pageArguments: pageArguments,
           routeName: settings.name,
           viewToShow: SellerIndi(data: pageArguments),
-          pageTransitionType: transitionType);
+          pageTransitionType: PageTransitionType.rightToLeft);
     case MyAppointmentViewRoute:
       return _getPageRoute(
           pageArguments: pageArguments,

@@ -172,6 +172,48 @@ class _HomeViewListState extends State<HomeViewList> {
               },
             ),
           ),
+           verticalSpace(30),
+          Row(children: <Widget>[
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 15.0),
+                child: Text(
+                  'Boutiques Near You',
+                  style: TextStyle(
+                    color: Colors.grey[800],
+                    fontSize: subtitleFontSize,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            )
+          ]),
+          verticalSpaceSmall,
+          SizedBox(
+            height: 190,
+            child: GridListWidget<Sellers, Seller>(
+              key: UniqueKey(),
+              context: context,
+              filter: new SellerFilter(),
+              gridCount: 1,
+              childAspectRatio: 0.60,
+              viewModel: SellersGridViewBuilderViewModel(
+                  boutiquesOnly: true, random: true),
+              disablePagination: true,
+              scrollDirection: Axis.horizontal,
+              emptyListWidget: Container(),
+              tileBuilder:
+                  (BuildContext context, data, index, onDelete, onUpdate) {
+                return GestureDetector(
+                  onTap: () => {},
+                  child: SellerTileUi(
+                    data: data,
+                    fromHome: true,
+                  ),
+                );
+              },
+            ),
+          ),
           verticalSpace(30),
           Row(children: <Widget>[
             Expanded(
@@ -318,48 +360,6 @@ class _HomeViewListState extends State<HomeViewList> {
                               ? "true"
                               : null,
                     },
-                  ),
-                );
-              },
-            ),
-          ),
-          verticalSpace(30),
-          Row(children: <Widget>[
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 15.0),
-                child: Text(
-                  'Boutiques Near You',
-                  style: TextStyle(
-                    color: Colors.grey[800],
-                    fontSize: subtitleFontSize,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-            )
-          ]),
-          verticalSpaceSmall,
-          SizedBox(
-            height: 190,
-            child: GridListWidget<Sellers, Seller>(
-              key: UniqueKey(),
-              context: context,
-              filter: new SellerFilter(),
-              gridCount: 1,
-              childAspectRatio: 0.60,
-              viewModel: SellersGridViewBuilderViewModel(
-                  boutiquesOnly: true, random: true),
-              disablePagination: true,
-              scrollDirection: Axis.horizontal,
-              emptyListWidget: Container(),
-              tileBuilder:
-                  (BuildContext context, data, index, onDelete, onUpdate) {
-                return GestureDetector(
-                  onTap: () => {},
-                  child: SellerTileUi(
-                    data: data,
-                    fromHome: true,
                   ),
                 );
               },

@@ -44,6 +44,7 @@ class AppointmentsViewModel extends BaseModel {
   }
 
   Future getAvaliableTimeSlots(String sellerId) async {
+    print("seller id : ${sellerId}");
     setBusy(true);
     TimeSlots result = await _apiService.getAvaliableTimeSlots(sellerId);
     setBusy(false);
@@ -55,8 +56,8 @@ class AppointmentsViewModel extends BaseModel {
         "wednesday": "Wed",
         "thursday": "Thu",
         "friday": "Fri",
-        "Saturday": "Sat",
-        "Sunday": "Sun"
+        "saturday": "Sat",
+        "sunday": "Sun"
       };
       result.timeSlot.forEach((t) => t.day = weekDayMap[t.day]);
       selectedWeekDay = result.timeSlot.first.day;

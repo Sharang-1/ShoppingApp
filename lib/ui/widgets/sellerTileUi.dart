@@ -83,7 +83,7 @@ class SellerTileUi extends StatelessWidget {
                                       dotsAfterOverFlow: true,
                                       isTitle: true,
                                       isBold: true,
-                                      fontSize: 25,
+                                      fontSize: 22,
                                     ),
                                     CustomDivider(),
                                     CustomText(

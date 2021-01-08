@@ -22,6 +22,16 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
   Widget build(BuildContext context) {
     final msgController = TextEditingController();
 
+    String getTime(int time){
+      String meridien = "AM";
+      if((time ~/ 12).isOdd){
+        time = (time % 12);
+        meridien = "PM";
+      }
+      time = (time == 0) ? 12 : time;
+      return "${time.toString()} ${meridien.toString()}";
+    }
+
     return ViewModelProvider<AppointmentsViewModel>.withConsumer(
         viewModel: AppointmentsViewModel(),
         onModelReady: (model) =>
@@ -278,7 +288,10 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                                                     ? Colors.white
                                                                     : Colors.grey),
                                                             selectedColor: textIconOrange,
-                                                            label: Text(time.toString() + " - " + (time + 1).toString()),
+                                                            label: Text(
+                                                              
+                                                              getTime(time) + " - " + getTime(time + 1)
+                                                              ,),
                                                             selected: model.seltectedTime == time,
                                                             onSelected: (val) {
                                                               setState(() {
