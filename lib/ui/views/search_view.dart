@@ -22,6 +22,11 @@ import 'package:compound/viewmodels/search_view_model.dart';
 import 'package:compound/ui/shared/debouncer.dart';
 import '../widgets/cart_icon_badge.dart';
 import 'package:compound/ui/widgets/sellerCard.dart';
+import 'package:compound/models/categorys.dart';
+import 'package:compound/models/grid_view_builder_filter_models/categoryFilter.dart';
+import 'package:compound/ui/widgets/categoryTileUI.dart';
+
+import 'package:compound/viewmodels/grid_view_builder_view_models/categories_view_builder_view_model.dart';
 
 class SearchView extends StatefulWidget {
   SearchView({Key key}) : super(key: key);
@@ -42,6 +47,7 @@ class _SearchViewState extends State<SearchView>
   bool showRecents = true;
   bool showResults = false;
   bool showRandomSellers = true;
+  bool showCategories = true;
   RegExp _searchFilterRegex = RegExp(r"\w+", caseSensitive: true);
   Key productGridKey = UniqueKey();
   Key sellerGridKey = UniqueKey();
@@ -83,6 +89,7 @@ class _SearchViewState extends State<SearchView>
 
   void _onTabChange() {
     setState(() {
+      if (showCategories) showCategories = false;
       currentTabIndex = _tabController.index;
       if (currentTabIndex == 1 && showRandomSellers) {
         Future.delayed(Duration(milliseconds: 200), () {
@@ -269,7 +276,7 @@ class _SearchViewState extends State<SearchView>
                   searchAction: _searchAction,
                   searchController: _searchController,
                   focusNode: _searchBarFocusNode,
-                  autofocus: true,
+                  // autofocus: true,
                   onTap: () {
                     // setState(() {
                     //   if (!showRecents) {
@@ -449,6 +456,32 @@ class _SearchViewState extends State<SearchView>
                             children: _getRecentSearchListUI(),
                           ),
                         ),
+                      if (showCategories && (_tabController.index == 0))
+                          Padding(
+                          padding: EdgeInsets.only(top: 70),
+                            child: GridListWidget<Categorys, Category>(
+                              key: UniqueKey(),
+                              context: context,
+                              filter: CategoryFilter(),
+                              gridCount: 1,
+                              childAspectRatio: 3,
+                              viewModel: CategoriesGridViewBuilderViewModel(popularCategories: true),
+                              scrollDirection: Axis.vertical,
+                              emptyListWidget: Container(),
+                              tileBuilder: (BuildContext context, data, index,
+                                  onDelete, onUpdate) {
+                                return GestureDetector(
+                                  onTap: () => model.showCategory(
+                                    data.filter,
+                                    data.name,
+                                  ),
+                                  child: CategoryTileUI(
+                                    data: data,
+                                  ),
+                                );
+                              },
+                            ),
+                        ),
                     ],
                   )
                 ],
@@ -462,6 +495,7 @@ class _SearchViewState extends State<SearchView>
     _debouncer.run(() {
       if (currentTabIndex == 0) {
         setState(() {
+          if (showCategories) showCategories = false;
           productSearchHistoryList = finalProductHistoryList
               .where((String value) =>
                   _searchController.text == "" ||
@@ -503,6 +537,8 @@ class _SearchViewState extends State<SearchView>
         productFilter = new ProductFilter(fullText: searchKey);
         showResults = true;
         if (showRecents) showRecents = false;
+        if (showCategories) showCategories = false;
+
         // Append to shared pref only when new element is inserted
         if (finalProductHistoryList.indexOf(searchKey) == -1)
           finalProductHistoryList = finalProductHistoryList + [searchKey];
@@ -515,6 +551,7 @@ class _SearchViewState extends State<SearchView>
         sellerFilter = new SellerFilter(name: searchKey);
         showResults = true;
         if (showRecents) showRecents = false;
+        if (showCategories) showCategories = false;
         // Append to shared pref only when new element is inserted
         // if (finalSellerHistoryList.indexOf(searchKey) == -1)
         //   finalSellerHistoryList = finalSellerHistoryList + [searchKey];

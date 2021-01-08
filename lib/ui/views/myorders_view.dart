@@ -2,6 +2,7 @@ import 'package:compound/ui/shared/app_colors.dart';
 import 'package:compound/ui/shared/shared_styles.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/ui/widgets/custom_text.dart';
+import 'package:compound/ui/widgets/GridListWidget.dart';
 import 'package:compound/viewmodels/orders_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider_architecture/provider_architecture.dart';
@@ -42,7 +43,7 @@ class MyOrdersView extends StatelessWidget {
                       top: 10,
                       bottom: 10),
                   child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         verticalSpace(10),
                         Row(
@@ -165,7 +166,12 @@ class MyOrdersView extends StatelessWidget {
                                                 MyOrdersDetailsView(o)));
                                   },
                                 ));
-                          }),
+                          },
+                          ),
+                          if(!model.busy && model.mOrders.orders.length == 0)
+                          verticalSpaceLarge,
+                          if(!model.busy && model.mOrders.orders.length == 0)
+                          EmptyListWidget(),
                         // SizedBox(
                         //     height: 200,
                         //     child: Card(
