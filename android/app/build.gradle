@@ -78,6 +78,7 @@ flutter {
 dependencies {
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.google.firebase:firebase-inappmessaging-display:18.0.1'
+    implementation 'com.google.firebase:firebase-perf'
     implementation 'com.google.android.gms:play-services-tagmanager:17.0.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation platform('com.google.firebase:firebase-bom:26.1.0')
@@ -90,3 +91,4 @@ dependencies {
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: 'com.google.firebase.firebase-perf'

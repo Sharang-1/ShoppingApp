@@ -27,7 +27,7 @@ class StartUpViewModel extends BaseModel {
     if (sellerSearchHistoryList == null)
       prefs.setStringList(SellerSearchHistoryList, []);
 
-    await _analyticsService.setupCrashlytics();
+    await _analyticsService.setup();
     await _linkService.handleDynamicLink();
 
 
