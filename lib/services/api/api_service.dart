@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 
 import 'package:compound/services/api/AppInterceptor.dart';
 import 'package:compound/services/api/CustomLogInterceptor.dart';
+import 'package:compound/services/api/performance_interceptor.dart';
 
 import 'package:compound/models/calculatedPrice.dart';
 import 'package:compound/models/cart.dart' as CartModule;
@@ -65,9 +66,9 @@ class APIService {
   // final DialogService _dialogService = locator<DialogService>();
 
   APIService() {
-    apiClient..interceptors.addAll([AppInterceptors(), CustomLogInterceptor()]);
+    apiClient..interceptors.addAll([AppInterceptors(), CustomLogInterceptor(), PerformanceInterceptor()]);
     appointmentClient
-      ..interceptors.addAll([AppInterceptors(), CustomLogInterceptor()]);
+      ..interceptors.addAll([AppInterceptors(), CustomLogInterceptor(), PerformanceInterceptor()]);
   }
   Future apiWrapper(
     String path, {
