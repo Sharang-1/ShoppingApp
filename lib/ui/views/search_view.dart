@@ -444,21 +444,24 @@ class _SearchViewState extends State<SearchView>
                         GestureDetector(
                           onTap: _changeSearchFieldFocus,
                           child: Container(
-                            height: 700,
+                            height: 720,
                             color: Colors.black.withAlpha(150),
                           ),
                         ),
                       if (showRecents == true)
                         Container(
                           color: backgroundWhiteCreamColor,
-                          child: ListView(
-                            shrinkWrap: true,
-                            children: _getRecentSearchListUI(),
+                          child: SizedBox(
+                                height: 120,
+                                child: ListView(
+                              shrinkWrap: true,
+                              children: _getRecentSearchListUI(),
+                            ),
                           ),
                         ),
                       if (showCategories && (_tabController.index == 0))
                           Padding(
-                          padding: EdgeInsets.only(top: 70),
+                          padding: EdgeInsets.only(top: 140),
                             child: GridListWidget<Categorys, Category>(
                               key: UniqueKey(),
                               context: context,
