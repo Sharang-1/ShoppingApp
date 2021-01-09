@@ -195,7 +195,7 @@ class _HomeViewListState extends State<HomeViewList> {
               gridCount: 1,
               childAspectRatio: 0.60,
               viewModel: SellersGridViewBuilderViewModel(
-                  boutiquesOnly: true, random: true),
+                  profileOnly: true, random: true),
               disablePagination: true,
               scrollDirection: Axis.horizontal,
               emptyListWidget: Container(),
@@ -599,7 +599,10 @@ class _HomeViewListState extends State<HomeViewList> {
               filter: new SellerFilter(),
               gridCount: 1,
               childAspectRatio: 0.65,
-              viewModel: SellersGridViewBuilderViewModel(random: true),
+              viewModel: SellersGridViewBuilderViewModel(
+                sellerOnly: true,
+                random: true,
+              ),
               disablePagination: true,
               scrollDirection: Axis.horizontal,
               emptyListWidget: Container(),

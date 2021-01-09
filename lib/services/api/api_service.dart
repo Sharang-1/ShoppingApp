@@ -4,6 +4,7 @@ import 'package:compound/constants/server_urls.dart';
 import 'package:compound/models/Appointments.dart';
 import 'package:compound/models/TimeSlots.dart';
 import 'package:compound/models/lookups.dart';
+import 'package:compound/models/sellerProfile.dart';
 import 'package:dio/dio.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
@@ -248,6 +249,16 @@ class APIService {
       Seller seller = Seller.fromJson(sellersData);
       Fimber.d("Seller : " + seller.name);
       return seller;
+    }
+    return null;
+  }
+
+  Future<SellerProfile> getSellerProfile(String id) async {
+    var sellerProfileData = await apiWrapper("sellers/$id/profile");
+    if (sellerProfileData != null) {
+      SellerProfile sellerProfile = SellerProfile.fromMap(sellerProfileData);
+      Fimber.d("Sellers : " + sellerProfile.photos.map((o) => o.name).toString());
+      return sellerProfile;
     }
     return null;
   }
