@@ -33,8 +33,6 @@ import 'package:share/share.dart';
 import 'package:compound/constants/dynamic_links.dart';
 import 'package:compound/services/dynamic_link_service.dart';
 
-
-
 const weekday = [
   "Monday",
   "Tuesday",
@@ -77,7 +75,6 @@ class _ProductIndiViewState extends State<ProductIndiView> {
   final refreshController = RefreshController(initialRefresh: false);
   final NavigationService _navigationService = locator<NavigationService>();
   final DynamicLinkService _dynamicLinkService = locator<DynamicLinkService>();
-
 
   bool disabledAddToCartBtn = false;
 
@@ -461,10 +458,11 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                           ),
                         ),
                         GestureDetector(
-                            onTap: () async {
-                              await Share.share(await _dynamicLinkService.createLink(productLink + productId));
-                            },
-                            child: Container(
+                          onTap: () async {
+                            await Share.share(await _dynamicLinkService
+                                .createLink(productLink + productId));
+                          },
+                          child: Container(
                             padding: EdgeInsets.symmetric(horizontal: 8.0),
                             child: Image.asset(
                               "assets/images/share_icon.png",
@@ -908,7 +906,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                     verticalSpace(5),
                     GestureDetector(
                       onTap: () {
-                        _navigationService.navigateTo(SellerIndiViewRoute, arguments: model?.selleDetail);
+                        _navigationService.navigateTo(SellerIndiViewRoute,
+                            arguments: model?.selleDetail);
                       },
                       child: Card(
                           shape: RoundedRectangleBorder(
@@ -976,7 +975,9 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                 "subCategory=${widget?.data?.category?.id ?? -1};"),
                         gridCount: 2,
                         viewModel: ProductsGridViewBuilderViewModel(
-                            filteredProductKey: widget?.data?.key),
+                          filteredProductKey: widget?.data?.key,
+                          randomize: true,
+                        ),
                         childAspectRatio: 1.35,
                         scrollDirection: Axis.horizontal,
                         disablePagination: false,
@@ -1013,7 +1014,9 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                 : ""),
                         gridCount: 2,
                         viewModel: ProductsGridViewBuilderViewModel(
-                            filteredProductKey: widget?.data?.key),
+                          filteredProductKey: widget?.data?.key,
+                          randomize: true,
+                        ),
                         childAspectRatio: 1.35,
                         scrollDirection: Axis.horizontal,
                         disablePagination: false,
