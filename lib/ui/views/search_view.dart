@@ -444,7 +444,7 @@ class _SearchViewState extends State<SearchView>
                         GestureDetector(
                           onTap: _changeSearchFieldFocus,
                           child: Container(
-                            height: 1000,
+                            height: 700,
                             color: Colors.black.withAlpha(150),
                           ),
                         ),

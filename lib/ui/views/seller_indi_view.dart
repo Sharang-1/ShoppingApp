@@ -464,11 +464,12 @@ class _SellerIndiState extends State<SellerIndi> {
         context: context,
         builder: (context) {
           return FractionallySizedBox(
-              heightFactor: MediaQuery.of(context).size.height > 600
-                  ? MediaQuery.of(context).size.height > 800
-                      ? 0.650
-                      : 0.7
-                  : 0.8,
+            heightFactor: 0.9,
+              // heightFactor: MediaQuery.of(context).size.height > 600
+              //     ? MediaQuery.of(context).size.height > 800
+              //         ? 0.650
+              //         : 0.7
+              //     : 0.8,
               child: SellerBottomSheetView(sellerData: widget.data));
         });
   }
