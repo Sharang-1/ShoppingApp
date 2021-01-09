@@ -55,6 +55,13 @@ class HomeViewModel extends BaseModel {
     );
   }
 
+  Future showSellers() async {
+    await _navigationService.navigateTo(
+      SearchViewRoute,
+      arguments: true,
+    );
+  }
+
   Future<List<Promotion>> getPromotions() async {
     final promotions = await _apiService.getPromotions();
     print("list of promotions");

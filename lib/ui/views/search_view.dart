@@ -29,7 +29,9 @@ import 'package:compound/ui/widgets/categoryTileUI.dart';
 import 'package:compound/viewmodels/grid_view_builder_view_models/categories_view_builder_view_model.dart';
 
 class SearchView extends StatefulWidget {
-  SearchView({Key key}) : super(key: key);
+  SearchView({Key key, this.data}) : super(key: key);
+
+  bool data;
 
   @override
   _SearchViewState createState() => _SearchViewState();
@@ -41,7 +43,7 @@ class _SearchViewState extends State<SearchView>
   TabController _tabController;
   FocusNode _searchBarFocusNode = FocusNode(canRequestFocus: true);
 
-  // Search States
+  // Search States 
   Debouncer _debouncer;
   int currentTabIndex = 0;
   bool showRecents = true;
@@ -75,6 +77,11 @@ class _SearchViewState extends State<SearchView>
       if (_tabController.indexIsChanging) _onTabChange();
     });
     _searchBarFocusNode.addListener(_showRecentWhenFocusOnSearchBar);
+
+    if(widget.data!= null && widget.data) {
+    _tabController.index = 1;
+    _onTabChange();
+    }
   }
 
   Future<void> setUpRecentList() async {

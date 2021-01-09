@@ -949,9 +949,10 @@ class _HomeViewListState extends State<HomeViewList> {
               SizedBox(
                 height: 50,
                 width: MediaQuery.of(context).size.width * 0.6,
-                child: RaisedButton(
-                  elevation: 5,
-                  onPressed: () {},
+                child: FlatButton(
+                  onPressed: () {
+                    widget.model.showSellers();
+                  },
                   color: darkRedSmooth,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(curve30),

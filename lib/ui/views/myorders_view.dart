@@ -9,6 +9,7 @@ import 'package:provider_architecture/provider_architecture.dart';
 import './myorders_details_view.dart';
 import 'package:compound/constants/route_names.dart';
 import 'package:compound/locator.dart';
+import 'package:compound/constants/server_urls.dart';
 import 'package:compound/services/navigation_service.dart';
 import '../widgets/custom_text.dart';
 import '../shared/app_colors.dart';
@@ -76,7 +77,7 @@ class MyOrdersView extends StatelessWidget {
                         if (!model.busy && model.mOrders != null)
                           ...model.mOrders.orders.map((o) {
                             return SizedBox(
-                                height: 200,
+                                height: 120,
                                 child: GestureDetector(
                                   child: Card(
                                       clipBehavior: Clip.antiAlias,
@@ -85,9 +86,7 @@ class MyOrdersView extends StatelessWidget {
                                             BorderRadius.circular(curve15),
                                       ),
                                       elevation: 5,
-                                      child: Padding(
-                                        padding: EdgeInsets.only(
-                                            left: 15, top: 20, bottom: 20),
+                                      child: Container(
                                         child: Row(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.center,
@@ -97,17 +96,13 @@ class MyOrdersView extends StatelessWidget {
                                                     BorderRadius.circular(
                                                         curve15),
                                                 child: FadeInImage.assetNetwork(
-                                                  width: (MediaQuery.of(context)
-                                                              .size
-                                                              .width -
-                                                          70) /
-                                                      3,
-                                                  height: 140,
+                                                  width: 120,
+                                                  height: 120,
                                                   fadeInCurve: Curves.easeIn,
                                                   placeholder:
                                                       "assets/images/placeholder.png",
                                                   image:
-                                                      "https://images.unsplash.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
+                                                      "$PRODUCT_PHOTO_BASE_URL/${o.product.key}/${o.product.photo.photos.first.name}",
                                                   fit: BoxFit.cover,
                                                 )),
                                             horizontalSpaceMedium,
