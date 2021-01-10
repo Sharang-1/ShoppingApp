@@ -21,6 +21,7 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
   @override
   Widget build(BuildContext context) {
     final msgController = TextEditingController();
+    msgController.text = "Select Your Message";
 
     String getTime(int time) {
       String meridien = "AM";
@@ -97,7 +98,6 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                           MainAxisAlignment.spaceBetween,
                                       children: <Widget>[
                                         Container(
-                                            // clipBehavior: Clip.antiAlias,
                                             width: MediaQuery.of(context)
                                                     .size
                                                     .width -
@@ -337,17 +337,22 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                     ),
                                     verticalSpaceTiny,
 
-                                    // DropdownButton(
-                                    //   items: (<String>[
-                                    //     "Test 1",
-                                    //     "Test 1",
-                                    //     "Test 1",
-                                    //     "Test 1",
-                                    //     "Test 1"
-                                    //   ].map((e) => DropdownMenuItem<String>(
-                                    //       value: e, child: Text(e)))).toList(),
-                                    //   onChanged: (value) {},
-                                    // ),
+                                    DropdownButton(
+                                      value: msgController.text,
+                                      items: (<String>[
+                                        "Test 1",
+                                        "Test 2",
+                                        "Test 3",
+                                        "Test 4",
+                                        "Test 5"
+                                      ].map((e) => DropdownMenuItem(
+                                          value: e, child: Text(e)))).toList(),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          msgController.text = value.toString();
+                                        }); 
+                                      },
+                                    ),
 
                                     // InputField(
                                     //   smallVersion: true,

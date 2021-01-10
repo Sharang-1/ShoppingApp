@@ -19,6 +19,7 @@ class CartViewModel extends BaseModel {
   Future init() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     userName = prefs.getString(Name);
+    notifyListeners();
     return ;
   }
 
