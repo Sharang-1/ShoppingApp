@@ -129,6 +129,7 @@ class MyOrdersView extends StatelessWidget {
                                                   isBold: true,
                                                   color: textIconOrange,
                                                 ),
+                                                if(o.variation.size != 'N/A')
                                                 CustomText(o.variation.size,
                                                     dotsAfterOverFlow: true,
                                                     color: Colors.grey,

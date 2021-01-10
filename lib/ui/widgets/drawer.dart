@@ -136,6 +136,22 @@ class HomeDrawer extends StatelessWidget {
                             title: Padding(
                               padding: EdgeInsets.only(left: 20),
                               child: CustomText(
+                                'My Appointments',
+                                color: Colors.grey[800],
+                                isBold: true,
+                                fontSize: 18,
+                              ),
+                            ),
+                            onTap: () {
+                              _navigationService.navigateTo(
+                                  MyAppointmentViewRoute,
+                                  popNavbar: true);
+                            },
+                          ),
+                          ListTile(
+                            title: Padding(
+                              padding: EdgeInsets.only(left: 20),
+                              child: CustomText(
                                 'My Orders',
                                 color: Colors.grey[800],
                                 isBold: true,
@@ -174,22 +190,6 @@ class HomeDrawer extends StatelessWidget {
                             ),
                             onTap: () {
                               _navigationService.navigateTo(ProfileViewRoute,
-                                  popNavbar: true);
-                            },
-                          ),
-                          ListTile(
-                            title: Padding(
-                              padding: EdgeInsets.only(left: 20),
-                              child: CustomText(
-                                'My Appointments',
-                                color: Colors.grey[800],
-                                isBold: true,
-                                fontSize: 18,
-                              ),
-                            ),
-                            onTap: () {
-                              _navigationService.navigateTo(
-                                  MyAppointmentViewRoute,
                                   popNavbar: true);
                             },
                           ),
