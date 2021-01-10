@@ -37,7 +37,7 @@ class OtpFinishedScreenModel extends BaseModel {
           _navigationService.navigateReplaceTo(OtpFinishedScreen2Route);
         } else {
           var mUserDetails = await _apiService.getUserData();
-          mUserDetails.firstName = name;
+          mUserDetails.name = name;
           var userData = await _apiService.updateUserData(mUserDetails);
           await _addressService.setUpAddress(userData.contact);
           _navigationService.navigateReplaceTo(HomeViewRoute);

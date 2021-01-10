@@ -24,7 +24,8 @@ class MapView extends StatelessWidget {
     // ];
 
     List<String> tempSplitName = client.name.split(" ");
-    String shortName = tempSplitName.length > 1
+    String shortName = tempSplitName.length > 1 &&
+            tempSplitName[tempSplitName.length - 1].length > 1
         ? tempSplitName[0].substring(0, 1) +
             tempSplitName[tempSplitName.length - 1].substring(0, 1)
         : tempSplitName[0].substring(0, 2);

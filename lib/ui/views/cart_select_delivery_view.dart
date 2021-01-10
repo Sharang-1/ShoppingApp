@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider_architecture/provider_architecture.dart';
+import 'package:google_maps_place_picker/google_maps_place_picker.dart';
 
 class SelectAddress extends StatefulWidget {
   final String finalTotal;
@@ -145,20 +146,23 @@ class _SelectAddressState extends State<SelectAddress> {
                     child: RaisedButton(
                         elevation: 5,
                         onPressed: () async {
-                          UserDetailsContact newAddress =
-                              await Navigator.push<UserDetailsContact>(
+                          PickResult pickedPlace = await Navigator.push(
                             context,
                             PageTransition(
                               child: AddressInputPage(),
                               type: PageTransitionType.rightToLeft,
                             ),
                           );
-
-                          print("New Address Added ............");
-                          print(newAddress);
-
-                          if (newAddress != null) {
-                            model.addAddress(newAddress);
+                          if (pickedPlace != null) {
+                            UserDetailsContact userAdd =
+                                await showModalBottomSheet(
+                                    context: context,
+                                    builder: (_) => BottomSheetForAddress(
+                                          pickedPlace: pickedPlace,
+                                        ));
+                            if (userAdd != null) {
+                              model.addAddress(userAdd);
+                            }
                           }
                         },
                         color: darkRedSmooth,
@@ -250,7 +254,9 @@ class _SelectAddressState extends State<SelectAddress> {
                                           ),
                                           verticalSpaceTiny_0,
                                           CustomText(
-                                            address.googleAddress,
+                                            address.address +
+                                                "\n" +
+                                                address.googleAddress,
                                             color: Colors.grey,
                                             fontSize: 14,
                                           ),

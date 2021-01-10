@@ -34,8 +34,6 @@ class ProductIndividualViewModel extends BaseModel {
   Future<void> init(String sellerId) async {
     selleDetail = await _apiService.getSellerByID(sellerId);
     var addresses = await _addressService.getAddresses();
-    print("address");
-    print(addresses);
     if (addresses != null && addresses.length != 0) {
       defaultAddress = addresses.first;
     } else {
@@ -49,13 +47,33 @@ class ProductIndividualViewModel extends BaseModel {
   }
 
   gotoAddView(context) async {
-    UserDetailsContact pickedPlace = await Navigator.push(
-        context,
-        PageTransition(
-          child: AddressInputPage(),
-          type: PageTransitionType.rightToLeft,
-        ));
-    defaultAddress = pickedPlace;
+    PickResult pickedPlace = await Navigator.push(
+      context,
+      PageTransition(
+        child: AddressInputPage(),
+        type: PageTransitionType.rightToLeft,
+      ),
+    );
+
+    if (pickedPlace != null) {
+      // pickedPlace = (PickResult) pickedPlace;
+      // print(pickedPlace);
+      // model.mUserDetails.contact
+      //     .address = pickedPlace;
+
+      UserDetailsContact userAdd = await showModalBottomSheet(
+          context: context,
+          builder: (_) => BottomSheetForAddress(
+                pickedPlace: pickedPlace,
+              ));
+      if (userAdd != null) {
+        if (userAdd.city.toUpperCase() != "AHMEDABAD") {
+          _dialogService.showNotDeliveringDialog();
+        } else {
+          defaultAddress = userAdd;
+        }
+      }
+    }
     notifyListeners();
   }
 

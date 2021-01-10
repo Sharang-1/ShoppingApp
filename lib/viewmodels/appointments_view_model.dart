@@ -54,13 +54,12 @@ class AppointmentsViewModel extends BaseModel {
 
     var adds = await _addressService.getAddresses();
     if (adds == null || adds.length == 0) {
-      Get.defaultDialog(
-        title: "Please enter address before booking an appointment",
-        onConfirm: () {
-          this.goToAddressInputPage();
-        },
-        onCancel: () {},
-      );
+      var res = await _dialogService.showConfirmationDialog(
+          title: "Hey there !~",
+          description: "Please enter address before booking an appointment");
+      if (res.confirmed) {
+        _navigationService.navigateTo(ProfileViewRoute);
+      }
 
       // ,
       // snackPosition: SnackPosition.BOTTOM,

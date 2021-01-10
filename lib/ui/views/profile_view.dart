@@ -5,10 +5,12 @@ import 'package:compound/viewmodels/user_details_view_model.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:google_maps_place_picker/google_maps_place_picker.dart';
 import 'package:page_transition/page_transition.dart';
 import '../shared/app_colors.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 import 'address_input_form_view.dart';
+import 'package:compound/models/user_details.dart';
 
 class ProfileView extends StatefulWidget {
   ProfileView({Key key}) : super(key: key);
@@ -57,6 +59,11 @@ class _ProfileViewState extends State<ProfileView> {
         onModelReady: (model) => model.getUserDetails(),
         builder: (context, model, child) => WillPopScope(
             onWillPop: () {
+              if (this.isButtonActive == false) {
+                Navigator.of(context).pop();
+                return Future.value(true);
+              }
+
               return showDialog(
                   context: context,
                   builder: (BuildContext context) {
@@ -109,15 +116,19 @@ class _ProfileViewState extends State<ProfileView> {
                         bottom: 10),
                     child: RaisedButton(
                         elevation: 5,
-                        onPressed: () {
+                        onPressed: () async {
                           if (isButtonActive) if (_formKey.currentState
                               .validate()) {
                             _formKey.currentState.save();
 
-                            model.updateUserDetails();
+                            await model.updateUserDetails();
                             Fimber.e(model.mUserDetails.name +
                                 " " +
                                 model.mUserDetails.contact.phone.mobile);
+                            setState(() {
+                              isButtonActive = false;
+                              isEditable = false;
+                            });
                           }
                         },
                         color: isButtonActive ? green : Colors.grey[400],
@@ -221,7 +232,7 @@ class _ProfileViewState extends State<ProfileView> {
                                                           readOnly: !isEditable,
                                                           initialValue: model
                                                               .mUserDetails
-                                                              ?.firstName,
+                                                              ?.name,
                                                           validator: (text) {
                                                             if (text.isEmpty ||
                                                                 text
@@ -242,8 +253,7 @@ class _ProfileViewState extends State<ProfileView> {
                                                           },
                                                           onSaved: (text) {
                                                             model.mUserDetails
-                                                                    .firstName =
-                                                                text;
+                                                                .name = text;
                                                           },
                                                           decoration:
                                                               const InputDecoration(
@@ -423,10 +433,17 @@ class _ProfileViewState extends State<ProfileView> {
                                                                 .contact
                                                                 .address +
                                                             "\n" +
-                                                            model
-                                                                .mUserDetails
-                                                                .contact
-                                                                .googleAddress,
+                                                            (model
+                                                                        .mUserDetails
+                                                                        .contact
+                                                                        .googleAddress
+                                                                        ?.isEmpty ??
+                                                                    true
+                                                                ? ""
+                                                                : model
+                                                                    .mUserDetails
+                                                                    .contact
+                                                                    .googleAddress),
                                                         color: Colors.grey[800],
                                                         fontWeight:
                                                             FontWeight.w500,
@@ -443,7 +460,7 @@ class _ProfileViewState extends State<ProfileView> {
                                       RaisedButton(
                                           elevation: 5,
                                           onPressed: () async {
-                                            var pickedPlace =
+                                            PickResult pickedPlace =
                                                 await Navigator.push(
                                               context,
                                               PageTransition(
@@ -454,9 +471,43 @@ class _ProfileViewState extends State<ProfileView> {
                                             );
                                             if (pickedPlace != null) {
                                               // pickedPlace = (PickResult) pickedPlace;
-                                              print(pickedPlace);
-                                              model.mUserDetails.contact
-                                                  .address = pickedPlace;
+                                              // print(pickedPlace);
+                                              // model.mUserDetails.contact
+                                              //     .address = pickedPlace;
+
+                                              UserDetailsContact userAdd =
+                                                  await showModalBottomSheet(
+                                                      context: context,
+                                                      builder: (_) =>
+                                                          BottomSheetForAddress(
+                                                            pickedPlace:
+                                                                pickedPlace,
+                                                          ));
+                                              if (userAdd != null) {
+                                                if (userAdd.city
+                                                        .toUpperCase() !=
+                                                    "AHMEDABAD") {
+                                                  model
+                                                      .showNotDeliveringDialog();
+                                                } else {
+                                                  model.mUserDetails.contact
+                                                          .googleAddress =
+                                                      userAdd.googleAddress;
+                                                  model.mUserDetails.contact
+                                                          .address =
+                                                      userAdd.address;
+                                                  model.mUserDetails.contact
+                                                          .pincode =
+                                                      userAdd.pincode;
+                                                  model.mUserDetails.contact
+                                                      .state = userAdd.state;
+                                                  model.mUserDetails.contact
+                                                      .city = userAdd.city;
+                                                  setState(() {
+                                                    isButtonActive = true;
+                                                  });
+                                                }
+                                              }
                                             }
                                           },
                                           color: darkRedSmooth,
@@ -483,7 +534,7 @@ class _ProfileViewState extends State<ProfileView> {
                                                         vertical: 15),
                                                 child: CustomText(
                                                   model.mUserDetails.contact
-                                                              .googleAddress !=
+                                                              .address !=
                                                           null
                                                       ? "Change Address"
                                                       : "Add Address",

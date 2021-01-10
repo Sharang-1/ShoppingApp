@@ -31,8 +31,8 @@ class AddressService {
 
   Future<List<UserDetailsContact>> getAddresses() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs
-        .getStringList(AddressList)
+    var addPreds = prefs.getStringList(AddressList);
+    return addPreds
         .map((e) => UserDetailsContact.fromJson(jsonDecode(e)))
         .toList();
   }

@@ -2,12 +2,14 @@
 import 'package:compound/locator.dart';
 import 'package:compound/models/user_details.dart';
 import 'package:compound/services/address_service.dart';
+import 'package:compound/services/dialog_service.dart';
 // import 'package:compound/services/navigation_service.dart';
 import 'package:compound/viewmodels/base_model.dart';
 
 class CartSelectDeliveryViewModel extends BaseModel {
   // final NavigationService _navigationService = locator<NavigationService>();
   final AddressService _addressService = locator<AddressService>();
+  final DialogService _dialogService = locator<DialogService>();
 
   List<UserDetailsContact> addresses = [];
 
@@ -18,6 +20,9 @@ class CartSelectDeliveryViewModel extends BaseModel {
   }
 
   Future<void> addAddress(UserDetailsContact address) async {
+    if (address.city.toUpperCase() != "AHMEDABAD") {
+      _dialogService.showNotDeliveringDialog();
+    }
     print("ViewModel: addAddress");
     final res = await _addressService.addAddresses(address);
     print("res : " + res.toString());
