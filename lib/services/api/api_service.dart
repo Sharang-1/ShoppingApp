@@ -5,6 +5,7 @@ import 'package:compound/models/Appointments.dart';
 import 'package:compound/models/TimeSlots.dart';
 import 'package:compound/models/appUpdate.dart';
 import 'package:compound/models/lookups.dart';
+import 'package:compound/models/sellerProfile.dart';
 import 'package:dio/dio.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,7 @@ import 'package:flutter/material.dart';
 
 import 'package:compound/services/api/AppInterceptor.dart';
 import 'package:compound/services/api/CustomLogInterceptor.dart';
+import 'package:compound/services/api/performance_interceptor.dart';
 
 import 'package:compound/models/calculatedPrice.dart';
 import 'package:compound/models/cart.dart' as CartModule;
@@ -69,9 +71,9 @@ class APIService {
   final DialogService _dialogService = locator<DialogService>();
 
   APIService() {
-    apiClient..interceptors.addAll([AppInterceptors(), CustomLogInterceptor()]);
+    apiClient..interceptors.addAll([AppInterceptors(), CustomLogInterceptor(), PerformanceInterceptor()]);
     appointmentClient
-      ..interceptors.addAll([AppInterceptors(), CustomLogInterceptor()]);
+      ..interceptors.addAll([AppInterceptors(), CustomLogInterceptor(), PerformanceInterceptor()]);
   }
   Future apiWrapper(
     String path, {
@@ -138,10 +140,11 @@ class APIService {
   }
 
   Future<List<Lookups>> getLookups() async {
-    var lookupData = await apiWrapper("options");
+    var lookupRes = await apiClient.get("options");
+    var lookupData = lookupRes.data;
     if (lookupData != null) {
-      List<Lookups> lookups = lookupsFromJson(lookupData);
-      Fimber.d("lookupData : " + lookups.map((o) => o.name).toString());
+      List<Lookups> lookups = lookupData.map<Lookups>((e) => Lookups.fromJson(e)).toList();
+      print(lookups);
       return lookups;
     }
 
@@ -179,6 +182,14 @@ class APIService {
       return products;
     }
     return null;
+  }
+
+  Future<Product> getProductById({@required String productId})async {
+    if(productId == null) return null;
+    var productData = await apiWrapper("products/$productId;seller=true;active=true");
+    if(productData == null) return null;
+    Product product = Product.fromJson(productData);
+    return product;
   }
 
   Future<Products> getWhishlistProducts({
@@ -253,6 +264,16 @@ class APIService {
       Seller seller = Seller.fromJson(sellersData);
       Fimber.d("Seller : " + seller.name);
       return seller;
+    }
+    return null;
+  }
+
+  Future<SellerProfile> getSellerProfile(String id) async {
+    var sellerProfileData = await apiWrapper("sellers/$id/profile");
+    if (sellerProfileData != null) {
+      SellerProfile sellerProfile = SellerProfile.fromMap(sellerProfileData);
+      Fimber.d("Sellers : " + sellerProfile.photos.map((o) => o.name).toString());
+      return sellerProfile;
     }
     return null;
   }

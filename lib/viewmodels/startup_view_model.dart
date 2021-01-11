@@ -3,7 +3,9 @@ import 'package:compound/constants/shared_pref.dart';
 import 'package:compound/locator.dart';
 import 'package:compound/services/api/api_service.dart';
 import 'package:compound/services/authentication_service.dart';
+import 'package:compound/services/dynamic_link_service.dart';
 import 'package:compound/services/navigation_service.dart';
+import 'package:compound/services/analytics_service.dart';
 import 'package:compound/viewmodels/base_model.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,6 +18,8 @@ class StartUpViewModel extends BaseModel {
   final APIService _apiService = locator<APIService>();
 
   final NavigationService _navigationService = locator<NavigationService>();
+  final AnalyticsService _analyticsService = locator<AnalyticsService>();
+  final DynamicLinkService _linkService = locator<DynamicLinkService>();
 
   Future init() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -36,6 +40,9 @@ class StartUpViewModel extends BaseModel {
     String version = packageInfo.version;
     String buildNumber = packageInfo.buildNumber;
 
+    await _analyticsService.setup();
+    await _linkService.handleDynamicLink();
+
     if (updateDetails.version != version) {
       Get.defaultDialog(
           title: "Update is here !",
@@ -53,7 +60,7 @@ class StartUpViewModel extends BaseModel {
         if (hasLoggedInUser) {
           _navigationService.navigateReplaceTo(HomeViewRoute);
         } else {
-          _navigationService.navigateReplaceTo(LoginViewRoute);
+          _navigationService.navigateReplaceTo(MyHomePageRoute);
         }
       });
     }

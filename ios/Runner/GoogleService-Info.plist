@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>463864875018-nv7sle32p2avaau9384las4idtlvkq3s.apps.googleusercontent.com</string>
+	<string>355322320933-ubv15hhof2kuunsut8tc5r6r5thrfol3.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.463864875018-nv7sle32p2avaau9384las4idtlvkq3s</string>
+	<string>com.googleusercontent.apps.355322320933-ubv15hhof2kuunsut8tc5r6r5thrfol3</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDavzMwIjkEF19g4STnaIFo7lLd8q2PZpQ</string>
+	<string>AIzaSyAnGFPp31uiWPN4xKTpnB5DfRE37WqrJ_w</string>
 	<key>GCM_SENDER_ID</key>
-	<string>463864875018</string>
+	<string>355322320933</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.dzorApp-ios</string>
+	<string>in.dzor.dzor-app</string>
 	<key>PROJECT_ID</key>
-	<string>dzor-temp</string>
+	<string>dzor-application</string>
 	<key>STORAGE_BUCKET</key>
-	<string>dzor-temp.appspot.com</string>
+	<string>dzor-application.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,8 +29,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:463864875018:ios:b283f3407529e5fb4177f3</string>
+	<string>1:355322320933:ios:27aa86f5671e43982cc7cc</string>
 	<key>DATABASE_URL</key>
-	<string>https://dzor-temp.firebaseio.com</string>
+	<string>https://dzor-application.firebaseio.com</string>
 </dict>
 </plist>

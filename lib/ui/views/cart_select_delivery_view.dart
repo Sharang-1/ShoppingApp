@@ -193,6 +193,7 @@ class _SelectAddressState extends State<SelectAddress> {
                         )),
                   ),
                   verticalSpace(35),
+                  if(model.addresses.length != 0)
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Text(

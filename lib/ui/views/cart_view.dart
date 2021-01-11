@@ -60,7 +60,7 @@ class _CartViewState extends State<CartView> {
             enablePullDown: true,
             footer: null,
             header: WaterDropHeader(
-              waterDropColor: Colors.blue,
+              waterDropColor: logoRed,
               refresh: Container(),
               complete: Container(),
             ),

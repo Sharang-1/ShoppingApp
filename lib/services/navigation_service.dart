@@ -8,7 +8,9 @@ class NavigationService {
     return _navigationKey.currentState.pop();
   }
 
-  Future<dynamic> navigateTo(String routeName, {dynamic arguments}) {
+  Future<dynamic> navigateTo(String routeName, {dynamic arguments, bool popNavbar = false}) {
+    if(popNavbar)
+      pop();
     return _navigationKey.currentState
         .pushNamed(routeName, arguments: arguments);
   }

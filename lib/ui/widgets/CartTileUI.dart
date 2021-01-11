@@ -32,6 +32,7 @@ class _CartTileUIState extends State<CartTileUI> {
   bool isPromoCodeApplied = false;
   String finalTotal = "-";
   String shippingCharges = "-";
+  String deliveryStatus = "";
   String promoCode = "No Promocode";
   String promoCodeId = "";
   String promoCodeDiscount = "0";
@@ -115,6 +116,7 @@ class _CartTileUIState extends State<CartTileUI> {
             promoCodeDiscount: promoCodeDiscount,
             isPromoCodeApplied: isPromoCodeApplied,
             proceedToOrder: proceedToOrder,
+            // deliveryStatus: proceedToOrder,
           ),
         ),
         verticalSpaceSmall,
