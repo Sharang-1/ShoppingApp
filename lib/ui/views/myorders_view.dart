@@ -60,7 +60,7 @@ class MyOrdersView extends StatelessWidget {
                             ),
                             FlatButton(
                               child: CustomText(
-                                "Wish List",
+                                "Wishlist",
                                 fontFamily: headingFont,
                                 isBold: true,
                                 fontSize: subtitleFontSize,
@@ -76,92 +76,95 @@ class MyOrdersView extends StatelessWidget {
                         if (model.busy) CircularProgressIndicator(),
                         if (!model.busy && model.mOrders != null)
                           ...model.mOrders.orders.map((o) {
-                            return SizedBox(
-                                height: 120,
-                                child: GestureDetector(
-                                  child: Card(
-                                      clipBehavior: Clip.antiAlias,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(curve15),
-                                      ),
-                                      elevation: 5,
-                                      child: Container(
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: <Widget>[
-                                            ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                        curve15),
-                                                child: FadeInImage.assetNetwork(
-                                                  width: 120,
-                                                  height: 120,
-                                                  fadeInCurve: Curves.easeIn,
-                                                  placeholder:
-                                                      "assets/images/placeholder.png",
-                                                  image:
-                                                      "$PRODUCT_PHOTO_BASE_URL/${o.product.key}/${o.product.photo.photos.first.name}",
-                                                  fit: BoxFit.cover,
-                                                )),
-                                            horizontalSpaceMedium,
-                                            Expanded(
-                                                child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                CustomText(
-                                                  o.product.name,
-                                                  isBold: true,
-                                                  color: Colors.grey[800],
-                                                  dotsAfterOverFlow: true,
-                                                  fontSize: titleFontSize,
-                                                ),
-                                                CustomText(
-                                                  rupeeUnicode +
-                                                      o.orderCost.cost
-                                                          .toString(),
-                                                  dotsAfterOverFlow: true,
-                                                  fontSize: titleFontSize,
-                                                  isBold: true,
-                                                  color: textIconOrange,
-                                                ),
-                                                if(o.variation.size != 'N/A')
-                                                CustomText(o.variation.size,
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 8.0),
+                              child: SizedBox(
+                                  height: 120,
+                                  child: GestureDetector(
+                                    child: Card(
+                                        clipBehavior: Clip.antiAlias,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(curve15),
+                                        ),
+                                        elevation: 5,
+                                        child: Container(
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: <Widget>[
+                                              ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          curve15),
+                                                  child: FadeInImage.assetNetwork(
+                                                    width: 120,
+                                                    height: 120,
+                                                    fadeInCurve: Curves.easeIn,
+                                                    placeholder:
+                                                        "assets/images/placeholder.png",
+                                                    image:
+                                                        "$PRODUCT_PHOTO_BASE_URL/${o.product.key}/${o.product.photo.photos.first.name}",
+                                                    fit: BoxFit.cover,
+                                                  )),
+                                              horizontalSpaceMedium,
+                                              Expanded(
+                                                  child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.spaceEvenly,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: <Widget>[
+                                                  CustomText(
+                                                    o.product.name,
+                                                    isBold: true,
+                                                    color: Colors.grey[800],
                                                     dotsAfterOverFlow: true,
+                                                    fontSize: titleFontSize,
+                                                  ),
+                                                  CustomText(
+                                                    rupeeUnicode +
+                                                        o.orderCost.cost
+                                                            .toString(),
+                                                    dotsAfterOverFlow: true,
+                                                    fontSize: titleFontSize,
+                                                    isBold: true,
+                                                    color: textIconOrange,
+                                                  ),
+                                                  if(o.variation.size != 'N/A')
+                                                  CustomText(o.variation.size,
+                                                      dotsAfterOverFlow: true,
+                                                      color: Colors.grey,
+                                                      fontSize: subtitleFontSize),
+                                                  CustomText(
+                                                    o.status.state,
+                                                    fontSize: subtitleFontSize,
+                                                    isBold: true,
                                                     color: Colors.grey,
-                                                    fontSize: subtitleFontSize),
-                                                CustomText(
-                                                  o.status.state,
-                                                  fontSize: subtitleFontSize,
-                                                  isBold: true,
+                                                  ),
+                                                ],
+                                              )),
+                                              IconButton(
+                                                icon: Icon(
+                                                  Icons.arrow_forward_ios,
                                                   color: Colors.grey,
                                                 ),
-                                              ],
-                                            )),
-                                            IconButton(
-                                              icon: Icon(
-                                                Icons.arrow_forward_ios,
-                                                color: Colors.grey,
-                                              ),
-                                              onPressed: (){
-                                                
-                                              },
-                                            )
-                                          ],
-                                        ),
-                                      )),
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        new MaterialPageRoute(
-                                            builder: (context) =>
-                                                MyOrdersDetailsView(o)));
-                                  },
-                                ));
+                                                onPressed: (){
+                                                  
+                                                },
+                                              )
+                                            ],
+                                          ),
+                                        )),
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          new MaterialPageRoute(
+                                              builder: (context) =>
+                                                  MyOrdersDetailsView(o)));
+                                    },
+                                  )),
+                            );
                           },
                           ),
                           if(!model.busy && model.mOrders.orders.length == 0)
