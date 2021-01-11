@@ -55,6 +55,9 @@ class _HomeViewState extends State<HomeView> {
             .setUpLookups(values[2]);
       },
       builder: (context, model, child) => SafeArea(
+        left: false,
+        right: false,
+        top: false,
               child: Scaffold(
           drawerEdgeDragWidth: 0,
           primary: false,
