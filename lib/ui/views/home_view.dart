@@ -54,132 +54,134 @@ class _HomeViewState extends State<HomeView> {
         Provider.of<LookupSetUp>(context, listen: false)
             .setUpLookups(values[2]);
       },
-      builder: (context, model, child) => Scaffold(
-        drawerEdgeDragWidth: 0,
-        primary: false,
-        backgroundColor: backgroundWhiteCreamColor,
-        drawer: HomeDrawer(
-          logout: () => model.logout(),
-        ),
-        appBar: AppBar(
-          elevation: 0,
-          automaticallyImplyLeading: false,
-          iconTheme: IconThemeData(color: appBarIconColor),
+      builder: (context, model, child) => SafeArea(
+              child: Scaffold(
+          drawerEdgeDragWidth: 0,
+          primary: false,
           backgroundColor: backgroundWhiteCreamColor,
-          bottom: PreferredSize(
-              preferredSize: Size.fromHeight(30),
-              child: AppBar(
-                elevation: 0,
-                iconTheme: IconThemeData(color: appBarIconColor),
-                backgroundColor: backgroundWhiteCreamColor,
-                title: Center(
-                    child: SvgPicture.asset(
-                  "assets/svg/logo.svg",
-                  color: logoRed,
-                  height: 35,
-                  width: 35,
-                )),
-                actions: <Widget>[
-                  IconButton(
-                    icon: CartIconWithBadge(
-                      iconColor: appBarIconColor,
-                      count: Provider.of<CartCountSetUp>(context, listen: true)
-                          .count,
-                    ),
-                    onPressed: () => model.cart(),
-                  ),
-                ],
-              )),
-
-          //Do experiment with this for Icon Button else make
-          //flexiblespace to bottom
-        ),
-        body: SafeArea(
-          top: false,
-          left: false,
-          right: false,
-          child: SmartRefresher(
-      enablePullDown: true,
-      footer: null,
-      header: WaterDropHeader(
-        waterDropColor: logoRed,
-        refresh: Container(),
-        complete: Container(),
-      ),
-      controller: refreshController,
-      onRefresh: _onRefresh,
-      child: CustomScrollView(
-              // Add the app bar and list of items as slivers in the next steps.
-              slivers: <Widget>[
-                SliverAppBar(
-                  primary: false,
-                  floating: true,
-                  automaticallyImplyLeading: false,
+          drawer: HomeDrawer(
+            logout: () => model.logout(),
+          ),
+          appBar: AppBar(
+            elevation: 0,
+            automaticallyImplyLeading: false,
+            iconTheme: IconThemeData(color: appBarIconColor),
+            backgroundColor: backgroundWhiteCreamColor,
+            bottom: PreferredSize(
+                preferredSize: Size.fromHeight(30),
+                child: AppBar(
+                  elevation: 0,
                   iconTheme: IconThemeData(color: appBarIconColor),
                   backgroundColor: backgroundWhiteCreamColor,
+                  title: Center(
+                      child: SvgPicture.asset(
+                    "assets/svg/logo.svg",
+                    color: logoRed,
+                    height: 35,
+                    width: 35,
+                  )),
                   actions: <Widget>[
                     IconButton(
-                      tooltip: 'map',
-                      icon: new Image.asset("assets/icons/map.png"),
-                      onPressed: () {
-                        model.openmap();
-                      },
-                    )
+                      icon: CartIconWithBadge(
+                        iconColor: appBarIconColor,
+                        count: Provider.of<CartCountSetUp>(context, listen: true)
+                            .count,
+                      ),
+                      onPressed: () => model.cart(),
+                    ),
                   ],
-                  title: InkWell(
-                    onTap: () {
-                      model.search();
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        // color: Colors.grey[200],
-                        color: backgroundBlueGreyColor,
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 30,
-                          vertical: 8,
+                )),
+
+            //Do experiment with this for Icon Button else make
+            //flexiblespace to bottom
+          ),
+          body: SafeArea(
+            top: false,
+            left: false,
+            right: false,
+            child: SmartRefresher(
+        enablePullDown: true,
+        footer: null,
+        header: WaterDropHeader(
+          waterDropColor: logoRed,
+          refresh: Container(),
+          complete: Container(),
+        ),
+        controller: refreshController,
+        onRefresh: _onRefresh,
+        child: CustomScrollView(
+                // Add the app bar and list of items as slivers in the next steps.
+                slivers: <Widget>[
+                  SliverAppBar(
+                    primary: false,
+                    floating: true,
+                    automaticallyImplyLeading: false,
+                    iconTheme: IconThemeData(color: appBarIconColor),
+                    backgroundColor: backgroundWhiteCreamColor,
+                    actions: <Widget>[
+                      IconButton(
+                        tooltip: 'map',
+                        icon: new Image.asset("assets/icons/map.png"),
+                        onPressed: () {
+                          model.openmap();
+                        },
+                      )
+                    ],
+                    title: InkWell(
+                      onTap: () {
+                        model.search();
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          // color: Colors.grey[200],
+                          color: backgroundBlueGreyColor,
+                          borderRadius: BorderRadius.circular(30),
                         ),
-                        child: Row(
-                          children: <Widget>[
-                            Icon(
-                              Icons.search,
-                              color: appBarIconColor,
-                            ),
-                            horizontalSpaceSmall,
-                            Text(
-                              "Search",
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.grey[600],
-                                  fontFamily: "Raleway",
-                                  fontWeight: FontWeight.normal),
-                            ),
-                          ],
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 30,
+                            vertical: 8,
+                          ),
+                          child: Row(
+                            children: <Widget>[
+                              Icon(
+                                Icons.search,
+                                color: appBarIconColor,
+                              ),
+                              horizontalSpaceSmall,
+                              Text(
+                                "Search",
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.grey[600],
+                                    fontFamily: "Raleway",
+                                    fontWeight: FontWeight.normal),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                SliverList(
-                  // Use a delegate to build items as they're scrolled on screen.
-                  delegate: SliverChildBuilderDelegate(
-                    // The builder function returns a ListTile with a title that
-                    // displays the index of the current item.
-                    (context, index) => Padding(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: HomeViewList(
-                        gotoCategory: model.category,
-                        model: model,
-                        productUniqueKey: productKey,
+                  SliverList(
+                    // Use a delegate to build items as they're scrolled on screen.
+                    delegate: SliverChildBuilderDelegate(
+                      // The builder function returns a ListTile with a title that
+                      // displays the index of the current item.
+                      (context, index) => Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: HomeViewList(
+                          gotoCategory: model.category,
+                          model: model,
+                          productUniqueKey: productKey,
+                        ),
                       ),
+                      childCount: 1,
                     ),
-                    childCount: 1,
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
