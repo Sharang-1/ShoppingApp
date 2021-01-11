@@ -2,6 +2,8 @@ import 'package:compound/constants/route_names.dart';
 import 'package:compound/constants/shared_pref.dart';
 import 'package:compound/locator.dart';
 import 'package:compound/models/route_argument.dart';
+import 'package:compound/services/address_service.dart';
+import 'package:compound/services/api/api_service.dart';
 import 'package:compound/services/authentication_service.dart';
 import 'package:compound/services/dialog_service.dart';
 import 'package:compound/services/navigation_service.dart';
@@ -15,6 +17,8 @@ class VerifyOTPViewModel extends BaseModel {
       locator<AuthenticationService>();
   final DialogService _dialogService = locator<DialogService>();
   final NavigationService _navigationService = locator<NavigationService>();
+  final APIService _apiService = locator<APIService>();
+  final AddressService _addressService = locator<AddressService>();
 
   String otpValidationMessage = "";
   String phoneNo = "";
@@ -33,7 +37,7 @@ class VerifyOTPViewModel extends BaseModel {
     // resend otp here.
     setBusy(true);
     final result = await _authenticationService.loginWithPhoneNo(
-        phoneNo: phoneNo, name: "name", resend: true);
+        phoneNo: phoneNo, name: name, resend: true);
     print("Reset OTP Results : ");
     print(result);
     setBusy(false);
@@ -69,6 +73,11 @@ class VerifyOTPViewModel extends BaseModel {
     if (result != null) {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString(Authtoken, result["token"]);
+
+      var mUserDetails = await _apiService.getUserData();
+      mUserDetails.name = prefs.getString(Name);
+      await _apiService.updateUserData(mUserDetails);
+
       _navigationService.navigateReplaceTo(OtpVerifiedRoute);
     } else {
       await _dialogService.showDialog(
@@ -85,7 +94,8 @@ class VerifyOTPViewModel extends BaseModel {
     notifyListeners();
 
     Future.delayed(Duration(milliseconds: 5000), () async {
-      _navigationService.navigateReplaceTo(loader ? LoaderRoute : OtpVerified2Route);
+      _navigationService
+          .navigateReplaceTo(loader ? LoaderRoute : OtpVerified2Route);
     });
   }
 }

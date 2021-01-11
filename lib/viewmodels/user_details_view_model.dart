@@ -27,13 +27,13 @@ class UserDetailsViewModel extends BaseModel {
       mUserDetails = result;
     }
 
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString(Name, mUserDetails.firstName);
-    prefs.setString(PhoneNo, mUserDetails.contact.phone.mobile);
-    Fimber.e(mUserDetails.firstName);
-    Fimber.e(mUserDetails.contact.phone.mobile);
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
+    // prefs.setString(Name, mUserDetails.name);
+    // prefs.setString(PhoneNo, mUserDetails.contact.phone.mobile);
+    // Fimber.e(mUserDetails.firstName);
+    // Fimber.e(mUserDetails.contact.phone.mobile);
 
-    _addressService.setUpAddress(mUserDetails.contact);
+    // _addressService.setUpAddress(mUserDetails.contact);
     notifyListeners();
   }
 
@@ -45,7 +45,7 @@ class UserDetailsViewModel extends BaseModel {
       mUserDetails = result;
     }
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString(Name, mUserDetails.firstName);
+    prefs.setString(Name, mUserDetails.name);
     Fimber.e(mUserDetails.firstName);
     Fimber.e(mUserDetails.contact.phone.mobile);
     _addressService.setUpAddress(mUserDetails.contact);
