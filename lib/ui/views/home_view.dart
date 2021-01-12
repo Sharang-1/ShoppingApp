@@ -67,7 +67,7 @@ class _HomeViewState extends State<HomeView> {
           iconTheme: IconThemeData(color: appBarIconColor),
           backgroundColor: backgroundWhiteCreamColor,
           bottom: PreferredSize(
-              preferredSize: Size.fromHeight(30),
+              preferredSize: Size.fromHeight(45),
               child: AppBar(
                 elevation: 0,
                 iconTheme: IconThemeData(color: appBarIconColor),
