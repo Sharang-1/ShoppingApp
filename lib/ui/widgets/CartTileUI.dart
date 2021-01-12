@@ -107,7 +107,7 @@ class _CartTileUIState extends State<CartTileUI> {
     return Column(
       children: <Widget>[
         SizedBox(
-          height: 180,
+          height: 140,
           child: CartProductTileUI(
             item: widget.item,
             finalTotal: finalTotal,
@@ -140,7 +140,7 @@ class _CartTileUIState extends State<CartTileUI> {
                           child: TextField(
                             controller: _controller,
                             decoration: const InputDecoration(
-                              hintText: 'Promo Code',
+                              hintText: 'Enter Promo Code',
                               border: InputBorder.none,
                               isDense: true,
                             ),

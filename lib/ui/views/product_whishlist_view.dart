@@ -70,7 +70,7 @@ class _WhishListState extends State<WhishList> {
                     bottom: 10,
                   ),
                   child: Text(
-                    "Whishlist",
+                    "Wishlist",
                     style: TextStyle(
                         fontFamily: headingFont,
                         fontWeight: FontWeight.w700,

@@ -41,7 +41,7 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
 
   static const orderSummaryDetails1 = [
     "Product Name",
-    "Seller",
+    // "Seller",
     "Qty",
     "Size",
     "Color",
@@ -70,7 +70,7 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
 
     orderSummaryDetails = {
       "Product Name": widget.item.product.name,
-      "Seller": "Nike",
+      // "Seller": "Nike",
       "Qty": widget.item.quantity.toString(),
       "Size": widget.item.size != null && widget.item.size != ""
           ? widget.item.size
@@ -96,7 +96,7 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
   void didUpdateWidget(covariant oldWidget) {
     orderSummaryDetails = {
       "Product Name": widget.item.product.name,
-      "Seller": "Nike",
+      // "Seller": "Nike",
       "Qty": widget.item.quantity.toString(),
       "Size": widget.item.size != null && widget.item.size != ""
           ? widget.item.size
@@ -126,8 +126,9 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
       clipBehavior: Clip.antiAlias,
       elevation: 5,
       child: Padding(
-        padding: EdgeInsets.fromLTRB(10, 15, 0, 15),
+        padding: EdgeInsets.only(left:10),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             ClipRRect(
@@ -156,13 +157,13 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                       isBold: true,
                       fontSize: titleFontSize,
                     ),
-                    verticalSpaceTiny,
-                    CustomText(
-                      "By Nike",
-                      color: Colors.grey,
-                      dotsAfterOverFlow: true,
-                      fontSize: subtitleFontSize - 2,
-                    ),
+                    // verticalSpaceTiny,
+                    // CustomText(
+                    //   "By Nike",
+                    //   color: Colors.grey,
+                    //   dotsAfterOverFlow: true,
+                    //   fontSize: subtitleFontSize - 2,
+                    // ),
                     verticalSpaceSmall,
                     Row(
                       children: <Widget>[

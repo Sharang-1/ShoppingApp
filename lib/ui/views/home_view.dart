@@ -73,12 +73,15 @@ class _HomeViewState extends State<HomeView> {
                 iconTheme: IconThemeData(color: appBarIconColor),
                 backgroundColor: backgroundWhiteCreamColor,
                 title: Center(
-                    child: SvgPicture.asset(
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 2.0),
+                      child: SvgPicture.asset(
                   "assets/svg/logo.svg",
                   color: logoRed,
                   height: 35,
                   width: 35,
-                )),
+                ),
+                    )),
                 actions: <Widget>[
                   IconButton(
                     icon: CartIconWithBadge(
@@ -107,7 +110,16 @@ class _HomeViewState extends State<HomeView> {
         complete: Container(),
       ),
       controller: refreshController,
-      onRefresh: _onRefresh,
+      onRefresh: () async {
+        final values = await model.init(context);
+        Provider.of<CartCountSetUp>(context, listen: false)
+            .setCartCount(values[0]);
+        Provider.of<WhishListSetUp>(context, listen: false)
+            .setUpWhishList(values[1]);
+        Provider.of<LookupSetUp>(context, listen: false)
+            .setUpLookups(values[2]);
+        _onRefresh();
+        },
       child: CustomScrollView(
               // Add the app bar and list of items as slivers in the next steps.
               slivers: <Widget>[
