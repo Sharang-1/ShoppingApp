@@ -35,65 +35,72 @@ class _PromotionSliderState extends State<PromotionSlider> {
     return Column(
       children: [
         Container(
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                spreadRadius: 5,
-                blurRadius: 7,
-                offset: Offset(0, 3), // changes position of shadow
-              ),
-            ],
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(20.0),
-            child: CarouselSlider(
-              autoPlay: true,
-              autoPlayInterval: Duration(seconds: _timeOut),
-              pauseAutoPlayOnTouch: Duration(seconds: 10),
-              aspectRatio: widget.aspectRatio,
-              enableInfiniteScroll: true,
-              viewportFraction: 1.0,
-              onPageChanged: (index) {
-                setState(() {
-                  _current = index;
-                  _timeOut = widget?.promotions[index]?.time ?? 3;
-                });
-              },
-              items: widget.promotions.map((i) {
-                return Builder(
-                  builder: (BuildContext context) {
-                    return GestureDetector(
-                      onTap: () {
-                        var promoTitle = i?.name;
-                        List<String> productIds = i?.products?.map((e) => e.toString())?.toList();
-                        print(productIds);
-                        Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                            builder: (context) => PromotionProduct(
-                              productIds: productIds ?? [],
-                              promotionTitle: promoTitle,
-                            ),
+          // decoration: BoxDecoration(
+          //   boxShadow: [
+          //     BoxShadow(
+          //       color: Colors.grey.withOpacity(0.5),
+          //       spreadRadius: 5,
+          //       blurRadius: 7,
+          //       offset: Offset(0, 3), // changes position of shadow
+          //     ),
+          //   ],
+          // ),
+          child: CarouselSlider(
+            autoPlay: true,
+            autoPlayInterval: Duration(seconds: _timeOut),
+            pauseAutoPlayOnTouch: Duration(seconds: 10),
+            aspectRatio: widget.aspectRatio,
+            enableInfiniteScroll: true,
+            viewportFraction: 1.0,
+            onPageChanged: (index) {
+              setState(() {
+                _current = index;
+                _timeOut = widget?.promotions[index]?.time ?? 3;
+              });
+            },
+            items: widget.promotions.map((i) {
+              return Builder(
+                builder: (BuildContext context) {
+                  return GestureDetector(
+                    onTap: () {
+                      var promoTitle = i?.name;
+                      List<String> productIds =
+                          i?.products?.map((e) => e.toString())?.toList();
+                      print(productIds);
+                      Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                          builder: (context) => PromotionProduct(
+                            promotionId: i?.key,
+                            productIds: productIds ?? [],
+                            promotionTitle: promoTitle,
                           ),
-                        );
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(curve15)),
-                        width: MediaQuery.of(context).size.width,
-                        child: CachedNetworkImage(
-                          fit: BoxFit.cover,
-                          imageUrl: "$PROMOTION_PHOTO_BASE_URL/${i.key}",
-                          errorWidget: (context, url, error) =>
-                              new Icon(Icons.error),
+                        ),
+                      );
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8.0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(15.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(curve15)),
+                          width: MediaQuery.of(context).size.width - 10,
+                          child: CachedNetworkImage(
+                            fit: BoxFit.cover,
+                            placeholder: (context, url) => Image.asset(
+                                "assets/images/promotion_preloading.png"),
+                            imageUrl: "$PROMOTION_PHOTO_BASE_URL/${i.key}",
+                            errorWidget: (context, url, error) =>
+                                new Icon(Icons.error),
+                          ),
                         ),
                       ),
-                    );
-                  },
-                );
-              }).toList(),
-            ),
+                    ),
+                  );
+                },
+              );
+            }).toList(),
           ),
         ),
         if (widget.promotions.length > 1)

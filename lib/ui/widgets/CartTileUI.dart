@@ -116,6 +116,9 @@ class _CartTileUIState extends State<CartTileUI> {
             promoCodeDiscount: promoCodeDiscount,
             isPromoCodeApplied: isPromoCodeApplied,
             proceedToOrder: proceedToOrder,
+
+            // deliveryStatus: proceedToOrder,
+
           ),
         ),
         verticalSpaceSmall,

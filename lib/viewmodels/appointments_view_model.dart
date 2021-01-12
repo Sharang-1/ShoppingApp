@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:compound/constants/route_names.dart';
 import 'package:compound/locator.dart';
 import 'package:compound/models/Appointments.dart';
@@ -45,6 +44,7 @@ class AppointmentsViewModel extends BaseModel {
   }
 
   Future getAvaliableTimeSlots(String sellerId) async {
+    print("seller id : ${sellerId}");
     setBusy(true);
     TimeSlots result = await _apiService.getAvaliableTimeSlots(sellerId);
     setBusy(false);
@@ -56,8 +56,8 @@ class AppointmentsViewModel extends BaseModel {
         "wednesday": "Wed",
         "thursday": "Thu",
         "friday": "Fri",
-        "Saturday": "Sat",
-        "Sunday": "Sun"
+        "saturday": "Sat",
+        "sunday": "Sun"
       };
       result.timeSlot.forEach((t) => t.day = weekDayMap[t.day]);
       selectedWeekDay = result.timeSlot.first.day;
@@ -101,4 +101,12 @@ class AppointmentsViewModel extends BaseModel {
       );
     }
   }
+
+  //method, which is called after appointment is booked 
+  Future appointmentBooked() async {
+     Future.delayed(Duration(milliseconds: 2000), () async {
+        _navigationService.navigateReplaceTo(MyAppointmentViewRoute);
+     });
+  }
+
 }

@@ -33,7 +33,11 @@ class CategoryTileUI extends StatelessWidget {
             child: FadeInImage.assetNetwork(
                 fit: BoxFit.fill,
                 fadeInCurve: Curves.easeIn,
+
                 placeholder: 'assets/images/preloading2.png',
+
+                
+
                 image: //data?.id != null
                     // ? '$CATEGORY_PHOTO_BASE_URL/${data.id}' :
                     'assets/preloading1.png'

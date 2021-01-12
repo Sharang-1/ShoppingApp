@@ -6,12 +6,10 @@ class LookupSetUp extends ChangeNotifier{
     Key key,
   }) : assert(List != null);
 
-  Map<String, List<Lookup>> lookups;
+  List<Lookups> lookups;
 
   void setUpLookups(List<Lookups> lookups) {
-    for (var lookup in lookups) {
-      this.lookups[lookup.name] = lookup.options;
-    }
+    this.lookups = lookups;
     notifyListeners();
   }
 }

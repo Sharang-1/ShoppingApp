@@ -64,21 +64,30 @@ class _ProfileViewState extends State<ProfileView> {
                       // title: new Text("Are you sure?"),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(15))),
-                      content: new Text(
-                          "Are you sure you don't want to make a change?"),
+                      content: Padding(
+                        padding: EdgeInsets.only(top: 12.0),
+                        child: Text(
+                          "Are you sure you don't want to make a change?",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 22,
+                          ),
+                        ),
+                      ),
+                      buttonPadding: EdgeInsets.all(12.0),
                       actions: <Widget>[
                         new FlatButton(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
                           ),
                           color: logoRed,
-                          child: new Text("Yes"),
+                          child: CustomText("Yes", color: Colors.white),
                           onPressed: () {
                             Navigator.pop(context, true);
                           },
                         ),
                         new FlatButton(
-                          child: new CustomText(
+                          child: CustomText(
                             "No",
                             color: Colors.white,
                           ),

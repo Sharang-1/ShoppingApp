@@ -1,3 +1,4 @@
+import 'package:compound/services/dynamic_link_service.dart';
 import 'package:get_it/get_it.dart';
 
 // Services
@@ -27,4 +28,5 @@ void setupLocator() {
   locator.registerLazySingleton(() => AddressService());
   locator.registerLazySingleton(() => WhishListService());
   locator.registerLazySingleton(() => CartLocalStoreService());
+  locator.registerLazySingleton(() => DynamicLinkService());
 }

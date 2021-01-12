@@ -13,11 +13,17 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 import '../shared/shared_styles.dart';
 
+import 'package:compound/locator.dart';
+import 'package:share/share.dart';
+import 'package:compound/constants/dynamic_links.dart';
+import 'package:compound/services/dynamic_link_service.dart';
+
 class PromotionProduct extends StatefulWidget {
+  final String promotionId;
   final List<String> productIds;
   final String promotionTitle;
   PromotionProduct(
-      {Key key, @required this.productIds, @required this.promotionTitle})
+      {Key key, @required this.productIds, @required this.promotionTitle, @required this.promotionId})
       : super(key: key);
 
   @override
@@ -27,6 +33,8 @@ class PromotionProduct extends StatefulWidget {
 class _PromotionProductState extends State<PromotionProduct> {
   WhishListFilter filter = WhishListFilter();
   Key promotionProductKey = UniqueKey();
+
+  DynamicLinkService _dynamicLinkService = locator<DynamicLinkService>();
 
   @mustCallSuper
   @protected
@@ -66,22 +74,43 @@ class _PromotionProductState extends State<PromotionProduct> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 verticalSpace(20),
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: screenPadding,
-                    right: screenPadding,
-                    top: 10,
-                    bottom: 10,
-                  ),
-                  child: Text(
-                    widget.promotionTitle == null || widget.promotionTitle == ""
-                        ? "Products"
-                        : widget.promotionTitle,
-                    style: TextStyle(
-                        fontFamily: headingFont,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 30),
-                  ),
+                Row(
+                  children: [
+                    Expanded(
+                      flex: 8,
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                          left: screenPadding,
+                          right: screenPadding - 5,
+                          top: 10,
+                          bottom: 10,
+                        ),
+                        child: Text(
+                          widget.promotionTitle == null ||
+                                  widget.promotionTitle == ""
+                              ? "Products"
+                              : widget.promotionTitle,
+                          style: TextStyle(
+                              fontFamily: headingFont,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 30),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 2,
+                      child: GestureDetector(
+                        onTap: () async {
+                          await Share.share(await _dynamicLinkService.createLink(promotionLink + widget.promotionId));
+                        },
+                        child: Image.asset(
+                          'assets/images/share_icon.png',
+                          width: 25,
+                          height: 25,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 verticalSpace(20),
                 FutureBuilder(

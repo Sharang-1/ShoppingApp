@@ -8,7 +8,6 @@ import 'package:compound/services/navigation_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'base_model.dart';
 
 class VerifyOTPViewModel extends BaseModel {
@@ -19,12 +18,14 @@ class VerifyOTPViewModel extends BaseModel {
 
   String otpValidationMessage = "";
   String phoneNo = "";
+  String name = "";
 
   String get otpValidation => otpValidationMessage;
 
   Future<void> init() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     phoneNo = prefs.getString(PhoneNo);
+    name = prefs.getString(Name);
     notifyListeners();
   }
 
@@ -68,12 +69,23 @@ class VerifyOTPViewModel extends BaseModel {
     if (result != null) {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString(Authtoken, result["token"]);
-      _navigationService.navigateReplaceTo(OtpFinishedScreen1Route);
+      _navigationService.navigateReplaceTo(OtpVerifiedRoute);
     } else {
       await _dialogService.showDialog(
         title: 'Login Failure',
         description: 'General login failure. Please try again later',
       );
     }
+  }
+
+  //method, which is called after otp is verified
+  Future otpVerified({bool loader = false}) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    name = prefs.getString(Name);
+    notifyListeners();
+
+    Future.delayed(Duration(milliseconds: 5000), () async {
+      _navigationService.navigateReplaceTo(loader ? LoaderRoute : OtpVerified2Route);
+    });
   }
 }

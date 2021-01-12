@@ -14,7 +14,7 @@ description: A new Flutter project.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.2.2 <3.0.0"
+  sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -34,6 +34,11 @@ dependencies:
   cached_network_image:
   firebase_messaging: ^7.0.3
   firebase_analytics:
+  firebase_core:
+  firebase_dynamic_links: ^0.6.3
+  firebase_in_app_messaging: ^0.2.3
+  firebase_crashlytics: ^0.2.4
+  firebase_performance: ^0.4.3
   dio: 3.0.9
   shared_preferences: 0.5.6+2
   logger: 0.8.3
@@ -48,12 +53,14 @@ dependencies:
   percent_indicator: "^2.1.1"
   flutter_svg: 0.18.0
   flutter_rating_bar: ^3.0.1+1
+  
   international_phone_input: ^1.0.4
   intl:
   pull_to_refresh: ^1.6.1
   photo_view: ^0.10.2
   get: ^3.22.2
   intro_slider: ^1.0.8
+  share: ^0.6.5+4
 
 dev_dependencies:
   flutter_test:
@@ -84,6 +91,10 @@ flutter:
     - assets/images/DZOR_full_logo.png
     - assets/images/tile_ui_placeholder.jpg
     - assets/images/placeholder.png
+    - assets/images/product_preloading.png
+    - assets/images/promotion_preloading.png
+    - assets/images/category_preloading.png
+    - assets/images/share_icon.png
     - assets/images/coupon_1.svg
     - assets/images/cash_icon.png
     - assets/images/gpay_icon.png

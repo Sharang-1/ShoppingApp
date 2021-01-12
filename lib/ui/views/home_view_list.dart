@@ -27,6 +27,7 @@ import 'package:compound/ui/shared/app_colors.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/ui/widgets/custom_text.dart';
 import 'package:compound/ui/widgets/sellerTileUi.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../shared/shared_styles.dart';
 import '../widgets/top_picks_deals_card.dart';
@@ -34,12 +35,11 @@ import '../widgets/top_picks_deals_card.dart';
 class HomeViewList extends StatefulWidget {
   final HomeViewModel model;
   final gotoCategory;
+  final productUniqueKey;
 
-  HomeViewList({
-    Key key,
-    @required this.gotoCategory,
-    this.model,
-  }) : super(key: key);
+  HomeViewList(
+      {Key key, @required this.gotoCategory, this.model, this.productUniqueKey})
+      : super(key: key);
 
   @override
   _HomeViewListState createState() => _HomeViewListState();
@@ -111,7 +111,7 @@ class _HomeViewListState extends State<HomeViewList> {
               return PromotionSlider(promotions: data);
             },
           ),
-          verticalSpace(40),
+          verticalSpace(25),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -125,12 +125,15 @@ class _HomeViewListState extends State<HomeViewList> {
                         fontWeight: FontWeight.w700)),
               ),
               InkWell(
-                child: Text(
-                  'View All',
-                  style: TextStyle(
-                    fontSize: subtitleFontSize - 8,
-                    fontWeight: FontWeight.bold,
-                    color: textIconBlue,
+                child: Padding(
+                  padding: EdgeInsets.only(right: 8.0),
+                  child: Text(
+                    'View All',
+                    style: TextStyle(
+                      fontSize: subtitleFontSize - 8,
+                      fontWeight: FontWeight.bold,
+                      color: textIconBlue,
+                    ),
                   ),
                 ),
                 onTap: () {
@@ -139,7 +142,7 @@ class _HomeViewListState extends State<HomeViewList> {
               ),
             ],
           ),
-          verticalSpace(20),
+          verticalSpaceSmall,
           SizedBox(
             height: 140,
             child: GridListWidget<Categorys, Category>(
@@ -166,158 +169,7 @@ class _HomeViewListState extends State<HomeViewList> {
               },
             ),
           ),
-          verticalSpace(40),
-          Row(children: <Widget>[
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 15.0),
-                child: Text(
-                  'Top Picks for you',
-                  style: TextStyle(
-                    color: Colors.grey[800],
-                    fontSize: subtitleFontSize,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-            )
-          ]),
-          verticalSpaceSmall,
-          SizedBox(
-            height: 170,
-            child: GridListWidget<Products, Product>(
-              key: productUniqueKey,
-              context: context,
-              filter: ProductFilter(),
-              gridCount: 2,
-              viewModel: ProductsGridViewBuilderViewModel(randomize: true),
-              childAspectRatio: 0.65,
-              scrollDirection: Axis.horizontal,
-              disablePagination: true,
-              tileBuilder: (BuildContext context, productData, index, onUpdate,
-                  onDelete) {
-                var product = productData as Product;
-                return GestureDetector(
-                  onTap: () => widget.model.goToProductPage(productData),
-                  child: TopPicksAndDealsCard(
-                    data: {
-                      "key": product?.key ?? "Test",
-                      "name": product?.name ?? "Test",
-                      "price": product?.price ?? 0,
-                      "discount": product?.discount ?? 0,
-                      "photo": product?.photo?.photos?.first?.name,
-                      "sellerName": product?.seller?.name ?? "",
-                      "isDiscountAvailable":
-                          product?.discount != null && product.discount != 0
-                              ? "true"
-                              : null,
-                    },
-                  ),
-                );
-              },
-            ),
-          ),
-          if (bottomPromotion != null && bottomPromotion.length > 0)
-            verticalSpace(40),
-          if (bottomPromotion != null && bottomPromotion.length > 0)
-            GestureDetector(
-              onTap: () {
-                var promoTitle = bottomPromotion[0]?.name;
-                List<String> productIds = bottomPromotion[0]
-                    ?.products
-                    ?.map((e) => e.toString())
-                    ?.toList();
-                print(productIds);
-                Navigator.push(
-                  context,
-                  new MaterialPageRoute(
-                    builder: (context) => PromotionProduct(
-                      productIds: productIds ?? [],
-                      promotionTitle: promoTitle,
-                    ),
-                  ),
-                );
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 5,
-                      blurRadius: 7,
-                      offset: Offset(0, 3), // changes position of shadow
-                    ),
-                  ],
-                ),
-                child: SizedBox(
-                  height: (MediaQuery.of(context).size.width - 40) * 0.8,
-                  width: MediaQuery.of(context).size.width,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(curve15),
-                    child: Image(
-                      fit: BoxFit.cover,
-                      image: NetworkImage(
-                        bottomPromotion[0]?.banner != null
-                            ? "$PROMOTION_PHOTO_BASE_URL/${bottomPromotion[0]?.key}"
-                            : "https://templates.designwizard.com/663467c0-7840-11e7-81f8-bf6782823ae8.jpg",
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          verticalSpace(40),
-          Row(children: <Widget>[
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 15.0),
-                child: Text(
-                  'Best Deals Today',
-                  style: TextStyle(
-                    color: Colors.grey[800],
-                    fontSize: subtitleFontSize,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-            )
-          ]),
-          verticalSpaceSmall,
-          SizedBox(
-            height: 170,
-            child: GridListWidget<Products, Product>(
-              key: productUniqueKey,
-              context: context,
-              filter: ProductFilter(minDiscount: 5),
-              gridCount: 2,
-              viewModel: ProductsGridViewBuilderViewModel(randomize: true),
-              childAspectRatio: 0.57,
-              scrollDirection: Axis.horizontal,
-              disablePagination: true,
-              tileBuilder: (BuildContext context, productData, index, onUpdate,
-                  onDelete) {
-                var product = productData as Product;
-                return GestureDetector(
-                  onTap: () => widget.model.goToProductPage(productData),
-                  child: TopPicksAndDealsCard(
-                    data: {
-                      "key": product?.key ?? "Test",
-                      "name": product?.name ?? "Test",
-                      "price": product?.price ?? 0,
-                      "discount": product?.discount ?? 0,
-                      "photo": product?.photo?.photos?.first?.name,
-                      "sellerName": product?.seller?.name ?? "",
-                      "isDiscountAvailable":
-                          product?.discount != null && product.discount != 0
-                              ? "true"
-                              : null,
-                    },
-                  ),
-                );
-              },
-            ),
-          ),
-          verticalSpace(40),
+          verticalSpace(30),
           Row(children: <Widget>[
             Expanded(
               child: Padding(
@@ -341,9 +193,9 @@ class _HomeViewListState extends State<HomeViewList> {
               context: context,
               filter: new SellerFilter(),
               gridCount: 1,
-              childAspectRatio: 0.65,
+              childAspectRatio: 0.60,
               viewModel: SellersGridViewBuilderViewModel(
-                  boutiquesOnly: true, random: true),
+                  profileOnly: true, random: true),
               disablePagination: true,
               scrollDirection: Axis.horizontal,
               emptyListWidget: Container(),
@@ -359,62 +211,13 @@ class _HomeViewListState extends State<HomeViewList> {
               },
             ),
           ),
-          if (bottomPromotion != null && bottomPromotion.length > 1)
-            verticalSpace(40),
-          if (bottomPromotion != null && bottomPromotion.length > 1)
-            GestureDetector(
-              onTap: () {
-                var promoTitle = bottomPromotion[0]?.name;
-                List<String> productIds = bottomPromotion[1]
-                    ?.products
-                    ?.map((e) => e.toString())
-                    ?.toList();
-                print(productIds);
-                Navigator.push(
-                  context,
-                  new MaterialPageRoute(
-                    builder: (context) => PromotionProduct(
-                      productIds: productIds ?? [],
-                      promotionTitle: promoTitle,
-                    ),
-                  ),
-                );
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 5,
-                      blurRadius: 7,
-                      offset: Offset(0, 3), // changes position of shadow
-                    ),
-                  ],
-                ),
-                child: SizedBox(
-                  height: (MediaQuery.of(context).size.width - 40) * 0.8,
-                  width: MediaQuery.of(context).size.width,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(curve15),
-                    child: Image(
-                      fit: BoxFit.cover,
-                      image: NetworkImage(
-                        bottomPromotion[0]?.banner != null
-                            ? "$PROMOTION_PHOTO_BASE_URL/${bottomPromotion[1]?.key}"
-                            : "https://templates.designwizard.com/663467c0-7840-11e7-81f8-bf6782823ae8.jpg",
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          verticalSpace(40),
+          verticalSpace(30),
           Row(children: <Widget>[
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.only(left: 15.0),
                 child: Text(
-                  'Product Delivered Same Day',
+                  'Top Picks for you',
                   style: TextStyle(
                     color: Colors.grey[800],
                     fontSize: subtitleFontSize,
@@ -426,15 +229,14 @@ class _HomeViewListState extends State<HomeViewList> {
           ]),
           verticalSpaceSmall,
           SizedBox(
-            height: 170,
+            height: 220,
             child: GridListWidget<Products, Product>(
-              key: productUniqueKey,
+              key: widget.productUniqueKey ?? productUniqueKey,
               context: context,
               filter: ProductFilter(),
               gridCount: 2,
-              viewModel: ProductsGridViewBuilderViewModel(
-                  randomize: true, sameDayDelivery: true),
-              childAspectRatio: 0.65,
+              viewModel: ProductsGridViewBuilderViewModel(randomize: true),
+              childAspectRatio: 1.50,
               scrollDirection: Axis.horizontal,
               disablePagination: true,
               tileBuilder: (BuildContext context, productData, index, onUpdate,
@@ -460,26 +262,232 @@ class _HomeViewListState extends State<HomeViewList> {
               },
             ),
           ),
-          verticalSpace(40),
+          if (bottomPromotion != null && bottomPromotion.length > 0)
+            verticalSpace(30),
+          if (bottomPromotion != null && bottomPromotion.length > 0)
+            GestureDetector(
+              onTap: () {
+                var promoTitle = bottomPromotion[0]?.name;
+                List<String> productIds = bottomPromotion[0]
+                    ?.products
+                    ?.map((e) => e.toString())
+                    ?.toList();
+                print(productIds);
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                    builder: (context) => PromotionProduct(
+                      promotionId: bottomPromotion[0]?.key,
+                      productIds: productIds ?? [],
+                      promotionTitle: promoTitle,
+                    ),
+                  ),
+                );
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: Offset(0, 3), // changes position of shadow
+                    ),
+                  ],
+                ),
+                child: SizedBox(
+                  height: (MediaQuery.of(context).size.width) / 1.6,
+                  width: MediaQuery.of(context).size.width,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(curve15),
+                    child: Image(
+                      fit: BoxFit.cover,
+                      image: NetworkImage(
+                        bottomPromotion[0]?.banner != null
+                            ? "$PROMOTION_PHOTO_BASE_URL/${bottomPromotion[0]?.key}"
+                            : "https://templates.designwizard.com/663467c0-7840-11e7-81f8-bf6782823ae8.jpg",
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          verticalSpace(30),
+          Row(children: <Widget>[
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 15.0),
+                child: Text(
+                  'Best Deals Today',
+                  style: TextStyle(
+                    color: Colors.grey[800],
+                    fontSize: subtitleFontSize,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            )
+          ]),
+          verticalSpaceSmall,
+          SizedBox(
+            height: 220,
+            child: GridListWidget<Products, Product>(
+              key: widget.productUniqueKey ?? productUniqueKey,
+              context: context,
+              filter: ProductFilter(minDiscount: 5),
+              gridCount: 2,
+              viewModel: ProductsGridViewBuilderViewModel(randomize: true),
+              childAspectRatio: 1.50,
+              scrollDirection: Axis.horizontal,
+              disablePagination: true,
+              tileBuilder: (BuildContext context, productData, index, onUpdate,
+                  onDelete) {
+                var product = productData as Product;
+                return GestureDetector(
+                  onTap: () => widget.model.goToProductPage(productData),
+                  child: TopPicksAndDealsCard(
+                    data: {
+                      "key": product?.key ?? "Test",
+                      "name": product?.name ?? "Test",
+                      "price": product?.price ?? 0,
+                      "discount": product?.discount ?? 0,
+                      "photo": product?.photo?.photos?.first?.name,
+                      "sellerName": product?.seller?.name ?? "",
+                      "isDiscountAvailable":
+                          product?.discount != null && product.discount != 0
+                              ? "true"
+                              : null,
+                    },
+                  ),
+                );
+              },
+            ),
+          ),
+          if (bottomPromotion != null && bottomPromotion.length > 1)
+            verticalSpace(30),
+          if (bottomPromotion != null && bottomPromotion.length > 1)
+            GestureDetector(
+              onTap: () {
+                var promoTitle = bottomPromotion[1]?.name;
+                List<String> productIds = bottomPromotion[1]
+                    ?.products
+                    ?.map((e) => e.toString())
+                    ?.toList();
+                print(productIds);
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                    builder: (context) => PromotionProduct(
+                      promotionId: bottomPromotion[1]?.key,
+                      productIds: productIds ?? [],
+                      promotionTitle: promoTitle,
+                    ),
+                  ),
+                );
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: Offset(0, 3), // changes position of shadow
+                    ),
+                  ],
+                ),
+                child: SizedBox(
+                  height: (MediaQuery.of(context).size.width) / 1.6,
+                  width: MediaQuery.of(context).size.width,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(curve15),
+                    child: Image(
+                      fit: BoxFit.cover,
+                      image: NetworkImage(
+                        bottomPromotion[0]?.banner != null
+                            ? "$PROMOTION_PHOTO_BASE_URL/${bottomPromotion[1]?.key}"
+                            : "https://templates.designwizard.com/663467c0-7840-11e7-81f8-bf6782823ae8.jpg",
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          verticalSpace(30),
+          Row(children: <Widget>[
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 15.0),
+                child: Text(
+                  'Product Delivered Same Day',
+                  style: TextStyle(
+                    color: Colors.grey[800],
+                    fontSize: subtitleFontSize,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            )
+          ]),
+          verticalSpaceSmall,
+          SizedBox(
+            height: 220,
+            child: GridListWidget<Products, Product>(
+              key: widget.productUniqueKey ?? productUniqueKey,
+              context: context,
+              filter: ProductFilter(),
+              gridCount: 2,
+              viewModel: ProductsGridViewBuilderViewModel(
+                  randomize: true, sameDayDelivery: true),
+              childAspectRatio: 1.50,
+              scrollDirection: Axis.horizontal,
+              disablePagination: true,
+              tileBuilder: (BuildContext context, productData, index, onUpdate,
+                  onDelete) {
+                var product = productData as Product;
+                return GestureDetector(
+                  onTap: () => widget.model.goToProductPage(productData),
+                  child: TopPicksAndDealsCard(
+                    data: {
+                      "key": product?.key ?? "Test",
+                      "name": product?.name ?? "Test",
+                      "price": product?.price ?? 0,
+                      "discount": product?.discount ?? 0,
+                      "photo": product?.photo?.photos?.first?.name,
+                      "sellerName": product?.seller?.name ?? "",
+                      "isDiscountAvailable":
+                          product?.discount != null && product.discount != 0
+                              ? "true"
+                              : null,
+                    },
+                  ),
+                );
+              },
+            ),
+          ),
+          verticalSpace(30),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.only(left: 15.0),
-                child: Text('Popular Cateogories\nNear You',
+                child: Text('Popular Categories\nNear You',
                     style: TextStyle(
                         color: Colors.grey[800],
                         fontSize: subtitleFontSize,
                         fontWeight: FontWeight.w700)),
               ),
               InkWell(
-                child: Text(
-                  'View All',
-                  style: TextStyle(
-                    fontSize: subtitleFontSize - 8,
-                    fontWeight: FontWeight.bold,
-                    color: textIconBlue,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: Text(
+                    'View All',
+                    style: TextStyle(
+                      fontSize: subtitleFontSize - 8,
+                      fontWeight: FontWeight.bold,
+                      color: textIconBlue,
+                    ),
                   ),
                 ),
                 onTap: () {
@@ -488,7 +496,7 @@ class _HomeViewListState extends State<HomeViewList> {
               ),
             ],
           ),
-          verticalSpace(20),
+          verticalSpaceSmall,
           SizedBox(
             height: 140,
             child: GridListWidget<Categorys, Category>(
@@ -517,11 +525,11 @@ class _HomeViewListState extends State<HomeViewList> {
             ),
           ),
           if (bottomPromotion != null && bottomPromotion.length > 2)
-            verticalSpace(40),
+            verticalSpace(30),
           if (bottomPromotion != null && bottomPromotion.length > 2)
             GestureDetector(
               onTap: () {
-                var promoTitle = bottomPromotion[0]?.name;
+                var promoTitle = bottomPromotion[2]?.name;
                 List<String> productIds = bottomPromotion[2]
                     ?.products
                     ?.map((e) => e.toString())
@@ -531,6 +539,7 @@ class _HomeViewListState extends State<HomeViewList> {
                   context,
                   new MaterialPageRoute(
                     builder: (context) => PromotionProduct(
+                      promotionId: bottomPromotion[2]?.key,
                       productIds: productIds ?? [],
                       promotionTitle: promoTitle,
                     ),
@@ -549,7 +558,7 @@ class _HomeViewListState extends State<HomeViewList> {
                   ],
                 ),
                 child: SizedBox(
-                  height: (MediaQuery.of(context).size.width - 40) * 0.8,
+                  height: (MediaQuery.of(context).size.width) / 1.6,
                   width: MediaQuery.of(context).size.width,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(curve15),
@@ -565,7 +574,7 @@ class _HomeViewListState extends State<HomeViewList> {
                 ),
               ),
             ),
-          verticalSpace(40),
+          verticalSpace(30),
           Row(children: <Widget>[
             Expanded(
               child: Padding(
@@ -590,9 +599,54 @@ class _HomeViewListState extends State<HomeViewList> {
               filter: new SellerFilter(),
               gridCount: 1,
               childAspectRatio: 0.65,
-              viewModel: SellersGridViewBuilderViewModel(random: true),
+              viewModel: SellersGridViewBuilderViewModel(
+                sellerOnly: true,
+                random: true,
+              ),
               disablePagination: true,
               scrollDirection: Axis.horizontal,
+              emptyListWidget: Container(),
+              tileBuilder:
+                  (BuildContext context, data, index, onDelete, onUpdate) {
+                return GestureDetector(
+                  onTap: () => {},
+                  child: SellerTileUi(
+                    data: data,
+                    fromHome: true,
+                  ),
+                );
+              },
+            ),
+          ),
+          verticalSpace(30),
+          Row(children: <Widget>[
+            Expanded(
+              flex: 8,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 15.0),
+                child: Text(
+                  'All Designers',
+                  style: TextStyle(
+                    color: Colors.grey[800],
+                    fontSize: subtitleFontSize,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            ),
+          ]),
+          verticalSpaceSmall,
+          SizedBox(
+            // height: 300,
+            child: GridListWidget<Sellers, Seller>(
+              key: UniqueKey(),
+              context: context,
+              filter: new SellerFilter(),
+              gridCount: 1,
+              childAspectRatio: 1.80,
+              viewModel: SellersGridViewBuilderViewModel(random: true),
+              disablePagination: true,
+              scrollDirection: Axis.vertical,
               emptyListWidget: Container(),
               tileBuilder:
                   (BuildContext context, data, index, onDelete, onUpdate) {
@@ -856,37 +910,99 @@ class _HomeViewListState extends State<HomeViewList> {
                 ))
           ]),
           */
+          // verticalSpaceMedium,
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.center,
+          //   children: <Widget>[
+          //     SizedBox(
+          //       height: 50,
+          //       width: MediaQuery.of(context).size.width * 0.6,
+          //       child: RaisedButton(
+          //         elevation: 5,
+          //         onPressed: () {
+          //           // Navigator.pushReplacement(
+          //           //     context,
+          //           //     MaterialPageRoute(
+          //           //         builder: (context) =>
+          //           //             SelectAddress()));
+          //         },
+          //         color: darkRedSmooth,
+          //         shape: RoundedRectangleBorder(
+          //           borderRadius: BorderRadius.circular(curve30),
+          //         ),
+          //         child: Padding(
+          //           padding: const EdgeInsets.symmetric(vertical: 15),
+          //           child: Text(
+          //             "Locate Tailors ",
+          //             style: TextStyle(
+          //                 color: Colors.white, fontWeight: FontWeight.bold),
+          //           ),
+          //         ),
+          //       ),
+          //     ),
+          //   ],
+          // ),
           verticalSpaceMedium,
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               SizedBox(
-                  height: 50,
-                  width: MediaQuery.of(context).size.width * 0.6,
-                  child: RaisedButton(
-                      elevation: 5,
-                      onPressed: () {
-                        // Navigator.pushReplacement(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (context) =>
-                        //             SelectAddress()));
-                      },
-                      color: darkRedSmooth,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(curve30),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 15),
-                        child: Text(
-                          "Locate Tailors ",
-                          style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold),
-                        ),
-                      )))
+                height: 50,
+                width: MediaQuery.of(context).size.width * 0.6,
+                child: FlatButton(
+                  onPressed: () {
+                    widget.model.showSellers();
+                  },
+                  color: darkRedSmooth,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(curve30),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 15),
+                    child: Text(
+                      "View All",
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
-          verticalSpaceLarge_1
+          verticalSpaceMedium,
+          Container(
+            color: Colors.grey[300],
+            height: 80,
+            padding:
+                EdgeInsets.symmetric(horizontal: screenPadding, vertical: 10),
+            child: Row(
+              children: <Widget>[
+                SvgPicture.asset(
+                  "assets/svg/DZOR_full_logo_verti.svg",
+                  color: Colors.grey[800],
+                  height: 35,
+                  width: 35,
+                ),
+                Expanded(
+                  child: Container(
+                    padding: EdgeInsets.only(left: 20),
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            "Made with Love in India!",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: Colors.grey[800],
+                                fontWeight: FontWeight.bold,
+                                fontSize: 25),
+                          ),
+                        ]),
+                  ),
+                )
+              ],
+            ),
+          ),
         ],
       ),
     );
