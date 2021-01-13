@@ -1,3 +1,4 @@
+import 'package:compound/models/user_details.dart';
 import 'package:compound/services/location_service.dart';
 import 'package:compound/ui/shared/app_colors.dart';
 import 'package:compound/ui/shared/shared_styles.dart';
@@ -6,6 +7,8 @@ import 'package:compound/ui/widgets/custom_text.dart';
 import 'package:compound/viewmodels/address_view_model.dart';
 import 'package:fimber/fimber_base.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_place_picker/google_maps_place_picker.dart';
 import 'package:provider_architecture/viewmodel_provider.dart';
@@ -21,25 +24,14 @@ class AddressInputPage extends StatefulWidget {
 
 class _AddressInputPageState extends State<AddressInputPage> {
   final LocationService _locationService = locator<LocationService>();
-
-  final _locationStringController = TextEditingController();
-  final _addressStringController = TextEditingController();
-  PickResult selectedPlace;
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _locationStringController.dispose();
-    _addressStringController.dispose();
-    super.dispose();
-  }
+  // PickResult selectedPlace;
+  // final AddressViewModelController c = Get.put(AddressViewModelController());
 
   @override
   Widget build(BuildContext context) {
+    // WidgetsBinding.instance.addPostFrameCallback(
+    //     (_) => c.googleAddress.value = selectedPlace?.formattedAddress);
+
     return ViewModelProvider<AddressViewModel>.withConsumer(
         viewModel: AddressViewModel(),
         // onModelReady: (model) => model.getAppointments(),
@@ -48,48 +40,105 @@ class _AddressInputPageState extends State<AddressInputPage> {
                 child: Stack(
                   children: [
                     PlacePicker(
-                      resizeToAvoidBottomInset: true,
+                      // resizeToAvoidBottomInset: true,
                       initialPosition: new LatLng(
                           _locationService.currentLocation?.latitude ?? 0.0,
                           _locationService.currentLocation?.longitude ?? 0.0),
                       useCurrentLocation: true,
                       selectInitialPosition: true,
-                      forceSearchOnZoomChanged: true,
-                      forceAndroidLocationManager: true,
-                      searchingText: "",
-                      strictbounds: true,
-                      usePinPointingSearch: true,
+                      // forceSearchOnZoomChanged: false,
+                      // forceAndroidLocationManager: false,
+                      // searchingText: "Loading",
+                      // strictbounds: true,
+                      // usePinPointingSearch: true,
                       region: 'in',
                       apiKey: "AIzaSyCQo523YX7WkavuVVYLdFNXf79sJ89X2Ns",
                       onGeocodingSearchFailed: (data) {
                         Fimber.e(data);
                       },
-                      selectedPlaceWidgetBuilder:
-                          (_, selectedPlace, state, isSearchBarFocused) {
-                        model.selectedResult = selectedPlace;
-                        return Container();
+                      // enableMapTypeButton: true,
+                      // enableMyLocationButton: true,
+                      // usePlaceDetailSearch: true,
+                      onPlacePicked: (r) {
+                        Fimber.e(r.formattedAddress);
+                        model.selectedResult = r;
+                        Navigator.of(context).pop<PickResult>(r);
                       },
+                      // selectedPlaceWidgetBuilder:
+                      //     (_, result, state, isSearchBarFocused) {
+                      // model.selectedResult = selectedPlace;
+                      // this.selectedPlace = selectedPlace;
+                      // return Container();
+
+                      //     return FloatingCard(
+                      //       bottomPosition:
+                      //           MediaQuery.of(context).size.height * 0.05,
+                      //       leftPosition:
+                      //           MediaQuery.of(context).size.width * 0.025,
+                      //       rightPosition:
+                      //           MediaQuery.of(context).size.width * 0.025,
+                      //       width: MediaQuery.of(context).size.width * 0.9,
+                      //       borderRadius: BorderRadius.circular(12.0),
+                      //       elevation: 4.0,
+                      //       color: Theme.of(context).cardColor,
+                      //       child: state == SearchingState.Searching
+                      //           ? Container(
+                      //               height: 48,
+                      //               child: const Center(
+                      //                 child: SizedBox(
+                      //                   width: 24,
+                      //                   height: 24,
+                      //                   child: CircularProgressIndicator(),
+                      //                 ),
+                      //               ),
+                      //             )
+                      //           : Container(
+                      //               margin: EdgeInsets.all(10),
+                      //               child: Column(
+                      //                 children: <Widget>[
+                      //                   Text(
+                      //                     result.formattedAddress,
+                      //                     style: TextStyle(fontSize: 18),
+                      //                     textAlign: TextAlign.center,
+                      //                   ),
+                      //                   SizedBox(height: 10),
+                      //                   RaisedButton(
+                      //                     padding: EdgeInsets.symmetric(
+                      //                         horizontal: 15, vertical: 10),
+                      //                     child: Text(
+                      //                       "Select here",
+                      //                       style: TextStyle(fontSize: 16),
+                      //                     ),
+                      //                     shape: RoundedRectangleBorder(
+                      //                       borderRadius:
+                      //                           BorderRadius.circular(4.0),
+                      //                     ),
+                      //                     onPressed: () {
+                      //                       Fimber.e(result.formattedAddress);
+                      //                     },
+                      //                   ),
+                      //                 ],
+                      //               ),
+                      //             ),
+                      //     );
+                      //   },
                     ),
-                    SizedBox.expand(
-                      child: DraggableScrollableSheet(
-                        initialChildSize: 0.30,
-                        minChildSize: 0.2,
-                        maxChildSize: 0.5,
-                        builder: (BuildContext context,
-                            ScrollController scrollController) {
-                          return SingleChildScrollView(
-                            controller: scrollController,
-                            child: BottomSheetForAddress(
-                                locationStringController:
-                                    _locationStringController,
-                                addressStringController:
-                                    _addressStringController,
-                                selectedPlace: model.selectedResult ??
-                                    PickResult(formattedAddress: "")),
-                          );
-                        },
-                      ),
-                    )
+                    // SizedBox.expand(
+                    //   child: DraggableScrollableSheet(
+                    //     initialChildSize: 0.30,
+                    //     minChildSize: 0.2,
+                    //     maxChildSize: 0.5,
+                    //     builder: (BuildContext context,
+                    //         ScrollController scrollController) {
+                    //       return SingleChildScrollView(
+                    //         controller: scrollController,
+                    //         child: BottomSheetForAddress(
+                    //             selectedPlace: model.selectedResult ??
+                    //                 PickResult(formattedAddress: "")),
+                    //       );
+                    //     },
+                    //   ),
+                    // )
                   ],
                 ),
               ),
@@ -97,35 +146,60 @@ class _AddressInputPageState extends State<AddressInputPage> {
   }
 }
 
-class BottomSheetForAddress extends StatelessWidget {
-  final TextEditingController _locationStringController;
-  final TextEditingController _addressStringController;
-  final PickResult _selectedPlace;
+class BottomSheetForAddress extends StatefulWidget {
+  final PickResult pickedPlace;
 
-  BottomSheetForAddress(
-      {Key key,
-      TextEditingController locationStringController,
-      TextEditingController addressStringController,
-      PickResult selectedPlace})
-      : _locationStringController = locationStringController,
-        _addressStringController = addressStringController,
-        _selectedPlace = selectedPlace,
-        super(key: key) {
-    _addressStringController.text = selectedPlace.formattedAddress;
+  const BottomSheetForAddress({Key key, this.pickedPlace}) : super(key: key);
+  @override
+  _BottomSheetForAddressState createState() => _BottomSheetForAddressState();
+}
+
+class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
+  final _userInputedAddressStringController = TextEditingController();
+  final _googleAddressStringController = TextEditingController();
+  final _pinCodeController = TextEditingController();
+
+  _BottomSheetForAddressState() {}
+
+  @override
+  void initState() {
+    super.initState();
+    _googleAddressStringController.text = widget.pickedPlace.formattedAddress;
+
+    final googlePincode =
+        int.tryParse(widget.pickedPlace.addressComponents.last.longName);
+    _pinCodeController.text = googlePincode?.toString() ?? "";
+    // _googleAddressStringController.text =
+    //     widget.selectedPlace?.formattedAddress;
+  }
+
+  @override
+  void didUpdateWidget(covariant BottomSheetForAddress oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // _googleAddressStringController.text =
+    //     widget.selectedPlace?.formattedAddress;
+    // Fimber.d(widget.selectedPlace.toString());
+    // Fimber.d(oldWidget.selectedPlace.toString());
+  }
+
+  @override
+  void dispose() {
+    _userInputedAddressStringController.dispose();
+    _googleAddressStringController.dispose();
+    _pinCodeController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 12.0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-      margin: const EdgeInsets.all(0),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(24),
-        ),
+    return ViewModelProvider<AddressViewModel>.withConsumer(
+      viewModel: AddressViewModel(),
+      // onModelReady: (model) => model.getAppointments(),
+      builder: (context, model, child) => Container(
+        height: 440,
+        color: Colors.transparent,
         child: Padding(
-          padding: EdgeInsets.all(35),
+          padding: EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
@@ -136,84 +210,110 @@ class BottomSheetForAddress extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                     fontSize: 20),
               ),
-              verticalSpace(10),
-              SizedBox(
-                height: 160,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Flexible(
-                      fit: FlexFit.tight,
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: 15),
-                        child: TextFormField(
-                          style: TextStyle(
-                            fontSize: 13,
-                          ),
-                          controller: _addressStringController,
-                          validator: (text) {
-                            if (text.isEmpty || text.trim().length == 0)
-                              return "Please enter Proper Address";
-                            return null;
-                          },
-                          decoration: const InputDecoration(
-                            labelText: 'Your Location',
-                            isDense: true,
-                          ),
-                          autofocus: false,
-                          enabled: false,
-                          maxLines: 4,
-                        ),
+              verticalSpaceMedium,
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Flexible(
+                    fit: FlexFit.tight,
+                    child: TextFormField(
+                      style: TextStyle(
+                        fontSize: 17,
                       ),
+                      controller: _googleAddressStringController,
+                      validator: (text) {
+                        if (text.isEmpty || text.trim().length == 0)
+                          return "Please enter Proper Address";
+                        return null;
+                      },
+                      decoration: const InputDecoration(
+                        labelText: 'Your Location',
+                        isDense: true,
+                      ),
+                      autofocus: false,
+                      enabled: false,
+                      maxLines: 2,
                     ),
-                    horizontalSpaceMedium,
-                    RaisedButton(
-                      elevation: 5,
-                      onPressed: () {},
-                      color: darkRedSmooth,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                        // side: BorderSide(
-                        //     color: Colors.black, width: 0.5)
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 4),
-                        child: CustomText(
-                          "Change",
-                          color: Colors.white,
-                          fontSize: 12,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 90,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Expanded(
-                      child: TextFormField(
-                        controller: _locationStringController,
-                        maxLines: 3,
-                        validator: (text) {
-                          if (text.isEmpty || text.trim().length == 0)
-                            return "Please enter Proper Address";
-                          return null;
-                        },
-                        decoration: const InputDecoration(
-                          labelText: 'House Number , Society Name ....',
-                          isDense: true,
-                        ),
-                        autofocus: false,
-                        enabled: false,
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                  // horizontalSpaceMedium,
+                  // RaisedButton(
+                  //   elevation: 5,
+                  //   onPressed: () {},
+                  //   color: darkRedSmooth,
+                  //   shape: RoundedRectangleBorder(
+                  //     borderRadius: BorderRadius.circular(30),
+                  //     // side: BorderSide(
+                  //     //     color: Colors.black, width: 0.5)
+                  //   ),
+                  //   child: Padding(
+                  //     padding: const EdgeInsets.symmetric(vertical: 4),
+                  //     child: CustomText(
+                  //       "Change",
+                  //       color: Colors.white,
+                  //       fontSize: 12,
+                  //     ),
+                  //   ),
+                  // ),
+                ],
               ),
               verticalSpaceMedium,
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Expanded(
+                    child: TextFormField(
+                      controller: _userInputedAddressStringController,
+                      maxLines: 2,
+                      validator: (text) {
+                        if (text.isEmpty || text.trim().length == 0)
+                          return "Please enter Proper Address";
+                        return null;
+                      },
+                      decoration: const InputDecoration(
+                        labelText: 'House Number , Society Name ....',
+                        isDense: true,
+                      ),
+                      autofocus: false,
+                      enabled: true,
+                      style: TextStyle(
+                        fontSize: 17,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              verticalSpaceMedium,
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Expanded(
+                    child: TextFormField(
+                      controller: _pinCodeController,
+                      maxLines: 1,
+                      inputFormatters: <TextInputFormatter>[
+                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
+                      ],
+                      style: TextStyle(
+                        fontSize: 17,
+                      ),
+                      validator: (text) {
+                        if (text.isEmpty ||
+                            text.trim().length == 0 ||
+                            text.trim().length != 7)
+                          return "Please enter Proper Pincode";
+                        return null;
+                      },
+                      decoration: const InputDecoration(
+                        labelText: 'Pincode',
+                        isDense: true,
+                      ),
+                      autofocus: false,
+                      enabled: true,
+                    ),
+                  ),
+                ],
+              ),
+              verticalSpaceLarge,
 
               //Save Btn Row
               Row(
@@ -222,17 +322,41 @@ class BottomSheetForAddress extends StatelessWidget {
                     child: RaisedButton(
                       elevation: 5,
                       onPressed: () {
-                        final locationString = _locationStringController.text;
-                        final addresString = _addressStringController.text;
+                        final userInputAddressString =
+                            _userInputedAddressStringController.text;
+                        final googleAddresString =
+                            _googleAddressStringController.text;
+                        final pinCode = int.tryParse(_pinCodeController.text);
 
-                        if (locationString.isEmpty ||
-                            locationString.trim().length == 0 ||
-                            addresString.isEmpty ||
-                            addresString.trim().length == 0) {
+                        if (pinCode == null) {
                           return;
                         }
-                        print("Address saved :::: " + addresString);
-                        Navigator.of(context).pop<PickResult>(_selectedPlace);
+
+                        if (userInputAddressString.isEmpty ||
+                            userInputAddressString.trim().length == 0 ||
+                            googleAddresString.isEmpty ||
+                            googleAddresString.trim().length == 0) {
+                          return;
+                        }
+
+                        final String gujState = "Gujarat".toUpperCase();
+                        final int stateIndex = widget
+                            .pickedPlace.addressComponents
+                            .indexWhere((element) =>
+                                element.longName.toUpperCase() == gujState);
+                        String pickedCity;
+                        if (stateIndex != -1)
+                          pickedCity = widget.pickedPlace
+                              .addressComponents[stateIndex - 1].longName;
+
+                        Navigator.of(context)
+                            .pop<UserDetailsContact>(new UserDetailsContact(
+                          address: userInputAddressString,
+                          googleAddress: googleAddresString,
+                          pincode: pinCode,
+                          city: pickedCity,
+                          state: gujState,
+                        ));
                       },
                       color: green,
                       shape: RoundedRectangleBorder(

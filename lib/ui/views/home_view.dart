@@ -67,18 +67,21 @@ class _HomeViewState extends State<HomeView> {
           iconTheme: IconThemeData(color: appBarIconColor),
           backgroundColor: backgroundWhiteCreamColor,
           bottom: PreferredSize(
-              preferredSize: Size.fromHeight(44),
+              preferredSize: Size.fromHeight(45),
               child: AppBar(
                 elevation: 0,
                 iconTheme: IconThemeData(color: appBarIconColor),
                 backgroundColor: backgroundWhiteCreamColor,
                 title: Center(
-                    child: SvgPicture.asset(
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 2.0),
+                      child: SvgPicture.asset(
                   "assets/svg/logo.svg",
                   color: logoRed,
                   height: 35,
                   width: 35,
-                )),
+                ),
+                    )),
                 actions: <Widget>[
                   IconButton(
                     icon: CartIconWithBadge(
@@ -99,6 +102,7 @@ class _HomeViewState extends State<HomeView> {
           left: false,
           right: false,
           child: SmartRefresher(
+<<<<<<< HEAD
             enablePullDown: true,
             footer: null,
             header: WaterDropHeader(
@@ -109,6 +113,27 @@ class _HomeViewState extends State<HomeView> {
             controller: refreshController,
             onRefresh: _onRefresh,
             child: CustomScrollView(
+=======
+      enablePullDown: true,
+      footer: null,
+      header: WaterDropHeader(
+        waterDropColor: logoRed,
+        refresh: Container(),
+        complete: Container(),
+      ),
+      controller: refreshController,
+      onRefresh: () async {
+        final values = await model.init(context);
+        Provider.of<CartCountSetUp>(context, listen: false)
+            .setCartCount(values[0]);
+        Provider.of<WhishListSetUp>(context, listen: false)
+            .setUpWhishList(values[1]);
+        Provider.of<LookupSetUp>(context, listen: false)
+            .setUpLookups(values[2]);
+        _onRefresh();
+        },
+      child: CustomScrollView(
+>>>>>>> bc3d447d50a2007f5454252f4095ca89569ab868
               // Add the app bar and list of items as slivers in the next steps.
               slivers: <Widget>[
                 SliverAppBar(

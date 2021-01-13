@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:compound/constants/server_urls.dart';
 import 'package:compound/models/Appointments.dart';
 import 'package:compound/models/TimeSlots.dart';
+import 'package:compound/models/appUpdate.dart';
 import 'package:compound/models/lookups.dart';
 import 'package:compound/models/sellerProfile.dart';
 import 'package:dio/dio.dart';
@@ -41,6 +42,9 @@ import 'package:get/get.dart' as GetModule;
 
 import 'package:compound/models/user_details.dart';
 
+import '../../locator.dart';
+import '../dialog_service.dart';
+
 class APIService {
   final apiClient = Dio(BaseOptions(
       baseUrl: BASE_URL,
@@ -64,7 +68,7 @@ class APIService {
       }));
 
   // final excludeToken = Options(headers: {"excludeToken": true});
-  // final DialogService _dialogService = locator<DialogService>();
+  final DialogService _dialogService = locator<DialogService>();
 
   APIService() {
     apiClient..interceptors.addAll([AppInterceptors(), CustomLogInterceptor(), PerformanceInterceptor()]);
@@ -147,8 +151,10 @@ class APIService {
     return null;
   }
 
-  Future<Reviews> getReviews({String productId}) async {
-    var mReviewsData = await apiWrapper("products/$productId/reviews");
+  Future<Reviews> getReviews(String key, {bool isSellerReview = false}) async {
+    String query =
+        isSellerReview ? "sellers/$key/reviews" : "products/$key/reviews";
+    var mReviewsData = await apiWrapper(query);
     if (mReviewsData != null) {
       Reviews mReviews = Reviews.fromJson(mReviewsData);
       Fimber.d("mReviewsData : " +
@@ -156,6 +162,15 @@ class APIService {
       return mReviews;
     }
     return null;
+  }
+
+  Future postReview(String key, double ratings, String description,
+      {bool isSellerReview = false}) {
+    String query =
+        isSellerReview ? "sellers/$key/reviews" : "products/$key/reviews";
+
+    return apiWrapper(query,
+        data: {"rating": ratings, "description": description});
   }
 
   Future<Products> getProducts({String queryString = ""}) async {
@@ -495,6 +510,7 @@ class APIService {
     if (res.statusCode != HttpStatus.ok) {
       return res.data;
     }
+    return null;
   }
 
   Future<TimeSlots> getAvaliableTimeSlots(String sellerId) async {
@@ -502,8 +518,9 @@ class APIService {
     try {
       if (res.data != null) return TimeSlots.fromJson(res.data);
     } catch (e) {
-      String error = res.data;
+      _dialogService.showDialog(description: res.data["error"], title: "Error");
     }
+    return null;
   }
 
   Future<String> bookAppointment(String sellerId, String timeSlotStart,
@@ -517,6 +534,13 @@ class APIService {
     if (res.statusCode != HttpStatus.ok) {
       return res.data["error"];
     }
+    return null;
+  }
+
+  Future<AppUpdate> getAppUpdate() async {
+    var res = await apiClient.get("release/app");
+    if (res.data != null) return AppUpdate.fromJson(res.data);
+    return null;
   }
 
   // List<PaymentOption> mPaymentOptions;

@@ -1,3 +1,4 @@
+import 'package:compound/models/user_details.dart';
 import 'package:compound/ui/shared/app_colors.dart';
 import 'package:compound/ui/shared/shared_styles.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
@@ -10,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider_architecture/provider_architecture.dart';
+import 'package:google_maps_place_picker/google_maps_place_picker.dart';
 
 class SelectAddress extends StatefulWidget {
   final String finalTotal;
@@ -42,8 +44,8 @@ class _SelectAddressState extends State<SelectAddress> {
   //   1: "Shivranjani Cross Roads, Satellite,Ahmedabad, Gujarat 380015",
   //   2: "Sarkhej - Gandhinagar Hwy, Bodakdev, Ahmedabad, Gujarat 380059"
   // };
-  String addressRadioValue = "";
-  String addressGrpValue = "";
+  UserDetailsContact addressRadioValue;
+  UserDetailsContact addressGrpValue;
   bool disabledPayment = true;
 
   @override
@@ -83,7 +85,7 @@ class _SelectAddressState extends State<SelectAddress> {
                       context,
                       PageTransition(
                           child: PaymentMethod(
-                            billingAddress: (addressRadioValue == ""
+                            billingAddress: (addressRadioValue == null
                                 ? model.addresses[0]
                                 : addressRadioValue),
                             color: widget.color,
@@ -144,19 +146,23 @@ class _SelectAddressState extends State<SelectAddress> {
                     child: RaisedButton(
                         elevation: 5,
                         onPressed: () async {
-                          final newAddress = await Navigator.push<String>(
+                          PickResult pickedPlace = await Navigator.push(
                             context,
                             PageTransition(
                               child: AddressInputPage(),
                               type: PageTransitionType.rightToLeft,
                             ),
                           );
-
-                          print("New Address Added ............");
-                          print(newAddress);
-
-                          if (newAddress != null) {
-                            model.addAddress(newAddress);
+                          if (pickedPlace != null) {
+                            UserDetailsContact userAdd =
+                                await showModalBottomSheet(
+                                    context: context,
+                                    builder: (_) => BottomSheetForAddress(
+                                          pickedPlace: pickedPlace,
+                                        ));
+                            if (userAdd != null) {
+                              model.addAddress(userAdd);
+                            }
                           }
                         },
                         color: darkRedSmooth,
@@ -201,7 +207,7 @@ class _SelectAddressState extends State<SelectAddress> {
                   verticalSpace(15),
                   Column(
                     children: model.addresses.map(
-                      (String address) {
+                      (UserDetailsContact address) {
                         return GestureDetector(
                           onTap: () {
                             setState(() {
@@ -249,7 +255,9 @@ class _SelectAddressState extends State<SelectAddress> {
                                           ),
                                           verticalSpaceTiny_0,
                                           CustomText(
-                                            address,
+                                            address.address +
+                                                "\n" +
+                                                address.googleAddress,
                                             color: Colors.grey,
                                             fontSize: 14,
                                           ),

@@ -51,4 +51,11 @@ class DialogService {
     _dialogCompleter.complete(response);
     _dialogCompleter = null;
   }
+
+  void showNotDeliveringDialog() {
+    showDialog(
+        title: "Sorry!~",
+        description: "We only deliver to Ahmedabad as of now.",
+        buttonTitle: "Ok");
+  }
 }

@@ -144,14 +144,14 @@ class SettingsView extends StatelessWidget {
                                                     ),
                                                   )))
                                         ]),
-                                        Opacity(
-                                            opacity: 0.9,
-                                            child: SizedBox(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.6,
-                                                child: Divider())),
+                                        // Opacity(
+                                        //     opacity: 0.9,
+                                        //     child: SizedBox(
+                                        //         width: MediaQuery.of(context)
+                                        //                 .size
+                                        //                 .width *
+                                        //             0.6,
+                                        //         child: Divider())),
                                         Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.center,
@@ -180,18 +180,18 @@ class SettingsView extends StatelessWidget {
                                                                     .grey[800],
                                                               )))
                                                     ]),
-                                                    key < 4
-                                                        ? Opacity(
-                                                            opacity: 0.9,
-                                                            child: SizedBox(
-                                                                width: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .width *
-                                                                    0.6,
-                                                                child:
-                                                                    Divider()))
-                                                        : Container()
+                                                    // key < 4
+                                                    //     ? Opacity(
+                                                    //         opacity: 0.9,
+                                                    //         child: SizedBox(
+                                                    //             width: MediaQuery.of(
+                                                    //                         context)
+                                                    //                     .size
+                                                    //                     .width *
+                                                    //                 0.6,
+                                                    //             child:
+                                                    //                 Divider()))
+                                                    //     : Container()
                                                   ];
                                                 })
                                                 .expand((element) => element)

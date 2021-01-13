@@ -14,7 +14,8 @@ class BaseModel extends ChangeNotifier {
   final AuthenticationService _authenticationService =
       locator<AuthenticationService>();
   final NavigationService _navigationService = locator<NavigationService>();
-  final CartLocalStoreService _cartLocalStoreService = locator<CartLocalStoreService>();
+  final CartLocalStoreService _cartLocalStoreService =
+      locator<CartLocalStoreService>();
 
   User get currentUser => _authenticationService.currentUser;
   bool _busy = false;
@@ -54,16 +55,21 @@ class BaseModel extends ChangeNotifier {
   }
 
   Future<dynamic> goToProductPage(Product data) {
-    return _navigationService.navigateTo(ProductIndividualRoute, arguments: data);
+    return _navigationService.navigateTo(ProductIndividualRoute,
+        arguments: data);
   }
 
   Future<dynamic> goToSellerPage(Seller data) {
     return _navigationService.navigateTo(SellerIndiViewRoute, arguments: data);
   }
 
+  Future<dynamic> goToAddressInputPage() {
+    return _navigationService.navigateTo(AddressInputPageRoute);
+  }
+
   Future openmap() async {
     await _navigationService.navigateTo(MapViewRoute);
-  } 
+  }
 
   Future<void> logout() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

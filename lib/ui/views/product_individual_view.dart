@@ -9,6 +9,7 @@ import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/ui/views/cart_view.dart';
 import 'package:compound/ui/widgets/GridListWidget.dart';
 import 'package:compound/ui/widgets/ProductTileUI.dart';
+import 'package:compound/ui/widgets/reviews.dart';
 import 'package:compound/ui/widgets/wishlist_icon.dart';
 import 'package:compound/utils/tools.dart';
 import 'package:compound/viewmodels/grid_view_builder_view_models/products_grid_view_builder_view_model.dart';
@@ -544,10 +545,10 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                     onTap: () {
                                       model.gotoAddView(context);
                                     },
-                                    child: model.defaultAddress == null ||
-                                            model.defaultAddress == ""
+                                    child: model.defaultAddress == null
                                         ? Text("Add Address")
-                                        : Text(model.defaultAddress))
+                                        : Text(
+                                            model.defaultAddress.googleAddress))
                               ],
                             ),
                           )
@@ -964,6 +965,19 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                           fontWeight: FontWeight.bold,
                           fontSize: titleFontSizeStyle),
                     ),
+
+                    // bottomTag()
+                    // SizedBox(
+                    //   height: 20,
+                    // ),
+                    // rattingsInfo(),
+                    // SizedBox(
+                    //   height: 40,
+                    // ),
+                    // otherDetails(),
+                    // verticalSpaceMedium,
+                    // ReviewWidget(productId),
+
                     verticalSpace(5),
                     SizedBox(
                       height: 200,
@@ -1044,6 +1058,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                     // otherDetails(),
                     // verticalSpaceMedium,
                     // ReviewWidget(productId),
+                    verticalSpaceMedium,
+                    ReviewWidget(id: productId),
                     verticalSpaceMedium,
                   ],
                 ),

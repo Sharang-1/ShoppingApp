@@ -379,7 +379,7 @@ class _SearchViewState extends State<SearchView>
                             height: 30,
                             child: Tab(
                                 child: Text(
-                              "Sellers",
+                              "Designers",
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontFamily: "Raleway"),

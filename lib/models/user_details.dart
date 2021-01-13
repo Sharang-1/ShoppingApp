@@ -4,46 +4,47 @@
 
 import 'dart:convert';
 
-UserDetails userDetailsFromJson(String str) => UserDetails.fromJson(json.decode(str));
+UserDetails userDetailsFromJson(String str) =>
+    UserDetails.fromJson(json.decode(str));
 
 String userDetailsToJson(UserDetails data) => json.encode(data.toJson());
 
 class UserDetails {
-    UserDetails({
-        this.key,
-        this.name,
-        this.description,
-        this.enabled,
-        this.created,
-        this.modified,
-        this.firstName,
-        this.lastName,
-        this.details,
-        this.appUser,
-        this.login,
-        this.facebookUser,
-        this.mobileUser,
-        this.facebookLogin,
-        this.mobileLogin,
-    });
+  UserDetails({
+    this.key,
+    this.name,
+    this.description,
+    this.enabled,
+    this.created,
+    this.modified,
+    this.firstName,
+    this.lastName,
+    this.contact,
+    this.appUser,
+    this.login,
+    this.facebookUser,
+    this.mobileUser,
+    this.facebookLogin,
+    this.mobileLogin,
+  });
 
-    String key;
-    String name;
-    String description;
-    bool enabled;
-    String created;
-    String modified;
-    String firstName;
-    String lastName;
-    Details details;
-    bool appUser;
-    String login;
-    bool facebookUser;
-    bool mobileUser;
-    bool facebookLogin;
-    bool mobileLogin;
+  String key;
+  String name;
+  String description;
+  bool enabled;
+  String created;
+  String modified;
+  String firstName;
+  String lastName;
+  UserDetailsContact contact;
+  bool appUser;
+  String login;
+  bool facebookUser;
+  bool mobileUser;
+  bool facebookLogin;
+  bool mobileLogin;
 
-    factory UserDetails.fromJson(Map<String, dynamic> json) => UserDetails(
+  factory UserDetails.fromJson(Map<String, dynamic> json) => UserDetails(
         key: json["key"],
         name: json["name"],
         description: json["description"],
@@ -52,16 +53,16 @@ class UserDetails {
         modified: json["modified"],
         firstName: json["firstName"],
         lastName: json["lastName"],
-        details: Details.fromJson(json["details"]),
+        contact: UserDetailsContact.fromJson(json["contact"]),
         appUser: json["appUser"],
         login: json["login"],
         facebookUser: json["facebookUser"],
         mobileUser: json["mobileUser"],
         facebookLogin: json["facebookLogin"],
         mobileLogin: json["mobileLogin"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "key": key,
         "name": name,
         "description": description,
@@ -70,52 +71,69 @@ class UserDetails {
         "modified": modified,
         "firstName": firstName,
         "lastName": lastName,
-        "details": details.toJson(),
+        "contact": contact.toJson(),
         "appUser": appUser,
         "login": login,
         "facebookUser": facebookUser,
         "mobileUser": mobileUser,
         "facebookLogin": facebookLogin,
         "mobileLogin": mobileLogin,
-    };
+      };
 }
 
-class Details {
-    Details({
-        this.address,
-        this.phone,
-    });
+class UserDetailsContact {
+  UserDetailsContact({
+    this.address,
+    this.city,
+    this.googleAddress,
+    this.phone,
+    this.pincode,
+    this.state,
+  });
 
-    String address;
-    Phone phone;
+  String address = "";
+  String city = "";
+  String googleAddress = "";
+  Phone phone;
+  int pincode;
+  String state = "";
 
-    factory Details.fromJson(Map<String, dynamic> json) => Details(
+  factory UserDetailsContact.fromJson(Map<String, dynamic> json) =>
+      UserDetailsContact(
         address: json["address"],
-        phone: Phone.fromJson(json["phone"]),
-    );
+        city: json["city"],
+        googleAddress: json["googleAddress"],
+        phone: json["phone"] != null ? Phone.fromJson(json["phone"]) : null,
+        pincode: json["pincode"],
+        state: json["state"],
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "address": address,
-        "phone": phone.toJson(),
-    };
+        "city": city,
+        "googleAddress": googleAddress,
+        "phone": phone?.toJson() ?? null,
+        "pincode": pincode,
+        "state": state,
+      };
 }
 
 class Phone {
-    Phone({
-        this.code,
-        this.mobile,
-    });
+  Phone({
+    this.code,
+    this.mobile,
+  });
 
-    String code;
-    String mobile;
+  String code;
+  String mobile;
 
-    factory Phone.fromJson(Map<String, dynamic> json) => Phone(
+  factory Phone.fromJson(Map<String, dynamic> json) => Phone(
         code: json["code"],
         mobile: json["mobile"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "code": code,
         "mobile": mobile,
-    };
+      };
 }

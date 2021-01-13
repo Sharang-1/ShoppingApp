@@ -1,6 +1,7 @@
 import 'package:compound/models/productPageArg.dart';
 import 'package:compound/models/products.dart';
 import 'package:compound/models/route_argument.dart';
+import 'package:compound/ui/views/address_input_form_view.dart';
 import 'package:compound/ui/views/appointment_booked_view.dart';
 import 'package:compound/ui/views/cart_view.dart';
 import 'package:compound/ui/views/categories_view.dart';
@@ -17,6 +18,7 @@ import 'package:compound/ui/views/productListView.dart';
 import 'package:compound/ui/views/product_individual_view.dart';
 import 'package:compound/ui/views/product_whishlist_view.dart';
 import 'package:compound/ui/views/profile_view.dart';
+import 'package:compound/ui/views/promotion_products_view.dart';
 import 'package:compound/ui/views/search_view.dart';
 import 'package:compound/ui/views/settings_page_view.dart';
 import 'package:compound/ui/views/verify_otp.dart';
@@ -75,20 +77,18 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         pageArguments: pageArguments,
         pageTransitionType: PageTransitionType.rightToLeft,
       );
-    case OtpVerifiedRoute : 
+    case OtpVerifiedRoute:
       return _getPageRoute(
-        pageArguments: pageArguments, 
-        routeName: settings.name, 
-        viewToShow: OtpVerifiedView(), 
-        pageTransitionType: PageTransitionType.rightToLeft
-      );
-    case OtpVerified2Route : 
+          pageArguments: pageArguments,
+          routeName: settings.name,
+          viewToShow: OtpVerifiedView(),
+          pageTransitionType: PageTransitionType.rightToLeft);
+    case OtpVerified2Route:
       return _getPageRoute(
-        pageArguments: pageArguments, 
-        routeName: settings.name, 
-        viewToShow: OtpVerifiedView2(), 
-        pageTransitionType: PageTransitionType.rightToLeft
-      );
+          pageArguments: pageArguments,
+          routeName: settings.name,
+          viewToShow: OtpVerifiedView2(),
+          pageTransitionType: PageTransitionType.rightToLeft);
     case SearchViewRoute:
       return _getPageRoute(
         routeName: settings.name,
@@ -172,11 +172,12 @@ Route<dynamic> generateRoute(RouteSettings settings) {
           viewToShow: NotificationView(),
           pageTransitionType: PageTransitionType.rightToLeft);
 
-    case DynamicContentViewRoute: 
-      return _getPageRoute(pageArguments: pageArguments, 
-      routeName: settings.name, 
-      viewToShow: DynamicContentLoadingView(data: pageArguments), 
-      pageTransitionType: PageTransitionType.downToUp);
+    case DynamicContentViewRoute:
+      return _getPageRoute(
+          pageArguments: pageArguments,
+          routeName: settings.name,
+          viewToShow: DynamicContentLoadingView(data: pageArguments),
+          pageTransitionType: PageTransitionType.downToUp);
 
     case BuyNowRoute:
       print("Buy now page args " + pageArguments.toString());
@@ -216,13 +217,26 @@ Route<dynamic> generateRoute(RouteSettings settings) {
             subCategory: pargs.subCategory,
           ),
           pageTransitionType: PageTransitionType.rightToLeft);
-
+    case AddressInputPageRoute:
+      return _getPageRoute(
+          pageArguments: pageArguments,
+          routeName: settings.name,
+          viewToShow: AddressInputPage(),
+          pageTransitionType: PageTransitionType.rightToLeft);
+    case PromotionProductRoute:
+      var pargs = pageArguments as PromotionProductsPageArg;
+      return _getPageRoute(
+          pageArguments: pageArguments,
+          routeName: settings.name,
+          viewToShow: PromotionProduct(
+              productIds: [], promotionTitle: pargs.promoTitle),
+          pageTransitionType: transitionType);
     case SettingsRoute:
       return _getPageRoute(
           pageArguments: pageArguments,
           routeName: settings.name,
           viewToShow: SettingsView(),
-          pageTransitionType:  PageTransitionType.rightToLeft);
+          pageTransitionType: PageTransitionType.rightToLeft);
     default:
       return MaterialPageRoute(
           builder: (_) => Scaffold(

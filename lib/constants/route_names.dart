@@ -34,8 +34,10 @@ const String MyAppointmentViewRoute = "MyAppointmentView";
 
 // Other Routes
 const String ProfileViewRoute = "ProfileView";
+const String AddressInputPageRoute = "AddressInputPageRoute";
 const String SettingsRoute = "SettingsView";
 const String NotifcationViewRoute = "NotificationView";
+const String PromotionProductRoute = "PromotionProductRoute";
 const String DynamicContentViewRoute = "DynamicContentView";
 
 // Unused Routes

@@ -22,6 +22,10 @@ class CategoryTileUI extends StatelessWidget {
     double titleFontSize = isTablet ? 28.0 : 20.0;
 
     return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(curve15),
+      ),
+      elevation: 5,
       clipBehavior: Clip.antiAlias,
       color: Colors.grey,
       child: Stack(
@@ -58,10 +62,6 @@ class CategoryTileUI extends StatelessWidget {
           ),
         ],
       ),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(curve15),
-      ),
-      elevation: 5,
     );
 
     // Card(

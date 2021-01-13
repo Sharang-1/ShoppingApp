@@ -455,6 +455,328 @@ class MyOrdersDetailsView extends StatelessWidget {
             ));
   }
 
+  Widget childWidget(subtitleFontSize, titleFontSize, headingFontSize) {
+    return Padding(
+      padding: EdgeInsets.only(
+          left: screenPadding, right: screenPadding, top: 10, bottom: 10),
+      child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            verticalSpace(10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                CustomText(
+                  "Order Details",
+                  isTitle: true,
+                  fontWeight: FontWeight.w700,
+                  fontSize: headingFontSize + 2,
+                ),
+                CustomText(
+                  "Order ID: " + mOrder.key,
+                  fontSize: subtitleFontSize,
+                  isTitle: true,
+                  color: logoRed,
+                  isBold: true,
+                ),
+              ],
+            ),
+            verticalSpace(20),
+            SizedBox(
+                height: 180,
+                child: Card(
+                    clipBehavior: Clip.antiAlias,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(curve15),
+                    ),
+                    elevation: 5,
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                          left: 15, top: 15, bottom: 15, right: 15),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          ClipRRect(
+                              borderRadius: BorderRadius.circular(curve15),
+                              child: FadeInImage.assetNetwork(
+                                width: 100,
+                                height: 120,
+                                fadeInCurve: Curves.easeIn,
+                                placeholder: "assets/images/placeholder.png",
+                                image:
+                                    "https://images.unsplash.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
+                                fit: BoxFit.cover,
+                              )),
+                          horizontalSpaceMedium,
+                          Expanded(
+                              child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              CustomText(
+                                mOrder.product.name,
+                                isBold: true,
+                                color: Colors.grey[800],
+                                dotsAfterOverFlow: true,
+                                fontSize: titleFontSize,
+                              ),
+                              CustomText(
+                                rupeeUnicode + mOrder.orderCost.cost.toString(),
+                                dotsAfterOverFlow: true,
+                                fontSize: titleFontSize,
+                                isBold: true,
+                                color: textIconOrange,
+                              ),
+                              CustomText(mOrder.variation.size,
+                                  dotsAfterOverFlow: true,
+                                  color: Colors.grey,
+                                  fontSize: subtitleFontSize),
+                              CustomText(
+                                mOrder.status.state,
+                                fontSize: subtitleFontSize,
+                                isBold: true,
+                                color: Colors.grey,
+                              ),
+                            ],
+                          )),
+                        ],
+                      ),
+                    ))),
+            verticalSpace(30),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                CustomText(
+                  "Delivery Status",
+                  fontSize: headingFontSize,
+                  isTitle: true,
+                  isBold: true,
+                ),
+                verticalSpace(15),
+                Padding(
+                  padding: EdgeInsets.only(left: 5, right: 5),
+                  child: LinearPercentIndicator(
+                    lineHeight: 15.0,
+                    percent: orderStatuses.contains(mOrder?.status?.id ?? 0)
+                        ? (orderStatuses.indexOf(mOrder.status.id) + 1) *
+                            100 /
+                            orderStatuses.length
+                        : 100,
+                    padding: EdgeInsets.zero,
+                    linearStrokeCap: LinearStrokeCap.roundAll,
+                    linearGradient:
+                        LinearGradient(colors: [textIconOrange, logoRed]),
+                  ),
+                ),
+                verticalSpace(15),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    CustomText(
+                      "Estimated Delivery:",
+                      isBold: true,
+                      fontSize: subtitleFontSize - 1,
+                      color: Colors.grey,
+                    ),
+                    CustomText(
+                      mOrder.deliveryDate,
+                      fontSize: subtitleFontSize - 1,
+                      isBold: true,
+                      color: Colors.grey[600],
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            verticalSpace(40),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                CustomText(
+                  "Shipping Info",
+                  fontSize: headingFontSize,
+                  isTitle: true,
+                  isBold: true,
+                ),
+                verticalSpaceMedium,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    CustomText(
+                      "Shipping To",
+                      fontSize: subtitleFontSize - 1,
+                      color: Colors.grey,
+                      isBold: true,
+                    ),
+                    CustomText(
+                      "Rohan Shah",
+                      color: Colors.grey[600],
+                      fontSize: subtitleFontSize - 1,
+                      isBold: true,
+                    ),
+                  ],
+                ),
+                verticalSpaceSmall,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    CustomText(
+                      "Shipping Address    ",
+                      fontSize: subtitleFontSize - 1,
+                      color: Colors.grey,
+                      isBold: true,
+                    ),
+                    Expanded(
+                      child: Column(
+                        children: <Widget>[
+                          CustomText(
+                            mOrder.billingAddress ??
+                                "B/4/6, Raman Smurti Flats, Ahmedabad - 380 007",
+                            align: TextAlign.end,
+                            color: Colors.grey[600],
+                            fontSize: subtitleFontSize - 1,
+                            isBold: true,
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ],
+            ),
+            verticalSpace(40),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                CustomText(
+                  "Payment Info",
+                  fontSize: headingFontSize,
+                  isTitle: true,
+                  isBold: true,
+                ),
+                verticalSpaceMedium,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    CustomText(
+                      "Payment On Delivery Via",
+                      fontSize: subtitleFontSize - 1,
+                      color: Colors.grey,
+                      isBold: true,
+                    ),
+                    CustomText(
+                      mOrder.payment.option.name,
+                      color: Colors.grey[600],
+                      fontSize: subtitleFontSize - 1,
+                      isBold: true,
+                    ),
+                  ],
+                ),
+                verticalSpaceSmall,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    CustomText(
+                      "Listed Price",
+                      fontSize: subtitleFontSize - 1,
+                      color: Colors.grey,
+                      isBold: true,
+                    ),
+                    CustomText(
+                      rupeeUnicode + mOrder.product.price.toString(),
+                      color: Colors.grey[600],
+                      fontSize: subtitleFontSize - 1,
+                      isBold: true,
+                    ),
+                  ],
+                ),
+                verticalSpaceSmall,
+                if (mOrder.orderCost.productPrice != mOrder.product.price)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      CustomText(
+                        "Discounted Price",
+                        isBold: true,
+                        fontSize: subtitleFontSize - 1,
+                        color: Colors.grey,
+                      ),
+                      CustomText(
+                        rupeeUnicode + mOrder.orderCost.productPrice.toString(),
+                        color: Colors.grey[600],
+                        fontSize: subtitleFontSize - 1,
+                        isBold: true,
+                      ),
+                    ],
+                  ),
+                verticalSpaceSmall,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    CustomText(
+                      "Shipping Charge",
+                      isBold: true,
+                      fontSize: subtitleFontSize - 1,
+                      color: Colors.grey,
+                    ),
+                    CustomText(
+                      mOrder.orderCost.shippingCharge == 0
+                          ? "Free Delivery"
+                          : mOrder.orderCost.shippingCharge.toString(),
+                      color: green,
+                      fontSize: subtitleFontSize - 1,
+                      isBold: true,
+                    ),
+                  ],
+                ),
+                verticalSpaceSmall,
+                Divider(
+                  color: Colors.grey[300],
+                  thickness: 1.5,
+                ),
+                verticalSpaceSmall,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    CustomText(
+                      "Total",
+                      fontSize: subtitleFontSize,
+                      isBold: true,
+                      color: Colors.grey,
+                    ),
+                    CustomText(
+                      rupeeUnicode + mOrder.orderCost.cost.toString(),
+                      color: textIconOrange,
+                      fontSize: subtitleFontSize + 2,
+                      isBold: true,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            verticalSpace(50),
+            RaisedButton(
+                elevation: 0,
+                onPressed: () {},
+                color: backgroundWhiteCreamColor,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    side: BorderSide(color: textIconOrange, width: 2)),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 15),
+                  child: Text(
+                    "Help",
+                    style: TextStyle(
+                        color: textIconOrange, fontWeight: FontWeight.bold),
+                  ),
+                )),
+            verticalSpace(20),
+          ]),
+    );
+  }
+
   // Widget orderSummary(
   //     headingFontSize, titleFontSize, subtitleFontSize, priceFontSize) {
   //   return Column(

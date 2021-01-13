@@ -1,9 +1,11 @@
 import 'package:compound/constants/route_names.dart';
+import 'package:compound/constants/shared_pref.dart';
 import 'package:compound/locator.dart';
 import 'package:compound/services/navigation_service.dart';
 import 'package:compound/ui/shared/shared_styles.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:compound/viewmodels/home_view_model.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 import '../widgets/custom_text.dart';
@@ -15,6 +17,11 @@ class HomeDrawer extends StatelessWidget {
   final Function logout;
 
   HomeDrawer({Key key, this.logout}) : super(key: key);
+
+  Future<String> getName() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(Name);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -120,7 +127,7 @@ class HomeDrawer extends StatelessWidget {
                             title: Padding(
                               padding: EdgeInsets.only(left: 20),
                               child: CustomText(
-                                'Map',
+                                'Dzor Map',
                                 color: Colors.grey[800],
                                 isBold: true,
                                 fontSize: 18,
@@ -182,7 +189,7 @@ class HomeDrawer extends StatelessWidget {
                             title: Padding(
                               padding: EdgeInsets.only(left: 20),
                               child: CustomText(
-                                'Profile',
+                                'My Profile',
                                 color: Colors.grey[800],
                                 isBold: true,
                                 fontSize: 18,
@@ -194,22 +201,22 @@ class HomeDrawer extends StatelessWidget {
                             },
                           ),
                           Divider(),
-                          ListTile(
-                            title: Padding(
-                              padding: EdgeInsets.only(left: 20),
-                              child: CustomText(
-                                'Notifications',
-                                color: Colors.grey[800],
-                                isBold: true,
-                                fontSize: 18,
-                              ),
-                            ),
-                            onTap: () {
-                              _navigationService.navigateTo(
-                                  NotifcationViewRoute,
-                                  popNavbar: true);
-                            },
-                          ),
+                          // ListTile(
+                          //   title: Padding(
+                          //     padding: EdgeInsets.only(left: 20),
+                          //     child: CustomText(
+                          //       'Notifications',
+                          //       color: Colors.grey[800],
+                          //       isBold: true,
+                          //       fontSize: 18,
+                          //     ),
+                          //   ),
+                          //   onTap: () {
+                          //     _navigationService.navigateTo(
+                          //         NotifcationViewRoute,
+                          //         popNavbar: true);
+                          //   },
+                          // ),
                           ListTile(
                               title: Padding(
                                 padding: EdgeInsets.only(left: 20),

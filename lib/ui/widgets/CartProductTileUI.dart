@@ -41,7 +41,7 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
 
   static const orderSummaryDetails1 = [
     "Product Name",
-    "Seller",
+    // "Seller",
     "Qty",
     "Size",
     "Color",
@@ -63,13 +63,14 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
     clicked = false;
     price = widget.item.product.price;
     discount = widget.item.product.discount;
-    productImage = widget.item.product.photo?.photos[0]?.name ?? null;
+    productImage =
+        widget.item.product.photo?.photos?.elementAt(0)?.name ?? null;
     deliveryCharges = 0;
     discountedPrice = price - (price * discount / 100);
 
     orderSummaryDetails = {
       "Product Name": widget.item.product.name,
-      "Seller": "Nike",
+      // "Seller": "Nike",
       "Qty": widget.item.quantity.toString(),
       "Size": widget.item.size != null && widget.item.size != ""
           ? widget.item.size
@@ -95,7 +96,7 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
   void didUpdateWidget(covariant oldWidget) {
     orderSummaryDetails = {
       "Product Name": widget.item.product.name,
-      "Seller": "Nike",
+      // "Seller": "Nike",
       "Qty": widget.item.quantity.toString(),
       "Size": widget.item.size != null && widget.item.size != ""
           ? widget.item.size
@@ -125,8 +126,9 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
       clipBehavior: Clip.antiAlias,
       elevation: 5,
       child: Padding(
-        padding: EdgeInsets.fromLTRB(10, 15, 0, 15),
+        padding: EdgeInsets.only(left:10),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             ClipRRect(
@@ -155,13 +157,13 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                       isBold: true,
                       fontSize: titleFontSize,
                     ),
-                    verticalSpaceTiny,
-                    CustomText(
-                      "By Nike",
-                      color: Colors.grey,
-                      dotsAfterOverFlow: true,
-                      fontSize: subtitleFontSize - 2,
-                    ),
+                    // verticalSpaceTiny,
+                    // CustomText(
+                    //   "By Nike",
+                    //   color: Colors.grey,
+                    //   dotsAfterOverFlow: true,
+                    //   fontSize: subtitleFontSize - 2,
+                    // ),
                     verticalSpaceSmall,
                     Row(
                       children: <Widget>[
@@ -249,7 +251,9 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
   Widget bottomSheetDetailsTable(titleFontSize, subtitleFontSize) {
     return FractionallySizedBox(
       heightFactor: MediaQuery.of(context).size.height > 600
-          ? MediaQuery.of(context).size.height > 800 ? 0.75 : 0.88
+          ? MediaQuery.of(context).size.height > 800
+              ? 0.75
+              : 0.88
           : 0.92,
       child: Scaffold(
         appBar: AppBar(

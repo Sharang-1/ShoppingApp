@@ -11,7 +11,9 @@ import '../shared/shared_styles.dart';
 
 class SellerBottomSheetView extends StatefulWidget {
   final sellerData;
-  const SellerBottomSheetView({Key key, this.sellerData}) : super(key: key);
+  final context;
+  const SellerBottomSheetView({Key key, this.sellerData, this.context})
+      : super(key: key);
 
   @override
   _SellerBottomSheetViewState createState() => _SellerBottomSheetViewState();
@@ -36,7 +38,7 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
     return ViewModelProvider<AppointmentsViewModel>.withConsumer(
         viewModel: AppointmentsViewModel(),
         onModelReady: (model) =>
-            model.getAvaliableTimeSlots(widget.sellerData.key),
+            model.getAvaliableTimeSlots(widget.sellerData.key, widget.context),
         builder: (context, model, child) {
           return Stack(children: [
             Align(
@@ -340,6 +342,7 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                     DropdownButton(
                                       value: msgController.text,
                                       items: (<String>[
+                                        "Select Your Message",
                                         "Test 1",
                                         "Test 2",
                                         "Test 3",
@@ -350,7 +353,7 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                       onChanged: (value) {
                                         setState(() {
                                           msgController.text = value.toString();
-                                        }); 
+                                        });
                                       },
                                     ),
 

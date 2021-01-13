@@ -10,8 +10,8 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 
 class ReviewWidget extends StatelessWidget {
-  ReviewWidget(productId);
-  String productId;
+  ReviewWidget({this.id});
+  final String id;
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +68,7 @@ class ReviewWidget extends StatelessWidget {
                     initiallyExpanded: false,
                     onExpansionChanged: (bool expanded) {
                       if (expanded && model.reviews == null) {
-                        model.showReviews(productId);
+                        model.showReviews(id);
                       }
                     },
                     children: <Widget>[
