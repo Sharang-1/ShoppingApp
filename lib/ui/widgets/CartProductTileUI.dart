@@ -84,6 +84,8 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
       "Order Total":
           rupeeUnicode + (discountedPrice * widget.item.quantity).toString(),
       "Delivery Charges": widget.shippingCharges,
+      "Discounted Price":
+          discount != 0.0 ? (price - (price * discount / 100)).toString() : "",
       "Total": rupeeUnicode + widget.finalTotal,
     };
 
@@ -118,138 +120,260 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(curve15),
-      ),
-      clipBehavior: Clip.antiAlias,
-      elevation: 5,
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(10, 15, 0, 15),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            ClipRRect(
+    return Stack(
+      children: [
+        Container(
+          width: 700,
+          child: Card(
+            shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(curve15),
-              child: FadeInImage.assetNetwork(
-                width: 120,
-                fadeInCurve: Curves.easeIn,
-                placeholder: "assets/images/placeholder.png",
-                image: productImage != null
-                    ? '$PRODUCT_PHOTO_BASE_URL/${widget.item.productId}/$productImage'
-                    : "https://images.unsplashr.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-                fit: BoxFit.cover,
-              ),
             ),
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.only(left: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    verticalSpaceTiny,
-                    CustomText(
-                      orderSummaryDetails["Product Name"],
-                      dotsAfterOverFlow: true,
-                      isTitle: true,
-                      isBold: true,
-                      fontSize: titleFontSize,
-                    ),
-                    verticalSpaceTiny,
-                    CustomText(
-                      "By Nike",
-                      color: Colors.grey,
-                      dotsAfterOverFlow: true,
-                      fontSize: subtitleFontSize - 2,
-                    ),
-                    verticalSpaceSmall,
-                    Row(
-                      children: <Widget>[
-                        CustomText(
-                          orderSummaryDetails["Total"],
-                          color: darkRedSmooth,
-                          isBold: true,
-                          fontSize: priceFontSize,
+            clipBehavior: Clip.antiAlias,
+            elevation: 5,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Stack(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 0.0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(8),
+                            bottomLeft: Radius.circular(10)),
+                        child: FadeInImage.assetNetwork(
+                          height: 180,
+                          width: 150,
+                          fadeInCurve: Curves.easeIn,
+                          placeholder: "assets/images/placeholder.png",
+                          image: productImage != null
+                              ? '$PRODUCT_PHOTO_BASE_URL/${widget.item.productId}/$productImage'
+                              : "https://images.unsplashr.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
+                          fit: BoxFit.cover,
                         ),
-                        horizontalSpaceTiny,
-                        orderSummaryDetails["Total"]
-                                    .replaceAll(rupeeUnicode, "") !=
-                                orderSummaryDetails["Price"]
-                                    .replaceAll(rupeeUnicode, "")
-                            ? Expanded(
-                                child: Text(
-                                  "\u20B9" + orderSummaryDetails["Price"],
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    color: Colors.grey,
-                                    decoration: TextDecoration.lineThrough,
-                                    fontSize: priceFontSize - 2,
-                                  ),
-                                ),
-                              )
-                            : SizedBox()
-                      ],
-                    ),
-                    verticalSpaceTiny,
-                    CustomText(
-                      "Qty : ${orderSummaryDetails["Qty"]} Piece(s)",
-                      dotsAfterOverFlow: true,
-                      color: Colors.grey,
-                      fontSize: subtitleFontSize - 2,
-                    ),
-                    verticalSpaceTiny,
-                    CustomText(
-                      "Size : ${orderSummaryDetails["Size"]}",
-                      dotsAfterOverFlow: true,
-                      color: Colors.grey,
-                      fontSize: subtitleFontSize - 2,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            IconButton(
-              icon: Icon(
-                !clicked ? Icons.keyboard_arrow_down : Icons.keyboard_arrow_up,
-                color: Colors.grey,
-              ),
-              onPressed: () {
-                setState(() {
-                  clicked = true;
-                });
-
-                showModalBottomSheet<void>(
-                    clipBehavior: Clip.antiAlias,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(30),
-                        topRight: Radius.circular(30),
                       ),
                     ),
-                    isScrollControlled: true,
-                    context: context,
-                    builder: (context) {
-                      return bottomSheetDetailsTable(
-                        titleFontSize,
-                        subtitleFontSize,
-                      );
-                    }).whenComplete(() {
-                  setState(() {
-                    clicked = false;
-                  });
-                });
-              },
-            )
-          ],
+                    Padding(
+                      padding: const EdgeInsets.only(left: 0.0, top: 0),
+                      child: (discount == 0)
+                          ? null
+                          : Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(8),
+                                  bottomRight: Radius.circular(16),
+                                ),
+                                color: Color.fromARGB(200, 235, 105, 105),
+                              ),
+                              width: 40,
+                              height: 30,
+                              child: Center(
+                                child: CustomText(
+                                  orderSummaryDetails["Discount"],
+                                  dotsAfterOverFlow: true,
+                                  isTitle: true,
+                                  isBold: true,
+                                  fontSize: titleFontSize - 5,
+                                  color: Colors.white,
+                                ),
+                                //     Text(
+                                //   "10%",
+                                //   style: TextStyle(
+                                //       color: Colors.white,
+                                //       fontSize: 15,
+                                //       fontWeight: FontWeight.bold),
+                                // )
+                              )),
+                    )
+                  ],
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        verticalSpaceTiny,
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10.0),
+                          child: CustomText(
+                            orderSummaryDetails["Product Name"],
+                            dotsAfterOverFlow: true,
+                            isTitle: true,
+                            isBold: true,
+                            fontSize: titleFontSize,
+                          ),
+                        ),
+                        verticalSpaceTiny,
+                        // CustomText(
+                        //   "By Nike",
+                        //   color: Colors.grey,
+                        //   dotsAfterOverFlow: true,
+                        //   fontSize: subtitleFontSize - 2,
+                        // ),
+
+                        //Text(description,
+                        //   overflow: TextOverflow.ellipsis,
+                        //   style: TextStyle(
+                        //    fontSize: 13,
+                        //  color: Color(0xff7e808c),
+                        //fontWeight: FontWeight.w600,
+                        // )),
+                        Divider(
+                          indent: 2,
+                          endIndent: 15,
+                        ),
+                        verticalSpaceSmall,
+                        Row(
+                          children: <Widget>[
+                            Container(
+                                child: (discount == 0)
+                                    ? null
+                                    : Text(
+                                        "₹${orderSummaryDetails["Price"]}",
+                                        style: TextStyle(
+                                            decoration:
+                                                TextDecoration.lineThrough,
+                                            color: Colors.grey[500],
+                                            fontSize: priceFontSize - 3),
+                                      )),
+                            SizedBox(
+                              width: 3,
+                            ),
+                            CustomText(
+                              orderSummaryDetails["Total"],
+                              color: Colors.grey[900],
+                              isBold: true,
+                              fontSize: priceFontSize - 3,
+                            ),
+                            horizontalSpaceTiny,
+                            orderSummaryDetails["Total"]
+                                        .replaceAll(rupeeUnicode, "") !=
+                                    orderSummaryDetails["Price"]
+                                        .replaceAll(rupeeUnicode, "")
+                                ? Expanded(
+                                    child: Text(
+                                      "\u20B9" + orderSummaryDetails["Price"],
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                        decoration: TextDecoration.lineThrough,
+                                        fontSize: priceFontSize - 2,
+                                      ),
+                                    ),
+                                  )
+                                : SizedBox()
+                          ],
+                        ),
+
+                        verticalSpaceTiny,
+                        verticalSpaceTiny,
+                        Row(
+                          children: [
+                            CustomText(
+                              "Qty :",
+                              dotsAfterOverFlow: true,
+                              color: Colors.grey,
+                              fontSize: subtitleFontSize - 2,
+                            ),
+                            SizedBox(
+                              width: 2,
+                            ),
+                            CustomText(
+                              "${orderSummaryDetails["Qty"]} Piece(s)",
+                              dotsAfterOverFlow: true,
+                              color: Colors.grey[900],
+                              fontSize: subtitleFontSize - 3,
+                            ),
+                          ],
+                        ),
+
+                        verticalSpaceTiny,
+                        verticalSpaceTiny,
+                        Row(
+                          children: [
+                            CustomText(
+                              "Size : ",
+                              dotsAfterOverFlow: true,
+                              color: Colors.grey,
+                              fontSize: subtitleFontSize - 2,
+                            ),
+                            CustomText(
+                              "${orderSummaryDetails["Size"]}",
+                              dotsAfterOverFlow: true,
+                              color: Colors.grey[900],
+                              fontSize: subtitleFontSize - 2,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                IconButton(
+                  icon: Icon(
+                    !clicked
+                        ? Icons.keyboard_arrow_down
+                        : Icons.keyboard_arrow_up,
+                    color: Colors.grey,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      clicked = true;
+                    });
+
+                    showModalBottomSheet<void>(
+                        clipBehavior: Clip.antiAlias,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(30),
+                            topRight: Radius.circular(30),
+                          ),
+                        ),
+                        isScrollControlled: true,
+                        context: context,
+                        builder: (context) {
+                          return bottomSheetDetailsTable(
+                            titleFontSize,
+                            subtitleFontSize,
+                          );
+                        }).whenComplete(() {
+                      setState(() {
+                        clicked = false;
+                      });
+                    });
+                  },
+                )
+              ],
+            ),
+          ),
         ),
-      ),
+        Padding(
+            padding: const EdgeInsets.only(left: 283.0, top: 144),
+            child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(8),
+                    bottomRight: Radius.circular(15),
+                  ),
+                  color: Color.fromARGB(200, 235, 105, 105),
+                ),
+                width: 34,
+                height: 33,
+                child: Center(
+                  child: Text("X",
+                      style: TextStyle(color: Colors.white, fontSize: 20)),
+                )))
+      ],
     );
   }
 
   Widget bottomSheetDetailsTable(titleFontSize, subtitleFontSize) {
     return FractionallySizedBox(
       heightFactor: MediaQuery.of(context).size.height > 600
-          ? MediaQuery.of(context).size.height > 800 ? 0.75 : 0.88
+          ? MediaQuery.of(context).size.height > 800
+              ? 0.75
+              : 0.88
           : 0.92,
       child: Scaffold(
         appBar: AppBar(
@@ -307,7 +431,7 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                         .toList()),
                 Container(
                   padding: EdgeInsets.symmetric(vertical: 10),
-                  width: MediaQuery.of(context).size.width * 0.7,
+                  width: MediaQuery.of(context).size.width * 2.7,
                   child: Divider(),
                 ),
                 if (widget.isPromoCodeApplied)

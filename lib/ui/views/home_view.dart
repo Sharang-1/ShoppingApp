@@ -110,6 +110,51 @@ class _HomeViewState extends State<HomeView> {
           refresh: Container(),
           complete: Container(),
         ),
+
+        body: SafeArea(
+          top: false,
+          left: false,
+          right: false,
+          child: CustomScrollView(
+            // Add the app bar and list of items as slivers in the next steps.
+            slivers: <Widget>[
+              SliverAppBar(
+                primary: false,
+                floating: true,
+                automaticallyImplyLeading: false,
+                iconTheme: IconThemeData(color: appBarIconColor),
+                backgroundColor: backgroundWhiteCreamColor,
+                actions: <Widget>[
+                  IconButton(
+                    tooltip: 'map',
+                    icon: new Image.asset("assets/icons/location.png"),
+                    onPressed: () {
+                      model.openmap();
+                    },
+                  )
+                ],
+                title: InkWell(
+                  onTap: () {
+                    model.search();
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      // color: Colors.grey[200],
+                      color: backgroundBlueGreyColor,
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 30,
+                        vertical: 8,
+                      ),
+                      child: Row(
+                        children: <Widget>[
+                          Icon(
+                            Icons.search,
+                            color: appBarIconColor,
+
         controller: refreshController,
         onRefresh: _onRefresh,
         child: CustomScrollView(
@@ -124,7 +169,7 @@ class _HomeViewState extends State<HomeView> {
                     actions: <Widget>[
                       IconButton(
                         tooltip: 'map',
-                        icon: new Image.asset("assets/icons/map.png"),
+                        icon: new Image.asset("assets/icons/location.png"),
                         onPressed: () {
                           model.openmap();
                         },
@@ -145,6 +190,7 @@ class _HomeViewState extends State<HomeView> {
                           padding: const EdgeInsets.symmetric(
                             horizontal: 30,
                             vertical: 8,
+
                           ),
                           child: Row(
                             children: <Widget>[

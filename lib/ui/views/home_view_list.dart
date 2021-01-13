@@ -564,10 +564,10 @@ class _HomeViewListState extends State<HomeViewList> {
                     borderRadius: BorderRadius.circular(curve15),
                     child: Image(
                       fit: BoxFit.cover,
-                      image: NetworkImage(
+                      image: AssetImage(
                         bottomPromotion[0]?.banner != null
-                            ? "$PROMOTION_PHOTO_BASE_URL/${bottomPromotion[2]?.key}"
-                            : "https://templates.designwizard.com/663467c0-7840-11e7-81f8-bf6782823ae8.jpg",
+                            ? "assets/preloading1.png"
+                            : "assets/preloading1.png",
                       ),
                     ),
                   ),
@@ -1040,11 +1040,11 @@ class CategoriesHomeList extends StatelessWidget {
                         child: FadeInImage.assetNetwork(
                             fit: BoxFit.fill,
                             fadeInCurve: Curves.easeIn,
-                            placeholder: 'assets/images/placeholder.png',
+                            placeholder: 'assets/images/preloading1.png',
                             image:
                                 // photoName == null?
 
-                                'https://images.pexels.com/photos/934070/pexels-photo-934070.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
+                                'assets/images/preloading1.png'
                             // : photoName
 
                             ),

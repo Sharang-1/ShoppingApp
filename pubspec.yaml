@@ -102,6 +102,8 @@ flutter:
     - assets/images/paytm_icon.png
     - assets/images/phonepe_icon.png
     - assets/images/loading.gif
+    - assets/images/preloading1.png
+    - assets/images/preloading2.png
     - assets/svg/DZOR_full_logo_verti.svg
     - assets/svg/logo.svg
     - assets/svg/ribbon.svg
@@ -123,9 +125,11 @@ flutter:
     - assets/icons/share.svg
     - assets/icons/DZOR_full_logo_verti.png
     - assets/icons/map.png
+    - assets/icons/location.png
     - assets/images/screen1.png
     - assets/images/screen2.png
     - assets/images/screen3.png
+    - assets/images/cancel.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.
