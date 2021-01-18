@@ -92,7 +92,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case SearchViewRoute:
       return _getPageRoute(
         routeName: settings.name,
-        viewToShow: SearchView(),
+        viewToShow: SearchView(showSellers: pageArguments),
         pageArguments: pageArguments,
         pageTransitionType: transitionType,
       );
