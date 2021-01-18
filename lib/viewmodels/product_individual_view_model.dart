@@ -68,7 +68,7 @@ class ProductIndividualViewModel extends BaseModel {
                 pickedPlace: pickedPlace,
               ));
       if (userAdd != null) {
-        if (userAdd.city.toUpperCase() != "AHMEDABAD") {
+        if (userAdd.city?.toUpperCase() != "AHMEDABAD") {
           _dialogService.showNotDeliveringDialog();
         } else {
           defaultAddress = userAdd;
