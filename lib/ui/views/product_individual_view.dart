@@ -293,11 +293,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
     return Padding(child: item, padding: EdgeInsets.fromLTRB(0, 10, 0, 0));
   }
 
-  Text stockWidget({List<Variation> variations, bool available}) {
-    int totalQuantity = 0;
-    variations.forEach((variation) {
-      totalQuantity += variation.quantity.toInt();
-    });
+  Text stockWidget({int totalQuantity, bool available}) {
     String text = (totalQuantity == 0)
         ? "Sold out"
         : (available)
@@ -312,7 +308,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
       text,
       style: TextStyle(
           fontSize: titleFontSizeStyle,
-          color: available ? green : logoRed,
+          color: (available) ? green : logoRed,
           fontWeight: FontWeight.w600),
     );
   }
@@ -346,7 +342,12 @@ class _ProductIndiViewState extends State<ProductIndiView> {
     //   "JustHere",
     //   "Trending",
     // ];
-    final bool available = widget?.data?.available ?? false;
+    int totalQuantity = 0;
+    variations.forEach((variation) {
+      totalQuantity += variation.quantity.toInt();
+    });
+    final bool available = (totalQuantity == 0) ? false : (widget?.data?.available ?? false);
+    
     final List<String> imageURLs =
         (widget?.data?.photo?.photos ?? new List<PhotoElement>())
             .map((e) => '$PRODUCT_PHOTO_BASE_URL/$productId/${e.name}')
@@ -484,7 +485,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                     //         ],
                     //       ),
                     verticalSpace(10),
-                    stockWidget(variations: variations, available: available),
+                    stockWidget(totalQuantity: totalQuantity, available: available),
                     if (available) verticalSpace(20),
                     if (available)
                       Row(
