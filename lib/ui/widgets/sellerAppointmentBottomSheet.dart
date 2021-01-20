@@ -20,11 +20,10 @@ class SellerBottomSheetView extends StatefulWidget {
 }
 
 class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
+  String _taskMsg = "";
+
   @override
   Widget build(BuildContext context) {
-    final msgController = TextEditingController();
-    msgController.text = "Select Your Message";
-
     String getTime(int time) {
       String meridien = "AM";
       if ((time ~/ 12).isOdd) {
@@ -340,31 +339,23 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                     verticalSpaceTiny,
 
                                     DropdownButton(
-                                      value: msgController.text,
+                                      hint: Text("Select Your Message"),
+                                      value: _taskMsg == "" ? null : _taskMsg,
                                       items: (<String>[
-                                        "Select Your Message",
-                                        "Test 1",
-                                        "Test 2",
-                                        "Test 3",
-                                        "Test 4",
-                                        "Test 5"
-                                      ].map((e) => DropdownMenuItem(
+                                        "Customised stitching",
+                                        "Design new Apparel",
+                                        "Browse & Shop",
+                                        "Alterations",
+                                        "Other"
+                                      ].map((e) => DropdownMenuItem<String>(
                                           value: e, child: Text(e)))).toList(),
                                       onChanged: (value) {
                                         setState(() {
-                                          msgController.text = value.toString();
+                                          _taskMsg = value.toString();
                                         });
                                       },
                                     ),
-
-                                    // InputField(
-                                    //   smallVersion: true,
-                                    //   placeholder:
-                                    //       'Specific message for ' + widget.sellerData.name,
-                                    //   controller: msgController,
-                                    //   textInputType: TextInputType.text,
-                                    // ),
-                                    verticalSpaceMedium,
+                                    verticalSpaceLarge,
                                   ],
                                 ),
                               ),
@@ -381,10 +372,12 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                     Expanded(
                         child: RaisedButton(
                             elevation: 5,
-                            onPressed: () {
-                              model.bookAppointment(
-                                  widget.sellerData.key, msgController.text);
-                            },
+                            onPressed: _taskMsg == ""
+                                ? null
+                                : () {
+                                    model.bookAppointment(
+                                        widget.sellerData.key, _taskMsg);
+                                  },
                             color: logoRed,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30),
