@@ -29,17 +29,17 @@ class ProductIndividualViewModel extends BaseModel {
   final AddressService _addressService = locator<AddressService>();
 
   Seller selleDetail;
-  UserDetailsContact defaultAddress;
+  // UserDetailsContact defaultAddress;
   // bool isProductInWhishlist = false;
 
   Future<void> init(String sellerId) async {
     selleDetail = await _apiService.getSellerByID(sellerId);
-    var addresses = await _addressService.getAddresses();
-    if (addresses != null && addresses.length != 0) {
-      defaultAddress = addresses.first;
-    } else {
-      defaultAddress = null;
-    }
+    // var addresses = await _addressService.getAddresses();
+    // if (addresses != null && addresses.length != 0) {
+    //   defaultAddress = addresses.first;
+    // } else {
+    //   defaultAddress = null;
+    // }
     notifyListeners();
   }
 
@@ -47,36 +47,37 @@ class ProductIndividualViewModel extends BaseModel {
     _navigationService.navigateTo(SellerIndiViewRoute, arguments: selleDetail);
   }
 
-  gotoAddView(context) async {
-    PickResult pickedPlace = await Navigator.push(
-      context,
-      PageTransition(
-        child: AddressInputPage(),
-        type: PageTransitionType.rightToLeft,
-      ),
-    );
+  // gotoAddView(context) async {
+  //   PickResult pickedPlace = await Navigator.push(
+  //     context,
+  //     PageTransition(
+  //       child: AddressInputPage(),
+  //       type: PageTransitionType.rightToLeft,
+  //     ),
+  //   );
 
-    if (pickedPlace != null) {
-      // pickedPlace = (PickResult) pickedPlace;
-      // print(pickedPlace);
-      // model.mUserDetails.contact
-      //     .address = pickedPlace;
+  //   if (pickedPlace != null) {
+  //     // pickedPlace = (PickResult) pickedPlace;
+  //     // print(pickedPlace);
+  //     // model.mUserDetails.contact
+  //     //     .address = pickedPlace;
 
-      UserDetailsContact userAdd = await showModalBottomSheet(
-          context: context,
-          builder: (_) => BottomSheetForAddress(
-                pickedPlace: pickedPlace,
-              ));
-      if (userAdd != null) {
-        if (userAdd.city?.toUpperCase() != "AHMEDABAD") {
-          _dialogService.showNotDeliveringDialog();
-        } else {
-          defaultAddress = userAdd;
-        }
-      }
-    }
-    notifyListeners();
-  }
+  //     UserDetailsContact userAdd = await showModalBottomSheet(
+  //         context: context,
+  //         builder: (_) => BottomSheetForAddress(
+  //               pickedPlace: pickedPlace,
+  //             ));
+  //     if (userAdd != null) {
+  //       if (userAdd.city.toUpperCase() != "AHMEDABAD") {
+  //         _dialogService.showNotDeliveringDialog();
+  //       } else {
+  //         defaultAddress = userAdd;
+  //         await _addressService.addAddresses(userAdd);
+  //       }
+  //     }
+  //   }
+  //   notifyListeners();
+  // }
 
   Future<List<Lookups>> getLookups() {
     return _apiService.getLookups();

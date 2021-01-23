@@ -71,9 +71,18 @@ class APIService {
   final DialogService _dialogService = locator<DialogService>();
 
   APIService() {
-    apiClient..interceptors.addAll([AppInterceptors(), CustomLogInterceptor(), PerformanceInterceptor()]);
+    apiClient
+      ..interceptors.addAll([
+        AppInterceptors(),
+        CustomLogInterceptor(),
+        PerformanceInterceptor()
+      ]);
     appointmentClient
-      ..interceptors.addAll([AppInterceptors(), CustomLogInterceptor(), PerformanceInterceptor()]);
+      ..interceptors.addAll([
+        AppInterceptors(),
+        CustomLogInterceptor(),
+        PerformanceInterceptor()
+      ]);
   }
   Future apiWrapper(
     String path, {
@@ -143,7 +152,8 @@ class APIService {
     var lookupRes = await apiClient.get("options");
     var lookupData = lookupRes.data;
     if (lookupData != null) {
-      List<Lookups> lookups = lookupData.map<Lookups>((e) => Lookups.fromJson(e)).toList();
+      List<Lookups> lookups =
+          lookupData.map<Lookups>((e) => Lookups.fromJson(e)).toList();
       print(lookups);
       return lookups;
     }
@@ -184,10 +194,11 @@ class APIService {
     return null;
   }
 
-  Future<Product> getProductById({@required String productId})async {
-    if(productId == null) return null;
-    var productData = await apiWrapper("products/$productId;seller=true;active=true");
-    if(productData == null) return null;
+  Future<Product> getProductById({@required String productId}) async {
+    if (productId == null) return null;
+    var productData =
+        await apiWrapper("products/$productId;seller=true;active=true");
+    if (productData == null) return null;
     Product product = Product.fromJson(productData);
     return product;
   }
@@ -272,7 +283,8 @@ class APIService {
     var sellerProfileData = await apiWrapper("sellers/$id/profile");
     if (sellerProfileData != null) {
       SellerProfile sellerProfile = SellerProfile.fromMap(sellerProfileData);
-      Fimber.d("Sellers : " + sellerProfile.photos.map((o) => o.name).toString());
+      Fimber.d(
+          "Sellers : " + sellerProfile.photos.map((o) => o.name).toString());
       return sellerProfile;
     }
     return null;
@@ -518,7 +530,7 @@ class APIService {
     try {
       if (res.data != null) return TimeSlots.fromJson(res.data);
     } catch (e) {
-      _dialogService.showDialog(description: res.data["error"], title: "Error");
+      _dialogService.showDialog(description: res.data["error"], title: "Note");
     }
     return null;
   }

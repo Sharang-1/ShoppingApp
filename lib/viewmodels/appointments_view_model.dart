@@ -11,6 +11,7 @@ import 'package:compound/viewmodels/base_model.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_place_picker/google_maps_place_picker.dart';
 import 'package:intl/intl.dart';
 
 class AppointmentsViewModel extends BaseModel {
@@ -54,8 +55,8 @@ class AppointmentsViewModel extends BaseModel {
     var adds = await _addressService.getAddresses();
     if (adds == null || adds.length == 0) {
       var res = await _dialogService.showConfirmationDialog(
-          title: "Hey there !~",
-          description: "Please enter address before booking an appointment");
+          title: "Hey there!",
+          description: "Please add your address before booking an application");
       if (res.confirmed) {
         _navigationService.navigateTo(ProfileViewRoute);
       }

@@ -46,9 +46,7 @@ class UserDetailsViewModel extends BaseModel {
     }
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString(Name, mUserDetails.name);
-    Fimber.e(mUserDetails.firstName);
-    Fimber.e(mUserDetails.contact.phone.mobile);
-    _addressService.setUpAddress(mUserDetails.contact);
+    await _addressService.setUpAddress(mUserDetails.contact);
     notifyListeners();
   }
 }
