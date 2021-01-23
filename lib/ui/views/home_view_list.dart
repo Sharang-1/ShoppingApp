@@ -960,9 +960,9 @@ class _HomeViewListState extends State<HomeViewList> {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 15),
                     child: Text(
-                      "View All",
+                      "Search Designers",
                       style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
+                          color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
                     ),
                   ),
                 ),

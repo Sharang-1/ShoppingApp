@@ -16,7 +16,6 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 // import '../shared/shared_styles.dart';
 
 class HomeView extends StatefulWidget {
-
   HomeView({Key key}) : super(key: key);
 
   @override
@@ -29,15 +28,16 @@ class _HomeViewState extends State<HomeView> {
   UniqueKey key = UniqueKey();
   UniqueKey productKey = UniqueKey();
 
-  final RefreshController refreshController = RefreshController(initialRefresh: false);
+  final RefreshController refreshController =
+      RefreshController(initialRefresh: false);
 
   void _onRefresh() async {
-      setState(() {
+    setState(() {
       key = UniqueKey();
       productKey = UniqueKey();
-      });
-      await Future.delayed(Duration(milliseconds: 100));
-      refreshController.refreshCompleted(resetFooterState: true);
+    });
+    await Future.delayed(Duration(milliseconds: 100));
+    refreshController.refreshCompleted(resetFooterState: true);
   }
 
   @override
@@ -67,17 +67,20 @@ class _HomeViewState extends State<HomeView> {
           iconTheme: IconThemeData(color: appBarIconColor),
           backgroundColor: backgroundWhiteCreamColor,
           bottom: PreferredSize(
-              preferredSize: Size.fromHeight(30),
+              preferredSize: Size.fromHeight(45),
               child: AppBar(
                 elevation: 0,
                 iconTheme: IconThemeData(color: appBarIconColor),
                 backgroundColor: backgroundWhiteCreamColor,
                 title: Center(
-                    child: SvgPicture.asset(
-                  "assets/svg/logo.svg",
-                  color: logoRed,
-                  height: 35,
-                  width: 35,
+                    child: Padding(
+                  padding: const EdgeInsets.only(right: 3.0),
+                  child: SvgPicture.asset(
+                    "assets/svg/logo.svg",
+                    color: logoRed,
+                    height: 35,
+                    width: 35,
+                  ),
                 )),
                 actions: <Widget>[
                   IconButton(
@@ -99,16 +102,25 @@ class _HomeViewState extends State<HomeView> {
           left: false,
           right: false,
           child: SmartRefresher(
-      enablePullDown: true,
-      footer: null,
-      header: WaterDropHeader(
-        waterDropColor: logoRed,
-        refresh: Container(),
-        complete: Container(),
-      ),
-      controller: refreshController,
-      onRefresh: _onRefresh,
-      child: CustomScrollView(
+            enablePullDown: true,
+            footer: null,
+            header: WaterDropHeader(
+              waterDropColor: logoRed,
+              refresh: Container(),
+              complete: Container(),
+            ),
+            controller: refreshController,
+            onRefresh: () async {
+              final values = await model.init(context);
+              Provider.of<CartCountSetUp>(context, listen: false)
+                  .setCartCount(values[0]);
+              Provider.of<WhishListSetUp>(context, listen: false)
+                  .setUpWhishList(values[1]);
+              Provider.of<LookupSetUp>(context, listen: false)
+                  .setUpLookups(values[2]);
+              _onRefresh();
+            },
+            child: CustomScrollView(
               // Add the app bar and list of items as slivers in the next steps.
               slivers: <Widget>[
                 SliverAppBar(

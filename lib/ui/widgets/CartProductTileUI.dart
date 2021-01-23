@@ -41,7 +41,7 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
 
   static const orderSummaryDetails1 = [
     "Product Name",
-    "Seller",
+    // "Seller",
     "Qty",
     "Size",
     "Color",
@@ -53,7 +53,7 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
   static const orderSummaryDetails3 = [
     "Price",
     "Discount",
-    "Order Total",
+    "Discounted Price",
     "Delivery Charges",
     "Total"
   ];
@@ -70,7 +70,7 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
 
     orderSummaryDetails = {
       "Product Name": widget.item.product.name,
-      "Seller": "Nike",
+      // "Seller": "Nike",
       "Qty": widget.item.quantity.toString(),
       "Size": widget.item.size != null && widget.item.size != ""
           ? widget.item.size
@@ -80,11 +80,11 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
           : "No Color given",
       "Promo Code": widget.promoCode,
       "Promo Code Discount": widget.promoCodeDiscount + "%",
-      "Price": (price * widget.item.quantity).toString(),
+      "Price": rupeeUnicode +  (price * widget.item.quantity).toString(),
       "Discount": discount.toString() + "%",
-      "Order Total":
+      "Discount Price":
           rupeeUnicode + (discountedPrice * widget.item.quantity).toString(),
-      "Delivery Charges": widget.shippingCharges,
+      "Delivery Charges": rupeeUnicode + widget.shippingCharges,
       "Total": rupeeUnicode + widget.finalTotal,
     };
 
@@ -96,7 +96,7 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
   void didUpdateWidget(covariant oldWidget) {
     orderSummaryDetails = {
       "Product Name": widget.item.product.name,
-      "Seller": "Nike",
+      // "Seller": "Nike",
       "Qty": widget.item.quantity.toString(),
       "Size": widget.item.size != null && widget.item.size != ""
           ? widget.item.size
@@ -106,11 +106,11 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
           : "No Color given",
       "Promo Code": widget.promoCode,
       "Promo Code Discount": widget.promoCodeDiscount + "%",
-      "Price": price.toString(),
+      "Price": rupeeUnicode + price.toString(),
       "Discount": discount.toString() + "%",
-      "Order Total":
-          rupeeUnicode + (discountedPrice * widget.item.quantity).toString(),
-      "Delivery Charges": widget.shippingCharges,
+      "Discounted Price":
+         rupeeUnicode + (discountedPrice * widget.item.quantity).toString(),
+      "Delivery Charges": rupeeUnicode + widget.shippingCharges,
       "Total": rupeeUnicode + widget.finalTotal,
     };
 
@@ -126,8 +126,9 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
       clipBehavior: Clip.antiAlias,
       elevation: 5,
       child: Padding(
-        padding: EdgeInsets.fromLTRB(10, 15, 0, 15),
+        padding: EdgeInsets.only(left:10),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             ClipRRect(
@@ -156,13 +157,13 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                       isBold: true,
                       fontSize: titleFontSize,
                     ),
-                    verticalSpaceTiny,
-                    CustomText(
-                      "By Nike",
-                      color: Colors.grey,
-                      dotsAfterOverFlow: true,
-                      fontSize: subtitleFontSize - 2,
-                    ),
+                    // verticalSpaceTiny,
+                    // CustomText(
+                    //   "By Nike",
+                    //   color: Colors.grey,
+                    //   dotsAfterOverFlow: true,
+                    //   fontSize: subtitleFontSize - 2,
+                    // ),
                     verticalSpaceSmall,
                     Row(
                       children: <Widget>[
@@ -413,6 +414,29 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                                       )
                                     ],
                                   ),
+                                  TableRow(
+                                    children: [
+                                      verticalSpace(8),
+                                      verticalSpace(8),
+                                    ],
+                                  ),
+                                  if(key == "Discounted Price" && widget.isPromoCodeApplied)
+                                  TableRow(
+                                    children: [
+                                      CustomText(
+                                        "Price After Promocode Applied",
+                                        color: Colors.grey,
+                                        fontSize: titleFontSize,
+                                      ),
+                                      CustomText(rupeeUnicode + 
+                                       (double.parse(orderSummaryDetails["Discounted Price"].replaceAll(rupeeUnicode, " ")) - (double.parse(orderSummaryDetails["Discounted Price"].replaceAll(rupeeUnicode, " ")) * double.parse(widget.promoCodeDiscount) / 100)).toString(),
+                                        fontSize: subtitleFontSize,
+                                        color: Colors.grey[600],
+                                        fontWeight: FontWeight.bold,
+                                      )
+                                    ],
+                                  ),
+                                  if(key == "Discounted Price" && widget.isPromoCodeApplied)
                                   TableRow(
                                     children: [
                                       verticalSpace(8),

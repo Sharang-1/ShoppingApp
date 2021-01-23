@@ -29,9 +29,9 @@ import 'package:compound/ui/widgets/categoryTileUI.dart';
 import 'package:compound/viewmodels/grid_view_builder_view_models/categories_view_builder_view_model.dart';
 
 class SearchView extends StatefulWidget {
-  SearchView({Key key, this.data}) : super(key: key);
+  SearchView({Key key, this.showSellers = false}) : super(key: key);
 
-  bool data;
+  bool showSellers;
 
   @override
   _SearchViewState createState() => _SearchViewState();
@@ -78,7 +78,7 @@ class _SearchViewState extends State<SearchView>
     });
     _searchBarFocusNode.addListener(_showRecentWhenFocusOnSearchBar);
 
-    if(widget.data!= null && widget.data) {
+    if(widget.showSellers!= null && widget.showSellers) {
     _tabController.index = 1;
     _onTabChange();
     }
@@ -379,7 +379,7 @@ class _SearchViewState extends State<SearchView>
                             height: 30,
                             child: Tab(
                                 child: Text(
-                              "Sellers",
+                              "Designers",
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontFamily: "Raleway"),

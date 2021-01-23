@@ -127,7 +127,7 @@ class HomeDrawer extends StatelessWidget {
                             title: Padding(
                               padding: EdgeInsets.only(left: 20),
                               child: CustomText(
-                                'Map',
+                                'Dzor Map',
                                 color: Colors.grey[800],
                                 isBold: true,
                                 fontSize: 18,
@@ -189,7 +189,7 @@ class HomeDrawer extends StatelessWidget {
                             title: Padding(
                               padding: EdgeInsets.only(left: 20),
                               child: CustomText(
-                                'Profile',
+                                'My Profile',
                                 color: Colors.grey[800],
                                 isBold: true,
                                 fontSize: 18,
@@ -201,22 +201,22 @@ class HomeDrawer extends StatelessWidget {
                             },
                           ),
                           Divider(),
-                          ListTile(
-                            title: Padding(
-                              padding: EdgeInsets.only(left: 20),
-                              child: CustomText(
-                                'Notifications',
-                                color: Colors.grey[800],
-                                isBold: true,
-                                fontSize: 18,
-                              ),
-                            ),
-                            onTap: () {
-                              _navigationService.navigateTo(
-                                  NotifcationViewRoute,
-                                  popNavbar: true);
-                            },
-                          ),
+                          // ListTile(
+                          //   title: Padding(
+                          //     padding: EdgeInsets.only(left: 20),
+                          //     child: CustomText(
+                          //       'Notifications',
+                          //       color: Colors.grey[800],
+                          //       isBold: true,
+                          //       fontSize: 18,
+                          //     ),
+                          //   ),
+                          //   onTap: () {
+                          //     _navigationService.navigateTo(
+                          //         NotifcationViewRoute,
+                          //         popNavbar: true);
+                          //   },
+                          // ),
                           ListTile(
                               title: Padding(
                                 padding: EdgeInsets.only(left: 20),

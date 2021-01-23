@@ -34,7 +34,7 @@ class OrderPlacedView extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(30, 50, 30, 0),
                 child: Column(children: <Widget>[
                   Text(
-                    "Your order has been received for",
+                    "Your order has been received.",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontFamily: headingFont,
@@ -42,15 +42,15 @@ class OrderPlacedView extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                         fontSize: subtitleFontSize),
                   ),
-                  Text(
-                    "${productName} by ${sellerName}",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontFamily: headingFont,
-                        color: Colors.grey[800],
-                        fontWeight: FontWeight.bold,
-                        fontSize: subtitleFontSize),
-                  )
+                  // Text(
+                  //   "${productName} by ${sellerName}",
+                  //   textAlign: TextAlign.center,
+                  //   style: TextStyle(
+                  //       fontFamily: headingFont,
+                  //       color: Colors.grey[800],
+                  //       fontWeight: FontWeight.bold,
+                  //       fontSize: subtitleFontSize),
+                  // )
                 ]),
               )
             ],
