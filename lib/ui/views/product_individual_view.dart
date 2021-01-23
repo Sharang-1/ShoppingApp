@@ -898,6 +898,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                             product: widget.data, model: model),
                       ),
                     ),
+                    verticalSpaceMedium,
+                    ReviewWidget(id: productId),
                     verticalSpace(20),
                     Text(
                       "   Sold By",
@@ -1059,8 +1061,6 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                     // otherDetails(),
                     // verticalSpaceMedium,
                     // ReviewWidget(productId),
-                    verticalSpaceMedium,
-                    ReviewWidget(id: productId),
                     verticalSpaceMedium,
                   ],
                 ),

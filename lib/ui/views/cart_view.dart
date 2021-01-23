@@ -1,8 +1,10 @@
+import 'package:compound/constants/route_names.dart';
 import 'package:compound/models/CartCountSetUp.dart';
 import 'package:compound/ui/shared/app_colors.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/models/cart.dart';
 import 'package:compound/models/grid_view_builder_filter_models/cartFilter.dart';
+import 'package:compound/ui/views/home_view.dart';
 import 'package:compound/ui/widgets/CartTileUI.dart';
 
 import 'package:compound/ui/widgets/GridListWidget.dart';
@@ -46,6 +48,17 @@ class _CartViewState extends State<CartView> {
             color: logoRed,
             height: 35,
             width: 35,
+          ),
+          leading: BackButton(
+            onPressed: () {
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => HomeView(),
+                ),
+                ModalRoute.withName(MyHomePageRoute)
+              );
+            },
           ),
           iconTheme: IconThemeData(
             color: Colors.black,

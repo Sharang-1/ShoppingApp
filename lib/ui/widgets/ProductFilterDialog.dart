@@ -144,6 +144,10 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
     TextStyle titleTextStyle =
         TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold);
 
+
+    print("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDd ");
+    print(widget.oldFilter.subCategories);
+
     return Scaffold(
         backgroundColor: Colors.grey[50],
         bottomNavigationBar: Padding(
