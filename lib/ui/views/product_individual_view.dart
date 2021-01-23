@@ -1228,6 +1228,8 @@ class ProductDescriptionTable extends StatelessWidget {
                   "Type Of Work",
                   product?.typeOfWork,
                 ),
+              if (product?.margin != null)
+                getProductDetailsRow("Margin", product.margin ? "Yes" : "No"),
             ],
           );
         }
