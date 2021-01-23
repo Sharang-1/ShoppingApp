@@ -16,6 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_place_picker/google_maps_place_picker.dart';
 import 'package:page_transition/page_transition.dart';
 import '../services/api/api_service.dart';
+import 'package:compound/services/analytics_service.dart';
 
 import 'base_model.dart';
 
@@ -24,6 +25,7 @@ class ProductIndividualViewModel extends BaseModel {
   final CartLocalStoreService _cartLocalStoreService =
       locator<CartLocalStoreService>();
   final APIService _apiService = locator<APIService>();
+  final AnalyticsService _analyticsService = locator<AnalyticsService>();
   final WhishListService _whishListService = locator<WhishListService>();
   final DialogService _dialogService = locator<DialogService>();
   final AddressService _addressService = locator<AddressService>();
@@ -32,7 +34,14 @@ class ProductIndividualViewModel extends BaseModel {
   // UserDetailsContact defaultAddress;
   // bool isProductInWhishlist = false;
 
-  Future<void> init(String sellerId) async {
+  Future<void> init(String sellerId,
+      {String productId = "", String productName = ""}) async {
+    await _analyticsService.sendAnalyticsEvent(
+        eventName: "product_view",
+        parameters: <String, dynamic>{
+          "product_id": productId,
+          "product_name": productName
+        });
     selleDetail = await _apiService.getSellerByID(sellerId);
     // var addresses = await _addressService.getAddresses();
     // if (addresses != null && addresses.length != 0) {
@@ -84,9 +93,18 @@ class ProductIndividualViewModel extends BaseModel {
   }
 
   Future<int> addToCart(Product product, int qty, String size, String color,
-      {bool showDialog: true}) async {
+      {bool showDialog: true, bool fromBuyNow = false}) async {
     print("Cart added");
     print(product.key);
+
+    if (!fromBuyNow)
+      await _analyticsService.sendAnalyticsEvent(
+          eventName: "add_to_cart",
+          parameters: <String, dynamic>{
+            "product_id": product.key,
+            "product_name": product.name
+          });
+
     final res = await _apiService.addToCart(product.key, qty, size, color);
     if (res != null) {
       final localStoreResult =
@@ -114,7 +132,15 @@ class ProductIndividualViewModel extends BaseModel {
 
   Future<bool> buyNow(
       Product product, int qty, String size, String color) async {
-    var res = await addToCart(product, qty, size, color, showDialog: false);
+    await _analyticsService
+        .sendAnalyticsEvent(eventName: "buy_now", parameters: <String, dynamic>{
+      "product_id": product.key,
+      "product_name": product.name,
+      "quantity": qty,
+    });
+
+    var res = await addToCart(product, qty, size, color,
+        showDialog: false, fromBuyNow: true);
     if (res != null) {
       return true;
     }

@@ -346,8 +346,9 @@ class _ProductIndiViewState extends State<ProductIndiView> {
     variations.forEach((variation) {
       totalQuantity += variation.quantity.toInt();
     });
-    final bool available = (totalQuantity == 0) ? false : (widget?.data?.available ?? false);
-    
+    final bool available =
+        (totalQuantity == 0) ? false : (widget?.data?.available ?? false);
+
     final List<String> imageURLs =
         (widget?.data?.photo?.photos ?? new List<PhotoElement>())
             .map((e) => '$PRODUCT_PHOTO_BASE_URL/$productId/${e.name}')
@@ -355,7 +356,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
 
     return ViewModelProvider<ProductIndividualViewModel>.withConsumer(
       viewModel: ProductIndividualViewModel(),
-      onModelReady: (model) => model.init(widget?.data?.account?.key),
+      onModelReady: (model) => model.init(widget?.data?.account?.key,
+          productId: productId, productName: productName),
       builder: (context, model, child) => Scaffold(
         backgroundColor: backgroundWhiteCreamColor,
         appBar: AppBar(
@@ -485,7 +487,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                     //         ],
                     //       ),
                     verticalSpace(10),
-                    stockWidget(totalQuantity: totalQuantity, available: available),
+                    stockWidget(
+                        totalQuantity: totalQuantity, available: available),
                     if (available) verticalSpace(20),
                     if (available)
                       Row(

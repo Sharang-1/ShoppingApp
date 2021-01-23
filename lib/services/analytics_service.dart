@@ -47,4 +47,8 @@ class AnalyticsService {
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
     await FirebaseCrashlytics.instance.log("App started");
   }
+
+  Future sendAnalyticsEvent({String eventName, Map<String, dynamic> parameters}) async {
+      await _analytics.logEvent(name: eventName, parameters: parameters);
+  }
 }
