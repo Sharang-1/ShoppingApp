@@ -517,41 +517,41 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                             ),
                           ),
                           horizontalSpaceSmall,
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 5, horizontal: 15),
-                            decoration: BoxDecoration(
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 2,
-                                    blurRadius: 4,
-                                    offset: Offset(
-                                        0, 3), // changes position of shadow
-                                  ),
-                                ],
-                                borderRadius: BorderRadius.circular(30),
-                                color: Colors.white),
-                            child: Row(
-                              children: <Widget>[
-                                SvgPicture.asset(
-                                  "assets/icons/address.svg",
-                                  color: Colors.black,
-                                  width: 20,
-                                  height: 20,
-                                ),
-                                horizontalSpaceSmall,
-                                InkWell(
-                                    onTap: () {
-                                      model.gotoAddView(context);
-                                    },
-                                    child: model.defaultAddress == null
-                                        ? Text("Add Address")
-                                        : Text(
-                                            model.defaultAddress.googleAddress))
-                              ],
-                            ),
-                          )
+                          // Container(
+                          //   padding: EdgeInsets.symmetric(
+                          //       vertical: 5, horizontal: 15),
+                          //   decoration: BoxDecoration(
+                          //       boxShadow: [
+                          //         BoxShadow(
+                          //           color: Colors.grey.withOpacity(0.5),
+                          //           spreadRadius: 2,
+                          //           blurRadius: 4,
+                          //           offset: Offset(
+                          //               0, 3), // changes position of shadow
+                          //         ),
+                          //       ],
+                          //       borderRadius: BorderRadius.circular(30),
+                          //       color: Colors.white),
+                          //   child: Row(
+                          //     children: <Widget>[
+                          //       SvgPicture.asset(
+                          //         "assets/icons/address.svg",
+                          //         color: Colors.black,
+                          //         width: 20,
+                          //         height: 20,
+                          //       ),
+                          //       horizontalSpaceSmall,
+                          //       InkWell(
+                          //           onTap: () {
+                          //             model.gotoAddView(context);
+                          //           },
+                          //           child: model.defaultAddress == null
+                          //               ? Text("Add Address")
+                          //               : Text(
+                          //                   model.defaultAddress.googleAddress))
+                          //     ],
+                          //   ),
+                          // )
                           // Expanded(
                           //     child: Text(
                           //   "Add ur address here",

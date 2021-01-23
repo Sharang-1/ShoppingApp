@@ -76,6 +76,7 @@ class VerifyOTPViewModel extends BaseModel {
 
       var mUserDetails = await _apiService.getUserData();
       mUserDetails.name = prefs.getString(Name);
+      await _addressService.setUpAddress(mUserDetails.contact);
       await _apiService.updateUserData(mUserDetails);
 
       _navigationService.navigateReplaceTo(OtpVerifiedRoute);

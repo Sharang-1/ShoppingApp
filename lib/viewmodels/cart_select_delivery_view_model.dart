@@ -22,6 +22,7 @@ class CartSelectDeliveryViewModel extends BaseModel {
   Future<void> addAddress(UserDetailsContact address) async {
     if (address.city.toUpperCase() != "AHMEDABAD") {
       _dialogService.showNotDeliveringDialog();
+      return;
     }
     print("ViewModel: addAddress");
     final res = await _addressService.addAddresses(address);

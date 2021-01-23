@@ -38,12 +38,6 @@ class SelectAddress extends StatefulWidget {
 }
 
 class _SelectAddressState extends State<SelectAddress> {
-  // Map<int, String> addressMap = {0: "Address 1", 1: "Address 2", 2: "Dzor"};
-  // Map<int, String> fullAddressMap = {
-  //   0: "103 /, First Floor, Royal Bldg, Janjikar Street, Masjid Bunder (w), Mumbai, Maharashtra-400003",
-  //   1: "Shivranjani Cross Roads, Satellite,Ahmedabad, Gujarat 380015",
-  //   2: "Sarkhej - Gandhinagar Hwy, Bodakdev, Ahmedabad, Gujarat 380059"
-  // };
   UserDetailsContact addressRadioValue;
   UserDetailsContact addressGrpValue;
   bool disabledPayment = true;
@@ -193,17 +187,17 @@ class _SelectAddressState extends State<SelectAddress> {
                         )),
                   ),
                   verticalSpace(35),
-                  if(model.addresses.length != 0)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Text(
-                      "Previously Added Addresses",
-                      style: TextStyle(
-                          fontFamily: headingFont,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 20),
+                  if (model.addresses.length != 0)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Text(
+                        "Previously Added Addresses",
+                        style: TextStyle(
+                            fontFamily: headingFont,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 20),
+                      ),
                     ),
-                  ),
                   verticalSpace(15),
                   Column(
                     children: model.addresses.map(

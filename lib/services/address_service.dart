@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AddressService {
   AddressService() {
-    setUpAddress(null);
+    // setUpAddress(null);
   }
 
   // Future<void> setUpAddresses() async {
@@ -23,7 +23,7 @@ class AddressService {
   Future<void> setUpAddress(UserDetailsContact address) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final List<String> addArr = [];
-    if (address != null) {
+    if (address != null && address.googleAddress != null) {
       addArr.add(jsonEncode(address.toJson()));
     }
     prefs.setStringList(AddressList, addArr);

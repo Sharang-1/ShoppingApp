@@ -268,8 +268,7 @@ class MyOrdersDetailsView extends StatelessWidget {
                                                 CrossAxisAlignment.end,
                                             children: <Widget>[
                                               CustomText(
-                                                mOrder.billingAddress ??
-                                                    "B/4/6, Raman Smurti Flats, Ahmedabad - 380 007",
+                                                mOrder.billingAddress ?? "",
                                                 align: TextAlign.end,
                                                 color: Colors.grey[600],
                                                 fontSize: subtitleFontSize - 1,
@@ -632,8 +631,7 @@ class MyOrdersDetailsView extends StatelessWidget {
                       child: Column(
                         children: <Widget>[
                           CustomText(
-                            mOrder.billingAddress ??
-                                "B/4/6, Raman Smurti Flats, Ahmedabad - 380 007",
+                            mOrder.billingAddress ?? "",
                             align: TextAlign.end,
                             color: Colors.grey[600],
                             fontSize: subtitleFontSize - 1,
