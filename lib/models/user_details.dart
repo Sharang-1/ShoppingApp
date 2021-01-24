@@ -100,9 +100,10 @@ class UserDetailsContact {
 
   factory UserDetailsContact.fromJson(Map<String, dynamic> json) =>
       UserDetailsContact(
-        address: json["address"],
+        address: json["address"] == null ? "" : json["address"],
         city: json["city"],
-        googleAddress: json["googleAddress"],
+        googleAddress:
+            json["googleAddress"] == null ? "" : json["googleAddress"],
         phone: json["phone"] != null ? Phone.fromJson(json["phone"]) : null,
         pincode: json["pincode"],
         state: json["state"],
