@@ -39,6 +39,7 @@ dependencies:
   firebase_in_app_messaging: ^0.2.3
   firebase_crashlytics: ^0.2.4
   firebase_performance: ^0.4.3
+  google_tag_manager: ^0.0.3
   dio: 3.0.9
   shared_preferences: 0.5.6+2
   logger: 0.8.3

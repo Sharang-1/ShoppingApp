@@ -43,7 +43,7 @@ class ProductFilter implements BaseFilterModel {
     if (minDiscount != null) _queryString += "minDiscount=$minDiscount;";
     if (sortField != null) _queryString += "sortField=$sortField;";
     if (isSortOrderDesc != null)
-      _queryString += "sortOrder=${isSortOrderDesc ? 'desc' : 'asc'};";
+      _queryString += "sortField=price;sortOrder=${isSortOrderDesc ? 'desc' : 'asc'};";
 
     print("query string for product filter");
     print(_queryString);

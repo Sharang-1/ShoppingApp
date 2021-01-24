@@ -1,6 +1,7 @@
 // import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 // import 'package:url_launcher/url_launcher.dart';
 import 'package:compound/models/tailors.dart';
+import 'package:compound/ui/shared/app_colors.dart';
 import 'package:compound/utils/tools.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -305,120 +306,127 @@ class MapView extends StatelessWidget {
       onModelReady: (model) => model.init(),
       builder: (context, model, child) => Scaffold(
         body: SafeArea(
-          child: Stack(children: <Widget>[
-            GoogleMap(
-              onMapCreated: model.onMapCreated,
-              myLocationEnabled: true,
-              myLocationButtonEnabled: true,
-              mapType: MapType.normal,
-              markers: getMarkers(context, model),
-              initialCameraPosition: CameraPosition(
-                target: new LatLng(model.currentLocation.latitude,
-                    model.currentLocation.longitude),
-                zoom: 12,
-              ),
+          child: Scaffold(
+            appBar: AppBar(
+              elevation: 0,
+              backgroundColor: backgroundWhiteCreamColor,
+              iconTheme: IconThemeData(color: appBarIconColor),
             ),
-            Positioned(
-              top: MediaQuery.of(context).size.height - 320.0,
-              left: 10.0,
-              child: model.clientsToggle
-                  ? Container(
-                      height: 240.0,
-                      width: MediaQuery.of(context).size.width,
-                      child: Column(
-                        children: [
-                          Row(children: <Widget>[
-                            SizedBox(width: 16),
-                            InkWell(
-                                onTap: () {
-                                  model.setClientCardsToSeller(true);
-                                },
-                                child: CustomCategoryChip(Icons.shopping_cart,
-                                    "Sellers", model.showSailors)),
-                            SizedBox(width: 12),
-                            InkWell(
-                                onTap: () {
-                                  model.setClientCardsToSeller(false);
-                                },
-                                child: CustomCategoryChip(Icons.local_florist,
-                                    "Tailors", !model.showSailors)),
-                          ]),
-                          Container(
-                            height: 160.0,
-                            width: MediaQuery.of(context).size.width,
-                            child: ListView(
-                              scrollDirection: Axis.horizontal,
-                              shrinkWrap: true,
-                              children: model.showSailors
-                                  ? model.sData.items.map((element) {
-                                      return clientCardSeller(
-                                          model, context, element);
-                                    }).toList()
-                                  : model.tData.items.map((element) {
-                                      return clientCardTailor(
-                                          model, context, element);
-                                    }).toList(),
-                            ),
-                          )
-                        ],
-                      ))
-                  : Container(height: 1.0, width: 1.0),
-            ),
-            // model.resetToggle
-            //     ? Positioned(
-            //         top: MediaQuery.of(context).size.height -
-            //             (MediaQuery.of(context).size.height - 50.0),
-            //         right: 15.0,
-            //         child: FloatingActionButton(
-            //           onPressed: model.resetCamera,
-            //           mini: true,
-            //           backgroundColor: Colors.red,
-            //           child: Icon(Icons.refresh),
-            //         ))
-            //     : Container(),
-            // model.resetToggle
-            //     ? Positioned(
-            //         top: MediaQuery.of(context).size.height -
-            //             (MediaQuery.of(context).size.height - 50.0),
-            //         right: 60.0,
-            //         child: FloatingActionButton(
-            //             onPressed: model.addBearing,
-            //             mini: true,
-            //             backgroundColor: Colors.green,
-            //             child: Icon(Icons.rotate_left)))
-            //     : Container(),
-            // model.resetToggle
-            //     ? Positioned(
-            //         top: MediaQuery.of(context).size.height -
-            //             (MediaQuery.of(context).size.height - 50.0),
-            //         right: 110.0,
-            //         child: FloatingActionButton(
-            //             onPressed: model.removeBearing,
-            //             mini: true,
-            //             backgroundColor: Colors.blue,
-            //             child: Icon(Icons.rotate_right)))
-            //     : Container(),
-            if (model.showBottomSheet)
-              Container(
-                color: Colors.red,
-                height: 50,
-                child: Card(
-                  child: InkWell(
-                    onTap: () => showModalBottomSheet(
-                        context: context,
-                        builder: (context) {
-                          return Column(children: <Widget>[
-                            Text(model.currentClient.name),
-                            Container(
-                              height: 200,
-                              color: Colors.blue,
-                            )
-                          ]);
-                        }),
-                  ),
+            body: Stack(children: <Widget>[
+              GoogleMap(
+                onMapCreated: model.onMapCreated,
+                myLocationEnabled: true,
+                myLocationButtonEnabled: true,
+                mapType: MapType.normal,
+                markers: getMarkers(context, model),
+                initialCameraPosition: CameraPosition(
+                  target: new LatLng(model.currentLocation.latitude,
+                      model.currentLocation.longitude),
+                  zoom: 12,
                 ),
-              )
-          ]),
+              ),
+              Positioned(
+                top: MediaQuery.of(context).size.height - 320.0,
+                left: 10.0,
+                child: model.clientsToggle
+                    ? Container(
+                        height: 240.0,
+                        width: MediaQuery.of(context).size.width,
+                        child: Column(
+                          children: [
+                            Row(children: <Widget>[
+                              SizedBox(width: 16),
+                              InkWell(
+                                  onTap: () {
+                                    model.setClientCardsToSeller(true);
+                                  },
+                                  child: CustomCategoryChip(Icons.shopping_cart,
+                                      "Sellers", model.showSailors)),
+                              SizedBox(width: 12),
+                              InkWell(
+                                  onTap: () {
+                                    model.setClientCardsToSeller(false);
+                                  },
+                                  child: CustomCategoryChip(Icons.local_florist,
+                                      "Tailors", !model.showSailors)),
+                            ]),
+                            Container(
+                              height: 160.0,
+                              width: MediaQuery.of(context).size.width,
+                              child: ListView(
+                                scrollDirection: Axis.horizontal,
+                                shrinkWrap: true,
+                                children: model.showSailors
+                                    ? model.sData.items.map((element) {
+                                        return clientCardSeller(
+                                            model, context, element);
+                                      }).toList()
+                                    : model.tData.items.map((element) {
+                                        return clientCardTailor(
+                                            model, context, element);
+                                      }).toList(),
+                              ),
+                            )
+                          ],
+                        ))
+                    : Container(height: 1.0, width: 1.0),
+              ),
+              // model.resetToggle
+              //     ? Positioned(
+              //         top: MediaQuery.of(context).size.height -
+              //             (MediaQuery.of(context).size.height - 50.0),
+              //         right: 15.0,
+              //         child: FloatingActionButton(
+              //           onPressed: model.resetCamera,
+              //           mini: true,
+              //           backgroundColor: Colors.red,
+              //           child: Icon(Icons.refresh),
+              //         ))
+              //     : Container(),
+              // model.resetToggle
+              //     ? Positioned(
+              //         top: MediaQuery.of(context).size.height -
+              //             (MediaQuery.of(context).size.height - 50.0),
+              //         right: 60.0,
+              //         child: FloatingActionButton(
+              //             onPressed: model.addBearing,
+              //             mini: true,
+              //             backgroundColor: Colors.green,
+              //             child: Icon(Icons.rotate_left)))
+              //     : Container(),
+              // model.resetToggle
+              //     ? Positioned(
+              //         top: MediaQuery.of(context).size.height -
+              //             (MediaQuery.of(context).size.height - 50.0),
+              //         right: 110.0,
+              //         child: FloatingActionButton(
+              //             onPressed: model.removeBearing,
+              //             mini: true,
+              //             backgroundColor: Colors.blue,
+              //             child: Icon(Icons.rotate_right)))
+              //     : Container(),
+              if (model.showBottomSheet)
+                Container(
+                  color: Colors.red,
+                  height: 50,
+                  child: Card(
+                    child: InkWell(
+                      onTap: () => showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return Column(children: <Widget>[
+                              Text(model.currentClient.name),
+                              Container(
+                                height: 200,
+                                color: Colors.blue,
+                              )
+                            ]);
+                          }),
+                    ),
+                  ),
+                )
+            ]),
+          ),
         ),
       ),
     );

@@ -185,7 +185,7 @@ class APIService {
 
   Future<Products> getProducts({String queryString = ""}) async {
     var productData =
-        await apiWrapper("products;$queryString;seller=true;active=true");
+        await apiWrapper("products;${queryString}seller=true;active=true");
     if (productData != null) {
       Products products = Products.fromJson(productData);
       Fimber.d("products : " + products.items.map((o) => o.name).toString());

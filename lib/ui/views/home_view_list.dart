@@ -318,6 +318,50 @@ class _HomeViewListState extends State<HomeViewList> {
               child: Padding(
                 padding: const EdgeInsets.only(left: 15.0),
                 child: Text(
+                  'Sellers Delivering To You',
+                  style: TextStyle(
+                    color: Colors.grey[800],
+                    fontSize: subtitleFontSize,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            )
+          ]),
+          verticalSpaceSmall,
+          SizedBox(
+            height: 190,
+            child: GridListWidget<Sellers, Seller>(
+              key: UniqueKey(),
+              context: context,
+              filter: new SellerFilter(),
+              gridCount: 1,
+              childAspectRatio: 0.65,
+              viewModel: SellersGridViewBuilderViewModel(
+                sellerDeliveringToYou: true,
+                random: true,
+              ),
+              disablePagination: true,
+              scrollDirection: Axis.horizontal,
+              emptyListWidget: Container(),
+              tileBuilder:
+                  (BuildContext context, data, index, onDelete, onUpdate) {
+                return GestureDetector(
+                  onTap: () => {},
+                  child: SellerTileUi(
+                    data: data,
+                    fromHome: true,
+                  ),
+                );
+              },
+            ),
+          ),
+          verticalSpace(30),
+          Row(children: <Widget>[
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 15.0),
+                child: Text(
                   'Best Deals Today',
                   style: TextStyle(
                     color: Colors.grey[800],
@@ -574,50 +618,6 @@ class _HomeViewListState extends State<HomeViewList> {
                 ),
               ),
             ),
-          verticalSpace(30),
-          Row(children: <Widget>[
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 15.0),
-                child: Text(
-                  'Sellers Delivering To You',
-                  style: TextStyle(
-                    color: Colors.grey[800],
-                    fontSize: subtitleFontSize,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-            )
-          ]),
-          verticalSpaceSmall,
-          SizedBox(
-            height: 190,
-            child: GridListWidget<Sellers, Seller>(
-              key: UniqueKey(),
-              context: context,
-              filter: new SellerFilter(),
-              gridCount: 1,
-              childAspectRatio: 0.65,
-              viewModel: SellersGridViewBuilderViewModel(
-                sellerOnly: true,
-                random: true,
-              ),
-              disablePagination: true,
-              scrollDirection: Axis.horizontal,
-              emptyListWidget: Container(),
-              tileBuilder:
-                  (BuildContext context, data, index, onDelete, onUpdate) {
-                return GestureDetector(
-                  onTap: () => {},
-                  child: SellerTileUi(
-                    data: data,
-                    fromHome: true,
-                  ),
-                );
-              },
-            ),
-          ),
           verticalSpace(30),
           Row(children: <Widget>[
             Expanded(

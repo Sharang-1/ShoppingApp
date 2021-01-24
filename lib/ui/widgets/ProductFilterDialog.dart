@@ -77,8 +77,8 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
   };
   Map<int, String> subCategoriesAPIIntToValue = {
     -1: 'All',
-    1: 'Dresses',
-    2: 'Kurtas',
+    1: 'Kurtas',
+    2: 'Dresses',
     3: 'Gowns',
     4: 'Chaniya Cholies',
     5: 'Suit Sets',
@@ -144,6 +144,10 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
     TextStyle titleTextStyle =
         TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold);
 
+
+    print("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDd ");
+    print(widget.oldFilter.subCategories);
+
     return Scaffold(
         backgroundColor: Colors.grey[50],
         bottomNavigationBar: Padding(
@@ -198,7 +202,23 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
               icon: Icon(
                 Icons.restore,
               ),
-              onPressed: () {},
+              onPressed: () {
+                setState(() {
+                  categories = "";
+                  subCategories = [];
+                  size = [];
+                  minPrice = 0;
+                  maxPrice = 50000;
+                  minDiscount = 0;
+                  sortByRadioValue = sortField = "price";
+                  isSortOrderDesc = false;
+                  sortOrderRadioValue = isSortOrderDesc == true ? 'desc' : 'asc';
+
+                  for(var key in subCategoriesValues.keys) {
+                    subCategoriesValues[key] = false;
+                  }
+                });
+              },
             ),
             //   IconButton(
             //     tooltip: "Apply",

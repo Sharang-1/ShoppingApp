@@ -346,8 +346,9 @@ class _ProductIndiViewState extends State<ProductIndiView> {
     variations.forEach((variation) {
       totalQuantity += variation.quantity.toInt();
     });
-    final bool available = (totalQuantity == 0) ? false : (widget?.data?.available ?? false);
-    
+    final bool available =
+        (totalQuantity == 0) ? false : (widget?.data?.available ?? false);
+
     final List<String> imageURLs =
         (widget?.data?.photo?.photos ?? new List<PhotoElement>())
             .map((e) => '$PRODUCT_PHOTO_BASE_URL/$productId/${e.name}')
@@ -355,7 +356,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
 
     return ViewModelProvider<ProductIndividualViewModel>.withConsumer(
       viewModel: ProductIndividualViewModel(),
-      onModelReady: (model) => model.init(widget?.data?.account?.key),
+      onModelReady: (model) => model.init(widget?.data?.account?.key,
+          productId: productId, productName: productName),
       builder: (context, model, child) => Scaffold(
         backgroundColor: backgroundWhiteCreamColor,
         appBar: AppBar(
@@ -485,7 +487,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                     //         ],
                     //       ),
                     verticalSpace(10),
-                    stockWidget(totalQuantity: totalQuantity, available: available),
+                    stockWidget(
+                        totalQuantity: totalQuantity, available: available),
                     if (available) verticalSpace(20),
                     if (available)
                       Row(
@@ -898,6 +901,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                             product: widget.data, model: model),
                       ),
                     ),
+                    verticalSpaceMedium,
+                    ReviewWidget(id: productId),
                     verticalSpace(20),
                     Text(
                       "   Sold By",
@@ -1059,8 +1064,6 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                     // otherDetails(),
                     // verticalSpaceMedium,
                     // ReviewWidget(productId),
-                    verticalSpaceMedium,
-                    ReviewWidget(id: productId),
                     verticalSpaceMedium,
                   ],
                 ),
@@ -1225,6 +1228,8 @@ class ProductDescriptionTable extends StatelessWidget {
                   "Type Of Work",
                   product?.typeOfWork,
                 ),
+              if (product?.margin != null)
+                getProductDetailsRow("Margin", product.margin ? "Yes" : "No"),
             ],
           );
         }

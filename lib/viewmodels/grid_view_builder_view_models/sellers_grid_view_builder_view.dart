@@ -16,11 +16,13 @@ class SellersGridViewBuilderViewModel
   final APIService _apiService = locator<APIService>();
   final bool profileOnly;
   final bool sellerOnly;
+  final bool sellerDeliveringToYou;
   final bool random;
 
   SellersGridViewBuilderViewModel({
     this.profileOnly = false,
     this.sellerOnly = false,
+    this.sellerDeliveringToYou = false,
     this.random = false,
   });
 
@@ -36,6 +38,12 @@ class SellersGridViewBuilderViewModel
         "startIndex=${pageSize * (pageNumber - 1)};limit=$pageSize;" +
             filterModel.queryString;
     Sellers res = await _apiService.getSellers(queryString: _queryString);
+
+    if(this.sellerDeliveringToYou) {
+      res.items = res.items
+          .where((element) => element?.subscriptionTypeId == 1 || element?.subscriptionTypeId == 2)
+          .toList();
+    }
 
     if (this.profileOnly != null && this.profileOnly == true) {
       res.items = res.items

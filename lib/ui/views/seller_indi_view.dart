@@ -69,7 +69,7 @@ class _SellerIndiState extends State<SellerIndi> {
       "Designs & Creates": widget.data.designs,
       "Services offered": widget.data.operations,
       "Works Offered": widget.data.works,
-      "Type": widget.data.accountType.toString().split('.').last.toLowerCase(),
+      "Type": widget.data?.establishmentType?.name ?? accountTypeValues.reverse[widget.data?.accountType ?? AccountType.SELLER],
       "Note from Seller": widget.data.bio
     };
 
@@ -322,6 +322,10 @@ class _SellerIndiState extends State<SellerIndi> {
                         ),
                       ),
                     ),
+                    verticalSpace(30),
+                    ReviewWidget(id: sellerDetails["key"]),
+                    verticalSpaceMedium,
+                    WriteReviewWidget(sellerDetails["key"]),
                     verticalSpace(20),
                     Card(
                       elevation: 5,
@@ -442,10 +446,6 @@ class _SellerIndiState extends State<SellerIndi> {
                         ),
                       ),
                     ),
-                    verticalSpace(30),
-                    ReviewWidget(id: sellerDetails["key"]),
-                    verticalSpaceMedium,
-                    WriteReviewWidget(sellerDetails["key"]),
                   ],
                 ),
               ),
