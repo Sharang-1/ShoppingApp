@@ -8,12 +8,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:provider_architecture/provider_architecture.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../shared/shared_styles.dart';
+import 'package:compound/ui/widgets/GridListWidget.dart';
 
-class myAppointments extends StatelessWidget {
+class myAppointments extends StatefulWidget {
+  @override
+  _myAppointmentsState createState() => _myAppointmentsState();
+}
+
+class _myAppointmentsState extends State<myAppointments> {
   final double headingFontSize = headingFontSizeStyle + 5;
   final double headingSize = 20;
   final double subHeadingSize = 18;
+  final refreshController = RefreshController(initialRefresh: false);
+  UniqueKey key = UniqueKey();
 
   @override
   Widget build(BuildContext context) {
@@ -40,32 +49,59 @@ class myAppointments extends StatelessWidget {
                 top: true,
                 left: false,
                 right: false,
-                child: SingleChildScrollView(
-                    child: Padding(
-                  padding: EdgeInsets.only(
-                      left: screenPadding,
-                      right: screenPadding,
-                      top: 10,
-                      bottom: 10),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        verticalSpace(20),
-                        Text(
-                          "My Appointments",
-                          style: TextStyle(
-                              fontFamily: headingFont,
-                              fontWeight: FontWeight.w700,
-                              fontSize: headingFontSize),
-                        ),
-                        verticalSpace(20),
-                        if (model.busy) CircularProgressIndicator(),
-                        if (!model.busy)
-                          ...model.data.appointments
-                              .map((data) => productCard(context, data, model)),
-                      ]),
-                )),
+                child: SmartRefresher(
+                  enablePullDown: true,
+                  footer: null,
+                  header: WaterDropHeader(
+                    waterDropColor: logoRed,
+                    refresh: Container(),
+                    complete: Container(),
+                  ),
+                  controller: refreshController,
+                  onRefresh: () async {
+                    setState(() {
+                      key = new UniqueKey();
+                    });
+
+                    await Future.delayed(Duration(milliseconds: 100));
+
+                    refreshController.refreshCompleted(resetFooterState: true);
+                  },
+                  child: SingleChildScrollView(
+                      child: Padding(
+                    padding: EdgeInsets.only(
+                        left: screenPadding,
+                        right: screenPadding,
+                        top: 10,
+                        bottom: 10),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          verticalSpace(20),
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              "My Appointments",
+                              style: TextStyle(
+                                  fontFamily: headingFont,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: headingFontSize),
+                            ),
+                          ),
+                          verticalSpace(20),
+                          if (model.busy) CircularProgressIndicator(),
+                          if (!model.busy && model.data == null)
+                            Padding(
+                              padding: EdgeInsets.only(top: 16.0),
+                              child: EmptyListWidget(),
+                            ),
+                          if (!model.busy && model.data != null)
+                            ...model.data.appointments.map(
+                                (data) => productCard(context, data, model)),
+                        ]),
+                  )),
+                ),
               ),
               // ),
               // )
@@ -239,7 +275,9 @@ class myAppointments extends StatelessWidget {
                     ),
                   ]),
                 )),
-            ((data.appointment.status < 2 || data.appointment.status == "1" || data.appointment.status == "0")
+            ((data.appointment.status < 2 ||
+                    data.appointment.status == "1" ||
+                    data.appointment.status == "0")
                 ? RaisedButton(
                     elevation: 0,
                     onPressed: () {
