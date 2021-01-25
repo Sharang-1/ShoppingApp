@@ -403,69 +403,66 @@ class _ProfileViewState extends State<ProfileView> {
                                                 ),
                                               ))),
                                       verticalSpace(spaceBetweenCards),
-                                      Container(
-                                          margin: EdgeInsets.only(
-                                              bottom: spaceBetweenCards),
-                                          child: Card(
-                                            clipBehavior: Clip.antiAlias,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
-                                            ),
-                                            elevation: 5,
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(15),
-                                              child: Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: <Widget>[
-                                                  Expanded(
-                                                      child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: <Widget>[
-                                                      CustomText(
-                                                        "Address",
-                                                        color: Colors.grey,
-                                                        fontSize:
-                                                            subtitleFontSizeStyle -
-                                                                3,
-                                                      ),
-                                                      verticalSpaceSmall,
-                                                      CustomText(
-                                                        model
-                                                                .mUserDetails
-                                                                .contact
-                                                                .address +
-                                                            "\n" +
-                                                            (model
-                                                                        .mUserDetails
-                                                                        .contact
-                                                                        .googleAddress
-                                                                        ?.isEmpty ??
-                                                                    true
-                                                                ? ""
-                                                                : model
-                                                                    .mUserDetails
-                                                                    .contact
-                                                                    .googleAddress),
-                                                        color: Colors.grey[800],
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize:
-                                                            subtitleFontSizeStyle -
-                                                                1,
-                                                      )
-                                                    ],
-                                                  )),
-                                                ],
+                                      if (model.mUserDetails.contact.address !=
+                                          "")
+                                        Container(
+                                            margin: EdgeInsets.only(
+                                                bottom: spaceBetweenCards),
+                                            child: Card(
+                                              clipBehavior: Clip.antiAlias,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(15),
                                               ),
-                                            ),
-                                          )),
+                                              elevation: 5,
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(15),
+                                                child: Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: <Widget>[
+                                                    Expanded(
+                                                        child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: <Widget>[
+                                                        CustomText(
+                                                          "Address",
+                                                          color: Colors.grey,
+                                                          fontSize:
+                                                              subtitleFontSizeStyle -
+                                                                  3,
+                                                        ),
+                                                        verticalSpaceSmall,
+                                                        CustomText(
+                                                          model
+                                                                  .mUserDetails
+                                                                  .contact
+                                                                  .address +
+                                                              "\n" +
+                                                              model
+                                                                  .mUserDetails
+                                                                  .contact
+                                                                  .googleAddress,
+                                                          color:
+                                                              Colors.grey[800],
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontSize:
+                                                              subtitleFontSizeStyle -
+                                                                  1,
+                                                        )
+                                                      ],
+                                                    )),
+                                                  ],
+                                                ),
+                                              ),
+                                            )),
                                       RaisedButton(
                                           elevation: 5,
                                           onPressed: () async {
@@ -544,7 +541,7 @@ class _ProfileViewState extends State<ProfileView> {
                                                 child: CustomText(
                                                   model.mUserDetails.contact
                                                               .address !=
-                                                          null
+                                                          ""
                                                       ? "Change Address"
                                                       : "Add Address",
                                                   isBold: true,

@@ -5,6 +5,7 @@ import 'package:compound/models/products.dart';
 import 'package:compound/models/sellers.dart';
 import 'package:compound/models/user.dart';
 import 'package:compound/services/authentication_service.dart';
+import 'package:compound/services/api/api_service.dart';
 import 'package:compound/services/cart_local_store_service.dart';
 import 'package:compound/services/navigation_service.dart';
 import 'package:flutter/widgets.dart';
@@ -16,7 +17,7 @@ class BaseModel extends ChangeNotifier {
   final NavigationService _navigationService = locator<NavigationService>();
   final CartLocalStoreService _cartLocalStoreService =
       locator<CartLocalStoreService>();
-
+  final APIService _apiService = locator<APIService>();
   User get currentUser => _authenticationService.currentUser;
   bool _busy = false;
   bool get busy => _busy;
@@ -59,8 +60,10 @@ class BaseModel extends ChangeNotifier {
         arguments: data);
   }
 
-  Future<dynamic> goToSellerPage(Seller data) {
-    return _navigationService.navigateTo(SellerIndiViewRoute, arguments: data);
+  Future<dynamic> goToSellerPage(String sellerId) async {
+    Seller seller = await _apiService.getSellerByID(sellerId);
+    return _navigationService.navigateTo(SellerIndiViewRoute,
+        arguments: seller);
   }
 
   Future<dynamic> goToAddressInputPage() {

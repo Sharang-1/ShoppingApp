@@ -43,7 +43,7 @@ class _SearchViewState extends State<SearchView>
   TabController _tabController;
   FocusNode _searchBarFocusNode = FocusNode(canRequestFocus: true);
 
-  // Search States 
+  // Search States
   Debouncer _debouncer;
   int currentTabIndex = 0;
   bool showRecents = true;
@@ -78,9 +78,9 @@ class _SearchViewState extends State<SearchView>
     });
     _searchBarFocusNode.addListener(_showRecentWhenFocusOnSearchBar);
 
-    if(widget.showSellers!= null && widget.showSellers) {
-    _tabController.index = 1;
-    _onTabChange();
+    if (widget.showSellers != null && widget.showSellers) {
+      _tabController.index = 1;
+      _onTabChange();
     }
   }
 
@@ -224,8 +224,8 @@ class _SearchViewState extends State<SearchView>
               return SellerCard(
                 data: data,
                 fromHome: true,
-                onClick: () {
-                  model.goToSellerPage(data);
+                onClick: () async {
+                  await model.goToSellerPage(data.key);
                 },
               );
             },
@@ -440,8 +440,8 @@ class _SearchViewState extends State<SearchView>
                               return SellerTileUi(
                                 data: data,
                                 fromHome: true,
-                                onClick: () {
-                                  model.goToSellerPage(data);
+                                onClick: () async {
+                                  await model.goToSellerPage(data.key);
                                 },
                               );
                             },
@@ -459,38 +459,39 @@ class _SearchViewState extends State<SearchView>
                         Container(
                           color: backgroundWhiteCreamColor,
                           child: SizedBox(
-                                height: 120,
-                                child: ListView(
+                            height: 120,
+                            child: ListView(
                               shrinkWrap: true,
                               children: _getRecentSearchListUI(),
                             ),
                           ),
                         ),
                       if (showCategories && (_tabController.index == 0))
-                          Padding(
+                        Padding(
                           padding: EdgeInsets.only(top: 140),
-                            child: GridListWidget<Categorys, Category>(
-                              key: UniqueKey(),
-                              context: context,
-                              filter: CategoryFilter(),
-                              gridCount: 1,
-                              childAspectRatio: 3,
-                              viewModel: CategoriesGridViewBuilderViewModel(popularCategories: true),
-                              scrollDirection: Axis.vertical,
-                              emptyListWidget: Container(),
-                              tileBuilder: (BuildContext context, data, index,
-                                  onDelete, onUpdate) {
-                                return GestureDetector(
-                                  onTap: () => model.showCategory(
-                                    data.filter,
-                                    data.name,
-                                  ),
-                                  child: CategoryTileUI(
-                                    data: data,
-                                  ),
-                                );
-                              },
-                            ),
+                          child: GridListWidget<Categorys, Category>(
+                            key: UniqueKey(),
+                            context: context,
+                            filter: CategoryFilter(),
+                            gridCount: 1,
+                            childAspectRatio: 3,
+                            viewModel: CategoriesGridViewBuilderViewModel(
+                                popularCategories: true),
+                            scrollDirection: Axis.vertical,
+                            emptyListWidget: Container(),
+                            tileBuilder: (BuildContext context, data, index,
+                                onDelete, onUpdate) {
+                              return GestureDetector(
+                                onTap: () => model.showCategory(
+                                  data.filter,
+                                  data.name,
+                                ),
+                                child: CategoryTileUI(
+                                  data: data,
+                                ),
+                              );
+                            },
+                          ),
                         ),
                     ],
                   )

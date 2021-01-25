@@ -2,6 +2,7 @@ import 'package:compound/constants/route_names.dart';
 import 'package:compound/constants/server_urls.dart';
 import 'package:compound/models/sellers.dart';
 import 'package:compound/services/navigation_service.dart';
+import 'package:compound/services/api/api_service.dart';
 import 'package:compound/ui/shared/app_colors.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
 
@@ -15,13 +16,10 @@ class SellerTileUi extends StatelessWidget {
   final Seller data;
   final bool fromHome;
   final onClick;
-  const SellerTileUi(
-      {Key key,
-      @required this.data,
-      @required this.fromHome,
-      this.onClick})
+  final APIService _apiService = locator<APIService>();
+  SellerTileUi(
+      {Key key, @required this.data, @required this.fromHome, this.onClick})
       : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     double subtitleFontSize = fromHome ? 18 * 0.8 : 18;
@@ -38,8 +36,10 @@ class SellerTileUi extends StatelessWidget {
           width:
               (MediaQuery.of(context).size.width - 40) * (fromHome ? 0.8 : 1),
           child: GestureDetector(
-            onTap: () {
-              _navigationService.navigateTo(SellerIndiViewRoute, arguments: data);
+            onTap: () async {
+              Seller seller = await _apiService.getSellerByID(data.key);
+              return _navigationService.navigateTo(SellerIndiViewRoute,
+                  arguments: seller);
             },
             child: Card(
               shape: RoundedRectangleBorder(
@@ -63,7 +63,8 @@ class SellerTileUi extends StatelessWidget {
                                 width: 100 * multiplyer,
                                 height: 100 * multiplyer,
                                 fadeInCurve: Curves.easeIn,
-                                placeholder: "assets/images/product_preloading.png",
+                                placeholder:
+                                    "assets/images/product_preloading.png",
                                 image: data?.key != null
                                     ? "$SELLER_PHOTO_BASE_URL/${data.key}"
                                     : "https://images.unsplash.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
@@ -87,15 +88,19 @@ class SellerTileUi extends StatelessWidget {
                                     ),
                                     CustomDivider(),
                                     CustomText(
-                                      data?.establishmentType?.name ?? accountTypeValues.reverse[data?.accountType ?? AccountType.SELLER],
+                                      data?.establishmentType?.name ??
+                                          accountTypeValues.reverse[
+                                              data?.accountType ??
+                                                  AccountType.SELLER],
                                       color:
                                           data.accountType == AccountType.SELLER
                                               ? logoRed
                                               : textIconOrange,
                                       isBold: true,
                                       dotsAfterOverFlow: true,
-                                      fontSize:
-                                          subtitleFontSize + 2 - (2 * multiplyer),
+                                      fontSize: subtitleFontSize +
+                                          2 -
+                                          (2 * multiplyer),
                                     ),
                                   ],
                                 ))),

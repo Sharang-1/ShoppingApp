@@ -912,9 +912,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                     ),
                     verticalSpace(5),
                     GestureDetector(
-                      onTap: () {
-                        _navigationService.navigateTo(SellerIndiViewRoute,
-                            arguments: model?.selleDetail);
+                      onTap: () async {
+                        await model.goToSellerPage(model?.selleDetail.key);
                       },
                       child: Card(
                           shape: RoundedRectangleBorder(

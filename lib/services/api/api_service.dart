@@ -270,7 +270,7 @@ class APIService {
   }
 
   Future<Seller> getSellerByID(String id) async {
-    var sellersData = await apiWrapper("sellers/$id");
+    var sellersData = await apiWrapper("sellers/$id;rating=true");
     if (sellersData != null) {
       Seller seller = Seller.fromJson(sellersData);
       Fimber.d("Seller : " + seller.name);

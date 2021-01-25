@@ -60,7 +60,7 @@ class _SellerIndiState extends State<SellerIndi> {
       "key": widget.data.key,
       "name": widget.data.name,
       "type": widget?.data?.establishmentType?.name?.toString(),
-      "rattings": "4.5",
+      "rattings": widget.data.ratingAverage?.rating?.toString() ?? "",
       "lat": widget?.data?.contact?.geoLocation?.latitude?.toString(),
       "lon": widget?.data?.contact?.geoLocation?.longitude?.toString(),
       "appointment": "false",
@@ -69,7 +69,9 @@ class _SellerIndiState extends State<SellerIndi> {
       "Designs & Creates": widget.data.designs,
       "Services offered": widget.data.operations,
       "Works Offered": widget.data.works,
-      "Type": widget.data?.establishmentType?.name ?? accountTypeValues.reverse[widget.data?.accountType ?? AccountType.SELLER],
+      "Type": widget.data?.establishmentType?.name ??
+          accountTypeValues
+              .reverse[widget.data?.accountType ?? AccountType.SELLER],
       "Note from Seller": widget.data.bio
     };
 
@@ -190,30 +192,32 @@ class _SellerIndiState extends State<SellerIndi> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: <Widget>[
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 5, horizontal: 10),
-                              decoration: BoxDecoration(
-                                  color: green,
-                                  borderRadius: BorderRadius.circular(curve30)),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  CustomText(
-                                    sellerDetails["rattings"],
-                                    color: Colors.white,
-                                    isBold: true,
-                                    fontSize: 15,
-                                  ),
-                                  horizontalSpaceTiny,
-                                  Icon(
-                                    Icons.star,
-                                    color: Colors.white,
-                                    size: 15,
-                                  )
-                                ],
+                            if (sellerDetails["rattings"] != "")
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 5, horizontal: 10),
+                                decoration: BoxDecoration(
+                                    color: green,
+                                    borderRadius:
+                                        BorderRadius.circular(curve30)),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    CustomText(
+                                      sellerDetails["rattings"],
+                                      color: Colors.white,
+                                      isBold: true,
+                                      fontSize: 15,
+                                    ),
+                                    horizontalSpaceTiny,
+                                    Icon(
+                                      Icons.star,
+                                      color: Colors.white,
+                                      size: 15,
+                                    )
+                                  ],
+                                ),
                               ),
-                            ),
                             verticalSpaceSmall,
                             GestureDetector(
                               onTap: () async {

@@ -58,7 +58,8 @@ class AppointmentsViewModel extends BaseModel {
           title: "Hey there!",
           description: "Please add your address before booking an application");
       if (res.confirmed) {
-        _navigationService.navigateTo(ProfileViewRoute);
+        await _navigationService.navigateTo(ProfileViewRoute);
+        return;
       }
 
       // ,

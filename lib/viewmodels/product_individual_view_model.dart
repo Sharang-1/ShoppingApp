@@ -52,8 +52,8 @@ class ProductIndividualViewModel extends BaseModel {
     notifyListeners();
   }
 
-  gotoSellerIndiView() {
-    _navigationService.navigateTo(SellerIndiViewRoute, arguments: selleDetail);
+  gotoSellerIndiView() async {
+    await goToSellerPage(selleDetail.key);
   }
 
   // gotoAddView(context) async {
