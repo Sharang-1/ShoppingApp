@@ -32,14 +32,14 @@ class AppointmentsViewModel extends BaseModel {
   Future getAppointments() async {
     setBusy(true);
     Appointments result = await _apiService.getUserAppointments();
-    setBusy(false);
     if (result != null) {
-      Fimber.d(result.appointments.toString());
+      Fimber.d("Appointments : " + result.appointments.toString());
       result.appointments.sort((a, b) =>
           -1 *
           a.appointment.timeSlotStart.compareTo(b.appointment.timeSlotStart));
       _data = result;
     }
+    setBusy(false);
   }
 
   Future cancelAppointment(String id, String msg) async {

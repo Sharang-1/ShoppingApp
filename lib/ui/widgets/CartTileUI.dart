@@ -49,14 +49,14 @@ class _CartTileUIState extends State<CartTileUI> {
     //   "costToSeller": 2000.0
     // }
 
-    final price = widget.item.product.price;
-    final discount = widget.item.product.discount;
-    final discountedPrice = price - (price * discount / 100);
+    // final price = widget.item.product.price;
+    // final discount = widget.item.product.discount;
+    // final discountedPrice = price - (price * discount / 100);
 
     quantity = widget.item.quantity >= 1 ? widget.item.quantity : 1;
     widget.item.quantity = widget.item.quantity >= 1 ? widget.item.quantity : 1;
 
-    finalTotal = (discountedPrice * widget.item.quantity).toString();
+    // finalTotal = (discountedPrice * widget.item.quantity).toString();
     setUpProductPrices();
     super.initState();
   }
@@ -72,6 +72,7 @@ class _CartTileUIState extends State<CartTileUI> {
         widget.item.productId.toString(), widget.item.quantity);
     if (res != null) {
       setState(() {
+        finalTotal = res.cost.toString();
         shippingCharges = res.shippingCharge.toString();
       });
     }
@@ -119,56 +120,57 @@ class _CartTileUIState extends State<CartTileUI> {
             // deliveryStatus: proceedToOrder,
           ),
         ),
-        verticalSpaceSmall,
-        Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(curve15),
-            ),
-            clipBehavior: Clip.antiAlias,
-            elevation: 5,
-            child: SizedBox(
-                height: 40,
-                child: Padding(
-                  padding: EdgeInsets.only(right: 5),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                          child: TextField(
-                            controller: _controller,
-                            decoration: const InputDecoration(
-                              hintText: 'Enter Promo Code',
-                              border: InputBorder.none,
-                              isDense: true,
+        if (!isPromoCodeApplied) verticalSpaceSmall,
+        if (!isPromoCodeApplied)
+          Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(curve15),
+              ),
+              clipBehavior: Clip.antiAlias,
+              elevation: 5,
+              child: SizedBox(
+                  height: 40,
+                  child: Padding(
+                    padding: EdgeInsets.only(right: 5),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        Expanded(
+                          child: Padding(
+                            padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                            child: TextField(
+                              controller: _controller,
+                              decoration: const InputDecoration(
+                                hintText: 'Enter Promo Code',
+                                border: InputBorder.none,
+                                isDense: true,
+                              ),
+                              autofocus: false,
+                              maxLines: 1,
                             ),
-                            autofocus: false,
-                            maxLines: 1,
                           ),
                         ),
-                      ),
-                      RaisedButton(
-                        elevation: 0,
-                        padding: EdgeInsets.all(0),
-                        onPressed: applyPromoCode,
-                        color: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                          // side: BorderSide(
-                          //     color: Colors.black, width: 0.5)
+                        RaisedButton(
+                          elevation: 0,
+                          padding: EdgeInsets.all(0),
+                          onPressed: applyPromoCode,
+                          color: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            // side: BorderSide(
+                            //     color: Colors.black, width: 0.5)
+                          ),
+                          child: Text(
+                            "Apply",
+                            style: TextStyle(
+                                color: darkRedSmooth,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
-                        child: Text(
-                          "Apply",
-                          style: TextStyle(
-                              color: darkRedSmooth,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ],
-                  ),
-                ))),
+                      ],
+                    ),
+                  ))),
         verticalSpaceTiny,
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
