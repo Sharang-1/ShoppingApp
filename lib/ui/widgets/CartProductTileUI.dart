@@ -136,7 +136,7 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
               child: FadeInImage.assetNetwork(
                 width: 120,
                 fadeInCurve: Curves.easeIn,
-                placeholder: "assets/images/placeholder.png",
+                placeholder: "assets\images\product_preloading.png",
                 image: productImage != null
                     ? '$PRODUCT_PHOTO_BASE_URL/${widget.item.productId}/$productImage'
                     : "https://images.unsplashr.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
@@ -180,7 +180,7 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                                     .replaceAll(rupeeUnicode, "")
                             ? Expanded(
                                 child: Text(
-                                  "\u20B9" + orderSummaryDetails["Price"],
+                                  orderSummaryDetails["Price"],
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                     color: Colors.grey,

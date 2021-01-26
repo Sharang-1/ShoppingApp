@@ -72,16 +72,17 @@ class _HomeViewState extends State<HomeView> {
                 elevation: 0,
                 iconTheme: IconThemeData(color: appBarIconColor),
                 backgroundColor: backgroundWhiteCreamColor,
-                title: Center(
-                    child: Padding(
-                  padding: const EdgeInsets.only(right: 3.0),
-                  child: SvgPicture.asset(
-                    "assets/svg/logo.svg",
-                    color: logoRed,
-                    height: 35,
-                    width: 35,
-                  ),
-                )),
+                title: Align(
+                  alignment: Alignment.center,
+                  child: Padding(
+                    padding: EdgeInsets.only(right: 8.0),
+                    child: SvgPicture.asset(
+                      "assets/svg/logo.svg",
+                      color: logoRed,
+                      height: 35,
+                      width: 35,
+                ),
+                  ),),
                 actions: <Widget>[
                   IconButton(
                     icon: CartIconWithBadge(

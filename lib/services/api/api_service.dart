@@ -503,7 +503,7 @@ class APIService {
 
   Future<Appointments> getUserAppointments() async {
     var res = await appointmentClient.get("");
-    var data;
+    Appointments data;
     try {
       if (res.data != null) data = Appointments.fromJson(res.data);
     } catch (e) {

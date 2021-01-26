@@ -175,18 +175,35 @@ class _ProductTileUIState extends State<ProductTileUI> {
                           color: Colors.grey,
                         ),
                       ),
-                      Text(
+                      Row(
+                        children: [
+                          if (productDiscount != 0.0)
+                            Padding(
+                              padding: EdgeInsets.only(right: 5.0),
+                              child: Text(
+                                "\u20B9" + '${(productPrice - ((productPrice * productDiscount) ~/ 100)).toInt().toString()}',
+                                overflow: TextOverflow.ellipsis,
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  color: textIconBlue,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: priceFontSize,
+                                ),
+                              ),
+                            ),
+                          Text(
                             "\u20B9" + '${productPrice.toInt().toString()}',
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.left,
                             style: TextStyle(
-                              color: productDiscount != 0.0
-                                  ? logoRed
-                                  : textIconBlue,
+                              color: productDiscount != 0.0 ? Colors.grey : textIconBlue,
+                              decoration: productDiscount != 0.0 ? TextDecoration.lineThrough : null,
                               fontWeight: FontWeight.bold,
-                              fontSize: priceFontSize,
+                              fontSize: priceFontSize - 2,
                             ),
                           ),
+                        ],
+                      ),
                       // Row(
                       //   crossAxisAlignment: CrossAxisAlignment.center,
                       //   children: <Widget>[

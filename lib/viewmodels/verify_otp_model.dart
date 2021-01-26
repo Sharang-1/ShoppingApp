@@ -94,7 +94,7 @@ class VerifyOTPViewModel extends BaseModel {
     name = prefs.getString(Name);
     notifyListeners();
 
-    Future.delayed(Duration(milliseconds: 5000), () async {
+    Future.delayed(Duration(milliseconds: loader ? 1500 : 3000), () async {
       _navigationService
           .navigateReplaceTo(loader ? LoaderRoute : OtpVerified2Route);
     });
