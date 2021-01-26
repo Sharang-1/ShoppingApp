@@ -513,63 +513,63 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                             ),
                           ],
                         ),
-                      if (available) verticalSpace(10),
-                      if (available)
-                        Row(
-                          children: <Widget>[
-                            Text(
-                              "Delivery To :",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: subtitleFontSizeStyle - 3,
-                              ),
-                            ),
-                            horizontalSpaceSmall,
-                            // Container(
-                            //   padding: EdgeInsets.symmetric(
-                            //       vertical: 5, horizontal: 15),
-                            //   decoration: BoxDecoration(
-                            //       boxShadow: [
-                            //         BoxShadow(
-                            //           color: Colors.grey.withOpacity(0.5),
-                            //           spreadRadius: 2,
-                            //           blurRadius: 4,
-                            //           offset: Offset(
-                            //               0, 3), // changes position of shadow
-                            //         ),
-                            //       ],
-                            //       borderRadius: BorderRadius.circular(30),
-                            //       color: Colors.white),
-                            //   child: Row(
-                            //     children: <Widget>[
-                            //       SvgPicture.asset(
-                            //         "assets/icons/address.svg",
-                            //         color: Colors.black,
-                            //         width: 20,
-                            //         height: 20,
-                            //       ),
-                            //       horizontalSpaceSmall,
-                            //       InkWell(
-                            //           onTap: () {
-                            //             model.gotoAddView(context);
-                            //           },
-                            //           child: model.defaultAddress == null
-                            //               ? Text("Add Address")
-                            //               : Text(
-                            //                   model.defaultAddress.googleAddress))
-                            //     ],
-                            //   ),
-                            // )
-                            // Expanded(
-                            //     child: Text(
-                            //   "Add ur address here",
-                            //   overflow: TextOverflow.ellipsis,
-                            //   style: TextStyle(
-                            //     fontSize: 15,
-                            //   ),
-                            // )),
-                          ],
-                        ),
+                      // if (available) verticalSpace(10),
+                      // if (available)
+                      //   Row(
+                      //     children: <Widget>[
+                      //       Text(
+                      //         "Delivery To :",
+                      //         style: TextStyle(
+                      //           fontWeight: FontWeight.bold,
+                      //           fontSize: subtitleFontSizeStyle - 3,
+                      //         ),
+                      //       ),
+                      //       horizontalSpaceSmall,
+                      //       // Container(
+                      //       //   padding: EdgeInsets.symmetric(
+                      //       //       vertical: 5, horizontal: 15),
+                      //       //   decoration: BoxDecoration(
+                      //       //       boxShadow: [
+                      //       //         BoxShadow(
+                      //       //           color: Colors.grey.withOpacity(0.5),
+                      //       //           spreadRadius: 2,
+                      //       //           blurRadius: 4,
+                      //       //           offset: Offset(
+                      //       //               0, 3), // changes position of shadow
+                      //       //         ),
+                      //       //       ],
+                      //       //       borderRadius: BorderRadius.circular(30),
+                      //       //       color: Colors.white),
+                      //       //   child: Row(
+                      //       //     children: <Widget>[
+                      //       //       SvgPicture.asset(
+                      //       //         "assets/icons/address.svg",
+                      //       //         color: Colors.black,
+                      //       //         width: 20,
+                      //       //         height: 20,
+                      //       //       ),
+                      //       //       horizontalSpaceSmall,
+                      //       //       InkWell(
+                      //       //           onTap: () {
+                      //       //             model.gotoAddView(context);
+                      //       //           },
+                      //       //           child: model.defaultAddress == null
+                      //       //               ? Text("Add Address")
+                      //       //               : Text(
+                      //       //                   model.defaultAddress.googleAddress))
+                      //       //     ],
+                      //       //   ),
+                      //       // )
+                      //       // Expanded(
+                      //       //     child: Text(
+                      //       //   "Add ur address here",
+                      //       //   overflow: TextOverflow.ellipsis,
+                      //       //   style: TextStyle(
+                      //       //     fontSize: 15,
+                      //       //   ),
+                      //       // )),
+                      //     ],
+                      //   ),
                       if (available) verticalSpace(20),
                       if (available)
                         Card(
@@ -1016,8 +1016,6 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                           disablePagination: false,
                           tileBuilder: (BuildContext context, productData,
                               index, onUpdate, onDelete) {
-                            Fimber.d("test");
-                            print((productData as Product).toJson());
                             return ProductTileUI(
                               data: productData,
                               onClick: () => model.goToProductPage(productData),
@@ -1055,8 +1053,6 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                           disablePagination: false,
                           tileBuilder: (BuildContext context, productData,
                               index, onUpdate, onDelete) {
-                            Fimber.d("test");
-                            print((productData as Product).toJson());
                             return ProductTileUI(
                               data: productData,
                               onClick: () => model.goToProductPage(productData),

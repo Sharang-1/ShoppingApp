@@ -290,15 +290,15 @@ class EmptyListWidget extends StatelessWidget {
     return Center(
       child: Column(
         children: <Widget>[
-          Text(
-            text,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Colors.grey[600],
-              fontSize: 20,
-            ),
-          ),
-          verticalSpaceSmall,
+          // Text(
+          //   text,
+          //   style: TextStyle(
+          //     fontWeight: FontWeight.bold,
+          //     color: Colors.grey[600],
+          //     fontSize: 20,
+          //   ),
+          // ),
+          // verticalSpaceSmall,
           Image.asset("assets/images/empty_cart.png"),
         ],
       ),
