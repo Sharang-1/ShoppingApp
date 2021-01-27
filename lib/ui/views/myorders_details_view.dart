@@ -330,7 +330,9 @@ class MyOrdersDetailsView extends StatelessWidget {
                                         ),
                                       ],
                                     ),
+                                    if(mOrder.orderCost.productPrice != mOrder.product.price)
                                     verticalSpaceSmall,
+                                    if(mOrder.orderCost.productPrice != mOrder.product.price)
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
