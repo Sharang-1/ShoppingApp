@@ -235,6 +235,26 @@ class _SellerIndiState extends State<SellerIndi> {
                       ],
                     ),
                     verticalSpace(30),
+                    Row(children: <Widget>[
+                      Image(image: AssetImage("assets/images/mask.png")),
+                      SizedBox(width: 5),
+                      Text(
+                        "Masks and social distancing - Mandatory ",
+                        style: TextStyle(fontFamily: "OpenSans-Light"),
+                      ),
+                    ]),
+                    verticalSpace(10),
+                    Row(children: <Widget>[
+                      Image(
+                          image:
+                              AssetImage("assets/images/hand-sanitizer.png")),
+                      SizedBox(width: 5),
+                      Text(
+                        "Disinfecting hands necessary. ",
+                        style: TextStyle(fontFamily: "OpenSans-Light"),
+                      ),
+                    ]),
+                    verticalSpace(20),
                     Card(
                       elevation: 5,
                       clipBehavior: Clip.antiAlias,

@@ -81,8 +81,9 @@ class _HomeViewState extends State<HomeView> {
                       color: logoRed,
                       height: 35,
                       width: 35,
+                    ),
+                  ),
                 ),
-                  ),),
                 actions: <Widget>[
                   IconButton(
                     icon: CartIconWithBadge(
@@ -133,7 +134,7 @@ class _HomeViewState extends State<HomeView> {
                   actions: <Widget>[
                     IconButton(
                       tooltip: 'map',
-                      icon: new Image.asset("assets/icons/map.png"),
+                      icon: new Image.asset("assets/images/location-4.png"),
                       onPressed: () {
                         model.openmap();
                       },

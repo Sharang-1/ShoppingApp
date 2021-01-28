@@ -340,15 +340,19 @@ class MapView extends StatelessWidget {
                                   onTap: () {
                                     model.setClientCardsToSeller(true);
                                   },
-                                  child: CustomCategoryChip(Icons.shopping_cart,
-                                      "Sellers", model.showSailors)),
+                                  child: CustomCategoryChip(
+                                      "assets/images/shop.png",
+                                      "Sellers",
+                                      model.showSailors)),
                               SizedBox(width: 12),
                               InkWell(
                                   onTap: () {
                                     model.setClientCardsToSeller(false);
                                   },
-                                  child: CustomCategoryChip(Icons.local_florist,
-                                      "Tailors", !model.showSailors)),
+                                  child: CustomCategoryChip(
+                                      "assets/images/sewing.png",
+                                      "Tailors",
+                                      !model.showSailors)),
                             ]),
                             Container(
                               height: 160.0,
@@ -434,20 +438,16 @@ class MapView extends StatelessWidget {
 }
 
 class CustomCategoryChip extends StatelessWidget {
-  final IconData iconData;
+  final String image;
   final String title;
   final bool focused;
-  CustomCategoryChip(this.iconData, this.title, this.focused);
+  CustomCategoryChip(this.image, this.title, this.focused);
 
   @override
   Widget build(BuildContext context) {
     return Chip(
       label: Row(
-        children: <Widget>[
-          Icon(iconData, size: 16),
-          SizedBox(width: 8),
-          Text(title)
-        ],
+        children: <Widget>[Image.asset(image), SizedBox(width: 8), Text(title)],
       ),
       backgroundColor: Colors.grey[50],
       shape: StadiumBorder(

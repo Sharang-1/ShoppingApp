@@ -364,12 +364,18 @@ class _ProductIndiViewState extends State<ProductIndiView> {
           elevation: 0,
           backgroundColor: backgroundWhiteCreamColor,
           iconTheme: IconThemeData(color: appBarIconColor),
-          title: Center(
-              child: Image.asset(
-            "assets/images/logo_red.png",
-            height: 40,
-            width: 40,
-          )),
+          title: Align(
+            alignment: Alignment.center,
+            child: Padding(
+              padding: EdgeInsets.only(right: 8.0),
+              child: SvgPicture.asset(
+                "assets/svg/logo.svg",
+                color: logoRed,
+                height: 35,
+                width: 35,
+              ),
+            ),
+          ),
           actions: <Widget>[
             IconButton(
               onPressed: () {

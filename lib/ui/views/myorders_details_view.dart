@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 import 'package:compound/constants/server_urls.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MyOrdersDetailsView extends StatelessWidget {
   final Order mOrder;
@@ -330,29 +331,31 @@ class MyOrdersDetailsView extends StatelessWidget {
                                         ),
                                       ],
                                     ),
-                                    if(mOrder.orderCost.productPrice != mOrder.product.price)
-                                    verticalSpaceSmall,
-                                    if(mOrder.orderCost.productPrice != mOrder.product.price)
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        CustomText(
-                                          "Discounted Price",
-                                          isBold: true,
-                                          fontSize: subtitleFontSize - 1,
-                                          color: Colors.grey,
-                                        ),
-                                        CustomText(
-                                          rupeeUnicode +
-                                              mOrder.orderCost.productPrice
-                                                  .toString(),
-                                          color: Colors.grey[600],
-                                          fontSize: subtitleFontSize - 1,
-                                          isBold: true,
-                                        ),
-                                      ],
-                                    ),
+                                    if (mOrder.orderCost.productPrice !=
+                                        mOrder.product.price)
+                                      verticalSpaceSmall,
+                                    if (mOrder.orderCost.productPrice !=
+                                        mOrder.product.price)
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          CustomText(
+                                            "Discounted Price",
+                                            isBold: true,
+                                            fontSize: subtitleFontSize - 1,
+                                            color: Colors.grey,
+                                          ),
+                                          CustomText(
+                                            rupeeUnicode +
+                                                mOrder.orderCost.productPrice
+                                                    .toString(),
+                                            color: Colors.grey[600],
+                                            fontSize: subtitleFontSize - 1,
+                                            isBold: true,
+                                          ),
+                                        ],
+                                      ),
                                     verticalSpaceSmall,
                                     Row(
                                       mainAxisAlignment:
@@ -438,11 +441,15 @@ class MyOrdersDetailsView extends StatelessWidget {
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 15),
-                                      child: Text(
-                                        "Help",
-                                        style: TextStyle(
-                                            color: textIconOrange,
-                                            fontWeight: FontWeight.bold),
+                                      child: InkWell(
+                                        child: Text(
+                                          "Help",
+                                          style: TextStyle(
+                                              color: textIconOrange,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        onTap: () => launch(
+                                            'https://dzor.in/#/return-policy'),
                                       ),
                                     )),
                                 verticalSpace(20),
