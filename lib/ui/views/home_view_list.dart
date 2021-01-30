@@ -351,6 +351,7 @@ class _HomeViewListState extends State<HomeViewList> {
                   child: SellerTileUi(
                     data: data,
                     fromHome: true,
+                    toProduct: true,
                   ),
                 );
               },

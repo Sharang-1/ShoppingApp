@@ -1,5 +1,6 @@
 import 'package:compound/constants/route_names.dart';
 import 'package:compound/constants/server_urls.dart';
+import 'package:compound/models/productPageArg.dart';
 import 'package:compound/models/sellers.dart';
 import 'package:compound/services/navigation_service.dart';
 import 'package:compound/services/api/api_service.dart';
@@ -15,11 +16,16 @@ import '../shared/shared_styles.dart';
 class SellerTileUi extends StatelessWidget {
   final Seller data;
   final bool fromHome;
+  final bool toProduct;
   final onClick;
   final APIService _apiService = locator<APIService>();
-  SellerTileUi(
-      {Key key, @required this.data, @required this.fromHome, this.onClick})
-      : super(key: key);
+  SellerTileUi({
+    Key key,
+    this.toProduct = false,
+    @required this.data,
+    @required this.fromHome,
+    this.onClick,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     double subtitleFontSize = fromHome ? 18 * 0.8 : 18;
@@ -32,14 +38,24 @@ class SellerTileUi extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.only(left: 5, bottom: 10, right: fromHome ? 5 : 0),
         child: SizedBox(
-          height: 200 * (fromHome ? 0.8 : 1),
+          height: 200.0 * (fromHome ? 0.8 : 1.0),
           width:
               (MediaQuery.of(context).size.width - 40) * (fromHome ? 0.8 : 1),
           child: GestureDetector(
             onTap: () async {
-              Seller seller = await _apiService.getSellerByID(data.key);
-              return _navigationService.navigateTo(SellerIndiViewRoute,
-                  arguments: seller);
+              if (toProduct || data.subscriptionTypeId == 2) {
+                return _navigationService.navigateTo(
+                  ProductsListRoute,
+                  arguments: ProductPageArg(
+                    subCategory: data.name,
+                    queryString: "accountKey=${data.key};",
+                  ),
+                );
+              } else {
+                Seller seller = await _apiService.getSellerByID(data.key);
+                return _navigationService.navigateTo(SellerIndiViewRoute,
+                    arguments: seller);
+              }
             },
             child: Card(
               shape: RoundedRectangleBorder(

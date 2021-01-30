@@ -2,6 +2,7 @@ import 'package:compound/models/grid_view_builder_filter_models/base_filter_mode
 
 class ProductFilter implements BaseFilterModel {
   final String fullText;
+  final String accountKey;
   final String categories;
   final List<String> subCategories;
   final List<String> size;
@@ -16,6 +17,7 @@ class ProductFilter implements BaseFilterModel {
 
   ProductFilter({
     this.fullText,
+    this.accountKey,
     this.categories,
     this.subCategories,
     this.size,
@@ -33,6 +35,7 @@ class ProductFilter implements BaseFilterModel {
 
     if (fullText != null) _queryString += "freeText=$fullText;";
     // if (categories != null) _queryString += "categories=$categories;";
+    if (accountKey != null) _queryString += "accountKey=$accountKey";
     if (subCategories != null)
       _queryString +=
           subCategories.map((String value) => "category=$value;").join("");
