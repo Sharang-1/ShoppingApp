@@ -1,8 +1,15 @@
+import 'package:compound/constants/route_names.dart';
+import 'package:compound/models/grid_view_builder_filter_models/productFilter.dart';
+import 'package:compound/models/products.dart';
 import 'package:compound/models/sellers.dart';
+import 'package:compound/services/navigation_service.dart';
+import 'package:compound/ui/widgets/GridListWidget.dart';
+import 'package:compound/ui/widgets/ProductTileUI.dart';
 import 'package:compound/ui/widgets/reviews.dart';
 import 'package:compound/ui/widgets/newcarddesigns/seller_profile_slider.dart';
 import 'package:compound/ui/widgets/sellerAppointmentBottomSheet.dart';
 import 'package:compound/ui/widgets/writeReview.dart';
+import 'package:compound/viewmodels/grid_view_builder_view_models/products_grid_view_builder_view_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/ui/widgets/custom_text.dart';
@@ -25,6 +32,8 @@ class SellerIndi extends StatefulWidget {
 }
 
 class _SellerIndiState extends State<SellerIndi> {
+  final productKey = new UniqueKey();
+
   var allDetials = [
     "Speciality",
     "Designs & Creates",
@@ -52,10 +61,10 @@ class _SellerIndiState extends State<SellerIndi> {
   int selectedIndex;
 
   final DynamicLinkService _dynamicLinkService = locator<DynamicLinkService>();
+  final NavigationService _navigationService = locator<NavigationService>();
 
   @override
   Widget build(BuildContext context) {
-    print("la t  " + widget?.data?.contact?.geoLocation?.latitude?.toString());
     Map<String, String> sellerDetails = {
       "key": widget.data.key,
       "name": widget.data.name,
@@ -470,6 +479,46 @@ class _SellerIndiState extends State<SellerIndi> {
                         ),
                       ),
                     ),
+                    if (widget.data.subscriptionTypeId == 1) verticalSpace(20),
+                    if (widget.data.subscriptionTypeId == 1)
+                      Text(
+                        "   Products From Seller",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: titleFontSizeStyle),
+                      ),
+                    if (widget.data.subscriptionTypeId == 1) verticalSpace(5),
+                    if (widget.data.subscriptionTypeId == 1)
+                      SizedBox(
+                        height: 200,
+                        child: GridListWidget<Products, Product>(
+                          key: productKey,
+                          context: context,
+                          filter: ProductFilter(
+                            accountKey: widget.data.key,
+                          ),
+                          gridCount: 2,
+                          viewModel: ProductsGridViewBuilderViewModel(
+                            randomize: true,
+                          ),
+                          childAspectRatio: 1.35,
+                          scrollDirection: Axis.horizontal,
+                          disablePagination: false,
+                          emptyListWidget: Container(),
+                          tileBuilder: (BuildContext context, productData,
+                              index, onUpdate, onDelete) {
+                            return ProductTileUI(
+                              data: productData,
+                              onClick: () => _navigationService.navigateTo(
+                                ProductIndividualRoute,
+                                arguments: productData,
+                              ),
+                              index: index,
+                              cardPadding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                            );
+                          },
+                        ),
+                      ),
                   ],
                 ),
               ),

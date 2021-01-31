@@ -2,12 +2,14 @@ import 'package:compound/models/grid_view_builder_filter_models/productFilter.da
 import 'package:compound/models/products.dart';
 import 'package:compound/ui/shared/app_colors.dart';
 import 'package:compound/ui/shared/shared_styles.dart';
+import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/ui/widgets/GridListWidget.dart';
 import 'package:compound/ui/widgets/ProductTileUI.dart';
 import 'package:compound/viewmodels/grid_view_builder_view_models/products_grid_view_builder_view_model.dart';
 import 'package:compound/viewmodels/productListViewModel.dart';
 import 'package:fimber/fimber_base.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -38,25 +40,25 @@ class _ProductListViewState extends State<ProductListView> {
 
   @override
   Widget build(BuildContext context) {
-    const double headingFontSize = headingFontSizeStyle;
     return ViewModelProvider<ProductListViewModel>.withConsumer(
       viewModel: ProductListViewModel(),
       onModelReady: (model) => model.init(),
       builder: (context, model, child) => Scaffold(
         appBar: AppBar(
-          iconTheme: IconThemeData(color: Colors.black),
-          title: Text(
-            widget.subCategory,
-            style: TextStyle(
-                fontSize: headingFontSize,
-                color: Colors.black,
-                fontFamily: "Raleway",
-                fontWeight: FontWeight.w600),
-          ),
-          backgroundColor: backgroundWhiteCreamColor,
           elevation: 0,
+          backgroundColor: backgroundWhiteCreamColor,
+          centerTitle: true,
+          title: SvgPicture.asset(
+            "assets/svg/logo.svg",
+            color: logoRed,
+            height: 35,
+            width: 35,
+          ),
+          iconTheme: IconThemeData(
+            color: Colors.black,
+          ),
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: backgroundWhiteCreamColor,
         body: SafeArea(
           top: false,
           left: false,
@@ -75,26 +77,54 @@ class _ProductListViewState extends State<ProductListView> {
               });
               refreshController.refreshCompleted(resetFooterState: true);
             },
-            child: FutureBuilder(
-              future: Future.delayed(Duration(milliseconds: 500)),
-              builder: (c, s) => s.connectionState == ConnectionState.done
-                  ? GridListWidget<Products, Product>(
-                      key: key,
-                      context: context,
-                      filter: filter,
-                      gridCount: 2,
-                      viewModel: ProductsGridViewBuilderViewModel(),
-                      childAspectRatio: 0.7,
-                      tileBuilder: (BuildContext context, data, index, onUpdate,
-                          onDelete) {
-                        return ProductTileUI(
-                          data: data,
-                          onClick: () => model.goToProductPage(data),
-                          index: index,
-                        );
-                      },
-                    )
-                  : Container(),
+            child: Column(
+              children: [
+                verticalSpace(20),
+                Row(
+                  children: [
+                    Expanded(
+                      flex: 8,
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                          left: screenPadding,
+                          right: screenPadding - 5,
+                          top: 10,
+                          bottom: 10,
+                        ),
+                        child: Text(
+                          widget.subCategory,
+                          style: TextStyle(
+                              fontFamily: headingFont,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 30),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                verticalSpace(20),
+                FutureBuilder(
+                  future: Future.delayed(Duration(milliseconds: 500)),
+                  builder: (c, s) => s.connectionState == ConnectionState.done
+                      ? GridListWidget<Products, Product>(
+                          key: key,
+                          context: context,
+                          filter: filter,
+                          gridCount: 2,
+                          viewModel: ProductsGridViewBuilderViewModel(),
+                          childAspectRatio: 0.7,
+                          tileBuilder: (BuildContext context, data, index, onUpdate,
+                              onDelete) {
+                            return ProductTileUI(
+                              data: data,
+                              onClick: () => model.goToProductPage(data),
+                              index: index,
+                            );
+                          },
+                        )
+                      : Container(),
+                ),
+              ],
             ),
           ),
         ),
