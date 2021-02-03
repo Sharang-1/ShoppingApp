@@ -22,6 +22,7 @@ import 'package:share/share.dart';
 import 'package:compound/constants/dynamic_links.dart';
 import 'package:compound/services/dynamic_link_service.dart';
 import 'package:compound/locator.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class SellerIndi extends StatefulWidget {
   final Seller data;
@@ -33,6 +34,8 @@ class SellerIndi extends StatefulWidget {
 
 class _SellerIndiState extends State<SellerIndi> {
   final productKey = new UniqueKey();
+  UniqueKey key = UniqueKey();
+  final refreshController = RefreshController(initialRefresh: false);
 
   var allDetials = [
     "Speciality",
@@ -150,380 +153,408 @@ class _SellerIndiState extends State<SellerIndi> {
             ),
           ),
         ),
-        body: CustomScrollView(
-          slivers: [
-            SliverAppBar(
-              expandedHeight: 250.0,
-              floating: false,
-              pinned: true,
-              backgroundColor: backgroundWhiteCreamColor,
-              iconTheme: IconThemeData(color: appBarIconColor),
-              flexibleSpace: FlexibleSpaceBar(
-                background: SellerProfilePhotos(
-                  accountId: sellerDetails["key"],
+        body: SmartRefresher(
+          enablePullDown: true,
+          footer: null,
+          header: WaterDropHeader(
+            waterDropColor: logoRed,
+            refresh: Container(),
+            complete: Container(),
+          ),
+          controller: refreshController,
+          onRefresh: () async {
+            setState(() {
+              key = new UniqueKey();
+            });
+
+            await Future.delayed(Duration(milliseconds: 100));
+
+            refreshController.refreshCompleted(resetFooterState: true);
+          },
+          child: CustomScrollView(
+            slivers: [
+              SliverAppBar(
+                expandedHeight: 250.0,
+                floating: false,
+                pinned: true,
+                backgroundColor: backgroundWhiteCreamColor,
+                iconTheme: IconThemeData(color: appBarIconColor),
+                flexibleSpace: FlexibleSpaceBar(
+                  background: SellerProfilePhotos(
+                    accountId: sellerDetails["key"],
+                  ),
                 ),
               ),
-            ),
-            SliverToBoxAdapter(
-              child: Container(
-                padding: EdgeInsets.all(20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    // HomeSlider(),
-                    verticalSpace(20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Expanded(
+              SliverToBoxAdapter(
+                child: Container(
+                  padding: EdgeInsets.all(20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      // HomeSlider(),
+                      verticalSpace(20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                CustomText(
+                                  sellerDetails["name"],
+                                  fontSize: headFont,
+                                  fontFamily: headingFont,
+                                  isBold: true,
+                                  dotsAfterOverFlow: true,
+                                ),
+                                verticalSpaceSmall,
+                                CustomText(
+                                  sellerDetails["type"],
+                                  fontSize: subHeadFont,
+                                  fontFamily: headingFont,
+                                  dotsAfterOverFlow: true,
+                                  isBold: true,
+                                  color: textIconOrange,
+                                ),
+                              ],
+                            ),
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: <Widget>[
+                              if (sellerDetails["rattings"] != "")
+                                Container(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 5, horizontal: 10),
+                                  decoration: BoxDecoration(
+                                      color: green,
+                                      borderRadius:
+                                          BorderRadius.circular(curve30)),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      CustomText(
+                                        sellerDetails["rattings"],
+                                        color: Colors.white,
+                                        isBold: true,
+                                        fontSize: 15,
+                                      ),
+                                      horizontalSpaceTiny,
+                                      Icon(
+                                        Icons.star,
+                                        color: Colors.white,
+                                        size: 15,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              verticalSpaceSmall,
+                              GestureDetector(
+                                onTap: () async {
+                                  await Share.share(
+                                      await _dynamicLinkService.createLink(
+                                          sellerLink + widget.data?.key), 
+                                      sharePositionOrigin: Rect.fromCenter(
+                                        center: Offset(100,100), 
+                                        width: 100, 
+                                        height: 100,
+                                      ),
+                                    );
+                                },
+                                child: Image.asset(
+                                  "assets/images/share_icon.png",
+                                  width: 30,
+                                  height: 30,
+                                ),
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                      verticalSpace(30),
+                      Row(children: <Widget>[
+                        Image(image: AssetImage("assets/images/mask.png")),
+                        SizedBox(width: 5),
+                        Text(
+                          "Masks and social distancing - Mandatory ",
+                          style: TextStyle(fontFamily: "OpenSans-Light"),
+                        ),
+                      ]),
+                      verticalSpace(10),
+                      Row(children: <Widget>[
+                        Image(
+                            image:
+                                AssetImage("assets/images/hand-sanitizer.png")),
+                        SizedBox(width: 5),
+                        Text(
+                          "Disinfecting hands necessary. ",
+                          style: TextStyle(fontFamily: "OpenSans-Light"),
+                        ),
+                      ]),
+                      verticalSpace(20),
+                      Card(
+                        elevation: 5,
+                        clipBehavior: Clip.antiAlias,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(curve15),
+                        ),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          padding: EdgeInsets.all(20),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               CustomText(
-                                sellerDetails["name"],
-                                fontSize: headFont,
-                                fontFamily: headingFont,
+                                "Address",
+                                fontSize: subHeadFont,
                                 isBold: true,
-                                dotsAfterOverFlow: true,
+                                color: Colors.grey[700],
+                              ),
+                              verticalSpaceTiny,
+                              CustomText(
+                                sellerDetails["Address"],
+                                fontSize: smallFont,
+                                color: Colors.grey,
                               ),
                               verticalSpaceSmall,
-                              CustomText(
-                                sellerDetails["type"],
-                                fontSize: subHeadFont,
-                                fontFamily: headingFont,
-                                dotsAfterOverFlow: true,
-                                isBold: true,
-                                color: textIconOrange,
+                              Divider(
+                                thickness: 1,
+                                color: Colors.grey[400].withOpacity(0.1),
+                              ),
+                              verticalSpaceTiny,
+                              GestureDetector(
+                                onTap: () {
+                                  MapUtils.openMap(
+                                      double.parse(sellerDetails["lat"]),
+                                      double.parse(sellerDetails["lon"]));
+                                },
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: <Widget>[
+                                    Row(
+                                      children: <Widget>[
+                                        Icon(
+                                          Icons.directions,
+                                          color: textIconBlue,
+                                        ),
+                                        horizontalSpaceTiny,
+                                        CustomText(
+                                          "Direction",
+                                          fontSize: subHeadFont,
+                                          color: textIconBlue,
+                                        ),
+                                      ],
+                                    ),
+                                    RaisedButton(
+                                        onPressed: () {},
+                                        color: Colors.white,
+                                        elevation: 0,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(30),
+                                            side: BorderSide(
+                                                width: 1.5, color: logoRed)
+                                            // side: BorderSide(
+                                            //     color: Colors.black, width: 0.5)
+                                            ),
+                                        child: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 6),
+                                            child: Row(children: <Widget>[
+                                              Icon(
+                                                Icons.add_location,
+                                                size: 16,
+                                                color: logoRed,
+                                              ),
+                                              horizontalSpaceSmall,
+                                              CustomText(
+                                                "Locate",
+                                                isBold: true,
+                                                fontSize: 14,
+                                                color: logoRed,
+                                              )
+                                            ]))),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: <Widget>[
-                            if (sellerDetails["rattings"] != "")
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 5, horizontal: 10),
-                                decoration: BoxDecoration(
-                                    color: green,
-                                    borderRadius:
-                                        BorderRadius.circular(curve30)),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                      ),
+                      verticalSpace(30),
+                      ReviewWidget(id: sellerDetails["key"]),
+                      verticalSpaceMedium,
+                      WriteReviewWidget(sellerDetails["key"]),
+                      verticalSpace(25),
+                      CustomText(
+                        "Everything About ${sellerDetails["name"]}",
+                        fontSize: headFont - 2,
+                        fontFamily: headingFont,
+                        isBold: true,
+                      ),
+                      // verticalSpace(5),
+                      // CustomText(
+                      //   sellerDetails["name"],
+                      //   fontSize: headFont - 2,
+                      //   fontFamily: headingFont,
+                      //   isBold: true,
+                      // ),
+                      verticalSpace(10),
+                      Card(
+                        elevation: 5,
+                        clipBehavior: Clip.antiAlias,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(curve15),
+                        ),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: allDetials.map(
+                              (String key) {
+                                return Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
-                                    CustomText(
-                                      sellerDetails["rattings"],
-                                      color: Colors.white,
-                                      isBold: true,
-                                      fontSize: 15,
-                                    ),
-                                    horizontalSpaceTiny,
-                                    Icon(
-                                      Icons.star,
-                                      color: Colors.white,
-                                      size: 15,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            verticalSpaceSmall,
-                            GestureDetector(
-                              onTap: () async {
-                                await Share.share(await _dynamicLinkService
-                                    .createLink(sellerLink + widget.data?.key));
-                              },
-                              child: Image.asset(
-                                "assets/images/share_icon.png",
-                                width: 30,
-                                height: 30,
-                              ),
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
-                    verticalSpace(30),
-                    Row(children: <Widget>[
-                      Image(image: AssetImage("assets/images/mask.png")),
-                      SizedBox(width: 5),
-                      Text(
-                        "Masks and social distancing - Mandatory ",
-                        style: TextStyle(fontFamily: "OpenSans-Light"),
-                      ),
-                    ]),
-                    verticalSpace(10),
-                    Row(children: <Widget>[
-                      Image(
-                          image:
-                              AssetImage("assets/images/hand-sanitizer.png")),
-                      SizedBox(width: 5),
-                      Text(
-                        "Disinfecting hands necessary. ",
-                        style: TextStyle(fontFamily: "OpenSans-Light"),
-                      ),
-                    ]),
-                    verticalSpace(20),
-                    Card(
-                      elevation: 5,
-                      clipBehavior: Clip.antiAlias,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(curve15),
-                      ),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        padding: EdgeInsets.all(20),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            CustomText(
-                              "Address",
-                              fontSize: subHeadFont,
-                              isBold: true,
-                              color: Colors.grey[700],
-                            ),
-                            verticalSpaceTiny,
-                            CustomText(
-                              sellerDetails["Address"],
-                              fontSize: smallFont,
-                              color: Colors.grey,
-                            ),
-                            verticalSpaceSmall,
-                            Divider(
-                              thickness: 1,
-                              color: Colors.grey[400].withOpacity(0.1),
-                            ),
-                            verticalSpaceTiny,
-                            GestureDetector(
-                              onTap: () {
-                                MapUtils.openMap(
-                                    double.parse(sellerDetails["lat"]),
-                                    double.parse(sellerDetails["lon"]));
-                              },
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: <Widget>[
-                                  Row(
-                                    children: <Widget>[
-                                      Icon(
-                                        Icons.directions,
-                                        color: textIconBlue,
-                                      ),
-                                      horizontalSpaceTiny,
-                                      CustomText(
-                                        "Direction",
-                                        fontSize: subHeadFont,
-                                        color: textIconBlue,
-                                      ),
-                                    ],
-                                  ),
-                                  RaisedButton(
-                                      onPressed: () {},
-                                      color: Colors.white,
-                                      elevation: 0,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(30),
-                                          side: BorderSide(
-                                              width: 1.5, color: logoRed)
-                                          // side: BorderSide(
-                                          //     color: Colors.black, width: 0.5)
+                                    key == "Speciality"
+                                        ? SvgPicture.asset(
+                                            icons[key],
+                                            height: 30,
+                                            width: 30,
+                                            color: Colors.blue[500],
+                                          )
+                                        : SvgPicture.asset(
+                                            icons[key],
+                                            height: 30,
+                                            width: 30,
                                           ),
-                                      child: Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 6),
-                                          child: Row(children: <Widget>[
-                                            Icon(
-                                              Icons.add_location,
-                                              size: 16,
-                                              color: logoRed,
-                                            ),
-                                            horizontalSpaceSmall,
-                                            CustomText(
-                                              "Locate",
-                                              isBold: true,
-                                              fontSize: 14,
-                                              color: logoRed,
-                                            )
-                                          ]))),
-                                ],
-                              ),
-                            ),
-                          ],
+                                    SizedBox(
+                                      width: 20,
+                                    ),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          verticalSpace(5),
+                                          CustomText(
+                                            key,
+                                            fontSize: smallFont - 2,
+                                            align: TextAlign.left,
+                                            color: Colors.grey,
+                                          ),
+                                          verticalSpaceSmall,
+                                          CustomText(
+                                            sellerDetails[key],
+                                            // isBold: true,
+                                            fontSize: subHeadFont - 2,
+                                            color: Colors.grey[700],
+                                            align: TextAlign.left,
+                                          ),
+                                          key == "Type"
+                                              ? Container()
+                                              : Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 10),
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.6,
+                                                  child: Divider(
+                                                    thickness: 1,
+                                                    color: Colors.grey[400]
+                                                        .withOpacity(0.1),
+                                                  ),
+                                                ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
+                            ).toList(),
+                          ),
                         ),
                       ),
-                    ),
-                    verticalSpace(30),
-                    ReviewWidget(id: sellerDetails["key"]),
-                    verticalSpaceMedium,
-                    WriteReviewWidget(sellerDetails["key"]),
-                    verticalSpace(25),
-                    CustomText(
-                      "Everything About ${sellerDetails["name"]}",
-                      fontSize: headFont - 2,
-                      fontFamily: headingFont,
-                      isBold: true,
-                    ),
-                    // verticalSpace(5),
-                    // CustomText(
-                    //   sellerDetails["name"],
-                    //   fontSize: headFont - 2,
-                    //   fontFamily: headingFont,
-                    //   isBold: true,
-                    // ),
-                    verticalSpace(10),
-                    Card(
-                      elevation: 5,
-                      clipBehavior: Clip.antiAlias,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(curve15),
+                      verticalSpace(20),
+                      Card(
+                        elevation: 5,
+                        clipBehavior: Clip.antiAlias,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(curve15),
+                        ),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              CustomText(
+                                "Note from Seller",
+                                fontSize: subHeadFont,
+                                isBold: true,
+                                color: Colors.black,
+                              ),
+                              verticalSpace(10),
+                              CustomText(
+                                sellerDetails["Note from Seller"],
+                                fontSize: smallFont,
+                                color: Colors.grey[600],
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: allDetials.map(
-                            (String key) {
-                              return Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  key == "Speciality"
-                                      ? SvgPicture.asset(
-                                          icons[key],
-                                          height: 30,
-                                          width: 30,
-                                          color: Colors.blue[500],
-                                        )
-                                      : SvgPicture.asset(
-                                          icons[key],
-                                          height: 30,
-                                          width: 30,
-                                        ),
-                                  SizedBox(
-                                    width: 20,
-                                  ),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        verticalSpace(5),
-                                        CustomText(
-                                          key,
-                                          fontSize: smallFont - 2,
-                                          align: TextAlign.left,
-                                          color: Colors.grey,
-                                        ),
-                                        verticalSpaceSmall,
-                                        CustomText(
-                                          sellerDetails[key],
-                                          // isBold: true,
-                                          fontSize: subHeadFont - 2,
-                                          color: Colors.grey[700],
-                                          align: TextAlign.left,
-                                        ),
-                                        key == "Type"
-                                            ? Container()
-                                            : Container(
-                                                padding: EdgeInsets.symmetric(
-                                                    vertical: 10),
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.6,
-                                                child: Divider(
-                                                  thickness: 1,
-                                                  color: Colors.grey[400]
-                                                      .withOpacity(0.1),
-                                                ),
-                                              ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
+                      if (widget.data.subscriptionTypeId == 1)
+                        verticalSpace(20),
+                      if (widget.data.subscriptionTypeId == 1)
+                        Text(
+                          "   Products From Seller",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: titleFontSizeStyle),
+                        ),
+                      if (widget.data.subscriptionTypeId == 1) verticalSpace(5),
+                      if (widget.data.subscriptionTypeId == 1)
+                        SizedBox(
+                          height: 200,
+                          child: GridListWidget<Products, Product>(
+                            key: productKey,
+                            context: context,
+                            filter: ProductFilter(
+                              accountKey: widget.data.key,
+                            ),
+                            gridCount: 2,
+                            viewModel: ProductsGridViewBuilderViewModel(
+                              randomize: true,
+                            ),
+                            childAspectRatio: 1.35,
+                            scrollDirection: Axis.horizontal,
+                            disablePagination: false,
+                            emptyListWidget: Container(),
+                            tileBuilder: (BuildContext context, productData,
+                                index, onUpdate, onDelete) {
+                              return ProductTileUI(
+                                data: productData,
+                                onClick: () => _navigationService.navigateTo(
+                                  ProductIndividualRoute,
+                                  arguments: productData,
+                                ),
+                                index: index,
+                                cardPadding: EdgeInsets.fromLTRB(0, 0, 0, 10),
                               );
                             },
-                          ).toList(),
-                        ),
-                      ),
-                    ),
-                    verticalSpace(20),
-                    Card(
-                      elevation: 5,
-                      clipBehavior: Clip.antiAlias,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(curve15),
-                      ),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            CustomText(
-                              "Note from Seller",
-                              fontSize: subHeadFont,
-                              isBold: true,
-                              color: Colors.black,
-                            ),
-                            verticalSpace(10),
-                            CustomText(
-                              sellerDetails["Note from Seller"],
-                              fontSize: smallFont,
-                              color: Colors.grey[600],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    if (widget.data.subscriptionTypeId == 1) verticalSpace(20),
-                    if (widget.data.subscriptionTypeId == 1)
-                      Text(
-                        "   Products From Seller",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: titleFontSizeStyle),
-                      ),
-                    if (widget.data.subscriptionTypeId == 1) verticalSpace(5),
-                    if (widget.data.subscriptionTypeId == 1)
-                      SizedBox(
-                        height: 200,
-                        child: GridListWidget<Products, Product>(
-                          key: productKey,
-                          context: context,
-                          filter: ProductFilter(
-                            accountKey: widget.data.key,
                           ),
-                          gridCount: 2,
-                          viewModel: ProductsGridViewBuilderViewModel(
-                            randomize: true,
-                          ),
-                          childAspectRatio: 1.35,
-                          scrollDirection: Axis.horizontal,
-                          disablePagination: false,
-                          emptyListWidget: Container(),
-                          tileBuilder: (BuildContext context, productData,
-                              index, onUpdate, onDelete) {
-                            return ProductTileUI(
-                              data: productData,
-                              onClick: () => _navigationService.navigateTo(
-                                ProductIndividualRoute,
-                                arguments: productData,
-                              ),
-                              index: index,
-                              cardPadding: EdgeInsets.fromLTRB(0, 0, 0, 10),
-                            );
-                          },
                         ),
-                      ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ));
   }
 
