@@ -21,6 +21,8 @@ void main() {
   // Register all the models and services before the app starts
   setupLocator();
   // Running flutter app
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(MyApp());
 }
 

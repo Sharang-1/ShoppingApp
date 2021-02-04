@@ -219,7 +219,7 @@ class _CartTileUIState extends State<CartTileUI> {
   }
 
   void proceedToOrder() {
-    Navigator.pushReplacement(
+    Navigator.push(
       context,
       PageTransition(
         child: SelectAddress(

@@ -385,7 +385,7 @@ class _SellerIndiState extends State<SellerIndi> {
                         ),
                       ),
                       verticalSpace(30),
-                      ReviewWidget(id: sellerDetails["key"]),
+                      ReviewWidget(id: sellerDetails["key"], expanded: true,),
                       verticalSpaceMedium,
                       WriteReviewWidget(sellerDetails["key"]),
                       verticalSpace(25),

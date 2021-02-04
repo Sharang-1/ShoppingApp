@@ -927,7 +927,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                         ),
                       ),
                       verticalSpaceMedium,
-                      ReviewWidget(id: productId),
+                      ReviewWidget(id: productId, expanded: true,),
                       verticalSpace(20),
                       Text(
                         "   Sold By",
@@ -948,44 +948,50 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                             elevation: 5,
                             child: Row(
                               children: [
-                                Container(
-                                  padding: EdgeInsets.all(20),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text(
-                                        model.selleDetail?.name ?? "",
-                                        style: TextStyle(
-                                            fontSize: subtitleFontSizeStyle,
-                                            color: darkRedSmooth),
-                                      ),
-                                      verticalSpace(10),
-                                      Center(
-                                          child: Container(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.4,
-                                              child: Divider(
-                                                  color: Colors.grey
-                                                      .withOpacity(0.5),
-                                                  height: 1))),
-                                      verticalSpace(10),
-                                      Text(
-                                        Tools.getTruncatedString(
-                                            100, model.selleDetail?.bio ?? ""),
-                                        style: TextStyle(
-                                            fontSize: subtitleFontSizeStyle - 5,
-                                            color: Colors.grey),
-                                      )
-                                    ],
+                                Expanded(
+                                  flex: 9,
+                                  child: Container(
+                                    padding: EdgeInsets.all(20),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          model.selleDetail?.name ?? "",
+                                          style: TextStyle(
+                                              fontSize: subtitleFontSizeStyle,
+                                              color: darkRedSmooth),
+                                        ),
+                                        verticalSpace(10),
+                                        Center(
+                                            child: Container(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.8,
+                                                child: Divider(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.5),
+                                                    height: 1))),
+                                        verticalSpace(10),
+                                        Text(
+                                          Tools.getTruncatedString(
+                                              100, model.selleDetail?.bio ?? ""),
+                                          style: TextStyle(
+                                              fontSize: subtitleFontSizeStyle - 5,
+                                              color: Colors.grey),
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ),
-                                Icon(
-                                  Icons.navigate_next,
-                                  color: lightGrey,
-                                  size: 50,
+                                Expanded(
+                                  flex:1,
+                                  child: Icon(
+                                    Icons.navigate_next,
+                                    color: lightGrey,
+                                    size: 50,
+                                  ),
                                 ),
                               ],
                             )),
