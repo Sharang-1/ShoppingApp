@@ -132,6 +132,7 @@ class _PromotionProductState extends State<PromotionProduct> {
                           viewModel: WhishListGridViewBuilderViewModel(
                               productIds: widget.productIds),
                           childAspectRatio: 0.8,
+                          emptyListWidget: EmptyListWidget(text: "",),
                           tileBuilder: (BuildContext context, data, index,
                               onDelete, onUpdate) {
                             final Product dProduct = data as Product;
