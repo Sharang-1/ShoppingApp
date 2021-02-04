@@ -493,7 +493,7 @@ class _SellerIndiState extends State<SellerIndi> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               CustomText(
-                                "Note from Seller",
+                                "Note from Designer",
                                 fontSize: subHeadFont,
                                 isBold: true,
                                 color: Colors.black,
@@ -512,7 +512,7 @@ class _SellerIndiState extends State<SellerIndi> {
                         verticalSpace(20),
                       if (widget.data.subscriptionTypeId == 1)
                         Text(
-                          "   Products From Seller",
+                          "   Explore Designer's Collection",
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: titleFontSizeStyle),
