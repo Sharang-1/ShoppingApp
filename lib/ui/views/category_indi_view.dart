@@ -31,7 +31,7 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
 
   @override
   void initState() {
-    filter = ProductFilter(existingQueryString: widget.queryString);
+    filter = ProductFilter(existingQueryString: widget.queryString + ";");
     super.initState();
   }
 

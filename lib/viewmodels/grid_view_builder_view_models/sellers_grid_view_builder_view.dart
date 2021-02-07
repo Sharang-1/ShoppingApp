@@ -18,12 +18,16 @@ class SellersGridViewBuilderViewModel
   final bool sellerOnly;
   final bool sellerDeliveringToYou;
   final bool random;
+  final String removeId;
+  final num subscriptionType;
 
   SellersGridViewBuilderViewModel({
     this.profileOnly = false,
     this.sellerOnly = false,
     this.sellerDeliveringToYou = false,
     this.random = false,
+    this.removeId,
+    this.subscriptionType
   });
 
   @override
@@ -34,10 +38,27 @@ class SellersGridViewBuilderViewModel
   @override
   Future<Sellers> getData(
       {BaseFilterModel filterModel, int pageNumber, int pageSize = 10}) async {
+
+    if(subscriptionType != null) {
+      pageSize = 30;
+    }
+
     String _queryString =
         "startIndex=${pageSize * (pageNumber - 1)};limit=$pageSize;" +
             filterModel.queryString;
     Sellers res = await _apiService.getSellers(queryString: _queryString);
+
+    if(this.removeId != null) {
+      res.items = res.items
+          .where((element) => element?.key != this.removeId)
+          .toList();
+    }
+
+    if(this.subscriptionType != null) {
+      res.items = res.items
+          .where((element) => element?.subscriptionTypeId == this.subscriptionType)
+          .toList();
+    }
 
     if(this.sellerDeliveringToYou) {
       res.items = res.items

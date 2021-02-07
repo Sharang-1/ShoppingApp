@@ -1,5 +1,6 @@
 import 'package:compound/constants/route_names.dart';
 import 'package:compound/models/grid_view_builder_filter_models/productFilter.dart';
+import 'package:compound/models/grid_view_builder_filter_models/sellerFilter.dart';
 import 'package:compound/models/products.dart';
 import 'package:compound/models/sellers.dart';
 import 'package:compound/services/navigation_service.dart';
@@ -8,8 +9,10 @@ import 'package:compound/ui/widgets/ProductTileUI.dart';
 import 'package:compound/ui/widgets/reviews.dart';
 import 'package:compound/ui/widgets/newcarddesigns/seller_profile_slider.dart';
 import 'package:compound/ui/widgets/sellerAppointmentBottomSheet.dart';
+import 'package:compound/ui/widgets/sellerTileUi.dart';
 import 'package:compound/ui/widgets/writeReview.dart';
 import 'package:compound/viewmodels/grid_view_builder_view_models/products_grid_view_builder_view_model.dart';
+import 'package:compound/viewmodels/grid_view_builder_view_models/sellers_grid_view_builder_view.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/ui/widgets/custom_text.dart';
@@ -477,6 +480,51 @@ class _SellerIndiState extends State<SellerIndi> {
                             ),
                           ],
                         ),
+                      ),
+                    ),
+                    verticalSpace(30),
+                    Row(children: <Widget>[
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 15.0),
+                          child: Text(
+                            'Similar Sellers',
+                            style: TextStyle(
+                              color: Colors.grey[800],
+                              fontSize: subtitleFontSize,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                      )
+                    ]),
+                    verticalSpaceSmall,
+                    SizedBox(
+                      height: 190,
+                      child: GridListWidget<Sellers, Seller>(
+                        key: UniqueKey(),
+                        context: context,
+                        filter: new SellerFilter(),
+                        gridCount: 1,
+                        childAspectRatio: 0.60,
+                        viewModel: SellersGridViewBuilderViewModel(
+                          removeId: widget.data.key,
+                          subscriptionType: widget.data.subscriptionTypeId,
+                          random: true,
+                        ),
+                        disablePagination: true,
+                        scrollDirection: Axis.horizontal,
+                        emptyListWidget: Container(),
+                        tileBuilder: (BuildContext context, data, index,
+                            onDelete, onUpdate) {
+                          return GestureDetector(
+                            onTap: () => {},
+                            child: SellerTileUi(
+                              data: data,
+                              fromHome: true,
+                            ),
+                          );
+                        },
                       ),
                     ),
                     if (widget.data.subscriptionTypeId == 1) verticalSpace(20),
