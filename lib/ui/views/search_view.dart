@@ -412,8 +412,6 @@ class _SearchViewState extends State<SearchView>
                             childAspectRatio: 0.7,
                             tileBuilder: (BuildContext context, data, index,
                                 onUpdate, onDelete) {
-                              Fimber.d("test");
-                              print((data as Product).toJson());
                               return ProductTileUI(
                                 index: index,
                                 data: data,

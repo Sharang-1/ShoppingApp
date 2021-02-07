@@ -10,13 +10,15 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 
 class ReviewWidget extends StatelessWidget {
-  ReviewWidget({this.id});
+  ReviewWidget({this.id, this.expanded = false});
   final String id;
+  final bool expanded;
 
   @override
   Widget build(BuildContext context) {
     return ViewModelProvider<ReviewsViewModel>.withConsumer(
         viewModel: ReviewsViewModel(),
+        onModelReady: (model) => model.showReviews(id),
         builder: (
           context,
           model,
@@ -65,17 +67,20 @@ class ReviewWidget extends StatelessWidget {
                               ])
                         // : Container()
                         : Container(),
-                    initiallyExpanded: false,
-                    onExpansionChanged: (bool expanded) {
-                      if (expanded && model.reviews == null) {
-                        model.showReviews(id);
-                      }
-                    },
+                    initiallyExpanded: expanded,
+                    // onExpansionChanged: (bool expanded) {
+                    //   if (expanded && model.reviews == null) {
+                    //     model.showReviews(id);
+                    //   }
+                    // },
                     children: <Widget>[
                       if (model.busy) LinearProgressIndicator(),
                       if (!model.busy)
                         if (model.reviews?.items?.length == 0)
-                          Text("No Reviews"),
+                          Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text("No Reviews"),
+                          ),
                       if (model.reviews != null &&
                           model.reviews.items.length > 0)
                         ...model.reviews.items.map((Review r) {

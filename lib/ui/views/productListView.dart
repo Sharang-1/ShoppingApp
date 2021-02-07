@@ -111,6 +111,7 @@ class _ProductListViewState extends State<ProductListView> {
                           context: context,
                           filter: filter,
                           gridCount: 2,
+                          emptyListWidget: EmptyListWidget(text: ""),
                           viewModel: ProductsGridViewBuilderViewModel(),
                           childAspectRatio: 0.7,
                           tileBuilder: (BuildContext context, data, index, onUpdate,

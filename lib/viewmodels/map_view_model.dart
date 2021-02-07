@@ -35,7 +35,7 @@ class MapViewModel extends BaseModel {
     mapToggle = true;
     populateClients();
 
-    ImageConfiguration configuration = ImageConfiguration(size: Size(2, 2));
+    ImageConfiguration configuration = ImageConfiguration(size: Size(1, 1));
     iconT = await BitmapDescriptor.fromAssetImage(
         configuration, 'assets/images/location.png');
     // iconT = Icons.shopping_cart;
@@ -51,7 +51,7 @@ class MapViewModel extends BaseModel {
 
     tData = apiData[0] as Tailors;
     sData = apiData[1] as Sellers;
-    sData.items = sData.items.where((s) => s.accountType != '2').toList();
+    sData.items = sData.items.where((s) => s.accountType.toString() != '2').toList();
     if (sData != null) {
       clientsToggle = true;
     }

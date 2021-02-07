@@ -88,10 +88,19 @@ class MapView extends StatelessWidget {
                       verticalSpace(15),
                       Text(
                           Tools.getTruncatedString(
-                              100, client.operations ?? "No Data"),
+                              50, client.works ?? "No Data"),
                           style: TextStyle(
                               fontSize: subtitleFontSize,
-                              color: Colors.red[300])),
+                              color: darkGrey, 
+                              fontWeight: FontWeight.bold,),),
+                      verticalSpace(8),
+                      Text(
+                          Tools.getTruncatedString(
+                              50, client.operations ?? "No Data"),
+                          style: TextStyle(
+                              fontSize: subtitleFontSize,
+                              color: lightGrey,
+                              ),),
 
                       // Row(children: <Widget>[
                       //   Padding(
@@ -244,10 +253,11 @@ class MapView extends StatelessWidget {
                       verticalSpace(15),
                       Text(
                           Tools.getTruncatedString(
-                              100, client.name ?? "No Data"),
+                              100, client.contact.address.toString() ?? "No Data"),
                           style: TextStyle(
                               fontSize: subtitleFontSize,
-                              color: Colors.red[300])),
+                              color: lightGrey,
+                              ),),
                     ],
                   ),
                 ),
@@ -271,7 +281,8 @@ class MapView extends StatelessWidget {
 
       final Marker marker = Marker(
         markerId: markerId,
-        icon: isSeller ? model.iconS : model.iconT,
+        // icon: isSeller ? model.iconS : model.iconT,
+        icon: model.iconT,
         position: LatLng(client.contact.geoLocation.latitude,
             client.contact.geoLocation.longitude),
         draggable: false,

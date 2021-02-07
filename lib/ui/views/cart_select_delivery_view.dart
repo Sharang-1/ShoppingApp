@@ -75,7 +75,7 @@ class _SelectAddressState extends State<SelectAddress> {
             onPressed: disabledPayment
                 ? null
                 : () {
-                    Navigator.pushReplacement(
+                    Navigator.push(
                       context,
                       PageTransition(
                           child: PaymentMethod(

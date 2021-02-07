@@ -530,7 +530,7 @@ class _SellerIndiState extends State<SellerIndi> {
                     if (widget.data.subscriptionTypeId == 1) verticalSpace(20),
                     if (widget.data.subscriptionTypeId == 1)
                       Text(
-                        "   Products From Seller",
+                        "   Explore Designer's Collection",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: titleFontSizeStyle),

@@ -24,7 +24,7 @@ class OrdersViewModel extends BaseModel {
 
   Future orderPlaced() async {
      Future.delayed(Duration(milliseconds: 2500), () async {
-        _navigationService.navigateReplaceTo(CartViewRoute);
+        _navigationService.navigateAndRemoveUntil(HomeViewRoute);
      });
   }
   

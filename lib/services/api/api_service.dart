@@ -122,20 +122,21 @@ class APIService {
 
       return resJSON;
     } catch (e, stacktrace) {
-      Fimber.e("Api Service error", ex: e, stacktrace: stacktrace);
-      // _dialogService.showDialog(description: e.toString(), title: "Error");
-      GetModule.Get.snackbar(
-        "Error",
-        e.toString(),
-        snackPosition: GetModule.SnackPosition.BOTTOM,
-        isDismissible: true,
-        snackStyle: GetModule.SnackStyle.FLOATING,
-        margin: EdgeInsets.only(
-          bottom: 20,
-          left: 10,
-          right: 10,
-        ),
-      );
+      // if(!((e.toString().startsWith("Exception: Seller profile photo for")))){
+        Fimber.e("Api Service error", ex: e, stacktrace: stacktrace);
+      //   GetModule.Get.snackbar(
+      //   "Error",
+      //   e.toString(),
+      //   snackPosition: GetModule.SnackPosition.BOTTOM,
+      //   isDismissible: true,
+      //   snackStyle: GetModule.SnackStyle.FLOATING,
+      //   margin: EdgeInsets.only(
+      //     bottom: 20,
+      //     left: 10,
+      //     right: 10,
+      //   ),
+      //  );
+      // }
     }
   }
 

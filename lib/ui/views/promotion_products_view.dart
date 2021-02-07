@@ -101,7 +101,14 @@ class _PromotionProductState extends State<PromotionProduct> {
                       flex: 2,
                       child: GestureDetector(
                         onTap: () async {
-                          await Share.share(await _dynamicLinkService.createLink(promotionLink + widget.promotionId));
+                          await Share.share(
+                            await _dynamicLinkService.createLink(promotionLink + widget.promotionId), 
+                            sharePositionOrigin: Rect.fromCenter(
+                              center: Offset(100,100), 
+                              width: 100, 
+                              height: 100,
+                            ),
+                          );
                         },
                         child: Image.asset(
                           'assets/images/share_icon.png',
@@ -125,6 +132,7 @@ class _PromotionProductState extends State<PromotionProduct> {
                           viewModel: WhishListGridViewBuilderViewModel(
                               productIds: widget.productIds),
                           childAspectRatio: 0.8,
+                          emptyListWidget: EmptyListWidget(text: "",),
                           tileBuilder: (BuildContext context, data, index,
                               onDelete, onUpdate) {
                             final Product dProduct = data as Product;
