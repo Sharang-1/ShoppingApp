@@ -504,7 +504,7 @@ class _SellerIndiState extends State<SellerIndi> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             CustomText(
-                              "Note from Seller",
+                              "Note from Designer",
                               fontSize: subHeadFont,
                               isBold: true,
                               color: Colors.black,
@@ -525,7 +525,7 @@ class _SellerIndiState extends State<SellerIndi> {
                         child: Padding(
                           padding: const EdgeInsets.only(left: 15.0),
                           child: Text(
-                            'Similar Sellers',
+                            'Similar Designers',
                             style: TextStyle(
                               color: Colors.grey[800],
                               fontSize: subtitleFontSize,
