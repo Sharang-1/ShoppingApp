@@ -281,8 +281,7 @@ class MapView extends StatelessWidget {
 
       final Marker marker = Marker(
         markerId: markerId,
-        // icon: isSeller ? model.iconS : model.iconT,
-        icon: model.iconT,
+        icon: isSeller ? model.iconS : model.iconT,
         position: LatLng(client.contact.geoLocation.latitude,
             client.contact.geoLocation.longitude),
         draggable: false,

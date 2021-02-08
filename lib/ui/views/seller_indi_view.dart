@@ -16,6 +16,7 @@ import 'package:compound/viewmodels/grid_view_builder_view_models/sellers_grid_v
 import 'package:url_launcher/url_launcher.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/ui/widgets/custom_text.dart';
+import 'package:compound/ui/widgets/seller_status.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -25,6 +26,7 @@ import 'package:share/share.dart';
 import 'package:compound/constants/dynamic_links.dart';
 import 'package:compound/services/dynamic_link_service.dart';
 import 'package:compound/locator.dart';
+import 'package:intl/intl.dart';
 
 class SellerIndi extends StatefulWidget {
   final Seller data;
@@ -66,8 +68,35 @@ class _SellerIndiState extends State<SellerIndi> {
   final DynamicLinkService _dynamicLinkService = locator<DynamicLinkService>();
   final NavigationService _navigationService = locator<NavigationService>();
 
+  String getTime(int time) {
+      String meridien = "AM";
+      if ((time ~/ 12).isOdd) {
+        time = (time % 12);
+        meridien = "PM";
+      }
+      time = (time == 0) ? 12 : time;
+      return "${time.toString()} ${meridien.toString()}";
+  }
+
+  String getTimeString(Timing timing){
+    return "${getTime(timing.monday.start)} - ${getTime(timing.monday.end)} (Today)";
+  }
+
+  bool isOpenNow(Timing timing){
+    DateTime _dateTime = DateTime.now();
+    Map<String, dynamic> timingJson = timing.toJson();
+    Day today = Day.fromJson(timingJson[DateFormat('EEEE').format(_dateTime).toLowerCase()]);
+    if(today.open){
+      if((_dateTime.hour >= today.start) && (_dateTime.hour < today.end)) 
+        return true;
+      else 
+        return false;
+    }
+    return false;
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {    
     Map<String, String> sellerDetails = {
       "key": widget.data.key,
       "name": widget.data.name,
@@ -86,6 +115,8 @@ class _SellerIndiState extends State<SellerIndi> {
               .reverse[widget.data?.accountType ?? AccountType.SELLER],
       "Note from Seller": widget.data.bio
     };
+
+    Timing _timing = widget.data.timing;
 
     return Scaffold(
         backgroundColor: backgroundWhiteCreamColor,
@@ -256,7 +287,8 @@ class _SellerIndiState extends State<SellerIndi> {
                       ),
                     ]),
                     verticalSpace(10),
-                    Row(children: <Widget>[
+                    Row(
+                      children: <Widget>[
                       Image(
                           image:
                               AssetImage("assets/images/hand-sanitizer.png")),
@@ -266,7 +298,12 @@ class _SellerIndiState extends State<SellerIndi> {
                         style: TextStyle(fontFamily: "OpenSans-Light"),
                       ),
                     ]),
-                    verticalSpace(20),
+                    verticalSpace(10),
+                    SellerStatus(
+                      isOpen: isOpenNow(_timing), 
+                      time: getTimeString(_timing),
+                    ),
+                    verticalSpace(10),
                     Card(
                       elevation: 5,
                       clipBehavior: Clip.antiAlias,

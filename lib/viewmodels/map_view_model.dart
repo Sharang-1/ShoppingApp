@@ -37,10 +37,10 @@ class MapViewModel extends BaseModel {
 
     ImageConfiguration configuration = ImageConfiguration(size: Size(1, 1));
     iconT = await BitmapDescriptor.fromAssetImage(
-        configuration, 'assets/images/location.png');
+        configuration, 'assets/images/pin.png');
     // iconT = Icons.shopping_cart;
     iconS = await BitmapDescriptor.fromAssetImage(
-        configuration, 'assets/images/pin.png');
+        configuration, 'assets/images/location.png');
   }
 
   populateClients() async {

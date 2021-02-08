@@ -40,23 +40,6 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
             model.getAvaliableTimeSlots(widget.sellerData.key, widget.context),
         builder: (context, model, child) {
           return Stack(children: [
-            Align(
-              // mainAxisAlignment: MainAxisAlignment.end,
-              // children: <Widget>[
-              alignment: Alignment.topRight,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 16, right: 16),
-                child: IconButton(
-                  tooltip: "Close",
-                  iconSize: 30,
-                  icon: Icon(CupertinoIcons.clear_circled_solid),
-                  color: Colors.grey[600],
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ),
-            ),
             model.busy
                 ? Center(child: CircularProgressIndicator())
                 : Scrollbar(
@@ -363,6 +346,18 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                       ),
                     )),
                   ),
+            Align(
+              alignment: Alignment.topLeft,
+                child: IconButton(
+                  tooltip: "Close",
+                  iconSize: 22,
+                  icon: Icon(CupertinoIcons.clear_circled_solid),
+                  color: Colors.grey[600],
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+            ),
             Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
