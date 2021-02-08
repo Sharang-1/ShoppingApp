@@ -352,7 +352,7 @@ class MapView extends StatelessWidget {
                                   },
                                   child: CustomCategoryChip(
                                       "assets/images/shop.png",
-                                      "Sellers",
+                                      "Designers",
                                       model.showSailors)),
                               SizedBox(width: 12),
                               InkWell(

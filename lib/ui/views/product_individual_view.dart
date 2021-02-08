@@ -1046,7 +1046,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                       ),
                       verticalSpace(20),
                       Text(
-                        "   More From Seller",
+                        "   More From Designer",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: titleFontSizeStyle),

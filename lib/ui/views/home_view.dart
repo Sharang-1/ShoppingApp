@@ -134,7 +134,7 @@ class _HomeViewState extends State<HomeView> {
                   actions: <Widget>[
                     IconButton(
                       tooltip: 'map',
-                      icon: new Image.asset("assets/images/location-4.png"),
+                      icon: Image.asset("assets/images/location-4.png"),
                       onPressed: () {
                         model.openmap();
                       },
@@ -147,7 +147,6 @@ class _HomeViewState extends State<HomeView> {
                     child: Container(
                       width: double.infinity,
                       decoration: BoxDecoration(
-                        // color: Colors.grey[200],
                         color: backgroundBlueGreyColor,
                         borderRadius: BorderRadius.circular(30),
                       ),
@@ -201,24 +200,3 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 }
-
-/*
- model.posts != null
-  ? ListView.builder(
-      itemCount: model.posts.length,
-      itemBuilder: (context, index) =>
-          GestureDetector(
-        onTap: () => model.editPost(index),
-        child: PostItem(
-          post: model.posts[index],
-          onDeleteItem: () => model.deletePost(index),
-        ),
-      ),
-    )
-  : Center(
-      child: CircularProgressIndicator(
-        valueColor: AlwaysStoppedAnimation(
-            Theme.of(context).secondaryHeaderColor),
-      ),
-    )
-*/

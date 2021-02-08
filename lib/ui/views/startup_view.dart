@@ -19,6 +19,7 @@ class StartUpView extends StatelessWidget {
               "assets/svg/DZOR_full_logo_verti.svg",
               color: logoRed,
               width: MediaQuery.of(context).size.width / 2,
+              fit: BoxFit.contain,
             ),
           )),
     );

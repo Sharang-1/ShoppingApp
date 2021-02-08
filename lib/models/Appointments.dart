@@ -22,13 +22,23 @@ class Appointments {
   int records;
   List<AppointmentElement> appointments;
 
-  factory Appointments.fromJson(Map<String, dynamic> json) => Appointments(
-        offset: json["offset"],
-        limit: json["limit"],
-        records: json["records"],
-        appointments: List<AppointmentElement>.from(
-            json["appointments"].map((x) => AppointmentElement.fromJson(x))),
-      );
+  factory Appointments.fromJson(Map<String, dynamic> json) {
+    List<AppointmentElement> appointmentElements;
+    int records = json["records"];
+      
+    appointmentElements = List<AppointmentElement>.generate(records,
+        (index) {
+          return AppointmentElement.fromJson(json["appointments"][index]);
+        }
+    );
+
+    return Appointments(
+      offset: json["offset"],
+      limit: json["limit"],
+      records: json["records"],
+      appointments: appointmentElements,
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         "offset": offset,
@@ -47,11 +57,11 @@ class AppointmentElement {
   AppointmentData appointment;
   SellerData seller;
 
-  factory AppointmentElement.fromJson(Map<String, dynamic> json) =>
+  factory AppointmentElement.fromJson(Map<String, dynamic> json) => 
       AppointmentElement(
-        appointment: AppointmentData.fromJson(json["appointment"]),
-        seller: SellerData.fromJson(json["seller"]),
-      );
+    appointment: AppointmentData.fromJson(json["appointment"]),
+    seller: SellerData.fromJson(json["seller"]),
+  );
 
   Map<String, dynamic> toJson() => {
         "appointment": appointment.toJson(),
