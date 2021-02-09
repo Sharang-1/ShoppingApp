@@ -473,15 +473,9 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                           ),
                           GestureDetector(
                             onTap: () async {
-                              await Share.share(
-                                await _dynamicLinkService
-                                  .createLink(productLink + productId), 
-                                sharePositionOrigin: Rect.fromCenter(
-                                  center: Offset(100,100), 
-                                  width: 100, 
-                                  height: 100,
-                                ),
-                              );
+                              String link =  await _dynamicLinkService.createLink(productLink + productId);
+                              print("Product Dynamic Link : $link");
+                              await Share.share(link);
                             },
                             child: Container(
                               padding: EdgeInsets.symmetric(horizontal: 8.0),
@@ -949,7 +943,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                             child: Row(
                               children: [
                                 Expanded(
-                                  flex: 9,
+                                  flex: 8,
                                   child: Container(
                                     padding: EdgeInsets.all(20),
                                     child: Column(
@@ -986,11 +980,11 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                   ),
                                 ),
                                 Expanded(
-                                  flex:1,
+                                  flex:2,
                                   child: Icon(
                                     Icons.navigate_next,
                                     color: lightGrey,
-                                    size: 50,
+                                    size: 40,
                                   ),
                                 ),
                               ],

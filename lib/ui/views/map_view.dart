@@ -87,20 +87,22 @@ class MapView extends StatelessWidget {
                       ]),
                       verticalSpace(15),
                       Text(
-                          Tools.getTruncatedString(
-                              50, client.works ?? "No Data"),
-                          style: TextStyle(
-                              fontSize: subtitleFontSize,
-                              color: darkGrey, 
-                              fontWeight: FontWeight.bold,),),
+                        Tools.getTruncatedString(50, client.works ?? "No Data"),
+                        style: TextStyle(
+                          fontSize: subtitleFontSize,
+                          color: darkGrey,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       verticalSpace(8),
                       Text(
-                          Tools.getTruncatedString(
-                              50, client.operations ?? "No Data"),
-                          style: TextStyle(
-                              fontSize: subtitleFontSize,
-                              color: lightGrey,
-                              ),),
+                        Tools.getTruncatedString(
+                            50, client.operations ?? "No Data"),
+                        style: TextStyle(
+                          fontSize: subtitleFontSize,
+                          color: lightGrey,
+                        ),
+                      ),
 
                       // Row(children: <Widget>[
                       //   Padding(
@@ -186,19 +188,12 @@ class MapView extends StatelessWidget {
 
   Widget clientCardTailor(MapViewModel model, context, Tailor client) {
     const double titleFontSize = titleFontSizeStyle;
-    const double subtitleFontSize = subtitleFontSizeStyle - 3;
-
-    // List<String> tags = [
-    //   "Excellent",
-    //   "superb",
-    // ];
 
     List<String> tempSplitName = client.name.split(" ");
     String shortName = tempSplitName.length > 1
         ? tempSplitName[0].substring(0, 1) +
             tempSplitName[tempSplitName.length - 1].substring(0, 1)
         : tempSplitName[0].substring(0, 2);
-    print(client.name ?? "No data");
     return Padding(
         padding: EdgeInsets.only(left: 10.0, top: 10.0),
         child: InkWell(
@@ -217,52 +212,37 @@ class MapView extends StatelessWidget {
             child: Container(
               padding: EdgeInsets.fromLTRB(20, 20, 5, 10),
               width: MediaQuery.of(context).size.width * 0.8,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5.0),
-                  color: Colors.white),
-              child: Row(children: <Widget>[
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Row(
                     children: <Widget>[
-                      Row(children: <Widget>[
-                        Align(
-                            alignment: Alignment.centerLeft,
-                            child: CircleAvatar(
-                                radius: 22,
-                                backgroundColor: Colors.black,
-                                child: Text(
-                                  shortName.toUpperCase(),
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w600),
-                                ))),
-                        SizedBox(
-                          width: 15,
-                        ),
-                        Tooltip(
-                            message: client.name,
-                            child: Text(
-                                Tools.getTruncatedString(20, client.name),
+                      Align(
+                          alignment: Alignment.centerLeft,
+                          child: CircleAvatar(
+                              radius: 22,
+                              backgroundColor: Colors.black,
+                              child: Text(
+                                shortName.toUpperCase(),
+                                textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                    fontSize: titleFontSize))),
-                      ]),
-                      verticalSpace(15),
-                      Text(
-                          Tools.getTruncatedString(
-                              100, client.contact.address.toString() ?? "No Data"),
-                          style: TextStyle(
-                              fontSize: subtitleFontSize,
-                              color: lightGrey,
-                              ),),
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600),
+                              ))),
+                      SizedBox(
+                        width: 15,
+                      ),
+                      Tooltip(
+                          message: client.name,
+                          child: Text(Tools.getTruncatedString(20, client.name),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                  fontSize: titleFontSize))),
                     ],
                   ),
-                ),
-                Center(child: Icon(CupertinoIcons.forward))
-              ]),
+                ],
+              ),
             ),
           ),
         ));
@@ -336,7 +316,7 @@ class MapView extends StatelessWidget {
                 ),
               ),
               Positioned(
-                top: MediaQuery.of(context).size.height - 320.0,
+                top: MediaQuery.of(context).size.height - (model.showSailors ? 320.0 : 260.0),
                 left: 10.0,
                 child: model.clientsToggle
                     ? Container(
@@ -365,7 +345,7 @@ class MapView extends StatelessWidget {
                                       !model.showSailors)),
                             ]),
                             Container(
-                              height: 160.0,
+                              height: model.showSailors ? 160.0 : 100.0,
                               width: MediaQuery.of(context).size.width,
                               child: ListView(
                                 scrollDirection: Axis.horizontal,
