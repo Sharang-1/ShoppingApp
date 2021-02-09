@@ -297,11 +297,11 @@ class MapView extends StatelessWidget {
       builder: (context, model, child) => Scaffold(
         body: SafeArea(
           child: Scaffold(
-            appBar: AppBar(
-              elevation: 0,
-              backgroundColor: backgroundWhiteCreamColor,
-              iconTheme: IconThemeData(color: appBarIconColor),
-            ),
+            // appBar: AppBar(
+            //   elevation: 0,
+            //   backgroundColor: backgroundWhiteCreamColor,
+            //   iconTheme: IconThemeData(color: appBarIconColor),
+            // ),
             body: Stack(children: <Widget>[
               GoogleMap(
                 onMapCreated: model.onMapCreated,
@@ -316,7 +316,8 @@ class MapView extends StatelessWidget {
                 ),
               ),
               Positioned(
-                top: MediaQuery.of(context).size.height - (model.showSailors ? 320.0 : 260.0),
+                top: MediaQuery.of(context).size.height -
+                    (model.showSailors ? 320.0 : 260.0),
                 left: 10.0,
                 child: model.clientsToggle
                     ? Container(

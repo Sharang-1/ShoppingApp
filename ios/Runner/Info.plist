@@ -52,5 +52,7 @@
 	<false/>
 	<key>io.flutter.embeded_views_preview</key>
 	<true/>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<false/>
 </dict>
 </plist>

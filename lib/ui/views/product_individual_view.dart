@@ -473,9 +473,9 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                           ),
                           GestureDetector(
                             onTap: () async {
-                              String link =  await _dynamicLinkService.createLink(productLink + productId);
-                              print("Product Dynamic Link : $link");
-                              await Share.share(link);
+                              // String link =  await _dynamicLinkService.createLink(productLink + productId);
+                              // print("Product Dynamic Link : $link");
+                              await Share.share("Dzor");
                             },
                             child: Container(
                               padding: EdgeInsets.symmetric(horizontal: 8.0),
@@ -921,7 +921,10 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                         ),
                       ),
                       verticalSpaceMedium,
-                      ReviewWidget(id: productId, expanded: true,),
+                      ReviewWidget(
+                        id: productId,
+                        expanded: true,
+                      ),
                       verticalSpace(20),
                       Text(
                         "   Sold By",
@@ -969,10 +972,11 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                     height: 1))),
                                         verticalSpace(10),
                                         Text(
-                                          Tools.getTruncatedString(
-                                              100, model.selleDetail?.bio ?? ""),
+                                          Tools.getTruncatedString(100,
+                                              model.selleDetail?.bio ?? ""),
                                           style: TextStyle(
-                                              fontSize: subtitleFontSizeStyle - 5,
+                                              fontSize:
+                                                  subtitleFontSizeStyle - 5,
                                               color: Colors.grey),
                                         )
                                       ],
@@ -980,7 +984,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                   ),
                                 ),
                                 Expanded(
-                                  flex:2,
+                                  flex: 2,
                                   child: Icon(
                                     Icons.navigate_next,
                                     color: lightGrey,
