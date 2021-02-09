@@ -1,4 +1,5 @@
 import 'package:compound/constants/route_names.dart';
+import 'package:compound/constants/server_urls.dart';
 import 'package:compound/models/grid_view_builder_filter_models/productFilter.dart';
 import 'package:compound/models/grid_view_builder_filter_models/sellerFilter.dart';
 import 'package:compound/models/products.dart';
@@ -13,6 +14,7 @@ import 'package:compound/ui/widgets/sellerTileUi.dart';
 import 'package:compound/ui/widgets/writeReview.dart';
 import 'package:compound/viewmodels/grid_view_builder_view_models/products_grid_view_builder_view_model.dart';
 import 'package:compound/viewmodels/grid_view_builder_view_models/sellers_grid_view_builder_view.dart';
+import 'package:sliver_fab/sliver_fab.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/ui/widgets/custom_text.dart';
@@ -69,34 +71,38 @@ class _SellerIndiState extends State<SellerIndi> {
   final NavigationService _navigationService = locator<NavigationService>();
 
   String getTime(int time) {
-      String meridien = "AM";
-      if ((time ~/ 12).isOdd) {
-        time = (time % 12);
-        meridien = "PM";
-      }
-      time = (time == 0) ? 12 : time;
-      return "${time.toString()} ${meridien.toString()}";
+    String meridien = "AM";
+    if ((time ~/ 12).isOdd) {
+      time = (time % 12);
+      meridien = "PM";
+    }
+    time = (time == 0) ? 12 : time;
+    return "${time.toString()} ${meridien.toString()}";
   }
 
-  String getTimeString(Timing timing){
+  String getTimeString(Timing timing) {
     return "${getTime(timing.monday.start)} - ${getTime(timing.monday.end)} (Today)";
   }
 
-  bool isOpenNow(Timing timing){
+  bool isOpenNow(Timing timing) {
     DateTime _dateTime = DateTime.now();
     Map<String, dynamic> timingJson = timing.toJson();
-    Day today = Day.fromJson(timingJson[DateFormat('EEEE').format(_dateTime).toLowerCase()]);
-    if(today.open){
-      if((_dateTime.hour >= today.start) && (_dateTime.hour < today.end)) 
+    Day today = Day.fromJson(
+        timingJson[DateFormat('EEEE').format(_dateTime).toLowerCase()]);
+    if (today.open) {
+      if ((_dateTime.hour >= today.start) && (_dateTime.hour < today.end))
         return true;
-      else 
+      else
         return false;
     }
     return false;
   }
 
   @override
-  Widget build(BuildContext context) {    
+  Widget build(BuildContext context) {
+    double media = ((MediaQuery.of(context).size.width - 100) / 2);
+    double multiplyer = 0.8;
+
     Map<String, String> sellerDetails = {
       "key": widget.data.key,
       "name": widget.data.name,
@@ -184,7 +190,34 @@ class _SellerIndiState extends State<SellerIndi> {
             ),
           ),
         ),
-        body: CustomScrollView(
+        body: SliverFab(
+          floatingWidget: Container(
+            height: 100,
+            width: 100,
+            margin: EdgeInsets.only(left: 15.0),
+            child: ClipOval(
+              child: FadeInImage.assetNetwork(
+                width: 100 * multiplyer,
+                height: 100 * multiplyer,
+                fadeInCurve: Curves.easeIn,
+                placeholder: "assets/images/product_preloading.png",
+                image: widget?.data?.key != null
+                    ? "$SELLER_PHOTO_BASE_URL/${widget.data.key}"
+                    : "https://images.unsplash.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
+                fit: BoxFit.cover,
+              ),
+            ),
+            decoration: BoxDecoration(
+              color: Color.fromRGBO(255, 255, 255, 1),
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: Color.fromRGBO(255, 255, 255, 0.1),
+                width: 8.0,
+              ),
+            ),
+          ),
+          floatingPosition: FloatingPosition(left: media - 10, top: -22),
+          expandedHeight: 250.0,
           slivers: [
             SliverAppBar(
               expandedHeight: 250.0,
@@ -287,8 +320,7 @@ class _SellerIndiState extends State<SellerIndi> {
                       ),
                     ]),
                     verticalSpace(10),
-                    Row(
-                      children: <Widget>[
+                    Row(children: <Widget>[
                       Image(
                           image:
                               AssetImage("assets/images/hand-sanitizer.png")),
@@ -300,7 +332,7 @@ class _SellerIndiState extends State<SellerIndi> {
                     ]),
                     verticalSpace(10),
                     SellerStatus(
-                      isOpen: isOpenNow(_timing), 
+                      isOpen: isOpenNow(_timing),
                       time: getTimeString(_timing),
                     ),
                     verticalSpace(10),

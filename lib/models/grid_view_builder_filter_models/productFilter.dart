@@ -35,7 +35,7 @@ class ProductFilter implements BaseFilterModel {
 
     if (fullText != null) _queryString += "freeText=$fullText;";
     // if (categories != null) _queryString += "categories=$categories;";
-    if (accountKey != null) _queryString += "accountKey=$accountKey";
+    if (accountKey != null) _queryString += "accountKey=$accountKey;";
     if (subCategories != null)
       _queryString +=
           subCategories.map((String value) => "category=$value;").join("");
