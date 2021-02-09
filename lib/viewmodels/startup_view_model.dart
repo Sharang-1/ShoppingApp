@@ -5,6 +5,7 @@ import 'package:compound/services/api/api_service.dart';
 import 'package:compound/services/authentication_service.dart';
 import 'package:compound/services/dynamic_link_service.dart';
 import 'package:compound/services/navigation_service.dart';
+import 'package:compound/services/push_notification_service.dart';
 import 'package:compound/services/analytics_service.dart';
 import 'package:compound/viewmodels/base_model.dart';
 import 'package:get/get.dart';
@@ -19,6 +20,7 @@ class StartUpViewModel extends BaseModel {
 
   final NavigationService _navigationService = locator<NavigationService>();
   final AnalyticsService _analyticsService = locator<AnalyticsService>();
+  final PushNotificationService _notificationService = locator<PushNotificationService>();
   final DynamicLinkService _linkService = locator<DynamicLinkService>();
 
   Future init() async {
@@ -41,6 +43,7 @@ class StartUpViewModel extends BaseModel {
     String buildNumber = packageInfo.buildNumber;
 
     await _analyticsService.setup();
+    await _notificationService.initialise();
     await _linkService.handleDynamicLink();
 
     if (updateDetails.version != version) {

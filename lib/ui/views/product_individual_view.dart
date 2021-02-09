@@ -473,9 +473,10 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                           ),
                           GestureDetector(
                             onTap: () async {
-                              // String link =  await _dynamicLinkService.createLink(productLink + productId);
-                              // print("Product Dynamic Link : $link");
-                              await Share.share("Dzor");
+                              await Share.share(
+                                await _dynamicLinkService
+                                    .createLink(productLink + productId),
+                              );
                             },
                             child: Container(
                               padding: EdgeInsets.symmetric(horizontal: 8.0),

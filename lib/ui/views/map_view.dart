@@ -11,7 +11,7 @@ import 'package:provider_architecture/provider_architecture.dart';
 import 'package:compound/models/sellers.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/viewmodels/map_view_model.dart';
-
+import 'package:carousel_slider/carousel_slider.dart';
 import '../shared/shared_styles.dart';
 
 class MapView extends StatelessWidget {
@@ -85,22 +85,26 @@ class MapView extends StatelessWidget {
                                     color: Colors.black,
                                     fontSize: titleFontSize))),
                       ]),
-                      verticalSpace(15),
-                      Text(
-                        Tools.getTruncatedString(50, client.works ?? "No Data"),
-                        style: TextStyle(
-                          fontSize: subtitleFontSize,
-                          color: darkGrey,
-                          fontWeight: FontWeight.bold,
+                      verticalSpace(12),
+                      Expanded(
+                          child: Text(
+                          Tools.getTruncatedString(50, client.works ?? "No Data"),
+                          style: TextStyle(
+                            fontSize: subtitleFontSize,
+                            color: lightGrey,
+                            // fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                      verticalSpace(8),
-                      Text(
-                        Tools.getTruncatedString(
-                            50, client.operations ?? "No Data"),
-                        style: TextStyle(
-                          fontSize: subtitleFontSize,
-                          color: lightGrey,
+                      verticalSpace(5),
+                      Expanded(
+                          child: Text(
+                          Tools.getTruncatedString(
+                              50, client.operations ?? "No Data"),
+                          style: TextStyle(
+                            fontSize: subtitleFontSize,
+                            color: lightGrey,
+                          ),
                         ),
                       ),
 
@@ -174,12 +178,18 @@ class MapView extends StatelessWidget {
                     ],
                   ),
                 ),
-                Center(child: Icon(CupertinoIcons.forward)
-                    // Icon(
-                    //   Icons.arrow_right,
-                    //   size: 40,
-                    // ),
-                    )
+                Center(
+                  child: GestureDetector(
+                    onTap: () async => await model.goToSellerPage(client.key),
+                    child: Icon(
+                      CupertinoIcons.forward,
+                    ),
+                  ),
+                  // Icon(
+                  //   Icons.arrow_right,
+                  //   size: 40,
+                  // ),
+                ),
               ]),
             ),
           ),
@@ -314,10 +324,13 @@ class MapView extends StatelessWidget {
                       model.currentLocation.longitude),
                   zoom: 12,
                 ),
+                compassEnabled: false,
+                mapToolbarEnabled: false,
+                zoomControlsEnabled: false,
               ),
               Positioned(
                 top: MediaQuery.of(context).size.height -
-                    (model.showSailors ? 320.0 : 260.0),
+                    (model.showSailors ? 260.0 : 200.0),
                 left: 10.0,
                 child: model.clientsToggle
                     ? Container(
@@ -348,10 +361,12 @@ class MapView extends StatelessWidget {
                             Container(
                               height: model.showSailors ? 160.0 : 100.0,
                               width: MediaQuery.of(context).size.width,
-                              child: ListView(
-                                scrollDirection: Axis.horizontal,
-                                shrinkWrap: true,
-                                children: model.showSailors
+                              child: CarouselSlider(
+                                // ListView(
+                                // scrollDirection: Axis.horizontal,
+                                // shrinkWrap: true,
+                                // children:
+                                items: model.showSailors
                                     ? model.sData.items.map((element) {
                                         return clientCardSeller(
                                             model, context, element);
@@ -360,11 +375,27 @@ class MapView extends StatelessWidget {
                                         return clientCardTailor(
                                             model, context, element);
                                       }).toList(),
+                                autoPlay: false,
+                                enableInfiniteScroll: false,
                               ),
                             )
                           ],
                         ))
                     : Container(height: 1.0, width: 1.0),
+              ),
+              Positioned(
+                top: 0,
+                left: 0,
+                child: GestureDetector(
+                  onTap: () => Navigator.pop(context),
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Icon(
+                      Icons.navigate_before_rounded,
+                      size: 50,
+                    ),
+                  ),
+                ),
               ),
               // model.resetToggle
               //     ? Positioned(

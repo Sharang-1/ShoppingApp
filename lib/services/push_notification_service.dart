@@ -20,7 +20,12 @@ class PushNotificationService {
   final NavigationService _navigationService = locator<NavigationService>();
 
   Future initialise() async {
-    _fcm.requestNotificationPermissions();
+    await _fcm.requestNotificationPermissions(
+      IosNotificationSettings(
+        alert: true, 
+        badge: true,
+      ),
+    );
     _fcm.configure();
 
     _fcm.configure(

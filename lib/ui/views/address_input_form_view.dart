@@ -46,6 +46,7 @@ class _AddressInputPageState extends State<AddressInputPage> {
                           _locationService.currentLocation?.longitude ?? 0.0),
                       useCurrentLocation: true,
                       selectInitialPosition: true,
+                      enableMapTypeButton: false,
                       // forceSearchOnZoomChanged: false,
                       // forceAndroidLocationManager: false,
                       // searchingText: "Loading",
@@ -200,183 +201,185 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
         color: Colors.transparent,
         child: Padding(
           padding: EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                "Add Address",
-                style: TextStyle(
-                    fontFamily: headingFont,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 20),
-              ),
-              verticalSpaceMedium,
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Flexible(
-                    fit: FlexFit.tight,
-                    child: TextFormField(
-                      style: TextStyle(
-                        fontSize: 17,
-                      ),
-                      controller: _googleAddressStringController,
-                      validator: (text) {
-                        if (text.isEmpty || text.trim().length == 0)
-                          return "Please enter Proper Address";
-                        return null;
-                      },
-                      decoration: const InputDecoration(
-                        labelText: 'Your Location',
-                        isDense: true,
-                      ),
-                      autofocus: false,
-                      enabled: false,
-                      maxLines: 2,
-                    ),
-                  ),
-                  // horizontalSpaceMedium,
-                  // RaisedButton(
-                  //   elevation: 5,
-                  //   onPressed: () {},
-                  //   color: darkRedSmooth,
-                  //   shape: RoundedRectangleBorder(
-                  //     borderRadius: BorderRadius.circular(30),
-                  //     // side: BorderSide(
-                  //     //     color: Colors.black, width: 0.5)
-                  //   ),
-                  //   child: Padding(
-                  //     padding: const EdgeInsets.symmetric(vertical: 4),
-                  //     child: CustomText(
-                  //       "Change",
-                  //       color: Colors.white,
-                  //       fontSize: 12,
-                  //     ),
-                  //   ),
-                  // ),
-                ],
-              ),
-              verticalSpaceMedium,
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(
-                    child: TextFormField(
-                      controller: _userInputedAddressStringController,
-                      maxLines: 2,
-                      validator: (text) {
-                        if (text.isEmpty || text.trim().length == 0)
-                          return "Please enter Proper Address";
-                        return null;
-                      },
-                      decoration: const InputDecoration(
-                        labelText: 'House Number , Society Name ....',
-                        isDense: true,
-                      ),
-                      autofocus: false,
-                      enabled: true,
-                      style: TextStyle(
-                        fontSize: 17,
+          child: SingleChildScrollView(
+              child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  "Add Address",
+                  style: TextStyle(
+                      fontFamily: headingFont,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 20),
+                ),
+                verticalSpaceMedium,
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Flexible(
+                      fit: FlexFit.tight,
+                      child: TextFormField(
+                        style: TextStyle(
+                          fontSize: 17,
+                        ),
+                        controller: _googleAddressStringController,
+                        validator: (text) {
+                          if (text.isEmpty || text.trim().length == 0)
+                            return "Please enter Proper Address";
+                          return null;
+                        },
+                        decoration: const InputDecoration(
+                          labelText: 'Your Location',
+                          isDense: true,
+                        ),
+                        autofocus: false,
+                        enabled: false,
+                        maxLines: 2,
                       ),
                     ),
-                  ),
-                ],
-              ),
-              verticalSpaceMedium,
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(
-                    child: TextFormField(
-                      controller: _pinCodeController,
-                      maxLines: 1,
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
-                      ],
-                      style: TextStyle(
-                        fontSize: 17,
-                      ),
-                      validator: (text) {
-                        if (text.isEmpty ||
-                            text.trim().length == 0 ||
-                            text.trim().length != 7)
-                          return "Please enter Proper Pincode";
-                        return null;
-                      },
-                      decoration: const InputDecoration(
-                        labelText: 'Pincode',
-                        isDense: true,
-                      ),
-                      autofocus: false,
-                      enabled: true,
-                    ),
-                  ),
-                ],
-              ),
-              verticalSpaceLarge,
-
-              //Save Btn Row
-              Row(
-                children: <Widget>[
-                  Expanded(
-                    child: RaisedButton(
-                      elevation: 5,
-                      onPressed: () {
-                        final userInputAddressString =
-                            _userInputedAddressStringController.text;
-                        final googleAddresString =
-                            _googleAddressStringController.text;
-                        final pinCode = int.tryParse(_pinCodeController.text);
-
-                        if (pinCode == null) {
-                          return;
-                        }
-
-                        if (userInputAddressString.isEmpty ||
-                            userInputAddressString.trim().length == 0 ||
-                            googleAddresString.isEmpty ||
-                            googleAddresString.trim().length == 0) {
-                          return;
-                        }
-
-                        final String gujState = "Gujarat".toUpperCase();
-                        final int stateIndex = widget
-                            .pickedPlace.addressComponents
-                            .indexWhere((element) =>
-                                element.longName.toUpperCase() == gujState);
-                        String pickedCity;
-                        if (stateIndex != -1)
-                          pickedCity = widget.pickedPlace
-                              .addressComponents[stateIndex - 1].longName;
-
-                        Navigator.of(context)
-                            .pop<UserDetailsContact>(new UserDetailsContact(
-                          address: userInputAddressString,
-                          googleAddress: googleAddresString,
-                          pincode: pinCode,
-                          city: pickedCity,
-                          state: gujState,
-                        ));
-                      },
-                      color: green,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                        // side: BorderSide(
-                        //     color: Colors.black, width: 0.5)
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 12),
-                        child: CustomText(
-                          "Save & Proceed ",
-                          isBold: true,
-                          color: Colors.white,
+                    // horizontalSpaceMedium,
+                    // RaisedButton(
+                    //   elevation: 5,
+                    //   onPressed: () {},
+                    //   color: darkRedSmooth,
+                    //   shape: RoundedRectangleBorder(
+                    //     borderRadius: BorderRadius.circular(30),
+                    //     // side: BorderSide(
+                    //     //     color: Colors.black, width: 0.5)
+                    //   ),
+                    //   child: Padding(
+                    //     padding: const EdgeInsets.symmetric(vertical: 4),
+                    //     child: CustomText(
+                    //       "Change",
+                    //       color: Colors.white,
+                    //       fontSize: 12,
+                    //     ),
+                    //   ),
+                    // ),
+                  ],
+                ),
+                verticalSpaceMedium,
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Expanded(
+                      child: TextFormField(
+                        controller: _userInputedAddressStringController,
+                        maxLines: 2,
+                        validator: (text) {
+                          if (text.isEmpty || text.trim().length == 0)
+                            return "Please enter Proper Address";
+                          return null;
+                        },
+                        decoration: const InputDecoration(
+                          labelText: 'House Number , Society Name ....',
+                          isDense: true,
+                        ),
+                        autofocus: false,
+                        enabled: true,
+                        style: TextStyle(
+                          fontSize: 17,
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+                verticalSpaceMedium,
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Expanded(
+                      child: TextFormField(
+                        controller: _pinCodeController,
+                        maxLines: 1,
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
+                        ],
+                        style: TextStyle(
+                          fontSize: 17,
+                        ),
+                        validator: (text) {
+                          if (text.isEmpty ||
+                              text.trim().length == 0 ||
+                              text.trim().length != 7)
+                            return "Please enter Proper Pincode";
+                          return null;
+                        },
+                        decoration: const InputDecoration(
+                          labelText: 'Pincode',
+                          isDense: true,
+                        ),
+                        autofocus: false,
+                        enabled: true,
+                      ),
+                    ),
+                  ],
+                ),
+                verticalSpaceLarge,
+
+                //Save Btn Row
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: RaisedButton(
+                        elevation: 5,
+                        onPressed: () {
+                          final userInputAddressString =
+                              _userInputedAddressStringController.text;
+                          final googleAddresString =
+                              _googleAddressStringController.text;
+                          final pinCode = int.tryParse(_pinCodeController.text);
+
+                          if (pinCode == null) {
+                            return;
+                          }
+
+                          if (userInputAddressString.isEmpty ||
+                              userInputAddressString.trim().length == 0 ||
+                              googleAddresString.isEmpty ||
+                              googleAddresString.trim().length == 0) {
+                            return;
+                          }
+
+                          final String gujState = "Gujarat".toUpperCase();
+                          final int stateIndex = widget
+                              .pickedPlace.addressComponents
+                              .indexWhere((element) =>
+                                  element.longName.toUpperCase() == gujState);
+                          String pickedCity;
+                          if (stateIndex != -1)
+                            pickedCity = widget.pickedPlace
+                                .addressComponents[stateIndex - 1].longName;
+
+                          Navigator.of(context)
+                              .pop<UserDetailsContact>(new UserDetailsContact(
+                            address: userInputAddressString,
+                            googleAddress: googleAddresString,
+                            pincode: pinCode,
+                            city: pickedCity,
+                            state: gujState,
+                          ));
+                        },
+                        color: green,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                          // side: BorderSide(
+                          //     color: Colors.black, width: 0.5)
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          child: CustomText(
+                            "Save & Proceed ",
+                            isBold: true,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
