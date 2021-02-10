@@ -41,7 +41,7 @@ class RestaurantListItem2 extends StatelessWidget {
                   decoration: BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: AssetImage('assets/images/placeholder.png')),
+                        image: AssetImage('assets/images/product_preloading.png')),
                     borderRadius: BorderRadius.all(Radius.circular(8.0)),
                     color: Colors.redAccent,
                   ),

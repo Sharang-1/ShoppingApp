@@ -202,7 +202,8 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
         child: Padding(
           padding: EdgeInsets.all(16),
           child: SingleChildScrollView(
-              child: Column(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Text(
@@ -316,67 +317,75 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
                   ],
                 ),
                 verticalSpaceLarge,
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: RaisedButton(
+                      elevation: 5,
+                      onPressed: (_userInputedAddressStringController.text
+                                  .trim()
+                                  .isEmpty ||
+                              _googleAddressStringController.text
+                                  .trim()
+                                  .isEmpty ||
+                              _pinCodeController.text.trim().isEmpty)
+                          ? null
+                          : () {
+                              final userInputAddressString =
+                                  _userInputedAddressStringController.text;
+                              final googleAddresString =
+                                  _googleAddressStringController.text;
+                              final pinCode =
+                                  int.tryParse(_pinCodeController.text);
 
-                //Save Btn Row
-                Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: RaisedButton(
-                        elevation: 5,
-                        onPressed: () {
-                          final userInputAddressString =
-                              _userInputedAddressStringController.text;
-                          final googleAddresString =
-                              _googleAddressStringController.text;
-                          final pinCode = int.tryParse(_pinCodeController.text);
+                              if (pinCode == null) {
+                                return;
+                              }
 
-                          if (pinCode == null) {
-                            return;
-                          }
+                              if (userInputAddressString.isEmpty ||
+                                  userInputAddressString.trim().length == 0 ||
+                                  googleAddresString.isEmpty ||
+                                  googleAddresString.trim().length == 0) {
+                                return;
+                              }
 
-                          if (userInputAddressString.isEmpty ||
-                              userInputAddressString.trim().length == 0 ||
-                              googleAddresString.isEmpty ||
-                              googleAddresString.trim().length == 0) {
-                            return;
-                          }
+                              final String gujState = "Gujarat".toUpperCase();
+                              final int stateIndex = widget
+                                  .pickedPlace.addressComponents
+                                  .indexWhere((element) =>
+                                      element.longName.toUpperCase() ==
+                                      gujState);
+                              String pickedCity;
+                              if (stateIndex != -1)
+                                pickedCity = widget.pickedPlace
+                                    .addressComponents[stateIndex - 1].longName;
 
-                          final String gujState = "Gujarat".toUpperCase();
-                          final int stateIndex = widget
-                              .pickedPlace.addressComponents
-                              .indexWhere((element) =>
-                                  element.longName.toUpperCase() == gujState);
-                          String pickedCity;
-                          if (stateIndex != -1)
-                            pickedCity = widget.pickedPlace
-                                .addressComponents[stateIndex - 1].longName;
-
-                          Navigator.of(context)
-                              .pop<UserDetailsContact>(new UserDetailsContact(
-                            address: userInputAddressString,
-                            googleAddress: googleAddresString,
-                            pincode: pinCode,
-                            city: pickedCity,
-                            state: gujState,
-                          ));
-                        },
-                        color: green,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                          // side: BorderSide(
-                          //     color: Colors.black, width: 0.5)
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 12),
-                          child: CustomText(
-                            "Save & Proceed ",
-                            isBold: true,
-                            color: Colors.white,
-                          ),
+                              Navigator.of(context).pop<UserDetailsContact>(
+                                  new UserDetailsContact(
+                                address: userInputAddressString,
+                                googleAddress: googleAddresString,
+                                pincode: pinCode,
+                                city: pickedCity,
+                                state: gujState,
+                              ));
+                            },
+                      color: green,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        // side: BorderSide(
+                        //     color: Colors.black, width: 0.5)
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        child: CustomText(
+                          "Save & Proceed ",
+                          isBold: true,
+                          color: Colors.white,
                         ),
                       ),
                     ),
-                  ],
+                  ),
                 ),
               ],
             ),

@@ -133,7 +133,7 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                                       fadeInCurve:
                                                           Curves.easeIn,
                                                       placeholder:
-                                                          "assets/images/placeholder.png",
+                                                          "assets/images/product_preloading.png",
                                                       image:
                                                           "$PRODUCT_PHOTO_BASE_URL/${widget.mOrder.product.key}/${widget.mOrder.product.photo.photos.first.name}",
                                                       fit: BoxFit.cover,
@@ -576,7 +576,7 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                 width: 100,
                                 height: 120,
                                 fadeInCurve: Curves.easeIn,
-                                placeholder: "assets/images/placeholder.png",
+                                placeholder: "assets/images/product_preloading.png",
                                 image:
                                     "https://images.unsplash.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
                                 fit: BoxFit.cover,

@@ -263,7 +263,7 @@ class _ProductTileUIState extends State<ProductTileUI> {
                     child: FadeInImage.assetNetwork(
                         fit: BoxFit.cover,
                         fadeInCurve: Curves.easeIn,
-                        placeholder: 'assets/images/placeholder.png',
+                        placeholder: 'assets/images/product_preloading.png',
                         image: photoURL == null
                             ? 'https://images.pexels.com/photos/157675/fashion-men-s-individuality-black-and-white-157675.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
                             : '$PRODUCT_PHOTO_BASE_URL/${widget.data.key}/$photoURL')))),

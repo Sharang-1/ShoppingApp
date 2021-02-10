@@ -1041,7 +1041,7 @@ class CategoriesHomeList extends StatelessWidget {
                         child: FadeInImage.assetNetwork(
                             fit: BoxFit.fill,
                             fadeInCurve: Curves.easeIn,
-                            placeholder: 'assets/images/placeholder.png',
+                            placeholder: 'assets/images/promotion_preloading.png',
                             image:
                                 // photoName == null?
 

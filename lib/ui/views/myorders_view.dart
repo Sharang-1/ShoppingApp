@@ -132,7 +132,7 @@ class _MyOrdersViewState extends State<MyOrdersView> {
                                                         fadeInCurve:
                                                             Curves.easeIn,
                                                         placeholder:
-                                                            "assets/images/placeholder.png",
+                                                            "assets/images/product_preloading.png",
                                                         image:
                                                             "$PRODUCT_PHOTO_BASE_URL/${o.product.key}/${o.product.photo.photos.first.name}",
                                                         fit: BoxFit.cover,

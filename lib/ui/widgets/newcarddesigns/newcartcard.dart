@@ -47,7 +47,7 @@ class RestaurantListItem3 extends StatelessWidget {
                             image: DecorationImage(
                                 fit: BoxFit.cover,
                                 image: AssetImage(
-                                    'assets/images/placeholder.png')),
+                                    'assets/images/product_preloading.png')),
                             borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(8),
                                 bottomLeft: Radius.circular(10)),
