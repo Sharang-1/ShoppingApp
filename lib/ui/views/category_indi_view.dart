@@ -135,6 +135,7 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
                                         context: context,
                                         filter: filter,
                                         gridCount: 2,
+                                        emptyListWidget: EmptyListWidget(text: ""),
                                         viewModel:
                                             ProductsGridViewBuilderViewModel(),
                                         childAspectRatio: 0.7,

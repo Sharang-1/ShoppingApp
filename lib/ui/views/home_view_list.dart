@@ -989,14 +989,19 @@ class _HomeViewListState extends State<HomeViewList> {
                     padding: EdgeInsets.only(left: 20),
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: <Widget>[
-                          Text(
-                            "Made with Love in India!",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: Colors.grey[800],
-                                fontWeight: FontWeight.bold,
-                                fontSize: 25),
+                          FittedBox(
+                            fit: BoxFit.fitWidth,
+                              child: Text(
+                              "Made with Love in India!",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Colors.grey[800],
+                                  fontWeight: FontWeight.bold,
+                                  // fontSize: 25,
+                                  ),
+                            ),
                           ),
                         ]),
                   ),
