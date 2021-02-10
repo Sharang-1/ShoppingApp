@@ -2,6 +2,7 @@ import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:compound/locator.dart';
 import 'package:compound/services/navigation_service.dart';
 import 'package:compound/constants/route_names.dart';
+import 'package:fimber/fimber.dart';
 
 
 class DynamicLinkService {
@@ -25,7 +26,8 @@ class DynamicLinkService {
         }
       },
       onError: (OnLinkErrorException e) {
-        print("Dynamic Link Failed : ${e.message}");
+        Fimber.e("Dynamic Link Failed : ${e.message}");
+        return;
       }
     );
     return;
@@ -48,10 +50,9 @@ class DynamicLinkService {
 
   final link = await parameters.buildUrl();
   final ShortDynamicLink shortenedLink = await DynamicLinkParameters.shortenUrl(
-      link,
-      DynamicLinkParametersOptions(shortDynamicLinkPathLength: ShortDynamicLinkPathLength.unguessable),
-    );
+    link,
+    DynamicLinkParametersOptions(shortDynamicLinkPathLength: ShortDynamicLinkPathLength.unguessable),
+  );
   return shortenedLink.shortUrl.toString();
   }
- 
 }
