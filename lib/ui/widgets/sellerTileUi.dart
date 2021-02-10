@@ -74,18 +74,19 @@ class SellerTileUi extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 0),
                           child: ClipRRect(
-                              borderRadius: BorderRadius.circular(curve15),
-                              child: FadeInImage.assetNetwork(
-                                width: 100 * multiplyer,
-                                height: 100 * multiplyer,
-                                fadeInCurve: Curves.easeIn,
-                                placeholder:
-                                    "assets/images/product_preloading.png",
-                                image: data?.key != null
-                                    ? "$SELLER_PHOTO_BASE_URL/${data.key}"
-                                    : "https://images.unsplash.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-                                fit: BoxFit.cover,
-                              )),
+                            borderRadius: BorderRadius.circular(curve15),
+                            child: FadeInImage.assetNetwork(
+                              width: 100 * multiplyer,
+                              height: 100 * multiplyer,
+                              fadeInCurve: Curves.easeIn,
+                              placeholder:
+                                  "assets/images/product_preloading.png",
+                              image: data?.key != null
+                                  ? "$SELLER_PHOTO_BASE_URL/${data.key}"
+                                  : "https://images.unsplash.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
+                              fit: BoxFit.cover,
+                            ),
+                          ),
                         ),
                         Expanded(
                             child: Padding(

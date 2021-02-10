@@ -54,6 +54,7 @@ dependencies:
   percent_indicator: "^2.1.1"
   flutter_svg: 0.18.0
   flutter_rating_bar: ^3.0.1+1
+  sliver_fab: 1.0.0
   
   international_phone_input: ^1.0.4
   intl:
