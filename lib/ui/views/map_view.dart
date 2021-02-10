@@ -2,7 +2,6 @@
 // import 'package:url_launcher/url_launcher.dart';
 import 'package:compound/models/tailors.dart';
 import 'package:compound/ui/shared/app_colors.dart';
-import 'package:compound/utils/tools.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -15,6 +14,13 @@ import 'package:carousel_slider/carousel_slider.dart';
 import '../shared/shared_styles.dart';
 
 class MapView extends StatelessWidget {
+
+  String getStringWithBullet(String s){
+    if(s == null)
+      return "${String.fromCharCode(0x2022)} No Data";
+    return "${s == "" ? "" : String.fromCharCode(0x2022)} $s";
+  }
+
   Widget clientCardSeller(MapViewModel model, context, Seller client) {
     const double titleFontSize = titleFontSizeStyle;
     const double subtitleFontSize = subtitleFontSizeStyle - 3;
@@ -73,38 +79,45 @@ class MapView extends StatelessWidget {
                                       color: Colors.white,
                                       fontWeight: FontWeight.w600),
                                 ))),
-                        SizedBox(
-                          width: 15,
-                        ),
-                        Tooltip(
-                            message: client.name,
-                            child: Text(
-                                Tools.getTruncatedString(20, client.name),
+                        Expanded(
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 14.0),
+                            child: Tooltip(
+                              message: client.name,
+                              child: Text(
+                                client.name,
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                    fontSize: titleFontSize))),
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                  fontSize: titleFontSize,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ),
+                        ),
                       ]),
                       verticalSpace(12),
                       Expanded(
-                          child: Text(
-                          Tools.getTruncatedString(50, client.works ?? "No Data"),
+                        child: Text(
+                          getStringWithBullet(client.works),
                           style: TextStyle(
                             fontSize: subtitleFontSize,
                             color: lightGrey,
                             // fontWeight: FontWeight.bold,
                           ),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                       verticalSpace(5),
                       Expanded(
-                          child: Text(
-                          Tools.getTruncatedString(
-                              50, client.operations ?? "No Data"),
+                        child: Text(
+                          getStringWithBullet(client.operations),
                           style: TextStyle(
                             fontSize: subtitleFontSize,
                             color: lightGrey,
                           ),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
 
@@ -243,12 +256,17 @@ class MapView extends StatelessWidget {
                         width: 15,
                       ),
                       Tooltip(
-                          message: client.name,
-                          child: Text(Tools.getTruncatedString(20, client.name),
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                  fontSize: titleFontSize))),
+                        message: client.name,
+                        child: Text(
+                          client.name,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                            fontSize: titleFontSize,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
                     ],
                   ),
                 ],
