@@ -8,7 +8,7 @@ import 'package:compound/viewmodels/address_view_model.dart';
 import 'package:fimber/fimber_base.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
+// import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_place_picker/google_maps_place_picker.dart';
 import 'package:provider_architecture/viewmodel_provider.dart';
@@ -160,7 +160,7 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
   final _googleAddressStringController = TextEditingController();
   final _pinCodeController = TextEditingController();
 
-  _BottomSheetForAddressState() {}
+  _BottomSheetForAddressState();
 
   @override
   void initState() {

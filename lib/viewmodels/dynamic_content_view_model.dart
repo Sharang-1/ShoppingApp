@@ -1,6 +1,6 @@
 import 'package:compound/constants/route_names.dart';
 import 'package:compound/models/products.dart';
-import 'package:compound/models/sellers.dart';
+// import 'package:compound/models/sellers.dart';
 import 'package:compound/models/promotions.dart';
 import 'package:compound/locator.dart';
 import 'package:compound/services/api/api_service.dart';

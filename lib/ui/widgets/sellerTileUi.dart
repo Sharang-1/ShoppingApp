@@ -29,7 +29,7 @@ class SellerTileUi extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double subtitleFontSize = fromHome ? 18 * 0.8 : 18;
-    double titleFontSize = fromHome ? 18 * 0.8 : 18;
+    // double titleFontSize = fromHome ? 18 * 0.8 : 18;
     double multiplyer = fromHome ? 0.8 : 1;
     final NavigationService _navigationService = locator<NavigationService>();
 

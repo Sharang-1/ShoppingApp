@@ -18,7 +18,7 @@ import 'package:compound/ui/views/productListView.dart';
 import 'package:compound/ui/views/product_individual_view.dart';
 import 'package:compound/ui/views/product_whishlist_view.dart';
 import 'package:compound/ui/views/profile_view.dart';
-import 'package:compound/ui/views/promotion_products_view.dart';
+// import 'package:compound/ui/views/promotion_products_view.dart';
 import 'package:compound/ui/views/search_view.dart';
 import 'package:compound/ui/views/settings_page_view.dart';
 import 'package:compound/ui/views/verify_otp.dart';
@@ -223,14 +223,14 @@ Route<dynamic> generateRoute(RouteSettings settings) {
           routeName: settings.name,
           viewToShow: AddressInputPage(),
           pageTransitionType: PageTransitionType.rightToLeft);
-    case PromotionProductRoute:
-      var pargs = pageArguments as PromotionProductsPageArg;
-      return _getPageRoute(
-          pageArguments: pageArguments,
-          routeName: settings.name,
-          viewToShow: PromotionProduct(
-              productIds: [], promotionTitle: pargs.promoTitle),
-          pageTransitionType: transitionType);
+    // case PromotionProductRoute:
+    //   var pargs = pageArguments as PromotionProductsPageArg;
+    //   return _getPageRoute(
+    //       pageArguments: pageArguments,
+    //       routeName: settings.name,
+    //       viewToShow: PromotionProduct(
+    //           productIds: [], promotionTitle: pargs.promoTitle),
+    //       pageTransitionType: transitionType);
     case SettingsRoute:
       return _getPageRoute(
           pageArguments: pageArguments,

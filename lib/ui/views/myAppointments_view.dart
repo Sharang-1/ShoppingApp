@@ -12,11 +12,13 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../shared/shared_styles.dart';
 import 'package:compound/ui/widgets/GridListWidget.dart';
 
+// ignore: camel_case_types
 class myAppointments extends StatefulWidget {
   @override
   _myAppointmentsState createState() => _myAppointmentsState();
 }
 
+// ignore: camel_case_types
 class _myAppointmentsState extends State<myAppointments> {
   final double headingFontSize = headingFontSizeStyle + 5;
   final double headingSize = 20;

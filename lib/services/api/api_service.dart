@@ -31,7 +31,7 @@ import 'package:compound/models/promotions.dart';
 import 'package:compound/models/reviews.dart';
 import 'package:compound/models/sellers.dart';
 import 'package:compound/models/tailors.dart';
-import 'package:get/get.dart' as GetModule;
+// import 'package:get/get.dart' as GetModule;
 
 // import 'package:compound/services/api/AppInterceptor.dart';
 // import 'package:compound/services/api/CustomLogInterceptor.dart';

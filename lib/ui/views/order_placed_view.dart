@@ -6,7 +6,7 @@ import '../shared/app_colors.dart';
 
 class OrderPlacedView extends StatelessWidget {
 
-  String productName, sellerName;
+  final String productName, sellerName;
 
   //dummy data passed
   OrderPlacedView({this.productName = "Product Name", this.sellerName = "Seller Name"});

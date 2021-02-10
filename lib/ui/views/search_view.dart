@@ -31,7 +31,7 @@ import 'package:compound/viewmodels/grid_view_builder_view_models/categories_vie
 class SearchView extends StatefulWidget {
   SearchView({Key key, this.showSellers = false}) : super(key: key);
 
-  bool showSellers;
+  final bool showSellers;
 
   @override
   _SearchViewState createState() => _SearchViewState();

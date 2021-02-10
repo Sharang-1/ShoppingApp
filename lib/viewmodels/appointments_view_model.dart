@@ -10,9 +10,9 @@ import 'package:compound/services/navigation_service.dart';
 import 'package:compound/viewmodels/base_model.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:google_maps_place_picker/google_maps_place_picker.dart';
-import 'package:intl/intl.dart';
+// import 'package:get/get.dart';
+// import 'package:google_maps_place_picker/google_maps_place_picker.dart';
+// import 'package:intl/intl.dart';
 
 class AppointmentsViewModel extends BaseModel {
   final APIService _apiService = locator<APIService>();
@@ -46,6 +46,7 @@ class AppointmentsViewModel extends BaseModel {
     var res = await _apiService.cancelAppointment(id, msg);
     if (res != null) {
       var errorMsg = json.decode(res).message;
+      Fimber.e(errorMsg);
     }
   }
 

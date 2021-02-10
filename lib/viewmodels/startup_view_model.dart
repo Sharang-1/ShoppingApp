@@ -38,9 +38,9 @@ class StartUpViewModel extends BaseModel {
     var updateDetails = await _apiService.getAppUpdate();
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
 
-    String packageName = packageInfo.packageName;
+    // String packageName = packageInfo.packageName;
     String version = packageInfo.version;
-    String buildNumber = packageInfo.buildNumber;
+    // String buildNumber = packageInfo.buildNumber;
 
     await _analyticsService.setup();
     _notificationService.initialise();

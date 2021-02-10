@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 import 'package:compound/viewmodels/dynamic_content_view_model.dart';
 import 'package:compound/ui/shared/app_colors.dart';
-import 'package:compound/ui/widgets/circular_progress_indicator.dart';
+// import 'package:compound/ui/widgets/circular_progress_indicator.dart';
 
 class DynamicContentLoadingView extends StatefulWidget {
   final data;

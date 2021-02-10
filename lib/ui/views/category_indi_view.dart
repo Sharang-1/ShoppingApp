@@ -42,8 +42,8 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
   @override
   Widget build(BuildContext context) {
     // const double headingFontSize = headingFontSizeStyle;
-    String catBgColor = categoriesIndiBgColorsPallete[
-        next(0, categoriesIndiBgColorsPallete.length - 1)];
+    // String catBgColor = categoriesIndiBgColorsPallete[
+    //     next(0, categoriesIndiBgColorsPallete.length - 1)];
 
     return ViewModelProvider<CategoriesViewModel>.withConsumer(
       viewModel: CategoriesViewModel(),
@@ -165,8 +165,8 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
     );
   }
 
-  Color _colorFromHex(String hexColor) {
-    final hexCode = hexColor.replaceAll('#', '');
-    return Color(int.parse('FF$hexCode', radix: 16));
-  }
+  // Color _colorFromHex(String hexColor) {
+  //   final hexCode = hexColor.replaceAll('#', '');
+  //   return Color(int.parse('FF$hexCode', radix: 16));
+  // }
 }

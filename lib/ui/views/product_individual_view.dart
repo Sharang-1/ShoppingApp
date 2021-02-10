@@ -1,6 +1,6 @@
 import 'package:compound/constants/server_urls.dart';
 import 'package:compound/models/CartCountSetUp.dart';
-import 'package:compound/models/LookupSetUp.dart';
+// import 'package:compound/models/LookupSetUp.dart';
 import 'package:compound/models/WhishListSetUp.dart';
 import 'package:compound/models/grid_view_builder_filter_models/productFilter.dart';
 import 'package:compound/models/lookups.dart';
@@ -14,7 +14,7 @@ import 'package:compound/ui/widgets/wishlist_icon.dart';
 import 'package:compound/utils/tools.dart';
 import 'package:compound/viewmodels/grid_view_builder_view_models/products_grid_view_builder_view_model.dart';
 import 'package:compound/viewmodels/product_individual_view_model.dart';
-import 'package:fimber/fimber_base.dart';
+// import 'package:fimber/fimber_base.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';

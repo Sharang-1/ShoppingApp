@@ -9,7 +9,7 @@ class CardWithRadioButton extends StatefulWidget {
   final addressGrpValue;
   final address;
   final fullAddress;
-  Function setRadioValue;
+  final Function setRadioValue;
   CardWithRadioButton(
       {this.address,
       this.addressGrpValue,

@@ -3,18 +3,18 @@ import 'package:compound/locator.dart';
 import 'package:compound/models/lookups.dart';
 import 'package:compound/models/products.dart';
 import 'package:compound/models/sellers.dart';
-import 'package:compound/models/user_details.dart';
-import 'package:compound/services/address_service.dart';
+// import 'package:compound/models/user_details.dart';
+// import 'package:compound/services/address_service.dart';
 import 'package:compound/services/api/api_service.dart';
 import 'package:compound/services/cart_local_store_service.dart';
 import 'package:compound/services/dialog_service.dart';
 // import 'package:compound/services/dialog_service.dart';
 import 'package:compound/services/navigation_service.dart';
 import 'package:compound/services/whishlist_service.dart';
-import 'package:compound/ui/views/address_input_form_view.dart';
-import 'package:flutter/material.dart';
-import 'package:google_maps_place_picker/google_maps_place_picker.dart';
-import 'package:page_transition/page_transition.dart';
+// import 'package:compound/ui/views/address_input_form_view.dart';
+// import 'package:flutter/material.dart';
+// import 'package:google_maps_place_picker/google_maps_place_picker.dart';
+// import 'package:page_transition/page_transition.dart';
 import '../services/api/api_service.dart';
 import 'package:compound/services/analytics_service.dart';
 
@@ -28,7 +28,7 @@ class ProductIndividualViewModel extends BaseModel {
   final AnalyticsService _analyticsService = locator<AnalyticsService>();
   final WhishListService _whishListService = locator<WhishListService>();
   final DialogService _dialogService = locator<DialogService>();
-  final AddressService _addressService = locator<AddressService>();
+  // final AddressService _addressService = locator<AddressService>();
 
   Seller selleDetail;
   // UserDetailsContact defaultAddress;

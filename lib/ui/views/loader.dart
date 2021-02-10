@@ -6,11 +6,13 @@ import 'package:compound/services/navigation_service.dart';
 import 'package:compound/locator.dart';
 import 'dart:async';
 
+// ignore: camel_case_types
 class loader extends StatefulWidget {
   @override
   _loaderState createState() => _loaderState();
 }
 
+// ignore: camel_case_types
 class _loaderState extends State<loader> with SingleTickerProviderStateMixin {
   void initState() {
     super.initState();

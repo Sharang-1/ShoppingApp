@@ -80,12 +80,10 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void onDonePress() {
-    // TODO: go to next screen
     Navigator.pushNamed(context, LoginViewRoute);
   }
 
   void onSkipPress() {
-    // TODO: go to next screen
     Navigator.pushNamed(context, LoginViewRoute);
   }
 

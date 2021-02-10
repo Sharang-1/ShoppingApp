@@ -5,7 +5,7 @@ import 'package:compound/services/address_service.dart';
 import 'package:compound/services/api/api_service.dart';
 import 'package:compound/services/dialog_service.dart';
 import 'package:compound/viewmodels/base_model.dart';
-import 'package:fimber/fimber.dart';
+// import 'package:fimber/fimber.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserDetailsViewModel extends BaseModel {
