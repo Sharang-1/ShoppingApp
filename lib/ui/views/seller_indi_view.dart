@@ -81,7 +81,11 @@ class _SellerIndiState extends State<SellerIndi> {
   }
 
   String getTimeString(Timing timing) {
-    return "${getTime(timing.monday.start)} - ${getTime(timing.monday.end)} (Today)";
+    DateTime _dateTime = DateTime.now();
+    Map<String, dynamic> timingJson = timing.toJson();
+    Day today = Day.fromJson(
+        timingJson[DateFormat('EEEE').format(_dateTime).toLowerCase()]);
+    return "${getTime(today.start)} - ${getTime(today.end)} (Today)";
   }
 
   bool isOpenNow(Timing timing) {
