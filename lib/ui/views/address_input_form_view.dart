@@ -272,6 +272,11 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
                             return "Please enter Proper Address";
                           return null;
                         },
+                        onChanged: (text){
+                          setState((){
+                            _userInputedAddressStringController.text;
+                          });
+                        },
                         decoration: const InputDecoration(
                           labelText: 'House Number , Society Name ....',
                           isDense: true,
@@ -311,7 +316,7 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
                           isDense: true,
                         ),
                         autofocus: false,
-                        enabled: true,
+                        enabled: false,
                       ),
                     ),
                   ],
@@ -323,15 +328,7 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
                     width: double.infinity,
                     child: RaisedButton(
                       elevation: 5,
-                      onPressed: (_userInputedAddressStringController.text
-                                  .trim()
-                                  .isEmpty ||
-                              _googleAddressStringController.text
-                                  .trim()
-                                  .isEmpty ||
-                              _pinCodeController.text.trim().isEmpty)
-                          ? null
-                          : () {
+                      onPressed: _userInputedAddressStringController.text.trim().isEmpty ? null : () {
                               final userInputAddressString =
                                   _userInputedAddressStringController.text;
                               final googleAddresString =

@@ -484,11 +484,19 @@ class _ProfileViewState extends State<ProfileView> {
                                               UserDetailsContact userAdd =
                                                   await showModalBottomSheet(
                                                       context: context,
-                                                      builder: (_) =>
-                                                          BottomSheetForAddress(
-                                                            pickedPlace:
-                                                                pickedPlace,
-                                                          ));
+                                                      isScrollControlled: true,
+                                                      builder: (_) => Padding(
+                                                            padding: EdgeInsets.only(
+                                                                bottom: MediaQuery.of(
+                                                                        context)
+                                                                    .viewInsets
+                                                                    .bottom),
+                                                            child:
+                                                                BottomSheetForAddress(
+                                                              pickedPlace:
+                                                                  pickedPlace,
+                                                            ),
+                                                          ),);
                                               if (userAdd != null) {
                                                 if (userAdd.city
                                                         .toUpperCase() !=
