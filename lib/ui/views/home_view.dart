@@ -12,6 +12,8 @@ import '../shared/app_colors.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 import '../widgets/cart_icon_badge.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:rate_my_app/rate_my_app.dart';
 
 // import '../shared/shared_styles.dart';
 
@@ -38,6 +40,65 @@ class _HomeViewState extends State<HomeView> {
     });
     await Future.delayed(Duration(milliseconds: 100));
     refreshController.refreshCompleted(resetFooterState: true);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    final RateMyApp rateMyApp = RateMyApp(
+      preferencesPrefix: 'rateMyApp_',
+      minDays: 0,
+      minLaunches: 0,
+      remindDays: 2,
+      remindLaunches: 2,
+      googlePlayIdentifier: 'in.dzor.dzor_app',
+      appStoreIdentifier: 'in.dzor.dzor-app',
+    );
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await rateMyApp.init();
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      int launches = preferences.getInt('rateMyApp_launches') ?? 0;
+      bool doNotOpenAgain = preferences.getBool('rateMyApp_doNotOpenAgain') ?? false;
+
+      if (mounted && 
+        !doNotOpenAgain && 
+        (launches > 0) && 
+        (launches % 2 == 0)
+      ) {
+        await rateMyApp.showRateDialog(
+          context,
+          title: 'Dzor',
+          // message: '',
+        );
+      }
+      //   await rateMyApp.showStarRateDialog(
+      //     context,
+      //     title: 'Dzor',
+      //     dialogStyle: DialogStyle(
+      //       titleAlign: TextAlign.center,
+      //       messageAlign: TextAlign.center,
+      //       messagePadding: EdgeInsets.only(bottom: 20),
+      //     ),
+      //     starRatingOptions: StarRatingOptions(),
+      //     actionsBuilder: (context, stars) {
+      //       return [
+      //         FlatButton(
+      //           child: Text('Thank You !'),
+      //           onPressed: () async {
+      //             print('Thanks for the ' +
+      //                 (stars == null ? '0' : stars.round().toString()) +
+      //                 ' star(s) !');
+      //             await rateMyApp
+      //                 .callEvent(RateMyAppEventType.rateButtonPressed);
+      //             Navigator.pop<RateMyAppDialogButton>(
+      //                 context, RateMyAppDialogButton.rate);
+      //           },
+      //         ),
+      //       ];
+      //     },
+      //   );
+      // }
+    });
   }
 
   @override

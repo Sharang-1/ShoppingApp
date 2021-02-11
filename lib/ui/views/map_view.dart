@@ -347,12 +347,13 @@ class MapView extends StatelessWidget {
                 zoomControlsEnabled: false,
               ),
               Positioned(
-                top: MediaQuery.of(context).size.height -
-                    (model.showSailors ? 260.0 : 200.0),
+                // top: MediaQuery.of(context).size.height -
+                //     (model.showSailors ? 300.0 : 240.0),
+                bottom: 10.0,
                 left: 10.0,
                 child: model.clientsToggle
                     ? Container(
-                        height: 240.0,
+                        height: model.showSailors ? 240.0 : 180,
                         width: MediaQuery.of(context).size.width,
                         child: Column(
                           children: [
