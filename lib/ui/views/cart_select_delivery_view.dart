@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider_architecture/provider_architecture.dart';
-import 'package:google_maps_place_picker/google_maps_place_picker.dart';
+import 'package:compound/google_maps_place_picker/google_maps_place_picker.dart';
 
 class SelectAddress extends StatefulWidget {
   final String finalTotal;

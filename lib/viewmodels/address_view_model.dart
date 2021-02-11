@@ -1,6 +1,6 @@
 import 'package:compound/viewmodels/base_model.dart';
 import 'package:get/get.dart';
-import 'package:google_maps_place_picker/google_maps_place_picker.dart';
+import 'package:compound/google_maps_place_picker/google_maps_place_picker.dart';
 
 class AddressViewModel extends BaseModel {
   PickResult selectedResult;

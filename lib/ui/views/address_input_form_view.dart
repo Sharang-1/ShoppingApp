@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 // import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:google_maps_place_picker/google_maps_place_picker.dart';
+import 'package:compound/google_maps_place_picker/google_maps_place_picker.dart';
 import 'package:provider_architecture/viewmodel_provider.dart';
 
 // added some stuff here
