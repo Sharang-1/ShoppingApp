@@ -140,13 +140,14 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                 image: productImage != null
                     ? '$PRODUCT_PHOTO_BASE_URL/${widget.item.productId}/$productImage'
                     : "https://images.unsplashr.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-                fit: BoxFit.cover,
+                fit: BoxFit.fitWidth,
               ),
             ),
             Expanded(
               child: Padding(
                 padding: EdgeInsets.only(left: 10),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     verticalSpaceTiny,
