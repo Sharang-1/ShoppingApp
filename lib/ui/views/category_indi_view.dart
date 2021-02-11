@@ -49,7 +49,7 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
       viewModel: CategoriesViewModel(),
       onModelReady: (model) => model.init(),
       builder: (context, model, child) => Scaffold(
-        backgroundColor: logoRed,
+        backgroundColor: backgroundWhiteCreamColor,
         body: SafeArea(
           top: true,
           left: false,
@@ -103,7 +103,7 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
                     // displays the index of the current item.
                     (context, index) => Container(
                       color: backgroundWhiteCreamColor,
-                      height: 5000,
+                      // height: 500,
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[

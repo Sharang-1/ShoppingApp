@@ -40,6 +40,7 @@ class SellerIndi extends StatefulWidget {
 
 class _SellerIndiState extends State<SellerIndi> {
   final productKey = new UniqueKey();
+  bool showExploreSection = false;
 
   var allDetials = [
     "Speciality",
@@ -601,14 +602,14 @@ class _SellerIndiState extends State<SellerIndi> {
                       ),
                     ),
                     if (widget.data.subscriptionTypeId == 1) verticalSpace(20),
-                    if (widget.data.subscriptionTypeId == 1)
+                    if (widget.data.subscriptionTypeId == 1 && showExploreSection)
                       Text(
                         "   Explore Designer's Collection",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: titleFontSizeStyle),
                       ),
-                    if (widget.data.subscriptionTypeId == 1) verticalSpace(5),
+                    if (widget.data.subscriptionTypeId == 1 && showExploreSection) verticalSpace(5),
                     if (widget.data.subscriptionTypeId == 1)
                       SizedBox(
                         height: 200,
@@ -628,6 +629,7 @@ class _SellerIndiState extends State<SellerIndi> {
                           emptyListWidget: Container(),
                           tileBuilder: (BuildContext context, productData,
                               index, onUpdate, onDelete) {
+                              showExploreSection = true;
                             return ProductTileUI(
                               data: productData,
                               onClick: () => _navigationService.navigateTo(
