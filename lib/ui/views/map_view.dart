@@ -107,6 +107,7 @@ class MapView extends StatelessWidget {
                             // fontWeight: FontWeight.bold,
                           ),
                           overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
                         ),
                       ),
                       verticalSpace(5),
@@ -118,6 +119,7 @@ class MapView extends StatelessWidget {
                             color: lightGrey,
                           ),
                           overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
                         ),
                       ),
 

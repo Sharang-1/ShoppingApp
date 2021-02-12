@@ -191,11 +191,11 @@ class _HomeViewListState extends State<HomeViewList> {
             child: GridListWidget<Sellers, Seller>(
               key: UniqueKey(),
               context: context,
-              filter: new SellerFilter(),
+              filter: SellerFilter(),
               gridCount: 1,
               childAspectRatio: 0.60,
               viewModel: SellersGridViewBuilderViewModel(
-                  profileOnly: true, random: true),
+                  profileOnly: true, random: true, boutiquesOnly: true),
               disablePagination: true,
               scrollDirection: Axis.horizontal,
               emptyListWidget: Container(),
@@ -464,7 +464,7 @@ class _HomeViewListState extends State<HomeViewList> {
               child: Padding(
                 padding: const EdgeInsets.only(left: 15.0),
                 child: Text(
-                  'Product Delivered Same Day',
+                  'Sending In A Minute',
                   style: TextStyle(
                     color: Colors.grey[800],
                     fontSize: subtitleFontSize,

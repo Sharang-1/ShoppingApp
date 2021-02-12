@@ -108,6 +108,7 @@ class _ProfileViewState extends State<ProfileView> {
                         ),
                       ],
                     );
+                  // ignore: missing_return
                   }).then((result) {
                 if (result == null) return;
                 if (result) {

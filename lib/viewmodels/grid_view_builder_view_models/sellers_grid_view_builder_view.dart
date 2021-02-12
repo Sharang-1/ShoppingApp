@@ -17,6 +17,7 @@ class SellersGridViewBuilderViewModel
   final bool profileOnly;
   final bool sellerOnly;
   final bool sellerDeliveringToYou;
+  final bool boutiquesOnly;
   final bool random;
   final String removeId;
   final num subscriptionType;
@@ -26,6 +27,7 @@ class SellersGridViewBuilderViewModel
     this.sellerOnly = false,
     this.sellerDeliveringToYou = false,
     this.random = false,
+    this.boutiquesOnly = false,
     this.removeId,
     this.subscriptionType
   });
@@ -76,6 +78,10 @@ class SellersGridViewBuilderViewModel
       res.items = res.items
           .where((element) => element?.subscriptionTypeId == 2)
           .toList();
+    }
+
+    if(this.boutiquesOnly){
+      res.items = res.items.where((element) => element?.establishmentTypeId == 1).toList();
     }
 
     if (this.random) {
