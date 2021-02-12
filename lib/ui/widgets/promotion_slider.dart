@@ -46,18 +46,21 @@ class _PromotionSliderState extends State<PromotionSlider> {
           //   ],
           // ),
           child: CarouselSlider(
-            autoPlay: true,
+            options: CarouselOptions(
+              autoPlay: true,
             autoPlayInterval: Duration(seconds: _timeOut),
-            pauseAutoPlayOnTouch: Duration(seconds: 10),
+            pauseAutoPlayOnTouch: true,
+            // pauseAutoPlayOnTouch: Duration(seconds: 10),
             aspectRatio: widget.aspectRatio,
             enableInfiniteScroll: true,
             viewportFraction: 1.0,
-            onPageChanged: (index) {
+            onPageChanged: (index, reason) {
               setState(() {
                 _current = index;
                 _timeOut = widget?.promotions[index]?.time ?? 3;
               });
             },
+            ),
             items: widget.promotions.map((i) {
               return Builder(
                 builder: (BuildContext context) {

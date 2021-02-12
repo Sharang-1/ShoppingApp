@@ -11,17 +11,19 @@ import 'package:compound/models/sellers.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/viewmodels/map_view_model.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:fimber/fimber.dart';
 import '../shared/shared_styles.dart';
 
 class MapView extends StatelessWidget {
+  final CarouselController controller = CarouselController();
+  Map<String, int> carouselMap = {};
 
-  String getStringWithBullet(String s){
-    if(s == null)
-      return "${String.fromCharCode(0x2022)} No Data";
+  String getStringWithBullet(String s) {
+    if (s == null) return "${String.fromCharCode(0x2022)} No Data";
     return "${s == "" ? "" : String.fromCharCode(0x2022)} $s";
   }
 
-  Widget clientCardSeller(MapViewModel model, context, Seller client) {
+  Widget clientCardSeller(MapViewModel model, context, Seller client, int index) {
     const double titleFontSize = titleFontSizeStyle;
     const double subtitleFontSize = subtitleFontSizeStyle - 3;
 
@@ -47,6 +49,7 @@ class MapView extends StatelessWidget {
             model.currentBearing = 90.0;
             model.zoomInMarker(client.contact.geoLocation.latitude,
                 client.contact.geoLocation.longitude);
+            controller.animateToPage(index);
           },
           child: Card(
             clipBehavior: Clip.antiAlias,
@@ -211,7 +214,7 @@ class MapView extends StatelessWidget {
         ));
   }
 
-  Widget clientCardTailor(MapViewModel model, context, Tailor client) {
+  Widget clientCardTailor(MapViewModel model, context, Tailor client, int index) {
     const double titleFontSize = titleFontSizeStyle;
 
     List<String> tempSplitName = client.name.split(" ");
@@ -227,6 +230,7 @@ class MapView extends StatelessWidget {
             model.currentBearing = 90.0;
             model.zoomInMarker(client.contact.geoLocation.latitude,
                 client.contact.geoLocation.longitude);
+            controller.animateToPage(index);
           },
           child: Card(
             clipBehavior: Clip.antiAlias,
@@ -278,7 +282,7 @@ class MapView extends StatelessWidget {
         ));
   }
 
-  Set<Marker> getMarkers(context, MapViewModel model) {
+  Set<Marker> getMarkers(context, MapViewModel model, showSailors) {
     void createMarker(client, {bool isSeller = true}) {
       if (client.contact.geoLocation == null ||
           client.contact.geoLocation.latitude == null ||
@@ -299,6 +303,12 @@ class MapView extends StatelessWidget {
         onTap: () {
           // showBottomSheet = true;
           model.currentClient = client;
+          try{
+            if((showSailors && isSeller) || (!showSailors && !isSeller))
+            controller.animateToPage(carouselMap[client.key]);
+          }catch(e){
+            Fimber.e(e.toString());
+          }
           // notifyListeners();
           // _navigationService.
           // showBottomSheet(context: GlobalKey<ScaffoldState>(), builder: null)
@@ -338,7 +348,7 @@ class MapView extends StatelessWidget {
                 myLocationEnabled: true,
                 myLocationButtonEnabled: true,
                 mapType: MapType.normal,
-                markers: getMarkers(context, model),
+                markers: getMarkers(context, model, model.showSailors),
                 initialCameraPosition: CameraPosition(
                   target: new LatLng(model.currentLocation.latitude,
                       model.currentLocation.longitude),
@@ -383,21 +393,22 @@ class MapView extends StatelessWidget {
                               height: model.showSailors ? 160.0 : 100.0,
                               width: MediaQuery.of(context).size.width,
                               child: CarouselSlider(
-                                // ListView(
-                                // scrollDirection: Axis.horizontal,
-                                // shrinkWrap: true,
-                                // children:
+                                carouselController: controller,
                                 items: model.showSailors
-                                    ? model.sData.items.map((element) {
+                                    ? model.sData.items.asMap().entries.map((element) {
+                                      carouselMap.addAll({element.value.key.toString(): element.key});
                                         return clientCardSeller(
-                                            model, context, element);
+                                            model, context, element.value, element.key);
                                       }).toList()
-                                    : model.tData.items.map((element) {
+                                    : model.tData.items.asMap().entries.map((element) {
+                                      carouselMap.addAll({element.value.key.toString(): element.key});
                                         return clientCardTailor(
-                                            model, context, element);
+                                            model, context, element.value, element.key);
                                       }).toList(),
-                                autoPlay: false,
-                                enableInfiniteScroll: false,
+                                options: CarouselOptions(
+                                  autoPlay: false,
+                                  enableInfiniteScroll: false,
+                                ),
                               ),
                             )
                           ],

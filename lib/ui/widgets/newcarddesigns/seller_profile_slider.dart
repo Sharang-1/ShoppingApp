@@ -43,11 +43,14 @@ class SellerProfilePhotos extends StatelessWidget {
         print(images);
 
         return CarouselSlider(
-          autoPlay: false,
-          pauseAutoPlayOnTouch: Duration(seconds: 10),
-          aspectRatio: 1,
-          enableInfiniteScroll: false,
-          viewportFraction: 1.0,
+          options: CarouselOptions(
+            autoPlay: false,
+            pauseAutoPlayOnTouch: true,
+            // pauseAutoPlayOnTouch: Duration(seconds: 10),
+            aspectRatio: 1,
+            enableInfiniteScroll: false,
+            viewportFraction: 1.0,
+          ),
           items: images.map(
             (i) {
               return Builder(

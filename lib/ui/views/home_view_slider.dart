@@ -54,16 +54,19 @@ class _HomeSliderState extends State<HomeSlider> {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(20.0),
             child: CarouselSlider(
-              autoPlay: false,
-              pauseAutoPlayOnTouch: Duration(seconds: 10),
-              aspectRatio: widget.aspectRatio,
-              enableInfiniteScroll: false,
-              viewportFraction: 1.0,
-              onPageChanged: (index) {
+              options: CarouselOptions(
+                autoPlay: false,
+                aspectRatio: widget.aspectRatio,
+                enableInfiniteScroll: false,
+                viewportFraction: 1.0,
+                pauseAutoPlayOnTouch: true,
+                // pauseAutoPlayOnTouch: Duration(seconds: 10),
+                onPageChanged: (index, reason) {
                 setState(() {
                   _current = index;
                 });
               },
+              ),
               items: imgList.map((i) {
                 return Builder(
                   builder: (BuildContext context) {
