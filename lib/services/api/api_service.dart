@@ -123,7 +123,7 @@ class APIService {
       return resJSON;
     } catch (e, stacktrace) {
       // if(!((e.toString().startsWith("Exception: Seller profile photo for")))){
-        Fimber.e("Api Service error", ex: e, stacktrace: stacktrace);
+      Fimber.e("Api Service error", ex: e, stacktrace: stacktrace);
       //   GetModule.Get.snackbar(
       //   "Error",
       //   e.toString(),
@@ -182,6 +182,12 @@ class APIService {
 
     return apiWrapper(query,
         data: {"rating": ratings, "description": description});
+  }
+
+  Future<bool> hasReviewed(String productKey, String userId) async {
+    Reviews reviews = await getReviews(productKey);
+    reviews.items.where((element) => element.userId == userId);
+    return reviews.items.isNotEmpty;
   }
 
   Future<Products> getProducts({String queryString = ""}) async {
@@ -470,7 +476,15 @@ class APIService {
     var ordersData =
         await apiWrapper("orders;product=true", authenticated: true);
     if (ordersData != null) {
-      return Orders.fromJson(ordersData);
+      Orders orders = Orders.fromJson(ordersData);
+      orders.orders.sort((a, b) {
+        DateTime aDateTime = DateTime.parse(
+          "${a.deliveryDate.substring(6,10)}${a.deliveryDate.substring(3,5)}${a.deliveryDate.substring(0,2)}"
+          );
+        DateTime bDateTime = DateTime.parse("${b.deliveryDate.substring(6,10)}${b.deliveryDate.substring(3,5)}${b.deliveryDate.substring(0,2)}");
+        return bDateTime.compareTo(aDateTime);
+      });
+      return orders;
     }
     return null;
   }

@@ -14,6 +14,7 @@ import '../widgets/cart_icon_badge.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:rate_my_app/rate_my_app.dart';
+import 'package:rating_dialog/rating_dialog.dart';
 
 // import '../shared/shared_styles.dart';
 
@@ -58,46 +59,19 @@ class _HomeViewState extends State<HomeView> {
       await rateMyApp.init();
       SharedPreferences preferences = await SharedPreferences.getInstance();
       int launches = preferences.getInt('rateMyApp_launches') ?? 0;
-      bool doNotOpenAgain = preferences.getBool('rateMyApp_doNotOpenAgain') ?? false;
-
-      if (mounted && 
-        !doNotOpenAgain && 
-        (launches > 0) && 
-        (launches % 2 == 0)
-      ) {
+      bool doNotOpenAgain =
+          preferences.getBool('rateMyApp_doNotOpenAgain') ?? false;
+          
+      if (mounted && !doNotOpenAgain && (launches > 0) && (launches % 2 == 0)) {
         await rateMyApp.showRateDialog(
           context,
           title: 'Dzor',
           // message: '',
+          onDismissed: () async {
+            await preferences.setBool('rateMyApp_doNotOpenAgain', true);
+          }
         );
       }
-      //   await rateMyApp.showStarRateDialog(
-      //     context,
-      //     title: 'Dzor',
-      //     dialogStyle: DialogStyle(
-      //       titleAlign: TextAlign.center,
-      //       messageAlign: TextAlign.center,
-      //       messagePadding: EdgeInsets.only(bottom: 20),
-      //     ),
-      //     starRatingOptions: StarRatingOptions(),
-      //     actionsBuilder: (context, stars) {
-      //       return [
-      //         FlatButton(
-      //           child: Text('Thank You !'),
-      //           onPressed: () async {
-      //             print('Thanks for the ' +
-      //                 (stars == null ? '0' : stars.round().toString()) +
-      //                 ' star(s) !');
-      //             await rateMyApp
-      //                 .callEvent(RateMyAppEventType.rateButtonPressed);
-      //             Navigator.pop<RateMyAppDialogButton>(
-      //                 context, RateMyAppDialogButton.rate);
-      //           },
-      //         ),
-      //       ];
-      //     },
-      //   );
-      // }
     });
   }
 
@@ -114,6 +88,31 @@ class _HomeViewState extends State<HomeView> {
             .setUpWhishList(values[1]);
         Provider.of<LookupSetUp>(context, listen: false)
             .setUpLookups(values[2]);
+        final lastDeliveredProduct = await model.getLastDeliveredProduct();
+        print("Last Delivered Product : ${lastDeliveredProduct["name"]}");
+        if (lastDeliveredProduct != null)
+          await showDialog(
+              context: context,
+              barrierDismissible: true,
+              builder: (context) {
+                return RatingDialog(
+                  icon: Image.network(
+                    lastDeliveredProduct["image"],
+                    height: 150,
+                    width: 150,
+                  ),
+                  title: lastDeliveredProduct["name"],
+                  description: "Tap a star to give your review.",
+                  submitButton: "Submit",
+                  positiveComment: "We’re glad you liked it!! :blush:",
+                  negativeComment: "Please reach us out and help us understand your concerns!",
+                  accentColor: logoRed,
+                  onSubmitPressed: (int rating) async {
+                    print("onSubmitPressed: rating = $rating");
+                    model.postReview(lastDeliveredProduct['id'], rating.toDouble());
+                  },
+                );
+              });
       },
       builder: (context, model, child) => Scaffold(
         drawerEdgeDragWidth: 0,
@@ -128,7 +127,8 @@ class _HomeViewState extends State<HomeView> {
           iconTheme: IconThemeData(color: appBarIconColor),
           backgroundColor: backgroundWhiteCreamColor,
           bottom: PreferredSize(
-              preferredSize: Size.fromHeight(MediaQuery.of(context).padding.top),
+              preferredSize:
+                  Size.fromHeight(MediaQuery.of(context).padding.top),
               child: AppBar(
                 elevation: 0,
                 iconTheme: IconThemeData(color: appBarIconColor),

@@ -65,6 +65,7 @@ dependencies:
   intro_slider: 2.3.3
   share: 0.6.5+4
   rate_my_app: 0.7.2
+  rating_dialog: ^1.0.0
 
   
   geolocator: ^6.0.0+4
