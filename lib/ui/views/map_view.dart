@@ -16,7 +16,7 @@ import '../shared/shared_styles.dart';
 
 class MapView extends StatelessWidget {
   final CarouselController controller = CarouselController();
-  Map<String, int> carouselMap = {};
+  final Map<String, int> carouselMap = {};
 
   String getStringWithBullet(String s) {
     if (s == null) return "${String.fromCharCode(0x2022)} No Data";
