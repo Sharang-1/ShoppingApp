@@ -29,6 +29,7 @@ import 'package:compound/constants/dynamic_links.dart';
 import 'package:compound/services/dynamic_link_service.dart';
 import 'package:compound/locator.dart';
 import 'package:intl/intl.dart';
+import 'package:geocoding/geocoding.dart';
 
 class SellerIndi extends StatefulWidget {
   final Seller data;
@@ -59,14 +60,11 @@ class _SellerIndiState extends State<SellerIndi> {
   };
 
   final double headFont = 22;
-
   final double subHeadFont = 18;
-
   final double smallFont = 16;
-
   String selectedTime;
-
   int selectedIndex;
+  String address = "";
 
   final DynamicLinkService _dynamicLinkService = locator<DynamicLinkService>();
   final NavigationService _navigationService = locator<NavigationService>();
@@ -104,6 +102,27 @@ class _SellerIndiState extends State<SellerIndi> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    try{
+      placemarkFromCoordinates(widget.data.contact.geoLocation.latitude, widget.data.contact.geoLocation.longitude).then((placemarks) {
+      Placemark placemark = placemarks.first;
+      setState(() {
+      address = "";
+      if(placemark.subLocality != null) address = address + placemark.subLocality + ", ";
+      if(placemark.thoroughfare != null) address = address + placemark.thoroughfare + ", ";
+      if(placemark.locality != null) address = address + placemark.locality + ", ";
+      if(placemark.country != null) address = address + placemark.country + ", ";
+      if(placemark.postalCode != null) address = address + placemark.postalCode;
+      });
+      }
+    );
+    }catch(e){
+      print(e.toString());
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     double media = ((MediaQuery.of(context).size.width - 100) / 2);
     double multiplyer = 0.8;
@@ -116,7 +135,7 @@ class _SellerIndiState extends State<SellerIndi> {
       "lat": widget?.data?.contact?.geoLocation?.latitude?.toString(),
       "lon": widget?.data?.contact?.geoLocation?.longitude?.toString(),
       "appointment": "false",
-      "Address": widget.data.operations,
+      "Address": "",
       "Speciality": widget.data.known,
       "Designs & Creates": widget.data.designs,
       "Services offered": widget.data.operations,
@@ -361,7 +380,7 @@ class _SellerIndiState extends State<SellerIndi> {
                             ),
                             verticalSpaceTiny,
                             CustomText(
-                              sellerDetails["Address"],
+                              address,
                               fontSize: smallFont,
                               color: Colors.grey,
                             ),
