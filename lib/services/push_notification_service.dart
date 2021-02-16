@@ -1,10 +1,14 @@
 // import 'dart:io';
 
+import 'dart:io';
+
 import 'package:compound/constants/route_names.dart';
 import 'package:compound/locator.dart';
 import 'package:compound/services/navigation_service.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fimber/fimber.dart';
+import 'package:flutter/material.dart';
+import 'package:overlay_support/overlay_support.dart';
 
 class PushNotificationData {
   String type; //order details or promotion
@@ -18,19 +22,61 @@ class PushNotificationData {
 class PushNotificationService {
   final FirebaseMessaging _fcm = FirebaseMessaging();
   final NavigationService _navigationService = locator<NavigationService>();
+  String fcmToken = '';
 
   Future initialise() async {
-    await _fcm.requestNotificationPermissions(
+    _fcm.requestNotificationPermissions(
       IosNotificationSettings(
-        alert: true, 
+        alert: true,
         badge: true,
       ),
     );
+
+    _fcm.configure();
+
+    fcmToken = await _fcm.getToken();
+    Fimber.i("FCM Token : $fcmToken");
+
+    _fcm.onTokenRefresh.listen((newToken) {
+      fcmToken = newToken;
+      Fimber.i("FCM Token : $fcmToken");
+    });
 
     _fcm.configure(
       // Called when the app is in the foreground and we receive a push notification
       onMessage: (Map<String, dynamic> message) async {
         print('onMessage: $message');
+        try {
+          String title = Platform.isIOS
+              ? message['aps']['alert']['title']
+              : message['notification']['title'];
+          String body = Platform.isIOS
+              ? message['aps']['alert']['body']
+              : message['notification']['body'];
+          showSimpleNotification(
+            GestureDetector(
+              child: Container(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                    ),
+                    Text(
+                      body,
+                    ),
+                  ],
+                ),
+              ),
+              onTap: () => _serialiseAndNavigate(message),
+            ),
+            background: Colors.white,
+            foreground: Colors.black,
+            position: NotificationPosition.top,
+          );
+        } catch (e) {
+          print(e.toString());
+        }
       },
       // Called when the app has been closed comlpetely and it's opened
       // from the push notification.
@@ -45,47 +91,30 @@ class PushNotificationService {
         _serialiseAndNavigate(message);
       },
 
-      onBackgroundMessage: (Map<String, dynamic> message) async {
-        print('onBackgroundMessage: $message');
-        _serialiseAndNavigate(message);
-      },
+      onBackgroundMessage: backgroundMessageHandler,
     );
   }
 
-  void _serialiseAndNavigate(Map<String, dynamic> message) {
-    try{
-      var notificationData = message['data'];
-      String contentType = notificationData['type'].toString();
-      String id = notificationData['id'].toString();
+  static Future backgroundMessageHandler(Map<String, dynamic> message) async {
+    print('onBackgroundMessage: $message');
+  }
 
+  void _serialiseAndNavigate(Map<String, dynamic> message) {
+    try {
+      var notificationData = message['data'];
+      String contentType = notificationData['type'];
+      String id = notificationData['id'];
+
+      print("Push Notification Data : $contentType $id");
       if (contentType != null) {
-        Map<String,String> data = {
-              "contentType": contentType,
-              "id": id,
+        Map<String, String> data = {
+          "contentType": contentType,
+          "id": id,
         };
         _navigationService.navigateTo(DynamicContentViewRoute, arguments: data);
       }
-    }catch(e){
+    } catch (e) {
       Fimber.e("Error");
     }
-
-      // Navigate to the create post view
-      // if (view == 'create_post') {
-      //   _navigationService.navigateTo(CreatePostViewRoute);
-      // }
-      // switch (type) {
-      //   case 1:
-      //   case 2:
-      //     //Todo : Add my order detail route, call data api based on order it
-      //     _navigationService.navigateTo(MyOrdersRoute);
-      //     break;
-      //   case 3:
-      //     _navigationService.navigateTo(PromotionProductRoute,
-      //         arguments:
-      //             new PromotionProductsPageArg(promoTitle: message['id']));
-      //     break;
-      //   default:
-      // }
-    // }
   }
 }

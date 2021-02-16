@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:compound/services/navigation_service.dart';
 import 'package:compound/services/dialog_service.dart';
 import 'package:get/get.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 import 'managers/dialog_manager.dart';
 import 'ui/router.dart';
@@ -23,7 +24,7 @@ void main() {
   // Running flutter app
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  runApp(MyApp());
+  runApp(OverlaySupport(child: MyApp()));
 }
 
 class CustomScrollOverlayBehaviour extends ScrollBehavior {

@@ -104,7 +104,7 @@ class _HomeViewState extends State<HomeView> {
                   title: lastDeliveredProduct["name"],
                   description: "Tap a star to give your review.",
                   submitButton: "Submit",
-                  positiveComment: "We’re glad you liked it!! :blush:",
+                  positiveComment: "We’re glad you liked it!! 😊",
                   negativeComment: "Please reach us out and help us understand your concerns!",
                   accentColor: logoRed,
                   onSubmitPressed: (int rating) async {

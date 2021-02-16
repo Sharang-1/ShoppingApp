@@ -17,6 +17,11 @@ class DynamicContentViewModel extends BaseModel {
   final NavigationService _navigationService = locator<NavigationService>();
 
   Future<void> init(BuildContext context, {data}) async {
+    
+    print("Dynamic Content ViewModel Data : ${data.toString()}");
+    print("Dynamic Content ViewModel Data : ${data["contentType"].toString()}");
+    print("Dynamic Content ViewModel Data : ${data["id"].toString()}");
+
     if (!(await _authenticationService.isUserLoggedIn())) {
       _navigationService.navigateReplaceTo(LoginViewRoute);
       return;

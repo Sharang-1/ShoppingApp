@@ -43,7 +43,7 @@ class StartUpViewModel extends BaseModel {
     // String buildNumber = packageInfo.buildNumber;
 
     await _analyticsService.setup();
-    _notificationService.initialise();
+    await _notificationService.initialise();
     await _linkService.handleDynamicLink();
 
     if (updateDetails.version != version) {
