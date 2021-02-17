@@ -129,11 +129,18 @@ class Contact {
     this.geoLocation,
     this.primaryNumber,
     this.secondaryNumber,
+    this.email,
+    this.address,
+    this.city,
+    this.pincode,
+    this.state,
   });
 
   GeoLocation geoLocation;
   AryNumber primaryNumber;
   AryNumber secondaryNumber;
+  String email;
+  String address, city, state, pincode;
 
   factory Contact.fromJson(Map<String, dynamic> json) => Contact(
         geoLocation: json["geoLocation"] == null
@@ -143,13 +150,22 @@ class Contact {
         secondaryNumber: json["secondaryNumber"] == null
             ? null
             : AryNumber.fromJson(json["secondaryNumber"]),
+        email: json["email"],
+        address: json["address"],
+        city: json["city"],
+        state: json["state"],
+        pincode: json["pincode"]?.toString(),
       );
 
   Map<String, dynamic> toJson() => {
-        "geoLocation": geoLocation == null ? null : geoLocation.toJson(),
-        "primaryNumber": primaryNumber.toJson(),
-        "secondaryNumber":
-            secondaryNumber == null ? null : secondaryNumber.toJson(),
+        "geoLocation": geoLocation?.toJson(),
+        "primaryNumber": primaryNumber?.toJson(),
+        "secondaryNumber": secondaryNumber?.toJson(),
+        "email": email,
+        "address": address,
+        "city": city,
+        "state": state,
+        "pincode": num?.parse(pincode),
       };
 }
 
