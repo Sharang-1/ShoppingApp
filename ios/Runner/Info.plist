@@ -54,5 +54,11 @@
 	<true/>
 	<key>FirebaseAppDelegateProxyEnabled</key>
 	<false/>
+	<key>FirebaseDynamicLinksCustomDomains</key>
+	<array>
+  		<string>https://dzor.in/product</string>
+  		<string>https://dzor.in/seller</string>
+  		<string>https://dzor.in/promotion</string>
+	</array>
 </dict>
 </plist>
