@@ -464,7 +464,7 @@ class APIService {
         Fimber.d("Order : " + order.key);
         return order;
       } catch (err) {
-        print(err);
+        Fimber.e(err.toString());
         return null;
       }
     }

@@ -8,9 +8,9 @@ class NavigationService {
     return _navigationKey.currentState.pop();
   }
 
-  Future<dynamic> navigateTo(String routeName, {dynamic arguments, bool popNavbar = false}) {
-    if(popNavbar)
-      pop();
+  Future<dynamic> navigateTo(String routeName,
+      {dynamic arguments, bool popNavbar = false}) {
+    if (popNavbar) pop();
     return _navigationKey.currentState
         .pushNamed(routeName, arguments: arguments);
   }
@@ -20,8 +20,13 @@ class NavigationService {
         .pushReplacementNamed(routeName, arguments: arguments);
   }
 
-  Future<dynamic> navigateAndRemoveUntil(String routeName, {dynamic arguments}) {
-    return _navigationKey.currentState
-        .pushNamedAndRemoveUntil(routeName, (route) => false, arguments: arguments);
+  Future<dynamic> navigateAndRemoveUntil(String routeName,
+      {Function predicate, dynamic arguments}) {
+    return _navigationKey.currentState.pushNamedAndRemoveUntil(
+      routeName, 
+      predicate == null 
+      ? (route) => false 
+      : predicate, 
+      arguments: arguments);
   }
 }

@@ -4,6 +4,7 @@ import 'package:compound/services/api/api_service.dart';
 import 'package:compound/services/navigation_service.dart';
 import 'package:compound/viewmodels/base_model.dart';
 import 'package:compound/constants/route_names.dart';
+import 'package:flutter/material.dart';
 
 class OrdersViewModel extends BaseModel {
   final NavigationService _navigationService = locator<NavigationService>();
@@ -24,7 +25,11 @@ class OrdersViewModel extends BaseModel {
 
   Future orderPlaced() async {
      Future.delayed(Duration(milliseconds: 2500), () async {
-        _navigationService.navigateAndRemoveUntil(HomeViewRoute);
+        _navigationService.navigateAndRemoveUntil(
+          MyOrderDetailsRoute, 
+          arguments: (await _apiService.getAllOrders()).orders.first,
+          predicate: ModalRoute.withName(HomeViewRoute),
+        );
      });
   }
   

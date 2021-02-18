@@ -16,7 +16,8 @@ const String MyHomePageRoute = "MyHomePage";
 const String CartViewRoute = "CartView";
 const String CategoriesRoute = "CategoriesView";
 const String PaymentFinishedScreenRoute = "PaymentFinishedScreenView";
-const String MyOrdersRoute = " MyOrdersView";
+const String MyOrdersRoute = "MyOrdersView";
+const String MyOrderDetailsRoute = "MyOrderDetailsView";
 const String BuyNowRoute = "BuyNowView";
 const String AppointmentBookedScreenRoute = "AppointmentBookedScreenRoute";
 

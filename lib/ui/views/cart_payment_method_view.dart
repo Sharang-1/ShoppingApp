@@ -7,6 +7,7 @@ import 'package:compound/ui/widgets/custom_stepper.dart';
 import 'package:compound/ui/widgets/custom_text.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/constants/route_names.dart';
+import 'package:compound/models/order.dart';
 
 // import 'package:compound/ui/shared/ui_helpers.dart';
 // import 'package:compound/ui/widgets/custom_stepper.dart';
@@ -107,7 +108,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
           child: RaisedButton(
             elevation: 5,
             onPressed: () async {
-              final res = await model.createOrder(
+              final Order res = await model.createOrder(
                 widget.billingAddress.googleAddress,
                 widget.productId,
                 widget.promoCode,

@@ -9,6 +9,7 @@ import 'package:compound/ui/views/category_indi_view.dart';
 import 'package:compound/ui/views/home_view.dart';
 import 'package:compound/ui/views/map_view.dart';
 import 'package:compound/ui/views/myorders_view.dart';
+import 'package:compound/ui/views/myorders_details_view.dart';
 import 'package:compound/ui/views/dynamic_content_loading_view.dart';
 import 'package:compound/ui/views/notification_view.dart';
 import 'package:compound/ui/views/order_placed_view.dart';
@@ -113,6 +114,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         pageArguments: pageArguments,
         pageTransitionType: PageTransitionType.rightToLeft,
       );
+
     case WhishListRoute:
       return _getPageRoute(
         routeName: settings.name,
@@ -120,6 +122,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         pageArguments: pageArguments,
         pageTransitionType: PageTransitionType.rightToLeft,
       );
+
     case CategoriesRoute:
       return _getPageRoute(
         routeName: settings.name,
@@ -127,6 +130,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         pageArguments: pageArguments,
         pageTransitionType: PageTransitionType.rightToLeft,
       );
+
     case ProductIndividualRoute:
       return _getPageRoute(
         routeName: settings.name,
@@ -134,35 +138,47 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         pageArguments: pageArguments as Product,
         pageTransitionType: PageTransitionType.rightToLeft,
       );
+
     case MapViewRoute:
       return _getPageRoute(
           pageArguments: pageArguments,
           routeName: settings.name,
           viewToShow: MapView(),
           pageTransitionType: PageTransitionType.rightToLeft);
+
     case ProductIndividualRoute:
       return _getPageRoute(
           pageArguments: pageArguments,
           routeName: settings.name,
           viewToShow: ProductIndiView(data: pageArguments),
           pageTransitionType: PageTransitionType.rightToLeft);
+
     case PaymentFinishedScreenRoute:
       return _getPageRoute(
           pageArguments: pageArguments,
           routeName: settings.name,
           viewToShow: OrderPlacedView(),
           pageTransitionType: PageTransitionType.rightToLeft);
+
     case AppointmentBookedScreenRoute:
       return _getPageRoute(
           pageArguments: pageArguments,
           routeName: settings.name,
           viewToShow: AppointmentBookedView(),
           pageTransitionType: PageTransitionType.rightToLeft);
+
     case MyOrdersRoute:
       return _getPageRoute(
           pageArguments: pageArguments,
           routeName: settings.name,
           viewToShow: MyOrdersView(),
+          pageTransitionType: PageTransitionType.rightToLeft);
+
+    case MyOrderDetailsRoute:
+      return _getPageRoute(
+          pageArguments: pageArguments,
+          routeName: settings.name,
+          viewToShow: MyOrdersDetailsView(pageArguments),
           pageTransitionType: PageTransitionType.rightToLeft);
 
     case NotifcationViewRoute:

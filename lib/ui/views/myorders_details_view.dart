@@ -26,7 +26,13 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
   final orderStatuses = [1, 2, 3, 4, 5, 7];
   UniqueKey key = UniqueKey();
   final refreshController = RefreshController(initialRefresh: false);
+  Order mOrder;
 
+  @override
+  void initState(){
+    super.initState();
+    mOrder = widget.mOrder;
+  }
   @override
   Widget build(BuildContext context) {
     double subtitleFontSize = subtitleFontSizeStyle - 2;
@@ -98,7 +104,7 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                         fontSize: headingFontSize + 2,
                                       ),
                                       CustomText(
-                                        "Order ID: " + widget.mOrder.key,
+                                        "Order ID: " + mOrder.key,
                                         fontSize: subtitleFontSize,
                                         isTitle: true,
                                         color: logoRed,
@@ -135,7 +141,7 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                                       placeholder:
                                                           "assets/images/product_preloading.png",
                                                       image:
-                                                          "$PRODUCT_PHOTO_BASE_URL/${widget.mOrder.product.key}/${widget.mOrder.product.photo.photos.first.name}",
+                                                          "$PRODUCT_PHOTO_BASE_URL/${mOrder.product.key}/${mOrder.product.photo.photos.first.name}",
                                                       fit: BoxFit.cover,
                                                     )),
                                                 horizontalSpaceMedium,
@@ -158,7 +164,7 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                                     ),
                                                     CustomText(
                                                       rupeeUnicode +
-                                                          widget.mOrder
+                                                          mOrder
                                                               .orderCost.cost
                                                               .toString(),
                                                       dotsAfterOverFlow: true,
@@ -167,11 +173,11 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                                       isBold: true,
                                                       color: textIconOrange,
                                                     ),
-                                                    if (widget.mOrder.variation
+                                                    if (mOrder.variation
                                                             .size ==
                                                         null)
                                                       CustomText(
-                                                          widget.mOrder
+                                                          mOrder
                                                               .variation.size,
                                                           dotsAfterOverFlow:
                                                               true,
@@ -210,7 +216,7 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                             isBold: true,
                                           ),
                                           CustomText(
-                                            widget.mOrder.status.state,
+                                            mOrder.status.state,
                                             fontSize: headingFontSize,
                                             isTitle: true,
                                             isBold: true,
@@ -224,7 +230,7 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                         child: LinearPercentIndicator(
                                           lineHeight: 15.0,
                                           percent: (orderStatuses.contains(
-                                                      widget.mOrder?.status
+                                                      mOrder?.status
                                                               ?.id ??
                                                           0)
                                                   ? ((orderStatuses.indexOf(
@@ -259,7 +265,7 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                             color: Colors.grey,
                                           ),
                                           CustomText(
-                                            widget.mOrder.deliveryDate
+                                            mOrder.deliveryDate
                                                 .substring(0, 10),
                                             fontSize: subtitleFontSize - 1,
                                             isBold: true,
@@ -320,7 +326,7 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                                   CrossAxisAlignment.end,
                                               children: <Widget>[
                                                 CustomText(
-                                                  widget.mOrder
+                                                  mOrder
                                                           .billingAddress ??
                                                       "",
                                                   align: TextAlign.end,
@@ -359,7 +365,7 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                             isBold: true,
                                           ),
                                           CustomText(
-                                            widget.mOrder.payment.option.name,
+                                            mOrder.payment.option.name,
                                             color: Colors.grey[600],
                                             fontSize: subtitleFontSize - 1,
                                             isBold: true,
@@ -379,7 +385,7 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                           ),
                                           CustomText(
                                             rupeeUnicode +
-                                                widget.mOrder.product.price
+                                               mOrder.product.price
                                                     .toString(),
                                             color: Colors.grey[600],
                                             fontSize: subtitleFontSize - 1,
@@ -389,11 +395,11 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                       ),
                                       if (widget
                                               .mOrder.orderCost.productPrice !=
-                                          widget.mOrder.product.price)
+                                          mOrder.product.price)
                                         verticalSpaceSmall,
                                       if (widget
                                               .mOrder.orderCost.productPrice !=
-                                          widget.mOrder.product.price)
+                                          mOrder.product.price)
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
@@ -406,7 +412,7 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                             ),
                                             CustomText(
                                               rupeeUnicode +
-                                                  widget.mOrder.orderCost
+                                                  mOrder.orderCost
                                                       .productPrice
                                                       .toString(),
                                               color: Colors.grey[600],
@@ -427,11 +433,11 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                             color: Colors.grey,
                                           ),
                                           CustomText(
-                                            widget.mOrder.orderCost
+                                            mOrder.orderCost
                                                         .shippingCharge ==
                                                     0
                                                 ? "Free Delivery"
-                                                : widget.mOrder.orderCost
+                                                : mOrder.orderCost
                                                     .shippingCharge
                                                     .toString(),
                                             color: green,
@@ -457,7 +463,7 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                           ),
                                           CustomText(
                                             rupeeUnicode +
-                                                widget.mOrder.orderCost.cost
+                                                mOrder.orderCost.cost
                                                     .toString(),
                                             color: textIconOrange,
                                             fontSize: subtitleFontSize + 2,
@@ -480,7 +486,7 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                           ),
                                           Expanded(
                                             child: CustomText(
-                                              widget.mOrder.status.state,
+                                              mOrder.status.state,
                                               align: TextAlign.end,
                                               color: textIconOrange,
                                               fontSize: subtitleFontSize + 2,
@@ -547,7 +553,7 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                   fontSize: headingFontSize + 2,
                 ),
                 CustomText(
-                  "Order ID: " + widget.mOrder.key,
+                  "Order ID: " + mOrder.key,
                   fontSize: subtitleFontSize,
                   isTitle: true,
                   color: logoRed,
@@ -588,7 +594,7 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               CustomText(
-                                widget.mOrder.product.name,
+                                mOrder.product.name,
                                 isBold: true,
                                 color: Colors.grey[800],
                                 dotsAfterOverFlow: true,
@@ -596,18 +602,18 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                               ),
                               CustomText(
                                 rupeeUnicode +
-                                    widget.mOrder.orderCost.cost.toString(),
+                                    mOrder.orderCost.cost.toString(),
                                 dotsAfterOverFlow: true,
                                 fontSize: titleFontSize,
                                 isBold: true,
                                 color: textIconOrange,
                               ),
-                              CustomText(widget.mOrder.variation.size,
+                              CustomText(mOrder.variation.size,
                                   dotsAfterOverFlow: true,
                                   color: Colors.grey,
                                   fontSize: subtitleFontSize),
                               CustomText(
-                                widget.mOrder.status.state,
+                                mOrder.status.state,
                                 fontSize: subtitleFontSize,
                                 isBold: true,
                                 color: Colors.grey,
@@ -633,8 +639,8 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                   child: LinearPercentIndicator(
                     lineHeight: 15.0,
                     percent: orderStatuses
-                            .contains(widget.mOrder?.status?.id ?? 0)
-                        ? (orderStatuses.indexOf(widget.mOrder.status.id) + 1) *
+                            .contains(mOrder?.status?.id ?? 0)
+                        ? (orderStatuses.indexOf(mOrder.status.id) + 1) *
                             100 /
                             orderStatuses.length
                         : 100,
@@ -655,7 +661,7 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                       color: Colors.grey,
                     ),
                     CustomText(
-                      widget.mOrder.deliveryDate,
+                      mOrder.deliveryDate,
                       fontSize: subtitleFontSize - 1,
                       isBold: true,
                       color: Colors.grey[600],
@@ -707,7 +713,7 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                       child: Column(
                         children: <Widget>[
                           CustomText(
-                            widget.mOrder.billingAddress ?? "",
+                            mOrder.billingAddress ?? "",
                             align: TextAlign.end,
                             color: Colors.grey[600],
                             fontSize: subtitleFontSize - 1,
@@ -741,7 +747,7 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                       isBold: true,
                     ),
                     CustomText(
-                      widget.mOrder.payment.option.name,
+                      mOrder.payment.option.name,
                       color: Colors.grey[600],
                       fontSize: subtitleFontSize - 1,
                       isBold: true,
@@ -759,7 +765,7 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                       isBold: true,
                     ),
                     CustomText(
-                      rupeeUnicode + widget.mOrder.product.price.toString(),
+                      rupeeUnicode + mOrder.product.price.toString(),
                       color: Colors.grey[600],
                       fontSize: subtitleFontSize - 1,
                       isBold: true,
@@ -767,8 +773,8 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                   ],
                 ),
                 verticalSpaceSmall,
-                if (widget.mOrder.orderCost.productPrice !=
-                    widget.mOrder.product.price)
+                if (mOrder.orderCost.productPrice !=
+                    mOrder.product.price)
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
@@ -780,7 +786,7 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                       ),
                       CustomText(
                         rupeeUnicode +
-                            widget.mOrder.orderCost.productPrice.toString(),
+                            mOrder.orderCost.productPrice.toString(),
                         color: Colors.grey[600],
                         fontSize: subtitleFontSize - 1,
                         isBold: true,
@@ -798,9 +804,9 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                       color: Colors.grey,
                     ),
                     CustomText(
-                      widget.mOrder.orderCost.shippingCharge == 0
+                      mOrder.orderCost.shippingCharge == 0
                           ? "Free Delivery"
-                          : widget.mOrder.orderCost.shippingCharge.toString(),
+                          : mOrder.orderCost.shippingCharge.toString(),
                       color: green,
                       fontSize: subtitleFontSize - 1,
                       isBold: true,
@@ -823,7 +829,7 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                       color: Colors.grey,
                     ),
                     CustomText(
-                      rupeeUnicode + widget.mOrder.orderCost.cost.toString(),
+                      rupeeUnicode + mOrder.orderCost.cost.toString(),
                       color: textIconOrange,
                       fontSize: subtitleFontSize + 2,
                       isBold: true,
