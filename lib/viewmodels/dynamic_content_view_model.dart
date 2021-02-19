@@ -23,12 +23,12 @@ class DynamicContentViewModel extends BaseModel {
     print("Dynamic Content ViewModel Data : ${data["id"].toString()}");
 
     if (!(await _authenticationService.isUserLoggedIn())) {
-      _navigationService.navigateReplaceTo(LoginViewRoute);
+      await _navigationService.navigateAndRemoveUntil(LoginViewRoute);
       return;
     }
 
     if ((data == null)) {
-      _navigationService.navigateReplaceTo(HomeViewRoute);
+      await _navigationService.navigateAndRemoveUntil(HomeViewRoute);
       return;
     }
 
@@ -38,17 +38,19 @@ class DynamicContentViewModel extends BaseModel {
         Product product =
             await _apiService.getProductById(productId: data["id"]);
         if (product == null) break;
-        _navigationService.navigateReplaceTo(ProductIndividualRoute,
-            arguments: product);
+        await _navigationService.navigateTo(ProductIndividualRoute, arguments: product);
+        await _navigationService.navigateReplaceTo(HomeViewRoute);
         return;
 
       case "seller":
         if (data["id"] == null) break;
         await goToSellerPage(data["id"]);
+        await _navigationService.navigateReplaceTo(HomeViewRoute);
         return;
 
       case "orders":
-        _navigationService.navigateReplaceTo(MyOrdersRoute);
+        await _navigationService.navigateTo(MyOrdersRoute);
+        await _navigationService.navigateReplaceTo(HomeViewRoute);
         return;
 
       case "promotion":
@@ -58,9 +60,9 @@ class DynamicContentViewModel extends BaseModel {
             .where((element) => element.key == data["id"])
             .toList()[0];
         if (promotion == null) break;
-        Navigator.pushReplacement(
+        await Navigator.push(
           context,
-          new MaterialPageRoute(
+          MaterialPageRoute(
             builder: (context) => PromotionProduct(
               promotionId: promotion?.key,
               productIds:
@@ -69,12 +71,13 @@ class DynamicContentViewModel extends BaseModel {
             ),
           ),
         );
+        await _navigationService.navigateReplaceTo(HomeViewRoute);
         return;
 
       default:
         break;
     }
-    _navigationService.navigateReplaceTo(HomeViewRoute);
+    await _navigationService.navigateAndRemoveUntil(HomeViewRoute);
     return;
   }
 }

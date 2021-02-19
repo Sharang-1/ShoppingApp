@@ -33,42 +33,48 @@ class HomeDrawer extends StatelessWidget {
                 color: Colors.white,
                 child: ListView(
                   children: <Widget>[
-                    Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-                      color: logoRed,
-                      child: Row(
-                        children: <Widget>[
-                          Icon(
-                            Icons.account_circle,
-                            color: Colors.white,
-                            size: 50,
-                          ),
-                          horizontalSpaceSmall,
-                          horizontalSpaceSmall,
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                CustomText(
-                                  'Hello,',
-                                  color: Colors.white,
-                                  isBold: true,
-                                  fontSize: 18,
-                                  dotsAfterOverFlow: true,
-                                ),
-                                verticalSpace(3),
-                                CustomText(
-                                  '${model.name}',
-                                  color: Colors.white,
-                                  isBold: true,
-                                  fontSize: 18,
-                                  dotsAfterOverFlow: true,
-                                ),
-                              ],
+                    GestureDetector(
+                      onTap: () {
+                        _navigationService.navigateTo(ProfileViewRoute,
+                            popNavbar: true);
+                      },
+                      child: Container(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+                        color: logoRed,
+                        child: Row(
+                          children: <Widget>[
+                            Icon(
+                              Icons.account_circle,
+                              color: Colors.white,
+                              size: 50,
                             ),
-                          ),
-                        ],
+                            horizontalSpaceSmall,
+                            horizontalSpaceSmall,
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  CustomText(
+                                    'Hello,',
+                                    color: Colors.white,
+                                    isBold: true,
+                                    fontSize: 18,
+                                    dotsAfterOverFlow: true,
+                                  ),
+                                  verticalSpace(3),
+                                  CustomText(
+                                    '${model.name}',
+                                    color: Colors.white,
+                                    isBold: true,
+                                    fontSize: 18,
+                                    dotsAfterOverFlow: true,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     Stack(
