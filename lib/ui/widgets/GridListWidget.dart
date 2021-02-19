@@ -27,6 +27,7 @@ class GridListWidget<P, I> extends StatelessWidget {
   final Axis scrollDirection;
   final Widget emptyListWidget;
   final Widget loadingWidget;
+  final Function onEmptyList;
 
   const GridListWidget({
     Key key,
@@ -40,6 +41,7 @@ class GridListWidget<P, I> extends StatelessWidget {
     this.scrollDirection = Axis.vertical,
     this.emptyListWidget,
     this.loadingWidget,
+    this.onEmptyList,
   }) : super(key: key);
 
   final BuildContext context;
@@ -61,6 +63,7 @@ class GridListWidget<P, I> extends StatelessWidget {
               emptyListWidget:
                   emptyListWidget == null ? EmptyListWidget() : emptyListWidget,
               loadingWidget: loadingWidget,
+              onEmptyList: onEmptyList,
             )
           : Container(
               child: null,
@@ -81,6 +84,7 @@ class CustomGridViewFutureBuilder<P, I> extends StatefulWidget {
     this.scrollDirection = Axis.vertical,
     this.emptyListWidget,
     this.loadingWidget,
+    this.onEmptyList,
   }) : super(key: key);
 
   final BaseFilterModel filter;
@@ -92,6 +96,7 @@ class CustomGridViewFutureBuilder<P, I> extends StatefulWidget {
   final Axis scrollDirection;
   final Widget emptyListWidget;
   final Widget loadingWidget;
+  final Function onEmptyList;
 
   @override
   _CustomGridViewFutureBuilderState<P, I> createState() =>
@@ -150,6 +155,7 @@ class _CustomGridViewFutureBuilderState<P, I>
               disablePagination: widget.disablePagination,
               scrollDirection: widget.scrollDirection,
               emptyListWidget: widget.emptyListWidget,
+              onEmptyList: widget.onEmptyList,
             );
           default:
             return null;
@@ -169,6 +175,7 @@ class PaginatedGridView<P, I> extends StatefulWidget {
   final bool disablePagination;
   final Axis scrollDirection;
   final Widget emptyListWidget;
+  final Function onEmptyList;
 
   const PaginatedGridView({
     Key key,
@@ -181,6 +188,7 @@ class PaginatedGridView<P, I> extends StatefulWidget {
     this.disablePagination,
     this.scrollDirection = Axis.vertical,
     this.emptyListWidget,
+    this.onEmptyList,
   }) : super(key: key);
 
   @override
@@ -210,6 +218,7 @@ class _PaginatedGridViewState<I> extends State<PaginatedGridView> {
 
   @override
   Widget build(BuildContext context) {
+    if(items.isEmpty) widget.onEmptyList();
     return NotificationListener(
       onNotification: !(widget.disablePagination) ? onNotification : null,
       child: items.length != 0

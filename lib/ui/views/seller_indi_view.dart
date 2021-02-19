@@ -40,7 +40,7 @@ class SellerIndi extends StatefulWidget {
 
 class _SellerIndiState extends State<SellerIndi> {
   final productKey = new UniqueKey();
-  bool showExploreSection = false;
+  bool showExploreSection = true;
 
   var allDetials = [
     "Speciality",
@@ -606,7 +606,7 @@ class _SellerIndiState extends State<SellerIndi> {
                             fontSize: titleFontSizeStyle),
                       ),
                     if (widget.data.subscriptionTypeId == 1 && showExploreSection) verticalSpace(5),
-                    if (widget.data.subscriptionTypeId == 1)
+                    if (widget.data.subscriptionTypeId == 1 && showExploreSection)
                       SizedBox(
                         height: 200,
                         child: GridListWidget<Products, Product>(
@@ -623,9 +623,15 @@ class _SellerIndiState extends State<SellerIndi> {
                           scrollDirection: Axis.horizontal,
                           disablePagination: false,
                           emptyListWidget: Container(),
+                          onEmptyList: () async {
+                            await Future.delayed(
+                                Duration(milliseconds: 500),
+                                () => setState(() {
+                                      showExploreSection = false;
+                                    }));
+                          },
                           tileBuilder: (BuildContext context, productData,
                               index, onUpdate, onDelete) {
-                              showExploreSection = true;
                             return ProductTileUI(
                               data: productData,
                               onClick: () => _navigationService.navigateTo(
