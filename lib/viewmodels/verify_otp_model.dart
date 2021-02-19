@@ -82,8 +82,8 @@ class VerifyOTPViewModel extends BaseModel {
       _navigationService.navigateReplaceTo(OtpVerifiedRoute);
     } else {
       await _dialogService.showDialog(
-        title: 'Login Failure',
-        description: 'General login failure. Please try again later',
+        title: 'Incorrect OTP',
+        description: 'The OTP, you have entered is incorrect. Please try again.',
       );
     }
   }
