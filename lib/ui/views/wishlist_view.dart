@@ -232,6 +232,7 @@ class _WishlistViewState extends State<WishlistView>
             top: false,
             left: false,
             right: false,
+            bottom: false,
             child: CustomScrollView(
               slivers: <Widget>[
                 SliverAppBar(

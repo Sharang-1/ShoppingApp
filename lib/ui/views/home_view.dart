@@ -164,6 +164,7 @@ class _HomeViewState extends State<HomeView> {
           top: false,
           left: false,
           right: false,
+          bottom: false,
           child: SmartRefresher(
             enablePullDown: true,
             footer: null,

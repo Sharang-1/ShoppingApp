@@ -63,6 +63,7 @@ class _ProductListViewState extends State<ProductListView> {
           top: false,
           left: false,
           right: false,
+          bottom: false,
           child: SmartRefresher(
             enablePullDown: true,
             header: WaterDropHeader(

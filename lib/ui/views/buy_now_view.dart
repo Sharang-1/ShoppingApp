@@ -46,6 +46,7 @@ class _BuyNowViewState extends State<BuyNowView> {
           top: true,
           left: false,
           right: false,
+          bottom: false,
           child: SingleChildScrollView(
             child: Padding(
               padding: EdgeInsets.only(

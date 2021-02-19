@@ -336,6 +336,7 @@ class _SearchViewState extends State<SearchView>
             top: false,
             left: false,
             right: false,
+            bottom: false,
             child: SingleChildScrollView(
               child: Column(
                 children: <Widget>[

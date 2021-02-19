@@ -49,6 +49,7 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
           top: true,
           left: false,
           right: false,
+          bottom: false,
           child: Stack(
             children: [
               Container(

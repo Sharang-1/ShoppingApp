@@ -48,6 +48,7 @@ class _CategoriesViewState extends State<CategoriesView> {
           top: false,
           left: false,
           right: false,
+          bottom: false,
           child: SmartRefresher(
             enablePullDown: true,
             header: WaterDropHeader(

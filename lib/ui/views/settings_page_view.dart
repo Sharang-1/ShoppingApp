@@ -50,6 +50,7 @@ class SettingsView extends StatelessWidget {
               top: false,
               left: false,
               right: false,
+              bottom: false,
               child: SingleChildScrollView(
                   child: BottomTag(
                 appBarHeight: appbar.preferredSize.height,

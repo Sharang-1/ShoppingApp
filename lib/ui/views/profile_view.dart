@@ -174,6 +174,7 @@ class _ProfileViewState extends State<ProfileView> {
                     top: false,
                     left: false,
                     right: false,
+                    bottom: false,
                     child: model.busy
                         ? Center(
                             child: CircularProgressIndicator(),

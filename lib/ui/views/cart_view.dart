@@ -69,6 +69,7 @@ class _CartViewState extends State<CartView> {
           top: true,
           left: false,
           right: false,
+          bottom: false,
           child: SmartRefresher(
             enablePullDown: true,
             footer: null,

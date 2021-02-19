@@ -56,6 +56,7 @@ class _WhishListState extends State<WhishList> {
           top: true,
           left: false,
           right: false,
+          bottom: false,
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

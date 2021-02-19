@@ -68,6 +68,7 @@ class _PromotionProductState extends State<PromotionProduct> {
           top: true,
           left: false,
           right: false,
+          bottom: false,
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
