@@ -362,33 +362,35 @@ class MapView extends StatelessWidget {
                 // top: MediaQuery.of(context).size.height -
                 //     (model.showSailors ? 300.0 : 240.0),
                 bottom: 10.0,
-                left: 10.0,
                 child: model.clientsToggle
                     ? Container(
                         height: model.showSailors ? 240.0 : 180,
                         width: MediaQuery.of(context).size.width,
                         child: Column(
                           children: [
-                            Row(children: <Widget>[
-                              SizedBox(width: 16),
-                              InkWell(
-                                  onTap: () {
-                                    model.setClientCardsToSeller(true);
-                                  },
-                                  child: CustomCategoryChip(
-                                      "assets/images/shop.png",
-                                      "Designers",
-                                      model.showSailors)),
-                              SizedBox(width: 12),
-                              InkWell(
-                                  onTap: () {
-                                    model.setClientCardsToSeller(false);
-                                  },
-                                  child: CustomCategoryChip(
-                                      "assets/images/sewing.png",
-                                      "Tailors",
-                                      !model.showSailors)),
-                            ]),
+                            Padding(
+                              padding: EdgeInsets.only(left: 10.0),
+                              child: Row(children: <Widget>[
+                                SizedBox(width: 16),
+                                InkWell(
+                                    onTap: () {
+                                      model.setClientCardsToSeller(true);
+                                    },
+                                    child: CustomCategoryChip(
+                                        "assets/images/shop.png",
+                                        "Designers",
+                                        model.showSailors)),
+                                SizedBox(width: 12),
+                                InkWell(
+                                    onTap: () {
+                                      model.setClientCardsToSeller(false);
+                                    },
+                                    child: CustomCategoryChip(
+                                        "assets/images/sewing.png",
+                                        "Tailors",
+                                        !model.showSailors)),
+                              ]),
+                            ),
                             Container(
                               height: model.showSailors ? 160.0 : 100.0,
                               width: MediaQuery.of(context).size.width,

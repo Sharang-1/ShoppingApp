@@ -322,6 +322,8 @@ class _SearchViewState extends State<SearchView>
                         if (filterDialogResponse != null) {
                           setState(() {
                             productFilter = filterDialogResponse;
+                            showCategories = false;
+                            _changeSearchFieldFocus();
                             productGridKey = UniqueKey();
                           });
                         }

@@ -97,18 +97,18 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
 
   @override
   void initState() {
-    if (widget.oldFilter.categories != null) {
-      if (widget.oldFilter.categories == "1") {
+    if (widget?.oldFilter?.categories != null) {
+      if (widget?.oldFilter?.categories == "1") {
         categoriesRadioValue = 1;
-      } else if (widget.oldFilter.categories == "2") {
+      } else if (widget?.oldFilter?.categories == "2") {
         categoriesRadioValue = 2;
       }
     }
 
-    if (widget.oldFilter.subCategories != null) {
+    if (widget?.oldFilter?.subCategories != null) {
       print(">>>>>>>>> subCategories <<<<<<<<<<<<<<<<<<<<<<<");
-      print(widget.oldFilter.subCategories);
-      widget.oldFilter.subCategories.forEach((v) {
+      print(widget?.oldFilter?.subCategories);
+      widget?.oldFilter?.subCategories?.forEach((v) {
         print(">>>>>>>>> subCategories - value <<<<<<<<<<<<<<<<<<<<<<<");
         print(v);
         String sKey = subCategoriesAPIIntToValue[int.parse(v)];
@@ -125,15 +125,15 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
       }
     }
 
-    fullText = widget.oldFilter.fullText ?? "";
-    categories = widget.oldFilter.categories;
-    subCategories = widget.oldFilter.subCategories;
-    size = widget.oldFilter.size;
-    minPrice = widget.oldFilter.minPrice ?? 0;
-    maxPrice = widget.oldFilter.maxPrice ?? 50000;
-    minDiscount = widget.oldFilter.minDiscount ?? 0;
-    sortByRadioValue = sortField = widget.oldFilter.sortField;
-    isSortOrderDesc = widget.oldFilter.isSortOrderDesc;
+    fullText = widget.oldFilter?.fullText ?? "";
+    categories = widget.oldFilter?.categories;
+    subCategories = widget.oldFilter?.subCategories;
+    size = widget.oldFilter?.size;
+    minPrice = widget.oldFilter?.minPrice ?? 0;
+    maxPrice = widget.oldFilter?.maxPrice ?? 50000;
+    minDiscount = widget.oldFilter?.minDiscount ?? 0;
+    sortByRadioValue = sortField = widget.oldFilter?.sortField;
+    isSortOrderDesc = widget.oldFilter?.isSortOrderDesc;
     sortOrderRadioValue = isSortOrderDesc == true ? 'desc' : 'asc';
 
     super.initState();
@@ -146,7 +146,7 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
 
 
     print("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDd ");
-    print(widget.oldFilter.subCategories);
+    print(widget.oldFilter?.subCategories);
 
     return Scaffold(
         backgroundColor: Colors.grey[50],
