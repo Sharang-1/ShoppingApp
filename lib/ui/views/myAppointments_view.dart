@@ -1,6 +1,7 @@
 import 'package:compound/models/Appointments.dart';
 import 'package:compound/ui/shared/app_colors.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
+import 'package:compound/ui/views/help_view.dart';
 import 'package:compound/ui/widgets/custom_text.dart';
 import 'package:compound/viewmodels/appointments_view_model.dart';
 import 'package:flutter/cupertino.dart';
@@ -81,15 +82,36 @@ class _myAppointmentsState extends State<myAppointments> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           verticalSpace(20),
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: Text(
-                              "My Appointments",
-                              style: TextStyle(
-                                  fontFamily: headingFont,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: headingFontSize),
-                            ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Align(
+                                alignment: Alignment.topLeft,
+                                child: Text(
+                                  "My Appointments",
+                                  style: TextStyle(
+                                      fontFamily: headingFont,
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: headingFontSize),
+                                ),
+                              ),
+                              Align(
+                                alignment: Alignment.topRight,
+                                child: GestureDetector(
+                                    onTap: () async => await showModalBottomSheet(
+                                      isScrollControlled: true,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.vertical(
+                                                      top: Radius.circular(
+                                                          curve30))),
+                                          clipBehavior: Clip.antiAlias,
+                                          context: context,
+                                          builder: (con) => HelpView(),
+                                        ),
+                                    child: Icon(Icons.help)),
+                              ),
+                            ],
                           ),
                           verticalSpace(20),
                           if (model.busy) CircularProgressIndicator(),
