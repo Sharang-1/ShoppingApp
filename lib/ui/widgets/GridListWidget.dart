@@ -218,7 +218,7 @@ class _PaginatedGridViewState<I> extends State<PaginatedGridView> {
 
   @override
   Widget build(BuildContext context) {
-    if(items.isEmpty) widget.onEmptyList();
+    if ((widget.onEmptyList != null) && (items.isEmpty)) widget.onEmptyList();
     return NotificationListener(
       onNotification: !(widget.disablePagination) ? onNotification : null,
       child: items.length != 0
