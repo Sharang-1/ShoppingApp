@@ -109,11 +109,14 @@ class Review {
 }
 
 class Reviewer {
-    Reviewer();
+    Reviewer({this.name});
+    String name;
 
     factory Reviewer.fromJson(Map<String, dynamic> json) => Reviewer(
+      name: json["name"],
     );
 
     Map<String, dynamic> toJson() => {
+      "name": name,
     };
 }

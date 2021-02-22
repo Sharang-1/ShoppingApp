@@ -100,10 +100,10 @@ class ReviewWidget extends StatelessWidget {
                   children: <Widget>[
                     CircleAvatar(
                       backgroundColor: lightGrey,
-                      radius: 20,
+                      radius: 22,
                       foregroundColor: Colors.white,
                       child: Text(
-                        "DZ",
+                        r.reviewer.first.name.substring(0,1).toUpperCase(),
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -116,7 +116,7 @@ class ReviewWidget extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Text(r.userId != null
-                                      ? r.userId
+                                      ? r.reviewer.first.name
                                       : "Unknown User"),
                                   verticalSpaceTiny,
                                   Row(
