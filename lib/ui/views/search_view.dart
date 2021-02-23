@@ -298,7 +298,7 @@ class _SearchViewState extends State<SearchView>
                   if (showResults && currentTabIndex == 0)
                     IconButton(
                       iconSize: 50,
-                      icon: Image.asset("assets/icons/filter.png"),
+                      icon: Image.asset("assets/images/filter.png"),
                       onPressed: () async {
                         ProductFilter filterDialogResponse =
                             await showModalBottomSheet(

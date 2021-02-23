@@ -8,6 +8,7 @@ import 'package:compound/ui/views/startup_view.dart';
 import 'package:flutter/material.dart';
 import 'package:compound/services/navigation_service.dart';
 import 'package:compound/services/dialog_service.dart';
+import 'package:compound/services/error_handling_service.dart';
 import 'package:get/get.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
@@ -15,6 +16,7 @@ import 'managers/dialog_manager.dart';
 import 'ui/router.dart';
 import 'locator.dart';
 import 'package:flutter/services.dart';
+import 'package:catcher/catcher.dart';
 
 void main() {
   // Setup logger level
@@ -24,7 +26,13 @@ void main() {
   // Running flutter app
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  runApp(OverlaySupport(child: MyApp()));
+
+  Catcher(
+    runAppFunction: () => runApp(OverlaySupport(child: MyApp())),
+    debugConfig: debugOptions,
+    releaseConfig: releaseOptions,
+    navigatorKey: locator<NavigationService>().navigationKey
+  );
 }
 
 class CustomScrollOverlayBehaviour extends ScrollBehavior {
@@ -64,7 +72,7 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ),
-        navigatorKey: locator<NavigationService>().navigationKey,
+        navigatorKey: Catcher.navigatorKey,
         theme: ThemeData(
           primaryColor: primaryColor,
           appBarTheme: AppBarTheme(brightness: Brightness.light),

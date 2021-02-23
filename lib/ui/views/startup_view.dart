@@ -16,7 +16,7 @@ class StartUpView extends StatelessWidget {
           backgroundColor: backgroundWhiteCreamColor,
           body: Center(
             child: SvgPicture.asset(
-              "assets/svg/DZOR_full_logo_verti.svg",
+              "assets/svg/dzor_logo.svg",
               color: logoRed,
               width: MediaQuery.of(context).size.width / 2,
               fit: BoxFit.contain,

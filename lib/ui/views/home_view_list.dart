@@ -36,9 +36,11 @@ class HomeViewList extends StatefulWidget {
   final HomeViewModel model;
   final gotoCategory;
   final productUniqueKey;
+  final sellerUniqueKey;
+  final categoryUniqueKey;
 
   HomeViewList(
-      {Key key, @required this.gotoCategory, this.model, this.productUniqueKey})
+      {Key key, @required this.gotoCategory, this.model, this.productUniqueKey, this.sellerUniqueKey, this.categoryUniqueKey})
       : super(key: key);
 
   @override
@@ -46,7 +48,10 @@ class HomeViewList extends StatefulWidget {
 }
 
 class _HomeViewListState extends State<HomeViewList> {
-  final productUniqueKey = new UniqueKey();
+  final productUniqueKey = UniqueKey();
+  final sellerUniqueKey = UniqueKey();
+  final categoryUniqueKey = UniqueKey();
+  
   List<Promotion> bottomPromotion = [];
   bool bottomPromotionUpdated = false;
 
@@ -146,7 +151,7 @@ class _HomeViewListState extends State<HomeViewList> {
           SizedBox(
             height: 140,
             child: GridListWidget<Categorys, Category>(
-              key: UniqueKey(),
+              key: widget.categoryUniqueKey ?? categoryUniqueKey,
               context: context,
               filter: new CategoryFilter(),
               gridCount: 1,
@@ -189,7 +194,7 @@ class _HomeViewListState extends State<HomeViewList> {
           SizedBox(
             height: 190,
             child: GridListWidget<Sellers, Seller>(
-              key: UniqueKey(),
+              key: widget.sellerUniqueKey ?? sellerUniqueKey,
               context: context,
               filter: SellerFilter(),
               gridCount: 1,
@@ -332,7 +337,7 @@ class _HomeViewListState extends State<HomeViewList> {
           SizedBox(
             height: 190,
             child: GridListWidget<Sellers, Seller>(
-              key: UniqueKey(),
+              key: widget.sellerUniqueKey ?? sellerUniqueKey,
               context: context,
               filter: new SellerFilter(),
               gridCount: 1,
@@ -545,7 +550,7 @@ class _HomeViewListState extends State<HomeViewList> {
           SizedBox(
             height: 140,
             child: GridListWidget<Categorys, Category>(
-              key: UniqueKey(),
+              key: widget.categoryUniqueKey ?? categoryUniqueKey,
               context: context,
               filter: new CategoryFilter(),
               gridCount: 1,
@@ -640,7 +645,7 @@ class _HomeViewListState extends State<HomeViewList> {
           SizedBox(
             // height: 300,
             child: GridListWidget<Sellers, Seller>(
-              key: UniqueKey(),
+              key: widget.sellerUniqueKey ?? sellerUniqueKey,
               context: context,
               filter: new SellerFilter(),
               gridCount: 1,
@@ -979,7 +984,7 @@ class _HomeViewListState extends State<HomeViewList> {
             child: Row(
               children: <Widget>[
                 SvgPicture.asset(
-                  "assets/svg/DZOR_full_logo_verti.svg",
+                  "assets/svg/dzor_logo.svg",
                   color: Colors.grey[800],
                   height: 35,
                   width: 35,
@@ -1052,7 +1057,8 @@ class CategoriesHomeList extends StatelessWidget {
 
                                 'https://images.pexels.com/photos/934070/pexels-photo-934070.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
                             // : photoName
-
+                            ,
+                            imageErrorBuilder: (context, error, stackTrace) => Image.asset('assets/images/promotion_preloading.png', fit: BoxFit.fill,),
                             ),
                       )),
                       Positioned.fill(

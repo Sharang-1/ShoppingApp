@@ -80,7 +80,7 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
           : "No Color given",
       "Promo Code": widget.promoCode,
       "Promo Code Discount": widget.promoCodeDiscount + "%",
-      "Price": rupeeUnicode +  (price * widget.item.quantity).toString(),
+      "Price": rupeeUnicode + (price * widget.item.quantity).toString(),
       "Discount": discount.toString() + "%",
       "Discount Price":
           rupeeUnicode + (discountedPrice * widget.item.quantity).toString(),
@@ -109,7 +109,7 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
       "Price": rupeeUnicode + price.toString(),
       "Discount": discount.toString() + "%",
       "Discounted Price":
-         rupeeUnicode + (discountedPrice * widget.item.quantity).toString(),
+          rupeeUnicode + (discountedPrice * widget.item.quantity).toString(),
       "Delivery Charges": rupeeUnicode + widget.shippingCharges,
       "Total": rupeeUnicode + widget.finalTotal,
     };
@@ -126,7 +126,7 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
       clipBehavior: Clip.antiAlias,
       elevation: 5,
       child: Padding(
-        padding: EdgeInsets.only(left:10),
+        padding: EdgeInsets.only(left: 10),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -140,6 +140,11 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                 image: productImage != null
                     ? '$PRODUCT_PHOTO_BASE_URL/${widget.item.productId}/$productImage'
                     : "https://images.unsplashr.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
+                imageErrorBuilder: (context, error, stackTrace) => Image.asset(
+                  "assets/images/product_preloading.png",
+                  width: 120,
+                  fit: BoxFit.fitWidth,
+                ),
                 fit: BoxFit.fitWidth,
               ),
             ),
@@ -421,29 +426,45 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                                       verticalSpace(8),
                                     ],
                                   ),
-                                  if(key == "Discounted Price" && widget.isPromoCodeApplied)
-                                  TableRow(
-                                    children: [
-                                      CustomText(
-                                        "Price After Promocode Applied",
-                                        color: Colors.grey,
-                                        fontSize: titleFontSize,
-                                      ),
-                                      CustomText(rupeeUnicode + 
-                                       (double.parse(orderSummaryDetails["Discounted Price"].replaceAll(rupeeUnicode, " ")) - (double.parse(orderSummaryDetails["Discounted Price"].replaceAll(rupeeUnicode, " ")) * double.parse(widget.promoCodeDiscount) / 100)).toString(),
-                                        fontSize: subtitleFontSize,
-                                        color: Colors.grey[600],
-                                        fontWeight: FontWeight.bold,
-                                      )
-                                    ],
-                                  ),
-                                  if(key == "Discounted Price" && widget.isPromoCodeApplied)
-                                  TableRow(
-                                    children: [
-                                      verticalSpace(8),
-                                      verticalSpace(8),
-                                    ],
-                                  ),
+                                  if (key == "Discounted Price" &&
+                                      widget.isPromoCodeApplied)
+                                    TableRow(
+                                      children: [
+                                        CustomText(
+                                          "Price After Promocode Applied",
+                                          color: Colors.grey,
+                                          fontSize: titleFontSize,
+                                        ),
+                                        CustomText(
+                                          rupeeUnicode +
+                                              (double.parse(orderSummaryDetails[
+                                                              "Discounted Price"]
+                                                          .replaceAll(
+                                                              rupeeUnicode,
+                                                              " ")) -
+                                                      (double.parse(orderSummaryDetails[
+                                                                  "Discounted Price"]
+                                                              .replaceAll(
+                                                                  rupeeUnicode,
+                                                                  " ")) *
+                                                          double.parse(widget
+                                                              .promoCodeDiscount) /
+                                                          100))
+                                                  .toString(),
+                                          fontSize: subtitleFontSize,
+                                          color: Colors.grey[600],
+                                          fontWeight: FontWeight.bold,
+                                        )
+                                      ],
+                                    ),
+                                  if (key == "Discounted Price" &&
+                                      widget.isPromoCodeApplied)
+                                    TableRow(
+                                      children: [
+                                        verticalSpace(8),
+                                        verticalSpace(8),
+                                      ],
+                                    ),
                                 ];
                         },
                       )

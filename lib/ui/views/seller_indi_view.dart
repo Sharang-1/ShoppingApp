@@ -205,6 +205,12 @@ class _SellerIndiState extends State<SellerIndi> {
                 image: widget?.data?.key != null
                     ? "$SELLER_PHOTO_BASE_URL/${widget.data.key}"
                     : "https://images.unsplash.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
+                imageErrorBuilder: (context, error, stackTrace) => Image.asset(
+                  "assets/images/product_preloading.png",
+                  width: 100 * multiplyer,
+                  height: 100 * multiplyer,
+                  fit: BoxFit.cover,
+                ),
                 fit: BoxFit.cover,
               ),
             ),
@@ -598,15 +604,19 @@ class _SellerIndiState extends State<SellerIndi> {
                       ),
                     ),
                     if (widget.data.subscriptionTypeId == 1) verticalSpace(20),
-                    if (widget.data.subscriptionTypeId == 1 && showExploreSection)
+                    if (widget.data.subscriptionTypeId == 1 &&
+                        showExploreSection)
                       Text(
                         "   Explore Designer's Collection",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: titleFontSizeStyle),
                       ),
-                    if (widget.data.subscriptionTypeId == 1 && showExploreSection) verticalSpace(5),
-                    if (widget.data.subscriptionTypeId == 1 && showExploreSection)
+                    if (widget.data.subscriptionTypeId == 1 &&
+                        showExploreSection)
+                      verticalSpace(5),
+                    if (widget.data.subscriptionTypeId == 1 &&
+                        showExploreSection)
                       SizedBox(
                         height: 200,
                         child: GridListWidget<Products, Product>(

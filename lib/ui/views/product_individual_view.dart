@@ -88,7 +88,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
           children: <Widget>[
             new Expanded(
               child: Image.network(
-                  "${BASE_URL}sellers/$sellerId/categories/$cid/sizechart"),
+                  "${BASE_URL}sellers/$sellerId/categories/$cid/sizechart", errorBuilder: (context, error, stackTrace) => Image.asset('assets/images/product_preloading.png',),),
             )
           ],
         ),
@@ -552,7 +552,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                       //       //   child: Row(
                       //       //     children: <Widget>[
                       //       //       SvgPicture.asset(
-                      //       //         "assets/icons/address.svg",
+                      //       //         "assets/svg/address.svg",
                       //       //         color: Colors.black,
                       //       //         width: 20,
                       //       //         height: 20,

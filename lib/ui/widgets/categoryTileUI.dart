@@ -42,6 +42,8 @@ class CategoryTileUI extends StatelessWidget {
                     // ? '$CATEGORY_PHOTO_BASE_URL/${data.id}' :
                     'https://images.pexels.com/photos/934070/pexels-photo-934070.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
                 // : bannerURL,
+                ,
+                imageErrorBuilder: (context, error, stackTrace) => Image.asset("assets/images/category_preloading.png",  fit: BoxFit.fill),
                 ),
           )),
           Positioned.fill(

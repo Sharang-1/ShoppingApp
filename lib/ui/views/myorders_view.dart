@@ -135,6 +135,8 @@ class _MyOrdersViewState extends State<MyOrdersView> {
                                                             "assets/images/product_preloading.png",
                                                         image:
                                                             "$PRODUCT_PHOTO_BASE_URL/${o.product.key}/${o.product.photo.photos.first.name}",
+                                                        imageErrorBuilder: (context, error, stackTrace) => Image.asset("assets/images/product_preloading.png", width: 120,
+                                                        height: 120, fit: BoxFit.cover,),
                                                         fit: BoxFit.cover,
                                                       )),
                                                   horizontalSpaceMedium,

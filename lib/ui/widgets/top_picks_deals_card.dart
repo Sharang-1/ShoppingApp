@@ -61,6 +61,14 @@ class TopPicksAndDealsCard extends StatelessWidget {
                                             data['photo'] != null
                                         ? '$PRODUCT_PHOTO_BASE_URL/${data["key"]}/${data["photo"]}'
                                         : "https://images.unsplash.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
+                                    imageErrorBuilder:
+                                        (context, error, stackTrace) =>
+                                            Image.asset(
+                                      "assets/images/product_preloading.png",
+                                      width: 500,
+                                      height: 500,
+                                      fit: BoxFit.cover,
+                                    ),
                                     fit: BoxFit.cover,
                                   ),
                           ),
@@ -245,6 +253,8 @@ class TopPicksAndDealsCard extends StatelessWidget {
               placeholder: "assets/images/product_preloading.png",
               image:
                   "https://images.unsplash.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
+              imageErrorBuilder: (context, error, stackTrace) =>
+                  Image.asset("assets/images/product_preloading.png",width: 90, fit: BoxFit.cover,),
               fit: BoxFit.cover,
             ),
           ),

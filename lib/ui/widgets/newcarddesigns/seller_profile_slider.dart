@@ -30,6 +30,7 @@ class SellerProfilePhotos extends StatelessWidget {
             fadeInCurve: Curves.easeIn,
             placeholder: "assets/images/product_preloading.png",
             image: "assets/images/product_preloading.png",
+            imageErrorBuilder: (context, error, stackTrace) => Image.asset("assets/images/product_preloading.png", fit: BoxFit.cover,),
             fit: BoxFit.cover,
           );
         }

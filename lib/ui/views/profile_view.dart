@@ -538,7 +538,7 @@ class _ProfileViewState extends State<ProfileView> {
                                                 MainAxisAlignment.center,
                                             children: <Widget>[
                                               SvgPicture.asset(
-                                                "assets/icons/address.svg",
+                                                "assets/svg/address.svg",
                                                 color: Colors.white,
                                                 width: 25,
                                                 height: 25,

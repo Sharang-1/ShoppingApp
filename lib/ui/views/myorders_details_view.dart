@@ -143,6 +143,8 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                                           "assets/images/product_preloading.png",
                                                       image:
                                                           "$PRODUCT_PHOTO_BASE_URL/${mOrder.product.key}/${mOrder.product.photo.photos.first.name}",
+                                                      imageErrorBuilder: (context, error, stackTrace) => Image.asset("assets/images/product_preloading.png", width: 150,
+                                                      height: 150, fit: BoxFit.cover),
                                                       fit: BoxFit.cover,
                                                     )),
                                                 horizontalSpaceMedium,
@@ -583,6 +585,8 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                     "assets/images/product_preloading.png",
                                 image:
                                     "https://images.unsplash.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
+                                imageErrorBuilder: (context, error, stackTrace) => Image.asset("assets/images/product_preloading.png", width: 100,
+                                height: 120,  fit: BoxFit.cover,),
                                 fit: BoxFit.cover,
                               )),
                           horizontalSpaceMedium,

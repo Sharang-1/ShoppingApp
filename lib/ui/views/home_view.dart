@@ -30,6 +30,8 @@ class _HomeViewState extends State<HomeView> {
 
   UniqueKey key = UniqueKey();
   UniqueKey productKey = UniqueKey();
+  UniqueKey sellerKey = UniqueKey();
+  UniqueKey categoryKey = UniqueKey();
 
   final RefreshController refreshController =
       RefreshController(initialRefresh: false);
@@ -38,6 +40,8 @@ class _HomeViewState extends State<HomeView> {
     setState(() {
       key = UniqueKey();
       productKey = UniqueKey();
+      sellerKey = UniqueKey();
+      categoryKey = UniqueKey();
     });
     await Future.delayed(Duration(milliseconds: 100));
     refreshController.refreshCompleted(resetFooterState: true);
@@ -61,16 +65,13 @@ class _HomeViewState extends State<HomeView> {
       int launches = preferences.getInt('rateMyApp_launches') ?? 0;
       bool doNotOpenAgain =
           preferences.getBool('rateMyApp_doNotOpenAgain') ?? false;
-          
+
       if (mounted && !doNotOpenAgain && (launches > 0) && (launches % 2 == 0)) {
-        await rateMyApp.showRateDialog(
-          context,
-          title: 'Dzor',
-          // message: '',
-          onDismissed: () async {
-            await preferences.setBool('rateMyApp_doNotOpenAgain', true);
-          }
-        );
+        await rateMyApp.showRateDialog(context, title: 'Dzor',
+            // message: '',
+            onDismissed: () async {
+          await preferences.setBool('rateMyApp_doNotOpenAgain', true);
+        });
       }
     });
   }
@@ -100,16 +101,23 @@ class _HomeViewState extends State<HomeView> {
                     lastDeliveredProduct["image"],
                     height: 150,
                     width: 150,
+                    errorBuilder: (context, error, stackTrace) => Image.asset(
+                      'assets/images/product_preloading.png',
+                      height: 150,
+                      width: 150,
+                    ),
                   ),
                   title: lastDeliveredProduct["name"],
                   description: "Tap a star to give your review.",
                   submitButton: "Submit",
                   positiveComment: "We’re glad you liked it!! 😊",
-                  negativeComment: "Please reach us out and help us understand your concerns!",
+                  negativeComment:
+                      "Please reach us out and help us understand your concerns!",
                   accentColor: logoRed,
                   onSubmitPressed: (int rating) async {
                     print("onSubmitPressed: rating = $rating");
-                    model.postReview(lastDeliveredProduct['id'], rating.toDouble());
+                    model.postReview(
+                        lastDeliveredProduct['id'], rating.toDouble());
                   },
                 );
               });
@@ -249,6 +257,8 @@ class _HomeViewState extends State<HomeView> {
                         gotoCategory: model.category,
                         model: model,
                         productUniqueKey: productKey,
+                        sellerUniqueKey: sellerKey,
+                        categoryUniqueKey: categoryKey,
                       ),
                     ),
                     childCount: 1,
