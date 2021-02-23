@@ -1,25 +1,25 @@
-import 'package:catcher/catcher.dart';
+// import 'package:catcher/catcher.dart';
 
-CatcherOptions debugOptions = CatcherOptions(
-  DialogReportMode(),
-  [
-    EmailManualHandler(
-      ["admin@dzor.in"],
-      emailTitle: "Dzor App Exception",  
-    ),
-    ConsoleHandler()]
-);
+// CatcherOptions debugOptions = CatcherOptions(
+//   DialogReportMode(),
+//   [
+//     EmailManualHandler(
+//       ["admin@dzor.in"],
+//       emailTitle: "Dzor App Exception",  
+//     ),
+//     ConsoleHandler()]
+// );
 
-CatcherOptions  releaseOptions = CatcherOptions(
-  PageReportMode(),
-  [
-    EmailManualHandler(
-      ["admin@dzor.in"],
-      emailTitle: "Dzor App Exception",  
-    ),
-    ConsoleHandler(),
-  ]
-);
+// CatcherOptions  releaseOptions = CatcherOptions(
+//   PageReportMode(),
+//   [
+//     EmailManualHandler(
+//       ["admin@dzor.in"],
+//       emailTitle: "Dzor App Exception",  
+//     ),
+//     ConsoleHandler(),
+//   ]
+// );
 
 
 //Application Error Class

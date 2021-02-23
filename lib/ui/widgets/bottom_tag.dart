@@ -50,7 +50,7 @@ class BottomTag extends StatelessWidget {
                 child: Row(
                   children: <Widget>[
                     SvgPicture.asset(
-                      "assets/svg/DZOR_full_logo_verti.svg",
+                      "assets/svg/dzor_logo.svg",
                       color: Colors.grey[800],
                       height: 35,
                       width: 35,

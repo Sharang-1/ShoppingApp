@@ -204,9 +204,9 @@ class _MyOrdersViewState extends State<MyOrdersView> {
                                 );
                               },
                             ),
-                          if (!model.busy && model.mOrders.orders.length == 0)
+                          if (!model.busy && model.mOrders?.orders?.length == 0)
                             verticalSpaceLarge,
-                          if (!model.busy && model.mOrders.orders.length == 0)
+                          if (!model.busy && model?.mOrders?.orders?.length == 0)
                             EmptyListWidget(),
                           // SizedBox(
                           //     height: 200,

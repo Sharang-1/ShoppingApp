@@ -55,7 +55,7 @@ class _SellerIndiState extends State<SellerIndi> {
     "Services offered": "assets/svg/crease.svg",
     "Designs & Creates": "assets/svg/fabric.svg",
     "Type": "assets/svg/online.svg",
-    "Speciality": "assets/svg/tumblr-badge.svg",
+    "Speciality": "assets/svg/tumblr_badge.svg",
   };
 
   final double headFont = 22;
