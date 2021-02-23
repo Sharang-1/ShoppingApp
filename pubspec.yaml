@@ -27,11 +27,11 @@ dependencies:
   async:
   get_it:
   provider:
-  provider_architecture:
+  provider_architecture: 1.0.6
   image_picker:
   cached_network_image:
   google_tag_manager: ^0.0.3
-  dio: 3.0.9
+  dio: 3.0.10
   shared_preferences: 0.5.12+4
   logger: 0.8.3
   fimber: 0.4.0
@@ -63,6 +63,7 @@ dependencies:
   tuple: ^1.0.3
   overlay_support: ^1.0.5
   font_awesome_flutter: 8.11.0
+  catcher: 0.4.2
 
 dev_dependencies:
   flutter_test:

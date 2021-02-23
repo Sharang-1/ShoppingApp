@@ -193,7 +193,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
           pageArguments: pageArguments,
           routeName: settings.name,
           viewToShow: DynamicContentLoadingView(data: pageArguments),
-          pageTransitionType: PageTransitionType.downToUp);
+          pageTransitionType: PageTransitionType.bottomToTop);
 
     case BuyNowRoute:
       print("Buy now page args " + pageArguments.toString());

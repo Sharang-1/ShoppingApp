@@ -93,7 +93,7 @@ class _WriteReviewWidget extends State<WriteReviewWidget> {
                                     placeholder: 'Feedback',
                                   ),
                                 ),
-                                RatingBar(
+                                RatingBar.builder(
                                   initialRating: 0,
                                   direction: Axis.horizontal,
                                   allowHalfRating: true,
