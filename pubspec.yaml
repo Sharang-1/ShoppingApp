@@ -73,7 +73,7 @@ dev_dependencies:
 flutter_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/icons/DZOR_full_logo_verti.png"
+  image_path: "assets/images/dzor_logo.png"
 
 
 flutter:
@@ -82,7 +82,6 @@ flutter:
   assets:
     - assets/images/
     - assets/svg/
-    - assets/icons/
 
   fonts:
     - family: Open Sans
