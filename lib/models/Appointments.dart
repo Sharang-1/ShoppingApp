@@ -208,7 +208,7 @@ class AryNumber {
   String code;
   String mobile;
 
-  factory AryNumber.fromJson(Map<String, dynamic> json) => AryNumber(
+  factory AryNumber.fromJson(Map<String, dynamic> json) => (json == null) ? null : AryNumber(
         code: json["code"],
         mobile: json["mobile"],
       );
