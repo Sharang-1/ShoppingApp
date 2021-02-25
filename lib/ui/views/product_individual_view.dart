@@ -59,6 +59,22 @@ var month = [
   "December"
 ];
 
+const Map<int, String> workOnMap = {
+  -1: "N/A",
+  1: "Sleeve",
+  2: "Neck",
+  3: "Throughout the Kurta",
+  4: "Throughout the Blouse",
+  5: "Throughout the Dress",
+  6: "Throughout the Suit",
+  7: "Throughout the Gown",
+  8: "Borders and throughout the Dupatta",
+  9: "Throughout the Dupatta",
+  10: "Borders",
+  11: "Buttas throughout the Saree",
+  12: "Borders and Buttas throughout the Saree",
+};
+
 class ProductIndiView extends StatefulWidget {
   final Product data;
   const ProductIndiView({Key key, @required this.data}) : super(key: key);
@@ -88,7 +104,11 @@ class _ProductIndiViewState extends State<ProductIndiView> {
           children: <Widget>[
             new Expanded(
               child: Image.network(
-                  "${BASE_URL}sellers/$sellerId/categories/$cid/sizechart", errorBuilder: (context, error, stackTrace) => Image.asset('assets/images/product_preloading.png',),),
+                "${BASE_URL}sellers/$sellerId/categories/$cid/sizechart",
+                errorBuilder: (context, error, stackTrace) => Image.asset(
+                  'assets/images/product_preloading.png',
+                ),
+              ),
             )
           ],
         ),
@@ -300,7 +320,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
             ? (totalQuantity == 2)
                 ? "Only 2 left"
                 : (totalQuantity == 1)
-                    ? "Last piece left"
+                    ? "One in Market Product"
                     : "In Stock"
             : "Not available";
 
@@ -1127,6 +1147,12 @@ class ProductDescriptionTable extends StatelessWidget {
         "No Lookup Found";
   }
 
+  String getWorkOn(List<BlousePadding> workOn){
+    List<String> workOnStrings = [];
+    workOn.forEach((e) => workOnStrings.add(workOnMap[e.id]));
+    return workOnStrings.join(', ');
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -1169,6 +1195,11 @@ class ProductDescriptionTable extends StatelessWidget {
                     "Pieces",
                     getNameFromLookupId(
                         productSection, "pieces", product?.pieces?.id)),
+              // divider,
+              if (product?.workOn != null && product?.workOn?.length != 0)
+                getProductDetailsRow(
+                    "Work on",
+                    getWorkOn(product?.workOn)),
               // divider,
               if (product?.topsLength != null && product?.topsLength?.id != -1)
                 getProductDetailsRow(
