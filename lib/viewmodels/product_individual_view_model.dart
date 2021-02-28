@@ -159,4 +159,14 @@ class ProductIndividualViewModel extends BaseModel {
   Future<bool> removeFromWhishList(String id) async {
     return await _whishListService.removeWhishList(id);
   }
+
+  Future<void> shareProductEvent({String productId = ''}) async {
+    try {
+      await _analyticsService.sendAnalyticsEvent(
+          eventName: "product_shared",
+          parameters: <String, dynamic>{
+            "product_id": productId,
+          });
+    } catch (e) {}
+  }
 }

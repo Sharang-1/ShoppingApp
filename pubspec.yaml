@@ -64,6 +64,7 @@ dependencies:
   overlay_support: ^1.0.5
   font_awesome_flutter: 8.11.0
   # catcher: 0.4.2
+  data_connection_checker: ^0.3.4
 
 dev_dependencies:
   flutter_test:

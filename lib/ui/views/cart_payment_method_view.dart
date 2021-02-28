@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:compound/services/navigation_service.dart';
+import 'package:compound/services/error_handling_service.dart';
 import 'package:compound/ui/widgets/custom_stepper.dart';
 import 'package:compound/ui/widgets/custom_text.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
@@ -56,6 +57,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
   int paymentMethodRadioValue = 1;
   int paymentMethodGrpValue = 1;
   final NavigationService _navigationService = locator<NavigationService>();
+  final ErrorHandlingService _errorHandlingService = locator<ErrorHandlingService>();
 
   Map<int, Widget> iconpaymentMethodMap = {
     1: Tab(icon: Image.asset("assets/images/cash_icon.png")),
@@ -124,6 +126,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                     .navigateReplaceTo(PaymentFinishedScreenRoute);
               } else {
                 _navigationService.navigateAndRemoveUntil(HomeViewRoute);
+                _errorHandlingService.showError(Errors.CouldNotPlaceAnOrder);
               }
             },
             color: green,

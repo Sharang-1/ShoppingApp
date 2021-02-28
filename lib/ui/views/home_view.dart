@@ -15,6 +15,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:rate_my_app/rate_my_app.dart';
 import 'package:rating_dialog/rating_dialog.dart';
+// import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 // import '../shared/shared_styles.dart';
 
@@ -66,7 +67,7 @@ class _HomeViewState extends State<HomeView> {
       bool doNotOpenAgain =
           preferences.getBool('rateMyApp_doNotOpenAgain') ?? false;
 
-      if (mounted && !doNotOpenAgain && (launches > 0) && (launches % 2 == 0)) {
+      if (mounted && !doNotOpenAgain && (launches > 0) && (launches % 2 == 0) && (launches % 5 == 0)) {
         await rateMyApp.showRateDialog(context, title: 'Dzor',
             // message: '',
             onDismissed: () async {
@@ -204,6 +205,7 @@ class _HomeViewState extends State<HomeView> {
                   actions: <Widget>[
                     IconButton(
                       tooltip: 'map',
+                      // icon: Icon(FontAwesomeIcons.mapMarkedAlt),
                       icon: Image.asset("assets/images/location-4.png"),
                       onPressed: () {
                         model.openmap();

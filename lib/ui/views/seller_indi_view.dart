@@ -5,6 +5,7 @@ import 'package:compound/models/grid_view_builder_filter_models/sellerFilter.dar
 import 'package:compound/models/products.dart';
 import 'package:compound/models/sellers.dart';
 import 'package:compound/services/navigation_service.dart';
+import 'package:compound/services/analytics_service.dart';
 import 'package:compound/ui/widgets/GridListWidget.dart';
 import 'package:compound/ui/widgets/ProductTileUI.dart';
 import 'package:compound/ui/widgets/reviews.dart';
@@ -66,6 +67,7 @@ class _SellerIndiState extends State<SellerIndi> {
 
   final DynamicLinkService _dynamicLinkService = locator<DynamicLinkService>();
   final NavigationService _navigationService = locator<NavigationService>();
+  final AnalyticsService _analyticsService = locator<AnalyticsService>();
 
   String getTime(int time) {
     String meridien = "AM";
@@ -97,6 +99,19 @@ class _SellerIndiState extends State<SellerIndi> {
         return false;
     }
     return false;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    try{
+      _analyticsService.sendAnalyticsEvent(
+          eventName: "seller_view",
+          parameters: <String, dynamic>{
+            "seller_id": widget?.data?.key,
+            "seller_name": widget?.data?.name,
+          });
+    } catch (e) {}
   }
 
   @override
@@ -306,6 +321,14 @@ class _SellerIndiState extends State<SellerIndi> {
                               onTap: () async {
                                 await Share.share(await _dynamicLinkService
                                     .createLink(sellerLink + widget.data?.key));
+                                try {
+                                  await _analyticsService.sendAnalyticsEvent(
+                                      eventName: "seller_shared",
+                                      parameters: <String, dynamic>{
+                                        "seller_id": widget?.data?.key,
+                                        "seller_name": widget?.data?.name,
+                                      });
+                                } catch (e) {}
                               },
                               child: Image.asset(
                                 "assets/images/share_icon.png",

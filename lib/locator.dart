@@ -13,6 +13,7 @@ import 'package:compound/services/push_notification_service.dart';
 import 'package:compound/utils/image_selector.dart';
 import 'package:compound/services/navigation_service.dart';
 import 'package:compound/services/dialog_service.dart';
+import 'package:compound/services/error_handling_service.dart';
 
 GetIt locator = GetIt.instance;
 
@@ -29,4 +30,5 @@ void setupLocator() {
   locator.registerLazySingleton(() => WhishListService());
   locator.registerLazySingleton(() => CartLocalStoreService());
   locator.registerLazySingleton(() => DynamicLinkService());
+  locator.registerLazySingleton(() => ErrorHandlingService());
 }

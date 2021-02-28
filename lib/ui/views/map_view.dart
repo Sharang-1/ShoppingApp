@@ -74,12 +74,12 @@ class MapView extends StatelessWidget {
                             alignment: Alignment.centerLeft,
                             child: CircleAvatar(
                                 radius: 22,
-                                backgroundColor: Colors.black,
+                                backgroundColor: darkRedSmooth,
                                 child: Text(
                                   shortName.toUpperCase(),
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                      color: Colors.white,
+                                      color: backgroundWhiteCreamColor,
                                       fontWeight: FontWeight.w600),
                                 ))),
                         Expanded(
@@ -250,12 +250,12 @@ class MapView extends StatelessWidget {
                           alignment: Alignment.centerLeft,
                           child: CircleAvatar(
                               radius: 22,
-                              backgroundColor: Colors.black,
+                              backgroundColor: backgroundWhiteCreamColor,
                               child: Text(
                                 shortName.toUpperCase(),
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    color: Colors.white,
+                                    color: darkRedSmooth,
                                     fontWeight: FontWeight.w600),
                               ))),
                       SizedBox(

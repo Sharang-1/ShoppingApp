@@ -2,6 +2,7 @@ import 'package:compound/locator.dart';
 import 'package:compound/models/sellers.dart';
 import 'package:compound/models/tailors.dart';
 import 'package:compound/services/api/api_service.dart';
+import 'package:compound/services/analytics_service.dart';
 import 'package:compound/services/location_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -10,6 +11,7 @@ import 'base_model.dart';
 class MapViewModel extends BaseModel {
   final LocationService _locationService = locator<LocationService>();
   final APIService _apiService = locator<APIService>();
+  final AnalyticsService _analyticsService = locator<AnalyticsService>();
 
   bool mapToggle = false;
   bool clientsToggle = false;
@@ -41,6 +43,10 @@ class MapViewModel extends BaseModel {
     // iconT = Icons.shopping_cart;
     iconS = await BitmapDescriptor.fromAssetImage(
         configuration, 'assets/images/location.png');
+
+    try{
+       await _analyticsService.sendAnalyticsEvent(eventName: "map_opened");
+    }catch(e){}
   }
 
   populateClients() async {

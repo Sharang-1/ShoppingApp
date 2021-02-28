@@ -7,6 +7,7 @@ import 'package:compound/services/api/api_service.dart';
 import 'package:compound/services/authentication_service.dart';
 import 'package:compound/services/dialog_service.dart';
 import 'package:compound/services/navigation_service.dart';
+import 'package:compound/services/analytics_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,6 +20,7 @@ class VerifyOTPViewModel extends BaseModel {
   final NavigationService _navigationService = locator<NavigationService>();
   final APIService _apiService = locator<APIService>();
   final AddressService _addressService = locator<AddressService>();
+  final AnalyticsService _analyticsService = locator<AnalyticsService>();
 
   String otpValidationMessage = "";
   String phoneNo = "";
@@ -78,6 +80,10 @@ class VerifyOTPViewModel extends BaseModel {
       mUserDetails.name = prefs.getString(Name);
       await _addressService.setUpAddress(mUserDetails.contact);
       await _apiService.updateUserData(mUserDetails);
+
+      try{
+         await _analyticsService.sendAnalyticsEvent(eventName: "login");
+      } catch(e){}
 
       _navigationService.navigateReplaceTo(OtpVerifiedRoute);
     } else {

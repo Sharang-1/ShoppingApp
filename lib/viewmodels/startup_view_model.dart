@@ -6,6 +6,7 @@ import 'package:compound/services/authentication_service.dart';
 import 'package:compound/services/dynamic_link_service.dart';
 import 'package:compound/services/navigation_service.dart';
 import 'package:compound/services/push_notification_service.dart';
+import 'package:compound/services/error_handling_service.dart';
 import 'package:compound/services/analytics_service.dart';
 import 'package:compound/viewmodels/base_model.dart';
 import 'package:get/get.dart';
@@ -22,6 +23,7 @@ class StartUpViewModel extends BaseModel {
   final AnalyticsService _analyticsService = locator<AnalyticsService>();
   final PushNotificationService _notificationService = locator<PushNotificationService>();
   final DynamicLinkService _linkService = locator<DynamicLinkService>();
+  final ErrorHandlingService _errorHandlingService = locator<ErrorHandlingService>();
 
   Future init() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -45,6 +47,7 @@ class StartUpViewModel extends BaseModel {
     await _analyticsService.setup();
     await _notificationService.initialise();
     await _linkService.handleDynamicLink();
+    await _errorHandlingService.init();
 
     if (updateDetails.version != version) {
       Get.defaultDialog(

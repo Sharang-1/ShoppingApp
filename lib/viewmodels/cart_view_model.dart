@@ -3,6 +3,7 @@ import 'package:compound/locator.dart';
 import 'package:compound/models/calculatedPrice.dart';
 import 'package:compound/models/promoCode.dart';
 import 'package:compound/services/api/api_service.dart';
+import 'package:compound/services/analytics_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:compound/constants/shared_pref.dart';
 // import 'package:compound/services/navigation_service.dart';
@@ -10,6 +11,7 @@ import 'package:compound/viewmodels/base_model.dart';
 
 class CartViewModel extends BaseModel {
   final APIService _apiService = locator<APIService>();
+  final AnalyticsService _analyticsService = locator<AnalyticsService>();
 
   final prductId;
   String userName;
@@ -21,6 +23,10 @@ class CartViewModel extends BaseModel {
     userName = prefs.getString(Name);
     notifyListeners();
     return ;
+  }
+
+  Future<void> removeProductFromCartEvent() async{
+     await _analyticsService.sendAnalyticsEvent(eventName: "remove_from_cart");
   }
 
   Future<PromoCode> applyPromocode(String productId, int qty, String code, String promotion) async {

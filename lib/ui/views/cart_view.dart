@@ -52,12 +52,11 @@ class _CartViewState extends State<CartView> {
           leading: BackButton(
             onPressed: () {
               Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => HomeView(),
-                ),
-                ModalRoute.withName(MyHomePageRoute)
-              );
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => HomeView(),
+                  ),
+                  ModalRoute.withName(MyHomePageRoute));
             },
           ),
           iconTheme: IconThemeData(
@@ -142,6 +141,9 @@ class _CartViewState extends State<CartView> {
                                     Provider.of<CartCountSetUp>(context,
                                             listen: false)
                                         .decrementCartCount();
+                                    try {
+                                      await model.removeProductFromCartEvent();
+                                    } catch (e) {}
                                   },
                                 );
                               },

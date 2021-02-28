@@ -44,6 +44,7 @@ import 'package:compound/models/user_details.dart';
 
 import '../../locator.dart';
 import '../dialog_service.dart';
+import '../error_handling_service.dart';
 
 class APIService {
   final apiClient = Dio(BaseOptions(
@@ -69,6 +70,7 @@ class APIService {
 
   // final excludeToken = Options(headers: {"excludeToken": true});
   final DialogService _dialogService = locator<DialogService>();
+  final ErrorHandlingService _errorHandlingService = locator<ErrorHandlingService>();
 
   APIService() {
     apiClient
@@ -122,6 +124,12 @@ class APIService {
 
       return resJSON;
     } catch (e, stacktrace) {
+
+      if(e.type == DioErrorType.CONNECT_TIMEOUT){
+        _errorHandlingService.showError(Errors.PoorConnection);
+      }
+        
+
       // if(!((e.toString().startsWith("Exception: Seller profile photo for")))){
       Fimber.e("Api Service error", ex: e, stacktrace: stacktrace);
       //   GetModule.Get.snackbar(

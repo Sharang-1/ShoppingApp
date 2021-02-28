@@ -28,6 +28,7 @@ import '../shared/shared_styles.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:compound/services/navigation_service.dart';
+import 'package:compound/services/error_handling_service.dart';
 import 'package:compound/locator.dart';
 import 'package:compound/constants/route_names.dart';
 import 'package:share/share.dart';
@@ -92,6 +93,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
   final refreshController = RefreshController(initialRefresh: false);
   final NavigationService _navigationService = locator<NavigationService>();
   final DynamicLinkService _dynamicLinkService = locator<DynamicLinkService>();
+  final ErrorHandlingService _errorHandlingService =
+      locator<ErrorHandlingService>();
 
   bool disabledAddToCartBtn = false;
 
@@ -498,6 +501,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                 await _dynamicLinkService
                                     .createLink(productLink + productId),
                               );
+                              await model.shareProductEvent(
+                                  productId: productId);
                             },
                             child: Container(
                               padding: EdgeInsets.symmetric(horizontal: 8.0),
@@ -854,7 +859,10 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                         selectedSize,
                                         selectedColor);
 
-                                    if (res == 1) {
+                                    if (res == 0)
+                                      _errorHandlingService
+                                          .showError(Errors.CouldNotAddToCart);
+                                    else if (res == 1) {
                                       Provider.of<CartCountSetUp>(context,
                                               listen: false)
                                           .incrementCartCount();
@@ -1147,7 +1155,7 @@ class ProductDescriptionTable extends StatelessWidget {
         "No Lookup Found";
   }
 
-  String getWorkOn(List<BlousePadding> workOn){
+  String getWorkOn(List<BlousePadding> workOn) {
     List<String> workOnStrings = [];
     workOn.forEach((e) => workOnStrings.add(workOnMap[e.id]));
     return workOnStrings.join(', ');
@@ -1197,9 +1205,7 @@ class ProductDescriptionTable extends StatelessWidget {
                         productSection, "pieces", product?.pieces?.id)),
               // divider,
               if (product?.workOn != null && product?.workOn?.length != 0)
-                getProductDetailsRow(
-                    "Work on",
-                    getWorkOn(product?.workOn)),
+                getProductDetailsRow("Work on", getWorkOn(product?.workOn)),
               // divider,
               if (product?.topsLength != null && product?.topsLength?.id != -1)
                 getProductDetailsRow(
