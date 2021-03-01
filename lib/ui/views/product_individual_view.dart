@@ -150,13 +150,11 @@ class _ProductIndiViewState extends State<ProductIndiView> {
     );
   }
 
-  Widget priceInfo(productPrice, productDiscount) {
+  Widget priceInfo(productPrice, productDiscount, saved) {
     return Row(
       children: <Widget>[
         Text(
-          productDiscount != 0.0
-              ? '\u20B9${(productPrice - (productPrice * productDiscount / 100)).toString()}'
-              : '\u20B9${productPrice.toString()}',
+          '\u20B9${productPrice?.toString()}',
           style: TextStyle(
               fontSize: titleFontSizeStyle + 8, fontWeight: FontWeight.bold),
         ),
@@ -166,18 +164,18 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                 children: <Widget>[
                   SizedBox(width: 10),
                   Text(
-                    '\u20B9${productPrice.toString()}',
-                    style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: subtitleFontSizeStyle - 3,
-                        decoration: TextDecoration.lineThrough),
-                  ),
-                  SizedBox(width: 10),
-                  Text(
                     '${productDiscount.toInt().toString()}% off',
                     style: TextStyle(
                         fontSize: subtitleFontSizeStyle - 2,
                         color: Colors.green[600],
+                        fontWeight: FontWeight.w600),
+                  ),
+                  SizedBox(width: 5),
+                  Text(
+                    '(Saved \u20B9$saved)',
+                    style: TextStyle(
+                        fontSize: subtitleFontSizeStyle - 2,
+                        color: Colors.grey,
                         fontWeight: FontWeight.w600),
                   ),
                 ],
@@ -336,12 +334,18 @@ class _ProductIndiViewState extends State<ProductIndiView> {
     );
   }
 
+  int calculateSavedCost(Cost cost){
+    double actualCost = (cost.cost + cost.convenienceCharges.cost + cost.gstCharges.cost);
+    return (actualCost - cost.costToCustomer).round();
+  }
+
   @override
   Widget build(BuildContext context) {
     final String productName = widget?.data?.name ?? "Test Product";
     final String productId = widget?.data?.key;
-    final double productDiscount = widget?.data?.discount ?? 0.0;
-    final double productPrice = widget?.data?.price ?? 0.0;
+    final double productDiscount = widget?.data?.cost?.productDiscount?.rate ?? 0.0;
+    final int productPrice = widget.data.cost.costToCustomer.round() ?? 0.0;
+    final int saved = calculateSavedCost(widget?.data?.cost);
     final List<Variation> variations = widget?.data?.variations ?? null;
 
     var date = new DateTime.now().toString();
@@ -459,6 +463,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                             child: priceInfo(
                               productPrice,
                               productDiscount,
+                              saved,
                             ),
                           ),
                           GestureDetector(
@@ -524,6 +529,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                       //           allTags(tags),
                       //         ],
                       //       ),
+                      verticalSpace(5),
+                      Text("(Including all the charges)"),
                       verticalSpace(10),
                       stockWidget(
                           totalQuantity: totalQuantity, available: available),

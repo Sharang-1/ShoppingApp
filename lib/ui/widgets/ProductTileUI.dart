@@ -72,8 +72,9 @@ class _ProductTileUIState extends State<ProductTileUI> {
     final photos = photo != null ? photo.photos ?? null : null;
     final String photoURL = photos != null ? photos[0].name ?? null : null;
     final String productName = widget?.data?.name ?? "No name";
-    final double productDiscount = widget.data.discount ?? 0.0;
-    final double productPrice = widget.data.price ?? 0.0;
+    final double productDiscount = widget?.data?.cost?.productDiscount?.rate ?? 0.0;
+    final int productPrice = widget.data.cost.costToCustomer.round() ?? 0.0;
+    final int actualCost = (widget.data.cost.cost + widget.data.cost.convenienceCharges.cost + widget.data.cost.gstCharges.cost).round();
     // final double productOldPrice = widget.data.oldPrice ?? 0.0;
     // final productRatingObj = widget.data.rating ?? null;
     // final productRatingValue =
@@ -177,11 +178,10 @@ class _ProductTileUIState extends State<ProductTileUI> {
                       ),
                       Row(
                         children: [
-                          if (productDiscount != 0.0)
                             Padding(
                               padding: EdgeInsets.only(right: 5.0),
                               child: Text(
-                                "\u20B9" + '${(productPrice - ((productPrice * productDiscount) ~/ 100)).toInt().toString()}',
+                                "\u20B9" + '$productPrice',
                                 overflow: TextOverflow.ellipsis,
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
@@ -191,13 +191,15 @@ class _ProductTileUIState extends State<ProductTileUI> {
                                 ),
                               ),
                             ),
+
+                          if ((productDiscount != null) && (productDiscount != 0.0))
                           Text(
-                            "\u20B9" + '${productPrice.toInt().toString()}',
+                            "\u20B9" + '$actualCost',
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.left,
                             style: TextStyle(
-                              color: productDiscount != 0.0 ? Colors.grey : textIconBlue,
-                              decoration: productDiscount != 0.0 ? TextDecoration.lineThrough : null,
+                              color: Colors.grey,
+                              decoration: TextDecoration.lineThrough,
                               fontWeight: FontWeight.bold,
                               fontSize: priceFontSize - 2,
                             ),

@@ -16,10 +16,6 @@ class TopPicksAndDealsCard extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    final num discountedPrice =
-        data['price'] != null && data['discount'] != null
-            ? (data['price'] - (data['discount'] * data['price']) / 100)
-            : 0;
     return Container(
       // padding: EdgeInsets.only(bottom: 10),
       child: Card(
@@ -144,7 +140,7 @@ class TopPicksAndDealsCard extends StatelessWidget {
                                 Padding(
                                   padding: EdgeInsets.only(bottom: 8.0),
                                   child: CustomText(
-                                      rupeeUnicode + discountedPrice.toString(),
+                                      rupeeUnicode + data['price']?.toString(),
                                       color: textIconBlue,
                                       isBold: true,
                                       fontSize: subtitleFontSizeStyle - 2),
@@ -153,7 +149,7 @@ class TopPicksAndDealsCard extends StatelessWidget {
                                 data["isDiscountAvailable"] != null &&
                                         data["isDiscountAvailable"] == "true"
                                     ? Text(
-                                        "\u20B9" + data["price"].toString(),
+                                        "\u20B9" + data["actualCost"].toString(),
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
                                           color: Colors.grey,

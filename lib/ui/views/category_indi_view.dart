@@ -53,7 +53,7 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
   Widget build(BuildContext context) {
     return ViewModelProvider<CategoriesViewModel>.withConsumer(
       viewModel: CategoriesViewModel(),
-      onModelReady: (model) => model.init(),
+      onModelReady: (model) => model.init(subCategory: widget?.subCategory ?? ''),
       builder: (context, model, child) => AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle(statusBarColor: logoRed),
         child: Scaffold(

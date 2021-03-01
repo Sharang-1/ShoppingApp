@@ -253,12 +253,13 @@ class _HomeViewListState extends State<HomeViewList> {
                     data: {
                       "key": product?.key ?? "Test",
                       "name": product?.name ?? "Test",
-                      "price": product?.price ?? 0,
-                      "discount": product?.discount ?? 0,
+                      "actualCost": (product.cost.cost + product.cost.convenienceCharges.cost + product.cost.gstCharges.cost).round(),
+                      "price": product.cost.costToCustomer.round() ?? 0,
+                      "discount": product?.cost?.productDiscount?.rate ?? 0,
                       "photo": product?.photo?.photos?.first?.name,
                       "sellerName": product?.seller?.name ?? "",
                       "isDiscountAvailable":
-                          product?.discount != null && product.discount != 0
+                          product?.cost?.productDiscount?.rate != null && product?.cost?.productDiscount?.rate != 0
                               ? "true"
                               : null,
                     },
@@ -399,8 +400,9 @@ class _HomeViewListState extends State<HomeViewList> {
                     data: {
                       "key": product?.key ?? "Test",
                       "name": product?.name ?? "Test",
-                      "price": product?.price ?? 0,
-                      "discount": product?.discount ?? 0,
+                      "actualCost": (product.cost.cost + product.cost.convenienceCharges.cost + product.cost.gstCharges.cost).round(),
+                      "price": product.cost.costToCustomer.round() ?? 0,
+                      "discount": product?.cost?.productDiscount?.rate ?? 0,
                       "photo": product?.photo?.photos?.first?.name,
                       "sellerName": product?.seller?.name ?? "",
                       "isDiscountAvailable":
@@ -469,7 +471,7 @@ class _HomeViewListState extends State<HomeViewList> {
               child: Padding(
                 padding: const EdgeInsets.only(left: 15.0),
                 child: Text(
-                  'Sending In A Minute',
+                  'Quickly Delivered',
                   style: TextStyle(
                     color: Colors.grey[800],
                     fontSize: subtitleFontSize,
@@ -501,8 +503,9 @@ class _HomeViewListState extends State<HomeViewList> {
                     data: {
                       "key": product?.key ?? "Test",
                       "name": product?.name ?? "Test",
-                      "price": product?.price ?? 0,
-                      "discount": product?.discount ?? 0,
+                      "actualCost": (product.cost.cost + product.cost.convenienceCharges.cost + product.cost.gstCharges.cost).round(),
+                      "price": product.cost.costToCustomer.round() ?? 0,
+                      "discount": product?.cost?.productDiscount?.rate ?? 0,
                       "photo": product?.photo?.photos?.first?.name,
                       "sellerName": product?.seller?.name ?? "",
                       "isDiscountAvailable":
