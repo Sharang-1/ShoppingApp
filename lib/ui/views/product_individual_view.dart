@@ -357,7 +357,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
         dateParse.day +
             (widget?.data?.shipment?.days == null
                 ? 0
-                : widget?.data?.shipment?.days));
+                // ignore: null_aware_before_operator
+                : widget?.data?.shipment?.days + 1));
     dateParse = DateTime.parse(newDate.toString());
     var formattedDate =
         "${weekday[dateParse.weekday - 1]} , ${dateParse.day} ${month[dateParse.month - 1]}";
@@ -530,7 +531,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                       //         ],
                       //       ),
                       verticalSpace(5),
-                      Text("(Including all the charges)"),
+                      Text("(Inclusive of taxes and charges)"),
                       verticalSpace(10),
                       stockWidget(
                           totalQuantity: totalQuantity, available: available),
