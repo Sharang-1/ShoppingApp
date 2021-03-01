@@ -402,11 +402,9 @@ class APIService {
       try {
         CalculatedPrice calPrice =
             CalculatedPrice.fromJson(calculatedPriceData);
-        Fimber.d("Calculated Price : " + calPrice.cost.toString());
         return calPrice;
       } catch (err) {
-        print("Calculated Price Error : ");
-        print(err);
+        print("Calculated Price Error : ${err.toString()}");
         return null;
       }
     }
@@ -423,7 +421,6 @@ class APIService {
     if (promoCodeData != null) {
       try {
         PromoCode promoCode = PromoCode.fromJson(promoCodeData);
-        Fimber.d("Apply promocode : " + promoCode.productId.toString());
         return promoCode;
       } catch (err) {
         print(err);

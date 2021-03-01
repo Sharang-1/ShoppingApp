@@ -54,6 +54,8 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
     "Price",
     "Discount",
     "Discounted Price",
+    "Convenience Charges",
+    "GST Tax",
     "Delivery Charges",
     "Total"
   ];
@@ -79,11 +81,16 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
           ? widget.item.color
           : "No Color given",
       "Promo Code": widget.promoCode,
-      "Promo Code Discount": widget.promoCodeDiscount + "%",
-      "Price": rupeeUnicode + (price * widget.item.quantity).toString(),
+      "Promo Code Discount": '$rupeeUnicode${widget.promoCodeDiscount}',
+      "Price": rupeeUnicode +
+          (widget.item.quantity * widget.item.product.cost.cost).toString(),
       "Discount": discount.toString() + "%",
       "Discount Price":
           rupeeUnicode + (discountedPrice * widget.item.quantity).toString(),
+      "Convenience Charges":
+          '${widget?.item?.product?.cost?.convenienceCharges?.rate} %',
+      "GST Tax":
+          '$rupeeUnicode${widget?.item?.product?.cost?.gstCharges?.cost?.toStringAsFixed(2)} (${widget?.item?.product?.cost?.gstCharges?.rate}%)',
       "Delivery Charges": rupeeUnicode + widget.shippingCharges,
       "Total": rupeeUnicode + widget.finalTotal,
     };
@@ -105,11 +112,15 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
           ? widget.item.color
           : "No Color given",
       "Promo Code": widget.promoCode,
-      "Promo Code Discount": widget.promoCodeDiscount + "%",
+      "Promo Code Discount": '$rupeeUnicode${widget.promoCodeDiscount}',
       "Price": rupeeUnicode + price.toString(),
       "Discount": discount.toString() + "%",
       "Discounted Price":
           rupeeUnicode + (discountedPrice * widget.item.quantity).toString(),
+      "Convenience Charges":
+          '${widget?.item?.product?.cost?.convenienceCharges?.rate} %',
+      "GST Tax":
+          '$rupeeUnicode${widget?.item?.product?.cost?.gstCharges?.cost?.toStringAsFixed(2)} (${widget?.item?.product?.cost?.gstCharges?.rate}%)',
       "Delivery Charges": rupeeUnicode + widget.shippingCharges,
       "Total": rupeeUnicode + widget.finalTotal,
     };
@@ -437,20 +448,12 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                                         ),
                                         CustomText(
                                           rupeeUnicode +
-                                              (double.parse(orderSummaryDetails[
-                                                              "Discounted Price"]
+                                              (double.parse(orderSummaryDetails["Discounted Price"]
                                                           .replaceAll(
                                                               rupeeUnicode,
                                                               " ")) -
-                                                      (double.parse(orderSummaryDetails[
-                                                                  "Discounted Price"]
-                                                              .replaceAll(
-                                                                  rupeeUnicode,
-                                                                  " ")) *
-                                                          double.parse(widget
-                                                              .promoCodeDiscount) /
-                                                          100))
-                                                  .toString(),
+                                                          double.parse(widget.promoCodeDiscount))
+                                                  .toStringAsFixed(2),
                                           fontSize: subtitleFontSize,
                                           color: Colors.grey[600],
                                           fontWeight: FontWeight.bold,

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'calculatedPrice.dart';
 
 PromoCode promoCodeFromJson(String str) => PromoCode.fromJson(json.decode(str));
 
@@ -6,56 +7,76 @@ String promoCodeToJson(PromoCode data) => json.encode(data.toJson());
 
 class PromoCode {
     PromoCode({
-        this.productId,
         this.productPrice,
         this.quantity,
         this.productDiscount,
-        this.productDiscountCost,
-        this.promocodeId,
-        this.promocode,
+        this.convenienceCharges,
+        this.costForSeller,
+        this.deliveryCharges,
+        this.gstCharges,
         this.promocodeDiscount,
-        this.promocodeDiscountCost,
-        this.shippingCharge,
+        this.note,
         this.cost,
     });
 
-    String productId;
-    num productPrice;
-    num quantity;
-    num productDiscount;
-    num productDiscountCost;
-    String promocodeId;
-    String promocode;
-    num promocodeDiscount;
-    double promocodeDiscountCost;
-    num shippingCharge;
-    double cost;
+    final num productPrice;
+    final num quantity;
+    final CostAndRate productDiscount;
+    final CostAndRate convenienceCharges;
+    final CostAndRate gstCharges;
+    final PromocodeDiscount promocodeDiscount;
+    final Delivery deliveryCharges;
+    final num costForSeller;
+    final double cost;
+    final String note;
 
     factory PromoCode.fromJson(Map<String, dynamic> json) => PromoCode(
-        productId: json["productId"],
         productPrice: json["productPrice"],
         quantity: json["quantity"],
-        productDiscount: json["productDiscount"],
-        productDiscountCost: json["productDiscountCost"],
-        promocodeId: json["promocodeId"],
-        promocode: json["promocode"],
-        promocodeDiscount: json["promocodeDiscount"],
-        promocodeDiscountCost: json["promocodeDiscountCost"].toDouble(),
-        shippingCharge: json["shippingCharge"],
+        productDiscount: CostAndRate.fromJson(json["productDiscount"]),
+        convenienceCharges: CostAndRate.fromJson(json["convenienceCharges"]),
+        gstCharges: CostAndRate.fromJson(json["gstCharges"]),
+        promocodeDiscount: PromocodeDiscount.fromJson(json['promocodeDiscount']),
+        deliveryCharges: Delivery.fromJson(json['deliveryCharges']),
         cost: json["cost"].toDouble(),
+        costForSeller: json['costForSeller'],
+        note: json['note'],
     );
 
     Map<String, dynamic> toJson() => {
-        "productId": productId,
         "productPrice": productPrice,
         "quantity": quantity,
-        "productDiscount": productDiscount,
-        "productDiscountCost": productDiscountCost,
-        "promocodeId": promocodeId,
-        "promocode": promocode,
-        "promocodeDiscount": promocodeDiscount,
-        "promocodeDiscountCost": promocodeDiscountCost,
-        "shippingCharge": shippingCharge,
+        "productDiscount": productDiscount.toJson(),
+        "convenienceCharges": convenienceCharges.toJson(),
+        "gstCharges": gstCharges.toJson(),
+        "promocodeDiscount": promocodeDiscount.toJson(),
+        "deliveryCharges": deliveryCharges.toJson(),
         "cost": cost,
+        "costForSeller": costForSeller,
+        "note": note,
+    };
+}
+
+class PromocodeDiscount {
+  PromocodeDiscount({
+        this.cost,
+        this.promocode,
+        this.promocodeId
+    });
+
+   final String promocodeId;
+   final String promocode;
+   final num cost;
+
+    factory PromocodeDiscount.fromJson(Map<String, dynamic> json) => PromocodeDiscount(
+        promocodeId: json["promocodeId"],
+        promocode: json['promocode'],
+        cost: json["cost"],
+    );
+
+    Map<String, dynamic> toJson() => {
+       "promocodeId": promocodeId,
+       "promocode": promocode,
+       "cost": cost,
     };
 }

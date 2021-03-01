@@ -72,11 +72,21 @@ class _CartTileUIState extends State<CartTileUI> {
         widget.item.productId.toString(), widget.item.quantity);
     if (res != null) {
       setState(() {
-        finalTotal = res.cost.toString();
-        shippingCharges = res.shippingCharge.toString();
+        finalTotal = calculateTotalCost(widget.item.product.cost,
+            widget.item.quantity, res.deliveryCharges.cost);
+        shippingCharges = res.deliveryCharges.cost.toString();
       });
     }
   }
+
+  String calculateTotalCost(Cost cost, num quantity, num deliveryCharges) =>
+      (((cost.cost -
+                      (cost?.productDiscount?.cost ?? 0) +
+                      (cost?.convenienceCharges?.cost ?? 0) +
+                      (cost?.gstCharges?.cost ?? 0)) *
+                  quantity) +
+              deliveryCharges)
+          .toStringAsFixed(2);
 
   void applyPromoCode() async {
     if (_controller.text == "") return;
@@ -87,11 +97,11 @@ class _CartTileUIState extends State<CartTileUI> {
         "");
     if (res != null) {
       setState(() {
-        shippingCharges = res.shippingCharge.toString();
+        shippingCharges = res.deliveryCharges.cost.toString();
         finalTotal = res.cost.toString();
-        promoCode = res.promocode;
-        promoCodeDiscount = res.promocodeDiscount.toString();
-        promoCodeId = res.promocodeId;
+        promoCode = res.promocodeDiscount.promocode;
+        promoCodeDiscount = res.promocodeDiscount.cost.toString();
+        promoCodeId = res.promocodeDiscount.promocodeId;
         isPromoCodeApplied = true;
       });
 
@@ -99,6 +109,12 @@ class _CartTileUIState extends State<CartTileUI> {
 
       Scaffold.of(context).showSnackBar(
         new SnackBar(content: Text("Promocode Applied Successfully!")),
+      );
+    } else {
+      _controller.text = "";
+
+      Scaffold.of(context).showSnackBar(
+        new SnackBar(content: Text("Invalid Promocode")),
       );
     }
   }

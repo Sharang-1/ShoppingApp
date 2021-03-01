@@ -106,6 +106,7 @@ class Product {
     num breath;
     num length;
     String dimensions;
+    Cost cost;
 
     Product({
         this.key,
@@ -141,6 +142,7 @@ class Product {
         this.breath,
         this.length,
         this.dimensions,
+        this.cost,
     });
 
     factory Product.fromJson(Map<String, dynamic> json) => Product(
@@ -177,6 +179,7 @@ class Product {
         breath: json["breath"] == null ? null : json["breath"],
         length: json["length"] == null ? null : json["length"],
         dimensions: json["dimensions"] == null ? null : json["dimensions"],
+        cost: json["cost"] == null ? null : Cost.fromJson(json["cost"]),
     );
 
     Map<String, dynamic> toJson() => {
@@ -213,6 +216,7 @@ class Product {
         "breath": breath == null ? null : breath,
         "length": length == null ? null : length,
         "dimensions": dimensions == null ? null : dimensions,
+        "cost": cost == null ? null : cost.toJson(),
     };
 }
 
@@ -346,4 +350,63 @@ class Variation {
         "quantity": quantity,
         "color": color,
     };
+}
+
+class Cost {
+  final num cost;
+  final num costToCustomer;
+  final CostAndRate productDiscount;
+  final CostAndRate convenienceCharges;
+  final CostAndRate gstCharges;
+  final String note;
+
+  Cost({
+    this.cost,
+    this.convenienceCharges,
+    this.costToCustomer,
+    this.gstCharges,
+    this.note,
+    this.productDiscount,
+  });
+
+  factory Cost.fromJson(Map<String, dynamic> json) => Cost(
+        cost: json["cost"],
+        costToCustomer: json["costToCustomer"],
+        productDiscount: json["productDiscount"] == null
+            ? null
+            : CostAndRate.fromJson(json["productDiscount"]),
+        convenienceCharges: json["convenienceCharges"] == null
+            ? null
+            : CostAndRate.fromJson(json["convenienceCharges"]),
+        gstCharges: json["gstCharges"] == null
+            ? null
+            : CostAndRate.fromJson(json["gstCharges"]),
+        note: json["note"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "cost": cost,
+        "costToCustomer": costToCustomer,
+        "productDiscount": productDiscount?.toJson(),
+        "convenienceCharges": convenienceCharges?.toJson(),
+        "gstCharges": gstCharges?.toJson(),
+        "note": note,
+      };
+}
+
+class CostAndRate {
+  final num cost;
+  final num rate;
+
+  CostAndRate({this.cost, this.rate});
+
+  factory CostAndRate.fromJson(Map<String, dynamic> json) => CostAndRate(
+        cost: json["cost"],
+        rate: json["rate"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "cost": cost,
+        "rate": rate,
+      };
 }
