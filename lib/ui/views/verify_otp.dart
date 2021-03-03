@@ -151,7 +151,7 @@ class _VerifyOTPViewState extends State<VerifyOTPView> {
   }
 
   _launchURL() async {
-    const url = 'https://dzor.in/policy.html?source=c';
+    const url = 'https://dzor.in/#/terms-of-use';
     //const url = 'https://www.google.co.in';
     //print(canLaunch(url));
     if (await canLaunch(url)) {

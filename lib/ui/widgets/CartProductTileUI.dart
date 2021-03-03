@@ -75,7 +75,7 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
       // "Seller": "Nike",
       "Qty": widget.item.quantity.toString(),
       "Size": widget.item.size != null && widget.item.size != ""
-          ? widget.item.size
+          ? (widget.item.size == 'N/A' ? '-' : widget.item.size)
           : "No Size given",
       "Color": widget.item.color != null && widget.item.color != ""
           ? widget.item.color
@@ -90,7 +90,7 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
       "Convenience Charges":
           '${widget?.item?.product?.cost?.convenienceCharges?.rate} %',
       "GST":
-          '$rupeeUnicode${widget?.item?.product?.cost?.gstCharges?.cost?.toStringAsFixed(2)} (${widget?.item?.product?.cost?.gstCharges?.rate}%)',
+          '$rupeeUnicode${((widget?.item?.quantity ?? 0) * (widget?.item?.product?.cost?.gstCharges?.cost ?? 0))?.toStringAsFixed(2)} (${widget?.item?.product?.cost?.gstCharges?.rate}%)',
       "Delivery Charges": rupeeUnicode + widget.shippingCharges,
       "Total": rupeeUnicode + widget.finalTotal,
     };
@@ -106,21 +106,22 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
       // "Seller": "Nike",
       "Qty": widget.item.quantity.toString(),
       "Size": widget.item.size != null && widget.item.size != ""
-          ? widget.item.size
+          ? (widget.item.size == 'N/A' ? '-' : widget.item.size)
           : "No Size given",
       "Color": widget.item.color != null && widget.item.color != ""
           ? widget.item.color
           : "No Color given",
       "Promo Code": widget.promoCode,
       "Promo Code Discount": '$rupeeUnicode${widget.promoCodeDiscount}',
-      "Price": rupeeUnicode + price.toString(),
+      "Price": rupeeUnicode +
+          (widget.item.quantity * widget.item.product.cost.cost).toString(),
       "Discount": discount.toString() + "%",
       "Discounted Price":
           rupeeUnicode + (discountedPrice * widget.item.quantity).toString(),
       "Convenience Charges":
           '${widget?.item?.product?.cost?.convenienceCharges?.rate} %',
       "GST":
-          '$rupeeUnicode${widget?.item?.product?.cost?.gstCharges?.cost?.toStringAsFixed(2)} (${widget?.item?.product?.cost?.gstCharges?.rate}%)',
+          '$rupeeUnicode${((widget?.item?.quantity ?? 0) * (widget?.item?.product?.cost?.gstCharges?.cost ?? 0))?.toStringAsFixed(2)} (${widget?.item?.product?.cost?.gstCharges?.rate}%)',
       "Delivery Charges": rupeeUnicode + widget.shippingCharges,
       "Total": rupeeUnicode + widget.finalTotal,
     };
@@ -448,11 +449,13 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                                         ),
                                         CustomText(
                                           rupeeUnicode +
-                                              (double.parse(orderSummaryDetails["Discounted Price"]
+                                              (double.parse(orderSummaryDetails[
+                                                              "Discounted Price"]
                                                           .replaceAll(
                                                               rupeeUnicode,
                                                               " ")) -
-                                                          double.parse(widget.promoCodeDiscount))
+                                                      double.parse(widget
+                                                          .promoCodeDiscount))
                                                   .toStringAsFixed(2),
                                           fontSize: subtitleFontSize,
                                           color: Colors.grey[600],

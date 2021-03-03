@@ -16,7 +16,7 @@ class OrderPlacedView extends StatelessWidget {
     const double subtitleFontSize = subtitleFontSizeStyle - 1;
     return ViewModelProvider<OrdersViewModel>.withConsumer(
       viewModel: OrdersViewModel(),
-      onModelReady: (model) => model.orderPlaced(),
+      onModelReady: (model) => model.orderPlaced(context),
       builder: (context, model, child) => Scaffold(
         backgroundColor: backgroundWhiteCreamColor,
         body: Center(

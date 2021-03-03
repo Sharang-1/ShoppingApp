@@ -108,8 +108,7 @@ class _MyOrdersViewState extends State<MyOrdersView> {
                           if (model.busy) CircularProgressIndicator(),
                           if (!model.busy && model.mOrders != null)
                             ...model.mOrders.orders.map(
-                              (o) {
-                                return Padding(
+                              (o) => Padding(
                                   padding:
                                       const EdgeInsets.symmetric(vertical: 8.0),
                                   child: SizedBox(
@@ -208,8 +207,7 @@ class _MyOrdersViewState extends State<MyOrdersView> {
                                                       MyOrdersDetailsView(o)));
                                         },
                                       )),
-                                );
-                              },
+                                ),
                             ),
                           if (!model.busy && model.mOrders?.orders?.length == 0)
                             verticalSpaceLarge,

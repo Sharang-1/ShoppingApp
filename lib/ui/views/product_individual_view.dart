@@ -551,7 +551,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            'Saved \u20B9$saved',
+                            'Save \u20B9$saved',
                             style: TextStyle(
                                 fontSize: subtitleFontSizeStyle - 2,
                                 color: Colors.grey,

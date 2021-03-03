@@ -74,6 +74,8 @@ class ErrorHandlingService {
   };
 
   void showError(Errors error, {String msg = ''}) {
+    //TODO: Display dialog box
+    if (error == Errors.NoInternetConnection) return null;
     if (appErrors[error]?.errorMsg != null)
       Get.snackbar(appErrors[error].errorMsg.capitalize, msg,
           snackPosition: SnackPosition.BOTTOM);
