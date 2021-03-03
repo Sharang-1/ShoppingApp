@@ -167,8 +167,8 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                                     ),
                                                     CustomText(
                                                       rupeeUnicode +
-                                                          mOrder.orderCost.cost
-                                                              .toString(),
+                                                          mOrder?.orderCost?.cost
+                                                              ?.toString(),
                                                       dotsAfterOverFlow: true,
                                                       fontSize:
                                                           titleFontSize + 5,
@@ -389,11 +389,11 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                         ],
                                       ),
                                       if (widget
-                                              .mOrder.orderCost.productPrice !=
-                                          mOrder.product.price)
+                                              .mOrder?.orderCost?.productPrice !=
+                                          mOrder?.product?.price)
                                         verticalSpaceSmall,
                                       if (widget
-                                              .mOrder.orderCost.productPrice !=
+                                              .mOrder?.orderCost?.productPrice !=
                                           mOrder.product.price)
                                         Row(
                                           mainAxisAlignment:
@@ -407,8 +407,8 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                             ),
                                             CustomText(
                                               rupeeUnicode +
-                                                  mOrder.orderCost.productPrice
-                                                      .toString(),
+                                                  mOrder?.orderCost?.productPrice
+                                                      ?.toString(),
                                               color: Colors.grey[600],
                                               fontSize: subtitleFontSize - 1,
                                               isBold: true,
@@ -427,11 +427,11 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                             color: Colors.grey,
                                           ),
                                           CustomText(
-                                            mOrder.orderCost.shippingCharge == 0
+                                            mOrder?.orderCost?.deliveryCharges?.cost == 0
                                                 ? "Free Delivery"
                                                 : mOrder
-                                                    .orderCost.shippingCharge
-                                                    .toString(),
+                                                    ?.orderCost?.deliveryCharges?.cost
+                                                    ?.toString() ?? '',
                                             color: green,
                                             fontSize: subtitleFontSize - 1,
                                             isBold: true,
@@ -455,8 +455,8 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                           ),
                                           CustomText(
                                             rupeeUnicode +
-                                                mOrder.orderCost.cost
-                                                    .toString(),
+                                                mOrder?.orderCost?.cost
+                                                    ?.toString(),
                                             color: textIconOrange,
                                             fontSize: subtitleFontSize + 2,
                                             isBold: true,
@@ -603,7 +603,7 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                 fontSize: titleFontSize,
                               ),
                               CustomText(
-                                rupeeUnicode + mOrder.orderCost.cost.toString(),
+                                rupeeUnicode + mOrder?.orderCost?.cost?.toString(),
                                 dotsAfterOverFlow: true,
                                 fontSize: titleFontSize,
                                 isBold: true,
@@ -773,7 +773,7 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                   ],
                 ),
                 verticalSpaceSmall,
-                if (mOrder.orderCost.productPrice != mOrder.product.price)
+                if (mOrder?.orderCost?.productPrice != mOrder?.product?.price)
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
@@ -784,7 +784,7 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                         color: Colors.grey,
                       ),
                       CustomText(
-                        rupeeUnicode + mOrder.orderCost.productPrice.toString(),
+                        rupeeUnicode + mOrder?.orderCost?.productPrice?.toString(),
                         color: Colors.grey[600],
                         fontSize: subtitleFontSize - 1,
                         isBold: true,
@@ -802,9 +802,9 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                       color: Colors.grey,
                     ),
                     CustomText(
-                      mOrder.orderCost.shippingCharge == 0
+                      mOrder?.orderCost?.deliveryCharges?.cost == 0
                           ? "Free Delivery"
-                          : mOrder.orderCost.shippingCharge.toString(),
+                          : mOrder?.orderCost?.deliveryCharges?.cost.toString(),
                       color: green,
                       fontSize: subtitleFontSize - 1,
                       isBold: true,
@@ -827,7 +827,7 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                       color: Colors.grey,
                     ),
                     CustomText(
-                      rupeeUnicode + mOrder.orderCost.cost.toString(),
+                      rupeeUnicode + mOrder?.orderCost?.cost?.toString(),
                       color: textIconOrange,
                       fontSize: subtitleFontSize + 2,
                       isBold: true,

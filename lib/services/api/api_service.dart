@@ -70,7 +70,8 @@ class APIService {
 
   // final excludeToken = Options(headers: {"excludeToken": true});
   final DialogService _dialogService = locator<DialogService>();
-  final ErrorHandlingService _errorHandlingService = locator<ErrorHandlingService>();
+  final ErrorHandlingService _errorHandlingService =
+      locator<ErrorHandlingService>();
 
   APIService() {
     apiClient
@@ -123,13 +124,11 @@ class APIService {
       }
 
       return resJSON;
-    } catch (e, stacktrace) {
-
-      if(e.type == DioErrorType.CONNECT_TIMEOUT){
+    } on DioError catch (e) {
+      if (e.type == DioErrorType.CONNECT_TIMEOUT) {
         _errorHandlingService.showError(Errors.PoorConnection);
       }
-        
-
+    } catch (e, stacktrace) {
       // if(!((e.toString().startsWith("Exception: Seller profile photo for")))){
       Fimber.e("Api Service error", ex: e, stacktrace: stacktrace);
       //   GetModule.Get.snackbar(
@@ -420,6 +419,7 @@ class APIService {
         options: Options(headers: {'excludeToken': false}));
     if (promoCodeData != null) {
       try {
+        if (promoCodeData['error'] != null) return null;
         PromoCode promoCode = PromoCode.fromJson(promoCodeData);
         return promoCode;
       } catch (err) {
@@ -484,9 +484,9 @@ class APIService {
       Orders orders = Orders.fromJson(ordersData);
       orders.orders.sort((a, b) {
         DateTime aDateTime = DateTime.parse(
-          "${a.deliveryDate.substring(6,10)}${a.deliveryDate.substring(3,5)}${a.deliveryDate.substring(0,2)}"
-          );
-        DateTime bDateTime = DateTime.parse("${b.deliveryDate.substring(6,10)}${b.deliveryDate.substring(3,5)}${b.deliveryDate.substring(0,2)}");
+            "${a.deliveryDate.substring(6, 10)}${a.deliveryDate.substring(3, 5)}${a.deliveryDate.substring(0, 2)}");
+        DateTime bDateTime = DateTime.parse(
+            "${b.deliveryDate.substring(6, 10)}${b.deliveryDate.substring(3, 5)}${b.deliveryDate.substring(0, 2)}");
         return bDateTime.compareTo(aDateTime);
       });
       return orders;

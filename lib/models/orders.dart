@@ -4,6 +4,9 @@
 
 import 'dart:convert';
 
+import 'package:compound/models/products.dart';
+import 'package:compound/models/calculatedPrice.dart' show Delivery;
+
 Orders ordersFromJson(String str) => Orders.fromJson(json.decode(str));
 
 String ordersToJson(Orders data) => json.encode(data.toJson());
@@ -44,6 +47,9 @@ class Order {
     this.modified,
     this.customerId,
     this.billingAddress,
+    this.billingCity,
+    this.billingState,
+    this.billingPincode,
     this.billingPhone,
     this.sellerId,
     this.productId,
@@ -62,6 +68,9 @@ class Order {
   String modified;
   String customerId;
   String billingAddress;
+  String billingCity;
+  String billingState;
+  num billingPincode;
   BillingPhone billingPhone;
   String sellerId;
   String productId;
@@ -70,7 +79,7 @@ class Order {
   OrderCost orderCost;
   Status status;
   String deliveryDate;
-  _Product product;
+  Product product;
   Payment payment;
 
   factory Order.fromJson(Map<String, dynamic> json) => Order(
@@ -81,18 +90,31 @@ class Order {
         customerId: json["customerId"],
         billingAddress:
             json["billingAddress"] == null ? null : json["billingAddress"],
+        billingCity: json["billingCity"] == null ? null : json["billingCity"],
+        billingState:
+            json["billingState"] == null ? null : json["billingState"],
+        billingPincode:
+            json["billingPincode"] == null ? null : json["billingPincode"],
         billingPhone: json["billingPhone"] == null
             ? null
             : BillingPhone.fromJson(json["billingPhone"]),
         sellerId: json["sellerId"],
         productId: json["productId"],
-        shipment: Shipment.fromJson(json["shipment"]),
-        variation: Variation.fromJson(json["variation"]),
-        orderCost: OrderCost.fromJson(json["orderCost"]),
-        status: Status.fromJson(json["status"]),
+        shipment: json["shipment"] == null
+            ? null
+            : Shipment.fromJson(json["shipment"]),
+        variation: json["variation"] == null
+            ? null
+            : Variation.fromJson(json["variation"]),
+        orderCost: json["orderCost"] == null
+            ? null
+            : OrderCost.fromJson(json["orderCost"]),
+        status: json["status"] == null ? null : Status.fromJson(json["status"]),
         deliveryDate: json["deliveryDate"],
-        product: _Product.fromJson(json["product"]),
-        payment: Payment.fromJson(json["payment"]),
+        product:
+            json["product"] == null ? null : Product.fromJson(json["product"]),
+        payment:
+            json["payment"] == null ? null : Payment.fromJson(json["payment"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -105,13 +127,13 @@ class Order {
         "billingPhone": billingPhone == null ? null : billingPhone.toJson(),
         "sellerId": sellerId,
         "productId": productId,
-        "shipment": shipment.toJson(),
-        "variation": variation.toJson(),
-        "orderCost": orderCost.toJson(),
-        "status": status.toJson(),
+        "shipment": shipment == null ? null : shipment.toJson(),
+        "variation": variation == null ? null : variation.toJson(),
+        "orderCost": orderCost == null ? null : orderCost.toJson(),
+        "status": status == null ? null : status.toJson(),
         "deliveryDate": deliveryDate,
-        "product": product.toJson(),
-        "payment": payment.toJson(),
+        "product": product == null ? null : product.toJson(),
+        "payment": payment == null ? null : payment.toJson(),
       };
 }
 
@@ -136,34 +158,53 @@ class BillingPhone {
 }
 
 class OrderCost {
-  OrderCost({
-    this.productId,
-    this.productPrice,
-    this.quantity,
-    this.shippingCharge,
-    this.cost,
-  });
+  OrderCost(
+      {this.productPrice,
+      this.quantity,
+      this.productDiscount,
+      this.convenienceCharges,
+      this.gstCharges,
+      this.deliveryCharges,
+      this.cost,
+      this.note});
 
-  String productId;
   num productPrice;
   num quantity;
-  num shippingCharge;
+  CostAndRate productDiscount;
+  CostAndRate convenienceCharges;
+  CostAndRate gstCharges;
+  Delivery deliveryCharges;
   num cost;
+  String note;
 
   factory OrderCost.fromJson(Map<String, dynamic> json) => OrderCost(
-        productId: json["productId"],
-        productPrice: json["productPrice"],
-        quantity: json["quantity"],
-        shippingCharge: json["shippingCharge"],
-        cost: json["cost"] == null ? null : json["cost"],
-      );
+      productPrice: json["productPrice"],
+      quantity: json["quantity"],
+      productDiscount: json['productDiscount'] == null
+          ? null
+          : CostAndRate.fromJson(json['productDiscount']),
+      convenienceCharges: json['convenienceCharges'] == null
+          ? null
+          : CostAndRate.fromJson(json['convenienceCharges']),
+      gstCharges: json['gstCharges'] == null
+          ? null
+          : CostAndRate.fromJson(json['gstCharges']),
+      deliveryCharges: json['deliveryCharges'] == null
+          ? null
+          : Delivery.fromJson(json['deliveryCharges']),
+      cost: json["cost"] == null ? null : json["cost"],
+      note: json['note'],
+    );
 
   Map<String, dynamic> toJson() => {
-        "productId": productId,
         "productPrice": productPrice,
         "quantity": quantity,
-        "shippingCharge": shippingCharge,
-        "cost": cost == null ? null : cost,
+        "productDiscount": productDiscount == null ? null : productDiscount.toJson(),
+        "convenienceCharges": convenienceCharges == null ? null :  convenienceCharges.toJson(),
+        "gstCharges": gstCharges == null ? null :  gstCharges.toJson(),
+        "deliveryCharges": deliveryCharges == null ? null :  deliveryCharges.toJson(),
+        "cost": cost,
+        "note": note,
       };
 }
 
@@ -175,7 +216,7 @@ class Payment {
   Option option;
 
   factory Payment.fromJson(Map<String, dynamic> json) => Payment(
-        option: json["option"] != null  ? Option.fromJson(json["option"]) : null,
+        option: json["option"] != null ? Option.fromJson(json["option"]) : null,
       );
 
   Map<String, dynamic> toJson() => {
@@ -203,127 +244,6 @@ class Option {
       };
 }
 
-class _Product {
-  _Product({
-    this.key,
-    this.name,
-    this.description,
-    this.enabled,
-    this.created,
-    this.modified,
-    this.account,
-    this.owner,
-    this.price,
-    this.whoMadeIt,
-    this.shipment,
-    this.available,
-    this.variations,
-    this.typeOfWork,
-    this.fabricDetails,
-    this.margin,
-    this.productFor,
-    this.category,
-    this.waist,
-    this.length,
-    this.flair,
-    this.blousePadding,
-    this.pieces,
-    this.rating,
-    this.photo,
-    this.discount,
-    this.productNew,
-  });
-
-  String key;
-  String name;
-  String description;
-  bool enabled;
-  String created;
-  String modified;
-  Account account;
-  Account owner;
-  num price;
-  BlousePadding whoMadeIt;
-  Shipment shipment;
-  bool available;
-  List<Variation> variations;
-  String typeOfWork;
-  String fabricDetails;
-  bool margin;
-  BlousePadding productFor;
-  BlousePadding category;
-  num waist;
-  num length;
-  num flair;
-  BlousePadding blousePadding;
-  BlousePadding pieces;
-  Rating rating;
-  ProductPhoto photo;
-  num discount;
-  bool productNew;
-
-  factory _Product.fromJson(Map<String, dynamic> json) => _Product(
-        key: json["key"],
-        name: json["name"],
-        description: json["description"],
-        enabled: json["enabled"],
-        created: json["created"],
-        modified: json["modified"],
-        account: Account.fromJson(json["account"]),
-        owner: Account.fromJson(json["owner"]),
-        price: json["price"],
-        whoMadeIt: json["whoMadeIt"] != null ? BlousePadding.fromJson(json["whoMadeIt"]) : null,
-        shipment: Shipment.fromJson(json["shipment"]),
-        available: json["available"],
-        variations: List<Variation>.from(
-            json["variations"].map((x) => Variation.fromJson(x))),
-        typeOfWork: json["typeOfWork"],
-        fabricDetails: json["fabricDetails"],
-        margin: json["margin"],
-        productFor: json["productFor"] != null ? BlousePadding.fromJson(json["productFor"]) : null,
-        category: json["category"] != null ? BlousePadding.fromJson(json["category"]) : null,
-        waist: json["waist"],
-        length: json["length"],
-        flair: json["flair"],
-        blousePadding: json["blousePadding"] != null ? BlousePadding.fromJson(json["blousePadding"]) : null,
-        pieces: json["pieces"] != null ? BlousePadding.fromJson(json["pieces"]) : null,
-        rating: json["rating"] != null ? Rating.fromJson(json["rating"]) : null,
-        photo: json["photo"] != null ? ProductPhoto.fromJson(json["photo"]) : null,
-        discount: json["discount"],
-        productNew: json["new"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "key": key,
-        "name": name,
-        "description": description,
-        "enabled": enabled,
-        "created": created,
-        "modified": modified,
-        "account": account.toJson(),
-        "owner": owner.toJson(),
-        "price": price,
-        "whoMadeIt": whoMadeIt.toJson(),
-        "shipment": shipment.toJson(),
-        "available": available,
-        "variations": List<dynamic>.from(variations.map((x) => x.toJson())),
-        "typeOfWork": typeOfWork,
-        "fabricDetails": fabricDetails,
-        "margin": margin,
-        "productFor": productFor.toJson(),
-        "category": category.toJson(),
-        "waist": waist,
-        "length": length,
-        "flair": flair,
-        "blousePadding": blousePadding?.toJson(),
-        "pieces": pieces.toJson(),
-        "rating": rating.toJson(),
-        "photo": photo.toJson(),
-        "discount": discount,
-        "new": productNew,
-      };
-}
-
 class Account {
   Account({
     this.key,
@@ -337,123 +257,6 @@ class Account {
 
   Map<String, dynamic> toJson() => {
         "key": key,
-      };
-}
-
-class BlousePadding {
-  BlousePadding({
-    this.id,
-  });
-
-  num id;
-
-  factory BlousePadding.fromJson(Map<String, dynamic> json) => BlousePadding(
-        id: json["id"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-      };
-}
-
-class ProductPhoto {
-  ProductPhoto({
-    this.photos,
-    this.accountId,
-    this.productId,
-  });
-
-  List<PhotoElement> photos;
-  String accountId;
-  String productId;
-
-  factory ProductPhoto.fromJson(Map<String, dynamic> json) => ProductPhoto(
-        photos: List<PhotoElement>.from(
-            json["photos"].map((x) => PhotoElement.fromJson(x))),
-        accountId: json["accountId"],
-        productId: json["productId"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "photos": List<dynamic>.from(photos.map((x) => x.toJson())),
-        "accountId": accountId,
-        "productId": productId,
-      };
-}
-
-class PhotoElement {
-  PhotoElement({
-    this.name,
-    this.originalName,
-  });
-
-  String name;
-  String originalName;
-
-  factory PhotoElement.fromJson(Map<String, dynamic> json) => PhotoElement(
-        name: json["name"],
-        originalName: json["originalName"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "name": name,
-        "originalName": originalName,
-      };
-}
-
-class Rating {
-  Rating({
-    this.rate,
-  });
-
-  num rate;
-
-  factory Rating.fromJson(Map<String, dynamic> json) => Rating(
-        rate: json["rate"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "rate": rate,
-      };
-}
-
-class Shipment {
-  Shipment({
-    this.days,
-  });
-
-  num days;
-
-  factory Shipment.fromJson(Map<String, dynamic> json) => Shipment(
-        days: json["days"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "days": days,
-      };
-}
-
-class Variation {
-  Variation({
-    this.size,
-    this.quantity,
-    this.color,
-  });
-
-  String size;
-  num quantity;
-  String color;
-
-  factory Variation.fromJson(Map<String, dynamic> json) => Variation(
-        size: json["size"],
-        quantity: json["quantity"],
-        color: json["color"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "size": size,
-        "quantity": quantity,
-        "color": color,
       };
 }
 

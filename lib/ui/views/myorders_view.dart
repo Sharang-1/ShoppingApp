@@ -14,6 +14,7 @@ import 'package:compound/services/navigation_service.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../widgets/custom_text.dart';
 import '../shared/app_colors.dart';
+import 'package:flutter_svg/svg.dart';
 
 class MyOrdersView extends StatefulWidget {
   @override
@@ -38,6 +39,12 @@ class _MyOrdersViewState extends State<MyOrdersView> {
                 elevation: 0,
                 backgroundColor: backgroundWhiteCreamColor,
                 centerTitle: true,
+                 title: SvgPicture.asset(
+                  "assets/svg/logo.svg",
+                  color: logoRed,
+                  height: 35,
+                  width: 35,
+                ),
                 iconTheme: IconThemeData(color: appBarIconColor),
               ),
               backgroundColor: backgroundWhiteCreamColor,

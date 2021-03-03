@@ -91,7 +91,6 @@ class _HomeViewState extends State<HomeView> {
         Provider.of<LookupSetUp>(context, listen: false)
             .setUpLookups(values[2]);
         final lastDeliveredProduct = await model.getLastDeliveredProduct();
-        print("Last Delivered Product : ${lastDeliveredProduct["name"]}");
         if (lastDeliveredProduct != null)
           await showDialog(
               context: context,
@@ -206,7 +205,8 @@ class _HomeViewState extends State<HomeView> {
                     IconButton(
                       tooltip: 'map',
                       // icon: Icon(FontAwesomeIcons.mapMarkedAlt),
-                      icon: Image.asset("assets/images/location-4.png"),
+                      // icon: Image.asset("assets/images/location-4.png"),
+                      icon: Image.asset("assets/images/dzor_map.png"),
                       onPressed: () {
                         model.openmap();
                       },

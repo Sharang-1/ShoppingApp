@@ -34,6 +34,7 @@ import 'package:compound/constants/route_names.dart';
 import 'package:share/share.dart';
 import 'package:compound/constants/dynamic_links.dart';
 import 'package:compound/services/dynamic_link_service.dart';
+import 'package:compound/ui/views/gallery_view.dart';
 
 const weekday = [
   "Monday",
@@ -99,24 +100,39 @@ class _ProductIndiViewState extends State<ProductIndiView> {
   bool disabledAddToCartBtn = false;
 
   _showDialog(context, sellerId, cid) {
-    return showDialog<void>(
-      context: context,
-      child: new AlertDialog(
-        contentPadding: const EdgeInsets.all(16.0),
-        content: new Row(
-          children: <Widget>[
-            new Expanded(
-              child: Image.network(
-                "${BASE_URL}sellers/$sellerId/categories/$cid/sizechart",
-                errorBuilder: (context, error, stackTrace) => Image.asset(
-                  'assets/images/product_preloading.png',
-                ),
-              ),
-            )
+    return Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => GalleryPhotoViewWrapper(
+          galleryItems: [
+            "${BASE_URL}sellers/$sellerId/categories/$cid/sizechart"
           ],
+          scrollDirection: Axis.horizontal,
+          initialIndex: 0,
+          showImageLabel: false,
         ),
       ),
     );
+    // return showDialog<void>(
+    //   context: context,
+    //   child: new AlertDialog(
+    //     contentPadding: const EdgeInsets.all(16.0),
+    //     content: new Row(
+    //       children: <Widget>[
+    //         new Expanded(
+    //           child: GestureDetector(
+    //             child: Image.network(
+    //               "${BASE_URL}sellers/$sellerId/categories/$cid/sizechart",
+    //               errorBuilder: (context, error, stackTrace) => Image.asset(
+    //                 'assets/images/product_preloading.png',
+    //               ),
+    //             ),
+    //           ),
+    //         )
+    //       ],
+    //     ),
+    //   ),
+    // );
   }
 
   Widget productNameAndDescInfo(productName, variations, sellerModal) {
@@ -151,37 +167,35 @@ class _ProductIndiViewState extends State<ProductIndiView> {
   }
 
   Widget priceInfo(productPrice, productDiscount, saved) {
-    return Row(
-      children: <Widget>[
-        Text(
-          '\u20B9${productPrice?.toString()}',
-          style: TextStyle(
-              fontSize: titleFontSizeStyle + 8, fontWeight: FontWeight.bold),
-        ),
-        productDiscount == 0.0
-            ? Container()
-            : Row(
-                children: <Widget>[
-                  SizedBox(width: 10),
-                  Text(
-                    '${productDiscount.toInt().toString()}% off',
-                    style: TextStyle(
-                        fontSize: subtitleFontSizeStyle - 2,
-                        color: Colors.green[600],
-                        fontWeight: FontWeight.w600),
-                  ),
-                  SizedBox(width: 5),
-                  Text(
-                    '(Saved \u20B9$saved)',
-                    style: TextStyle(
-                        fontSize: subtitleFontSizeStyle - 2,
-                        color: Colors.grey,
-                        fontWeight: FontWeight.w600),
-                  ),
-                ],
-              ),
-      ],
-    );
+    return Row(children: <Widget>[
+      Text(
+        '\u20B9${productPrice?.toString()}',
+        style: TextStyle(
+            fontSize: titleFontSizeStyle + 8, fontWeight: FontWeight.bold),
+      ),
+      productDiscount == 0.0
+          ? Container()
+          : Row(
+              children: <Widget>[
+                SizedBox(width: 10),
+                Text(
+                  '${productDiscount.toInt().toString()}% off',
+                  style: TextStyle(
+                      fontSize: subtitleFontSizeStyle - 2,
+                      color: Colors.green[600],
+                      fontWeight: FontWeight.w600),
+                ),
+                // SizedBox(width: 5),
+                // Text(
+                //   '(Saved \u20B9$saved)',
+                //   style: TextStyle(
+                //       fontSize: subtitleFontSizeStyle - 2,
+                //       color: Colors.grey,
+                //       fontWeight: FontWeight.w600),
+                // ),
+              ],
+            ),
+    ]);
   }
 
   List<Widget> choiceChips(variations) {
@@ -334,8 +348,9 @@ class _ProductIndiViewState extends State<ProductIndiView> {
     );
   }
 
-  int calculateSavedCost(Cost cost){
-    double actualCost = (cost.cost + cost.convenienceCharges.cost + cost.gstCharges.cost);
+  int calculateSavedCost(Cost cost) {
+    double actualCost =
+        (cost.cost + cost.convenienceCharges.cost + cost.gstCharges.cost);
     return (actualCost - cost.costToCustomer).round();
   }
 
@@ -343,7 +358,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
   Widget build(BuildContext context) {
     final String productName = widget?.data?.name ?? "Test Product";
     final String productId = widget?.data?.key;
-    final double productDiscount = widget?.data?.cost?.productDiscount?.rate ?? 0.0;
+    final double productDiscount =
+        widget?.data?.cost?.productDiscount?.rate ?? 0.0;
     final int productPrice = widget.data.cost.costToCustomer.round() ?? 0.0;
     final int saved = calculateSavedCost(widget?.data?.cost);
     final List<Variation> variations = widget?.data?.variations ?? null;
@@ -530,6 +546,18 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                       //           allTags(tags),
                       //         ],
                       //       ),
+                      if (productDiscount != 0.0) verticalSpace(5),
+                      if (productDiscount != 0.0)
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Saved \u20B9$saved',
+                            style: TextStyle(
+                                fontSize: subtitleFontSizeStyle - 2,
+                                color: Colors.grey,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ),
                       verticalSpace(5),
                       Text("(Inclusive of taxes and charges)"),
                       verticalSpace(10),
@@ -1227,6 +1255,12 @@ class ProductDescriptionTable extends StatelessWidget {
                     getNameFromLookupId(
                         productSection, "made", product?.made?.id)),
               // divider,
+              // if (product?.whoMadeIt != null && product?.whoMadeIt?.id != -1)
+              //   getProductDetailsRow(
+              //       "Who Made It",
+              //       getNameFromLookupId(
+              //           productSection, "whoMadeIt", product?.whoMadeIt?.id)),
+              // // divider,
               if (product?.flair != null)
                 getProductDetailsRow("Flair", product?.flair?.toString()),
               // divider,

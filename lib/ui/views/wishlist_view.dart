@@ -165,7 +165,6 @@ class _WishlistViewState extends State<WishlistView>
               childAspectRatio: 0.75,
               tileBuilder: (BuildContext context, data, index, onDelete, onUpdate) {
                 Fimber.d("test");
-                print((data as Product).toJson());
                 return ProductTileUI(
                   index: index,
                   data: data,

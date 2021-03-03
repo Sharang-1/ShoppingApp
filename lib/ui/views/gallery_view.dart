@@ -11,6 +11,7 @@ class GalleryPhotoViewWrapper extends StatefulWidget {
     this.maxScale,
     this.initialIndex,
     @required this.galleryItems,
+    this.showImageLabel = true,
     this.scrollDirection = Axis.horizontal,
   }) : pageController = PageController(initialPage: initialIndex);
 
@@ -22,6 +23,7 @@ class GalleryPhotoViewWrapper extends StatefulWidget {
   final PageController pageController;
   final List<String> galleryItems;
   final Axis scrollDirection;
+  final bool showImageLabel;
 
   @override
   State<StatefulWidget> createState() {
@@ -71,6 +73,7 @@ class _GalleryPhotoViewWrapperState extends State<GalleryPhotoViewWrapper> {
               onPageChanged: onPageChanged,
               scrollDirection: widget.scrollDirection,
             ),
+            if(widget.showImageLabel)
             Container(
               padding: const EdgeInsets.all(20.0),
               child: Text(

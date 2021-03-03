@@ -55,7 +55,7 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
     "Discount",
     "Discounted Price",
     "Convenience Charges",
-    "GST Tax",
+    "GST",
     "Delivery Charges",
     "Total"
   ];
@@ -89,7 +89,7 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
           rupeeUnicode + (discountedPrice * widget.item.quantity).toString(),
       "Convenience Charges":
           '${widget?.item?.product?.cost?.convenienceCharges?.rate} %',
-      "GST Tax":
+      "GST":
           '$rupeeUnicode${widget?.item?.product?.cost?.gstCharges?.cost?.toStringAsFixed(2)} (${widget?.item?.product?.cost?.gstCharges?.rate}%)',
       "Delivery Charges": rupeeUnicode + widget.shippingCharges,
       "Total": rupeeUnicode + widget.finalTotal,
@@ -119,7 +119,7 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
           rupeeUnicode + (discountedPrice * widget.item.quantity).toString(),
       "Convenience Charges":
           '${widget?.item?.product?.cost?.convenienceCharges?.rate} %',
-      "GST Tax":
+      "GST":
           '$rupeeUnicode${widget?.item?.product?.cost?.gstCharges?.cost?.toStringAsFixed(2)} (${widget?.item?.product?.cost?.gstCharges?.rate}%)',
       "Delivery Charges": rupeeUnicode + widget.shippingCharges,
       "Total": rupeeUnicode + widget.finalTotal,
@@ -190,23 +190,23 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                           isBold: true,
                           fontSize: priceFontSize,
                         ),
-                        horizontalSpaceTiny,
-                        orderSummaryDetails["Total"]
-                                    .replaceAll(rupeeUnicode, "") !=
-                                orderSummaryDetails["Price"]
-                                    .replaceAll(rupeeUnicode, "")
-                            ? Expanded(
-                                child: Text(
-                                  orderSummaryDetails["Price"],
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    color: Colors.grey,
-                                    decoration: TextDecoration.lineThrough,
-                                    fontSize: priceFontSize - 2,
-                                  ),
-                                ),
-                              )
-                            : SizedBox()
+                        // horizontalSpaceTiny,
+                        // orderSummaryDetails["Total"]
+                        //             .replaceAll(rupeeUnicode, "") !=
+                        //         orderSummaryDetails["Price"]
+                        //             .replaceAll(rupeeUnicode, "")
+                        //     ? Expanded(
+                        //         child: Text(
+                        //           orderSummaryDetails["Price"],
+                        //           overflow: TextOverflow.ellipsis,
+                        //           style: TextStyle(
+                        //             color: Colors.grey,
+                        //             decoration: TextDecoration.lineThrough,
+                        //             fontSize: priceFontSize - 2,
+                        //           ),
+                        //         ),
+                        //       )
+                        //     : SizedBox()
                       ],
                     ),
                     verticalSpaceTiny,
