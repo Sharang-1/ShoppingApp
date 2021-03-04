@@ -226,7 +226,7 @@ class _VerifyOTPViewState extends State<VerifyOTPView> {
                 _launchURL();
               },
               child: Text(
-                "When you tap \"finish\" You agree to Dzor's terms and conditions",
+                "When you enter \"OTP\", You agree to Dzor's terms and conditions",
                 style: TextStyle(
                     color: Colors.grey,
                     fontFamily: "Open Sans",

@@ -166,10 +166,10 @@ class _ProductIndiViewState extends State<ProductIndiView> {
     );
   }
 
-  Widget priceInfo(productPrice, productDiscount, saved) {
+  Widget priceInfo(productPrice, productDiscount, saved, {bool showPrice = true}) {
     return Row(children: <Widget>[
       Text(
-        '\u20B9${productPrice?.toString()}',
+        '\u20B9${showPrice ? productPrice?.toString() : ' - '}',
         style: TextStyle(
             fontSize: titleFontSizeStyle + 8, fontWeight: FontWeight.bold),
       ),
@@ -330,7 +330,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
 
   Text stockWidget({int totalQuantity, bool available}) {
     String text = (totalQuantity == 0)
-        ? "Sold out"
+        ? "Sold Out! \nYou can check back in a few days!"
         : (available)
             ? (totalQuantity == 2)
                 ? "Only 2 left"
@@ -481,6 +481,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                               productPrice,
                               productDiscount,
                               saved,
+                              showPrice: (available && (totalQuantity != 0)),
                             ),
                           ),
                           GestureDetector(
@@ -558,7 +559,9 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                 fontWeight: FontWeight.w600),
                           ),
                         ),
+                      if(available && (totalQuantity != 0))
                       verticalSpace(5),
+                      if(available && (totalQuantity != 0))
                       Text("(Inclusive of taxes and charges)"),
                       verticalSpace(10),
                       stockWidget(
