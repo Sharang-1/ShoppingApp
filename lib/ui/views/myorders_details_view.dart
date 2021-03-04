@@ -380,35 +380,34 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                             isBold: true,
                                           ),
                                           CustomText(
-                                            rupeeUnicode +
-                                                mOrder.product.price.toString(),
+                                            '$rupeeUnicode${(mOrder.product.price - (mOrder?.orderCost?.productDiscount?.cost ?? 0) + (mOrder?.orderCost?.convenienceCharges?.cost ?? 0)).toStringAsFixed(2)}',
                                             color: Colors.grey[600],
                                             fontSize: subtitleFontSize - 1,
                                             isBold: true,
                                           ),
                                         ],
                                       ),
-                                      if ((mOrder?.orderCost?.productDiscount?.cost ?? 0) != 0)
-                                        verticalSpaceSmall,
-                                      if ((mOrder?.orderCost?.productDiscount?.cost ?? 0) != 0)
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: <Widget>[
-                                            CustomText(
-                                              "Discounted Price",
-                                              isBold: true,
-                                              fontSize: subtitleFontSize - 1,
-                                              color: Colors.grey,
-                                            ),
-                                            CustomText(
-                                             '$rupeeUnicode${(mOrder?.product?.cost?.cost ?? 0) - (mOrder?.orderCost?.productDiscount?.cost ?? 0)}',
-                                              color: Colors.grey[600],
-                                              fontSize: subtitleFontSize - 1,
-                                              isBold: true,
-                                            ),
-                                          ],
-                                        ),
+                                      // if ((mOrder?.orderCost?.productDiscount?.cost ?? 0) != 0)
+                                      //   verticalSpaceSmall,
+                                      // if ((mOrder?.orderCost?.productDiscount?.cost ?? 0) != 0)
+                                      //   Row(
+                                      //     mainAxisAlignment:
+                                      //         MainAxisAlignment.spaceBetween,
+                                      //     children: <Widget>[
+                                      //       CustomText(
+                                      //         "Discounted Price",
+                                      //         isBold: true,
+                                      //         fontSize: subtitleFontSize - 1,
+                                      //         color: Colors.grey,
+                                      //       ),
+                                      //       CustomText(
+                                      //        '$rupeeUnicode${(mOrder?.product?.cost?.cost ?? 0) - (mOrder?.orderCost?.productDiscount?.cost ?? 0)}',
+                                      //         color: Colors.grey[600],
+                                      //         fontSize: subtitleFontSize - 1,
+                                      //         isBold: true,
+                                      //       ),
+                                      //     ],
+                                      //   ),
                                       verticalSpaceSmall,
                                       Row(
                                         mainAxisAlignment:
@@ -442,7 +441,7 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                           CustomText(
                                             mOrder?.orderCost?.deliveryCharges?.cost == 0
                                                 ? "Free Delivery"
-                                                : '$rupeeUnicode${mOrder?.orderCost?.deliveryCharges?.cost}',
+                                                : '$rupeeUnicode${mOrder?.orderCost?.deliveryCharges?.cost?.toStringAsFixed(2)}',
                                             color: green,
                                             fontSize: subtitleFontSize - 1,
                                             isBold: true,

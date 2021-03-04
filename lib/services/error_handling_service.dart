@@ -3,6 +3,7 @@ import 'package:compound/models/internet_connection.dart';
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:fimber/fimber.dart';
 import 'package:get/get.dart';
+import 'package:flutter/material.dart';
 // import 'package:catcher/catcher.dart';
 
 // CatcherOptions debugOptions = CatcherOptions(
@@ -30,6 +31,7 @@ class ErrorHandlingService {
   InternetConnectionStatus _connectionStatus =
       InternetConnectionStatus.NotConnected;
   StreamSubscription<DataConnectionStatus> listener;
+  bool _isDialogShowing = false;
 
   InternetConnectionStatus get connectionStatus => _connectionStatus;
 
@@ -49,11 +51,28 @@ class ErrorHandlingService {
     switch (status) {
       case DataConnectionStatus.connected:
         _connectionStatus = InternetConnectionStatus.Connected;
+        if (_isDialogShowing) {
+          _isDialogShowing = false;
+          Get.back();
+        }
         Fimber.i("Internet Connected");
         return;
       case DataConnectionStatus.disconnected:
         _connectionStatus = InternetConnectionStatus.NotConnected;
-        showError(Errors.NoInternetConnection);
+        // showError(Errors.NoInternetConnection);
+        if (!_isDialogShowing) {
+          await Get.dialog<AlertDialog>(
+              AlertDialog(
+                title: Text("No Internet Connection"),
+                content: Image.asset(
+                  'assets/images/no_internet.png',
+                  height: 300,
+                  width: 300,
+                ),
+              ),
+              barrierDismissible: true);
+          _isDialogShowing = true;
+        }
         Fimber.i("Internet Disconnect");
         return;
     }
@@ -61,8 +80,8 @@ class ErrorHandlingService {
 
   //App Errors
   Map<Errors, AppError> appErrors = {
-    Errors.NoInternetConnection: AppError(
-        errorCode: 101, errorMsg: "No Internet Connection"),
+    Errors.NoInternetConnection:
+        AppError(errorCode: 101, errorMsg: "No Internet Connection"),
     Errors.PoorConnection:
         AppError(errorCode: 102, errorMsg: "Poor Internet Connection"),
     Errors.CouldNotLoadImage:
@@ -74,8 +93,6 @@ class ErrorHandlingService {
   };
 
   void showError(Errors error, {String msg = ''}) {
-    //TODO: Display dialog box
-    if (error == Errors.NoInternetConnection) return null;
     if (appErrors[error]?.errorMsg != null)
       Get.snackbar(appErrors[error].errorMsg.capitalize, msg,
           snackPosition: SnackPosition.BOTTOM);

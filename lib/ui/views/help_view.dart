@@ -30,7 +30,7 @@ class HelpView extends StatelessWidget {
                   LinkWidget(
                       name: "Terms and conditions",
                       data: "https://dzor.in/#/terms-of-use"),
-                  verticalSpaceSmall,
+                  verticalSpaceMedium,
                   Text("Email Us!",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -40,7 +40,7 @@ class HelpView extends StatelessWidget {
                       name: "support@dzor.in",
                       linkType: LinkType.email,
                       data: "support@dzor.in"),
-                  verticalSpaceSmall,
+                  verticalSpaceMedium,
                   Text("Call Us!",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
