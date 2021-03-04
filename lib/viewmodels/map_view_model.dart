@@ -29,13 +29,13 @@ class MapViewModel extends BaseModel {
 
   Tailors tData;
   Sellers sData;
-  Future<void> init() async {
+  Future<void> init({String sellerKey}) async {
     currentLocation = _locationService.currentLocation ??
         UserLocation(
             latitude: 23.0204975,
             longitude: 72.43931); //Default Value for current Location
     mapToggle = true;
-    populateClients();
+    populateClients(sellerKey: sellerKey);
 
     ImageConfiguration configuration = ImageConfiguration(size: Size(1, 1));
     iconT = await BitmapDescriptor.fromAssetImage(
@@ -44,12 +44,12 @@ class MapViewModel extends BaseModel {
     iconS = await BitmapDescriptor.fromAssetImage(
         configuration, 'assets/images/location.png');
 
-    try{
-       await _analyticsService.sendAnalyticsEvent(eventName: "map_opened");
-    }catch(e){}
+    try {
+      await _analyticsService.sendAnalyticsEvent(eventName: "map_opened");
+    } catch (e) {}
   }
 
-  populateClients() async {
+  populateClients({String sellerKey}) async {
     clients = [];
     Future<Tailors> tailors = _apiService.getTailors();
     Future<Sellers> sellers = _apiService.getSellers();
@@ -57,11 +57,21 @@ class MapViewModel extends BaseModel {
 
     tData = apiData[0] as Tailors;
     sData = apiData[1] as Sellers;
-    sData.items = sData.items.where((s) => s.accountType.toString() != '2').toList();
+    sData.items =
+        sData.items.where((s) => s.accountType.toString() != '2').toList();
     if (sData != null) {
       clientsToggle = true;
     }
     notifyListeners();
+
+    if (sellerKey != null && sellerKey != '') {
+      try {
+        currentClient = sData.items.firstWhere((e) => (e.key == sellerKey));
+        currentBearing = 90.0;
+        zoomInMarker(currentClient?.contact?.geoLocation?.latitude,
+            currentClient?.contact?.geoLocation?.longitude);
+      } catch (e) {}
+    }
   }
 
   void onMapCreated(controller) {

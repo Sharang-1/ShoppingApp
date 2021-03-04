@@ -53,7 +53,7 @@ class ErrorHandlingService {
         _connectionStatus = InternetConnectionStatus.Connected;
         if (_isDialogShowing) {
           _isDialogShowing = false;
-          Get.back();
+          // Get.back();
         }
         Fimber.i("Internet Connected");
         return;

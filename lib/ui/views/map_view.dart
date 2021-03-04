@@ -17,6 +17,9 @@ import '../shared/shared_styles.dart';
 class MapView extends StatelessWidget {
   final CarouselController controller = CarouselController();
   final Map<String, int> carouselMap = {};
+  final String sellerKey;
+
+  MapView({this.sellerKey});
 
   String getStringWithBullet(String s) {
     if (s == null) return "${String.fromCharCode(0x2022)} No Data";
@@ -333,7 +336,7 @@ class MapView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelProvider<MapViewModel>.withConsumer(
       viewModel: MapViewModel(),
-      onModelReady: (model) => model.init(),
+      onModelReady: (model) => model.init(sellerKey: sellerKey),
       builder: (context, model, child) => Scaffold(
         body: SafeArea(
           child: Scaffold(
@@ -410,6 +413,7 @@ class MapView extends StatelessWidget {
                                 options: CarouselOptions(
                                   autoPlay: false,
                                   enableInfiniteScroll: false,
+                                  initialPage: carouselMap[sellerKey] ?? 0,
                                 ),
                               ),
                             )

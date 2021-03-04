@@ -143,7 +143,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return _getPageRoute(
           pageArguments: pageArguments,
           routeName: settings.name,
-          viewToShow: MapView(),
+          viewToShow: MapView(sellerKey: (pageArguments as String)),
           pageTransitionType: PageTransitionType.rightToLeft);
 
     case ProductIndividualRoute:

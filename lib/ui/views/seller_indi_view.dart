@@ -422,7 +422,9 @@ class _SellerIndiState extends State<SellerIndi> {
                                     ],
                                   ),
                                   RaisedButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        _navigationService.navigateTo(MapViewRoute, arguments: widget?.data?.key);
+                                      },
                                       color: Colors.white,
                                       elevation: 0,
                                       shape: RoundedRectangleBorder(
