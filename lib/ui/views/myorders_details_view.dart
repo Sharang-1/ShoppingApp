@@ -143,8 +143,15 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                                           "assets/images/product_preloading.png",
                                                       image:
                                                           "$PRODUCT_PHOTO_BASE_URL/${mOrder.product.key}/${mOrder.product.photo.photos.first.name}",
-                                                      imageErrorBuilder: (context, error, stackTrace) => Image.asset("assets/images/product_preloading.png", width: 150,
-                                                      height: 150, fit: BoxFit.cover),
+                                                      imageErrorBuilder: (context,
+                                                              error,
+                                                              stackTrace) =>
+                                                          Image.asset(
+                                                              "assets/images/product_preloading.png",
+                                                              width: 150,
+                                                              height: 150,
+                                                              fit:
+                                                                  BoxFit.cover),
                                                       fit: BoxFit.cover,
                                                     )),
                                                 horizontalSpaceMedium,
@@ -167,7 +174,8 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                                     ),
                                                     CustomText(
                                                       rupeeUnicode +
-                                                          mOrder?.orderCost?.cost
+                                                          mOrder
+                                                              ?.orderCost?.cost
                                                               ?.toString(),
                                                       dotsAfterOverFlow: true,
                                                       fontSize:
@@ -380,7 +388,7 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                             isBold: true,
                                           ),
                                           CustomText(
-                                            '$rupeeUnicode${(mOrder.product.price - (mOrder?.orderCost?.productDiscount?.cost ?? 0) + (mOrder?.orderCost?.convenienceCharges?.cost ?? 0)).toStringAsFixed(2)}',
+                                            '$rupeeUnicode${((mOrder.product.price * (mOrder?.orderCost?.quantity ?? 1)) - (mOrder?.orderCost?.productDiscount?.cost ?? 0) + (mOrder?.orderCost?.convenienceCharges?.cost ?? 0)).toStringAsFixed(2)}',
                                             color: Colors.grey[600],
                                             fontSize: subtitleFontSize - 1,
                                             isBold: true,
@@ -439,7 +447,9 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                             color: Colors.grey,
                                           ),
                                           CustomText(
-                                            mOrder?.orderCost?.deliveryCharges?.cost == 0
+                                            mOrder?.orderCost?.deliveryCharges
+                                                        ?.cost ==
+                                                    0
                                                 ? "Free Delivery"
                                                 : '$rupeeUnicode${mOrder?.orderCost?.deliveryCharges?.cost?.toStringAsFixed(2)}',
                                             color: green,
