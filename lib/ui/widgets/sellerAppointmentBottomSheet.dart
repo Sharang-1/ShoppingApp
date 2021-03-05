@@ -347,16 +347,16 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                     )),
                   ),
             Align(
-              alignment: Alignment.topLeft,
-                child: IconButton(
-                  tooltip: "Close",
-                  iconSize: 22,
-                  icon: Icon(CupertinoIcons.clear_circled_solid),
-                  color: Colors.grey[600],
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
+              alignment: Alignment.topRight,
+              child: IconButton(
+                tooltip: "Close",
+                iconSize: 22,
+                icon: Icon(CupertinoIcons.clear_circled_solid),
+                color: Colors.grey[600],
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
             ),
             Align(
               alignment: Alignment.bottomCenter,

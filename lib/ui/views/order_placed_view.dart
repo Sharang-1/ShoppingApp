@@ -1,15 +1,16 @@
 import 'package:compound/viewmodels/orders_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider_architecture/provider_architecture.dart';
+import 'package:share/share.dart';
 import '../shared/shared_styles.dart';
 import '../shared/app_colors.dart';
 
 class OrderPlacedView extends StatelessWidget {
-
   final String productName, sellerName;
 
   //dummy data passed
-  OrderPlacedView({this.productName = "Product Name", this.sellerName = "Seller Name"});
+  OrderPlacedView(
+      {this.productName = "Product Name", this.sellerName = "Seller Name"});
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +43,41 @@ class OrderPlacedView extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                         fontSize: subtitleFontSize),
                   ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Enjoying Dzor, Share It With Your Best Friends",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: headingFont,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: subtitleFontSize,
+                        ),
+                      ),
+                      RaisedButton(
+                        onPressed: () async =>
+                            await Share.share("https://dzor.page.link/App"),
+                        child: Text(
+                          "Share",
+                          style: TextStyle(
+                            fontFamily: headingFont,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: subtitleFontSize,
+                          ),
+                        ),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            side: BorderSide(color: textIconOrange, width: 2)),
+                      ),
+                    ],
+                  ),
+
                   // Text(
                   //   "${productName} by ${sellerName}",
                   //   textAlign: TextAlign.center,
@@ -52,7 +88,7 @@ class OrderPlacedView extends StatelessWidget {
                   //       fontSize: subtitleFontSize),
                   // )
                 ]),
-              )
+              ),
             ],
           ),
         ),

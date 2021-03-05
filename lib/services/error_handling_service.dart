@@ -31,7 +31,7 @@ class ErrorHandlingService {
   InternetConnectionStatus _connectionStatus =
       InternetConnectionStatus.NotConnected;
   StreamSubscription<DataConnectionStatus> listener;
-  bool _isDialogShowing = false;
+  BuildContext _alertDialogContext;
 
   InternetConnectionStatus get connectionStatus => _connectionStatus;
 
@@ -51,27 +51,29 @@ class ErrorHandlingService {
     switch (status) {
       case DataConnectionStatus.connected:
         _connectionStatus = InternetConnectionStatus.Connected;
-        if (_isDialogShowing) {
-          _isDialogShowing = false;
-          // Get.back();
+        if (_alertDialogContext != null) {
+          Navigator.of(_alertDialogContext).pop();
+          _alertDialogContext = null;
         }
         Fimber.i("Internet Connected");
         return;
       case DataConnectionStatus.disconnected:
         _connectionStatus = InternetConnectionStatus.NotConnected;
-        // showError(Errors.NoInternetConnection);
-        if (!_isDialogShowing) {
-          await Get.dialog<AlertDialog>(
-              AlertDialog(
-                title: Text("No Internet Connection"),
-                content: Image.asset(
-                  'assets/images/no_internet.png',
-                  height: 300,
-                  width: 300,
-                ),
-              ),
-              barrierDismissible: true);
-          _isDialogShowing = true;
+        if (_alertDialogContext == null) {
+          await showDialog(
+              context: Get.context,
+              builder: (context) {
+                _alertDialogContext = context;
+                return AlertDialog(
+                  title: Text("No Internet Connection"),
+                  content: Image.asset(
+                    'assets/images/no_internet.png',
+                    height: 300,
+                    width: 300,
+                  ),
+                );
+              },
+              barrierDismissible: false);
         }
         Fimber.i("Internet Disconnect");
         return;

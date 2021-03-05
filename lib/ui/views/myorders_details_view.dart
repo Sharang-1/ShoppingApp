@@ -173,10 +173,7 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                                           titleFontSize + 5,
                                                     ),
                                                     CustomText(
-                                                      rupeeUnicode +
-                                                          mOrder
-                                                              ?.orderCost?.cost
-                                                              ?.toString(),
+                                                      '$rupeeUnicode${mOrder?.orderCost?.cost}',
                                                       dotsAfterOverFlow: true,
                                                       fontSize:
                                                           titleFontSize + 5,
@@ -377,12 +374,104 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                         ],
                                       ),
                                       verticalSpaceSmall,
+                                      Divider(
+                                        color: Colors.grey[300],
+                                        thickness: 1.5,
+                                      ),
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: <Widget>[
                                           CustomText(
                                             "Price",
+                                            fontSize: subtitleFontSize - 1,
+                                            color: Colors.grey,
+                                            isBold: true,
+                                          ),
+                                          CustomText(
+                                            '$rupeeUnicode${mOrder?.product?.price?.toStringAsFixed(2)}',
+                                            color: Colors.grey[600],
+                                            fontSize: subtitleFontSize - 1,
+                                            isBold: true,
+                                          ),
+                                        ],
+                                      ),
+                                      verticalSpaceSmall,
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          CustomText(
+                                            "Quantity",
+                                            fontSize: subtitleFontSize - 1,
+                                            color: Colors.grey,
+                                            isBold: true,
+                                          ),
+                                          CustomText(
+                                            '${mOrder?.orderCost?.quantity}',
+                                            color: Colors.grey[600],
+                                            fontSize: subtitleFontSize - 1,
+                                            isBold: true,
+                                          ),
+                                        ],
+                                      ),
+                                      if ((mOrder?.orderCost?.productDiscount
+                                                  ?.cost ??
+                                              0) !=
+                                          0)
+                                        verticalSpaceSmall,
+                                      if ((mOrder?.orderCost?.productDiscount
+                                                  ?.cost ??
+                                              0) !=
+                                          0)
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: <Widget>[
+                                            CustomText(
+                                              "Discount",
+                                              fontSize: subtitleFontSize - 1,
+                                              color: Colors.grey,
+                                              isBold: true,
+                                            ),
+                                            CustomText(
+                                              '$rupeeUnicode${mOrder?.orderCost?.productDiscount?.cost}',
+                                              color: Colors.grey[600],
+                                              fontSize: subtitleFontSize - 1,
+                                              isBold: true,
+                                            ),
+                                          ],
+                                        ),
+                                      verticalSpaceSmall,
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          CustomText(
+                                            "Convenience Charges",
+                                            fontSize: subtitleFontSize - 1,
+                                            color: Colors.grey,
+                                            isBold: true,
+                                          ),
+                                          CustomText(
+                                            '${mOrder?.orderCost?.convenienceCharges?.rate}%',
+                                            color: Colors.grey[600],
+                                            fontSize: subtitleFontSize - 1,
+                                            isBold: true,
+                                          ),
+                                        ],
+                                      ),
+                                      verticalSpaceSmall,
+                                      Divider(
+                                        color: Colors.grey[300],
+                                        thickness: 1.5,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          CustomText(
+                                            "Sub Total",
                                             fontSize: subtitleFontSize - 1,
                                             color: Colors.grey,
                                             isBold: true,

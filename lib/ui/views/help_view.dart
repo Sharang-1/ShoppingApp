@@ -67,7 +67,7 @@ class HelpView extends StatelessWidget {
             ),
           ),
           Align(
-            alignment: Alignment.topLeft,
+            alignment: Alignment.topRight,
             child: IconButton(
               tooltip: "Close",
               iconSize: 28,

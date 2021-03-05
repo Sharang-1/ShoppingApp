@@ -419,11 +419,9 @@ class APIService {
         options: Options(headers: {'excludeToken': false}));
     if (promoCodeData != null) {
       try {
-        if (promoCodeData['error'] != null) return null;
         PromoCode promoCode = PromoCode.fromJson(promoCodeData);
         return promoCode;
       } catch (err) {
-        print(err);
         return null;
       }
     }
@@ -484,9 +482,9 @@ class APIService {
       Orders orders = Orders.fromJson(ordersData);
       orders.orders.sort((a, b) {
         DateTime aDateTime = DateTime.parse(
-            "${a.deliveryDate.substring(6, 10)}${a.deliveryDate.substring(3, 5)}${a.deliveryDate.substring(0, 2)}");
+            "${a.created.substring(6, 10)}${a.created.substring(3, 5)}${a.created.substring(0, 2)}");
         DateTime bDateTime = DateTime.parse(
-            "${b.deliveryDate.substring(6, 10)}${b.deliveryDate.substring(3, 5)}${b.deliveryDate.substring(0, 2)}");
+            "${b.created.substring(6, 10)}${b.created.substring(3, 5)}${b.created.substring(0, 2)}");
         return bDateTime.compareTo(aDateTime);
       });
       return orders;
