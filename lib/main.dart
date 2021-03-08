@@ -16,6 +16,7 @@ import 'managers/dialog_manager.dart';
 import 'ui/router.dart';
 import 'locator.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 // import 'package:catcher/catcher.dart';
 
 void main() {
@@ -26,6 +27,8 @@ void main() {
   // Running flutter app
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
+  loadImgs();
 
   runApp(OverlaySupport(child: MyApp()));
 
@@ -88,4 +91,13 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
+}
+
+loadImgs() async {
+  return Future.wait([
+    precachePicture(
+      ExactAssetPicture(SvgPicture.svgStringDecoder, "assets/svg/logo.svg"),
+      null,
+    ),
+  ]);
 }
