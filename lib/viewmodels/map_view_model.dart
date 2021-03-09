@@ -92,6 +92,9 @@ class MapViewModel extends BaseModel {
             tilt: 45.0)))
         .then((val) {
       resetToggle = true;
+      try {
+        mapController.showMarkerInfoWindow(MarkerId(currentClient?.key));
+      } catch (e) {}
       notifyListeners();
     });
   }

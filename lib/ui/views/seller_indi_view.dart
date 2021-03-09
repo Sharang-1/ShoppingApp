@@ -84,6 +84,7 @@ class _SellerIndiState extends State<SellerIndi> {
     Map<String, dynamic> timingJson = timing.toJson();
     Day today = Day.fromJson(
         timingJson[DateFormat('EEEE').format(_dateTime).toLowerCase()]);
+    if(today.start == 0 && today.end == 0) return "";
     return "${getTime(today.start)} - ${getTime(today.end)} (Today)";
   }
 

@@ -140,7 +140,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
-          productName,
+          productName?.toString()?.split(" ")?.map((e) => e[0].toUpperCase() + e?.substring(1))?.join(' '),
           // overflow: TextOverflow.ellipsis,
           style: TextStyle(
             fontSize: titleFontSizeStyle + 12,

@@ -358,7 +358,7 @@ class MapView extends StatelessWidget {
                   zoom: 12,
                 ),
                 compassEnabled: false,
-                mapToolbarEnabled: false,
+                mapToolbarEnabled: true,
                 zoomControlsEnabled: false,
               ),
               Positioned(
