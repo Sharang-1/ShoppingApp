@@ -140,7 +140,11 @@ class _ProductIndiViewState extends State<ProductIndiView> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
-          productName?.toString()?.split(" ")?.map((e) => e[0].toUpperCase() + e?.substring(1))?.join(' '),
+          productName
+              ?.toString()
+              ?.split(" ")
+              ?.map((e) => e[0].toUpperCase() + e?.substring(1))
+              ?.join(' '),
           // overflow: TextOverflow.ellipsis,
           style: TextStyle(
             fontSize: titleFontSizeStyle + 12,
@@ -166,7 +170,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
     );
   }
 
-  Widget priceInfo(productPrice, productDiscount, saved, {bool showPrice = true}) {
+  Widget priceInfo(productPrice, productDiscount, saved,
+      {bool showPrice = true}) {
     return Row(children: <Widget>[
       Text(
         '\u20B9${showPrice ? productPrice?.toString() : ' - '}',
@@ -559,13 +564,27 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                 fontWeight: FontWeight.w600),
                           ),
                         ),
-                      if(available && (totalQuantity != 0))
-                      verticalSpace(5),
-                      if(available && (totalQuantity != 0))
-                      Text("(Inclusive of taxes and charges)"),
+                      if (available && (totalQuantity != 0)) verticalSpace(5),
+                      if (available && (totalQuantity != 0))
+                        Text("(Inclusive of taxes and charges)"),
                       verticalSpace(10),
-                      stockWidget(
-                          totalQuantity: totalQuantity, available: available),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          stockWidget(
+                              totalQuantity: totalQuantity,
+                              available: available),
+                          InkWell(
+                              onTap: () async => await showDialog<AlertDialog>(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                      content: Text(
+                                          "Please read the terms and conditions carefully. We only take returns & refund requests only in case of an error on our end. We don’t allow cancellations."),
+                                    ),
+                                  ),
+                              child: Icon(Icons.help_outline_rounded)),
+                        ],
+                      ),
                       if (available) verticalSpace(20),
                       if (available)
                         Row(
