@@ -135,17 +135,27 @@ class _ProductIndiViewState extends State<ProductIndiView> {
     // );
   }
 
+  String capitalizeString(String s) {
+    String capitalizedString;
+    try {
+      capitalizedString = (s
+          .trim()
+          .split(" ")
+          .map((e) => e[0].toUpperCase() + e.substring(1))
+          .join(' '));
+    } catch (e) {
+      capitalizedString = s;
+    }
+    return capitalizedString;
+  }
+
   Widget productNameAndDescInfo(productName, variations, sellerModal) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
-          productName
-              ?.toString()
-              ?.split(" ")
-              ?.map((e) => e[0].toUpperCase() + e?.substring(1))
-              ?.join(' '),
-          // overflow: TextOverflow.ellipsis,
+          capitalizeString(productName.toString()),
+          overflow: TextOverflow.ellipsis,
           style: TextStyle(
             fontSize: titleFontSizeStyle + 12,
             fontFamily: headingFont,
@@ -358,6 +368,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
         (cost.cost + cost.convenienceCharges.cost + cost.gstCharges.cost);
     return (actualCost - cost.costToCustomer).round();
   }
+
+  bool showMoreFromDesigner = true;
 
   @override
   Widget build(BuildContext context) {
@@ -1130,43 +1142,55 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                           },
                         ),
                       ),
-                      verticalSpace(20),
-                      Text(
-                        "   More From Designer",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: titleFontSizeStyle),
-                      ),
-                      verticalSpace(5),
-                      SizedBox(
-                        height: 200,
-                        child: GridListWidget<Products, Product>(
-                          key: uniqueKey,
-                          context: context,
-                          filter: ProductFilter(
-                              existingQueryString: widget?.data?.account?.key !=
-                                      null
-                                  ? "accountKey=${widget?.data?.account?.key};"
-                                  : ""),
-                          gridCount: 2,
-                          viewModel: ProductsGridViewBuilderViewModel(
-                            filteredProductKey: widget?.data?.key,
-                            randomize: true,
-                          ),
-                          childAspectRatio: 1.35,
-                          scrollDirection: Axis.horizontal,
-                          disablePagination: false,
-                          tileBuilder: (BuildContext context, productData,
-                              index, onUpdate, onDelete) {
-                            return ProductTileUI(
-                              data: productData,
-                              onClick: () => model.goToProductPage(productData),
-                              index: index,
-                              cardPadding: EdgeInsets.fromLTRB(0, 0, 0, 10),
-                            );
-                          },
+                      if (showMoreFromDesigner) verticalSpace(20),
+                      if (showMoreFromDesigner)
+                        Text(
+                          "   More From Designer",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: titleFontSizeStyle),
                         ),
-                      ),
+                      if (showMoreFromDesigner) verticalSpace(5),
+                      if (showMoreFromDesigner)
+                        SizedBox(
+                          height: 200,
+                          child: GridListWidget<Products, Product>(
+                            key: uniqueKey,
+                            context: context,
+                            filter: ProductFilter(
+                                existingQueryString: widget
+                                            ?.data?.account?.key !=
+                                        null
+                                    ? "accountKey=${widget?.data?.account?.key};"
+                                    : ""),
+                            gridCount: 2,
+                            viewModel: ProductsGridViewBuilderViewModel(
+                              filteredProductKey: widget?.data?.key,
+                              randomize: true,
+                            ),
+                            childAspectRatio: 1.35,
+                            emptyListWidget: Container(),
+                            onEmptyList: () async {
+                              await Future.delayed(
+                                  Duration(milliseconds: 500),
+                                  () => setState(() {
+                                        showMoreFromDesigner = false;
+                                      }));
+                            },
+                            scrollDirection: Axis.horizontal,
+                            disablePagination: false,
+                            tileBuilder: (BuildContext context, productData,
+                                index, onUpdate, onDelete) {
+                              return ProductTileUI(
+                                data: productData,
+                                onClick: () =>
+                                    model.goToProductPage(productData),
+                                index: index,
+                                cardPadding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                              );
+                            },
+                          ),
+                        ),
                       // bottomTag()
                       // SizedBox(
                       //   height: 20,
@@ -1358,8 +1382,8 @@ class ProductDescriptionTable extends StatelessWidget {
                   "Type Of Work",
                   product?.typeOfWork,
                 ),
-              if (product?.margin != null)
-                getProductDetailsRow("Margin", product.margin ? "Yes" : "No"),
+              if ((product?.margin != null) && product.margin)
+                getProductDetailsRow("Margin", "Margin left in selai"),
             ],
           );
         }

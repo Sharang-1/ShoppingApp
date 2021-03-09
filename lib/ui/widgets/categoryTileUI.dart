@@ -1,5 +1,4 @@
-// import 'package:compound/constants/server_urls.dart';
-// import 'package:compound/constants/server_urls.dart';
+import 'package:compound/constants/server_urls.dart';
 import 'package:compound/models/categorys.dart';
 import 'package:compound/ui/shared/shared_styles.dart';
 import 'package:compound/utils/tools.dart';
@@ -38,11 +37,9 @@ class CategoryTileUI extends StatelessWidget {
                 fit: BoxFit.fill,
                 fadeInCurve: Curves.easeIn,
                 placeholder: 'assets/images/category_preloading.png',
-                image: //data?.id != null
-                    // ? '$CATEGORY_PHOTO_BASE_URL/${data.id}' :
-                    'https://images.pexels.com/photos/934070/pexels-photo-934070.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
-                // : bannerURL,
-                ,
+                image: data?.id != null
+                      ? '$CATEGORY_PHOTO_BASE_URL/${data.id}' :
+                    'https://images.pexels.com/photos/934070/pexels-photo-934070.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
                 imageErrorBuilder: (context, error, stackTrace) => Image.asset("assets/images/category_preloading.png",  fit: BoxFit.fill),
                 ),
           )),
