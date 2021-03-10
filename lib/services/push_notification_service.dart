@@ -70,6 +70,7 @@ class PushNotificationService {
               ),
               onTap: () => _serialiseAndNavigate(message),
             ),
+            duration: Duration(seconds: 3),
             background: Colors.white,
             foreground: Colors.black,
             position: NotificationPosition.top,
