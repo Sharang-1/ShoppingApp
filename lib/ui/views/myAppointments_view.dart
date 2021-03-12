@@ -272,7 +272,7 @@ class _myAppointmentsState extends State<myAppointments> {
                 ))),
         verticalSpaceSmall,
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             RaisedButton(
                 elevation: 5,
