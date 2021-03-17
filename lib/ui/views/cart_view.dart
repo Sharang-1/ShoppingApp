@@ -32,6 +32,7 @@ class _CartViewState extends State<CartView> {
   CartFilter filter;
   UniqueKey key = UniqueKey();
   final refreshController = RefreshController(initialRefresh: false);
+  bool isPromocodeApplied = false;
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +52,25 @@ class _CartViewState extends State<CartView> {
           ),
           leading: BackButton(
             onPressed: () {
+              if (isPromocodeApplied)
+                showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                          content:
+                              Text("Do you really want to leave this screen ?"),
+                          actions: [
+                            RaisedButton(
+                              onPressed: () {},
+                              child: Text("Yes"),
+                            ),
+                            RaisedButton(
+                              onPressed: () {
+                                return;
+                              },
+                              child: Text("No"),
+                            )
+                          ],
+                        ));
               Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(

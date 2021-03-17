@@ -1382,7 +1382,7 @@ class ProductDescriptionTable extends StatelessWidget {
                   "Type Of Work",
                   product?.typeOfWork,
                 ),
-              if ((product?.margin != null) && product.margin)
+              if (product?.margin != null && product.margin)
                 getProductDetailsRow("Margin", "Margin left in selai"),
             ],
           );

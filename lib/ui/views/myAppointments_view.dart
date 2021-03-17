@@ -95,11 +95,13 @@ class _myAppointmentsState extends State<myAppointments> {
                                       fontSize: headingFontSize),
                                 ),
                               ),
+                              if(!model.busy && (model?.data?.appointments?.length ?? 0) != 0)
                               Align(
                                 alignment: Alignment.topRight,
                                 child: GestureDetector(
-                                    onTap: () async => await showModalBottomSheet(
-                                      isScrollControlled: true,
+                                    onTap: () async =>
+                                        await showModalBottomSheet(
+                                          isScrollControlled: true,
                                           shape: RoundedRectangleBorder(
                                               borderRadius:
                                                   BorderRadius.vertical(
@@ -115,7 +117,8 @@ class _myAppointmentsState extends State<myAppointments> {
                           ),
                           verticalSpace(20),
                           if (model.busy) CircularProgressIndicator(),
-                          if (!model.busy && model.data == null)
+                          if (!model.busy &&
+                              (model?.data?.appointments?.length ?? 0) == 0)
                             Padding(
                               padding: EdgeInsets.only(top: 16.0),
                               child: EmptyListWidget(),

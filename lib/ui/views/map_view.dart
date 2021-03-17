@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider_architecture/provider_architecture.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'package:compound/models/sellers.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
@@ -274,6 +275,19 @@ class MapView extends StatelessWidget {
                             fontSize: titleFontSize,
                           ),
                           overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: InkWell(
+                            onTap: () async {
+                              String contactNo = client?.contact?.primaryNumber?.mobile;
+                              if(contactNo != null && contactNo != '0000000000')
+                              return await launch("tel://$contactNo");
+                            },
+                            child: Icon(Icons.call_outlined, size: 30, color: Colors.green),),
                         ),
                       ),
                     ],

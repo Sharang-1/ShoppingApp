@@ -58,7 +58,7 @@ class MapViewModel extends BaseModel {
     tData = apiData[0] as Tailors;
     sData = apiData[1] as Sellers;
     sData.items =
-        sData.items.where((s) => s.accountType.toString() != '2').toList();
+        sData.items.where((s) => s?.subscriptionTypeId?.toString() != '2').toList();
     if (sData != null) {
       clientsToggle = true;
     }
