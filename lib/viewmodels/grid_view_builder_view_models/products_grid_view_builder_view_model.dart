@@ -18,8 +18,14 @@ class ProductsGridViewBuilderViewModel
   final String filteredProductKey;
   final bool randomize;
   final bool sameDayDelivery;
-  
-  ProductsGridViewBuilderViewModel({this.filteredProductKey, this.randomize = false, this.sameDayDelivery = false});
+  final int limit;
+
+  ProductsGridViewBuilderViewModel({
+    this.filteredProductKey,
+    this.randomize = false,
+    this.sameDayDelivery = false,
+    this.limit
+  });
 
   @override
   Future init() {
@@ -29,33 +35,41 @@ class ProductsGridViewBuilderViewModel
   @override
   Future<Products> getData(
       {BaseFilterModel filterModel, int pageNumber, int pageSize = 10}) async {
+
+    if(this.limit != null && this.limit > pageSize) {
+      pageSize = this.limit;
+    }
+
     String _queryString =
         "startIndex=${pageSize * (pageNumber - 1)};limit=$pageSize;" +
             filterModel.queryString;
     Products res = await _apiService.getProducts(queryString: _queryString);
-    if(res == null) throw "Error occured";
-    
-    if(this.filteredProductKey != null) {
-      res.items = res.items.where((element) => element.key != this.filteredProductKey).toList();
+    if (res == null) throw "Error occured";
+
+    if (this.randomize) {
+      res.items.shuffle();
+    }
+
+    if (this.filteredProductKey != null) {
+      res.items = res.items
+          .where((element) => element.key != this.filteredProductKey)
+          .toList();
       res.records = res.records - 1;
       res.limit = res.limit - 1;
     }
 
-    if(this.sameDayDelivery) {
-      res
-        .items
-        .sort((a, b) => a.shipment.days.toInt().compareTo(a.shipment.days.toInt()));
+    if (this.sameDayDelivery) {
+      res.items.sort(
+          (a, b) => a.shipment.days.toInt().compareTo(a.shipment.days.toInt()));
 
-      print("test ---------------------------------------------->>>>" + res.items.length.toString());
+      print("test ---------------------------------------------->>>>" +
+          res.items.length.toString());
 
-      res.items = res
-        .items
-        .take(6)
-        .toList();
+      res.items = res.items.take(6).toList();
     }
 
-    if(this.randomize) {
-      res.items.shuffle();
+    if (this.limit != null) {
+      res.items = res.items.take(limit).toList();
     }
 
     return res;

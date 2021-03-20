@@ -2,6 +2,7 @@ import 'package:compound/constants/route_names.dart';
 import 'package:compound/constants/server_urls.dart';
 import 'package:compound/models/grid_view_builder_filter_models/productFilter.dart';
 import 'package:compound/models/grid_view_builder_filter_models/sellerFilter.dart';
+import 'package:compound/models/productPageArg.dart';
 import 'package:compound/models/products.dart';
 import 'package:compound/models/sellers.dart';
 import 'package:compound/services/navigation_service.dart';
@@ -84,7 +85,7 @@ class _SellerIndiState extends State<SellerIndi> {
     Map<String, dynamic> timingJson = timing.toJson();
     Day today = Day.fromJson(
         timingJson[DateFormat('EEEE').format(_dateTime).toLowerCase()]);
-    if(today.start == 0 && today.end == 0) return "";
+    if (today.start == 0 && today.end == 0) return "";
     return "${getTime(today.start)} - ${getTime(today.end)} (Today)";
   }
 
@@ -105,7 +106,7 @@ class _SellerIndiState extends State<SellerIndi> {
   @override
   void initState() {
     super.initState();
-    try{
+    try {
       _analyticsService.sendAnalyticsEvent(
           eventName: "seller_view",
           parameters: <String, dynamic>{
@@ -424,7 +425,9 @@ class _SellerIndiState extends State<SellerIndi> {
                                   ),
                                   RaisedButton(
                                       onPressed: () {
-                                        _navigationService.navigateTo(MapViewRoute, arguments: widget?.data?.key);
+                                        _navigationService.navigateTo(
+                                            MapViewRoute,
+                                            arguments: widget?.data?.key);
                                       },
                                       color: Colors.white,
                                       elevation: 0,
@@ -632,11 +635,59 @@ class _SellerIndiState extends State<SellerIndi> {
                     if (widget.data.subscriptionTypeId == 1) verticalSpace(20),
                     if (widget.data.subscriptionTypeId == 1 &&
                         showExploreSection)
-                      Text(
-                        "   Explore Designer's Collection",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: titleFontSizeStyle),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.only(left: 15.0),
+                            child: Text(
+                              "Explore Designer's",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: titleFontSizeStyle),
+                            ),
+                          ),
+                          InkWell(
+                            child: Padding(
+                              padding: EdgeInsets.only(right: 8.0),
+                              child: Text(
+                                'View All',
+                                style: TextStyle(
+                                  fontSize: subtitleFontSize - 8,
+                                  fontWeight: FontWeight.bold,
+                                  color: textIconBlue,
+                                ),
+                              ),
+                            ),
+                            onTap: () {
+                              return _navigationService.navigateTo(
+                                ProductsListRoute,
+                                arguments: ProductPageArg(
+                                  subCategory: widget.data.name,
+                                  queryString: "accountKey=${widget.data.key};",
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    if (widget.data.subscriptionTypeId == 1 &&
+                        showExploreSection)
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.only(left: 15.0),
+                            child: Text(
+                              "Collection",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: titleFontSizeStyle),
+                            ),
+                          ),
+                        ]
                       ),
                     if (widget.data.subscriptionTypeId == 1 &&
                         showExploreSection)
@@ -653,8 +704,7 @@ class _SellerIndiState extends State<SellerIndi> {
                           ),
                           gridCount: 2,
                           viewModel: ProductsGridViewBuilderViewModel(
-                            randomize: true,
-                          ),
+                              randomize: true, limit: 6),
                           childAspectRatio: 1.35,
                           scrollDirection: Axis.horizontal,
                           disablePagination: false,

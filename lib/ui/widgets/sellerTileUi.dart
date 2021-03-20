@@ -84,9 +84,11 @@ class SellerTileUi extends StatelessWidget {
                               image: data?.key != null
                                   ? "$SELLER_PHOTO_BASE_URL/${data.key}"
                                   : "https://images.unsplash.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-                              imageErrorBuilder: (context, error, stackTrace) => Image.asset("assets/images/product_preloading.png",
-                              width: 100 * multiplyer,
-                              height: 100 * multiplyer,
+                              imageErrorBuilder: (context, error, stackTrace) =>
+                                  Image.asset(
+                                "assets/images/product_preloading.png",
+                                width: 100 * multiplyer,
+                                height: 100 * multiplyer,
                               ),
                               fit: BoxFit.cover,
                             ),
@@ -128,74 +130,124 @@ class SellerTileUi extends StatelessWidget {
                       ],
                     ),
                     verticalSpace(10),
-                    data.accountType == AccountType.SELLER
-                        ? Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              CustomText(
-                                "Designs         :  ",
-                                color: textIconBlue,
-                                isBold: true,
-                                dotsAfterOverFlow: true,
-                                fontSize: subtitleFontSize - (4 * multiplyer),
-                              ),
-                              verticalSpace(2),
-                              Expanded(
-                                child: CustomText(
-                                  data?.designs ?? "",
-                                  color: Colors.grey[700],
+                    if (data.subscriptionTypeId != 2)
+                      data.accountType == AccountType.SELLER
+                          ? Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                CustomText(
+                                  "Designs         :  ",
+                                  color: textIconBlue,
                                   isBold: true,
                                   dotsAfterOverFlow: true,
                                   fontSize: subtitleFontSize - (4 * multiplyer),
                                 ),
-                              ),
-                            ],
-                          )
-                        : Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              CustomText(
-                                "Speciality          :  ",
-                                color: Colors.grey,
-                                isBold: true,
-                                dotsAfterOverFlow: true,
-                                fontSize: subtitleFontSize - (4 * multiplyer),
-                              ),
-                              verticalSpace(2),
-                              Expanded(
-                                child: CustomText(
-                                  data?.designs ?? "",
-                                  color: Colors.grey[700],
+                                verticalSpace(2),
+                                Expanded(
+                                  child: CustomText(
+                                    data?.designs ?? "",
+                                    color: Colors.grey[700],
+                                    isBold: true,
+                                    dotsAfterOverFlow: true,
+                                    fontSize:
+                                        subtitleFontSize - (4 * multiplyer),
+                                  ),
+                                ),
+                              ],
+                            )
+                          : Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                CustomText(
+                                  "Speciality          :  ",
+                                  color: Colors.grey,
                                   isBold: true,
                                   dotsAfterOverFlow: true,
-                                  fontSize: subtitleFontSize - (5 * multiplyer),
+                                  fontSize: subtitleFontSize - (4 * multiplyer),
                                 ),
-                              ),
-                            ],
-                          ),
-                    CustomDivider(),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        CustomText(
-                          "Works Offered  :  ",
-                          color: textIconBlue,
-                          isBold: true,
-                          dotsAfterOverFlow: true,
-                          fontSize: subtitleFontSize - (4 * multiplyer),
-                        ),
-                        verticalSpace(2),
-                        Expanded(
-                          child: CustomText(
-                            data?.works ?? "",
-                            color: Colors.grey[700],
+                                verticalSpace(2),
+                                Expanded(
+                                  child: CustomText(
+                                    data?.designs ?? "",
+                                    color: Colors.grey[700],
+                                    isBold: true,
+                                    dotsAfterOverFlow: true,
+                                    fontSize:
+                                        subtitleFontSize - (5 * multiplyer),
+                                  ),
+                                ),
+                              ],
+                            ),
+                    if (data.subscriptionTypeId != 2) CustomDivider(),
+                    if (data.subscriptionTypeId != 2)
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          CustomText(
+                            "Works Offered  :  ",
+                            color: textIconBlue,
                             isBold: true,
                             dotsAfterOverFlow: true,
-                            fontSize: subtitleFontSize - (5 * multiplyer),
+                            fontSize: subtitleFontSize - (4 * multiplyer),
                           ),
-                        ),
-                      ],
-                    ),
+                          verticalSpace(2),
+                          Expanded(
+                            child: CustomText(
+                              data?.works ?? "",
+                              color: Colors.grey[700],
+                              isBold: true,
+                              dotsAfterOverFlow: true,
+                              fontSize: subtitleFontSize - (5 * multiplyer),
+                            ),
+                          ),
+                        ],
+                      ),
+                    if (data.subscriptionTypeId == 2)
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          CustomText(
+                            "Address  :  ",
+                            color: textIconBlue,
+                            isBold: true,
+                            dotsAfterOverFlow: true,
+                            fontSize: subtitleFontSize - (4 * multiplyer),
+                          ),
+                          verticalSpace(2),
+                          Expanded(
+                            child: CustomText(
+                              data?.contact?.address ?? "",
+                              color: Colors.grey[700],
+                              isBold: true,
+                              dotsAfterOverFlow: true,
+                              fontSize: subtitleFontSize - (5 * multiplyer),
+                            ),
+                          ),
+                        ],
+                      ),
+                    if (data.subscriptionTypeId == 2)
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          CustomText(
+                            "                    ",
+                            color: textIconBlue,
+                            isBold: true,
+                            dotsAfterOverFlow: true,
+                            fontSize: subtitleFontSize - (4 * multiplyer),
+                          ),
+                          verticalSpace(2),
+                          Expanded(
+                            child: CustomText(
+                              data?.contact?.pincode ?? "",
+                              color: Colors.grey[700],
+                              isBold: true,
+                              dotsAfterOverFlow: true,
+                              fontSize: subtitleFontSize - (5 * multiplyer),
+                            ),
+                          ),
+                        ],
+                      ),
                   ],
                 ),
               ),
