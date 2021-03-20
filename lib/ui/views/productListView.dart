@@ -86,75 +86,77 @@ class _ProductListViewState extends State<ProductListView> {
               });
               refreshController.refreshCompleted(resetFooterState: true);
             },
-            child: Column(
-              children: [
-                verticalSpace(20),
-                Row(
-                  children: [
-                    Expanded(
-                      flex: 8,
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                          left: screenPadding,
-                          right: screenPadding - 5,
-                          top: 10,
-                          bottom: 10,
-                        ),
-                        child: Text(
-                          widget.subCategory,
-                          style: TextStyle(
-                              fontFamily: headingFont,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 30),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 2,
-                      child: GestureDetector(
-                        onTap: () async {
-                          await Share.share(
-                            await _dynamicLinkService.createLink(sellerLink + sellerKey), 
-                            sharePositionOrigin: Rect.fromCenter(
-                              center: Offset(100,100), 
-                              width: 100, 
-                              height: 100,
-                            ),
-                          );
-                        },
-                        child: Image.asset(
-                          'assets/images/share_icon.png',
-                          width: 25,
-                          height: 25,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  verticalSpace(20),
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 8,
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                            left: screenPadding,
+                            right: screenPadding - 5,
+                            top: 10,
+                            bottom: 10,
+                          ),
+                          child: Text(
+                            widget.subCategory,
+                            style: TextStyle(
+                                fontFamily: headingFont,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 30),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                verticalSpace(20),
-                FutureBuilder(
-                  future: Future.delayed(Duration(milliseconds: 500)),
-                  builder: (c, s) => s.connectionState == ConnectionState.done
-                      ? GridListWidget<Products, Product>(
-                          key: key,
-                          context: context,
-                          filter: filter,
-                          gridCount: 2,
-                          emptyListWidget: EmptyListWidget(text: ""),
-                          viewModel: ProductsGridViewBuilderViewModel(),
-                          childAspectRatio: 0.7,
-                          tileBuilder: (BuildContext context, data, index, onUpdate,
-                              onDelete) {
-                            return ProductTileUI(
-                              data: data,
-                              onClick: () => model.goToProductPage(data),
-                              index: index,
+                      Expanded(
+                        flex: 2,
+                        child: GestureDetector(
+                          onTap: () async {
+                            await Share.share(
+                              await _dynamicLinkService.createLink(sellerLink + sellerKey), 
+                              sharePositionOrigin: Rect.fromCenter(
+                                center: Offset(100,100), 
+                                width: 100, 
+                                height: 100,
+                              ),
                             );
                           },
-                        )
-                      : Container(),
-                ),
-              ],
+                          child: Image.asset(
+                            'assets/images/share_icon.png',
+                            width: 25,
+                            height: 25,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  verticalSpace(20),
+                  FutureBuilder(
+                    future: Future.delayed(Duration(milliseconds: 500)),
+                    builder: (c, s) => s.connectionState == ConnectionState.done
+                        ? GridListWidget<Products, Product>(
+                            key: key,
+                            context: context,
+                            filter: filter,
+                            gridCount: 2,
+                            emptyListWidget: EmptyListWidget(text: ""),
+                            viewModel: ProductsGridViewBuilderViewModel(),
+                            childAspectRatio: 0.7,
+                            tileBuilder: (BuildContext context, data, index, onUpdate,
+                                onDelete) {
+                              return ProductTileUI(
+                                data: data,
+                                onClick: () => model.goToProductPage(data),
+                                index: index,
+                              );
+                            },
+                          )
+                        : Container(),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

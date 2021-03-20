@@ -642,7 +642,7 @@ class _SellerIndiState extends State<SellerIndi> {
                           Padding(
                             padding: const EdgeInsets.only(left: 15.0),
                             child: Text(
-                              "Explore Designer's Collection",
+                              "Explore Designer's",
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: titleFontSizeStyle),
@@ -671,6 +671,23 @@ class _SellerIndiState extends State<SellerIndi> {
                             },
                           ),
                         ],
+                      ),
+                    if (widget.data.subscriptionTypeId == 1 &&
+                        showExploreSection)
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.only(left: 15.0),
+                            child: Text(
+                              "Collection",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: titleFontSizeStyle),
+                            ),
+                          ),
+                        ]
                       ),
                     if (widget.data.subscriptionTypeId == 1 &&
                         showExploreSection)
