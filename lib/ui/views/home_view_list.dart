@@ -40,7 +40,12 @@ class HomeViewList extends StatefulWidget {
   final categoryUniqueKey;
 
   HomeViewList(
-      {Key key, @required this.gotoCategory, this.model, this.productUniqueKey, this.sellerUniqueKey, this.categoryUniqueKey})
+      {Key key,
+      @required this.gotoCategory,
+      this.model,
+      this.productUniqueKey,
+      this.sellerUniqueKey,
+      this.categoryUniqueKey})
       : super(key: key);
 
   @override
@@ -51,9 +56,10 @@ class _HomeViewListState extends State<HomeViewList> {
   final productUniqueKey = UniqueKey();
   final sellerUniqueKey = UniqueKey();
   final categoryUniqueKey = UniqueKey();
-  
+
   List<Promotion> bottomPromotion = [];
   bool bottomPromotionUpdated = false;
+  final num deliveryCharges = 35.40;
 
   final Map<String, String> sellerCardDetails = {
     "name": "Sejal Works",
@@ -253,13 +259,20 @@ class _HomeViewListState extends State<HomeViewList> {
                     data: {
                       "key": product?.key ?? "Test",
                       "name": product?.name ?? "Test",
-                      "actualCost": (product.cost.cost + product.cost.convenienceCharges.cost + product.cost.gstCharges.cost).round(),
-                      "price": product.cost.costToCustomer.round() ?? 0,
+                      "actualCost": (product.cost.cost +
+                              product.cost.convenienceCharges.cost +
+                              product.cost.gstCharges.cost +
+                              deliveryCharges)
+                          .round(),
+                      "price": (product.cost.costToCustomer + deliveryCharges)
+                              .round() ??
+                          0,
                       "discount": product?.cost?.productDiscount?.rate ?? 0,
                       "photo": product?.photo?.photos?.first?.name,
                       "sellerName": product?.seller?.name ?? "",
                       "isDiscountAvailable":
-                          product?.cost?.productDiscount?.rate != null && product?.cost?.productDiscount?.rate != 0
+                          product?.cost?.productDiscount?.rate != null &&
+                                  product?.cost?.productDiscount?.rate != 0
                               ? "true"
                               : null,
                     },
@@ -400,8 +413,14 @@ class _HomeViewListState extends State<HomeViewList> {
                     data: {
                       "key": product?.key ?? "Test",
                       "name": product?.name ?? "Test",
-                      "actualCost": (product.cost.cost + product.cost.convenienceCharges.cost + product.cost.gstCharges.cost).round(),
-                      "price": product.cost.costToCustomer.round() ?? 0,
+                      "actualCost": (product.cost.cost +
+                              product.cost.convenienceCharges.cost +
+                              product.cost.gstCharges.cost +
+                              deliveryCharges)
+                          .round(),
+                      "price": (product.cost.costToCustomer + deliveryCharges)
+                              .round() ??
+                          0,
                       "discount": product?.cost?.productDiscount?.rate ?? 0,
                       "photo": product?.photo?.photos?.first?.name,
                       "sellerName": product?.seller?.name ?? "",
@@ -503,8 +522,14 @@ class _HomeViewListState extends State<HomeViewList> {
                     data: {
                       "key": product?.key ?? "Test",
                       "name": product?.name ?? "Test",
-                      "actualCost": (product.cost.cost + product.cost.convenienceCharges.cost + product.cost.gstCharges.cost).round(),
-                      "price": product.cost.costToCustomer.round() ?? 0,
+                      "actualCost": (product.cost.cost +
+                              product.cost.convenienceCharges.cost +
+                              product.cost.gstCharges.cost +
+                              deliveryCharges)
+                          .round(),
+                      "price": (product.cost.costToCustomer + deliveryCharges)
+                              .round() ??
+                          0,
                       "discount": product?.cost?.productDiscount?.rate ?? 0,
                       "photo": product?.photo?.photos?.first?.name,
                       "sellerName": product?.seller?.name ?? "",
@@ -627,7 +652,7 @@ class _HomeViewListState extends State<HomeViewList> {
                 ),
               ),
             ),
-            verticalSpace(30),
+          verticalSpace(30),
           Row(children: <Widget>[
             Expanded(
               child: Padding(
@@ -651,8 +676,8 @@ class _HomeViewListState extends State<HomeViewList> {
               context: context,
               filter: ProductFilter(),
               gridCount: 2,
-              viewModel: ProductsGridViewBuilderViewModel(
-                  randomize: true, limit: 10),
+              viewModel:
+                  ProductsGridViewBuilderViewModel(randomize: true, limit: 10),
               childAspectRatio: 1.50,
               scrollDirection: Axis.horizontal,
               disablePagination: true,
@@ -665,8 +690,14 @@ class _HomeViewListState extends State<HomeViewList> {
                     data: {
                       "key": product?.key ?? "Test",
                       "name": product?.name ?? "Test",
-                      "actualCost": (product.cost.cost + product.cost.convenienceCharges.cost + product.cost.gstCharges.cost).round(),
-                      "price": product.cost.costToCustomer.round() ?? 0,
+                      "actualCost": (product.cost.cost +
+                              product.cost.convenienceCharges.cost +
+                              product.cost.gstCharges.cost +
+                              deliveryCharges)
+                          .round(),
+                      "price": (product.cost.costToCustomer + deliveryCharges)
+                              .round() ??
+                          0,
                       "discount": product?.cost?.productDiscount?.rate ?? 0,
                       "photo": product?.photo?.photos?.first?.name,
                       "sellerName": product?.seller?.name ?? "",
@@ -1024,7 +1055,9 @@ class _HomeViewListState extends State<HomeViewList> {
                     child: Text(
                       "Search Designers",
                       style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18),
                     ),
                   ),
                 ),
@@ -1054,14 +1087,14 @@ class _HomeViewListState extends State<HomeViewList> {
                         children: <Widget>[
                           FittedBox(
                             fit: BoxFit.fitWidth,
-                              child: Text(
+                            child: Text(
                               "Made with Love in India!",
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                  color: Colors.grey[800],
-                                  fontWeight: FontWeight.bold,
-                                  // fontSize: 25,
-                                  ),
+                                color: Colors.grey[800],
+                                fontWeight: FontWeight.bold,
+                                // fontSize: 25,
+                              ),
                             ),
                           ),
                         ]),
@@ -1105,17 +1138,21 @@ class CategoriesHomeList extends StatelessWidget {
                         colorFilter: ColorFilter.mode(
                             Colors.black.withOpacity(0.3), BlendMode.srcATop),
                         child: FadeInImage.assetNetwork(
-                            fit: BoxFit.fill,
-                            fadeInCurve: Curves.easeIn,
-                            placeholder: 'assets/images/promotion_preloading.png',
-                            image:
-                                // photoName == null?
+                          fit: BoxFit.fill,
+                          fadeInCurve: Curves.easeIn,
+                          placeholder: 'assets/images/promotion_preloading.png',
+                          image:
+                              // photoName == null?
 
-                                'https://images.pexels.com/photos/934070/pexels-photo-934070.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
-                            // : photoName
-                            ,
-                            imageErrorBuilder: (context, error, stackTrace) => Image.asset('assets/images/promotion_preloading.png', fit: BoxFit.fill,),
-                            ),
+                              'https://images.pexels.com/photos/934070/pexels-photo-934070.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
+                          // : photoName
+                          ,
+                          imageErrorBuilder: (context, error, stackTrace) =>
+                              Image.asset(
+                            'assets/images/promotion_preloading.png',
+                            fit: BoxFit.fill,
+                          ),
+                        ),
                       )),
                       Positioned.fill(
                           child: Padding(
