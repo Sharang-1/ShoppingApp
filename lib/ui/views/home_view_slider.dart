@@ -1,4 +1,5 @@
 import 'package:compound/ui/shared/shared_styles.dart';
+import 'package:compound/ui/shared/app_colors.dart';
 import 'package:compound/ui/views/gallery_view.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -62,17 +63,17 @@ class _HomeSliderState extends State<HomeSlider> {
                 pauseAutoPlayOnTouch: true,
                 // pauseAutoPlayOnTouch: Duration(seconds: 10),
                 onPageChanged: (index, reason) {
-                setState(() {
-                  _current = index;
-                });
-              },
+                  setState(() {
+                    _current = index;
+                  });
+                },
               ),
               items: imgList.map((i) {
                 return Builder(
                   builder: (BuildContext context) {
                     return GestureDetector(
                       onTap: () {
-                        if(!widget.fromHome) {
+                        if (!widget.fromHome) {
                           open(context, imgList.indexOf(i));
                         }
                       },
@@ -124,6 +125,7 @@ class _HomeSliderState extends State<HomeSlider> {
           galleryItems: imgList,
           initialIndex: index,
           scrollDirection: Axis.horizontal,
+          backgroundDecoration: BoxDecoration(color: backgroundWhiteCreamColor),
         ),
       ),
     );

@@ -201,6 +201,7 @@ class _HomeViewState extends State<HomeView> {
                   automaticallyImplyLeading: false,
                   iconTheme: IconThemeData(color: appBarIconColor),
                   backgroundColor: backgroundWhiteCreamColor,
+                  pinned: true,
                   actions: <Widget>[
                     IconButton(
                       tooltip: 'map',

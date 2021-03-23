@@ -627,6 +627,59 @@ class _HomeViewListState extends State<HomeViewList> {
                 ),
               ),
             ),
+            verticalSpace(30),
+          Row(children: <Widget>[
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 15.0),
+                child: Text(
+                  'Explore',
+                  style: TextStyle(
+                    color: Colors.grey[800],
+                    fontSize: subtitleFontSize,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            )
+          ]),
+          verticalSpaceSmall,
+          SizedBox(
+            height: 220,
+            child: GridListWidget<Products, Product>(
+              key: widget.productUniqueKey ?? productUniqueKey,
+              context: context,
+              filter: ProductFilter(),
+              gridCount: 2,
+              viewModel: ProductsGridViewBuilderViewModel(
+                  randomize: true, limit: 10),
+              childAspectRatio: 1.50,
+              scrollDirection: Axis.horizontal,
+              disablePagination: true,
+              tileBuilder: (BuildContext context, productData, index, onUpdate,
+                  onDelete) {
+                var product = productData as Product;
+                return GestureDetector(
+                  onTap: () => widget.model.goToProductPage(productData),
+                  child: TopPicksAndDealsCard(
+                    data: {
+                      "key": product?.key ?? "Test",
+                      "name": product?.name ?? "Test",
+                      "actualCost": (product.cost.cost + product.cost.convenienceCharges.cost + product.cost.gstCharges.cost).round(),
+                      "price": product.cost.costToCustomer.round() ?? 0,
+                      "discount": product?.cost?.productDiscount?.rate ?? 0,
+                      "photo": product?.photo?.photos?.first?.name,
+                      "sellerName": product?.seller?.name ?? "",
+                      "isDiscountAvailable":
+                          product?.discount != null && product.discount != 0
+                              ? "true"
+                              : null,
+                    },
+                  ),
+                );
+              },
+            ),
+          ),
           verticalSpace(30),
           Row(children: <Widget>[
             Expanded(

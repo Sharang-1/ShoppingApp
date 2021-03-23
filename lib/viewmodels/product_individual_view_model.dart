@@ -121,7 +121,7 @@ class ProductIndividualViewModel extends BaseModel {
         if (showDialog) {
           await _dialogService.showDialog(
             title: "Success",
-            description: "Product Added Successfully",
+            description: "Item has been added to your bag successfully.",
           );
         }
       }

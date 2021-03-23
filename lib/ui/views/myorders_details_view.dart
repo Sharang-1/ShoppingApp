@@ -389,26 +389,7 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                             isBold: true,
                                           ),
                                           CustomText(
-                                            '$rupeeUnicode${mOrder?.product?.price?.toStringAsFixed(2)}',
-                                            color: Colors.grey[600],
-                                            fontSize: subtitleFontSize - 1,
-                                            isBold: true,
-                                          ),
-                                        ],
-                                      ),
-                                      verticalSpaceSmall,
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          CustomText(
-                                            "Quantity",
-                                            fontSize: subtitleFontSize - 1,
-                                            color: Colors.grey,
-                                            isBold: true,
-                                          ),
-                                          CustomText(
-                                            '${mOrder?.orderCost?.quantity}',
+                                            '$rupeeUnicode${(mOrder.product.price + (mOrder.orderCost.convenienceCharges.cost / (mOrder?.orderCost?.quantity ?? 1)))?.toStringAsFixed(2)}',
                                             color: Colors.grey[600],
                                             fontSize: subtitleFontSize - 1,
                                             isBold: true,
@@ -448,19 +429,38 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                             MainAxisAlignment.spaceBetween,
                                         children: <Widget>[
                                           CustomText(
-                                            "Convenience Charges",
+                                            "Quantity",
                                             fontSize: subtitleFontSize - 1,
                                             color: Colors.grey,
                                             isBold: true,
                                           ),
                                           CustomText(
-                                            '${mOrder?.orderCost?.convenienceCharges?.rate}%',
+                                            '${mOrder?.orderCost?.quantity}',
                                             color: Colors.grey[600],
                                             fontSize: subtitleFontSize - 1,
                                             isBold: true,
                                           ),
                                         ],
                                       ),
+                                      // verticalSpaceSmall,
+                                      // Row(
+                                      //   mainAxisAlignment:
+                                      //       MainAxisAlignment.spaceBetween,
+                                      //   children: <Widget>[
+                                      //     CustomText(
+                                      //       "Convenience Charges",
+                                      //       fontSize: subtitleFontSize - 1,
+                                      //       color: Colors.grey,
+                                      //       isBold: true,
+                                      //     ),
+                                      //     CustomText(
+                                      //       '${mOrder?.orderCost?.convenienceCharges?.rate}%',
+                                      //       color: Colors.grey[600],
+                                      //       fontSize: subtitleFontSize - 1,
+                                      //       isBold: true,
+                                      //     ),
+                                      //   ],
+                                      // ),
                                       verticalSpaceSmall,
                                       Divider(
                                         color: Colors.grey[300],

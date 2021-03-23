@@ -110,6 +110,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
           scrollDirection: Axis.horizontal,
           initialIndex: 0,
           showImageLabel: false,
+          backgroundDecoration: BoxDecoration(color: backgroundWhiteCreamColor),
         ),
       ),
     );
@@ -370,6 +371,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
   }
 
   bool showMoreFromDesigner = true;
+  num deliveryCharges = 35.4;
 
   @override
   Widget build(BuildContext context) {
@@ -377,7 +379,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
     final String productId = widget?.data?.key;
     final double productDiscount =
         widget?.data?.cost?.productDiscount?.rate ?? 0.0;
-    final int productPrice = widget.data.cost.costToCustomer.round() ?? 0.0;
+    final int productPrice =
+        (widget.data.cost.costToCustomer + deliveryCharges).round() ?? 0.0;
     final int saved = calculateSavedCost(widget?.data?.cost);
     final List<Variation> variations = widget?.data?.variations ?? null;
 
