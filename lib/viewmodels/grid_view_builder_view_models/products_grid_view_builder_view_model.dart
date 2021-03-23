@@ -20,12 +20,11 @@ class ProductsGridViewBuilderViewModel
   final bool sameDayDelivery;
   final int limit;
 
-  ProductsGridViewBuilderViewModel({
-    this.filteredProductKey,
-    this.randomize = false,
-    this.sameDayDelivery = false,
-    this.limit
-  });
+  ProductsGridViewBuilderViewModel(
+      {this.filteredProductKey,
+      this.randomize = false,
+      this.sameDayDelivery = false,
+      this.limit});
 
   @override
   Future init() {
@@ -35,19 +34,19 @@ class ProductsGridViewBuilderViewModel
   @override
   Future<Products> getData(
       {BaseFilterModel filterModel, int pageNumber, int pageSize = 10}) async {
-
-    if(this.limit != null && this.limit > pageSize) {
+    if (this.limit != null && this.limit > pageSize) {
       pageSize = this.limit;
     }
 
     String _queryString =
-        "startIndex=${pageSize * (pageNumber - 1)};limit=$pageSize;" +
+        "startIndex=${pageSize * (pageNumber - 1)};limit=${this.randomize ? 1000 : pageSize};" +
             filterModel.queryString;
     Products res = await _apiService.getProducts(queryString: _queryString);
     if (res == null) throw "Error occured";
 
     if (this.randomize) {
       res.items.shuffle();
+      res.items = res.items.sublist(0, this.limit);
     }
 
     if (this.filteredProductKey != null) {

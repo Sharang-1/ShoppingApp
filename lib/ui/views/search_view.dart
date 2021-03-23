@@ -22,11 +22,6 @@ import 'package:compound/viewmodels/search_view_model.dart';
 import 'package:compound/ui/shared/debouncer.dart';
 import '../widgets/cart_icon_badge.dart';
 import 'package:compound/ui/widgets/sellerCard.dart';
-import 'package:compound/models/categorys.dart';
-import 'package:compound/models/grid_view_builder_filter_models/categoryFilter.dart';
-import 'package:compound/ui/widgets/categoryTileUI.dart';
-
-import 'package:compound/viewmodels/grid_view_builder_view_models/categories_view_builder_view_model.dart';
 
 class SearchView extends StatefulWidget {
   SearchView({Key key, this.showSellers = false}) : super(key: key);
@@ -49,7 +44,7 @@ class _SearchViewState extends State<SearchView>
   bool showRecents = true;
   bool showResults = false;
   bool showRandomSellers = true;
-  bool showCategories = true;
+  bool showTopProducts = true;
   RegExp _searchFilterRegex = RegExp(r"\w+", caseSensitive: true);
   Key productGridKey = UniqueKey();
   Key sellerGridKey = UniqueKey();
@@ -96,7 +91,7 @@ class _SearchViewState extends State<SearchView>
 
   void _onTabChange() {
     setState(() {
-      if (showCategories) showCategories = false;
+      if (showTopProducts) showTopProducts = false;
       currentTabIndex = _tabController.index;
       if (currentTabIndex == 1 && showRandomSellers) {
         Future.delayed(Duration(milliseconds: 200), () {
@@ -141,47 +136,47 @@ class _SearchViewState extends State<SearchView>
         : sellerSearchHistoryList;
   }
 
-  // Recent list UI
-  List<Widget> _getRecentSearchListUI() {
-    List<String> recentListByCurrentTab = _getListByTabIndex();
-    return [
-          ListTile(
-            trailing: GestureDetector(
-              onTap: _clearRecentButtonAction,
-              child: Text("Clear Recent"),
-            ),
-          )
-        ] +
-        recentListByCurrentTab.reversed
-            .toList()
-            .sublist(
-                0,
-                recentListByCurrentTab.length < 5
-                    ? recentListByCurrentTab.length
-                    : 5)
-            .map(
-              (String value) => ListTile(
-                onTap: () {
-                  _searchController.text = value;
-                  _searchAction(value);
-                },
-                leading: Icon(Icons.history),
-                title: Text(value),
-                trailing: IconButton(
-                  icon: Icon(Icons.call_made),
-                  onPressed: () {
-                    if (value.contains(_searchController.text.toLowerCase())) {
-                      _searchController.text = value;
-                      return;
-                    }
-                    if (!_searchController.text.contains(value))
-                      _searchController.text += value;
-                  },
-                ),
-              ),
-            )
-            .toList();
-  }
+  // // Recent list UI
+  // List<Widget> _getRecentSearchListUI() {
+  //   List<String> recentListByCurrentTab = _getListByTabIndex();
+  //   return [
+  //         ListTile(
+  //           trailing: GestureDetector(
+  //             onTap: _clearRecentButtonAction,
+  //             child: Text("Clear Recent"),
+  //           ),
+  //         )
+  //       ] +
+  //       recentListByCurrentTab.reversed
+  //           .toList()
+  //           .sublist(
+  //               0,
+  //               recentListByCurrentTab.length < 5
+  //                   ? recentListByCurrentTab.length
+  //                   : 5)
+  //           .map(
+  //             (String value) => ListTile(
+  //               onTap: () {
+  //                 _searchController.text = value;
+  //                 _searchAction(value);
+  //               },
+  //               leading: Icon(Icons.history),
+  //               title: Text(value),
+  //               trailing: IconButton(
+  //                 icon: Icon(Icons.call_made),
+  //                 onPressed: () {
+  //                   if (value.contains(_searchController.text.toLowerCase())) {
+  //                     _searchController.text = value;
+  //                     return;
+  //                   }
+  //                   if (!_searchController.text.contains(value))
+  //                     _searchController.text += value;
+  //                 },
+  //               ),
+  //             ),
+  //           )
+  //           .toList();
+  // }
 
   Widget childWidget(model) {
     return Stack(
@@ -237,14 +232,14 @@ class _SearchViewState extends State<SearchView>
               color: Colors.black.withAlpha(150),
             ),
           ),
-        if (showRecents && _getListByTabIndex().length != 0)
-          Container(
-            color: backgroundWhiteCreamColor,
-            child: ListView(
-              shrinkWrap: true,
-              children: _getRecentSearchListUI(),
-            ),
-          ),
+        // if (showRecents && _getListByTabIndex().length != 0)
+        //   Container(
+        //     color: backgroundWhiteCreamColor,
+        //     child: ListView(
+        //       shrinkWrap: true,
+        //       children: _getRecentSearchListUI(),
+        //     ),
+        //   ),
       ],
     );
   }
@@ -322,7 +317,7 @@ class _SearchViewState extends State<SearchView>
                         if (filterDialogResponse != null) {
                           setState(() {
                             productFilter = filterDialogResponse;
-                            showCategories = false;
+                            showTopProducts = false;
                             _changeSearchFieldFocus();
                             productGridKey = UniqueKey();
                           });
@@ -411,7 +406,9 @@ class _SearchViewState extends State<SearchView>
                             filter: productFilter,
                             gridCount: 2,
                             viewModel: ProductsGridViewBuilderViewModel(),
-                            emptyListWidget: EmptyListWidget(text: "",),
+                            emptyListWidget: EmptyListWidget(
+                              text: "",
+                            ),
                             childAspectRatio: 0.7,
                             tileBuilder: (BuildContext context, data, index,
                                 onUpdate, onDelete) {
@@ -450,48 +447,47 @@ class _SearchViewState extends State<SearchView>
                             },
                           ),
                         ),
-                      if (showRecents == true)
-                        GestureDetector(
-                          onTap: _changeSearchFieldFocus,
-                          child: Container(
-                            height: 720,
-                            color: Colors.black.withAlpha(150),
-                          ),
-                        ),
-                      if (showRecents == true)
-                        Container(
-                          color: backgroundWhiteCreamColor,
-                          child: SizedBox(
-                            height: 120,
-                            child: ListView(
-                              shrinkWrap: true,
-                              children: _getRecentSearchListUI(),
-                            ),
-                          ),
-                        ),
-                      if (showCategories && (_tabController.index == 0))
+                      // if (showRecents == true)
+                      //   GestureDetector(
+                      //     onTap: _changeSearchFieldFocus,
+                      //     child: Container(
+                      //       height: 720,
+                      //       color: Colors.black.withAlpha(150),
+                      //     ),
+                      //   ),
+                      // if (showRecents == true)
+                      //   Container(
+                      //     color: backgroundWhiteCreamColor,
+                      //     child: SizedBox(
+                      //       height: 120,
+                      //       child: ListView(
+                      //         shrinkWrap: true,
+                      //         children: _getRecentSearchListUI(),
+                      //       ),
+                      //     ),
+                      //   ),
+                      if (showTopProducts && (_tabController.index == 0))
                         Padding(
-                          padding: EdgeInsets.only(top: 140),
-                          child: GridListWidget<Categorys, Category>(
+                          padding: EdgeInsets.only(top: 10),
+                          child: GridListWidget<Products, Product>(
                             key: UniqueKey(),
                             context: context,
-                            filter: CategoryFilter(),
-                            gridCount: 1,
-                            childAspectRatio: 3,
-                            viewModel: CategoriesGridViewBuilderViewModel(
-                                popularCategories: true),
-                            scrollDirection: Axis.vertical,
-                            emptyListWidget: Container(),
+                            filter: ProductFilter(),
+                            gridCount: 2,
+                            viewModel:
+                                ProductsGridViewBuilderViewModel(limit: 6, randomize: true),
+                            emptyListWidget: EmptyListWidget(
+                              text: "",
+                            ),
+                            childAspectRatio: 0.7,
                             tileBuilder: (BuildContext context, data, index,
-                                onDelete, onUpdate) {
-                              return GestureDetector(
-                                onTap: () => model.showCategory(
-                                  data.filter,
-                                  data.name,
-                                ),
-                                child: CategoryTileUI(
-                                  data: data,
-                                ),
+                                onUpdate, onDelete) {
+                              return ProductTileUI(
+                                index: index,
+                                data: data,
+                                onClick: () {
+                                  model.goToProductPage(data);
+                                },
                               );
                             },
                           ),
@@ -509,7 +505,7 @@ class _SearchViewState extends State<SearchView>
     _debouncer.run(() {
       if (currentTabIndex == 0) {
         setState(() {
-          if (showCategories) showCategories = false;
+          if (showTopProducts) showTopProducts = false;
           productSearchHistoryList = finalProductHistoryList
               .where((String value) =>
                   _searchController.text == "" ||
@@ -551,7 +547,7 @@ class _SearchViewState extends State<SearchView>
         productFilter = new ProductFilter(fullText: searchKey);
         showResults = true;
         if (showRecents) showRecents = false;
-        if (showCategories) showCategories = false;
+        if (showTopProducts) showTopProducts = false;
 
         // Append to shared pref only when new element is inserted
         if (finalProductHistoryList.indexOf(searchKey) == -1)
@@ -565,7 +561,7 @@ class _SearchViewState extends State<SearchView>
         sellerFilter = new SellerFilter(name: searchKey);
         showResults = true;
         if (showRecents) showRecents = false;
-        if (showCategories) showCategories = false;
+        if (showTopProducts) showTopProducts = false;
         // Append to shared pref only when new element is inserted
         // if (finalSellerHistoryList.indexOf(searchKey) == -1)
         //   finalSellerHistoryList = finalSellerHistoryList + [searchKey];
@@ -575,25 +571,25 @@ class _SearchViewState extends State<SearchView>
     _changeSearchFieldFocus();
   }
 
-  Future<void> _clearRecentButtonAction() async {
-    if (currentTabIndex == 0) {
-      // Clear Product Search Here
-      setState(() {
-        finalProductHistoryList = productSearchHistoryList = [];
-      });
+  // Future<void> _clearRecentButtonAction() async {
+  //   if (currentTabIndex == 0) {
+  //     // Clear Product Search Here
+  //     setState(() {
+  //       finalProductHistoryList = productSearchHistoryList = [];
+  //     });
 
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setStringList(ProductSearchHistoryList, []);
-    } else {
-      // Clear Seller Search Here
-      setState(() {
-        finalSellerHistoryList = sellerSearchHistoryList = [];
-      });
+  //     SharedPreferences prefs = await SharedPreferences.getInstance();
+  //     prefs.setStringList(ProductSearchHistoryList, []);
+  //   } else {
+  //     // Clear Seller Search Here
+  //     setState(() {
+  //       finalSellerHistoryList = sellerSearchHistoryList = [];
+  //     });
 
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setStringList(SellerSearchHistoryList, []);
-    }
-  }
+  //     SharedPreferences prefs = await SharedPreferences.getInstance();
+  //     prefs.setStringList(SellerSearchHistoryList, []);
+  //   }
+  // }
 
   void _changeSearchFieldFocus() {
     _searchBarFocusNode.nextFocus();

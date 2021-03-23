@@ -72,9 +72,16 @@ class _ProductTileUIState extends State<ProductTileUI> {
     final photos = photo != null ? photo.photos ?? null : null;
     final String photoURL = photos != null ? photos[0].name ?? null : null;
     final String productName = widget?.data?.name ?? "No name";
-    final double productDiscount = widget?.data?.cost?.productDiscount?.rate ?? 0.0;
-    final int productPrice = widget.data.cost.costToCustomer.round() ?? 0.0;
-    final int actualCost = (widget.data.cost.cost + widget.data.cost.convenienceCharges.cost + widget.data.cost.gstCharges.cost).round();
+    final double productDiscount =
+        widget?.data?.cost?.productDiscount?.rate ?? 0.0;
+    final num deliveryCharges = 35.40;
+    final int productPrice =
+        (widget.data.cost.costToCustomer + deliveryCharges).round() ?? 0;
+    final int actualCost = (widget.data.cost.cost +
+            widget.data.cost.convenienceCharges.cost +
+            widget.data.cost.gstCharges.cost +
+            deliveryCharges)
+        .round() ?? 0;
     // final double productOldPrice = widget.data.oldPrice ?? 0.0;
     // final productRatingObj = widget.data.rating ?? null;
     // final productRatingValue =
@@ -178,32 +185,32 @@ class _ProductTileUIState extends State<ProductTileUI> {
                       ),
                       Row(
                         children: [
-                            Padding(
-                              padding: EdgeInsets.only(right: 5.0),
-                              child: Text(
-                                "\u20B9" + '$productPrice',
-                                overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                  color: textIconBlue,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: priceFontSize,
-                                ),
+                          Padding(
+                            padding: EdgeInsets.only(right: 5.0),
+                            child: Text(
+                              "\u20B9" + '$productPrice',
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                color: textIconBlue,
+                                fontWeight: FontWeight.bold,
+                                fontSize: priceFontSize,
                               ),
                             ),
-
-                          if ((productDiscount != null) && (productDiscount != 0.0))
-                          Text(
-                            "\u20B9" + '$actualCost',
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              color: Colors.grey,
-                              decoration: TextDecoration.lineThrough,
-                              fontWeight: FontWeight.bold,
-                              fontSize: priceFontSize - 2,
-                            ),
                           ),
+                          if ((productDiscount != null) &&
+                              (productDiscount != 0.0))
+                            Text(
+                              "\u20B9" + '$actualCost',
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                color: Colors.grey,
+                                decoration: TextDecoration.lineThrough,
+                                fontWeight: FontWeight.bold,
+                                fontSize: priceFontSize - 2,
+                              ),
+                            ),
                         ],
                       ),
                       // Row(
@@ -263,13 +270,17 @@ class _ProductTileUIState extends State<ProductTileUI> {
                         Colors.transparent.withOpacity(0.12),
                         BlendMode.srcATop),
                     child: FadeInImage.assetNetwork(
+                      fit: BoxFit.cover,
+                      fadeInCurve: Curves.easeIn,
+                      placeholder: 'assets/images/product_preloading.png',
+                      image: photoURL == null
+                          ? 'https://images.pexels.com/photos/157675/fashion-men-s-individuality-black-and-white-157675.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
+                          : '$PRODUCT_PHOTO_BASE_URL/${widget.data.key}/$photoURL',
+                      imageErrorBuilder: (context, error, stackTrace) =>
+                          Image.asset(
+                        "assets/images/product_preloading.png",
                         fit: BoxFit.cover,
-                        fadeInCurve: Curves.easeIn,
-                        placeholder: 'assets/images/product_preloading.png',
-                        image: photoURL == null
-                            ? 'https://images.pexels.com/photos/157675/fashion-men-s-individuality-black-and-white-157675.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
-                            : '$PRODUCT_PHOTO_BASE_URL/${widget.data.key}/$photoURL',
-                        imageErrorBuilder: (context, error, stackTrace) => Image.asset("assets/images/product_preloading.png", fit: BoxFit.cover,),
+                      ),
                     )))),
       ),
       discount != 0.0

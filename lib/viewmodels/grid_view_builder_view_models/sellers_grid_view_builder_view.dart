@@ -22,15 +22,14 @@ class SellersGridViewBuilderViewModel
   final String removeId;
   final num subscriptionType;
 
-  SellersGridViewBuilderViewModel({
-    this.profileOnly = false,
-    this.sellerOnly = false,
-    this.sellerDeliveringToYou = false,
-    this.random = false,
-    this.boutiquesOnly = false,
-    this.removeId,
-    this.subscriptionType
-  });
+  SellersGridViewBuilderViewModel(
+      {this.profileOnly = false,
+      this.sellerOnly = false,
+      this.sellerDeliveringToYou = false,
+      this.random = false,
+      this.boutiquesOnly = false,
+      this.removeId,
+      this.subscriptionType});
 
   @override
   Future init() {
@@ -40,31 +39,32 @@ class SellersGridViewBuilderViewModel
   @override
   Future<Sellers> getData(
       {BaseFilterModel filterModel, int pageNumber, int pageSize = 10}) async {
-
-    if(subscriptionType != null) {
+    if (subscriptionType != null) {
       pageSize = 30;
     }
 
     String _queryString =
-        "startIndex=${pageSize * (pageNumber - 1)};limit=$pageSize;" +
+        "startIndex=${pageSize * (pageNumber - 1)};limit=${this.random ? 1000 : pageSize};" +
             filterModel.queryString;
     Sellers res = await _apiService.getSellers(queryString: _queryString);
 
-    if(this.removeId != null) {
+    if (this.removeId != null) {
+      res.items =
+          res.items.where((element) => element?.key != this.removeId).toList();
+    }
+
+    if (this.subscriptionType != null) {
       res.items = res.items
-          .where((element) => element?.key != this.removeId)
+          .where(
+              (element) => element?.subscriptionTypeId == this.subscriptionType)
           .toList();
     }
 
-    if(this.subscriptionType != null) {
+    if (this.sellerDeliveringToYou) {
       res.items = res.items
-          .where((element) => element?.subscriptionTypeId == this.subscriptionType)
-          .toList();
-    }
-
-    if(this.sellerDeliveringToYou) {
-      res.items = res.items
-          .where((element) => element?.subscriptionTypeId == 1 || element?.subscriptionTypeId == 2)
+          .where((element) =>
+              element?.subscriptionTypeId == 1 ||
+              element?.subscriptionTypeId == 2)
           .toList();
     }
 
@@ -74,18 +74,22 @@ class SellersGridViewBuilderViewModel
           .toList();
     }
 
-    if ((this.profileOnly == null || this.profileOnly == false) && (this.sellerOnly != null && this.sellerOnly == true)) {
+    if ((this.profileOnly == null || this.profileOnly == false) &&
+        (this.sellerOnly != null && this.sellerOnly == true)) {
       res.items = res.items
           .where((element) => element?.subscriptionTypeId == 2)
           .toList();
     }
 
-    if(this.boutiquesOnly){
-      res.items = res.items.where((element) => element?.establishmentTypeId == 1).toList();
+    if (this.boutiquesOnly) {
+      res.items = res.items
+          .where((element) => element?.establishmentTypeId == 1)
+          .toList();
     }
 
     if (this.random) {
       res.items.shuffle();
+      res.items = res.items.sublist(0, 10);
     }
 
     if (res == null) throw "Error occured";

@@ -52,16 +52,20 @@ class MapViewModel extends BaseModel {
   populateClients({String sellerKey}) async {
     clients = [];
     Future<Tailors> tailors = _apiService.getTailors();
-    Future<Sellers> sellers = _apiService.getSellers();
+    Future<Sellers> sellers =
+        _apiService.getSellers(queryString: "startIndex=0;limit=1000;");
     List apiData = await Future.wait([tailors, sellers]);
 
     tData = apiData[0] as Tailors;
     sData = apiData[1] as Sellers;
-    sData.items =
-        sData.items.where((s) => s?.subscriptionTypeId?.toString() != '2').toList();
+    sData.items = sData.items
+        .where((s) => s?.subscriptionTypeId?.toString() != '2')
+        .toList();
     if (sData != null) {
       clientsToggle = true;
     }
+    sData.items.shuffle();
+    sData.items = sData.items.sublist(0, 10);
     notifyListeners();
 
     if (sellerKey != null && sellerKey != '') {
