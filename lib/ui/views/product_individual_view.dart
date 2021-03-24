@@ -5,6 +5,7 @@ import 'package:compound/models/WhishListSetUp.dart';
 import 'package:compound/models/grid_view_builder_filter_models/productFilter.dart';
 import 'package:compound/models/lookups.dart';
 import 'package:compound/models/products.dart';
+import 'package:compound/models/productPageArg.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/ui/views/cart_view.dart';
 import 'package:compound/ui/widgets/GridListWidget.dart';
@@ -1038,8 +1039,19 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                       verticalSpace(5),
                       GestureDetector(
                         onTap: () {
-                          _navigationService.navigateTo(SellerIndiViewRoute,
-                              arguments: model?.selleDetail);
+                          if (model?.selleDetail?.subscriptionTypeId == 2) {
+                            _navigationService.navigateTo(
+                              ProductsListRoute,
+                              arguments: ProductPageArg(
+                                subCategory: model?.selleDetail?.name,
+                                queryString:
+                                    "accountKey=${model?.selleDetail?.key};",
+                              ),
+                            );
+                          } else {
+                            _navigationService.navigateTo(SellerIndiViewRoute,
+                                arguments: model?.selleDetail);
+                          }
                         },
                         child: Card(
                             shape: RoundedRectangleBorder(

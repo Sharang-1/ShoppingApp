@@ -7,7 +7,10 @@ import '../shared/app_colors.dart';
 
 class ProductFilterDialog extends StatefulWidget {
   final ProductFilter oldFilter;
-  const ProductFilterDialog({Key key, this.oldFilter}) : super(key: key);
+  final bool showCategories;
+  const ProductFilterDialog(
+      {Key key, this.oldFilter, this.showCategories = true})
+      : super(key: key);
 
   @override
   _ProductFilterDialogState createState() => _ProductFilterDialogState();
@@ -27,6 +30,7 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
   int categoriesRadioValue = -1;
   String sortByRadioValue = 'price';
   String sortOrderRadioValue = 'asc';
+  String queryString = '';
 
   Map<String, int> categoriesRadioMap = {
     'Men': 2,
@@ -135,6 +139,7 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
     sortByRadioValue = sortField = widget.oldFilter?.sortField;
     isSortOrderDesc = widget.oldFilter?.isSortOrderDesc;
     sortOrderRadioValue = isSortOrderDesc == true ? 'desc' : 'asc';
+    queryString = widget?.oldFilter?.queryString ?? '';
 
     super.initState();
   }
@@ -143,7 +148,6 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
   Widget build(BuildContext context) {
     TextStyle titleTextStyle =
         TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold);
-
 
     print("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDd ");
     print(widget.oldFilter?.subCategories);
@@ -182,6 +186,7 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
                         minDiscount: minDiscount,
                         sortField: sortByRadioValue,
                         isSortOrderDesc: sortOrderRadioValue == 'desc',
+                        existingQueryString: queryString,
                       ),
                     );
                   },
@@ -212,9 +217,10 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
                   minDiscount = 0;
                   sortByRadioValue = sortField = "price";
                   isSortOrderDesc = false;
-                  sortOrderRadioValue = isSortOrderDesc == true ? 'desc' : 'asc';
+                  sortOrderRadioValue =
+                      isSortOrderDesc == true ? 'desc' : 'asc';
 
-                  for(var key in subCategoriesValues.keys) {
+                  for (var key in subCategoriesValues.keys) {
                     subCategoriesValues[key] = false;
                   }
                 });
@@ -299,54 +305,56 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
                   // ),
                   // spaceDividerExtraThin,
                   // verticalSpaceSmall,
-                  Text('Categories', style: titleTextStyle),
-                  verticalSpaceTiny,
-                  Wrap(
-                    spacing: 5,
-                    children: subCategoriesValues.keys.map(
-                      (String sKey) {
-                        return FilterChip(
-                          backgroundColor: Colors.white,
-                          checkmarkColor: green,
-                          selectedColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              side: BorderSide(
+                  if (widget.showCategories)
+                    Text('Categories', style: titleTextStyle),
+                  if (widget.showCategories) verticalSpaceTiny,
+                  if (widget.showCategories)
+                    Wrap(
+                      spacing: 5,
+                      children: subCategoriesValues.keys.map(
+                        (String sKey) {
+                          return FilterChip(
+                            backgroundColor: Colors.white,
+                            checkmarkColor: green,
+                            selectedColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                                side: BorderSide(
+                                  color: subCategoriesValues[sKey]
+                                      ? green
+                                      : Colors.grey,
+                                  width: 0.5,
+                                )),
+                            labelStyle: TextStyle(
+                                fontSize: 14,
+                                fontWeight: subCategoriesValues[sKey]
+                                    ? FontWeight.w600
+                                    : FontWeight.normal,
                                 color: subCategoriesValues[sKey]
                                     ? green
-                                    : Colors.grey,
-                                width: 0.5,
-                              )),
-                          labelStyle: TextStyle(
-                              fontSize: 14,
-                              fontWeight: subCategoriesValues[sKey]
-                                  ? FontWeight.w600
-                                  : FontWeight.normal,
-                              color: subCategoriesValues[sKey]
-                                  ? green
-                                  : Colors.grey),
-                          label: Text(sKey),
-                          selected: subCategoriesValues[sKey],
-                          onSelected: (val) {
-                            if (sKey != "All") {
+                                    : Colors.grey),
+                            label: Text(sKey),
+                            selected: subCategoriesValues[sKey],
+                            onSelected: (val) {
+                              if (sKey != "All") {
+                                setState(() {
+                                  subCategoriesValues[sKey] = val;
+                                });
+                                return;
+                              }
                               setState(() {
                                 subCategoriesValues[sKey] = val;
                               });
-                              return;
-                            }
-                            setState(() {
-                              subCategoriesValues[sKey] = val;
-                            });
-                            setState(() {
-                              for (var k in subCategoriesValues.keys) {
-                                subCategoriesValues[k] = val;
-                              }
-                            });
-                          },
-                        );
-                      },
-                    ).toList(),
-                  ),
+                              setState(() {
+                                for (var k in subCategoriesValues.keys) {
+                                  subCategoriesValues[k] = val;
+                                }
+                              });
+                            },
+                          );
+                        },
+                      ).toList(),
+                    ),
                   spaceDividerExtraThin,
                   verticalSpaceSmall,
                   Text('By Price', style: titleTextStyle),

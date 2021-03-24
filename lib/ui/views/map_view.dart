@@ -27,7 +27,8 @@ class MapView extends StatelessWidget {
     return "${s == "" ? "" : String.fromCharCode(0x2022)} $s";
   }
 
-  Widget clientCardSeller(MapViewModel model, context, Seller client, int index) {
+  Widget clientCardSeller(
+      MapViewModel model, context, Seller client, int index) {
     const double titleFontSize = titleFontSizeStyle;
     const double subtitleFontSize = subtitleFontSizeStyle - 3;
 
@@ -218,7 +219,8 @@ class MapView extends StatelessWidget {
         ));
   }
 
-  Widget clientCardTailor(MapViewModel model, context, Tailor client, int index) {
+  Widget clientCardTailor(
+      MapViewModel model, context, Tailor client, int index) {
     const double titleFontSize = titleFontSizeStyle;
 
     List<String> tempSplitName = client.name.split(" ");
@@ -249,33 +251,38 @@ class MapView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Align(
-                          alignment: Alignment.centerLeft,
-                          child: CircleAvatar(
-                              radius: 22,
-                              backgroundColor: backgroundWhiteCreamColor,
-                              child: Text(
-                                shortName.toUpperCase(),
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: darkRedSmooth,
-                                    fontWeight: FontWeight.w600),
-                              ))),
-                      SizedBox(
-                        width: 15,
-                      ),
-                      Tooltip(
-                        message: client.name,
-                        child: Text(
-                          client.name,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                            fontSize: titleFontSize,
+                      Row(
+                        children: [
+                          Align(
+                              alignment: Alignment.centerLeft,
+                              child: CircleAvatar(
+                                  radius: 22,
+                                  backgroundColor: backgroundWhiteCreamColor,
+                                  child: Text(
+                                    shortName.toUpperCase(),
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: darkRedSmooth,
+                                        fontWeight: FontWeight.w600),
+                                  ))),
+                          SizedBox(
+                            width: 15,
                           ),
-                          overflow: TextOverflow.ellipsis,
-                        ),
+                          Tooltip(
+                            message: client.name,
+                            child: Text(
+                              client.name,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                                fontSize: titleFontSize,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
                       ),
                       Align(
                         alignment: Alignment.centerRight,
@@ -283,11 +290,15 @@ class MapView extends StatelessWidget {
                           padding: const EdgeInsets.all(8.0),
                           child: InkWell(
                             onTap: () async {
-                              String contactNo = client?.contact?.primaryNumber?.mobile;
-                              if(contactNo != null && contactNo != '0000000000')
-                              return await launch("tel://$contactNo");
+                              String contactNo =
+                                  client?.contact?.primaryNumber?.mobile;
+                              if (contactNo != null &&
+                                  contactNo != '0000000000')
+                                return await launch("tel://$contactNo");
                             },
-                            child: Icon(Icons.call_outlined, size: 30, color: Colors.green),),
+                            child: Icon(Icons.call_outlined,
+                                size: 30, color: Colors.green),
+                          ),
                         ),
                       ),
                     ],
@@ -320,10 +331,10 @@ class MapView extends StatelessWidget {
         onTap: () {
           // showBottomSheet = true;
           model.currentClient = client;
-          try{
-            if((showSailors && isSeller) || (!showSailors && !isSeller))
-            controller.animateToPage(carouselMap[client.key]);
-          }catch(e){
+          try {
+            if ((showSailors && isSeller) || (!showSailors && !isSeller))
+              controller.animateToPage(carouselMap[client.key]);
+          } catch (e) {
             Fimber.e(e.toString());
           }
           // notifyListeners();
@@ -414,15 +425,27 @@ class MapView extends StatelessWidget {
                               child: CarouselSlider(
                                 carouselController: controller,
                                 items: model.showSailors
-                                    ? model.sData.items.asMap().entries.map((element) {
-                                      carouselMap.addAll({element.value.key.toString(): element.key});
-                                        return clientCardSeller(
-                                            model, context, element.value, element.key);
+                                    ? model.sData.items
+                                        .asMap()
+                                        .entries
+                                        .map((element) {
+                                        carouselMap.addAll({
+                                          element.value.key.toString():
+                                              element.key
+                                        });
+                                        return clientCardSeller(model, context,
+                                            element.value, element.key);
                                       }).toList()
-                                    : model.tData.items.asMap().entries.map((element) {
-                                      carouselMap.addAll({element.value.key.toString(): element.key});
-                                        return clientCardTailor(
-                                            model, context, element.value, element.key);
+                                    : model.tData.items
+                                        .asMap()
+                                        .entries
+                                        .map((element) {
+                                        carouselMap.addAll({
+                                          element.value.key.toString():
+                                              element.key
+                                        });
+                                        return clientCardTailor(model, context,
+                                            element.value, element.key);
                                       }).toList(),
                                 options: CarouselOptions(
                                   autoPlay: false,

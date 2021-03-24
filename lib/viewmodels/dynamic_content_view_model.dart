@@ -1,6 +1,7 @@
 import 'package:compound/constants/route_names.dart';
 import 'package:compound/models/products.dart';
-// import 'package:compound/models/sellers.dart';
+import 'package:compound/models/productPageArg.dart';
+import 'package:compound/models/sellers.dart';
 import 'package:compound/models/promotions.dart';
 import 'package:compound/locator.dart';
 import 'package:compound/services/api/api_service.dart';
@@ -17,7 +18,6 @@ class DynamicContentViewModel extends BaseModel {
   final NavigationService _navigationService = locator<NavigationService>();
 
   Future<void> init(BuildContext context, {data}) async {
-    
     print("Dynamic Content ViewModel Data : ${data.toString()}");
     print("Dynamic Content ViewModel Data : ${data["contentType"].toString()}");
     print("Dynamic Content ViewModel Data : ${data["id"].toString()}");
@@ -38,13 +38,27 @@ class DynamicContentViewModel extends BaseModel {
         Product product =
             await _apiService.getProductById(productId: data["id"]);
         if (product == null) break;
-        await _navigationService.navigateTo(ProductIndividualRoute, arguments: product);
+        await _navigationService.navigateTo(ProductIndividualRoute,
+            arguments: product);
         await _navigationService.navigateReplaceTo(HomeViewRoute);
         return;
 
-      case "seller":
+      case "sellers":
         if (data["id"] == null) break;
-        await goToSellerPage(data["id"]);
+        Seller seller = await _apiService.getSellerByID(data["id"]);
+        if (seller == null) break;
+        if (seller.subscriptionTypeId == 2) {
+          await _navigationService.navigateTo(
+            ProductsListRoute,
+            arguments: ProductPageArg(
+              subCategory: seller.name,
+              queryString: "accountKey=${seller.key};",
+            ),
+          );
+        } else {
+          await _navigationService.navigateTo(SellerIndiViewRoute,
+              arguments: seller);
+        }
         await _navigationService.navigateReplaceTo(HomeViewRoute);
         return;
 

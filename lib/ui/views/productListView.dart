@@ -42,7 +42,7 @@ class _ProductListViewState extends State<ProductListView> {
   @override
   void initState() {
     filter = ProductFilter(existingQueryString: widget.queryString);
-    sellerKey = "";
+    sellerKey = widget?.queryString?.split('=')?.last?.replaceAll(';', '');
     super.initState();
   }
 

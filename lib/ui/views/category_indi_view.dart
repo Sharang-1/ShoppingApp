@@ -12,6 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:compound/ui/widgets/ProductFilterDialog.dart';
 
 class CategoryIndiView extends StatefulWidget {
   final String queryString;
@@ -53,7 +55,8 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
   Widget build(BuildContext context) {
     return ViewModelProvider<CategoriesViewModel>.withConsumer(
       viewModel: CategoriesViewModel(),
-      onModelReady: (model) => model.init(subCategory: widget?.subCategory ?? ''),
+      onModelReady: (model) =>
+          model.init(subCategory: widget?.subCategory ?? ''),
       builder: (context, model, child) => AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle(statusBarColor: logoRed),
         child: Scaffold(
@@ -99,13 +102,51 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
                             elevation: 0,
                             automaticallyImplyLeading: false,
                             backgroundColor: logoRed,
-                            title: CustomText(
-                              widget.subCategory,
-                              color: Colors.white,
-                              dotsAfterOverFlow: true,
-                              fontSize: 25,
-                              isBold: true,
-                              isTitle: true,
+                            title: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                CustomText(
+                                  widget.subCategory,
+                                  color: Colors.white,
+                                  dotsAfterOverFlow: true,
+                                  fontSize: 25,
+                                  isBold: true,
+                                  isTitle: true,
+                                ),
+                                IconButton(
+                                  iconSize: 50,
+                                  icon: Icon(FontAwesomeIcons.slidersH,
+                                      color: Colors.white, size: 20),
+                                  onPressed: () async {
+                                    ProductFilter filterDialogResponse =
+                                        await showModalBottomSheet(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(20),
+                                            topRight: Radius.circular(20)),
+                                      ),
+                                      isScrollControlled: true,
+                                      clipBehavior: Clip.antiAlias,
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return FractionallySizedBox(
+                                            heightFactor: 0.75,
+                                            child: ProductFilterDialog(
+                                              oldFilter: filter,
+                                              showCategories: false,
+                                            ));
+                                      },
+                                    );
+
+                                    if (filterDialogResponse != null) {
+                                      setState(() {
+                                        filter = filterDialogResponse;
+                                        key = UniqueKey();
+                                      });
+                                    }
+                                  },
+                                ),
+                              ],
                             ),
                           ),
                         ),
