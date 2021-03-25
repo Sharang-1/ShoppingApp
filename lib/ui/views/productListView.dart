@@ -1,6 +1,7 @@
 import 'package:compound/constants/dynamic_links.dart';
 import 'package:compound/models/grid_view_builder_filter_models/productFilter.dart';
 import 'package:compound/models/products.dart';
+import 'package:compound/ui/widgets/ProductFilterDialog.dart';
 import 'package:compound/services/dynamic_link_service.dart';
 import 'package:compound/ui/shared/app_colors.dart';
 import 'package:compound/ui/shared/shared_styles.dart';
@@ -15,7 +16,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:share/share.dart';
-
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../locator.dart';
 
 class ProductListView extends StatefulWidget {
@@ -103,6 +104,9 @@ class _ProductListViewState extends State<ProductListView> {
                           ),
                           child: Text(
                             widget.subCategory,
+                            overflow: TextOverflow.visible,
+                            maxLines: 2,
+                            softWrap: true,
                             style: TextStyle(
                                 fontFamily: headingFont,
                                 fontWeight: FontWeight.w700,
@@ -111,14 +115,15 @@ class _ProductListViewState extends State<ProductListView> {
                         ),
                       ),
                       Expanded(
-                        flex: 2,
+                        flex: 1,
                         child: GestureDetector(
                           onTap: () async {
                             await Share.share(
-                              await _dynamicLinkService.createLink(sellerLink + sellerKey), 
+                              await _dynamicLinkService
+                                  .createLink(sellerLink + sellerKey),
                               sharePositionOrigin: Rect.fromCenter(
-                                center: Offset(100,100), 
-                                width: 100, 
+                                center: Offset(100, 100),
+                                width: 100,
                                 height: 100,
                               ),
                             );
@@ -128,6 +133,41 @@ class _ProductListViewState extends State<ProductListView> {
                             width: 25,
                             height: 25,
                           ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: IconButton(
+                          iconSize: 50,
+                          icon: Icon(FontAwesomeIcons.slidersH,
+                              color: Colors.black, size: 20),
+                          onPressed: () async {
+                            ProductFilter filterDialogResponse =
+                                await showModalBottomSheet(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(20),
+                                    topRight: Radius.circular(20)),
+                              ),
+                              isScrollControlled: true,
+                              clipBehavior: Clip.antiAlias,
+                              context: context,
+                              builder: (BuildContext context) {
+                                return FractionallySizedBox(
+                                    heightFactor: 0.75,
+                                    child: ProductFilterDialog(
+                                      oldFilter: filter,
+                                    ));
+                              },
+                            );
+
+                            if (filterDialogResponse != null) {
+                              setState(() {
+                                filter = filterDialogResponse;
+                                key = UniqueKey();
+                              });
+                            }
+                          },
                         ),
                       ),
                     ],
@@ -144,8 +184,8 @@ class _ProductListViewState extends State<ProductListView> {
                             emptyListWidget: EmptyListWidget(text: ""),
                             viewModel: ProductsGridViewBuilderViewModel(),
                             childAspectRatio: 0.7,
-                            tileBuilder: (BuildContext context, data, index, onUpdate,
-                                onDelete) {
+                            tileBuilder: (BuildContext context, data, index,
+                                onUpdate, onDelete) {
                               return ProductTileUI(
                                 data: data,
                                 onClick: () => model.goToProductPage(data),

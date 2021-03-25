@@ -358,6 +358,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
 
     return Text(
       text,
+      maxLines: 2,
+      overflow: TextOverflow.visible,
       style: TextStyle(
           fontSize: titleFontSizeStyle,
           color: (available) ? green : logoRed,
@@ -587,9 +589,14 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          stockWidget(
-                              totalQuantity: totalQuantity,
-                              available: available),
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 8.0),
+                              child: stockWidget(
+                                  totalQuantity: totalQuantity,
+                                  available: available),
+                            ),
+                          ),
                           InkWell(
                               onTap: () async => await showDialog<AlertDialog>(
                                     context: context,

@@ -30,23 +30,77 @@ class ProductFilter implements BaseFilterModel {
   }) {
     if (existingQueryString != "") {
       _queryString = existingQueryString;
-      return;
     }
 
-    if (fullText != null) _queryString += "freeText=$fullText;";
+    if (fullText != null) {
+      if (!_queryString.contains("freeText"))
+        _queryString += "freeText=$fullText;";
+      else
+        _queryString = _queryString.replaceFirst(
+            RegExp("freeText(.*?);"), "freeText=$fullText;");
+    }
     // if (categories != null) _queryString += "categories=$categories;";
-    if (accountKey != null) _queryString += "accountKey=$accountKey;";
-    if (subCategories != null)
-      _queryString +=
-          subCategories.map((String value) => "category=$value;").join("");
-    if (size != null)
-      _queryString += size.map((String value) => "size=$size;").join("");
-    if (minPrice != null) _queryString += "minPrice=$minPrice;";
-    if (maxPrice != null) _queryString += "maxPrice=$maxPrice;";
-    if (minDiscount != null) _queryString += "minDiscount=$minDiscount;";
-    if (sortField != null) _queryString += "sortField=$sortField;";
-    if (isSortOrderDesc != null)
-      _queryString += "sortField=price;sortOrder=${isSortOrderDesc ? 'desc' : 'asc'};";
+    if (accountKey != null) {
+      if (!_queryString.contains("accountKey"))
+        _queryString += "accountKey=$accountKey;";
+      else
+        _queryString = _queryString.replaceFirst(
+            RegExp("accountKey(.*?);"), "accountKey=$accountKey;");
+    }
+    if (subCategories != null) {
+      if (!_queryString.contains("category"))
+        _queryString +=
+            subCategories.map((String value) => "category=$value;").join("");
+      else {
+        _queryString = _queryString.replaceAll(RegExp("category(.*?);"), "");
+        _queryString +=
+            subCategories.map((String value) => "category=$value;").join("");
+      }
+    }
+    if (size != null) {
+      if (!_queryString.contains("size"))
+        _queryString += size.map((String value) => "size=$size;").join("");
+      else {
+        _queryString = _queryString.replaceAll(RegExp("size(.*?);"), "");
+        _queryString += size.map((String value) => "size=$size;").join("");
+      }
+    }
+    if (minPrice != null) {
+      if (!_queryString.contains("minPrice"))
+        _queryString += "minPrice=$minPrice;";
+      else
+        _queryString = _queryString.replaceFirst(
+            RegExp("minPrice(.*?);"), "minPrice=$minPrice;");
+    }
+    if (maxPrice != null) {
+      if (!_queryString.contains("maxPrice"))
+        _queryString += "maxPrice=$maxPrice;";
+      else
+        _queryString = _queryString.replaceFirst(
+            RegExp("maxPrice(.*?);"), "maxPrice=$maxPrice;");
+    }
+    if (minDiscount != null) {
+      if (!_queryString.contains("minDiscount"))
+        _queryString += "minDiscount=$minDiscount;";
+      else
+        _queryString = _queryString.replaceFirst(
+            RegExp("minDiscount(.*?);"), "minDiscount=$minDiscount;");
+    }
+    if (sortField != null) {
+      if (!_queryString.contains("sortField"))
+        _queryString += "sortField=$sortField;";
+      else
+        _queryString = _queryString.replaceFirst(
+            RegExp("sortField(.*?);"), "sortField=$sortField;");
+    }
+    if (isSortOrderDesc != null) {
+      if (!_queryString.contains("sortOrder"))
+        _queryString +=
+            "sortField=price;sortOrder=${isSortOrderDesc ? 'desc' : 'asc'};";
+      else
+        _queryString = _queryString.replaceFirst(RegExp("sortOrder(.*?);"),
+            "sortOrder=${isSortOrderDesc ? 'desc' : 'asc'};");
+    }
 
     print("query string for product filter");
     print(_queryString);
