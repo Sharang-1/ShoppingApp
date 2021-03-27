@@ -13,6 +13,7 @@ import 'package:compound/models/grid_view_builder_filter_models/sellerFilter.dar
 import 'package:compound/models/products.dart';
 import 'package:compound/models/promotions.dart';
 import 'package:compound/models/sellers.dart';
+import 'package:compound/models/productPageArg.dart';
 import 'package:compound/ui/views/promotion_products_view.dart';
 import 'package:compound/ui/widgets/GridListWidget.dart';
 import 'package:compound/ui/widgets/categoryTileUI.dart';
@@ -129,11 +130,24 @@ class _HomeViewListState extends State<HomeViewList> {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.only(left: 15.0),
-                child: Text('Shop By Category',
-                    style: TextStyle(
-                        color: Colors.grey[800],
-                        fontSize: subtitleFontSize,
-                        fontWeight: FontWeight.w700)),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Shop By Category',
+                        style: TextStyle(
+                            color: Colors.grey[800],
+                            fontSize: subtitleFontSize,
+                            fontWeight: FontWeight.w700)),
+                    Text(
+                      'Shop designer wear by specific categories 🛍️',
+                      style: TextStyle(
+                        color: Colors.grey[600],
+                        fontSize: subtitleFontSize - 6,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
               ),
               InkWell(
                 child: Padding(
@@ -185,13 +199,26 @@ class _HomeViewListState extends State<HomeViewList> {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.only(left: 15.0),
-                child: Text(
-                  'Boutiques Near You',
-                  style: TextStyle(
-                    color: Colors.grey[800],
-                    fontSize: subtitleFontSize,
-                    fontWeight: FontWeight.w700,
-                  ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Boutiques Near You',
+                      style: TextStyle(
+                        color: Colors.grey[800],
+                        fontSize: subtitleFontSize,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    Text(
+                      'Discover designer boutiques and labels around you ✌️',
+                      style: TextStyle(
+                        color: Colors.grey[600],
+                        fontSize: subtitleFontSize - 6,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             )
@@ -228,7 +255,8 @@ class _HomeViewListState extends State<HomeViewList> {
               child: Padding(
                 padding: const EdgeInsets.only(left: 15.0),
                 child: Text(
-                  'Top Picks for you',
+                  'Explore Our Designer\'s Creations',
+                  maxLines: 2,
                   style: TextStyle(
                     color: Colors.grey[800],
                     fontSize: subtitleFontSize,
@@ -236,7 +264,26 @@ class _HomeViewListState extends State<HomeViewList> {
                   ),
                 ),
               ),
-            )
+            ),
+            InkWell(
+              child: Padding(
+                padding: EdgeInsets.only(right: 8.0),
+                child: Text(
+                  'View All',
+                  style: TextStyle(
+                    fontSize: subtitleFontSize - 8,
+                    fontWeight: FontWeight.bold,
+                    color: textIconBlue,
+                  ),
+                ),
+              ),
+              onTap: () {
+                widget.model.goToProductListPage(ProductPageArg(
+                  queryString: '',
+                  subCategory: '',
+                ));
+              },
+            ),
           ]),
           verticalSpaceSmall,
           SizedBox(
@@ -246,7 +293,8 @@ class _HomeViewListState extends State<HomeViewList> {
               context: context,
               filter: ProductFilter(),
               gridCount: 2,
-              viewModel: ProductsGridViewBuilderViewModel(randomize: true),
+              viewModel:
+                  ProductsGridViewBuilderViewModel(randomize: true, limit: 10),
               childAspectRatio: 1.50,
               scrollDirection: Axis.horizontal,
               disablePagination: true,
@@ -271,8 +319,7 @@ class _HomeViewListState extends State<HomeViewList> {
                       "photo": product?.photo?.photos?.first?.name,
                       "sellerName": product?.seller?.name ?? "",
                       "isDiscountAvailable":
-                          product?.cost?.productDiscount?.rate != null &&
-                                  product?.cost?.productDiscount?.rate != 0
+                          product?.discount != null && product.discount != 0
                               ? "true"
                               : null,
                     },
@@ -336,13 +383,26 @@ class _HomeViewListState extends State<HomeViewList> {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.only(left: 15.0),
-                child: Text(
-                  'Sellers Delivering To You',
-                  style: TextStyle(
-                    color: Colors.grey[800],
-                    fontSize: subtitleFontSize,
-                    fontWeight: FontWeight.w700,
-                  ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Designers Delivering To You',
+                      style: TextStyle(
+                        color: Colors.grey[800],
+                        fontSize: subtitleFontSize,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    Text(
+                      'Check out fresh new collections of these Designers ✨',
+                      style: TextStyle(
+                        color: Colors.grey[600],
+                        fontSize: subtitleFontSize - 6,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             )
@@ -381,13 +441,26 @@ class _HomeViewListState extends State<HomeViewList> {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.only(left: 15.0),
-                child: Text(
-                  'Best Deals Today',
-                  style: TextStyle(
-                    color: Colors.grey[800],
-                    fontSize: subtitleFontSize,
-                    fontWeight: FontWeight.w700,
-                  ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Best Deals Today',
+                      style: TextStyle(
+                        color: Colors.grey[800],
+                        fontSize: subtitleFontSize,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    Text(
+                      'Explore great deals on designer wear and accessories!',
+                      style: TextStyle(
+                        color: Colors.grey[600],
+                        fontSize: subtitleFontSize - 6,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             )
@@ -489,13 +562,26 @@ class _HomeViewListState extends State<HomeViewList> {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.only(left: 15.0),
-                child: Text(
-                  'Quickly Delivered',
-                  style: TextStyle(
-                    color: Colors.grey[800],
-                    fontSize: subtitleFontSize,
-                    fontWeight: FontWeight.w700,
-                  ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Quickly Delivered',
+                      style: TextStyle(
+                        color: Colors.grey[800],
+                        fontSize: subtitleFontSize,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    Text(
+                      'Get designer wear delivered home as soon as the same day ⚡!',
+                      style: TextStyle(
+                        color: Colors.grey[600],
+                        fontSize: subtitleFontSize - 6,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             )
@@ -550,11 +636,24 @@ class _HomeViewListState extends State<HomeViewList> {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.only(left: 15.0),
-                child: Text('Popular Categories\nNear You',
-                    style: TextStyle(
-                        color: Colors.grey[800],
-                        fontSize: subtitleFontSize,
-                        fontWeight: FontWeight.w700)),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Categories people are searching for',
+                        style: TextStyle(
+                            color: Colors.grey[800],
+                            fontSize: subtitleFontSize,
+                            fontWeight: FontWeight.w700)),
+                    Text(
+                      'Explore the categories people are looking at 😊',
+                      style: TextStyle(
+                        color: Colors.grey[600],
+                        fontSize: subtitleFontSize - 6,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
               ),
               InkWell(
                 child: Padding(
@@ -657,13 +756,26 @@ class _HomeViewListState extends State<HomeViewList> {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.only(left: 15.0),
-                child: Text(
-                  'Explore',
-                  style: TextStyle(
-                    color: Colors.grey[800],
-                    fontSize: subtitleFontSize,
-                    fontWeight: FontWeight.w700,
-                  ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Top Picks for you',
+                      style: TextStyle(
+                        color: Colors.grey[800],
+                        fontSize: subtitleFontSize,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    Text(
+                      'Designer wear we though you might like 👗!',
+                      style: TextStyle(
+                        color: Colors.grey[600],
+                        fontSize: subtitleFontSize - 6,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             )
@@ -676,8 +788,7 @@ class _HomeViewListState extends State<HomeViewList> {
               context: context,
               filter: ProductFilter(),
               gridCount: 2,
-              viewModel:
-                  ProductsGridViewBuilderViewModel(randomize: true, limit: 10),
+              viewModel: ProductsGridViewBuilderViewModel(randomize: true),
               childAspectRatio: 1.50,
               scrollDirection: Axis.horizontal,
               disablePagination: true,
@@ -702,7 +813,8 @@ class _HomeViewListState extends State<HomeViewList> {
                       "photo": product?.photo?.photos?.first?.name,
                       "sellerName": product?.seller?.name ?? "",
                       "isDiscountAvailable":
-                          product?.discount != null && product.discount != 0
+                          product?.cost?.productDiscount?.rate != null &&
+                                  product?.cost?.productDiscount?.rate != 0
                               ? "true"
                               : null,
                     },
@@ -717,13 +829,26 @@ class _HomeViewListState extends State<HomeViewList> {
               flex: 8,
               child: Padding(
                 padding: const EdgeInsets.only(left: 15.0),
-                child: Text(
-                  'All Designers',
-                  style: TextStyle(
-                    color: Colors.grey[800],
-                    fontSize: subtitleFontSize,
-                    fontWeight: FontWeight.w700,
-                  ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Discover Designers',
+                      style: TextStyle(
+                        color: Colors.grey[800],
+                        fontSize: subtitleFontSize,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    Text(
+                      'Discover the best designers in Ahmedabad 🔝',
+                      style: TextStyle(
+                        color: Colors.grey[600],
+                        fontSize: subtitleFontSize - 6,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),

@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import '../../locator.dart';
 import '../shared/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:compound/utils/stringUtils.dart';
 
 class ProductTileUI extends StatefulWidget {
   final Product data;
@@ -132,7 +133,7 @@ class _ProductTileUIState extends State<ProductTileUI> {
                         children: <Widget>[
                           Expanded(
                             child: Text(
-                              productName,
+                              capitalizeString(productName),
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 fontSize: titleFontSize,

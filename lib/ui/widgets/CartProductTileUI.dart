@@ -4,6 +4,7 @@ import 'package:compound/ui/shared/app_colors.dart';
 import 'package:compound/ui/shared/shared_styles.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/ui/widgets/custom_text.dart';
+import 'package:compound/utils/stringUtils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -169,7 +170,7 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                   children: <Widget>[
                     verticalSpaceTiny,
                     CustomText(
-                      orderSummaryDetails["Product Name"],
+                      capitalizeString(orderSummaryDetails["Product Name"]),
                       dotsAfterOverFlow: true,
                       isTitle: true,
                       isBold: true,

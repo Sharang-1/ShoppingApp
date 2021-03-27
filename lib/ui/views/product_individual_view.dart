@@ -13,6 +13,7 @@ import 'package:compound/ui/widgets/ProductTileUI.dart';
 import 'package:compound/ui/widgets/reviews.dart';
 import 'package:compound/ui/widgets/wishlist_icon.dart';
 import 'package:compound/utils/tools.dart';
+import 'package:compound/utils/stringUtils.dart';
 import 'package:compound/viewmodels/grid_view_builder_view_models/products_grid_view_builder_view_model.dart';
 import 'package:compound/viewmodels/product_individual_view_model.dart';
 // import 'package:fimber/fimber_base.dart';
@@ -135,20 +136,6 @@ class _ProductIndiViewState extends State<ProductIndiView> {
     //     ),
     //   ),
     // );
-  }
-
-  String capitalizeString(String s) {
-    String capitalizedString;
-    try {
-      capitalizedString = (s
-          .trim()
-          .split(" ")
-          .map((e) => e[0].toUpperCase() + e.substring(1))
-          .join(' '));
-    } catch (e) {
-      capitalizedString = s;
-    }
-    return capitalizedString;
   }
 
   Widget productNameAndDescInfo(productName, variations, sellerModal) {

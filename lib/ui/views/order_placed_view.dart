@@ -24,11 +24,11 @@ class OrderPlacedView extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Stack(alignment: Alignment.center, children: <Widget>[
-                Icon(
-                  Icons.check,
-                  color: green,
-                  size: MediaQuery.of(context).size.width * 0.2,
-                )
+                Image.asset(
+                  'assets/images/order_placed.png',
+                  height: MediaQuery.of(context).size.width * 0.4,
+                  width: MediaQuery.of(context).size.width * 0.4,
+                ),
               ]),
               Padding(
                 padding: const EdgeInsets.fromLTRB(30, 50, 30, 0),
@@ -45,7 +45,6 @@ class OrderPlacedView extends StatelessWidget {
                   SizedBox(
                     height: 5,
                   ),
-                  
 
                   // Text(
                   //   "${productName} by ${sellerName}",

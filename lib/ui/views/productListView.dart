@@ -90,88 +90,92 @@ class _ProductListViewState extends State<ProductListView> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  verticalSpace(20),
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 8,
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                            left: screenPadding,
-                            right: screenPadding - 5,
-                            top: 10,
-                            bottom: 10,
-                          ),
-                          child: Text(
-                            widget.subCategory,
-                            overflow: TextOverflow.visible,
-                            maxLines: 2,
-                            softWrap: true,
-                            style: TextStyle(
-                                fontFamily: headingFont,
-                                fontWeight: FontWeight.w700,
-                                fontSize: 30),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: GestureDetector(
-                          onTap: () async {
-                            await Share.share(
-                              await _dynamicLinkService
-                                  .createLink(sellerLink + sellerKey),
-                              sharePositionOrigin: Rect.fromCenter(
-                                center: Offset(100, 100),
-                                width: 100,
-                                height: 100,
-                              ),
-                            );
-                          },
-                          child: Image.asset(
-                            'assets/images/share_icon.png',
-                            width: 25,
-                            height: 25,
+                  if (widget.queryString.isNotEmpty ||
+                      widget.subCategory.isNotEmpty)
+                    verticalSpace(20),
+                  if (widget.queryString.isNotEmpty ||
+                      widget.subCategory.isNotEmpty)
+                    Row(
+                      children: [
+                        Expanded(
+                          flex: 8,
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                              left: screenPadding,
+                              right: screenPadding - 5,
+                              top: 10,
+                              bottom: 10,
+                            ),
+                            child: Text(
+                              widget.subCategory,
+                              overflow: TextOverflow.visible,
+                              maxLines: 2,
+                              softWrap: true,
+                              style: TextStyle(
+                                  fontFamily: headingFont,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 30),
+                            ),
                           ),
                         ),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: IconButton(
-                          iconSize: 50,
-                          icon: Icon(FontAwesomeIcons.slidersH,
-                              color: Colors.black, size: 20),
-                          onPressed: () async {
-                            ProductFilter filterDialogResponse =
-                                await showModalBottomSheet(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(20),
-                                    topRight: Radius.circular(20)),
-                              ),
-                              isScrollControlled: true,
-                              clipBehavior: Clip.antiAlias,
-                              context: context,
-                              builder: (BuildContext context) {
-                                return FractionallySizedBox(
-                                    heightFactor: 0.75,
-                                    child: ProductFilterDialog(
-                                      oldFilter: filter,
-                                    ));
-                              },
-                            );
+                        Expanded(
+                          flex: 1,
+                          child: GestureDetector(
+                            onTap: () async {
+                              await Share.share(
+                                await _dynamicLinkService
+                                    .createLink(sellerLink + sellerKey),
+                                sharePositionOrigin: Rect.fromCenter(
+                                  center: Offset(100, 100),
+                                  width: 100,
+                                  height: 100,
+                                ),
+                              );
+                            },
+                            child: Image.asset(
+                              'assets/images/share_icon.png',
+                              width: 25,
+                              height: 25,
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: IconButton(
+                            iconSize: 50,
+                            icon: Icon(FontAwesomeIcons.slidersH,
+                                color: Colors.black, size: 20),
+                            onPressed: () async {
+                              ProductFilter filterDialogResponse =
+                                  await showModalBottomSheet(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(20),
+                                      topRight: Radius.circular(20)),
+                                ),
+                                isScrollControlled: true,
+                                clipBehavior: Clip.antiAlias,
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return FractionallySizedBox(
+                                      heightFactor: 0.75,
+                                      child: ProductFilterDialog(
+                                        oldFilter: filter,
+                                      ));
+                                },
+                              );
 
-                            if (filterDialogResponse != null) {
-                              setState(() {
-                                filter = filterDialogResponse;
-                                key = UniqueKey();
-                              });
-                            }
-                          },
+                              if (filterDialogResponse != null) {
+                                setState(() {
+                                  filter = filterDialogResponse;
+                                  key = UniqueKey();
+                                });
+                              }
+                            },
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
+                      ],
+                    ),
                   verticalSpace(20),
                   FutureBuilder(
                     future: Future.delayed(Duration(milliseconds: 500)),
@@ -182,7 +186,11 @@ class _ProductListViewState extends State<ProductListView> {
                             filter: filter,
                             gridCount: 2,
                             emptyListWidget: EmptyListWidget(text: ""),
-                            viewModel: ProductsGridViewBuilderViewModel(),
+                            viewModel: ProductsGridViewBuilderViewModel(
+                                limit: (widget.queryString.isEmpty &&
+                                        widget.subCategory.isEmpty)
+                                    ? 50
+                                    : 10),
                             childAspectRatio: 0.7,
                             tileBuilder: (BuildContext context, data, index,
                                 onUpdate, onDelete) {

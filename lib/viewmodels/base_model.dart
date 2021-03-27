@@ -4,6 +4,7 @@ import 'package:compound/locator.dart';
 import 'package:compound/models/products.dart';
 import 'package:compound/models/sellers.dart';
 import 'package:compound/models/user.dart';
+import 'package:compound/models/productPageArg.dart';
 import 'package:compound/services/authentication_service.dart';
 import 'package:compound/services/api/api_service.dart';
 import 'package:compound/services/cart_local_store_service.dart';
@@ -58,6 +59,10 @@ class BaseModel extends ChangeNotifier {
   Future<dynamic> goToProductPage(Product data) {
     return _navigationService.navigateTo(ProductIndividualRoute,
         arguments: data);
+  }
+
+  Future<dynamic> goToProductListPage(ProductPageArg arg) {
+    return _navigationService.navigateTo(ProductsListRoute, arguments: arg);
   }
 
   Future<dynamic> goToSellerPage(String sellerId) async {

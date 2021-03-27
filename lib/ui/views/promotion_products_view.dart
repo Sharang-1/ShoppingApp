@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 import '../shared/shared_styles.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'package:compound/locator.dart';
 import 'package:share/share.dart';
@@ -23,7 +24,10 @@ class PromotionProduct extends StatefulWidget {
   final List<String> productIds;
   final String promotionTitle;
   PromotionProduct(
-      {Key key, @required this.productIds, @required this.promotionTitle, @required this.promotionId})
+      {Key key,
+      @required this.productIds,
+      @required this.promotionTitle,
+      @required this.promotionId})
       : super(key: key);
 
   @override
@@ -33,6 +37,8 @@ class PromotionProduct extends StatefulWidget {
 class _PromotionProductState extends State<PromotionProduct> {
   WhishListFilter filter = WhishListFilter();
   Key promotionProductKey = UniqueKey();
+  final RefreshController refreshController =
+      RefreshController(initialRefresh: false);
 
   DynamicLinkService _dynamicLinkService = locator<DynamicLinkService>();
 
@@ -69,90 +75,108 @@ class _PromotionProductState extends State<PromotionProduct> {
           left: false,
           right: false,
           bottom: false,
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                verticalSpace(20),
-                Row(
-                  children: [
-                    Expanded(
-                      flex: 8,
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                          left: screenPadding,
-                          right: screenPadding - 5,
-                          top: 10,
-                          bottom: 10,
-                        ),
-                        child: Text(
-                          widget.promotionTitle == null ||
-                                  widget.promotionTitle == ""
-                              ? "Products"
-                              : widget.promotionTitle,
-                          style: TextStyle(
-                              fontFamily: headingFont,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 30),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 2,
-                      child: GestureDetector(
-                        onTap: () async {
-                          await Share.share(
-                            await _dynamicLinkService.createLink(promotionLink + widget.promotionId), 
-                            sharePositionOrigin: Rect.fromCenter(
-                              center: Offset(100,100), 
-                              width: 100, 
-                              height: 100,
-                            ),
-                          );
-                        },
-                        child: Image.asset(
-                          'assets/images/share_icon.png',
-                          width: 25,
-                          height: 25,
+          child: SmartRefresher(
+            enablePullDown: true,
+            header: WaterDropHeader(
+              waterDropColor: logoRed,
+              refresh: Container(),
+              complete: Container(),
+            ),
+            controller: refreshController,
+            onRefresh: () async {
+              setState(() {
+                promotionProductKey = new UniqueKey();
+              });
+              refreshController.refreshCompleted(resetFooterState: true);
+            },
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  verticalSpace(20),
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 8,
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                            left: screenPadding,
+                            right: screenPadding - 5,
+                            top: 10,
+                            bottom: 10,
+                          ),
+                          child: Text(
+                            widget.promotionTitle == null ||
+                                    widget.promotionTitle == ""
+                                ? "Products"
+                                : widget.promotionTitle,
+                            style: TextStyle(
+                                fontFamily: headingFont,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 30),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                verticalSpace(20),
-                FutureBuilder(
-                  future: Future.delayed(Duration(milliseconds: 500)),
-                  builder: (c, s) => s.connectionState == ConnectionState.done
-                      ? GridListWidget<Products, Product>(
-                          key: promotionProductKey,
-                          context: context,
-                          filter: filter,
-                          gridCount: 2,
-                          disablePagination: true,
-                          viewModel: WhishListGridViewBuilderViewModel(
-                              productIds: widget.productIds),
-                          childAspectRatio: 0.8,
-                          emptyListWidget: EmptyListWidget(text: "",),
-                          tileBuilder: (BuildContext context, data, index,
-                              onDelete, onUpdate) {
-                            final Product dProduct = data as Product;
-                            return ProductTileUI(
-                              index: index,
-                              data: data,
-                              onClick: () {
-                                model
-                                    .goToProductPage(dProduct)
-                                    .then((value) => setState(() {
-                                          promotionProductKey = UniqueKey();
-                                        }));
-                              },
+                      Expanded(
+                        flex: 2,
+                        child: GestureDetector(
+                          onTap: () async {
+                            await Share.share(
+                              await _dynamicLinkService.createLink(
+                                  promotionLink + widget.promotionId),
+                              sharePositionOrigin: Rect.fromCenter(
+                                center: Offset(100, 100),
+                                width: 100,
+                                height: 100,
+                              ),
                             );
                           },
-                        )
-                      : Container(),
-                )
-              ],
+                          child: Image.asset(
+                            'assets/images/share_icon.png',
+                            width: 25,
+                            height: 25,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  verticalSpace(20),
+                  FutureBuilder(
+                    future: Future.delayed(Duration(milliseconds: 500)),
+                    builder: (c, s) => s.connectionState == ConnectionState.done
+                        ? GridListWidget<Products, Product>(
+                            key: promotionProductKey,
+                            context: context,
+                            filter: filter,
+                            gridCount: 2,
+                            disablePagination: true,
+                            viewModel: WhishListGridViewBuilderViewModel(
+                                productIds: widget.productIds),
+                            childAspectRatio: 0.8,
+                            emptyListWidget: EmptyListWidget(
+                              text: "",
+                            ),
+                            tileBuilder: (BuildContext context, data, index,
+                                onDelete, onUpdate) {
+                              final Product dProduct = data as Product;
+                              return ProductTileUI(
+                                index: index,
+                                data: data,
+                                onClick: () {
+                                  model
+                                      .goToProductPage(dProduct)
+                                      .then((value) => setState(() {
+                                            promotionProductKey = UniqueKey();
+                                          }));
+                                },
+                              );
+                            },
+                          )
+                        : Container(),
+                  )
+                ],
+              ),
             ),
           ),
         ),

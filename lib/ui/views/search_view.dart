@@ -278,7 +278,7 @@ class _SearchViewState extends State<SearchView>
                   searchAction: _searchAction,
                   searchController: _searchController,
                   focusNode: _searchBarFocusNode,
-                  // autofocus: true,
+                  autofocus: true,
                   onTap: () {
                     // setState(() {
                     //   if (!showRecents) {
@@ -474,8 +474,8 @@ class _SearchViewState extends State<SearchView>
                             context: context,
                             filter: ProductFilter(),
                             gridCount: 2,
-                            viewModel:
-                                ProductsGridViewBuilderViewModel(limit: 6, randomize: true),
+                            viewModel: ProductsGridViewBuilderViewModel(
+                                limit: 6, randomize: true),
                             emptyListWidget: EmptyListWidget(
                               text: "",
                             ),
@@ -649,7 +649,7 @@ class _SearchBarTextField extends StatelessWidget {
             onChanged: onChanged,
             decoration: InputDecoration(
               border: InputBorder.none,
-              hintText: "Search Products or Sellers",
+              hintText: "Designers or their Creations",
               contentPadding: EdgeInsets.only(bottom: 8.0),
               hintStyle: TextStyle(
                 color: Colors.grey,

@@ -5,7 +5,7 @@ import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
+import 'package:compound/utils/stringUtils.dart';
 import 'custom_text.dart';
 
 class TopPicksAndDealsCard extends StatelessWidget {
@@ -108,7 +108,7 @@ class TopPicksAndDealsCard extends StatelessWidget {
                           Expanded(
                             flex: 2,
                             child: CustomText(
-                              data['name'],
+                              capitalizeString(data['name'] ?? ''),
                               dotsAfterOverFlow: true,
                               isTitle: true,
                               isBold: true,
