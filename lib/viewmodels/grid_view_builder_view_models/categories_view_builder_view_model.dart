@@ -1,8 +1,8 @@
-import 'package:compound/locator.dart';
-import 'package:compound/models/categorys.dart';
-import 'package:compound/models/grid_view_builder_filter_models/base_filter_model.dart';
-import 'package:compound/services/api/api_service.dart';
-import 'package:compound/viewmodels/grid_view_builder_view_models/base_grid_view_builder_view_model.dart';
+import '../../locator.dart';
+import '../../models/categorys.dart';
+import '../../models/grid_view_builder_filter_models/base_filter_model.dart';
+import '../../services/api/api_service.dart';
+import 'base_grid_view_builder_view_model.dart';
 // import 'package:compound/constants/route_names.dart';
 // import 'package:compound/constants/shared_pref.dart';
 // import 'package:compound/locator.dart';

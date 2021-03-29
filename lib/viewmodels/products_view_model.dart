@@ -1,9 +1,10 @@
-import 'package:compound/locator.dart';
-import 'package:compound/models/post.dart';
-import 'package:compound/models/products.dart';
-import 'package:compound/services/api/api_service.dart';
-import 'package:compound/viewmodels/base_model.dart';
 import 'package:fimber/fimber.dart';
+
+import '../locator.dart';
+import '../models/post.dart';
+import '../models/products.dart';
+import '../services/api/api_service.dart';
+import 'base_model.dart';
 
 class ProductsViewModel extends BaseModel {
   final APIService _apiService = locator<APIService>();

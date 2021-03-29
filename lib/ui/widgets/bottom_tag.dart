@@ -1,7 +1,8 @@
-import 'package:compound/ui/shared/shared_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+
 import '../shared/app_colors.dart';
+import '../shared/shared_styles.dart';
 
 class BottomTag extends StatelessWidget {
   final Widget childWidget;

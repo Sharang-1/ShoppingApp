@@ -1,19 +1,21 @@
-import 'package:compound/constants/server_urls.dart';
-import 'package:compound/models/CartCountSetUp.dart';
 // import 'package:compound/models/LookupSetUp.dart';
 import 'package:compound/models/WhishListSetUp.dart';
 import 'package:compound/models/grid_view_builder_filter_models/productFilter.dart';
 import 'package:compound/models/lookups.dart';
-import 'package:compound/models/products.dart';
 import 'package:compound/models/productPageArg.dart';
+import 'package:compound/models/products.dart';
+import 'package:compound/services/dynamic_link_service.dart';
+import 'package:compound/services/error_handling_service.dart';
+import 'package:compound/services/navigation_service.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/ui/views/cart_view.dart';
+import 'package:compound/ui/views/gallery_view.dart';
 import 'package:compound/ui/widgets/GridListWidget.dart';
 import 'package:compound/ui/widgets/ProductTileUI.dart';
 import 'package:compound/ui/widgets/reviews.dart';
 import 'package:compound/ui/widgets/wishlist_icon.dart';
-import 'package:compound/utils/tools.dart';
 import 'package:compound/utils/stringUtils.dart';
+import 'package:compound/utils/tools.dart';
 import 'package:compound/viewmodels/grid_view_builder_view_models/products_grid_view_builder_view_model.dart';
 import 'package:compound/viewmodels/product_individual_view_model.dart';
 // import 'package:fimber/fimber_base.dart';
@@ -23,20 +25,19 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:provider_architecture/viewmodel_provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:share/share.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../../constants/dynamic_links.dart';
+import '../../constants/route_names.dart';
+import '../../constants/server_urls.dart';
+import '../../locator.dart';
+import '../../models/CartCountSetUp.dart';
 import '../shared/app_colors.dart';
+import '../shared/shared_styles.dart';
 import '../views/home_view_slider.dart';
 import '../widgets/cart_icon_badge.dart';
-import '../shared/shared_styles.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:compound/services/navigation_service.dart';
-import 'package:compound/services/error_handling_service.dart';
-import 'package:compound/locator.dart';
-import 'package:compound/constants/route_names.dart';
-import 'package:share/share.dart';
-import 'package:compound/constants/dynamic_links.dart';
-import 'package:compound/services/dynamic_link_service.dart';
-import 'package:compound/ui/views/gallery_view.dart';
 
 const weekday = [
   "Monday",
@@ -345,10 +346,10 @@ class _ProductIndiViewState extends State<ProductIndiView> {
 
     return Text(
       text,
-      maxLines: 2,
+      maxLines: 3,
       overflow: TextOverflow.visible,
       style: TextStyle(
-          fontSize: titleFontSizeStyle,
+          fontSize: titleFontSizeStyle - 2,
           color: (available) ? green : logoRed,
           fontWeight: FontWeight.w600),
     );
@@ -973,32 +974,32 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                           ),
                         ),
                       verticalSpace(30),
-                      Text(
-                        "   Description",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: titleFontSizeStyle),
-                      ),
-                      verticalSpace(5),
-                      Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        elevation: 5,
-                        child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          padding: EdgeInsets.all(20),
-                          child: Text(
-                            widget?.data?.description ?? "",
-                            textAlign: TextAlign.justify,
-                            style: TextStyle(
-                              fontSize: subtitleFontSizeStyle - 5,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ),
-                      ),
-                      verticalSpace(20),
+                      // Text(
+                      //   "   Description",
+                      //   style: TextStyle(
+                      //       fontWeight: FontWeight.bold,
+                      //       fontSize: titleFontSizeStyle),
+                      // ),
+                      // verticalSpace(5),
+                      // Card(
+                      //   shape: RoundedRectangleBorder(
+                      //     borderRadius: BorderRadius.circular(15),
+                      //   ),
+                      //   elevation: 5,
+                      //   child: Container(
+                      //     width: MediaQuery.of(context).size.width,
+                      //     padding: EdgeInsets.all(20),
+                      //     child: Text(
+                      //       widget?.data?.description ?? "",
+                      //       textAlign: TextAlign.justify,
+                      //       style: TextStyle(
+                      //         fontSize: subtitleFontSizeStyle - 5,
+                      //         color: Colors.grey,
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
+                      // verticalSpace(20),
                       Text(
                         "   Product Details",
                         style: TextStyle(
@@ -1014,8 +1015,27 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                         child: Container(
                           width: MediaQuery.of(context).size.width,
                           padding: EdgeInsets.all(20),
-                          child: ProductDescriptionTable(
-                              product: widget.data, model: model),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Text(
+                                  widget?.data?.description ?? "",
+                                  textAlign: TextAlign.justify,
+                                  style: TextStyle(
+                                    fontSize: subtitleFontSizeStyle - 5,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                              Divider(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  height: 1),
+                              ProductDescriptionTable(
+                                  product: widget.data, model: model),
+                            ],
+                          ),
                         ),
                       ),
                       verticalSpaceMedium,

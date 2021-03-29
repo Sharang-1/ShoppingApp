@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:compound/ui/shared/shared_styles.dart';
+
+import '../shared/shared_styles.dart';
 
 class SellerStatus extends StatelessWidget {
   const SellerStatus({this.isOpen, this.time = ""});

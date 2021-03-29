@@ -1,8 +1,9 @@
 import 'dart:convert';
 
-import 'package:compound/constants/shared_pref.dart';
-import 'package:compound/models/user_details.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../constants/shared_pref.dart';
+import '../models/user_details.dart';
 
 class AddressService {
   AddressService() {

@@ -5,8 +5,8 @@ import 'dart:io';
 import 'package:compound/constants/route_names.dart';
 import 'package:compound/locator.dart';
 import 'package:compound/services/navigation_service.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fimber/fimber.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
 

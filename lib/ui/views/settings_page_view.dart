@@ -1,15 +1,14 @@
-import 'package:compound/ui/shared/shared_styles.dart';
-import 'package:compound/ui/shared/ui_helpers.dart';
-import 'package:compound/ui/widgets/custom_text.dart';
-import 'package:compound/viewmodels/home_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:url_launcher/url_launcher.dart';
-import '../shared/app_colors.dart';
 import 'package:provider_architecture/provider_architecture.dart';
-import '../widgets/bottom_tag.dart';
-import 'package:compound/ui/shared/app_colors.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../../viewmodels/home_view_model.dart';
+import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
+import '../shared/ui_helpers.dart';
+import '../widgets/bottom_tag.dart';
+import '../widgets/custom_text.dart';
 
 class SettingsView extends StatelessWidget {
   SettingsView({Key key}) : super(key: key);

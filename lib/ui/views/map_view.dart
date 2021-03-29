@@ -1,18 +1,18 @@
 // import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 // import 'package:url_launcher/url_launcher.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:compound/models/sellers.dart';
 import 'package:compound/models/tailors.dart';
 import 'package:compound/ui/shared/app_colors.dart';
-import 'package:flutter/material.dart';
+import 'package:compound/ui/shared/ui_helpers.dart';
+import 'package:compound/viewmodels/map_view_model.dart';
+import 'package:fimber/fimber.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'package:compound/models/sellers.dart';
-import 'package:compound/ui/shared/ui_helpers.dart';
-import 'package:compound/viewmodels/map_view_model.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:fimber/fimber.dart';
 import '../shared/shared_styles.dart';
 
 class MapView extends StatelessWidget {
@@ -374,7 +374,7 @@ class MapView extends StatelessWidget {
               GoogleMap(
                 onMapCreated: model.onMapCreated,
                 myLocationEnabled: true,
-                myLocationButtonEnabled: true,
+                myLocationButtonEnabled: false,
                 mapType: MapType.normal,
                 markers: getMarkers(context, model, model.showSailors),
                 initialCameraPosition: CameraPosition(
@@ -468,6 +468,26 @@ class MapView extends StatelessWidget {
                     child: Icon(
                       Icons.navigate_before_rounded,
                       size: 50,
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 0,
+                right: 0,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 16.0, right: 16.0),
+                  child: InkWell(
+                    onTap: () => model.onLocationIconClicked(),
+                    child: Container(
+                      padding: EdgeInsets.all(8.0),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                      ),
+                      child: Icon(
+                        Icons.gps_fixed_rounded,
+                        size: 30,
+                      ),
                     ),
                   ),
                 ),

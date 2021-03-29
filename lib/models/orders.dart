@@ -4,8 +4,8 @@
 
 import 'dart:convert';
 
-import 'package:compound/models/products.dart';
 import 'package:compound/models/calculatedPrice.dart' show Delivery;
+import 'package:compound/models/products.dart';
 
 Orders ordersFromJson(String str) => Orders.fromJson(json.decode(str));
 

@@ -1,20 +1,21 @@
-import 'package:compound/models/CartCountSetUp.dart';
-import 'package:compound/models/LookupSetUp.dart';
-import 'package:compound/models/WhishListSetUp.dart';
-import 'package:compound/ui/shared/ui_helpers.dart';
-import 'package:compound/ui/views/home_view_list.dart';
-import 'package:compound/ui/widgets/drawer.dart';
-import 'package:compound/viewmodels/home_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-import '../shared/app_colors.dart';
 import 'package:provider_architecture/provider_architecture.dart';
-import '../widgets/cart_icon_badge.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:rate_my_app/rate_my_app.dart';
 import 'package:rating_dialog/rating_dialog.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../models/CartCountSetUp.dart';
+import '../../models/LookupSetUp.dart';
+import '../../models/WhishListSetUp.dart';
+import '../../viewmodels/home_view_model.dart';
+import '../shared/app_colors.dart';
+import '../shared/ui_helpers.dart';
+import '../widgets/cart_icon_badge.dart';
+import '../widgets/drawer.dart';
+import 'home_view_list.dart';
 // import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 // import '../shared/shared_styles.dart';
@@ -236,7 +237,7 @@ class _HomeViewState extends State<HomeView> {
                             ),
                             horizontalSpaceSmall,
                             Text(
-                              "Search",
+                              "Designers or their Creations",
                               style: TextStyle(
                                   fontSize: 18,
                                   color: Colors.grey[600],

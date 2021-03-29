@@ -1,9 +1,10 @@
-import 'package:compound/models/grid_view_builder_filter_models/productFilter.dart';
-import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import '../../models/grid_view_builder_filter_models/productFilter.dart';
 import '../shared/app_colors.dart';
+import '../shared/ui_helpers.dart';
 
 class ProductFilterDialog extends StatefulWidget {
   final ProductFilter oldFilter;

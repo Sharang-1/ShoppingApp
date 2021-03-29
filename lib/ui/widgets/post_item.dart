@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:compound/models/post.dart';
 import 'package:flutter/material.dart';
+
+import '../../models/post.dart';
 
 class PostItem extends StatelessWidget {
   final Post post;

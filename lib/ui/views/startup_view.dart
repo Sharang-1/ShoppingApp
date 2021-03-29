@@ -1,7 +1,8 @@
-import 'package:compound/viewmodels/startup_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:provider_architecture/provider_architecture.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider_architecture/provider_architecture.dart';
+
+import '../../viewmodels/startup_view_model.dart';
 import '../shared/app_colors.dart';
 
 class StartUpView extends StatelessWidget {

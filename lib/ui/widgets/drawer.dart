@@ -1,16 +1,17 @@
-import 'package:compound/constants/route_names.dart';
-import 'package:compound/constants/shared_pref.dart';
-import 'package:compound/locator.dart';
-import 'package:compound/services/navigation_service.dart';
-import 'package:compound/ui/shared/shared_styles.dart';
-import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:compound/viewmodels/home_view_model.dart';
 import 'package:provider_architecture/provider_architecture.dart';
-import '../widgets/custom_text.dart';
-import '../shared/app_colors.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../constants/route_names.dart';
+import '../../constants/shared_pref.dart';
+import '../../locator.dart';
+import '../../services/navigation_service.dart';
+import '../../viewmodels/home_view_model.dart';
+import '../shared/app_colors.dart';
+import '../shared/shared_styles.dart';
+import '../shared/ui_helpers.dart';
+import '../widgets/custom_text.dart';
 
 class HomeDrawer extends StatelessWidget {
   final NavigationService _navigationService = locator<NavigationService>();

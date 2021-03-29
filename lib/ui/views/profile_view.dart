@@ -1,16 +1,17 @@
-import 'package:compound/ui/shared/shared_styles.dart';
-import 'package:compound/ui/shared/ui_helpers.dart';
-import 'package:compound/ui/widgets/custom_text.dart';
-import 'package:compound/viewmodels/user_details_view_model.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:compound/google_maps_place_picker/google_maps_place_picker.dart';
 import 'package:page_transition/page_transition.dart';
-import '../shared/app_colors.dart';
 import 'package:provider_architecture/provider_architecture.dart';
+
+import '../../google_maps_place_picker/google_maps_place_picker.dart';
+import '../../models/user_details.dart';
+import '../../viewmodels/user_details_view_model.dart';
+import '../shared/app_colors.dart';
+import '../shared/shared_styles.dart';
+import '../shared/ui_helpers.dart';
+import '../widgets/custom_text.dart';
 import 'address_input_form_view.dart';
-import 'package:compound/models/user_details.dart';
 
 class ProfileView extends StatefulWidget {
   ProfileView({Key key}) : super(key: key);

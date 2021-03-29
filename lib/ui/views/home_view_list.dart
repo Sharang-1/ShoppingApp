@@ -10,24 +10,24 @@ import 'package:compound/models/categorys.dart';
 import 'package:compound/models/grid_view_builder_filter_models/categoryFilter.dart';
 import 'package:compound/models/grid_view_builder_filter_models/productFilter.dart';
 import 'package:compound/models/grid_view_builder_filter_models/sellerFilter.dart';
+import 'package:compound/models/productPageArg.dart';
 import 'package:compound/models/products.dart';
 import 'package:compound/models/promotions.dart';
 import 'package:compound/models/sellers.dart';
-import 'package:compound/models/productPageArg.dart';
+import 'package:compound/ui/shared/app_colors.dart';
+import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:compound/ui/views/promotion_products_view.dart';
 import 'package:compound/ui/widgets/GridListWidget.dart';
 import 'package:compound/ui/widgets/categoryTileUI.dart';
+import 'package:compound/ui/widgets/custom_text.dart';
 import 'package:compound/ui/widgets/promotion_slider.dart';
+import 'package:compound/ui/widgets/sellerTileUi.dart';
+import 'package:compound/ui/widgets/home_view_list_header.dart';
 import 'package:compound/viewmodels/grid_view_builder_view_models/categories_view_builder_view_model.dart';
 import 'package:compound/viewmodels/grid_view_builder_view_models/products_grid_view_builder_view_model.dart';
 import 'package:compound/viewmodels/grid_view_builder_view_models/sellers_grid_view_builder_view.dart';
 import 'package:compound/viewmodels/home_view_model.dart';
 import 'package:flutter/material.dart';
-
-import 'package:compound/ui/shared/app_colors.dart';
-import 'package:compound/ui/shared/ui_helpers.dart';
-import 'package:compound/ui/widgets/custom_text.dart';
-import 'package:compound/ui/widgets/sellerTileUi.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../shared/shared_styles.dart';
@@ -80,7 +80,6 @@ class _HomeViewListState extends State<HomeViewList> {
   Widget build(BuildContext context) {
     // const double headingFontSize=25;
     // const double titleFontSize=20;
-    const double subtitleFontSize = subtitleFontSizeStyle + 2;
 
     return Container(
       padding:
@@ -124,48 +123,10 @@ class _HomeViewListState extends State<HomeViewList> {
             },
           ),
           verticalSpace(25),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(left: 15.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Shop By Category',
-                        style: TextStyle(
-                            color: Colors.grey[800],
-                            fontSize: subtitleFontSize,
-                            fontWeight: FontWeight.w700)),
-                    Text(
-                      'Shop designer wear by specific categories 🛍️',
-                      style: TextStyle(
-                        color: Colors.grey[600],
-                        fontSize: subtitleFontSize - 6,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              InkWell(
-                child: Padding(
-                  padding: EdgeInsets.only(right: 8.0),
-                  child: Text(
-                    'View All',
-                    style: TextStyle(
-                      fontSize: subtitleFontSize - 8,
-                      fontWeight: FontWeight.bold,
-                      color: textIconBlue,
-                    ),
-                  ),
-                ),
-                onTap: () {
-                  widget.gotoCategory();
-                },
-              ),
-            ],
+          HomeViewListHeader(
+            title: 'Shop By Category 🛍️',
+            subTitle: 'Shop designer wear by specific categories',
+            viewAll: () => widget.gotoCategory(),
           ),
           verticalSpaceSmall,
           SizedBox(
@@ -195,34 +156,10 @@ class _HomeViewListState extends State<HomeViewList> {
             ),
           ),
           verticalSpace(30),
-          Row(children: <Widget>[
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 15.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Boutiques Near You',
-                      style: TextStyle(
-                        color: Colors.grey[800],
-                        fontSize: subtitleFontSize,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    Text(
-                      'Discover designer boutiques and labels around you ✌️',
-                      style: TextStyle(
-                        color: Colors.grey[600],
-                        fontSize: subtitleFontSize - 6,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            )
-          ]),
+          HomeViewListHeader(
+            title: 'Boutiques Near You ✌️',
+            subTitle: 'Discover designer boutiques and labels around you',
+          ),
           verticalSpaceSmall,
           SizedBox(
             height: 190,
@@ -250,41 +187,15 @@ class _HomeViewListState extends State<HomeViewList> {
             ),
           ),
           verticalSpace(30),
-          Row(children: <Widget>[
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 15.0),
-                child: Text(
-                  'Explore Our Designer\'s Creations',
-                  maxLines: 2,
-                  style: TextStyle(
-                    color: Colors.grey[800],
-                    fontSize: subtitleFontSize,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-            ),
-            InkWell(
-              child: Padding(
-                padding: EdgeInsets.only(right: 8.0),
-                child: Text(
-                  'View All',
-                  style: TextStyle(
-                    fontSize: subtitleFontSize - 8,
-                    fontWeight: FontWeight.bold,
-                    color: textIconBlue,
-                  ),
-                ),
-              ),
-              onTap: () {
-                widget.model.goToProductListPage(ProductPageArg(
-                  queryString: '',
-                  subCategory: '',
-                ));
-              },
-            ),
-          ]),
+          HomeViewListHeader(
+            title: 'Explore Our Designer\'s Creations',
+            viewAll: () {
+              widget.model.goToProductListPage(ProductPageArg(
+                queryString: '',
+                subCategory: '',
+              ));
+            },
+          ),
           verticalSpaceSmall,
           SizedBox(
             height: 220,
@@ -379,34 +290,10 @@ class _HomeViewListState extends State<HomeViewList> {
               ),
             ),
           verticalSpace(30),
-          Row(children: <Widget>[
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 15.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Designers Delivering To You',
-                      style: TextStyle(
-                        color: Colors.grey[800],
-                        fontSize: subtitleFontSize,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    Text(
-                      'Check out fresh new collections of these Designers ✨',
-                      style: TextStyle(
-                        color: Colors.grey[600],
-                        fontSize: subtitleFontSize - 6,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            )
-          ]),
+          HomeViewListHeader(
+            title: 'Designers Delivering To You ✨',
+            subTitle: 'Check out fresh new collections of these Designers ',
+          ),
           verticalSpaceSmall,
           SizedBox(
             height: 190,
@@ -437,34 +324,10 @@ class _HomeViewListState extends State<HomeViewList> {
             ),
           ),
           verticalSpace(30),
-          Row(children: <Widget>[
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 15.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Best Deals Today',
-                      style: TextStyle(
-                        color: Colors.grey[800],
-                        fontSize: subtitleFontSize,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    Text(
-                      'Explore great deals on designer wear and accessories!',
-                      style: TextStyle(
-                        color: Colors.grey[600],
-                        fontSize: subtitleFontSize - 6,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            )
-          ]),
+          HomeViewListHeader(
+            title: 'Best Deals Today',
+            subTitle: 'Explore great deals on designer wear and accessories!',
+          ),
           verticalSpaceSmall,
           SizedBox(
             height: 220,
@@ -558,34 +421,11 @@ class _HomeViewListState extends State<HomeViewList> {
               ),
             ),
           verticalSpace(30),
-          Row(children: <Widget>[
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 15.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Quickly Delivered',
-                      style: TextStyle(
-                        color: Colors.grey[800],
-                        fontSize: subtitleFontSize,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    Text(
-                      'Get designer wear delivered home as soon as the same day ⚡!',
-                      style: TextStyle(
-                        color: Colors.grey[600],
-                        fontSize: subtitleFontSize - 6,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            )
-          ]),
+          HomeViewListHeader(
+            title: 'Quickly Delivered ⚡!',
+            subTitle:
+                'Get designer wear delivered home as soon as the same day',
+          ),
           verticalSpaceSmall,
           SizedBox(
             height: 220,
@@ -630,48 +470,12 @@ class _HomeViewListState extends State<HomeViewList> {
             ),
           ),
           verticalSpace(30),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(left: 15.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Categories people are searching for',
-                        style: TextStyle(
-                            color: Colors.grey[800],
-                            fontSize: subtitleFontSize,
-                            fontWeight: FontWeight.w700)),
-                    Text(
-                      'Explore the categories people are looking at 😊',
-                      style: TextStyle(
-                        color: Colors.grey[600],
-                        fontSize: subtitleFontSize - 6,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              InkWell(
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: Text(
-                    'View All',
-                    style: TextStyle(
-                      fontSize: subtitleFontSize - 8,
-                      fontWeight: FontWeight.bold,
-                      color: textIconBlue,
-                    ),
-                  ),
-                ),
-                onTap: () {
-                  widget.gotoCategory();
-                },
-              ),
-            ],
+          HomeViewListHeader(
+            title: 'Categories people are searching for 😊',
+            subTitle: 'Explore the categories people are looking at',
+            viewAll: () {
+              widget.gotoCategory();
+            },
           ),
           verticalSpaceSmall,
           SizedBox(
@@ -752,34 +556,10 @@ class _HomeViewListState extends State<HomeViewList> {
               ),
             ),
           verticalSpace(30),
-          Row(children: <Widget>[
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 15.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Top Picks for you',
-                      style: TextStyle(
-                        color: Colors.grey[800],
-                        fontSize: subtitleFontSize,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    Text(
-                      'Designer wear we though you might like 👗!',
-                      style: TextStyle(
-                        color: Colors.grey[600],
-                        fontSize: subtitleFontSize - 6,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            )
-          ]),
+          HomeViewListHeader(
+            title: 'Top Picks for you 👗!',
+            subTitle: 'Designer wear we though you might like',
+          ),
           verticalSpaceSmall,
           SizedBox(
             height: 220,
@@ -824,35 +604,9 @@ class _HomeViewListState extends State<HomeViewList> {
             ),
           ),
           verticalSpace(30),
-          Row(children: <Widget>[
-            Expanded(
-              flex: 8,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 15.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Discover Designers',
-                      style: TextStyle(
-                        color: Colors.grey[800],
-                        fontSize: subtitleFontSize,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    Text(
-                      'Discover the best designers in Ahmedabad 🔝',
-                      style: TextStyle(
-                        color: Colors.grey[600],
-                        fontSize: subtitleFontSize - 6,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ]),
+          HomeViewListHeader(
+              title: 'Discover Designers 🔝',
+              subTitle: 'Discover the best designers in Ahmedabad'),
           verticalSpaceSmall,
           SizedBox(
             // height: 300,
@@ -878,288 +632,6 @@ class _HomeViewListState extends State<HomeViewList> {
               },
             ),
           ),
-          /*
-          verticalSpace(40),
-          Row(children: <Widget>[
-            Expanded(
-              child: Text(
-                'Best Deals Today',
-                style: TextStyle(
-                  color: Colors.grey[800],
-                  fontSize: subtitleFontSize,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            )
-          ]),
-          verticalSpaceSmall,
-          Container(
-            height: 150,
-            child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: bestDealsDataMap
-                    .map((e) => SizedBox(
-                        width: 250,
-                        child: TopPicksAndDealsCard(
-                          data: e,
-                        )))
-                    .toList()),
-          ),
-          Container(
-            height: 150,
-            child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: bestDealsDataMap
-                    .map((e) => SizedBox(
-                        width: 250,
-                        child: TopPicksAndDealsCard(
-                          data: e,
-                        )))
-                    .toList()),
-          ),
-          verticalSpace(40),
-          Container(
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 5,
-                  blurRadius: 7,
-                  offset: Offset(0, 3), // changes position of shadow
-                ),
-              ],
-            ),
-            child: SizedBox(
-                height: (MediaQuery.of(context).size.width - 40) * 0.8,
-                width: MediaQuery.of(context).size.width - 40,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(curve15),
-                  child: Image(
-                    fit: BoxFit.cover,
-                    image: NetworkImage(
-                        "https://mir-s3-cdn-cf.behance.net/projects/404/8417d853121653.Y3JvcCwxNjAzLDEyNTUsMCww.png"),
-                  ),
-                )),
-          ),
-          verticalSpace(40),
-          Row(
-            children: <Widget>[
-              Expanded(
-                child: Text(
-                  'Products Delivered The Same Day',
-                  style: TextStyle(
-                    color: Colors.grey[800],
-                    fontSize: subtitleFontSize,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          verticalSpaceSmall,
-          Container(
-            height: 180,
-            child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: sameDayDeliveryDataMap
-                    .map(
-                      (e) => SizedBox(
-                        width: 250,
-                        child: TopPicksAndDealsCard(
-                          data: e,
-                        ),
-                      ),
-                    )
-                    .toList()),
-          ),
-          verticalSpace(30),
-          Row(children: <Widget>[
-            Expanded(
-              child: Text(
-                'Products That Awed Us',
-                style: TextStyle(
-                  color: Colors.grey[800],
-                  fontSize: subtitleFontSize,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            )
-          ]),
-          verticalSpaceSmall,
-          Container(
-            height: 150,
-            child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: productAwedDataMap
-                    .map((e) => SizedBox(
-                        width: 250,
-                        child: TopPicksAndDealsCard(
-                          data: e,
-                        )))
-                    .toList()),
-          ),
-          Container(
-            height: 150,
-            child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: productAwedDataMap
-                    .map((e) => SizedBox(
-                        width: 250,
-                        child: TopPicksAndDealsCard(
-                          data: e,
-                        )))
-                    .toList()),
-          ),
-          verticalSpace(30),
-          Row(
-            children: <Widget>[
-              Expanded(
-                child: Text(
-                  'Products Delivered The Same Day',
-                  style: TextStyle(
-                    color: Colors.grey[800],
-                    fontSize: subtitleFontSize,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          Container(
-              height: 120,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: categories
-                    .map((category) => SizedBox(
-                        width: 192,
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(5, 10, 0, 5),
-                          child: InkWell(
-                            child: Card(
-                              clipBehavior: Clip.antiAlias,
-                              color: Colors.grey,
-                              child: Stack(children: <Widget>[
-                                Positioned.fill(
-                                    child: ColorFiltered(
-                                  colorFilter: ColorFilter.mode(
-                                      Colors.black.withOpacity(0.3),
-                                      BlendMode.srcATop),
-                                  child: FadeInImage.assetNetwork(
-                                      fit: BoxFit.fill,
-                                      fadeInCurve: Curves.easeIn,
-                                      placeholder:
-                                          'assets/images/placeholder.png',
-                                      image:
-                                          // photoName == null?
-
-                                          'https://images.pexels.com/photos/934070/pexels-photo-934070.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
-                                      // : photoName
-
-                                      ),
-                                )),
-                                Positioned.fill(
-                                    child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10),
-                                  child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        CustomText(category,
-                                            align: TextAlign.center,
-                                            color: Colors.white,
-                                            fontSize: subtitleFontSizeStyle - 2,
-                                            fontWeight: FontWeight.w600),
-                                      ]),
-                                ))
-                              ]),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(curve15),
-                              ),
-                              elevation: 5,
-                            ),
-                            onTap: () {},
-                          ),
-                        )))
-                    .toList(),
-              )),
-          verticalSpace(40),
-          Row(children: <Widget>[
-            Expanded(
-              child: Text(
-                'Sellers Delivering To You',
-                style: TextStyle(
-                  color: Colors.grey[800],
-                  fontSize: subtitleFontSize,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            )
-          ]),
-          verticalSpaceSmall,
-          Container(
-            padding: EdgeInsets.only(left: 0),
-            height: 175,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: <Widget>[
-                SellerTileUi(
-                  data: sellerCardDetails,
-                  fromHome: true,
-                ),
-                SellerTileUi(
-                  data: sellerCardDetails,
-                  fromHome: true,
-                ),
-                SellerTileUi(
-                  data: sellerCardDetails,
-                  fromHome: true,
-                ),
-              ],
-            ),
-          ),
-          verticalSpaceMedium,
-          Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-            SizedBox(
-                width: MediaQuery.of(context).size.width * 0.80,
-                child: Divider(
-                  color: Colors.grey,
-                  thickness: 0.5,
-                ))
-          ]),
-          */
-          // verticalSpaceMedium,
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.center,
-          //   children: <Widget>[
-          //     SizedBox(
-          //       height: 50,
-          //       width: MediaQuery.of(context).size.width * 0.6,
-          //       child: RaisedButton(
-          //         elevation: 5,
-          //         onPressed: () {
-          //           // Navigator.pushReplacement(
-          //           //     context,
-          //           //     MaterialPageRoute(
-          //           //         builder: (context) =>
-          //           //             SelectAddress()));
-          //         },
-          //         color: darkRedSmooth,
-          //         shape: RoundedRectangleBorder(
-          //           borderRadius: BorderRadius.circular(curve30),
-          //         ),
-          //         child: Padding(
-          //           padding: const EdgeInsets.symmetric(vertical: 15),
-          //           child: Text(
-          //             "Locate Tailors ",
-          //             style: TextStyle(
-          //                 color: Colors.white, fontWeight: FontWeight.bold),
-          //           ),
-          //         ),
-          //       ),
-          //     ),
-          //   ],
-          // ),
           verticalSpaceMedium,
           Row(
             mainAxisAlignment: MainAxisAlignment.center,

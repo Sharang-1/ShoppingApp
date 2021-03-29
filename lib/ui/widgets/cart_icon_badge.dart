@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
 import '../shared/app_colors.dart';
 
 class CartIconWithBadge extends StatelessWidget {

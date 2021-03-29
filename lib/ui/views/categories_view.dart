@@ -1,14 +1,15 @@
-import 'package:compound/models/categorys.dart';
-import 'package:compound/models/grid_view_builder_filter_models/categoryFilter.dart';
-import 'package:compound/ui/shared/app_colors.dart';
-import 'package:compound/ui/widgets/GridListWidget.dart';
-import 'package:compound/ui/widgets/categoryTileUI.dart';
-import 'package:compound/viewmodels/categories_view_model.dart';
-import 'package:compound/viewmodels/grid_view_builder_view_models/categories_view_builder_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+
+import '../../models/categorys.dart';
+import '../../models/grid_view_builder_filter_models/categoryFilter.dart';
+import '../../viewmodels/categories_view_model.dart';
+import '../../viewmodels/grid_view_builder_view_models/categories_view_builder_view_model.dart';
+import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
+import '../widgets/GridListWidget.dart';
+import '../widgets/categoryTileUI.dart';
 
 class CategoriesView extends StatefulWidget {
   CategoriesView({Key key}) : super(key: key);
@@ -52,7 +53,7 @@ class _CategoriesViewState extends State<CategoriesView> {
           child: SmartRefresher(
             enablePullDown: true,
             header: WaterDropHeader(
-              waterDropColor: Colors.blue,
+              waterDropColor: logoRed,
               refresh: Container(),
               complete: Container(),
             ),

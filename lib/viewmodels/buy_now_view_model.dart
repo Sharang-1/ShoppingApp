@@ -1,9 +1,10 @@
-import 'package:compound/locator.dart';
-import 'package:compound/models/calculatedPrice.dart';
-import 'package:compound/models/promoCode.dart';
-import 'package:compound/services/api/api_service.dart';
 // import 'package:compound/services/navigation_service.dart';
 import 'package:compound/viewmodels/base_model.dart';
+
+import '../locator.dart';
+import '../models/calculatedPrice.dart';
+import '../models/promoCode.dart';
+import '../services/api/api_service.dart';
 
 class BuyNowViewModel extends BaseModel {
   // final NavigationService _navigationService = locator<NavigationService>();

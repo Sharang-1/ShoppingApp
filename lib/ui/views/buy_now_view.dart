@@ -1,14 +1,14 @@
-import 'package:compound/ui/shared/app_colors.dart';
-import 'package:compound/ui/shared/ui_helpers.dart';
-import 'package:compound/models/grid_view_builder_filter_models/cartFilter.dart';
-import 'package:compound/ui/widgets/CartTileUI.dart';
-
-import 'package:compound/viewmodels/buy_now_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider_architecture/provider_architecture.dart';
+
+import '../../models/grid_view_builder_filter_models/cartFilter.dart';
+import '../../viewmodels/buy_now_view_model.dart';
+import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
+import '../shared/ui_helpers.dart';
+import '../widgets/CartTileUI.dart';
 import '../widgets/custom_stepper.dart';
 
 class BuyNowView extends StatefulWidget {

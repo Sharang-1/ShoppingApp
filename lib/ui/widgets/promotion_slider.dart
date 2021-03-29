@@ -1,10 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:compound/constants/server_urls.dart';
-import 'package:compound/models/promotions.dart';
-import 'package:compound/ui/shared/shared_styles.dart';
-import 'package:compound/ui/views/promotion_products_view.dart';
 import 'package:flutter/material.dart';
+
+import '../../constants/server_urls.dart';
+import '../../models/promotions.dart';
+import '../shared/shared_styles.dart';
+import '../views/promotion_products_view.dart';
 
 class PromotionSlider extends StatefulWidget {
   final List<Promotion> promotions;

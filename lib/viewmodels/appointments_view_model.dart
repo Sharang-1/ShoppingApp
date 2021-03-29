@@ -1,15 +1,17 @@
 import 'dart:convert';
-import 'package:compound/constants/route_names.dart';
-import 'package:compound/locator.dart';
-import 'package:compound/models/Appointments.dart';
-import 'package:compound/models/TimeSlots.dart';
-import 'package:compound/services/address_service.dart';
-import 'package:compound/services/api/api_service.dart';
-import 'package:compound/services/dialog_service.dart';
-import 'package:compound/services/navigation_service.dart';
-import 'package:compound/viewmodels/base_model.dart';
+
 import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
+
+import '../constants/route_names.dart';
+import '../locator.dart';
+import '../models/Appointments.dart';
+import '../models/TimeSlots.dart';
+import '../services/address_service.dart';
+import '../services/api/api_service.dart';
+import '../services/dialog_service.dart';
+import '../services/navigation_service.dart';
+import 'base_model.dart';
 // import 'package:get/get.dart';
 // import 'package:google_maps_place_picker/google_maps_place_picker.dart';
 // import 'package:intl/intl.dart';

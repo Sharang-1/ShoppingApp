@@ -1,10 +1,11 @@
-import 'package:compound/ui/shared/app_colors.dart';
-import 'package:compound/ui/shared/shared_styles.dart';
-import 'package:compound/ui/shared/ui_helpers.dart';
-import 'package:compound/ui/widgets/custom_text.dart';
-import 'package:compound/viewmodels/home_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider_architecture/viewmodel_provider.dart';
+
+import '../../viewmodels/home_view_model.dart';
+import '../shared/app_colors.dart';
+import '../shared/shared_styles.dart';
+import '../shared/ui_helpers.dart';
+import '../widgets/custom_text.dart';
 
 class NotificationView extends StatefulWidget {
   @override

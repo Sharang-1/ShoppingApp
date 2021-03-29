@@ -1,19 +1,19 @@
-import 'package:compound/services/dynamic_link_service.dart';
-import 'package:get_it/get_it.dart';
-
 // Services
 import 'package:compound/services/analytics_service.dart';
-import 'package:compound/services/cart_local_store_service.dart';
-import 'package:compound/services/whishlist_service.dart';
-import 'package:compound/services/address_service.dart';
-import 'package:compound/services/authentication_service.dart';
 import 'package:compound/services/api/api_service.dart';
-import 'package:compound/services/location_service.dart';
-import 'package:compound/services/push_notification_service.dart';
-import 'package:compound/utils/image_selector.dart';
-import 'package:compound/services/navigation_service.dart';
+import 'package:compound/services/authentication_service.dart';
+import 'package:compound/services/cart_local_store_service.dart';
 import 'package:compound/services/dialog_service.dart';
 import 'package:compound/services/error_handling_service.dart';
+import 'package:compound/services/location_service.dart';
+import 'package:compound/services/navigation_service.dart';
+import 'package:compound/services/push_notification_service.dart';
+import 'package:compound/services/whishlist_service.dart';
+import 'package:compound/utils/image_selector.dart';
+import 'package:get_it/get_it.dart';
+
+import 'services/address_service.dart';
+import 'services/dynamic_link_service.dart';
 
 GetIt locator = GetIt.instance;
 

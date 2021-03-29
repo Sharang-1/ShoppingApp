@@ -1,10 +1,11 @@
-import 'package:flutter/material.dart';
-import '../shared/app_colors.dart';
-import 'package:compound/ui/shared/app_colors.dart';
-import 'package:compound/constants/route_names.dart';
-import 'package:compound/services/navigation_service.dart';
-import 'package:compound/locator.dart';
 import 'dart:async';
+
+import 'package:flutter/material.dart';
+
+import '../../constants/route_names.dart';
+import '../../locator.dart';
+import '../../services/navigation_service.dart';
+import '../shared/app_colors.dart';
 
 // ignore: camel_case_types
 class loader extends StatefulWidget {

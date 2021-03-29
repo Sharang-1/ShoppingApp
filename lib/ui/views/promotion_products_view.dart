@@ -1,23 +1,22 @@
-import 'package:compound/models/grid_view_builder_filter_models/whishlist_filter_model.dart';
-import 'package:compound/models/products.dart';
-import 'package:compound/ui/shared/app_colors.dart';
-import 'package:compound/ui/shared/ui_helpers.dart';
-
-import 'package:compound/ui/widgets/GridListWidget.dart';
-import 'package:compound/ui/widgets/ProductTileUI.dart';
-import 'package:compound/viewmodels/grid_view_builder_view_models/wishlist_grid_view_builder_view_model.dart';
-import 'package:compound/viewmodels/whishlist_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider_architecture/provider_architecture.dart';
-import '../shared/shared_styles.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-
-import 'package:compound/locator.dart';
 import 'package:share/share.dart';
-import 'package:compound/constants/dynamic_links.dart';
-import 'package:compound/services/dynamic_link_service.dart';
+
+import '../../constants/dynamic_links.dart';
+import '../../locator.dart';
+import '../../models/grid_view_builder_filter_models/whishlist_filter_model.dart';
+import '../../models/products.dart';
+import '../../services/dynamic_link_service.dart';
+import '../../viewmodels/grid_view_builder_view_models/wishlist_grid_view_builder_view_model.dart';
+import '../../viewmodels/whishlist_view_model.dart';
+import '../shared/app_colors.dart';
+import '../shared/shared_styles.dart';
+import '../shared/ui_helpers.dart';
+import '../widgets/GridListWidget.dart';
+import '../widgets/ProductTileUI.dart';
 
 class PromotionProduct extends StatefulWidget {
   final String promotionId;

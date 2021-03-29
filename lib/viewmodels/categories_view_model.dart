@@ -1,9 +1,9 @@
-import 'package:compound/constants/route_names.dart';
-import 'package:compound/locator.dart';
-import 'package:compound/models/productPageArg.dart';
-import 'package:compound/services/navigation_service.dart';
-import 'package:compound/services/analytics_service.dart';
-import 'package:compound/viewmodels/base_model.dart';
+import '../constants/route_names.dart';
+import '../locator.dart';
+import '../models/productPageArg.dart';
+import '../services/analytics_service.dart';
+import '../services/navigation_service.dart';
+import 'base_model.dart';
 
 class CategoriesViewModel extends BaseModel {
   final NavigationService _navigationService = locator<NavigationService>();

@@ -1,20 +1,21 @@
-import 'package:compound/models/grid_view_builder_filter_models/productFilter.dart';
-import 'package:compound/models/grid_view_builder_filter_models/sellerFilter.dart';
-import 'package:compound/models/products.dart';
-import 'package:compound/models/sellers.dart';
-import 'package:compound/ui/shared/app_colors.dart';
-import 'package:compound/ui/shared/shared_styles.dart';
-import 'package:compound/ui/widgets/GridListWidget.dart';
-import 'package:compound/ui/widgets/ProductTileUI.dart';
-import 'package:compound/viewmodels/grid_view_builder_view_models/products_grid_view_builder_view_model.dart';
-import 'package:compound/viewmodels/grid_view_builder_view_models/sellers_grid_view_builder_view.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:compound/constants/shared_pref.dart';
-import 'package:compound/viewmodels/search_view_model.dart';
-import 'package:compound/ui/shared/debouncer.dart';
+
+import '../../constants/shared_pref.dart';
+import '../../models/grid_view_builder_filter_models/productFilter.dart';
+import '../../models/grid_view_builder_filter_models/sellerFilter.dart';
+import '../../models/products.dart';
+import '../../models/sellers.dart';
+import '../../viewmodels/grid_view_builder_view_models/products_grid_view_builder_view_model.dart';
+import '../../viewmodels/grid_view_builder_view_models/sellers_grid_view_builder_view.dart';
+import '../../viewmodels/search_view_model.dart';
+import '../shared/app_colors.dart';
+import '../shared/debouncer.dart';
+import '../shared/shared_styles.dart';
+import '../widgets/GridListWidget.dart';
+import '../widgets/ProductTileUI.dart';
 import '../widgets/cart_icon_badge.dart';
 
 class WishlistView extends StatefulWidget {

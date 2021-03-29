@@ -1,15 +1,11 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:compound/constants/server_urls.dart';
-import 'package:compound/models/Appointments.dart';
-import 'package:compound/models/TimeSlots.dart';
-import 'package:compound/models/appUpdate.dart';
-import 'package:compound/models/lookups.dart';
-import 'package:compound/models/sellerProfile.dart';
-import 'package:dio/dio.dart';
-import 'package:fimber/fimber.dart';
-import 'package:flutter/material.dart';
 
+// import '../../locator.dart';
+// import '../dialog_service.dart';
+// import '../../locator.dart';
+
+import 'package:compound/models/user_details.dart';
 // import 'package:compound/models/order.dart';
 // import 'package:flutter/material.dart';
 // import 'package:dio/dio.dart';
@@ -18,31 +14,29 @@ import 'package:flutter/material.dart';
 import 'package:compound/services/api/AppInterceptor.dart';
 import 'package:compound/services/api/CustomLogInterceptor.dart';
 import 'package:compound/services/api/performance_interceptor.dart';
+import 'package:dio/dio.dart';
+import 'package:fimber/fimber.dart';
+import 'package:flutter/material.dart';
 
-import 'package:compound/models/calculatedPrice.dart';
-import 'package:compound/models/cart.dart' as CartModule;
-import 'package:compound/models/categorys.dart';
-import 'package:compound/models/orders.dart';
-import 'package:compound/models/order.dart' as OrderModule;
-import 'package:compound/models/payment_options.dart';
-import 'package:compound/models/products.dart';
-import 'package:compound/models/promoCode.dart';
-import 'package:compound/models/promotions.dart';
-import 'package:compound/models/reviews.dart';
-import 'package:compound/models/sellers.dart';
-import 'package:compound/models/tailors.dart';
-// import 'package:get/get.dart' as GetModule;
-
-// import 'package:compound/services/api/AppInterceptor.dart';
-// import 'package:compound/services/api/CustomLogInterceptor.dart';
-
-// import '../../locator.dart';
-// import '../dialog_service.dart';
-// import '../../locator.dart';
-
-import 'package:compound/models/user_details.dart';
-
+import '../../constants/server_urls.dart';
 import '../../locator.dart';
+import '../../models/Appointments.dart';
+import '../../models/TimeSlots.dart';
+import '../../models/appUpdate.dart';
+import '../../models/calculatedPrice.dart';
+import '../../models/cart.dart' as CartModule;
+import '../../models/categorys.dart';
+import '../../models/lookups.dart';
+import '../../models/order.dart' as OrderModule;
+import '../../models/orders.dart';
+import '../../models/payment_options.dart';
+import '../../models/products.dart';
+import '../../models/promoCode.dart';
+import '../../models/promotions.dart';
+import '../../models/reviews.dart';
+import '../../models/sellerProfile.dart';
+import '../../models/sellers.dart';
+import '../../models/tailors.dart';
 import '../dialog_service.dart';
 import '../error_handling_service.dart';
 

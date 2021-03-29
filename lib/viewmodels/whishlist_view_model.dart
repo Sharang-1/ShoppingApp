@@ -1,4 +1,4 @@
-import 'package:compound/viewmodels/base_model.dart';
+import 'base_model.dart';
 
 class WhishListViewModel extends BaseModel {
   Future init() {

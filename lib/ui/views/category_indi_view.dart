@@ -1,19 +1,21 @@
-import 'package:compound/models/grid_view_builder_filter_models/productFilter.dart';
-import 'package:compound/models/products.dart';
-import 'package:compound/ui/shared/app_colors.dart';
-import 'package:compound/ui/shared/shared_styles.dart';
-import 'package:compound/ui/widgets/GridListWidget.dart';
-import 'package:compound/ui/widgets/ProductTileUI.dart';
-import 'package:compound/ui/widgets/custom_text.dart';
-import 'package:compound/viewmodels/categories_view_model.dart';
-import 'package:compound/viewmodels/grid_view_builder_view_models/products_grid_view_builder_view_model.dart';
 import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:compound/ui/widgets/ProductFilterDialog.dart';
+
+import '../../models/grid_view_builder_filter_models/productFilter.dart';
+import '../../models/products.dart';
+import '../../viewmodels/categories_view_model.dart';
+import '../../viewmodels/grid_view_builder_view_models/products_grid_view_builder_view_model.dart';
+import '../shared/app_colors.dart';
+import '../shared/shared_styles.dart';
+import '../widgets/GridListWidget.dart';
+import '../widgets/ProductFilterDialog.dart';
+import '../widgets/ProductTileUI.dart';
+import '../widgets/custom_text.dart';
 
 class CategoryIndiView extends StatefulWidget {
   final String queryString;
@@ -74,7 +76,7 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
                 SmartRefresher(
                   enablePullDown: true,
                   header: WaterDropHeader(
-                    waterDropColor: Colors.blue,
+                    waterDropColor: Color.fromRGBO(62, 83, 119, 1.0),
                     refresh: Container(),
                     complete: Container(),
                   ),

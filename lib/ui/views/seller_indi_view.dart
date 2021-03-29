@@ -1,36 +1,37 @@
-import 'package:compound/constants/route_names.dart';
-import 'package:compound/constants/server_urls.dart';
-import 'package:compound/models/grid_view_builder_filter_models/productFilter.dart';
-import 'package:compound/models/grid_view_builder_filter_models/sellerFilter.dart';
-import 'package:compound/models/productPageArg.dart';
-import 'package:compound/models/products.dart';
-import 'package:compound/models/sellers.dart';
-import 'package:compound/services/navigation_service.dart';
-import 'package:compound/services/analytics_service.dart';
-import 'package:compound/ui/widgets/GridListWidget.dart';
-import 'package:compound/ui/widgets/ProductTileUI.dart';
-import 'package:compound/ui/widgets/reviews.dart';
-import 'package:compound/ui/widgets/newcarddesigns/seller_profile_slider.dart';
-import 'package:compound/ui/widgets/sellerAppointmentBottomSheet.dart';
-import 'package:compound/ui/widgets/sellerTileUi.dart';
-import 'package:compound/ui/widgets/writeReview.dart';
-import 'package:compound/viewmodels/grid_view_builder_view_models/products_grid_view_builder_view_model.dart';
-import 'package:compound/viewmodels/grid_view_builder_view_models/sellers_grid_view_builder_view.dart';
-import 'package:sliver_fab/sliver_fab.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:compound/ui/shared/ui_helpers.dart';
-import 'package:compound/ui/widgets/custom_text.dart';
-import 'package:compound/ui/widgets/seller_status.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
+import 'package:share/share.dart';
+import 'package:sliver_fab/sliver_fab.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../../constants/dynamic_links.dart';
+import '../../constants/route_names.dart';
+import '../../constants/server_urls.dart';
+import '../../locator.dart';
+import '../../models/grid_view_builder_filter_models/productFilter.dart';
+import '../../models/grid_view_builder_filter_models/sellerFilter.dart';
+import '../../models/productPageArg.dart';
+import '../../models/products.dart';
+import '../../models/sellers.dart';
+import '../../services/analytics_service.dart';
+import '../../services/dynamic_link_service.dart';
+import '../../services/navigation_service.dart';
+import '../../viewmodels/grid_view_builder_view_models/products_grid_view_builder_view_model.dart';
+import '../../viewmodels/grid_view_builder_view_models/sellers_grid_view_builder_view.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
-import 'package:share/share.dart';
-import 'package:compound/constants/dynamic_links.dart';
-import 'package:compound/services/dynamic_link_service.dart';
-import 'package:compound/locator.dart';
-import 'package:intl/intl.dart';
+import '../shared/ui_helpers.dart';
+import '../widgets/GridListWidget.dart';
+import '../widgets/ProductTileUI.dart';
+import '../widgets/custom_text.dart';
+import '../widgets/newcarddesigns/seller_profile_slider.dart';
+import '../widgets/reviews.dart';
+import '../widgets/sellerAppointmentBottomSheet.dart';
+import '../widgets/sellerTileUi.dart';
+import '../widgets/seller_status.dart';
+import '../widgets/writeReview.dart';
 
 class SellerIndi extends StatefulWidget {
   final Seller data;
@@ -639,13 +640,17 @@ class _SellerIndiState extends State<SellerIndi> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(left: 15.0),
-                            child: Text(
-                              "Explore Designer's",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: titleFontSizeStyle),
+                          Expanded(
+                              child: Padding(
+                              padding: const EdgeInsets.only(left: 15.0),
+                              child: Text(
+                                "Explore Designer's Collection",
+                                overflow: TextOverflow.visible,
+                                maxLines: 2,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: titleFontSizeStyle),
+                              ),
                             ),
                           ),
                           InkWell(
@@ -671,23 +676,6 @@ class _SellerIndiState extends State<SellerIndi> {
                             },
                           ),
                         ],
-                      ),
-                    if (widget.data.subscriptionTypeId == 1 &&
-                        showExploreSection)
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(left: 15.0),
-                            child: Text(
-                              "Collection",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: titleFontSizeStyle),
-                            ),
-                          ),
-                        ]
                       ),
                     if (widget.data.subscriptionTypeId == 1 &&
                         showExploreSection)

@@ -1,5 +1,6 @@
-import 'package:compound/models/grid_view_builder_filter_models/base_filter_model.dart';
 import 'package:flutter/material.dart';
+
+import '../../models/grid_view_builder_filter_models/base_filter_model.dart';
 
 abstract class BaseGridViewBuilderViewModel<T, I> extends ChangeNotifier {
   Future init();

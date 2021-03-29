@@ -1,20 +1,19 @@
-import 'package:compound/ui/shared/app_colors.dart';
-import 'package:compound/ui/shared/shared_styles.dart';
-import 'package:compound/ui/shared/ui_helpers.dart';
-import 'package:compound/ui/widgets/custom_text.dart';
-import 'package:compound/ui/widgets/GridListWidget.dart';
-import 'package:compound/viewmodels/orders_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:provider_architecture/provider_architecture.dart';
-import './myorders_details_view.dart';
-import 'package:compound/constants/route_names.dart';
-import 'package:compound/locator.dart';
-import 'package:compound/constants/server_urls.dart';
-import 'package:compound/services/navigation_service.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
-import '../widgets/custom_text.dart';
-import '../shared/app_colors.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider_architecture/provider_architecture.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+
+import '../../constants/route_names.dart';
+import '../../constants/server_urls.dart';
+import '../../locator.dart';
+import '../../services/navigation_service.dart';
+import '../../viewmodels/orders_view_model.dart';
+import '../shared/app_colors.dart';
+import '../shared/shared_styles.dart';
+import '../shared/ui_helpers.dart';
+import '../widgets/GridListWidget.dart';
+import '../widgets/custom_text.dart';
+import 'myorders_details_view.dart';
 
 class MyOrdersView extends StatefulWidget {
   @override

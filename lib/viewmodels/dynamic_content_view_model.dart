@@ -1,15 +1,16 @@
-import 'package:compound/constants/route_names.dart';
-import 'package:compound/models/products.dart';
-import 'package:compound/models/productPageArg.dart';
-import 'package:compound/models/sellers.dart';
-import 'package:compound/models/promotions.dart';
-import 'package:compound/locator.dart';
-import 'package:compound/services/api/api_service.dart';
-import 'package:compound/services/navigation_service.dart';
-import 'package:compound/services/authentication_service.dart';
-import 'base_model.dart';
 import 'package:flutter/material.dart';
-import 'package:compound/ui/views/promotion_products_view.dart';
+
+import '../constants/route_names.dart';
+import '../locator.dart';
+import '../models/productPageArg.dart';
+import '../models/products.dart';
+import '../models/promotions.dart';
+import '../models/sellers.dart';
+import '../services/api/api_service.dart';
+import '../services/authentication_service.dart';
+import '../services/navigation_service.dart';
+import '../ui/views/promotion_products_view.dart';
+import 'base_model.dart';
 
 class DynamicContentViewModel extends BaseModel {
   final APIService _apiService = locator<APIService>();

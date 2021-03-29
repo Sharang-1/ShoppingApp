@@ -1,8 +1,9 @@
-import 'package:compound/viewmodels/appointments_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider_architecture/provider_architecture.dart';
-import '../widgets/circular_progress_indicator.dart';
+
+import '../../viewmodels/appointments_view_model.dart';
 import '../shared/app_colors.dart';
+import '../widgets/circular_progress_indicator.dart';
 
 class AppointmentBookedView extends StatelessWidget {
   @override

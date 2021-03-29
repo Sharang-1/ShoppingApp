@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'calculatedPrice.dart';
 
 PromoCode promoCodeFromJson(String str) => PromoCode.fromJson(json.decode(str));

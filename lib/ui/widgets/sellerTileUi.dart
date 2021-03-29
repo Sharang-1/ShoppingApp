@@ -1,17 +1,17 @@
-import 'package:compound/constants/route_names.dart';
-import 'package:compound/constants/server_urls.dart';
-import 'package:compound/models/productPageArg.dart';
-import 'package:compound/models/sellers.dart';
-import 'package:compound/services/navigation_service.dart';
-import 'package:compound/services/api/api_service.dart';
-import 'package:compound/ui/shared/app_colors.dart';
-import 'package:compound/ui/shared/ui_helpers.dart';
-
-import 'package:compound/ui/widgets/custom_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import '../../constants/route_names.dart';
+import '../../constants/server_urls.dart';
 import '../../locator.dart';
+import '../../models/productPageArg.dart';
+import '../../models/sellers.dart';
+import '../../services/api/api_service.dart';
+import '../../services/navigation_service.dart';
+import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
+import '../shared/ui_helpers.dart';
+import 'custom_text.dart';
 
 class SellerTileUi extends StatelessWidget {
   final Seller data;

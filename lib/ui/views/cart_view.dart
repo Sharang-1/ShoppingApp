@@ -1,15 +1,3 @@
-import 'package:compound/constants/route_names.dart';
-import 'package:compound/models/CartCountSetUp.dart';
-import 'package:compound/ui/shared/app_colors.dart';
-import 'package:compound/ui/shared/ui_helpers.dart';
-import 'package:compound/models/cart.dart';
-import 'package:compound/models/grid_view_builder_filter_models/cartFilter.dart';
-import 'package:compound/ui/views/home_view.dart';
-import 'package:compound/ui/widgets/CartTileUI.dart';
-
-import 'package:compound/ui/widgets/GridListWidget.dart';
-import 'package:compound/viewmodels/cart_view_model.dart';
-import 'package:compound/viewmodels/grid_view_builder_view_models/cart_grid_view_builder_view_model.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,8 +5,20 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+
+import '../../constants/route_names.dart';
+import '../../models/CartCountSetUp.dart';
+import '../../models/cart.dart';
+import '../../models/grid_view_builder_filter_models/cartFilter.dart';
+import '../../viewmodels/cart_view_model.dart';
+import '../../viewmodels/grid_view_builder_view_models/cart_grid_view_builder_view_model.dart';
+import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
+import '../shared/ui_helpers.dart';
+import '../widgets/CartTileUI.dart';
+import '../widgets/GridListWidget.dart';
 import '../widgets/custom_stepper.dart';
+import 'home_view.dart';
 
 class CartView extends StatefulWidget {
   final String productId;

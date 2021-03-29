@@ -1,9 +1,10 @@
-import 'package:compound/viewmodels/verify_otp_model.dart';
 import 'package:flutter/material.dart';
-import 'package:provider_architecture/provider_architecture.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../widgets/circular_progress_indicator.dart';
+import 'package:provider_architecture/provider_architecture.dart';
+
+import '../../viewmodels/verify_otp_model.dart';
 import '../shared/app_colors.dart';
+import '../widgets/circular_progress_indicator.dart';
 
 class OtpVerifiedView extends StatelessWidget {
   @override

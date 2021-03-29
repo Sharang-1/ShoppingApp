@@ -1,22 +1,23 @@
-import 'package:compound/logger.dart';
-import 'package:compound/models/CartCountSetUp.dart';
-import 'package:compound/models/LookupSetUp.dart';
-import 'package:compound/models/WhishListSetUp.dart';
 // import 'package:compound/services/analytics_service.dart';
 import 'package:compound/ui/shared/app_colors.dart';
 import 'package:compound/ui/views/startup_view.dart';
 import 'package:flutter/material.dart';
-import 'package:compound/services/navigation_service.dart';
-import 'package:compound/services/dialog_service.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 // import 'package:compound/services/error_handling_service.dart';
 import 'package:get/get.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
-import 'managers/dialog_manager.dart';
-import 'ui/router.dart';
+
 import 'locator.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'logger.dart';
+import 'managers/dialog_manager.dart';
+import 'models/CartCountSetUp.dart';
+import 'models/LookupSetUp.dart';
+import 'models/WhishListSetUp.dart';
+import 'services/dialog_service.dart';
+import 'services/navigation_service.dart';
+import 'ui/router.dart';
 // import 'package:catcher/catcher.dart';
 
 void main() {

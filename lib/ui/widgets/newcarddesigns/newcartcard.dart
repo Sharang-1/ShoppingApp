@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:compound/ui/shared/app_colors.dart';
+
+import '../../shared/app_colors.dart';
 
 class RestaurantListItem3 extends StatelessWidget {
   final String imageUrl;

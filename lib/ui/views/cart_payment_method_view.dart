@@ -1,25 +1,24 @@
-import 'package:compound/models/user_details.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-
-import 'package:compound/services/navigation_service.dart';
-import 'package:compound/services/error_handling_service.dart';
-import 'package:compound/ui/widgets/custom_stepper.dart';
-import 'package:compound/ui/widgets/custom_text.dart';
-import 'package:compound/ui/shared/ui_helpers.dart';
-import 'package:compound/constants/route_names.dart';
-import 'package:compound/models/order.dart';
-
 // import 'package:compound/ui/shared/ui_helpers.dart';
 // import 'package:compound/ui/widgets/custom_stepper.dart';
 // import 'package:compound/ui/widgets/custom_text.dart';
 import 'package:compound/viewmodels/cart_payment_method_view_model.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 // import 'package:flutter/material.dart';
 // import 'package:flutter_svg/svg.dart';
 import 'package:provider_architecture/provider_architecture.dart';
+
+import '../../constants/route_names.dart';
 import '../../locator.dart';
+import '../../models/order.dart';
+import '../../models/user_details.dart';
+import '../../services/error_handling_service.dart';
+import '../../services/navigation_service.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
+import '../shared/ui_helpers.dart';
+import '../widgets/custom_stepper.dart';
+import '../widgets/custom_text.dart';
 
 class PaymentMethod extends StatefulWidget {
   final String finalTotal;

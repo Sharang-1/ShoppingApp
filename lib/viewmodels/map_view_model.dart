@@ -1,11 +1,12 @@
-import 'package:compound/locator.dart';
-import 'package:compound/models/sellers.dart';
-import 'package:compound/models/tailors.dart';
-import 'package:compound/services/api/api_service.dart';
-import 'package:compound/services/analytics_service.dart';
-import 'package:compound/services/location_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+import '../locator.dart';
+import '../models/sellers.dart';
+import '../models/tailors.dart';
+import '../services/analytics_service.dart';
+import '../services/api/api_service.dart';
+import '../services/location_service.dart';
 import 'base_model.dart';
 
 class MapViewModel extends BaseModel {
@@ -80,6 +81,18 @@ class MapViewModel extends BaseModel {
 
   void onMapCreated(controller) {
     mapController = controller;
+  }
+
+  void onLocationIconClicked() async {
+    try {
+      mapController.animateCamera(CameraUpdate.newCameraPosition(
+        CameraPosition(
+          bearing: 0,
+          target: LatLng(currentLocation.latitude, currentLocation.longitude),
+          zoom: 17.0,
+        ),
+      ));
+    } catch (e) {}
   }
 
   setClientCardsToSeller(bool toSeller) {

@@ -1,19 +1,19 @@
 // import 'package:compound/constants/route_names.dart';
 import 'package:compound/constants/route_names.dart';
 import 'package:compound/constants/server_urls.dart';
+import 'package:compound/constants/shared_pref.dart';
 import 'package:compound/locator.dart';
+import 'package:compound/models/orders.dart';
 import 'package:compound/models/productPageArg.dart';
 import 'package:compound/models/promotions.dart';
-import 'package:compound/models/orders.dart';
 import 'package:compound/models/user_details.dart';
 import 'package:compound/services/api/api_service.dart';
 import 'package:compound/services/cart_local_store_service.dart';
-import 'package:compound/services/whishlist_service.dart';
 import 'package:compound/services/navigation_service.dart';
-import 'package:compound/constants/shared_pref.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:compound/services/whishlist_service.dart';
 import 'package:compound/viewmodels/base_model.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeViewModel extends BaseModel {
   final CartLocalStoreService _cartLocalStoreService =

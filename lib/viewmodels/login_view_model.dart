@@ -1,12 +1,12 @@
-import 'package:compound/constants/route_names.dart';
-import 'package:compound/locator.dart';
-import 'package:compound/models/route_argument.dart';
-import 'package:compound/services/authentication_service.dart';
-import 'package:compound/services/navigation_service.dart';
 import 'package:fimber/fimber_base.dart';
 import 'package:flutter/foundation.dart';
 import 'package:page_transition/page_transition.dart';
 
+import '../constants/route_names.dart';
+import '../locator.dart';
+import '../models/route_argument.dart';
+import '../services/authentication_service.dart';
+import '../services/navigation_service.dart';
 import 'base_model.dart';
 
 class LoginViewModel extends BaseModel {

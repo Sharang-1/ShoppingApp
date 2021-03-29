@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
+
 import '../shared/app_colors.dart';
-import 'package:compound/ui/shared/shared_styles.dart';
+import '../shared/shared_styles.dart';
 
 class ShareDialog extends StatelessWidget {
   const ShareDialog({Key key}) : super(key: key);

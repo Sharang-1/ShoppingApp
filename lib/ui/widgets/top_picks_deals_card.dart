@@ -1,11 +1,12 @@
-import 'package:compound/constants/server_urls.dart';
-import 'package:compound/ui/shared/app_colors.dart';
-import 'package:compound/ui/shared/shared_styles.dart';
-import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:compound/utils/stringUtils.dart';
+
+import '../../constants/server_urls.dart';
+import '../../utils/stringUtils.dart';
+import '../shared/app_colors.dart';
+import '../shared/shared_styles.dart';
+import '../shared/ui_helpers.dart';
 import 'custom_text.dart';
 
 class TopPicksAndDealsCard extends StatelessWidget {

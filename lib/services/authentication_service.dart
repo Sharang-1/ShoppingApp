@@ -1,12 +1,12 @@
-import 'package:compound/locator.dart';
-import 'package:compound/models/user.dart';
 // import 'package:compound/services/analytics_service.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/foundation.dart';
-import 'package:compound/services/api/api_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constants/shared_pref.dart';
+import '../locator.dart';
+import '../models/user.dart';
+import 'api/api_service.dart';
 
 class AuthenticationService {
   final APIService _apiService = locator<APIService>();

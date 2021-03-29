@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../shared/app_colors.dart';
 
 /// A button that shows a busy indicator in place of title

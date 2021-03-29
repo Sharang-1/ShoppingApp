@@ -1,16 +1,17 @@
 import 'dart:async';
 
-import 'package:compound/ui/shared/ui_helpers.dart';
-import 'package:compound/ui/widgets/busy_button_circular.dart';
-import 'package:compound/ui/widgets/text_link.dart';
-import 'package:compound/viewmodels/verify_otp_model.dart';
 import 'package:flutter/material.dart';
-import 'package:provider_architecture/provider_architecture.dart';
-import 'package:pin_code_text_field/pin_code_text_field.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:pin_code_text_field/pin_code_text_field.dart';
+import 'package:provider_architecture/provider_architecture.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../../viewmodels/verify_otp_model.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
+import '../shared/ui_helpers.dart';
+import '../widgets/busy_button_circular.dart';
+import '../widgets/text_link.dart';
 
 class VerifyOTPView extends StatefulWidget {
   @override

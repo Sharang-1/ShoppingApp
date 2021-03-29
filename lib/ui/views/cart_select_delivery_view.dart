@@ -1,17 +1,18 @@
-import 'package:compound/models/user_details.dart';
-import 'package:compound/ui/shared/app_colors.dart';
-import 'package:compound/ui/shared/shared_styles.dart';
-import 'package:compound/ui/shared/ui_helpers.dart';
-import 'package:compound/ui/views/address_input_form_view.dart';
-import 'package:compound/ui/views/cart_payment_method_view.dart';
-import 'package:compound/ui/widgets/custom_stepper.dart';
-import 'package:compound/ui/widgets/custom_text.dart';
-import 'package:compound/viewmodels/cart_select_delivery_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider_architecture/provider_architecture.dart';
-import 'package:compound/google_maps_place_picker/google_maps_place_picker.dart';
+
+import '../../google_maps_place_picker/google_maps_place_picker.dart';
+import '../../models/user_details.dart';
+import '../../viewmodels/cart_select_delivery_view_model.dart';
+import '../shared/app_colors.dart';
+import '../shared/shared_styles.dart';
+import '../shared/ui_helpers.dart';
+import '../widgets/custom_stepper.dart';
+import '../widgets/custom_text.dart';
+import 'address_input_form_view.dart';
+import 'cart_payment_method_view.dart';
 
 class SelectAddress extends StatefulWidget {
   final String finalTotal;

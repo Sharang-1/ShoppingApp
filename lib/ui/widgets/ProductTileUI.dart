@@ -1,15 +1,16 @@
-import 'package:compound/constants/server_urls.dart';
-import 'package:compound/models/WhishListSetUp.dart';
-import 'package:compound/models/products.dart';
-import 'package:compound/services/whishlist_service.dart';
-import 'package:compound/ui/shared/shared_styles.dart';
-import 'package:compound/ui/widgets/wishlist_icon.dart';
-import 'package:compound/utils/tools.dart';
-import 'package:provider/provider.dart';
-import '../../locator.dart';
-import '../shared/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:compound/utils/stringUtils.dart';
+import 'package:provider/provider.dart';
+
+import '../../constants/server_urls.dart';
+import '../../locator.dart';
+import '../../models/WhishListSetUp.dart';
+import '../../models/products.dart';
+import '../../services/whishlist_service.dart';
+import '../../utils/stringUtils.dart';
+import '../../utils/tools.dart';
+import '../shared/app_colors.dart';
+import '../shared/shared_styles.dart';
+import 'wishlist_icon.dart';
 
 class ProductTileUI extends StatefulWidget {
   final Product data;

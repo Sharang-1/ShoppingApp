@@ -1,21 +1,21 @@
-import 'package:compound/models/user_details.dart';
-import 'package:compound/services/location_service.dart';
-import 'package:compound/ui/shared/app_colors.dart';
-import 'package:compound/ui/shared/shared_styles.dart';
-import 'package:compound/ui/shared/ui_helpers.dart';
-import 'package:compound/ui/widgets/custom_text.dart';
-import 'package:compound/viewmodels/address_view_model.dart';
 import 'package:fimber/fimber_base.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 // import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:compound/google_maps_place_picker/google_maps_place_picker.dart';
 import 'package:provider_architecture/viewmodel_provider.dart';
 
+import '../../google_maps_place_picker/google_maps_place_picker.dart';
 // added some stuff here
 
 import '../../locator.dart';
+import '../../models/user_details.dart';
+import '../../services/location_service.dart';
+import '../../viewmodels/address_view_model.dart';
+import '../shared/app_colors.dart';
+import '../shared/shared_styles.dart';
+import '../shared/ui_helpers.dart';
+import '../widgets/custom_text.dart';
 
 class AddressInputPage extends StatefulWidget {
   @override

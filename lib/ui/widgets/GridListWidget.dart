@@ -1,11 +1,12 @@
 import 'package:async/async.dart';
-import 'package:compound/models/grid_view_builder_filter_models/base_filter_model.dart';
-import 'package:compound/ui/shared/ui_helpers.dart';
-import 'package:compound/viewmodels/grid_view_builder_view_models/base_grid_view_builder_view_model.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider_architecture/provider_architecture.dart';
+
+import '../../models/grid_view_builder_filter_models/base_filter_model.dart';
+import '../../viewmodels/grid_view_builder_view_models/base_grid_view_builder_view_model.dart';
+import '../shared/ui_helpers.dart';
 
 // Type and Enum declarations
 enum LoadMoreStatus { LOADING, STABLE }

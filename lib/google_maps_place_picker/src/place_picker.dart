@@ -1,18 +1,19 @@
 import 'dart:async';
+import 'dart:io' show Platform;
 
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:compound/google_maps_place_picker/google_maps_place_picker.dart';
-import 'package:compound/google_maps_place_picker/providers/place_provider.dart';
-import 'package:compound/google_maps_place_picker/src/autocomplete_search.dart';
-import 'package:compound/google_maps_place_picker/src/controllers/autocomplete_search_controller.dart';
-import 'package:compound/google_maps_place_picker/src/google_map_place_picker.dart';
-import 'package:compound/google_maps_place_picker/src/utils/uuid.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:http/http.dart';
 import 'package:provider/provider.dart';
-import 'dart:io' show Platform;
+
+import '../google_maps_place_picker.dart';
+import '../providers/place_provider.dart';
+import 'autocomplete_search.dart';
+import 'controllers/autocomplete_search_controller.dart';
+import 'google_map_place_picker.dart';
+import 'utils/uuid.dart';
 
 enum PinState { Preparing, Idle, Dragging }
 enum SearchingState { Idle, Searching }

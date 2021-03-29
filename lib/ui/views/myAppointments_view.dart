@@ -1,17 +1,18 @@
-import 'package:compound/models/Appointments.dart';
-import 'package:compound/ui/shared/app_colors.dart';
-import 'package:compound/ui/shared/ui_helpers.dart';
-import 'package:compound/ui/views/help_view.dart';
-import 'package:compound/ui/widgets/custom_text.dart';
-import 'package:compound/viewmodels/appointments_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+
+import '../../models/Appointments.dart';
+import '../../viewmodels/appointments_view_model.dart';
+import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
-import 'package:compound/ui/widgets/GridListWidget.dart';
+import '../shared/ui_helpers.dart';
+import '../widgets/GridListWidget.dart';
+import '../widgets/custom_text.dart';
+import 'help_view.dart';
 
 // ignore: camel_case_types
 class myAppointments extends StatefulWidget {

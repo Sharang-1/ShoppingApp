@@ -1,8 +1,3 @@
-import 'package:compound/constants/route_names.dart';
-import 'package:compound/locator.dart';
-import 'package:compound/models/lookups.dart';
-import 'package:compound/models/products.dart';
-import 'package:compound/models/sellers.dart';
 // import 'package:compound/models/user_details.dart';
 // import 'package:compound/services/address_service.dart';
 import 'package:compound/services/api/api_service.dart';
@@ -11,13 +6,18 @@ import 'package:compound/services/dialog_service.dart';
 // import 'package:compound/services/dialog_service.dart';
 import 'package:compound/services/navigation_service.dart';
 import 'package:compound/services/whishlist_service.dart';
+
+import '../constants/route_names.dart';
+import '../locator.dart';
+import '../models/lookups.dart';
+import '../models/products.dart';
+import '../models/sellers.dart';
+import '../services/analytics_service.dart';
 // import 'package:compound/ui/views/address_input_form_view.dart';
 // import 'package:flutter/material.dart';
 // import 'package:google_maps_place_picker/google_maps_place_picker.dart';
 // import 'package:page_transition/page_transition.dart';
 import '../services/api/api_service.dart';
-import 'package:compound/services/analytics_service.dart';
-
 import 'base_model.dart';
 
 class ProductIndividualViewModel extends BaseModel {

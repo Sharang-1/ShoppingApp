@@ -1,15 +1,15 @@
-import 'package:compound/ui/shared/app_colors.dart';
-import 'package:compound/ui/shared/shared_styles.dart';
-import 'package:compound/ui/shared/ui_helpers.dart';
 // import 'package:compound/ui/widgets/busy_button.dart';
 // import 'package:compound/ui/widgets/expansion_list.dart';
 import 'package:compound/viewmodels/reviews_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:compound/ui/widgets/input_field.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 
+import '../shared/app_colors.dart';
+import '../shared/shared_styles.dart';
+import '../shared/ui_helpers.dart';
 import 'custom_text.dart';
+import 'input_field.dart';
 
 class WriteReviewWidget extends StatefulWidget {
   final String productId;

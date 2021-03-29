@@ -1,9 +1,11 @@
 import 'dart:async';
-import 'package:compound/models/internet_connection.dart';
+
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:fimber/fimber.dart';
-import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../models/internet_connection.dart';
 // import 'package:catcher/catcher.dart';
 
 // CatcherOptions debugOptions = CatcherOptions(

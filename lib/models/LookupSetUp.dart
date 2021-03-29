@@ -1,5 +1,6 @@
-import 'package:compound/models/lookups.dart';
 import 'package:flutter/material.dart';
+
+import 'lookups.dart';
 
 class LookupSetUp extends ChangeNotifier{
   LookupSetUp({

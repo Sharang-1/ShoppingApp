@@ -1,6 +1,7 @@
-import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:flutter/material.dart';
-import 'package:compound/ui/shared/app_colors.dart';
+
+import '../shared/app_colors.dart';
+import '../shared/ui_helpers.dart';
 
 class CutomStepper extends StatelessWidget {
   final int step;

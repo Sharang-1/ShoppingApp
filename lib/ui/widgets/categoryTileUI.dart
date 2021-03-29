@@ -1,8 +1,9 @@
-import 'package:compound/constants/server_urls.dart';
-import 'package:compound/models/categorys.dart';
-import 'package:compound/ui/shared/shared_styles.dart';
-import 'package:compound/utils/tools.dart';
 import 'package:flutter/material.dart';
+
+import '../../constants/server_urls.dart';
+import '../../models/categorys.dart';
+import '../../utils/tools.dart';
+import '../shared/shared_styles.dart';
 
 class CategoryTileUI extends StatelessWidget {
   final Category data;

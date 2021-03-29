@@ -1,8 +1,8 @@
-import 'package:compound/locator.dart';
-import 'package:compound/models/grid_view_builder_filter_models/base_filter_model.dart';
-import 'package:compound/models/sellers.dart';
-import 'package:compound/services/api/api_service.dart';
-import 'package:compound/viewmodels/grid_view_builder_view_models/base_grid_view_builder_view_model.dart';
+import '../../locator.dart';
+import '../../models/grid_view_builder_filter_models/base_filter_model.dart';
+import '../../models/sellers.dart';
+import '../../services/api/api_service.dart';
+import 'base_grid_view_builder_view_model.dart';
 // import 'package:compound/constants/route_names.dart';
 // import 'package:compound/constants/shared_pref.dart';
 // import 'package:compound/locator.dart';
@@ -89,7 +89,8 @@ class SellersGridViewBuilderViewModel
 
     if (this.random) {
       res.items.shuffle();
-      res.items = res.items.sublist(0, 10);
+      if(res.items.length > pageSize)
+      res.items = res.items.sublist(0, pageSize);
     }
 
     if (res == null) throw "Error occured";

@@ -1,8 +1,9 @@
-import 'package:compound/viewmodels/orders_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider_architecture/provider_architecture.dart';
-import '../shared/shared_styles.dart';
+
+import '../../viewmodels/orders_view_model.dart';
 import '../shared/app_colors.dart';
+import '../shared/shared_styles.dart';
 
 class OrderPlacedView extends StatelessWidget {
   final String productName, sellerName;

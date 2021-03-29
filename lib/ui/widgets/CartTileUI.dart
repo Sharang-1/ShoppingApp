@@ -1,13 +1,14 @@
-import 'package:compound/locator.dart';
-import 'package:compound/models/cart.dart';
-import 'package:compound/services/api/api_service.dart';
-import 'package:compound/ui/shared/app_colors.dart';
-import 'package:compound/ui/shared/shared_styles.dart';
-import 'package:compound/ui/shared/ui_helpers.dart';
-import 'package:compound/ui/views/cart_select_delivery_view.dart';
-import 'package:compound/ui/widgets/CartProductTileUI.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+
+import '../../locator.dart';
+import '../../models/cart.dart';
+import '../../services/api/api_service.dart';
+import '../shared/app_colors.dart';
+import '../shared/shared_styles.dart';
+import '../shared/ui_helpers.dart';
+import '../views/cart_select_delivery_view.dart';
+import 'CartProductTileUI.dart';
 
 class CartTileUI extends StatefulWidget {
   final Item item;

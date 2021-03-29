@@ -1,4 +1,4 @@
-import 'package:compound/models/grid_view_builder_filter_models/base_filter_model.dart';
+import 'base_filter_model.dart';
 
 class WhishListFilter implements BaseFilterModel {
   String _queryString;

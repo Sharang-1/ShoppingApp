@@ -1,9 +1,10 @@
-import 'package:compound/ui/shared/shared_styles.dart';
-import 'package:compound/ui/shared/app_colors.dart';
-import 'package:compound/ui/views/gallery_view.dart';
-import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/material.dart';
+
+import '../shared/app_colors.dart';
+import '../shared/shared_styles.dart';
+import 'gallery_view.dart';
 
 class HomeSlider extends StatefulWidget {
   final List<String> imgList;
