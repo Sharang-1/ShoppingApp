@@ -6,6 +6,7 @@ import '../constants/route_names.dart';
 import '../constants/shared_pref.dart';
 import '../locator.dart';
 import '../models/route_argument.dart';
+import '../models/user_details.dart';
 import '../services/address_service.dart';
 import '../services/analytics_service.dart';
 import '../services/api/api_service.dart';
@@ -82,15 +83,16 @@ class VerifyOTPViewModel extends BaseModel {
       await _addressService.setUpAddress(mUserDetails.contact);
       await _apiService.updateUserData(mUserDetails);
 
-      try{
-         await _analyticsService.sendAnalyticsEvent(eventName: "login");
-      } catch(e){}
+      try {
+        await _analyticsService.sendAnalyticsEvent(eventName: "login");
+      } catch (e) {}
 
       _navigationService.navigateReplaceTo(OtpVerifiedRoute);
     } else {
       await _dialogService.showDialog(
         title: 'Incorrect OTP',
-        description: 'The OTP, you have entered is incorrect. Please try again.',
+        description:
+            'The OTP, you have entered is incorrect. Please try again.',
       );
     }
   }
@@ -100,6 +102,12 @@ class VerifyOTPViewModel extends BaseModel {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     name = prefs.getString(Name);
     notifyListeners();
+
+    if (loader) {
+      UserDetails user = await _apiService.getUserData();
+      user.name = name;
+      await _apiService.updateUserData(user);
+    }
 
     Future.delayed(Duration(milliseconds: loader ? 1500 : 3000), () async {
       _navigationService

@@ -641,15 +641,18 @@ class _SellerIndiState extends State<SellerIndi> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Expanded(
-                              child: Padding(
-                              padding: const EdgeInsets.only(left: 15.0),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 15.0, right: 8.0),
                               child: Text(
                                 "Explore Designer's Collection",
                                 overflow: TextOverflow.visible,
                                 maxLines: 2,
+                                textAlign: TextAlign.justify,
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: titleFontSizeStyle),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: titleFontSizeStyle,
+                                ),
                               ),
                             ),
                           ),

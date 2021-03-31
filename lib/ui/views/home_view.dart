@@ -68,7 +68,11 @@ class _HomeViewState extends State<HomeView> {
       bool doNotOpenAgain =
           preferences.getBool('rateMyApp_doNotOpenAgain') ?? false;
 
-      if (mounted && !doNotOpenAgain && (launches > 0) && (launches % 2 == 0) && (launches % 5 == 0)) {
+      if (mounted &&
+          !doNotOpenAgain &&
+          (launches > 0) &&
+          (launches % 2 == 0) &&
+          (launches % 5 == 0)) {
         await rateMyApp.showRateDialog(context, title: 'Dzor',
             // message: '',
             onDismissed: () async {
@@ -226,7 +230,7 @@ class _HomeViewState extends State<HomeView> {
                       ),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
-                          horizontal: 30,
+                          horizontal: 15,
                           vertical: 8,
                         ),
                         child: Row(
@@ -236,13 +240,18 @@ class _HomeViewState extends State<HomeView> {
                               color: appBarIconColor,
                             ),
                             horizontalSpaceSmall,
-                            Text(
-                              "Designers or their Creations",
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.grey[600],
-                                  fontFamily: "Raleway",
-                                  fontWeight: FontWeight.normal),
+                            FittedBox(
+                              fit: BoxFit.fitWidth,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                child: Text(
+                                  "Designers or their Creations",
+                                  style: TextStyle(
+                                      color: Colors.grey[600],
+                                      fontFamily: "Raleway",
+                                      fontWeight: FontWeight.normal),
+                                ),
+                              ),
                             ),
                           ],
                         ),

@@ -1020,13 +1020,27 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.all(10.0),
-                                child: Text(
-                                  widget?.data?.description ?? "",
-                                  textAlign: TextAlign.justify,
-                                  style: TextStyle(
-                                    fontSize: subtitleFontSizeStyle - 5,
-                                    color: Colors.black,
-                                  ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Description',
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                        fontSize: subtitleFontSizeStyle - 3,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                    verticalSpaceSmall,
+                                    Text(
+                                      widget?.data?.description ?? "",
+                                      textAlign: TextAlign.justify,
+                                      style: TextStyle(
+                                        fontSize: subtitleFontSizeStyle - 5,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                               Divider(
@@ -1044,13 +1058,15 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                         expanded: true,
                       ),
                       verticalSpace(20),
-                      Text(
-                        "   Sold By",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: titleFontSizeStyle),
-                      ),
-                      verticalSpace(5),
+                      if (model?.selleDetail?.subscriptionTypeId != 2)
+                        Text(
+                          "   Sold By",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: titleFontSizeStyle),
+                        ),
+                      if (model?.selleDetail?.subscriptionTypeId != 2)
+                        verticalSpace(5),
                       GestureDetector(
                         onTap: () {
                           if (model?.selleDetail?.subscriptionTypeId == 2) {

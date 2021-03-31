@@ -188,7 +188,7 @@ class _HomeViewListState extends State<HomeViewList> {
           ),
           verticalSpace(30),
           HomeViewListHeader(
-            title: 'Explore Our Designer\'s Creations',
+            title: 'Explore Designer\'s Creations',
             viewAll: () {
               widget.model.goToProductListPage(ProductPageArg(
                 queryString: '',

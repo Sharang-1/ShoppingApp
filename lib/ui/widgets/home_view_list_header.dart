@@ -25,11 +25,15 @@ class HomeViewListHeader extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(title,
-                      style: TextStyle(
-                          color: Colors.grey[800],
-                          fontSize: subtitleFontSizeStyle + 2,
-                          fontWeight: FontWeight.w700)),
+                  Text(
+                    title,
+                    textAlign: TextAlign.justify,
+                    style: TextStyle(
+                      color: Colors.grey[800],
+                      fontSize: subtitleFontSizeStyle + 2,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
                   if (subTitle != null) verticalSpaceTiny,
                   if (subTitle != null)
                     Text(
