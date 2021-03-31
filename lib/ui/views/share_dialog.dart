@@ -23,7 +23,7 @@ class ShareDialog extends StatelessWidget {
               fontSize: (subtitleFontSizeStyle - 1),
             ),
           ),
-          RaisedButton(
+          ElevatedButton(
             onPressed: () async =>
                 await Share.share("https://dzor.page.link/App"),
             child: Text(
@@ -35,9 +35,11 @@ class ShareDialog extends StatelessWidget {
                 fontSize: (subtitleFontSizeStyle - 1),
               ),
             ),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30),
-                side: BorderSide(color: textIconOrange, width: 2)),
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  side: BorderSide(color: textIconOrange, width: 2)),
+            ),
           ),
         ],
       ),

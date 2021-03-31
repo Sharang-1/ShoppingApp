@@ -56,7 +56,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
   int paymentMethodRadioValue = 1;
   int paymentMethodGrpValue = 1;
   final NavigationService _navigationService = locator<NavigationService>();
-  final ErrorHandlingService _errorHandlingService = locator<ErrorHandlingService>();
+  final ErrorHandlingService _errorHandlingService =
+      locator<ErrorHandlingService>();
 
   Map<int, Widget> iconpaymentMethodMap = {
     1: Tab(icon: Image.asset("assets/images/cash_icon.png")),
@@ -106,8 +107,14 @@ class _PaymentMethodState extends State<PaymentMethod> {
             right: screenPadding,
             bottom: 10,
           ),
-          child: RaisedButton(
-            elevation: 5,
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              elevation: 5,
+              primary: green,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30),
+              ),
+            ),
             onPressed: () async {
               final Order res = await model.createOrder(
                 widget.billingAddress.googleAddress,
@@ -128,10 +135,6 @@ class _PaymentMethodState extends State<PaymentMethod> {
                 _errorHandlingService.showError(Errors.CouldNotPlaceAnOrder);
               }
             },
-            color: green,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30),
-            ),
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 15),
               child: Text(

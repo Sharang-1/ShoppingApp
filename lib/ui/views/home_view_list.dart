@@ -639,23 +639,21 @@ class _HomeViewListState extends State<HomeViewList> {
               SizedBox(
                 height: 50,
                 width: MediaQuery.of(context).size.width * 0.6,
-                child: FlatButton(
+                child: TextButton(
                   onPressed: () {
                     widget.model.showSellers();
                   },
-                  color: darkRedSmooth,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(curve30),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 15),
-                    child: Text(
-                      "Search Designers",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18),
+                  style: TextButton.styleFrom(
+                    primary: Colors.white,
+                    backgroundColor: darkRedSmooth,
+                    textStyle:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(curve30),
                     ),
+                  ),
+                  child: Text(
+                    "Search Designers",
                   ),
                 ),
               ),

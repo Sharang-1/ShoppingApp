@@ -43,8 +43,8 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
             model.busy
                 ? Center(child: CircularProgressIndicator())
                 : Padding(
-                  padding: EdgeInsets.only(bottom: 60.0),
-                  child: Scrollbar(
+                    padding: EdgeInsets.only(bottom: 60.0),
+                    child: Scrollbar(
                       child: SingleChildScrollView(
                           child: Container(
                         color: Colors.white,
@@ -57,7 +57,8 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                   padding: EdgeInsets.symmetric(
                                       vertical: 10, horizontal: 30),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: <Widget>[
                                       CustomText(
                                         widget.sellerData.name,
@@ -101,8 +102,8 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                                   Container(
                                                       decoration: BoxDecoration(
                                                           color: textIconOrange,
-                                                          shape:
-                                                              BoxShape.rectangle,
+                                                          shape: BoxShape
+                                                              .rectangle,
                                                           // border: Border.all(
 
                                                           //     width: 0.7, color: Colors.grey),
@@ -110,13 +111,13 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                                               BorderRadius
                                                                   .circular(
                                                                       curve15)),
-                                                      width:
-                                                          ((MediaQuery.of(context)
-                                                                          .size
-                                                                          .width -
-                                                                      60) /
-                                                                  4) -
-                                                              1.2,
+                                                      width: ((MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width -
+                                                                  60) /
+                                                              4) -
+                                                          1.2,
                                                       height: 80,
                                                       child: Column(
                                                         mainAxisAlignment:
@@ -127,16 +128,20 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                                             DateFormat('MMM')
                                                                 .format(DateTime
                                                                     .now()),
-                                                            textStyle: TextStyle(
+                                                            textStyle:
+                                                                TextStyle(
                                                               fontWeight:
-                                                                  FontWeight.bold,
+                                                                  FontWeight
+                                                                      .bold,
                                                               fontSize: 20,
-                                                              color: Colors.white,
+                                                              color:
+                                                                  Colors.white,
                                                             ),
                                                           ),
                                                           verticalSpaceTiny_0,
                                                           Icon(
-                                                            Icons.calendar_today,
+                                                            Icons
+                                                                .calendar_today,
                                                             color: Colors.white,
                                                           )
                                                         ],
@@ -179,16 +184,15 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                                                     // Text(timeSlot.day
                                                                     //     .toString()),
                                                                     CircleAvatar(
-                                                                      radius: 25,
+                                                                      radius:
+                                                                          25,
                                                                       child:
                                                                           Column(
                                                                         mainAxisAlignment:
-                                                                            MainAxisAlignment
-                                                                                .center,
+                                                                            MainAxisAlignment.center,
                                                                         children: [
                                                                           CustomText(
-                                                                            timeSlot
-                                                                                .day,
+                                                                            timeSlot.day,
                                                                             fontSize:
                                                                                 subtitleFontSizeStyle - 4,
                                                                             color: model.selectedWeekDay == timeSlot.day
@@ -208,11 +212,9 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                                                         ],
                                                                       ),
                                                                       backgroundColor: model.selectedWeekDay ==
-                                                                              timeSlot
-                                                                                  .day
+                                                                              timeSlot.day
                                                                           ? textIconOrange
-                                                                          : Colors
-                                                                              .white,
+                                                                          : Colors.white,
                                                                     ),
                                                                   ],
                                                                 ),
@@ -260,35 +262,32 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                                         .timeSlotsData.timeSlot
                                                         .firstWhere((t) =>
                                                             t.day ==
-                                                            model.selectedWeekDay)
+                                                            model
+                                                                .selectedWeekDay)
                                                         .time
                                                         .map((time) => Padding(
-                                                            padding: EdgeInsets.only(
-                                                                right: 5),
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    right: 5),
                                                             child: ChoiceChip(
                                                                 backgroundColor:
-                                                                    model.seltectedTime == time
+                                                                    model.seltectedTime ==
+                                                                            time
                                                                         ? textIconOrange
                                                                         : Colors
                                                                             .white,
-                                                                shape:
-                                                                    RoundedRectangleBorder(
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(
-                                                                                15),
-                                                                        side:
-                                                                            BorderSide(
-                                                                          color: model.seltectedTime ==
-                                                                                  time
-                                                                              ? textIconOrange
-                                                                              : Colors.grey,
-                                                                          width:
-                                                                              0.5,
-                                                                        )),
-                                                                labelStyle: TextStyle(
-                                                                    fontSize: subtitleFontSizeStyle - 4,
-                                                                    fontWeight: model.seltectedTime == time ? FontWeight.w600 : FontWeight.normal,
-                                                                    color: model.seltectedTime == time ? Colors.white : Colors.grey),
+                                                                shape: RoundedRectangleBorder(
+                                                                    borderRadius: BorderRadius.circular(15),
+                                                                    side: BorderSide(
+                                                                      color: model.seltectedTime ==
+                                                                              time
+                                                                          ? textIconOrange
+                                                                          : Colors
+                                                                              .grey,
+                                                                      width:
+                                                                          0.5,
+                                                                    )),
+                                                                labelStyle: TextStyle(fontSize: subtitleFontSizeStyle - 4, fontWeight: model.seltectedTime == time ? FontWeight.w600 : FontWeight.normal, color: model.seltectedTime == time ? Colors.white : Colors.grey),
                                                                 selectedColor: textIconOrange,
                                                                 label: Text(
                                                                   getTime(time) +
@@ -300,10 +299,9 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                                                 selected: model.seltectedTime == time,
                                                                 onSelected: (val) {
                                                                   setState(() {
-                                                                    model.seltectedTime =
-                                                                        val
-                                                                            ? time
-                                                                            : null;
+                                                                    model.seltectedTime = val
+                                                                        ? time
+                                                                        : null;
                                                                     // selectedIndex = index;
                                                                   });
                                                                 })))
@@ -333,7 +331,8 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                           "Alterations",
                                           "Other"
                                         ].map((e) => DropdownMenuItem<String>(
-                                            value: e, child: Text(e)))).toList(),
+                                            value: e,
+                                            child: Text(e)))).toList(),
                                         onChanged: (value) {
                                           setState(() {
                                             _taskMsg = value.toString();
@@ -347,7 +346,7 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                         ),
                       )),
                     ),
-                ),
+                  ),
             Align(
               alignment: Alignment.topRight,
               child: IconButton(
@@ -367,20 +366,22 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                 child: Row(
                   children: <Widget>[
                     Expanded(
-                        child: RaisedButton(
-                            elevation: 5,
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              elevation: 5,
+                              primary: logoRed,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
+                                // side: BorderSide(
+                                //     color: Colors.black, width: 0.5)
+                              ),
+                            ),
                             onPressed: _taskMsg == ""
                                 ? null
                                 : () {
                                     model.bookAppointment(
                                         widget.sellerData.key, _taskMsg);
                                   },
-                            color: logoRed,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
-                              // side: BorderSide(
-                              //     color: Colors.black, width: 0.5)
-                            ),
                             child: Padding(
                               padding: const EdgeInsets.symmetric(vertical: 15),
                               child: Text(

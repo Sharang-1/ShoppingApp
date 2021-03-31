@@ -163,20 +163,22 @@ class _SellerIndiState extends State<SellerIndi> {
           child: Container(
             color: backgroundWhiteCreamColor,
             padding: EdgeInsets.fromLTRB(20, 0, 20, 10),
-            child: RaisedButton(
-              elevation: 5,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                elevation: 5,
+                primary: sellerDetails["appointment"] != "true"
+                    ? darkRedSmooth
+                    : textIconOrange,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  // side: BorderSide(
+                  //     color: Colors.black, width: 0.5)
+                ),
+              ),
               onPressed: () {
                 _showBottomSheet(context, sellerDetails);
                 if (sellerDetails["appointment"] != "true") {}
               },
-              color: sellerDetails["appointment"] != "true"
-                  ? darkRedSmooth
-                  : textIconOrange,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30),
-                // side: BorderSide(
-                //     color: Colors.black, width: 0.5)
-              ),
               child: Container(
                 // width: MediaQuery.of(context).size.width,
                 padding: const EdgeInsets.symmetric(vertical: 15),
@@ -424,22 +426,24 @@ class _SellerIndiState extends State<SellerIndi> {
                                       ),
                                     ],
                                   ),
-                                  RaisedButton(
+                                  ElevatedButton(
                                       onPressed: () {
                                         _navigationService.navigateTo(
                                             MapViewRoute,
                                             arguments: widget?.data?.key);
                                       },
-                                      color: Colors.white,
-                                      elevation: 0,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(30),
-                                          side: BorderSide(
-                                              width: 1.5, color: logoRed)
-                                          // side: BorderSide(
-                                          //     color: Colors.black, width: 0.5)
-                                          ),
+                                      style: ElevatedButton.styleFrom(
+                                        primary: Colors.white,
+                                        elevation: 0,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(30),
+                                            side: BorderSide(
+                                                width: 1.5, color: logoRed)
+                                            // side: BorderSide(
+                                            //     color: Colors.black, width: 0.5)
+                                            ),
+                                      ),
                                       child: Container(
                                           padding: const EdgeInsets.symmetric(
                                               vertical: 6),

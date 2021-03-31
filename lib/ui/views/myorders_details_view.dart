@@ -597,8 +597,16 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                     ],
                                   ),
                                   verticalSpace(50),
-                                  RaisedButton(
-                                    elevation: 0,
+                                  ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      elevation: 0,
+                                      primary: backgroundWhiteCreamColor,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(30),
+                                          side: BorderSide(
+                                              color: textIconOrange, width: 2)),
+                                    ),
                                     onPressed: () async =>
                                         await showModalBottomSheet(
                                       isScrollControlled: true,
@@ -609,11 +617,6 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                       context: context,
                                       builder: (con) => HelpView(),
                                     ),
-                                    color: backgroundWhiteCreamColor,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(30),
-                                        side: BorderSide(
-                                            color: textIconOrange, width: 2)),
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 15),
@@ -676,7 +679,7 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                     Text("Name : " + dItem.product.name),
                     Text("Price : " + dItem.product.price.toString()),
                     Text("Qty : " + dItem.quantity.toString()),
-                    RaisedButton(
+                    ElevatedButton(
                       onPressed: () {},
                       child: Text("Remove Item"),
                     )

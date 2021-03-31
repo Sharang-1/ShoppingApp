@@ -71,8 +71,14 @@ class _SelectAddressState extends State<SelectAddress> {
             bottom: 10,
             top: 0,
           ),
-          child: RaisedButton(
-            elevation: 5,
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              elevation: 5,
+              primary: green,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(curve30),
+              ),
+            ),
             onPressed: disabledPayment
                 ? null
                 : () {
@@ -94,10 +100,6 @@ class _SelectAddressState extends State<SelectAddress> {
                           type: PageTransitionType.rightToLeft),
                     );
                   },
-            color: green,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(curve30),
-            ),
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 15),
               child: Text(
@@ -138,8 +140,16 @@ class _SelectAddressState extends State<SelectAddress> {
                   verticalSpace(20),
                   Padding(
                     padding: const EdgeInsets.all(10),
-                    child: RaisedButton(
-                        elevation: 5,
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          elevation: 5,
+                          primary: darkRedSmooth,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            // side: BorderSide(
+                            //     color: Colors.black, width: 0.5)
+                          ),
+                        ),
                         onPressed: () async {
                           PickResult pickedPlace = await Navigator.push(
                             context,
@@ -151,25 +161,22 @@ class _SelectAddressState extends State<SelectAddress> {
                           if (pickedPlace != null) {
                             UserDetailsContact userAdd =
                                 await showModalBottomSheet(
-                                  isScrollControlled: true,
+                                    isScrollControlled: true,
                                     context: context,
                                     builder: (_) => Padding(
-                                      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-                                                                          child: BottomSheetForAddress(
+                                          padding: EdgeInsets.only(
+                                              bottom: MediaQuery.of(context)
+                                                  .viewInsets
+                                                  .bottom),
+                                          child: BottomSheetForAddress(
                                             pickedPlace: pickedPlace,
                                           ),
-                                    ));
+                                        ));
                             if (userAdd != null) {
                               model.addAddress(userAdd);
                             }
                           }
                         },
-                        color: darkRedSmooth,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                          // side: BorderSide(
-                          //     color: Colors.black, width: 0.5)
-                        ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[

@@ -108,13 +108,13 @@ class _CartTileUIState extends State<CartTileUI> {
 
       _controller.text = "";
 
-      Scaffold.of(context).showSnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(
         new SnackBar(content: Text("Promocode Applied Successfully!")),
       );
     } else {
       _controller.text = "";
 
-      Scaffold.of(context).showSnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(
         new SnackBar(content: Text("Invalid Promocode")),
       );
     }
@@ -168,16 +168,18 @@ class _CartTileUIState extends State<CartTileUI> {
                             ),
                           ),
                         ),
-                        RaisedButton(
-                          elevation: 0,
-                          padding: EdgeInsets.all(0),
-                          onPressed: applyPromoCode,
-                          color: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                            // side: BorderSide(
-                            //     color: Colors.black, width: 0.5)
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            elevation: 0,
+                            padding: EdgeInsets.all(0),
+                            primary: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              // side: BorderSide(
+                              //     color: Colors.black, width: 0.5)
+                            ),
                           ),
+                          onPressed: applyPromoCode,
                           child: Text(
                             "Apply",
                             style: TextStyle(
@@ -192,14 +194,16 @@ class _CartTileUIState extends State<CartTileUI> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            RaisedButton(
-              elevation: 0,
-              onPressed: onCartItemDelete,
-              color: backgroundWhiteCreamColor,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30),
-                side: BorderSide(color: logoRed, width: 1.5),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                elevation: 0,
+                primary: backgroundWhiteCreamColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  side: BorderSide(color: logoRed, width: 1.5),
+                ),
               ),
+              onPressed: onCartItemDelete,
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 12),
                 child: Text(
@@ -210,13 +214,15 @@ class _CartTileUIState extends State<CartTileUI> {
             ),
             horizontalSpaceMedium,
             Expanded(
-              child: RaisedButton(
-                elevation: 5,
-                onPressed: proceedToOrder,
-                color: green,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  elevation: 5,
+                  primary: green,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
                 ),
+                onPressed: proceedToOrder,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 12),
                   child: Text(

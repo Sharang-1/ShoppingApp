@@ -483,15 +483,17 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                 Row(
                   children: <Widget>[
                     Expanded(
-                      child: RaisedButton(
-                        elevation: 5,
-                        onPressed: widget.proceedToOrder,
-                        color: green,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                          // side: BorderSide(
-                          //     color: Colors.black, width: 0.5)
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          elevation: 5,
+                          primary: green,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            // side: BorderSide(
+                            //     color: Colors.black, width: 0.5)
+                          ),
                         ),
+                        onPressed: widget.proceedToOrder,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 15),
                           child: Text(

@@ -59,11 +59,11 @@ class _CartViewState extends State<CartView> {
                           content:
                               Text("Do you really want to leave this screen ?"),
                           actions: [
-                            RaisedButton(
+                            ElevatedButton(
                               onPressed: () {},
                               child: Text("Yes"),
                             ),
-                            RaisedButton(
+                            ElevatedButton(
                               onPressed: () {
                                 return;
                               },
@@ -499,7 +499,7 @@ class _CartViewState extends State<CartView> {
                 Row(
                   children: <Widget>[
                     Expanded(
-                      child: RaisedButton(
+                      child: ElevatedButton(
                         elevation: 5,
                         onPressed: () {
                           Navigator.push(
@@ -595,7 +595,7 @@ class _CartViewState extends State<CartView> {
                       verticalSpaceMedium,
                       Row(children: <Widget>[
                         Expanded(
-                            child: RaisedButton(
+                            child: ElevatedButton(
                                 elevation: 5,
                                 onPressed: () {
                                   Navigator.push(
@@ -785,7 +785,7 @@ SizedBox(
                         ),
                         FractionallySizedBox(
                           heightFactor: 0.7,
-                          child: RaisedButton(
+                          child: ElevatedButton(
                             elevation: 5,
                             onPressed: () {},
                             color: darkRedSmooth,
@@ -807,7 +807,7 @@ SizedBox(
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      RaisedButton(
+                      ElevatedButton(
                         elevation: 0,
                         onPressed: () {},
                         color: backgroundWhiteCreamColor,
@@ -825,7 +825,7 @@ SizedBox(
                       ),
                       horizontalSpaceMedium,
                       Expanded(
-                        child: RaisedButton(
+                        child: ElevatedButton(
                           elevation: 5,
                           onPressed: () {
                             Navigator.pushReplacement(
@@ -890,7 +890,7 @@ SizedBox(
                     Text("Name : " + dItem.product.name),
                     Text("Price : " + dItem.product.price.toString()),
                     Text("Qty : " + dItem.quantity.toString()),
-                    RaisedButton(
+                    ElevatedButton(
                       onPressed: () {},
                       child: Text("Remove Item"),
                     )

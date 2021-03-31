@@ -103,7 +103,7 @@ class _AddressInputPageState extends State<AddressInputPage> {
                       //                     textAlign: TextAlign.center,
                       //                   ),
                       //                   SizedBox(height: 10),
-                      //                   RaisedButton(
+                      //                   ElevatedButton(
                       //                     padding: EdgeInsets.symmetric(
                       //                         horizontal: 15, vertical: 10),
                       //                     child: Text(
@@ -239,7 +239,7 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
                       ),
                     ),
                     // horizontalSpaceMedium,
-                    // RaisedButton(
+                    // ElevatedButton(
                     //   elevation: 5,
                     //   onPressed: () {},
                     //   color: darkRedSmooth,
@@ -272,8 +272,8 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
                             return "Please enter Proper Address";
                           return null;
                         },
-                        onChanged: (text){
-                          setState((){
+                        onChanged: (text) {
+                          setState(() {
                             _userInputedAddressStringController.text;
                           });
                         },
@@ -326,9 +326,21 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
                   alignment: Alignment.bottomCenter,
                   child: SizedBox(
                     width: double.infinity,
-                    child: RaisedButton(
-                      elevation: 5,
-                      onPressed: _userInputedAddressStringController.text.trim().isEmpty ? null : () {
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        elevation: 5,
+                        primary: green,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                          // side: BorderSide(
+                          //     color: Colors.black, width: 0.5)
+                        ),
+                      ),
+                      onPressed: _userInputedAddressStringController.text
+                              .trim()
+                              .isEmpty
+                          ? null
+                          : () {
                               final userInputAddressString =
                                   _userInputedAddressStringController.text;
                               final googleAddresString =
@@ -367,12 +379,6 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
                                 state: gujState,
                               ));
                             },
-                      color: green,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                        // side: BorderSide(
-                        //     color: Colors.black, width: 0.5)
-                      ),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 12),
                         child: CustomText(

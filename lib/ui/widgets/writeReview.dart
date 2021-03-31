@@ -39,19 +39,21 @@ class _WriteReviewWidget extends State<WriteReviewWidget> {
                   ? Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
-                        RaisedButton(
+                        ElevatedButton(
                             onPressed: () {
                               model.toggleFormVisibility();
                             },
-                            color: backgroundWhiteCreamColor,
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30),
-                                side: BorderSide(
-                                    width: 1.5, color: textIconOrange)
-                                // side: BorderSide(
-                                //     color: Colors.black, width: 0.5)
-                                ),
+                            style: ElevatedButton.styleFrom(
+                              primary: backgroundWhiteCreamColor,
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                  side: BorderSide(
+                                      width: 1.5, color: textIconOrange)
+                                  // side: BorderSide(
+                                  //     color: Colors.black, width: 0.5)
+                                  ),
+                            ),
                             child: Container(
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 10),
@@ -114,12 +116,14 @@ class _WriteReviewWidget extends State<WriteReviewWidget> {
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: <Widget>[
-                                      new FlatButton(
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(30),
+                                      new TextButton(
+                                        style: TextButton.styleFrom(
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(30),
+                                          ),
+                                          backgroundColor: logoRed,
                                         ),
-                                        color: logoRed,
                                         child: new CustomText(
                                           "Send",
                                           color: Colors.white,
@@ -135,16 +139,18 @@ class _WriteReviewWidget extends State<WriteReviewWidget> {
                                       SizedBox(
                                         width: 15,
                                       ),
-                                      new FlatButton(
+                                      new TextButton(
                                         child: new CustomText(
                                           "Cancel",
                                           color: Colors.white,
                                         ),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(30),
+                                        style: TextButton.styleFrom(
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(30),
+                                          ),
+                                          backgroundColor: Colors.grey[400],
                                         ),
-                                        color: Colors.grey[400],
                                         onPressed: () {
                                           model.toggleFormVisibility();
                                           textController.text = "";

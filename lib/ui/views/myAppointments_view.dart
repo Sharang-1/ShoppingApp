@@ -96,24 +96,25 @@ class _myAppointmentsState extends State<myAppointments> {
                                       fontSize: headingFontSize),
                                 ),
                               ),
-                              if(!model.busy && (model?.data?.appointments?.length ?? 0) != 0)
-                              Align(
-                                alignment: Alignment.topRight,
-                                child: GestureDetector(
-                                    onTap: () async =>
-                                        await showModalBottomSheet(
-                                          isScrollControlled: true,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.vertical(
-                                                      top: Radius.circular(
-                                                          curve30))),
-                                          clipBehavior: Clip.antiAlias,
-                                          context: context,
-                                          builder: (con) => HelpView(),
-                                        ),
-                                    child: Icon(Icons.help)),
-                              ),
+                              if (!model.busy &&
+                                  (model?.data?.appointments?.length ?? 0) != 0)
+                                Align(
+                                  alignment: Alignment.topRight,
+                                  child: GestureDetector(
+                                      onTap: () async =>
+                                          await showModalBottomSheet(
+                                            isScrollControlled: true,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.vertical(
+                                                        top: Radius.circular(
+                                                            curve30))),
+                                            clipBehavior: Clip.antiAlias,
+                                            context: context,
+                                            builder: (con) => HelpView(),
+                                          ),
+                                      child: Icon(Icons.help)),
+                                ),
                             ],
                           ),
                           verticalSpace(20),
@@ -141,7 +142,7 @@ class _myAppointmentsState extends State<myAppointments> {
     return showDialog<String>(
       context: context,
       useRootNavigator: false,
-      child: new AlertDialog(
+      builder: (context) => AlertDialog(
         contentPadding: const EdgeInsets.all(16.0),
         content: new Row(
           children: <Widget>[
@@ -156,7 +157,7 @@ class _myAppointmentsState extends State<myAppointments> {
           ],
         ),
         actions: <Widget>[
-          new FlatButton(
+          new TextButton(
               child: const Text('OK'),
               onPressed: () {
                 model.cancelAppointment(
@@ -278,14 +279,14 @@ class _myAppointmentsState extends State<myAppointments> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            RaisedButton(
-                elevation: 5,
+            ElevatedButton(
                 onPressed: () {},
-                color: textIconOrange,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
-                  // side: BorderSide(
-                  //     color: Colors.black, width: 0.5)
+                style: ElevatedButton.styleFrom(
+                  elevation: 5,
+                  primary: textIconOrange,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
                 ),
                 child: Padding(
                   padding:
@@ -306,15 +307,16 @@ class _myAppointmentsState extends State<myAppointments> {
             ((data.appointment.status < 2 ||
                     data.appointment.status == "1" ||
                     data.appointment.status == "0")
-                ? RaisedButton(
-                    elevation: 0,
+                ? ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        elevation: 0,
+                        primary: backgroundWhiteCreamColor,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            side: BorderSide(color: logoRed, width: 2))),
                     onPressed: () {
                       _showDialog(context, data, model);
                     },
-                    color: backgroundWhiteCreamColor,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                        side: BorderSide(color: logoRed, width: 2)),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       child: CustomText(

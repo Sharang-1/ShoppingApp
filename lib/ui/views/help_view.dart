@@ -9,14 +9,14 @@ import '../widgets/link_widget.dart';
 class HelpView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return FractionallySizedBox (
+    return FractionallySizedBox(
       heightFactor: 0.6,
-          child: Stack(
+      child: Stack(
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 60.0, left: 8.0, bottom: 60.0),
             child: SingleChildScrollView(
-                          child: Column(
+              child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -95,14 +95,16 @@ class HelpView extends StatelessWidget {
               child: Row(
                 children: <Widget>[
                   Expanded(
-                    child: RaisedButton(
-                      elevation: 3,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        elevation: 3,
+                        primary: Color.fromRGBO(37, 211, 102, 1),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                      ),
                       onPressed: () async =>
                           await launch("https://wa.me/message/V4N3MEQB4BOHC1"),
-                      color: Color.fromRGBO(37, 211, 102, 1),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8),
                         child: Row(

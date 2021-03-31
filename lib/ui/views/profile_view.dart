@@ -84,32 +84,36 @@ class _ProfileViewState extends State<ProfileView> {
                       ),
                       buttonPadding: EdgeInsets.all(12.0),
                       actions: <Widget>[
-                        new FlatButton(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
+                        new TextButton(
+                          style: TextButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            backgroundColor: logoRed,
                           ),
-                          color: logoRed,
                           child: CustomText("Yes", color: Colors.white),
                           onPressed: () {
                             Navigator.pop(context, true);
                           },
                         ),
-                        new FlatButton(
+                        new TextButton(
                           child: CustomText(
                             "No",
                             color: Colors.white,
                           ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
+                          style: TextButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            backgroundColor: Colors.grey[400],
                           ),
-                          color: Colors.grey[400],
                           onPressed: () {
                             Navigator.pop(context, false);
                           },
                         ),
                       ],
                     );
-                  // ignore: missing_return
+                    // ignore: missing_return
                   }).then((result) {
                 if (result == null) return;
                 if (result) {
@@ -125,8 +129,16 @@ class _ProfileViewState extends State<ProfileView> {
                         right: screenPadding,
                         top: 10,
                         bottom: 10),
-                    child: RaisedButton(
-                        elevation: 5,
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          elevation: 5,
+                          primary: isButtonActive ? green : Colors.grey[400],
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            // side: BorderSide(
+                            //     color: Colors.black, width: 0.5)
+                          ),
+                        ),
                         onPressed: () async {
                           if (isButtonActive) if (_formKey.currentState
                               .validate()) {
@@ -142,12 +154,6 @@ class _ProfileViewState extends State<ProfileView> {
                             });
                           }
                         },
-                        color: isButtonActive ? green : Colors.grey[400],
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                          // side: BorderSide(
-                          //     color: Colors.black, width: 0.5)
-                        ),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 15),
                           child: CustomText(
@@ -466,8 +472,17 @@ class _ProfileViewState extends State<ProfileView> {
                                                 ),
                                               ),
                                             )),
-                                      RaisedButton(
-                                          elevation: 5,
+                                      ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            elevation: 5,
+                                            primary: darkRedSmooth,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(30),
+                                              // side: BorderSide(
+                                              //     color: Colors.black, width: 0.5)
+                                            ),
+                                          ),
                                           onPressed: () async {
                                             PickResult pickedPlace =
                                                 await Navigator.push(
@@ -486,20 +501,19 @@ class _ProfileViewState extends State<ProfileView> {
 
                                               UserDetailsContact userAdd =
                                                   await showModalBottomSheet(
-                                                      context: context,
-                                                      isScrollControlled: true,
-                                                      builder: (_) => Padding(
-                                                            padding: EdgeInsets.only(
-                                                                bottom: MediaQuery.of(
-                                                                        context)
-                                                                    .viewInsets
-                                                                    .bottom),
-                                                            child:
-                                                                BottomSheetForAddress(
-                                                              pickedPlace:
-                                                                  pickedPlace,
-                                                            ),
-                                                          ),);
+                                                context: context,
+                                                isScrollControlled: true,
+                                                builder: (_) => Padding(
+                                                  padding: EdgeInsets.only(
+                                                      bottom:
+                                                          MediaQuery.of(context)
+                                                              .viewInsets
+                                                              .bottom),
+                                                  child: BottomSheetForAddress(
+                                                    pickedPlace: pickedPlace,
+                                                  ),
+                                                ),
+                                              );
                                               if (userAdd != null) {
                                                 if (userAdd.city
                                                         .toUpperCase() !=
@@ -527,13 +541,6 @@ class _ProfileViewState extends State<ProfileView> {
                                               }
                                             }
                                           },
-                                          color: darkRedSmooth,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(30),
-                                            // side: BorderSide(
-                                            //     color: Colors.black, width: 0.5)
-                                          ),
                                           child: Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,

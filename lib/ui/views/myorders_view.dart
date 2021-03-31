@@ -89,7 +89,7 @@ class _MyOrdersViewState extends State<MyOrdersView> {
                                     fontWeight: FontWeight.w700,
                                     fontSize: headingFontSize),
                               ),
-                              FlatButton(
+                              TextButton(
                                 child: CustomText(
                                   "Wishlist",
                                   fontFamily: headingFont,
@@ -341,7 +341,7 @@ class _MyOrdersViewState extends State<MyOrdersView> {
                     Text("Name : " + dItem.product.name),
                     Text("Price : " + dItem.product.price.toString()),
                     Text("Qty : " + dItem.quantity.toString()),
-                    RaisedButton(
+                    ElevatedButton(
                       onPressed: () {},
                       child: Text("Remove Item"),
                     )

@@ -41,8 +41,7 @@ class PlaceProvider extends ChangeNotifier {
     try {
       await Permission.location.request();
       if (await Permission.location.request().isGranted) {
-        // ignore: deprecated_member_use
-        currentPosition = await getCurrentPosition(
+        currentPosition = await Geolocator.getCurrentPosition(
             desiredAccuracy: desiredAccuracy ?? LocationAccuracy.high);
       } else {
         currentPosition = null;

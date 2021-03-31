@@ -86,21 +86,25 @@ class SettingsView extends StatelessWidget {
                                         verticalSpaceTiny_0,
                                         Row(children: <Widget>[
                                           Expanded(
-                                              child: RaisedButton(
-                                                  elevation: 0,
+                                              child: ElevatedButton(
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                    elevation: 0,
+                                                    primary: Colors.transparent,
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              30),
+                                                      // side: BorderSide(
+                                                      //     color: Colors.black, width: 0.5)
+                                                    ),
+                                                  ),
                                                   onPressed: () {
                                                     const url =
                                                         'https://dzor.in/policy.html?source=c';
                                                     _launchURL(url);
                                                   },
-                                                  color: Colors.transparent,
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            30),
-                                                    // side: BorderSide(
-                                                    //     color: Colors.black, width: 0.5)
-                                                  ),
                                                   child: Padding(
                                                     padding: const EdgeInsets
                                                             .symmetric(
@@ -116,21 +120,25 @@ class SettingsView extends StatelessWidget {
                                         ]),
                                         Row(children: <Widget>[
                                           Expanded(
-                                              child: RaisedButton(
-                                                  elevation: 0,
+                                              child: ElevatedButton(
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                    elevation: 0,
+                                                    primary: Colors.transparent,
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              30),
+                                                      // side: BorderSide(
+                                                      //     color: Colors.black, width: 0.5)
+                                                    ),
+                                                  ),
                                                   onPressed: () {
                                                     const url =
                                                         'mailto:admin@dzor.in';
                                                     _launchURL(url);
                                                   },
-                                                  color: Colors.transparent,
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            30),
-                                                    // side: BorderSide(
-                                                    //     color: Colors.black, width: 0.5)
-                                                  ),
                                                   child: Padding(
                                                     padding: const EdgeInsets
                                                             .symmetric(
@@ -160,11 +168,18 @@ class SettingsView extends StatelessWidget {
                                                   return <Widget>[
                                                     Row(children: <Widget>[
                                                       Expanded(
-                                                          child: FlatButton(
-                                                              splashColor: Colors
-                                                                  .grey
-                                                                  .withOpacity(
-                                                                      0.1),
+                                                          child: TextButton(
+                                                              style:
+                                                                  ButtonStyle(
+                                                                overlayColor:
+                                                                    MaterialStateColor
+                                                                        .resolveWith(
+                                                                  (states) => Colors
+                                                                      .grey
+                                                                      .withOpacity(
+                                                                          0.1),
+                                                                ),
+                                                              ),
                                                               onPressed: () {
                                                                 _launchURL(
                                                                     buttonToURLMap[

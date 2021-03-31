@@ -405,7 +405,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
         (totalQuantity == 0) ? false : (widget?.data?.available ?? false);
 
     final List<String> imageURLs =
-        (widget?.data?.photo?.photos ?? new List<PhotoElement>())
+        (widget?.data?.photo?.photos ?? <PhotoElement>[])
             .map((e) => '$PRODUCT_PHOTO_BASE_URL/$productId/${e.name}')
             .toList();
 
