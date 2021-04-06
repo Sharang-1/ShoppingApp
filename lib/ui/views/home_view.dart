@@ -240,16 +240,21 @@ class _HomeViewState extends State<HomeView> {
                               color: appBarIconColor,
                             ),
                             horizontalSpaceSmall,
-                            FittedBox(
-                              fit: BoxFit.fitWidth,
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                child: Text(
-                                  "Designers or their Creations",
-                                  style: TextStyle(
-                                      color: Colors.grey[600],
-                                      fontFamily: "Raleway",
-                                      fontWeight: FontWeight.normal),
+                            Expanded(
+                              child: FittedBox(
+                                alignment: Alignment.centerLeft,
+                                fit: BoxFit.scaleDown,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0),
+                                  child: Text(
+                                    "Designers or their Creations",
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.grey[600],
+                                        fontFamily: "Raleway",
+                                        fontWeight: FontWeight.normal),
+                                  ),
                                 ),
                               ),
                             ),

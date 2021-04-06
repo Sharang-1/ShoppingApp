@@ -235,7 +235,7 @@ class _ProductListViewState extends State<ProductListView> {
                                 limit: (widget.queryString.isEmpty &&
                                         widget.subCategory.isEmpty)
                                     ? 50
-                                    : 10),
+                                    : 1000),
                             childAspectRatio: 0.7,
                             tileBuilder: (BuildContext context, data, index,
                                 onUpdate, onDelete) {

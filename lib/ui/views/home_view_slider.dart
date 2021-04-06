@@ -78,15 +78,20 @@ class _HomeSliderState extends State<HomeSlider> {
                           open(context, imgList.indexOf(i));
                         }
                       },
-                      child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(curve15)),
-                        width: MediaQuery.of(context).size.width,
-                        child: CachedNetworkImage(
-                          fit: BoxFit.cover,
-                          imageUrl: i,
-                          errorWidget: (context, url, error) =>
-                              new Icon(Icons.error),
+                      child: Hero(
+                        tag: 'productPhotos',
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(curve15)),
+                          width: MediaQuery.of(context).size.width,
+                          child: CachedNetworkImage(
+                            maxHeightDiskCache: 200,
+                            maxWidthDiskCache: 200,
+                            fit: BoxFit.cover,
+                            imageUrl: i,
+                            errorWidget: (context, url, error) =>
+                                new Icon(Icons.error),
+                          ),
                         ),
                       ),
                     );

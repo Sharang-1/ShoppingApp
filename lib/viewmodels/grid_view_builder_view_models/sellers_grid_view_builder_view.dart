@@ -93,7 +93,7 @@ class SellersGridViewBuilderViewModel
       res.items = res.items.sublist(0, pageSize);
     }
 
-    if (res == null) throw "Error occured";
+    if (res == null) throw "Could not load";
     return res;
   }
 }

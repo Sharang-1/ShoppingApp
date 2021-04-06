@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+
+import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
-import '../shared/app_colors.dart';
 
 class HomeViewListHeader extends StatelessWidget {
   final String title;
@@ -25,23 +26,31 @@ class HomeViewListHeader extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    title,
-                    textAlign: TextAlign.justify,
-                    style: TextStyle(
-                      color: Colors.grey[800],
-                      fontSize: subtitleFontSizeStyle + 2,
-                      fontWeight: FontWeight.w700,
+                  FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      title,
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        color: Colors.grey[800],
+                        fontSize: subtitleFontSizeStyle + 2,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                   ),
                   if (subTitle != null) verticalSpaceTiny,
                   if (subTitle != null)
-                    Text(
-                      subTitle,
-                      style: TextStyle(
-                        color: Colors.grey[600],
-                        fontSize: subtitleFontSizeStyle - 4,
-                        fontWeight: FontWeight.w500,
+                    FittedBox(
+                      fit: BoxFit.scaleDown,
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        subTitle,
+                        style: TextStyle(
+                          color: Colors.grey[600],
+                          fontSize: subtitleFontSizeStyle - 4,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
                 ],
@@ -51,13 +60,17 @@ class HomeViewListHeader extends StatelessWidget {
           if (viewAll != null)
             InkWell(
               child: Padding(
-                padding: EdgeInsets.only(right: 8.0),
-                child: Text(
-                  'View All',
-                  style: TextStyle(
-                    fontSize: subtitleFontSize - 8,
-                    fontWeight: FontWeight.bold,
-                    color: textIconBlue,
+                padding: EdgeInsets.only(right: 8.0, left: 10.0),
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'View All',
+                    style: TextStyle(
+                      fontSize: subtitleFontSize - 8,
+                      fontWeight: FontWeight.bold,
+                      color: textIconBlue,
+                    ),
                   ),
                 ),
               ),

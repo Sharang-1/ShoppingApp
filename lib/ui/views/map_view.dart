@@ -327,7 +327,7 @@ class MapView extends StatelessWidget {
         position: LatLng(client.contact.geoLocation.latitude,
             client.contact.geoLocation.longitude),
         draggable: false,
-        infoWindow: InfoWindow(title: client.name, snippet: '*'),
+        infoWindow: InfoWindow(title: client.name),
         onTap: () {
           // showBottomSheet = true;
           model.currentClient = client;

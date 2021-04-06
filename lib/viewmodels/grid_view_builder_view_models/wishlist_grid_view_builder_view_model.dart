@@ -23,7 +23,7 @@ class WhishListGridViewBuilderViewModel
       {BaseFilterModel filterModel, int pageNumber, int pageSize = 10}) async {
     List<String> list = this.productIds ?? await _whishListService.getWhishList();
     Products res = await _apiService.getWhishlistProducts(list: list);
-    if(res == null) throw "Error occured";
+    if(res == null) throw "Could not load";
     return res;
   }
 }

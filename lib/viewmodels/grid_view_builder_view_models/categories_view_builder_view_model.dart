@@ -31,7 +31,7 @@ class CategoriesGridViewBuilderViewModel
             filterModel.queryString;
     Categorys res =
         await _apiService.getCategory(queryString: _queryString);
-    if (res == null) throw "Error occured";
+    if (res == null) throw "Could not load";
 
     res.items = res.items.where((element) => element.name.trim().toLowerCase() != "n/a").toList();
     res.items.shuffle();

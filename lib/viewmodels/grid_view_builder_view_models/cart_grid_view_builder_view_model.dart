@@ -33,12 +33,12 @@ class CartGridViewBuilderViewModel extends BaseGridViewBuilderViewModel<Cart, It
         .toList();
       res.items = filteredItems;
       print(res);
-      if (res == null) throw "Error occured";
+      if (res == null) throw "Could not load";
       return res;
     }
     print("FRom lit ------------------------------>>>>>>>>");
     print(res);
-    if (res == null) throw "Error occured";
+    if (res == null) throw "Could not load";
     return res;
   }
 

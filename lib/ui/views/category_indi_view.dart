@@ -15,7 +15,6 @@ import '../shared/shared_styles.dart';
 import '../widgets/GridListWidget.dart';
 import '../widgets/ProductFilterDialog.dart';
 import '../widgets/ProductTileUI.dart';
-import '../widgets/custom_text.dart';
 
 class CategoryIndiView extends StatefulWidget {
   final String queryString;
@@ -105,48 +104,59 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
                             automaticallyImplyLeading: false,
                             backgroundColor: logoRed,
                             title: Row(
+                              mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                CustomText(
-                                  widget.subCategory,
-                                  color: Colors.white,
-                                  dotsAfterOverFlow: true,
-                                  fontSize: 25,
-                                  isBold: true,
-                                  isTitle: true,
-                                ),
-                                IconButton(
-                                  iconSize: 50,
-                                  icon: Icon(FontAwesomeIcons.slidersH,
-                                      color: Colors.white, size: 20),
-                                  onPressed: () async {
-                                    ProductFilter filterDialogResponse =
-                                        await showModalBottomSheet(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(20),
-                                            topRight: Radius.circular(20)),
+                                Expanded(
+                                  child: FittedBox(
+                                    alignment: Alignment.centerLeft,
+                                    fit: BoxFit.scaleDown,
+                                    child: Text(
+                                      widget.subCategory,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: "Raleway",
                                       ),
-                                      isScrollControlled: true,
-                                      clipBehavior: Clip.antiAlias,
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return FractionallySizedBox(
-                                            heightFactor: 0.75,
-                                            child: ProductFilterDialog(
-                                              oldFilter: filter,
-                                              showCategories: false,
-                                            ));
-                                      },
-                                    );
+                                    ),
+                                  ),
+                                ),
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                  child: IconButton(
+                                    iconSize: 50,
+                                    icon: Icon(FontAwesomeIcons.slidersH,
+                                        color: Colors.white, size: 20),
+                                    onPressed: () async {
+                                      ProductFilter filterDialogResponse =
+                                          await showModalBottomSheet(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(20),
+                                              topRight: Radius.circular(20)),
+                                        ),
+                                        isScrollControlled: true,
+                                        clipBehavior: Clip.antiAlias,
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return FractionallySizedBox(
+                                              heightFactor: 0.75,
+                                              child: ProductFilterDialog(
+                                                oldFilter: filter,
+                                                showCategories: false,
+                                              ));
+                                        },
+                                      );
 
-                                    if (filterDialogResponse != null) {
-                                      setState(() {
-                                        filter = filterDialogResponse;
-                                        key = UniqueKey();
-                                      });
-                                    }
-                                  },
+                                      if (filterDialogResponse != null) {
+                                        setState(() {
+                                          filter = filterDialogResponse;
+                                          key = UniqueKey();
+                                        });
+                                      }
+                                    },
+                                  ),
                                 ),
                               ],
                             ),

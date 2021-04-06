@@ -56,7 +56,7 @@ class HomeViewModel extends BaseModel {
       "id": lastDeliveredOrder.productId,
       "name": lastDeliveredOrder.product.name,
       "image":
-          '$PRODUCT_PHOTO_BASE_URL/${lastDeliveredOrder.productId}/${lastDeliveredOrder.product.photo.photos.first.name}',
+          '$PRODUCT_PHOTO_BASE_URL/${lastDeliveredOrder.productId}/${lastDeliveredOrder.product.photo.photos.first.name}-small.png',
     };
   }
 

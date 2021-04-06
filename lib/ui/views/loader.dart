@@ -19,7 +19,7 @@ class _loaderState extends State<loader> with SingleTickerProviderStateMixin {
     super.initState();
     final NavigationService _navigationService = locator<NavigationService>();
     Future.delayed(const Duration(seconds: 1),
-        () => _navigationService.navigateReplaceTo(HomeViewRoute));
+        () => _navigationService.navigateAndRemoveUntil(HomeViewRoute));
   }
 
   @override

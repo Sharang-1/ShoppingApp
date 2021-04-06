@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../../locator.dart';
@@ -91,6 +92,7 @@ class _CartTileUIState extends State<CartTileUI> {
 
   void applyPromoCode() async {
     if (_controller.text == "") return;
+    FocusManager.instance.primaryFocus.unfocus();
     final res = await _apiService.applyPromocode(
         widget.item.productId.toString(),
         widget.item.quantity,
@@ -241,22 +243,32 @@ class _CartTileUIState extends State<CartTileUI> {
     );
   }
 
-  void proceedToOrder() {
-    Navigator.push(
-      context,
-      PageTransition(
-        child: SelectAddress(
-          productId: widget.item.productId.toString(),
-          promoCode: promoCode,
-          promoCodeId: promoCodeId,
-          size: widget.item.size,
-          color: widget.item.color,
-          qty: widget.item.quantity,
-          finalTotal: finalTotal,
+  void proceedToOrder() async {
+    final product = await _apiService.getProductById(
+        productId: widget.item.productId.toString());
+    if (product.available)
+      Navigator.push(
+        context,
+        PageTransition(
+          child: SelectAddress(
+            productId: widget.item.productId.toString(),
+            promoCode: promoCode,
+            promoCodeId: promoCodeId,
+            size: widget.item.size,
+            color: widget.item.color,
+            qty: widget.item.quantity,
+            finalTotal: finalTotal,
+          ),
+          type: PageTransitionType.rightToLeft,
         ),
-        type: PageTransitionType.rightToLeft,
-      ),
-    );
+      );
+    else
+      Get.dialog(AlertDialog(
+        content: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Text("Sorry, product is currently not available", style: TextStyle(fontWeight: FontWeight.bold),),
+        ),
+      ));
   }
 
   void onCartItemDelete() {

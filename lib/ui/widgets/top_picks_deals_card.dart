@@ -56,7 +56,7 @@ class TopPicksAndDealsCard extends StatelessWidget {
                                         "assets/images/product_preloading.png",
                                     image: data['key'] != null &&
                                             data['photo'] != null
-                                        ? '$PRODUCT_PHOTO_BASE_URL/${data["key"]}/${data["photo"]}'
+                                        ? '$PRODUCT_PHOTO_BASE_URL/${data["key"]}/${data["photo"]}-small.png'
                                         : "https://images.unsplash.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
                                     imageErrorBuilder:
                                         (context, error, stackTrace) =>
@@ -108,13 +108,17 @@ class TopPicksAndDealsCard extends StatelessWidget {
                         children: <Widget>[
                           Expanded(
                             flex: 2,
-                            child: CustomText(
-                              capitalizeString(data['name'] ?? ''),
-                              dotsAfterOverFlow: true,
-                              isTitle: true,
-                              isBold: true,
-                              color: Colors.grey[800],
-                              fontSize: subtitleFontSizeStyle - 2,
+                            child: FittedBox(
+                              alignment: Alignment.centerLeft,
+                              fit: BoxFit.scaleDown,
+                              child: CustomText(
+                                capitalizeString(data['name'] ?? ''),
+                                // dotsAfterOverFlow: true,
+                                isTitle: true,
+                                isBold: true,
+                                color: Colors.grey[800],
+                                fontSize: subtitleFontSizeStyle - 2,
+                              ),
                             ),
                           ),
                           Expanded(
@@ -150,7 +154,8 @@ class TopPicksAndDealsCard extends StatelessWidget {
                                 data["isDiscountAvailable"] != null &&
                                         data["isDiscountAvailable"] == "true"
                                     ? Text(
-                                        "\u20B9" + data["actualCost"].toString(),
+                                        "\u20B9" +
+                                            data["actualCost"].toString(),
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
                                           color: Colors.grey,
@@ -250,8 +255,11 @@ class TopPicksAndDealsCard extends StatelessWidget {
               placeholder: "assets/images/product_preloading.png",
               image:
                   "https://images.unsplash.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-              imageErrorBuilder: (context, error, stackTrace) =>
-                  Image.asset("assets/images/product_preloading.png",width: 90, fit: BoxFit.cover,),
+              imageErrorBuilder: (context, error, stackTrace) => Image.asset(
+                "assets/images/product_preloading.png",
+                width: 90,
+                fit: BoxFit.cover,
+              ),
               fit: BoxFit.cover,
             ),
           ),

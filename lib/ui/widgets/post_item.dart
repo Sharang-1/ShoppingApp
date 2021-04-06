@@ -31,6 +31,8 @@ class PostItem extends StatelessWidget {
                     ? SizedBox(
                         height: 250,
                         child: CachedNetworkImage(
+                          maxHeightDiskCache: 200,
+                          maxWidthDiskCache: 200,
                           imageUrl: post.imageUrl,
                           placeholder: (context, url) =>
                               CircularProgressIndicator(),

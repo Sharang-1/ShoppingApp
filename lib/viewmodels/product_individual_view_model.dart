@@ -93,7 +93,10 @@ class ProductIndividualViewModel extends BaseModel {
   }
 
   Future<int> addToCart(Product product, int qty, String size, String color,
-      {bool showDialog: true, bool fromBuyNow = false}) async {
+      {bool showDialog: true,
+      bool fromBuyNow = false,
+      bool fromCart = false,
+      Function onProductAdded}) async {
     print("Cart added");
     print(product.key);
 
@@ -110,18 +113,26 @@ class ProductIndividualViewModel extends BaseModel {
       final localStoreResult =
           await _cartLocalStoreService.addToCartLocalStore(product.key);
       if (localStoreResult == -1) {
+        if (fromCart) {
+          if (onProductAdded != null) onProductAdded();
+          return -1;
+        }
         if (showDialog) {
           await _dialogService.showDialog(
             title: "Success",
-            description: "Product in Cart Updated Successfully",
+            description: "The item has been added to your Bag.",
           );
         }
         return -1;
       } else {
+        if (fromCart) {
+          if (onProductAdded != null) onProductAdded();
+          return 1;
+        }
         if (showDialog) {
           await _dialogService.showDialog(
             title: "Success",
-            description: "Item has been added to your bag successfully.",
+            description: "The item has been added to your Bag.",
           );
         }
       }

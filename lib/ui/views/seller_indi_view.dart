@@ -648,14 +648,16 @@ class _SellerIndiState extends State<SellerIndi> {
                             child: Padding(
                               padding:
                                   const EdgeInsets.only(left: 15.0, right: 8.0),
-                              child: Text(
-                                "Explore Designer's Collection",
-                                overflow: TextOverflow.visible,
-                                maxLines: 2,
-                                textAlign: TextAlign.justify,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: titleFontSizeStyle,
+                              child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  "Explore Designer's Collection",
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: titleFontSizeStyle,
+                                  ),
                                 ),
                               ),
                             ),

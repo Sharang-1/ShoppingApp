@@ -3,13 +3,6 @@ import '../../models/grid_view_builder_filter_models/base_filter_model.dart';
 import '../../models/products.dart';
 import '../../services/api/api_service.dart';
 import 'base_grid_view_builder_view_model.dart';
-// import 'package:compound/constants/route_names.dart';
-// import 'package:compound/constants/shared_pref.dart';
-// import 'package:compound/locator.dart';
-// import 'package:compound/models/post.dart';
-// import 'package:compound/services/dialog_service.dart';
-// import 'package:compound/services/navigation_service.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
 
 class ProductsGridViewBuilderViewModel
     extends BaseGridViewBuilderViewModel<Products, Product> {
@@ -19,12 +12,14 @@ class ProductsGridViewBuilderViewModel
   final bool randomize;
   final bool sameDayDelivery;
   final int limit;
+  final List<String> exceptProductIDs;
 
   ProductsGridViewBuilderViewModel(
       {this.filteredProductKey,
       this.randomize = false,
       this.sameDayDelivery = false,
-      this.limit});
+      this.limit,
+      this.exceptProductIDs = const [],});
 
   @override
   Future init() {
@@ -42,7 +37,11 @@ class ProductsGridViewBuilderViewModel
         "startIndex=${pageSize * (pageNumber - 1)};limit=${this.randomize ? 1000 : pageSize};" +
             filterModel.queryString;
     Products res = await _apiService.getProducts(queryString: _queryString);
-    if (res == null) throw "Error occured";
+    if (res == null) throw "Could not load";
+
+    if(this.exceptProductIDs.isNotEmpty){
+      res.items = res.items.where((element) => !this.exceptProductIDs.contains(element.key)).toList();
+    }
 
     if (this.randomize) {
       res.items.shuffle();

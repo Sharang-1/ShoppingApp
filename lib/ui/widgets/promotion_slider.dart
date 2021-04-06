@@ -49,18 +49,18 @@ class _PromotionSliderState extends State<PromotionSlider> {
           child: CarouselSlider(
             options: CarouselOptions(
               autoPlay: true,
-            autoPlayInterval: Duration(seconds: _timeOut),
-            pauseAutoPlayOnTouch: true,
-            // pauseAutoPlayOnTouch: Duration(seconds: 10),
-            aspectRatio: widget.aspectRatio,
-            enableInfiniteScroll: true,
-            viewportFraction: 1.0,
-            onPageChanged: (index, reason) {
-              setState(() {
-                _current = index;
-                _timeOut = widget?.promotions[index]?.time ?? 3;
-              });
-            },
+              autoPlayInterval: Duration(seconds: _timeOut),
+              pauseAutoPlayOnTouch: true,
+              // pauseAutoPlayOnTouch: Duration(seconds: 10),
+              aspectRatio: widget.aspectRatio,
+              enableInfiniteScroll: true,
+              viewportFraction: 1.0,
+              onPageChanged: (index, reason) {
+                setState(() {
+                  _current = index;
+                  _timeOut = widget?.promotions[index]?.time ?? 3;
+                });
+              },
             ),
             items: widget.promotions.map((i) {
               return Builder(
@@ -91,6 +91,8 @@ class _PromotionSliderState extends State<PromotionSlider> {
                               borderRadius: BorderRadius.circular(curve15)),
                           width: MediaQuery.of(context).size.width - 10,
                           child: CachedNetworkImage(
+                            maxHeightDiskCache: 200,
+                            maxWidthDiskCache: 200,
                             fit: BoxFit.cover,
                             placeholder: (context, url) => Image.asset(
                                 "assets/images/promotion_preloading.png"),

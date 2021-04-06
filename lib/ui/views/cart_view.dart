@@ -18,7 +18,9 @@ import '../shared/ui_helpers.dart';
 import '../widgets/CartTileUI.dart';
 import '../widgets/GridListWidget.dart';
 import '../widgets/custom_stepper.dart';
+import '../widgets/pair_it_with_widget.dart';
 import 'home_view.dart';
+import 'product_individual_view.dart';
 
 class CartView extends StatefulWidget {
   final String productId;
@@ -33,6 +35,7 @@ class _CartViewState extends State<CartView> {
   UniqueKey key = UniqueKey();
   final refreshController = RefreshController(initialRefresh: false);
   bool isPromocodeApplied = false;
+  List<String> exceptProductIDs = [];
 
   @override
   Widget build(BuildContext context) {
@@ -83,6 +86,26 @@ class _CartViewState extends State<CartView> {
             color: Colors.black,
           ),
         ),
+        resizeToAvoidBottomInset: false,
+        bottomSheet: SizedBox(
+          height: 250,
+          child: PairItWithWidget(
+            exceptProductIDs: exceptProductIDs,
+            onProductClicked: (product) async {
+              showModalBottomSheet(
+                context: context,
+                builder: (context) => SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.9,
+                  child: ProductIndiView(
+                    data: product,
+                    fromCart: true,
+                  ),
+                ),
+                isScrollControlled: true,
+              ).then((void v) => setState(() => {key = UniqueKey()}));
+            },
+          ),
+        ),
         backgroundColor: backgroundWhiteCreamColor,
         body: SafeArea(
           top: true,
@@ -113,7 +136,7 @@ class _CartViewState extends State<CartView> {
                   left: screenPadding,
                   right: screenPadding,
                   top: 10,
-                  bottom: 10,
+                  bottom: 250,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -149,7 +172,7 @@ class _CartViewState extends State<CartView> {
                                 Fimber.d("test");
                                 print((data as Item).toJson());
                                 final Item dItem = data as Item;
-
+                                exceptProductIDs.add(dItem.product.key);
                                 return CartTileUI(
                                   index: index,
                                   item: dItem,

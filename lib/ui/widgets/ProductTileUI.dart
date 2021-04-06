@@ -3,8 +3,11 @@ import 'package:provider/provider.dart';
 
 import '../../constants/server_urls.dart';
 import '../../locator.dart';
+import '../../models/CartCountSetUp.dart';
 import '../../models/WhishListSetUp.dart';
 import '../../models/products.dart';
+import '../../services/api/api_service.dart';
+import '../../services/error_handling_service.dart';
 import '../../services/whishlist_service.dart';
 import '../../utils/stringUtils.dart';
 import '../../utils/tools.dart';
@@ -17,13 +20,15 @@ class ProductTileUI extends StatefulWidget {
   final Function onClick;
   final int index;
   final EdgeInsets cardPadding;
+  final Function() onAddToCartClicked;
 
   const ProductTileUI({
     Key key,
-    this.data,
-    this.onClick,
-    this.index,
+    @required this.data,
+    @required this.onClick,
+    @required this.index,
     this.cardPadding,
+    this.onAddToCartClicked,
   }) : super(key: key);
 
   @override
@@ -31,7 +36,10 @@ class ProductTileUI extends StatefulWidget {
 }
 
 class _ProductTileUIState extends State<ProductTileUI> {
+  final APIService _apiService = locator<APIService>();
   final WhishListService _whishListService = locator<WhishListService>();
+  final ErrorHandlingService _errorHandlingService =
+      locator<ErrorHandlingService>();
   bool toggle = false;
 
   @override
@@ -53,6 +61,8 @@ class _ProductTileUIState extends State<ProductTileUI> {
           .removeFromWhishList(id);
     }
   }
+
+  void addToCart(String id) async {}
 
   @override
   Widget build(BuildContext context) {
@@ -80,10 +90,11 @@ class _ProductTileUIState extends State<ProductTileUI> {
     final int productPrice =
         (widget.data.cost.costToCustomer + deliveryCharges).round() ?? 0;
     final int actualCost = (widget.data.cost.cost +
-            widget.data.cost.convenienceCharges.cost +
-            widget.data.cost.gstCharges.cost +
-            deliveryCharges)
-        .round() ?? 0;
+                widget.data.cost.convenienceCharges.cost +
+                widget.data.cost.gstCharges.cost +
+                deliveryCharges)
+            .round() ??
+        0;
     // final double productOldPrice = widget.data.oldPrice ?? 0.0;
     // final productRatingObj = widget.data.rating ?? null;
     // final productRatingValue =
@@ -130,47 +141,67 @@ class _ProductTileUIState extends State<ProductTileUI> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Expanded(
-                            child: Text(
-                              capitalizeString(productName),
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontSize: titleFontSize,
-                                fontFamily: fontFamily,
-                                fontWeight: FontWeight.bold,
+                            child: FittedBox(
+                              alignment: Alignment.centerLeft,
+                              fit: BoxFit.scaleDown,
+                              child: Text(
+                                capitalizeString(productName),
+                                style: TextStyle(
+                                  fontSize: titleFontSize,
+                                  fontFamily: fontFamily,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           ),
-                          InkWell(
-                            child: Provider.of<WhishListSetUp>(context,
-                                            listen: true)
-                                        .list
-                                        .indexOf(widget.data.key) !=
-                                    -1
-                                ? WishListIcon(
-                                    filled: true,
-                                    width: 18,
-                                    height: 18,
-                                  )
-                                : WishListIcon(
-                                    filled: false,
-                                    width: 18,
-                                    height: 18,
-                                  ),
-                            onTap: () {
-                              if (Provider.of<WhishListSetUp>(context,
-                                          listen: false)
-                                      .list
-                                      .indexOf(widget.data.key) !=
-                                  -1) {
-                                removeFromWhishList(widget.data.key);
-                              } else {
-                                addToWhishList(widget.data.key);
-                              }
-                            },
-                          )
+                          widget?.onAddToCartClicked == null
+                              ? InkWell(
+                                  child: Provider.of<WhishListSetUp>(context,
+                                                  listen: true)
+                                              .list
+                                              .indexOf(widget.data.key) !=
+                                          -1
+                                      ? WishListIcon(
+                                          filled: true,
+                                          width: 18,
+                                          height: 18,
+                                        )
+                                      : WishListIcon(
+                                          filled: false,
+                                          width: 18,
+                                          height: 18,
+                                        ),
+                                  onTap: () {
+                                    if (Provider.of<WhishListSetUp>(context,
+                                                listen: false)
+                                            .list
+                                            .indexOf(widget.data.key) !=
+                                        -1) {
+                                      removeFromWhishList(widget.data.key);
+                                    } else {
+                                      addToWhishList(widget.data.key);
+                                    }
+                                  },
+                                )
+                              : InkWell(
+                                  child: Icon(Icons.shopping_bag_outlined),
+                                  onTap: () async {
+                                    var res = await _apiService.addToCart(
+                                        widget.data.key, 1, '', '');
+                                    if (res == null)
+                                      _errorHandlingService
+                                          .showError(Errors.CouldNotAddToCart);
+                                    else
+                                      Provider.of<CartCountSetUp>(context,
+                                              listen: false)
+                                          .incrementCartCount();
+                                    widget.onAddToCartClicked();
+                                  },
+                                )
                         ],
                         // )
                       ),
@@ -277,7 +308,7 @@ class _ProductTileUIState extends State<ProductTileUI> {
                       placeholder: 'assets/images/product_preloading.png',
                       image: photoURL == null
                           ? 'https://images.pexels.com/photos/157675/fashion-men-s-individuality-black-and-white-157675.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
-                          : '$PRODUCT_PHOTO_BASE_URL/${widget.data.key}/$photoURL',
+                          : '$PRODUCT_PHOTO_BASE_URL/${widget.data.key}/$photoURL-small.png',
                       imageErrorBuilder: (context, error, stackTrace) =>
                           Image.asset(
                         "assets/images/product_preloading.png",

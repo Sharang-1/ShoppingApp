@@ -22,6 +22,7 @@ import 'package:compound/viewmodels/product_individual_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:provider_architecture/viewmodel_provider.dart';
@@ -82,7 +83,9 @@ const Map<int, String> workOnMap = {
 
 class ProductIndiView extends StatefulWidget {
   final Product data;
-  const ProductIndiView({Key key, @required this.data}) : super(key: key);
+  final bool fromCart;
+  const ProductIndiView({Key key, @required this.data, this.fromCart = false})
+      : super(key: key);
   @override
   _ProductIndiViewState createState() => _ProductIndiViewState();
 }
@@ -143,13 +146,16 @@ class _ProductIndiViewState extends State<ProductIndiView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
-          capitalizeString(productName.toString()),
-          overflow: TextOverflow.ellipsis,
-          style: TextStyle(
-            fontSize: titleFontSizeStyle + 12,
-            fontFamily: headingFont,
-            fontWeight: FontWeight.bold,
+        FittedBox(
+          alignment: Alignment.centerLeft,
+          fit: BoxFit.scaleDown,
+          child: Text(
+            capitalizeString(productName.toString()),
+            style: TextStyle(
+              fontSize: titleFontSizeStyle + 12,
+              fontFamily: headingFont,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
         SizedBox(
@@ -161,13 +167,28 @@ class _ProductIndiViewState extends State<ProductIndiView> {
             style:
                 TextStyle(fontSize: subtitleFontSizeStyle - 2, color: darkGrey),
           ),
-          onTap: sellerModal.gotoSellerIndiView,
+          onTap: () async => await goToSellerProfile(sellerModal),
         ),
         SizedBox(
           height: 5,
         ),
       ],
     );
+  }
+
+  Future<void> goToSellerProfile(model) async {
+    if (model?.selleDetail?.subscriptionTypeId == 2) {
+      await _navigationService.navigateTo(
+        ProductsListRoute,
+        arguments: ProductPageArg(
+          subCategory: model?.selleDetail?.name,
+          queryString: "accountKey=${model?.selleDetail?.key};",
+        ),
+      );
+    } else {
+      await _navigationService.navigateTo(SellerIndiViewRoute,
+          arguments: model?.selleDetail);
+    }
   }
 
   Widget priceInfo(productPrice, productDiscount, saved,
@@ -333,25 +354,27 @@ class _ProductIndiViewState extends State<ProductIndiView> {
     return Padding(child: item, padding: EdgeInsets.fromLTRB(0, 10, 0, 0));
   }
 
-  Text stockWidget({int totalQuantity, bool available}) {
+  FittedBox stockWidget({int totalQuantity, bool available}) {
     String text = (totalQuantity == 0)
-        ? "Sold Out! \nYou can check back in a few days!"
+        ? "Sold Out! \nYou can check back in few days!"
         : (available)
             ? (totalQuantity == 2)
                 ? "Only 2 left"
                 : (totalQuantity == 1)
                     ? "One in Market Product"
                     : "In Stock"
-            : "Not available";
+            : "The product is unavailable right now, check back in few days";
 
-    return Text(
-      text,
-      maxLines: 3,
-      overflow: TextOverflow.visible,
-      style: TextStyle(
-          fontSize: titleFontSizeStyle - 2,
-          color: (available) ? green : logoRed,
-          fontWeight: FontWeight.w600),
+    return FittedBox(
+      alignment: Alignment.centerLeft,
+      fit: BoxFit.scaleDown,
+      child: Text(
+        text,
+        style: TextStyle(
+            fontSize: titleFontSizeStyle - 2,
+            color: (available) ? green : logoRed,
+            fontWeight: FontWeight.w600),
+      ),
     );
   }
 
@@ -404,10 +427,10 @@ class _ProductIndiViewState extends State<ProductIndiView> {
     final bool available =
         (totalQuantity == 0) ? false : (widget?.data?.available ?? false);
 
-    final List<String> imageURLs =
-        (widget?.data?.photo?.photos ?? <PhotoElement>[])
-            .map((e) => '$PRODUCT_PHOTO_BASE_URL/$productId/${e.name}')
-            .toList();
+    final List<String> imageURLs = (widget?.data?.photo?.photos ??
+            <PhotoElement>[])
+        .map((e) => '$PRODUCT_PHOTO_BASE_URL/$productId/${e.name}-small.png')
+        .toList();
 
     return ViewModelProvider<ProductIndividualViewModel>.withConsumer(
       viewModel: ProductIndividualViewModel(),
@@ -419,28 +442,32 @@ class _ProductIndiViewState extends State<ProductIndiView> {
           elevation: 0,
           backgroundColor: backgroundWhiteCreamColor,
           iconTheme: IconThemeData(color: appBarIconColor),
-          title: Align(
-            alignment: Alignment.center,
-            child: Padding(
-              padding: EdgeInsets.only(right: 8.0),
-              child: SvgPicture.asset(
-                "assets/svg/logo.svg",
-                color: logoRed,
-                height: 35,
-                width: 35,
-              ),
-            ),
-          ),
+          title: (!(widget.fromCart))
+              ? Align(
+                  alignment: Alignment.center,
+                  child: Padding(
+                    padding: EdgeInsets.only(right: 8.0),
+                    child: SvgPicture.asset(
+                      "assets/svg/logo.svg",
+                      color: logoRed,
+                      height: 35,
+                      width: 35,
+                    ),
+                  ),
+                )
+              : Container(),
           actions: <Widget>[
-            IconButton(
-              onPressed: () {
-                model.cart();
-              },
-              icon: CartIconWithBadge(
-                count: Provider.of<CartCountSetUp>(context, listen: true).count,
-                iconColor: appBarIconColor,
-              ),
-            )
+            if (!(widget.fromCart))
+              IconButton(
+                onPressed: () {
+                  model.cart();
+                },
+                icon: CartIconWithBadge(
+                  count:
+                      Provider.of<CartCountSetUp>(context, listen: true).count,
+                  iconColor: appBarIconColor,
+                ),
+              )
           ],
         ),
         body: SafeArea(
@@ -511,6 +538,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                 Provider.of<WhishListSetUp>(context,
                                         listen: false)
                                     .addToWhishList(productId);
+                                Get.snackbar('Added to Your wishlist', '',
+                                    snackPosition: SnackPosition.BOTTOM);
                               }
                             },
                             child: Container(
@@ -701,8 +730,12 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                             ),
                                             InkWell(
                                               onTap: () {
-                                                _showDialog(context,
-                                                    model.selleDetail.key, 1);
+                                                _showDialog(
+                                                    context,
+                                                    model.selleDetail.key,
+                                                    widget?.data?.category
+                                                            ?.id ??
+                                                        1);
                                               },
                                               child: Text(
                                                 "size chart",
@@ -848,13 +881,15 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                               ),
                             )),
                       if (available) verticalSpace(30),
-                      if (available)
+                      if (available && !widget.fromCart)
                         Center(
                           child: GestureDetector(
                             onTap: (selectedQty == 0 ||
                                     selectedColor == "" ||
                                     selectedSize == "")
-                                ? null
+                                ? () => Get.snackbar(
+                                    'Please select size, color & quantity', '',
+                                    snackPosition: SnackPosition.BOTTOM)
                                 : () async {
                                     var res = await model.buyNow(
                                         widget?.data,
@@ -916,7 +951,9 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                     selectedQty == 0 ||
                                     selectedColor == "" ||
                                     selectedSize == ""
-                                ? null
+                                ? () => Get.snackbar(
+                                    'Please select size, color & quantity', '',
+                                    snackPosition: SnackPosition.BOTTOM)
                                 : () async {
                                     setState(() {
                                       disabledAddToCartBtn = true;
@@ -926,7 +963,11 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                         widget?.data,
                                         selectedQty,
                                         selectedSize,
-                                        selectedColor);
+                                        selectedColor,
+                                        fromCart: widget.fromCart,
+                                        onProductAdded: widget.fromCart
+                                            ? () => Navigator.pop(context)
+                                            : null);
 
                                     if (res == 0)
                                       _errorHandlingService
@@ -1058,31 +1099,16 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                         expanded: true,
                       ),
                       verticalSpace(20),
-                      if (model?.selleDetail?.subscriptionTypeId != 2)
-                        Text(
-                          "   Sold By",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: titleFontSizeStyle),
-                        ),
+                      Text(
+                        "   Sold By",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: titleFontSizeStyle),
+                      ),
                       if (model?.selleDetail?.subscriptionTypeId != 2)
                         verticalSpace(5),
                       GestureDetector(
-                        onTap: () {
-                          if (model?.selleDetail?.subscriptionTypeId == 2) {
-                            _navigationService.navigateTo(
-                              ProductsListRoute,
-                              arguments: ProductPageArg(
-                                subCategory: model?.selleDetail?.name,
-                                queryString:
-                                    "accountKey=${model?.selleDetail?.key};",
-                              ),
-                            );
-                          } else {
-                            _navigationService.navigateTo(SellerIndiViewRoute,
-                                arguments: model?.selleDetail);
-                          }
-                        },
+                        onTap: () async => await goToSellerProfile(model),
                         child: Card(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15),
@@ -1105,25 +1131,37 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                               color: darkRedSmooth),
                                         ),
                                         verticalSpace(10),
-                                        Center(
+                                        if (model?.selleDetail
+                                                ?.subscriptionTypeId !=
+                                            2)
+                                          Center(
                                             child: Container(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.8,
-                                                child: Divider(
-                                                    color: Colors.grey
-                                                        .withOpacity(0.5),
-                                                    height: 1))),
-                                        verticalSpace(10),
-                                        Text(
-                                          Tools.getTruncatedString(100,
-                                              model.selleDetail?.bio ?? ""),
-                                          style: TextStyle(
-                                              fontSize:
-                                                  subtitleFontSizeStyle - 5,
-                                              color: Colors.grey),
-                                        )
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.8,
+                                              child: Divider(
+                                                color: Colors.grey
+                                                    .withOpacity(0.5),
+                                                height: 1,
+                                              ),
+                                            ),
+                                          ),
+                                        if (model?.selleDetail
+                                                ?.subscriptionTypeId !=
+                                            2)
+                                          verticalSpace(10),
+                                        if (model?.selleDetail
+                                                ?.subscriptionTypeId !=
+                                            2)
+                                          Text(
+                                            Tools.getTruncatedString(100,
+                                                model.selleDetail?.bio ?? ""),
+                                            style: TextStyle(
+                                                fontSize:
+                                                    subtitleFontSizeStyle - 5,
+                                                color: Colors.grey),
+                                          ),
                                       ],
                                     ),
                                   ),
