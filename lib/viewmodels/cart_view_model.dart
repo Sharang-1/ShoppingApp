@@ -15,25 +15,38 @@ class CartViewModel extends BaseModel {
 
   final prductId;
   String userName;
+  bool isCartEmpty = true;
 
-  CartViewModel({ this.prductId = "", this.userName = "" });
+  CartViewModel({this.prductId = "", this.userName = ""});
 
   Future init() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     userName = prefs.getString(Name);
     notifyListeners();
-    return ;
+    return;
   }
 
-  Future<void> removeProductFromCartEvent() async{
-     await _analyticsService.sendAnalyticsEvent(eventName: "remove_from_cart");
+  Future<void> removeProductFromCartEvent() async {
+    await _analyticsService.sendAnalyticsEvent(eventName: "remove_from_cart");
+    var products = await _apiService.getCartProductItemList();
+    isCartEmpty = products.isEmpty;
+    notifyListeners();
+    return;
   }
 
-  Future<PromoCode> applyPromocode(String productId, int qty, String code, String promotion) async {
+  Future<PromoCode> applyPromocode(
+      String productId, int qty, String code, String promotion) async {
     return await _apiService.applyPromocode(productId, qty, code, promotion);
   }
 
-  Future<CalculatedPrice> calculateProductPrice(String productId, int qty) async {
+  Future<CalculatedPrice> calculateProductPrice(
+      String productId, int qty) async {
     return await _apiService.calculateProductPrice(productId, qty);
+  }
+
+  Future<bool> hasProducts() async {
+    var products = await _apiService.getCartProductItemList();
+    isCartEmpty = products.isEmpty;
+    return !isCartEmpty;
   }
 }

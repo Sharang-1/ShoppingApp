@@ -246,7 +246,7 @@ class _CartTileUIState extends State<CartTileUI> {
   void proceedToOrder() async {
     final product = await _apiService.getProductById(
         productId: widget.item.productId.toString());
-    if (product.available)
+    if (product.available && product.enabled)
       Navigator.push(
         context,
         PageTransition(

@@ -145,16 +145,13 @@ class _ProductTileUIState extends State<ProductTileUI> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Expanded(
-                            child: FittedBox(
-                              alignment: Alignment.centerLeft,
-                              fit: BoxFit.scaleDown,
-                              child: Text(
-                                capitalizeString(productName),
-                                style: TextStyle(
-                                  fontSize: titleFontSize,
-                                  fontFamily: fontFamily,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                            child: Text(
+                              capitalizeString(productName),
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: titleFontSize,
+                                fontFamily: fontFamily,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),
@@ -188,7 +185,11 @@ class _ProductTileUIState extends State<ProductTileUI> {
                                   },
                                 )
                               : InkWell(
-                                  child: Icon(Icons.shopping_bag_outlined),
+                                  child: Image.asset(
+                                    'assets/images/add_to_bag.png',
+                                    height: 20,
+                                    width: 20,
+                                  ),
                                   onTap: () async {
                                     var res = await _apiService.addToCart(
                                         widget.data.key, 1, '', '');

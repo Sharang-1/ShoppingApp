@@ -117,47 +117,42 @@ class _SellerIndiState extends State<SellerIndi> {
     } catch (e) {}
   }
 
+  Seller sellerData;
+  Map<String, String> sellerDetails;
+
+  void setupSellerDetails(Seller data) {
+    sellerData = data;
+    sellerDetails = {
+      "key": data.key,
+      "name": data.name,
+      "type": data?.establishmentType?.name?.toString(),
+      "rattings": data.ratingAverage?.rating?.toString() ?? "",
+      "lat": data?.contact?.geoLocation?.latitude?.toString(),
+      "lon": data?.contact?.geoLocation?.longitude?.toString(),
+      "appointment": "false",
+      "Address": data?.contact?.address,
+      "Speciality": data.known,
+      "Designs & Creates": data.designs,
+      "Services offered": data.operations,
+      "Works Offered": data.works,
+      "Type": data?.establishmentType?.name ??
+          accountTypeValues.reverse[data?.accountType ?? AccountType.SELLER],
+      "Note from Seller": data.bio
+    };
+  }
+
   @override
   Widget build(BuildContext context) {
     double media = ((MediaQuery.of(context).size.width - 100) / 2);
     double multiplyer = 0.8;
 
-    Map<String, String> sellerDetails = {
-      "key": widget.data.key,
-      "name": widget.data.name,
-      "type": widget?.data?.establishmentType?.name?.toString(),
-      "rattings": widget.data.ratingAverage?.rating?.toString() ?? "",
-      "lat": widget?.data?.contact?.geoLocation?.latitude?.toString(),
-      "lon": widget?.data?.contact?.geoLocation?.longitude?.toString(),
-      "appointment": "false",
-      "Address": widget?.data?.contact?.address,
-      "Speciality": widget.data.known,
-      "Designs & Creates": widget.data.designs,
-      "Services offered": widget.data.operations,
-      "Works Offered": widget.data.works,
-      "Type": widget.data?.establishmentType?.name ??
-          accountTypeValues
-              .reverse[widget.data?.accountType ?? AccountType.SELLER],
-      "Note from Seller": widget.data.bio
-    };
+    setupSellerDetails(widget?.data);
 
-    Timing _timing = widget.data.timing;
+    Timing _timing = sellerData.timing;
 
     return Scaffold(
         backgroundColor: backgroundWhiteCreamColor,
         appBar: null,
-        // appBar: AppBar(
-        //   elevation: 0,
-        //   backgroundColor: backgroundWhiteCreamColor,
-        //   iconTheme: IconThemeData(color: appBarIconColor),
-        //   centerTitle: true,
-        //   title: Image.asset(
-        //     "assets/images/logo_red.png",
-        //     color: logoRed,
-        //     height: 40,
-        //     width: 40,
-        //   ),
-        // ),
         bottomNavigationBar: BottomAppBar(
           elevation: 0,
           child: Container(
@@ -222,8 +217,8 @@ class _SellerIndiState extends State<SellerIndi> {
                 height: 100 * multiplyer,
                 fadeInCurve: Curves.easeIn,
                 placeholder: "assets/images/product_preloading.png",
-                image: widget?.data?.key != null
-                    ? "$SELLER_PHOTO_BASE_URL/${widget.data.key}"
+                image: sellerData?.key != null
+                    ? "$SELLER_PHOTO_BASE_URL/${sellerData.key}"
                     : "https://images.unsplash.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
                 imageErrorBuilder: (context, error, stackTrace) => Image.asset(
                   "assets/images/product_preloading.png",
@@ -325,13 +320,13 @@ class _SellerIndiState extends State<SellerIndi> {
                             GestureDetector(
                               onTap: () async {
                                 await Share.share(await _dynamicLinkService
-                                    .createLink(sellerLink + widget.data?.key));
+                                    .createLink(sellerLink + sellerData?.key));
                                 try {
                                   await _analyticsService.sendAnalyticsEvent(
                                       eventName: "seller_shared",
                                       parameters: <String, dynamic>{
-                                        "seller_id": widget?.data?.key,
-                                        "seller_name": widget?.data?.name,
+                                        "seller_id": sellerData?.key,
+                                        "seller_name": sellerData?.name,
                                       });
                                 } catch (e) {}
                               },
@@ -430,7 +425,7 @@ class _SellerIndiState extends State<SellerIndi> {
                                       onPressed: () {
                                         _navigationService.navigateTo(
                                             MapViewRoute,
-                                            arguments: widget?.data?.key);
+                                            arguments: sellerData?.key);
                                       },
                                       style: ElevatedButton.styleFrom(
                                         primary: Colors.white,
@@ -618,8 +613,8 @@ class _SellerIndiState extends State<SellerIndi> {
                         gridCount: 1,
                         childAspectRatio: 0.60,
                         viewModel: SellersGridViewBuilderViewModel(
-                          removeId: widget.data.key,
-                          subscriptionType: widget.data.subscriptionTypeId,
+                          removeId: sellerData.key,
+                          subscriptionType: sellerData.subscriptionTypeId,
                           random: true,
                         ),
                         disablePagination: true,
@@ -637,8 +632,8 @@ class _SellerIndiState extends State<SellerIndi> {
                         },
                       ),
                     ),
-                    if (widget.data.subscriptionTypeId == 1) verticalSpace(20),
-                    if (widget.data.subscriptionTypeId == 1 &&
+                    if (sellerData.subscriptionTypeId == 1) verticalSpace(20),
+                    if (sellerData.subscriptionTypeId == 1 &&
                         showExploreSection)
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -678,18 +673,18 @@ class _SellerIndiState extends State<SellerIndi> {
                               return _navigationService.navigateTo(
                                 ProductsListRoute,
                                 arguments: ProductPageArg(
-                                  subCategory: widget.data.name,
-                                  queryString: "accountKey=${widget.data.key};",
+                                  subCategory: sellerData.name,
+                                  queryString: "accountKey=${sellerData.key};",
                                 ),
                               );
                             },
                           ),
                         ],
                       ),
-                    if (widget.data.subscriptionTypeId == 1 &&
+                    if (sellerData.subscriptionTypeId == 1 &&
                         showExploreSection)
                       verticalSpace(5),
-                    if (widget.data.subscriptionTypeId == 1 &&
+                    if (sellerData.subscriptionTypeId == 1 &&
                         showExploreSection)
                       SizedBox(
                         height: 200,
@@ -697,7 +692,7 @@ class _SellerIndiState extends State<SellerIndi> {
                           key: productKey,
                           context: context,
                           filter: ProductFilter(
-                            accountKey: widget.data.key,
+                            accountKey: sellerData.key,
                           ),
                           gridCount: 2,
                           viewModel: ProductsGridViewBuilderViewModel(
@@ -751,16 +746,9 @@ class _SellerIndiState extends State<SellerIndi> {
                       : 0.7
                   : 0.8,
               child: SellerBottomSheetView(
-                sellerData: widget.data,
+                sellerData: sellerData,
                 context: context,
               ));
-          // heightFactor: 0.9,
-          // // heightFactor: MediaQuery.of(context).size.height > 600
-          // //     ? MediaQuery.of(context).size.height > 800
-          // //         ? 0.650
-          // //         : 0.7
-          // //     : 0.8,
-          // child: SellerBottomSheetView(sellerData: widget.data));
         });
   }
 }

@@ -141,6 +141,10 @@ class ProductIndividualViewModel extends BaseModel {
     return 0;
   }
 
+  Future<Product> refreshProduct(String productId) async {
+    return await _apiService.getProductById(productId: productId);
+  }
+
   Future<bool> buyNow(
       Product product, int qty, String size, String color) async {
     await _analyticsService

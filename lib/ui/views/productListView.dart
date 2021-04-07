@@ -232,10 +232,12 @@ class _ProductListViewState extends State<ProductListView> {
                             gridCount: 2,
                             emptyListWidget: EmptyListWidget(text: ""),
                             viewModel: ProductsGridViewBuilderViewModel(
-                                limit: (widget.queryString.isEmpty &&
-                                        widget.subCategory.isEmpty)
-                                    ? 50
-                                    : 1000),
+                              limit: (widget.queryString.isEmpty &&
+                                      widget.subCategory.isEmpty)
+                                  ? 50
+                                  : 1000,
+                              randomize: true,
+                            ),
                             childAspectRatio: 0.7,
                             tileBuilder: (BuildContext context, data, index,
                                 onUpdate, onDelete) {

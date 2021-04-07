@@ -108,17 +108,13 @@ class TopPicksAndDealsCard extends StatelessWidget {
                         children: <Widget>[
                           Expanded(
                             flex: 2,
-                            child: FittedBox(
-                              alignment: Alignment.centerLeft,
-                              fit: BoxFit.scaleDown,
-                              child: CustomText(
+                            child: CustomText(
                                 capitalizeString(data['name'] ?? ''),
-                                // dotsAfterOverFlow: true,
+                                dotsAfterOverFlow: true,
                                 isTitle: true,
                                 isBold: true,
                                 color: Colors.grey[800],
                                 fontSize: subtitleFontSizeStyle - 2,
-                              ),
                             ),
                           ),
                           Expanded(

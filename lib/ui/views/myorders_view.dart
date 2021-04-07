@@ -1,5 +1,8 @@
+import 'package:compound/models/orders.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:grouped_list/grouped_list.dart';
+import 'package:intl/intl.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -106,8 +109,43 @@ class _MyOrdersViewState extends State<MyOrdersView> {
                     verticalSpace(20),
                     if (model.busy) CircularProgressIndicator(),
                     if (!model.busy && model.mOrders != null)
-                      ...model.mOrders.orders.map(
-                        (o) => Padding(
+                      GroupedListView(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        elements: model.mOrders.orders,
+                        groupBy: (Order o) => o.created,
+                        groupComparator: (String a, String b) {
+                          DateTime aDateTime = DateTime.parse(
+                              "${a.substring(6, 10)}${a.substring(3, 5)}${a.substring(0, 2)}");
+                          DateTime bDateTime = DateTime.parse(
+                              "${b.substring(6, 10)}${b.substring(3, 5)}${b.substring(0, 2)}");
+                          return bDateTime.compareTo(aDateTime);
+                        },
+                        groupSeparatorBuilder: (String created) {
+                          var date = DateFormat.yMMMMd('en_US').format(
+                              DateTime.parse(
+                                  "${created.substring(6, 10)}${created.substring(3, 5)}${created.substring(0, 2)}"));
+                          return Padding(
+                            padding: const EdgeInsets.only(
+                                top: 8.0, left: 8.0, right: 8.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: logoRed,
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              padding: EdgeInsets.all(5.0),
+                              child: Text(
+                                date,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                        itemBuilder: (BuildContext context, Order order) =>
+                            Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8.0),
                           child: SizedBox(
                             height: 120,
@@ -133,7 +171,7 @@ class _MyOrdersViewState extends State<MyOrdersView> {
                                           placeholder:
                                               "assets/images/product_preloading.png",
                                           image:
-                                              "$PRODUCT_PHOTO_BASE_URL/${o.product.key}/${o.product.photo.photos.first.name}-small.png",
+                                              "$PRODUCT_PHOTO_BASE_URL/${order.product.key}/${order.product.photo.photos.first.name}-small.png",
                                           imageErrorBuilder:
                                               (context, error, stackTrace) =>
                                                   Image.asset(
@@ -154,7 +192,7 @@ class _MyOrdersViewState extends State<MyOrdersView> {
                                             CrossAxisAlignment.start,
                                         children: <Widget>[
                                           CustomText(
-                                            o.product.name,
+                                            order.product.name,
                                             isBold: true,
                                             color: Colors.grey[800],
                                             dotsAfterOverFlow: true,
@@ -162,19 +200,19 @@ class _MyOrdersViewState extends State<MyOrdersView> {
                                           ),
                                           CustomText(
                                             rupeeUnicode +
-                                                o.orderCost.cost.toString(),
+                                                order.orderCost.cost.toString(),
                                             dotsAfterOverFlow: true,
                                             fontSize: titleFontSize,
                                             isBold: true,
                                             color: textIconOrange,
                                           ),
-                                          if (o.variation.size != 'N/A')
-                                            CustomText(o.variation.size,
+                                          if (order.variation.size != 'N/A')
+                                            CustomText(order.variation.size,
                                                 dotsAfterOverFlow: true,
                                                 color: Colors.grey,
                                                 fontSize: subtitleFontSize),
                                           CustomText(
-                                            o.status.state,
+                                            order.status.state,
                                             fontSize: subtitleFontSize,
                                             isBold: true,
                                             color: Colors.grey,
@@ -197,7 +235,7 @@ class _MyOrdersViewState extends State<MyOrdersView> {
                                   context,
                                   new MaterialPageRoute(
                                     builder: (context) =>
-                                        MyOrdersDetailsView(o),
+                                        MyOrdersDetailsView(order),
                                   ),
                                 );
                               },

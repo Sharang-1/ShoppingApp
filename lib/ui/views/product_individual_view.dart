@@ -22,6 +22,7 @@ import 'package:compound/viewmodels/product_individual_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
@@ -192,36 +193,49 @@ class _ProductIndiViewState extends State<ProductIndiView> {
   }
 
   Widget priceInfo(productPrice, productDiscount, saved,
-      {bool showPrice = true}) {
-    return Row(children: <Widget>[
-      Text(
-        '\u20B9${showPrice ? productPrice?.toString() : ' - '}',
-        style: TextStyle(
-            fontSize: titleFontSizeStyle + 8, fontWeight: FontWeight.bold),
-      ),
-      productDiscount == 0.0
-          ? Container()
-          : Row(
-              children: <Widget>[
-                SizedBox(width: 10),
-                Text(
-                  '${productDiscount.toInt().toString()}% off',
-                  style: TextStyle(
-                      fontSize: subtitleFontSizeStyle - 2,
-                      color: Colors.green[600],
-                      fontWeight: FontWeight.w600),
-                ),
-                // SizedBox(width: 5),
-                // Text(
-                //   '(Saved \u20B9$saved)',
-                //   style: TextStyle(
-                //       fontSize: subtitleFontSizeStyle - 2,
-                //       color: Colors.grey,
-                //       fontWeight: FontWeight.w600),
-                // ),
-              ],
+      {bool showPrice = true, bool isClothMeterial = false}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (isClothMeterial)
+          Text(
+            'Price per Meter',
+            style: TextStyle(
+              fontSize: subtitleFontSizeStyle - 3,
+              color: Colors.black54,
             ),
-    ]);
+          ),
+        Row(children: <Widget>[
+          Text(
+            '\u20B9${showPrice ? productPrice?.toString() : ' - '}',
+            style: TextStyle(
+                fontSize: titleFontSizeStyle + 8, fontWeight: FontWeight.bold),
+          ),
+          productDiscount == 0.0
+              ? Container()
+              : Row(
+                  children: <Widget>[
+                    SizedBox(width: 10),
+                    Text(
+                      '${productDiscount.toInt().toString()}% off',
+                      style: TextStyle(
+                          fontSize: subtitleFontSizeStyle - 2,
+                          color: Colors.green[600],
+                          fontWeight: FontWeight.w600),
+                    ),
+                    // SizedBox(width: 5),
+                    // Text(
+                    //   '(Saved \u20B9$saved)',
+                    //   style: TextStyle(
+                    //       fontSize: subtitleFontSizeStyle - 2,
+                    //       color: Colors.grey,
+                    //       fontWeight: FontWeight.w600),
+                    // ),
+                  ],
+                ),
+        ]),
+      ],
+    );
   }
 
   List<Widget> choiceChips(variations) {
@@ -384,57 +398,66 @@ class _ProductIndiViewState extends State<ProductIndiView> {
     return (actualCost - cost.costToCustomer).round();
   }
 
+  Product productData;
   bool showMoreFromDesigner = true;
   num deliveryCharges = 35.4;
+  String productName;
+  String productId;
+  double productDiscount;
+  int productPrice;
+  int saved;
+  List<Variation> variations;
+  String date;
+  Key uniqueKey;
+  DateTime dateParse;
+  DateTime newDate;
+  String formattedDate;
+  String shipment;
+  int totalQuantity;
+  bool available;
+  List<String> imageURLs;
 
-  @override
-  Widget build(BuildContext context) {
-    final String productName = widget?.data?.name ?? "Test Product";
-    final String productId = widget?.data?.key;
-    final double productDiscount =
-        widget?.data?.cost?.productDiscount?.rate ?? 0.0;
-    final int productPrice =
-        (widget.data.cost.costToCustomer + deliveryCharges).round() ?? 0.0;
-    final int saved = calculateSavedCost(widget?.data?.cost);
-    final List<Variation> variations = widget?.data?.variations ?? null;
+  void setupProductDetails(Product data) {
+    productData = data;
+    productName = data?.name ?? "Test Product";
+    productId = data?.key;
+    productDiscount = data?.cost?.productDiscount?.rate ?? 0.0;
+    productPrice = (data.cost.costToCustomer + deliveryCharges).round() ?? 0.0;
+    saved = calculateSavedCost(data?.cost);
+    variations = data?.variations ?? null;
 
-    var date = new DateTime.now().toString();
-    final uniqueKey = UniqueKey();
-    var dateParse = DateTime.parse(date);
-    var newDate = new DateTime(
+    date = DateTime.now().toString();
+    uniqueKey = UniqueKey();
+    dateParse = DateTime.parse(date);
+    newDate = new DateTime(
         dateParse.year,
         dateParse.month,
         dateParse.day +
-            (widget?.data?.shipment?.days == null
+            (data?.shipment?.days == null
                 ? 0
                 // ignore: null_aware_before_operator
-                : widget?.data?.shipment?.days + 1));
+                : data?.shipment?.days + 1));
     dateParse = DateTime.parse(newDate.toString());
-    var formattedDate =
+    formattedDate =
         "${weekday[dateParse.weekday - 1]} , ${dateParse.day} ${month[dateParse.month - 1]}";
-
-    final String shipment =
-        widget?.data?.shipment?.days == null ? "Not Availabel" : formattedDate;
-
-    // final tags = [
-    //   "JustHere",
-    //   "Trending",
-    // ];
-    int totalQuantity = 0;
+    shipment = data?.shipment?.days == null ? "Not Availabel" : formattedDate;
+    totalQuantity = 0;
     variations.forEach((variation) {
       totalQuantity += variation.quantity.toInt();
     });
-    final bool available =
-        (totalQuantity == 0) ? false : (widget?.data?.available ?? false);
+    available = (totalQuantity == 0) ? false : (data?.available ?? false);
 
-    final List<String> imageURLs = (widget?.data?.photo?.photos ??
-            <PhotoElement>[])
-        .map((e) => '$PRODUCT_PHOTO_BASE_URL/$productId/${e.name}-small.png')
+    imageURLs = (data?.photo?.photos ?? <PhotoElement>[])
+        .map((e) => '$PRODUCT_PHOTO_BASE_URL/$productId/${e.name}')
         .toList();
+  }
 
+  @override
+  Widget build(BuildContext context) {
+    setupProductDetails(widget?.data);
     return ViewModelProvider<ProductIndividualViewModel>.withConsumer(
       viewModel: ProductIndividualViewModel(),
-      onModelReady: (model) => model.init(widget?.data?.account?.key,
+      onModelReady: (model) => model.init(productData?.account?.key,
           productId: productId, productName: productName),
       builder: (context, model, child) => Scaffold(
         backgroundColor: backgroundWhiteCreamColor,
@@ -442,20 +465,24 @@ class _ProductIndiViewState extends State<ProductIndiView> {
           elevation: 0,
           backgroundColor: backgroundWhiteCreamColor,
           iconTheme: IconThemeData(color: appBarIconColor),
-          title: (!(widget.fromCart))
-              ? Align(
-                  alignment: Alignment.center,
-                  child: Padding(
-                    padding: EdgeInsets.only(right: 8.0),
-                    child: SvgPicture.asset(
+          automaticallyImplyLeading: !widget.fromCart,
+          title: Align(
+            alignment: Alignment.center,
+            child: Padding(
+              padding: EdgeInsets.only(right: 8.0),
+              child: (!(widget.fromCart))
+                  ? SvgPicture.asset(
                       "assets/svg/logo.svg",
                       color: logoRed,
                       height: 35,
                       width: 35,
+                    )
+                  : InkWell(
+                      onTap: () => Navigator.of(context).pop(),
+                      child: Icon(FontAwesomeIcons.chevronDown, size: 30),
                     ),
-                  ),
-                )
-              : Container(),
+            ),
+          ),
           actions: <Widget>[
             if (!(widget.fromCart))
               IconButton(
@@ -485,12 +512,12 @@ class _ProductIndiViewState extends State<ProductIndiView> {
             ),
             controller: refreshController,
             onRefresh: () async {
+              Product product = await model.refreshProduct(productData.key);
               setState(() {
+                setupProductDetails(product);
                 key = new UniqueKey();
               });
-
               await Future.delayed(Duration(milliseconds: 100));
-
               refreshController.refreshCompleted();
             },
             child: SingleChildScrollView(
@@ -501,7 +528,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       productNameAndDescInfo(
-                          productName, widget?.data?.variations ?? [], model),
+                          productName, productData?.variations ?? [], model),
                       SizedBox(
                         height: 15,
                       ),
@@ -520,6 +547,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                               productDiscount,
                               saved,
                               showPrice: (available && (totalQuantity != 0)),
+                              isClothMeterial: (productData.category.id == 13),
                             ),
                           ),
                           GestureDetector(
@@ -733,8 +761,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                 _showDialog(
                                                     context,
                                                     model.selleDetail.key,
-                                                    widget?.data?.category
-                                                            ?.id ??
+                                                    productData?.category?.id ??
                                                         1);
                                               },
                                               child: Text(
@@ -780,7 +807,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                       : Row(
                                           children: <Widget>[
                                             Text(
-                                              "Select Qty",
+                                              "Select Qty${(productData.category.id == 13) ? ' in Meters' : ''}",
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize:
@@ -892,7 +919,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                     snackPosition: SnackPosition.BOTTOM)
                                 : () async {
                                     var res = await model.buyNow(
-                                        widget?.data,
+                                        productData,
                                         selectedQty,
                                         selectedSize,
                                         selectedColor);
@@ -905,7 +932,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                         context,
                                         PageTransition(
                                           child: CartView(
-                                              productId: widget?.data?.key),
+                                              productId: productData?.key),
                                           type: PageTransitionType.rightToLeft,
                                         ),
                                       );
@@ -960,7 +987,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                     });
 
                                     var res = await model.addToCart(
-                                        widget?.data,
+                                        productData,
                                         selectedQty,
                                         selectedSize,
                                         selectedColor,
@@ -1015,32 +1042,6 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                           ),
                         ),
                       verticalSpace(30),
-                      // Text(
-                      //   "   Description",
-                      //   style: TextStyle(
-                      //       fontWeight: FontWeight.bold,
-                      //       fontSize: titleFontSizeStyle),
-                      // ),
-                      // verticalSpace(5),
-                      // Card(
-                      //   shape: RoundedRectangleBorder(
-                      //     borderRadius: BorderRadius.circular(15),
-                      //   ),
-                      //   elevation: 5,
-                      //   child: Container(
-                      //     width: MediaQuery.of(context).size.width,
-                      //     padding: EdgeInsets.all(20),
-                      //     child: Text(
-                      //       widget?.data?.description ?? "",
-                      //       textAlign: TextAlign.justify,
-                      //       style: TextStyle(
-                      //         fontSize: subtitleFontSizeStyle - 5,
-                      //         color: Colors.grey,
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
-                      // verticalSpace(20),
                       Text(
                         "   Product Details",
                         style: TextStyle(
@@ -1074,7 +1075,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                     ),
                                     verticalSpaceSmall,
                                     Text(
-                                      widget?.data?.description ?? "",
+                                      productData?.description ?? "",
                                       textAlign: TextAlign.justify,
                                       style: TextStyle(
                                         fontSize: subtitleFontSizeStyle - 5,
@@ -1088,7 +1089,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                   color: Colors.grey.withOpacity(0.5),
                                   height: 1),
                               ProductDescriptionTable(
-                                  product: widget.data, model: model),
+                                  product: productData, model: model),
                             ],
                           ),
                         ),
@@ -1205,10 +1206,10 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                           context: context,
                           filter: ProductFilter(
                               existingQueryString:
-                                  "subCategory=${widget?.data?.category?.id ?? -1};"),
+                                  "subCategory=${productData?.category?.id ?? -1};"),
                           gridCount: 2,
                           viewModel: ProductsGridViewBuilderViewModel(
-                            filteredProductKey: widget?.data?.key,
+                            filteredProductKey: productData?.key,
                             randomize: true,
                           ),
                           childAspectRatio: 1.35,
@@ -1241,14 +1242,14 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                             key: uniqueKey,
                             context: context,
                             filter: ProductFilter(
-                                existingQueryString: widget
-                                            ?.data?.account?.key !=
+                                existingQueryString: productData
+                                            ?.account?.key !=
                                         null
-                                    ? "accountKey=${widget?.data?.account?.key};"
+                                    ? "accountKey=${productData?.account?.key};"
                                     : ""),
                             gridCount: 2,
                             viewModel: ProductsGridViewBuilderViewModel(
-                              filteredProductKey: widget?.data?.key,
+                              filteredProductKey: productData?.key,
                               randomize: true,
                             ),
                             childAspectRatio: 1.35,
@@ -1483,9 +1484,9 @@ class ProductDescriptionTable extends StatelessWidget {
         ),
       ),
       children: [
-        Padding(
-          padding: EdgeInsets.all(10.0),
-          child: TableCell(
+        TableCell(
+          child: Padding(
+            padding: EdgeInsets.all(10.0),
             child: Text(
               productDetailsKey,
               textAlign: TextAlign.left,
@@ -1496,9 +1497,9 @@ class ProductDescriptionTable extends StatelessWidget {
             ),
           ),
         ),
-        Padding(
-          padding: EdgeInsets.all(10.0),
-          child: TableCell(
+        TableCell(
+          child: Padding(
+            padding: EdgeInsets.all(10.0),
             child: Text(
               productDetailsValue,
               textAlign: TextAlign.left,
@@ -1515,44 +1516,6 @@ class ProductDescriptionTable extends StatelessWidget {
   }
 }
 
-// Unused variables
-// final double productOldPrice = widget.data.oldPrice ?? 0.0;
-// final productRatingObj = widget.data.rating ?? null;
-// final variations3 = [
-//   {
-//     "size": "N/A",
-//     "quantity": 4,
-//     "color":  "Orange"
-//   },
-//   {
-//     "size": "N/A",
-//     "quantity": 6,
-//     "color":  "Orange"
-//   },
-//   {
-//     "size": "N/A",
-//     "quantity": 10,
-//     "color": "Blue",
-//   }
-// ];
-
-// final variations2 = [
-//   {
-//     "size": "X",
-//     "maxQty": 3,
-//     "color": ["Blue", "Orange"]
-//   },
-//   {
-//     "size": "XL",
-//     "maxQty": 5,
-//     "color": ["Red", "Orange"]
-//   },
-//   {
-//     "size": "XXL",
-//     "maxQty": 1,
-//     "color": ["Black", "Orange"]
-//   },
-// ];
 const rowSpacer = TableRow(children: [
   SizedBox(
     height: 3,

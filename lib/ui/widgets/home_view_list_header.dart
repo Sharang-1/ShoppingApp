@@ -41,16 +41,13 @@ class HomeViewListHeader extends StatelessWidget {
                   ),
                   if (subTitle != null) verticalSpaceTiny,
                   if (subTitle != null)
-                    FittedBox(
-                      fit: BoxFit.scaleDown,
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        subTitle,
-                        style: TextStyle(
-                          color: Colors.grey[600],
-                          fontSize: subtitleFontSizeStyle - 4,
-                          fontWeight: FontWeight.w500,
-                        ),
+                    Text(
+                      subTitle,
+                      maxLines: 3,
+                      style: TextStyle(
+                        color: Colors.grey[600],
+                        fontSize: subtitleFontSizeStyle - 4,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                 ],
