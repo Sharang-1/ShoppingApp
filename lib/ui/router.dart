@@ -109,8 +109,9 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return _getPageRoute(
         routeName: settings.name,
         viewToShow: ProductListView(
-          queryString: (pageArguments as ProductPageArg).queryString,
-          subCategory: (pageArguments as ProductPageArg).subCategory,
+          queryString: (pageArguments as ProductPageArg)?.queryString,
+          subCategory: (pageArguments as ProductPageArg)?.subCategory,
+          sellerPhoto: (pageArguments as ProductPageArg)?.sellerPhoto,
         ),
         pageArguments: pageArguments,
         pageTransitionType: PageTransitionType.rightToLeft,

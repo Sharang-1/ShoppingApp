@@ -49,6 +49,7 @@ class SellerTileUi extends StatelessWidget {
                   arguments: ProductPageArg(
                     subCategory: data.name,
                     queryString: "accountKey=${data.key};",
+                    sellerPhoto: "$SELLER_PHOTO_BASE_URL/${data.key}",
                   ),
                 );
               } else {

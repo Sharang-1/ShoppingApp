@@ -113,7 +113,7 @@ class _MyOrdersViewState extends State<MyOrdersView> {
                         shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(),
                         elements: model.mOrders.orders,
-                        groupBy: (Order o) => o.created,
+                        groupBy: (Order o) => o.created.substring(0, 10),
                         groupComparator: (String a, String b) {
                           DateTime aDateTime = DateTime.parse(
                               "${a.substring(6, 10)}${a.substring(3, 5)}${a.substring(0, 2)}");

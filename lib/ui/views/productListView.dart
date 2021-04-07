@@ -23,11 +23,13 @@ import '../widgets/ProductTileUI.dart';
 class ProductListView extends StatefulWidget {
   final String queryString;
   final String subCategory;
+  final String sellerPhoto;
 
   ProductListView({
     Key key,
     @required this.queryString,
     @required this.subCategory,
+    this.sellerPhoto,
   }) : super(key: key);
 
   @override
@@ -65,45 +67,56 @@ class _ProductListViewState extends State<ProductListView> {
             width: 35,
           ),
           actions: [
-            if (widget.queryString.isEmpty && widget.subCategory.isEmpty)
-              Align(
-                alignment: Alignment.centerRight,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: IconButton(
-                    iconSize: 50,
-                    icon: Icon(FontAwesomeIcons.slidersH,
-                        color: Colors.black, size: 20),
-                    onPressed: () async {
-                      ProductFilter filterDialogResponse =
-                          await showModalBottomSheet(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(20),
-                              topRight: Radius.circular(20)),
-                        ),
-                        isScrollControlled: true,
-                        clipBehavior: Clip.antiAlias,
-                        context: context,
-                        builder: (BuildContext context) {
-                          return FractionallySizedBox(
-                              heightFactor: 0.75,
-                              child: ProductFilterDialog(
-                                oldFilter: filter,
-                              ));
-                        },
-                      );
-
-                      if (filterDialogResponse != null) {
-                        setState(() {
-                          filter = filterDialogResponse;
-                          key = UniqueKey();
-                        });
-                      }
-                    },
-                  ),
+            if (!(widget.queryString.isEmpty && widget.subCategory.isEmpty))
+              InkWell(
+                onTap: () async {
+                  await Share.share(
+                    await _dynamicLinkService
+                        .createLink(sellerLink + sellerKey),
+                    sharePositionOrigin: Rect.fromCenter(
+                      center: Offset(100, 100),
+                      width: 100,
+                      height: 100,
+                    ),
+                  );
+                },
+                child: Image.asset(
+                  'assets/images/share_icon.png',
+                  width: 25,
+                  height: 25,
                 ),
-              )
+              ),
+            IconButton(
+              iconSize: 50,
+              icon: Icon(FontAwesomeIcons.slidersH,
+                  color: Colors.black, size: 20),
+              onPressed: () async {
+                ProductFilter filterDialogResponse = await showModalBottomSheet(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20)),
+                  ),
+                  isScrollControlled: true,
+                  clipBehavior: Clip.antiAlias,
+                  context: context,
+                  builder: (BuildContext context) {
+                    return FractionallySizedBox(
+                        heightFactor: 0.75,
+                        child: ProductFilterDialog(
+                          oldFilter: filter,
+                        ));
+                  },
+                );
+
+                if (filterDialogResponse != null) {
+                  setState(() {
+                    filter = filterDialogResponse;
+                    key = UniqueKey();
+                  });
+                }
+              },
+            ),
           ],
           iconTheme: IconThemeData(
             color: Colors.black,
@@ -135,8 +148,9 @@ class _ProductListViewState extends State<ProductListView> {
                   if (widget.queryString.isNotEmpty ||
                       widget.subCategory.isNotEmpty)
                     verticalSpace(20),
-                  if (widget.queryString.isNotEmpty ||
-                      widget.subCategory.isNotEmpty)
+                  if ((widget.queryString.isNotEmpty ||
+                          widget.subCategory.isNotEmpty) &&
+                      widget.sellerPhoto == null)
                     Padding(
                       padding: const EdgeInsets.only(right: 5.0),
                       child: Row(
@@ -162,64 +176,55 @@ class _ProductListViewState extends State<ProductListView> {
                               ),
                             ),
                           ),
-                          Expanded(
-                            flex: 1,
-                            child: GestureDetector(
-                              onTap: () async {
-                                await Share.share(
-                                  await _dynamicLinkService
-                                      .createLink(sellerLink + sellerKey),
-                                  sharePositionOrigin: Rect.fromCenter(
-                                    center: Offset(100, 100),
-                                    width: 100,
-                                    height: 100,
-                                  ),
-                                );
-                              },
-                              child: Image.asset(
-                                'assets/images/share_icon.png',
-                                width: 25,
-                                height: 25,
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: IconButton(
-                              iconSize: 50,
-                              icon: Icon(FontAwesomeIcons.slidersH,
-                                  color: Colors.black, size: 20),
-                              onPressed: () async {
-                                ProductFilter filterDialogResponse =
-                                    await showModalBottomSheet(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(20),
-                                        topRight: Radius.circular(20)),
-                                  ),
-                                  isScrollControlled: true,
-                                  clipBehavior: Clip.antiAlias,
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return FractionallySizedBox(
-                                        heightFactor: 0.75,
-                                        child: ProductFilterDialog(
-                                          oldFilter: filter,
-                                        ));
-                                  },
-                                );
-
-                                if (filterDialogResponse != null) {
-                                  setState(() {
-                                    filter = filterDialogResponse;
-                                    key = UniqueKey();
-                                  });
-                                }
-                              },
-                            ),
-                          ),
                         ],
                       ),
+                    ),
+                  if (widget.sellerPhoto != null)
+                    Column(
+                      children: [
+                        Container(
+                          height: 100,
+                          width: 100,
+                          margin: EdgeInsets.only(right: 6.0),
+                          child: ClipOval(
+                            child: FadeInImage.assetNetwork(
+                              width: 80,
+                              height: 80,
+                              fadeInCurve: Curves.easeIn,
+                              placeholder:
+                                  "assets/images/product_preloading.png",
+                              image: widget.sellerPhoto,
+                              imageErrorBuilder: (context, error, stackTrace) =>
+                                  Image.asset(
+                                "assets/images/product_preloading.png",
+                                width: 80,
+                                height: 80,
+                                fit: BoxFit.cover,
+                              ),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          decoration: BoxDecoration(
+                            color: Color.fromRGBO(255, 255, 255, 1),
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: Color.fromRGBO(255, 255, 255, 0.1),
+                              width: 8.0,
+                            ),
+                          ),
+                        ),
+                        verticalSpaceSmall,
+                        Text(
+                          widget.subCategory,
+                          overflow: TextOverflow.visible,
+                          maxLines: 2,
+                          softWrap: true,
+                          style: TextStyle(
+                              fontFamily: headingFont,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 30),
+                        ),
+                      ],
                     ),
                   verticalSpace(20),
                   FutureBuilder(
