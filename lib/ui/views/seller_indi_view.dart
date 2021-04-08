@@ -260,7 +260,7 @@ class _SellerIndiState extends State<SellerIndi> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     // HomeSlider(),
-                    verticalSpace(20),
+                    verticalSpace(30),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[

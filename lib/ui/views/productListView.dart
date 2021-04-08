@@ -80,16 +80,19 @@ class _ProductListViewState extends State<ProductListView> {
                     ),
                   );
                 },
-                child: Image.asset(
-                  'assets/images/share_icon.png',
-                  width: 25,
-                  height: 25,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Image.asset(
+                    'assets/images/share_icon.png',
+                    width: 25,
+                    height: 25,
+                  ),
                 ),
               ),
             IconButton(
-              iconSize: 50,
               icon: Icon(FontAwesomeIcons.slidersH,
                   color: Colors.black, size: 20),
+              padding: EdgeInsets.all(8.0),
               onPressed: () async {
                 ProductFilter filterDialogResponse = await showModalBottomSheet(
                   shape: RoundedRectangleBorder(

@@ -1,3 +1,4 @@
+import 'package:compound/constants/server_urls.dart';
 import 'package:flutter/material.dart';
 
 import '../constants/route_names.dart';
@@ -54,6 +55,7 @@ class DynamicContentViewModel extends BaseModel {
             arguments: ProductPageArg(
               subCategory: seller.name,
               queryString: "accountKey=${seller.key};",
+              sellerPhoto: "$SELLER_PHOTO_BASE_URL/${seller.key}",
             ),
           );
         } else {

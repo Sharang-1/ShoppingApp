@@ -54,25 +54,28 @@ class HomeViewListHeader extends StatelessWidget {
               ),
             ),
           ),
-          if (viewAll != null)
-            InkWell(
-              child: Padding(
-                padding: EdgeInsets.only(right: 8.0, left: 10.0),
-                child: FittedBox(
-                  fit: BoxFit.scaleDown,
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'View All',
-                    style: TextStyle(
-                      fontSize: subtitleFontSize - 8,
-                      fontWeight: FontWeight.bold,
-                      color: textIconBlue,
+          (viewAll == null)
+              ? Container(
+                  width: 25.0,
+                )
+              : InkWell(
+                  child: Padding(
+                    padding: EdgeInsets.only(right: 8.0, left: 10.0),
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'View All',
+                        style: TextStyle(
+                          fontSize: subtitleFontSize - 8,
+                          fontWeight: FontWeight.bold,
+                          color: textIconBlue,
+                        ),
+                      ),
                     ),
                   ),
+                  onTap: viewAll,
                 ),
-              ),
-              onTap: viewAll,
-            ),
         ],
       ),
     );
