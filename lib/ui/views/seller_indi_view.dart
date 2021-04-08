@@ -675,6 +675,7 @@ class _SellerIndiState extends State<SellerIndi> {
                                 arguments: ProductPageArg(
                                   subCategory: sellerData.name,
                                   queryString: "accountKey=${sellerData.key};",
+                                  sellerPhoto: "$SELLER_PHOTO_BASE_URL/${sellerData.key}",
                                 ),
                               );
                             },

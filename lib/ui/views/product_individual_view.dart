@@ -92,19 +92,38 @@ class ProductIndiView extends StatefulWidget {
 }
 
 class _ProductIndiViewState extends State<ProductIndiView> {
-  int selectedQty = 0;
-  int selectedIndex = -1;
-  int maxQty = -1;
-  String selectedSize = "";
-  String selectedColor = "";
-  UniqueKey key = UniqueKey();
   final refreshController = RefreshController(initialRefresh: false);
   final NavigationService _navigationService = locator<NavigationService>();
   final DynamicLinkService _dynamicLinkService = locator<DynamicLinkService>();
   final ErrorHandlingService _errorHandlingService =
       locator<ErrorHandlingService>();
 
+  int selectedQty = 0;
+  int selectedIndex = -1;
+  int maxQty = -1;
+  String selectedSize = "";
+  String selectedColor = "";
+  UniqueKey key = UniqueKey();
   bool disabledAddToCartBtn = false;
+  Product productData;
+  bool showMoreFromDesigner = true;
+  num deliveryCharges = 35.4;
+  String productName;
+  String productId;
+  double productDiscount;
+  int productPrice;
+  int saved;
+  List<Variation> variations;
+  String date;
+  Key uniqueKey;
+  Key photosKey;
+  DateTime dateParse;
+  DateTime newDate;
+  String formattedDate;
+  String shipment;
+  int totalQuantity;
+  bool available;
+  List<String> imageURLs;
 
   _showDialog(context, sellerId, cid) {
     return Navigator.push(
@@ -184,6 +203,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
         arguments: ProductPageArg(
           subCategory: model?.selleDetail?.name,
           queryString: "accountKey=${model?.selleDetail?.key};",
+          sellerPhoto: "$SELLER_PHOTO_BASE_URL/${model?.selleDetail?.key}",
         ),
       );
     } else {
@@ -398,25 +418,6 @@ class _ProductIndiViewState extends State<ProductIndiView> {
     return (actualCost - cost.costToCustomer).round();
   }
 
-  Product productData;
-  bool showMoreFromDesigner = true;
-  num deliveryCharges = 35.4;
-  String productName;
-  String productId;
-  double productDiscount;
-  int productPrice;
-  int saved;
-  List<Variation> variations;
-  String date;
-  Key uniqueKey;
-  DateTime dateParse;
-  DateTime newDate;
-  String formattedDate;
-  String shipment;
-  int totalQuantity;
-  bool available;
-  List<String> imageURLs;
-
   void setupProductDetails(Product data) {
     productData = data;
     productName = data?.name ?? "Test Product";
@@ -450,11 +451,19 @@ class _ProductIndiViewState extends State<ProductIndiView> {
     imageURLs = (data?.photo?.photos ?? <PhotoElement>[])
         .map((e) => '$PRODUCT_PHOTO_BASE_URL/$productId/${e.name}')
         .toList();
+    photosKey = UniqueKey();
+    uniqueKey = UniqueKey();
+    print("Yash : ${imageURLs.toString()}");
+  }
+
+  @override
+  void initState() {
+    setupProductDetails(widget?.data);
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    setupProductDetails(widget?.data);
     return ViewModelProvider<ProductIndividualViewModel>.withConsumer(
       viewModel: ProductIndividualViewModel(),
       onModelReady: (model) => model.init(productData?.account?.key,
@@ -515,7 +524,6 @@ class _ProductIndiViewState extends State<ProductIndiView> {
               Product product = await model.refreshProduct(productData.key);
               setState(() {
                 setupProductDetails(product);
-                key = new UniqueKey();
               });
               await Future.delayed(Duration(milliseconds: 100));
               refreshController.refreshCompleted();
@@ -534,6 +542,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                       ),
                       Stack(children: <Widget>[
                         HomeSlider(
+                          key: photosKey,
                           imgList: imageURLs,
                           aspectRatio: 1,
                         ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 import '../../constants/server_urls.dart';
@@ -45,6 +46,8 @@ class _ProductTileUIState extends State<ProductTileUI> {
     var res = await _whishListService.addWhishList(id);
     if (res == true) {
       Provider.of<WhishListSetUp>(context, listen: false).addToWhishList(id);
+      Get.snackbar('Added to Your wishlist', '',
+          snackPosition: SnackPosition.BOTTOM);
     }
   }
 
