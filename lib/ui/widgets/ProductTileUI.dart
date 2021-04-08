@@ -3,11 +3,8 @@ import 'package:provider/provider.dart';
 
 import '../../constants/server_urls.dart';
 import '../../locator.dart';
-import '../../models/CartCountSetUp.dart';
 import '../../models/WhishListSetUp.dart';
 import '../../models/products.dart';
-import '../../services/api/api_service.dart';
-import '../../services/error_handling_service.dart';
 import '../../services/whishlist_service.dart';
 import '../../utils/stringUtils.dart';
 import '../../utils/tools.dart';
@@ -36,10 +33,7 @@ class ProductTileUI extends StatefulWidget {
 }
 
 class _ProductTileUIState extends State<ProductTileUI> {
-  final APIService _apiService = locator<APIService>();
   final WhishListService _whishListService = locator<WhishListService>();
-  final ErrorHandlingService _errorHandlingService =
-      locator<ErrorHandlingService>();
   bool toggle = false;
 
   @override
@@ -190,18 +184,6 @@ class _ProductTileUIState extends State<ProductTileUI> {
                                     height: 20,
                                     width: 20,
                                   ),
-                                  onTap: () async {
-                                    var res = await _apiService.addToCart(
-                                        widget.data.key, 1, '', '');
-                                    if (res == null)
-                                      _errorHandlingService
-                                          .showError(Errors.CouldNotAddToCart);
-                                    else
-                                      Provider.of<CartCountSetUp>(context,
-                                              listen: false)
-                                          .incrementCartCount();
-                                    widget.onAddToCartClicked();
-                                  },
                                 )
                         ],
                         // )
