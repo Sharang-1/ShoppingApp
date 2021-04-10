@@ -165,9 +165,11 @@ class _SelectAddressState extends State<SelectAddress> {
                                     context: context,
                                     builder: (_) => Padding(
                                           padding: EdgeInsets.only(
-                                              bottom: MediaQuery.of(context)
-                                                  .viewInsets
-                                                  .bottom),
+                                            // bottom: MediaQuery.of(context)
+                                            //     .viewInsets
+                                            //     .bottom),
+                                            bottom: 0.0,
+                                          ),
                                           child: BottomSheetForAddress(
                                             pickedPlace: pickedPlace,
                                           ),

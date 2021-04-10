@@ -89,6 +89,7 @@ class _HomeSliderState extends State<HomeSlider> {
                             maxWidthDiskCache: 200,
                             fit: BoxFit.cover,
                             imageUrl: i,
+                            placeholder: (context, e)=> Center(child: CircularProgressIndicator()),
                             errorWidget: (context, url, error) =>
                                 new Icon(Icons.error),
                           ),
@@ -131,6 +132,7 @@ class _HomeSliderState extends State<HomeSlider> {
           galleryItems: imgList,
           initialIndex: index,
           scrollDirection: Axis.horizontal,
+          loadingBuilder: (context, e) => Center(child: CircularProgressIndicator()),
           backgroundDecoration: BoxDecoration(color: backgroundWhiteCreamColor),
         ),
       ),

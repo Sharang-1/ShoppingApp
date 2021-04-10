@@ -1,6 +1,8 @@
 // import 'package:compound/services/navigation_service.dart';
 import 'package:compound/viewmodels/base_model.dart';
+import 'package:compound/viewmodels/cart_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../constants/route_names.dart';
 import '../locator.dart';
@@ -27,13 +29,15 @@ class OrdersViewModel extends BaseModel {
   Future orderPlaced(context) async {
     Future.delayed(Duration(milliseconds: 2500), () async {
       Order o = (await _apiService.getAllOrders()).orders.first;
-      Navigator.pushAndRemoveUntil(
+      await Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
           builder: (context) => MyOrdersDetailsView(o),
         ),
         ModalRoute.withName(HomeViewRoute),
       );
+      if (await Provider.of<CartViewModel>(context).hasProducts())
+        await Navigator.pushNamed(context, CartViewRoute);
     });
   }
 }

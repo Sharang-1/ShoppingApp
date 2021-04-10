@@ -14,7 +14,7 @@ class HelpView extends StatelessWidget {
       child: Stack(
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 60.0, left: 8.0, bottom: 60.0),
+            padding: const EdgeInsets.only(top: 70.0, left: 16.0, bottom: 80.0),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -91,7 +91,7 @@ class HelpView extends StatelessWidget {
           Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 8.0),
+              padding: EdgeInsets.symmetric(vertical: 18.0, horizontal: 8.0),
               child: Row(
                 children: <Widget>[
                   Expanded(

@@ -66,7 +66,8 @@ class MapViewModel extends BaseModel {
       clientsToggle = true;
     }
     sData.items.shuffle();
-    sData.items = sData.items.sublist(0, 10);
+    tData.items.shuffle();
+    // sData.items = sData.items.sublist(0, 10);
     notifyListeners();
 
     if (sellerKey != null && sellerKey != '') {

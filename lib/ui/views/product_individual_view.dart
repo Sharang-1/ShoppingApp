@@ -136,6 +136,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
           scrollDirection: Axis.horizontal,
           initialIndex: 0,
           showImageLabel: false,
+          loadingBuilder: (context, e) => Center(child: CircularProgressIndicator()),
           backgroundDecoration: BoxDecoration(color: backgroundWhiteCreamColor),
         ),
       ),
@@ -1133,6 +1134,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: <Widget>[
                                         Text(
                                           model.selleDetail?.name ?? "",
@@ -1140,7 +1143,10 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                               fontSize: subtitleFontSizeStyle,
                                               color: darkRedSmooth),
                                         ),
-                                        verticalSpace(10),
+                                        if (model?.selleDetail
+                                                ?.subscriptionTypeId !=
+                                            2)
+                                          verticalSpace(10),
                                         if (model?.selleDetail
                                                 ?.subscriptionTypeId !=
                                             2)

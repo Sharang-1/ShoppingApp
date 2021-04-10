@@ -21,9 +21,11 @@ class WhishListGridViewBuilderViewModel
   @override
   Future<Products> getData(
       {BaseFilterModel filterModel, int pageNumber, int pageSize = 10}) async {
-    List<String> list = this.productIds ?? await _whishListService.getWhishList();
+    List<String> list =
+        this.productIds ?? await _whishListService.getWhishList();
     Products res = await _apiService.getWhishlistProducts(list: list);
-    if(res == null) throw "Could not load";
+    if (res == null) throw "Could not load";
+    res.items = res.items.where((p) => p.available).toList();
     return res;
   }
 }

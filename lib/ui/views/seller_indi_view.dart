@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:location/location.dart';
 import 'package:share/share.dart';
 import 'package:sliver_fab/sliver_fab.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -422,10 +423,16 @@ class _SellerIndiState extends State<SellerIndi> {
                                     ],
                                   ),
                                   ElevatedButton(
-                                      onPressed: () {
-                                        _navigationService.navigateTo(
-                                            MapViewRoute,
-                                            arguments: sellerData?.key);
+                                      onPressed: () async {
+                                        var status = await Location()
+                                            .requestPermission();
+                                        if (status ==
+                                            PermissionStatus.GRANTED) {
+                                          _navigationService.navigateTo(
+                                              MapViewRoute,
+                                              arguments: sellerData?.key);
+                                        }
+                                        return;
                                       },
                                       style: ElevatedButton.styleFrom(
                                         primary: Colors.white,
@@ -675,7 +682,8 @@ class _SellerIndiState extends State<SellerIndi> {
                                 arguments: ProductPageArg(
                                   subCategory: sellerData.name,
                                   queryString: "accountKey=${sellerData.key};",
-                                  sellerPhoto: "$SELLER_PHOTO_BASE_URL/${sellerData.key}",
+                                  sellerPhoto:
+                                      "$SELLER_PHOTO_BASE_URL/${sellerData.key}",
                                 ),
                               );
                             },

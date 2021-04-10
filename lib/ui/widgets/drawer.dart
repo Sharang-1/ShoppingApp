@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:location/location.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -140,9 +141,13 @@ class HomeDrawer extends StatelessWidget {
                                 fontSize: 18,
                               ),
                             ),
-                            onTap: () {
-                              _navigationService.navigateTo(MapViewRoute,
-                                  popNavbar: true);
+                            onTap: () async {
+                              var status = await Location().requestPermission();
+                              if (status == PermissionStatus.GRANTED) {
+                                _navigationService.navigateTo(MapViewRoute,
+                                    popNavbar: true);
+                              }
+                              return;
                             },
                           ),
                           Divider(),

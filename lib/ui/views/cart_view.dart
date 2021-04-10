@@ -208,7 +208,8 @@ class _CartViewState extends State<CartView> {
                                                           {key = UniqueKey()}));
                                                 },
                                               ),
-                                            )
+                                            ),
+                                            verticalSpace(15),
                                           ],
                                         )
                                       : Container(),

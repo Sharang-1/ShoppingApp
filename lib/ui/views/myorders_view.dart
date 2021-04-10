@@ -128,17 +128,22 @@ class _MyOrdersViewState extends State<MyOrdersView> {
                           return Padding(
                             padding: const EdgeInsets.only(
                                 top: 8.0, left: 8.0, right: 8.0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: logoRed,
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              padding: EdgeInsets.all(5.0),
-                              child: Text(
-                                date,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.white,
+                            child: FittedBox(
+                              alignment: Alignment.centerLeft,
+                              fit: BoxFit.scaleDown,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: logoRed,
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                padding: EdgeInsets.all(8.0),
+                                child: Text(
+                                  date,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                  ),
                                 ),
                               ),
                             ),

@@ -683,7 +683,7 @@ class _HomeViewListState extends State<HomeViewList> {
                           FittedBox(
                             fit: BoxFit.fitWidth,
                             child: Text(
-                              "Made with Love in India!",
+                              "Made with Love in Ahmedabad!",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: Colors.grey[800],

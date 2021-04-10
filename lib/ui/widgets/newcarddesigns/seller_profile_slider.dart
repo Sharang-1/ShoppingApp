@@ -70,6 +70,7 @@ class SellerProfilePhotos extends StatelessWidget {
                         maxHeightDiskCache: 200,
                         maxWidthDiskCache: 200,
                         fit: BoxFit.cover,
+                        placeholder: (context, url) => Center(child: CircularProgressIndicator()),
                         imageUrl: i,
                         errorWidget: (context, url, error) =>
                             new Icon(Icons.error),

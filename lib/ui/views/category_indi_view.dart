@@ -169,7 +169,7 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
                           // The builder function returns a ListTile with a title that
                           // displays the index of the current item.
                           (context, index) => ConstrainedBox(
-                            constraints: BoxConstraints(minHeight: 300),
+                            constraints: BoxConstraints(minHeight: 400),
                             child: Container(
                               color: backgroundWhiteCreamColor,
                               // height: 500,
@@ -208,7 +208,10 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
                                             emptyListWidget:
                                                 EmptyListWidget(text: ""),
                                             viewModel:
-                                                ProductsGridViewBuilderViewModel(),
+                                                ProductsGridViewBuilderViewModel(
+                                              randomize: true,
+                                              limit: 1000,
+                                            ),
                                             childAspectRatio: 0.7,
                                             tileBuilder: (BuildContext context,
                                                 data,

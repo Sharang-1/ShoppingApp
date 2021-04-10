@@ -30,6 +30,7 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>EnableBackgroundLocationUpdates</key> <true/>
 	<key>NSAppleMusicUsageDescription</key>
 	<string>Dzor App does not require access to Apple Music.</string>
 	<key>NSCalendarsUsageDescription</key>

@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:location/location.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constants/route_names.dart';
@@ -11,6 +12,7 @@ import '../models/user.dart';
 import '../services/api/api_service.dart';
 import '../services/authentication_service.dart';
 import '../services/cart_local_store_service.dart';
+import '../services/location_service.dart';
 import '../services/navigation_service.dart';
 
 class BaseModel extends ChangeNotifier {
@@ -20,6 +22,8 @@ class BaseModel extends ChangeNotifier {
   final CartLocalStoreService _cartLocalStoreService =
       locator<CartLocalStoreService>();
   final APIService _apiService = locator<APIService>();
+  // ignore: unused_field
+  final LocationService _locationService = locator<LocationService>();
   User get currentUser => _authenticationService.currentUser;
   bool _busy = false;
   bool get busy => _busy;
@@ -77,7 +81,11 @@ class BaseModel extends ChangeNotifier {
   }
 
   Future openmap() async {
-    await _navigationService.navigateTo(MapViewRoute);
+    var status = await Location().requestPermission();
+    if (status == PermissionStatus.GRANTED) {
+      await _navigationService.navigateTo(MapViewRoute);
+    }
+    return;
   }
 
   Future<void> logout() async {
