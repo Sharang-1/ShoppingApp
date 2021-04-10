@@ -30,10 +30,22 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>Dzor App does not require access to Apple Music.</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Dzor App does not require access to calender. </string>
+	<key>NSContactsUsageDescription</key>
+	<string>Dzor App does not require access to contacts.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>So I can track you at all times</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>So I can track you while you use the app</string>
+	<key>NSMotionUsageDescription</key>
+	<string>Dzor App does not require access to motion sensors.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Dzor App does not require access to photo library.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Dzor App does not require access speech recognition.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
