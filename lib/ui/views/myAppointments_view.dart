@@ -63,6 +63,7 @@ class _myAppointmentsState extends State<myAppointments> {
                   ),
                   controller: refreshController,
                   onRefresh: () async {
+                    await model.refreshAppointments();
                     setState(() {
                       key = new UniqueKey();
                     });
@@ -137,7 +138,7 @@ class _myAppointmentsState extends State<myAppointments> {
             ));
   }
 
-  _showDialog(context, AppointmentElement data, AppointmentsViewModel model) {
+  _showDialog(context, AppointmentData data, AppointmentsViewModel model) {
     final msgTextController = TextEditingController();
     return showDialog<String>(
       context: context,
@@ -159,11 +160,13 @@ class _myAppointmentsState extends State<myAppointments> {
         actions: <Widget>[
           new TextButton(
               child: const Text('OK'),
-              onPressed: () {
-                model.cancelAppointment(
-                    data.appointment.id, msgTextController.text);
+              onPressed: () async {
+                await model.cancelAppointment(data.id, msgTextController.text);
                 Navigator.of(context).pop();
-                model.getAppointments();
+                await model.refreshAppointments();
+                setState(() {
+                  key = new UniqueKey();
+                });
               }),
         ],
       ),
@@ -171,7 +174,7 @@ class _myAppointmentsState extends State<myAppointments> {
   }
 
   Widget productCard(
-      context, AppointmentElement data, AppointmentsViewModel model) {
+      context, AppointmentData data, AppointmentsViewModel model) {
     const appointmentStatus = [
       "Pending",
       "Confirmed",
@@ -215,7 +218,7 @@ class _myAppointmentsState extends State<myAppointments> {
                         horizontalSpaceSmall,
                         Expanded(
                             child: CustomText(
-                          data.appointment.id,
+                          data.id,
                           dotsAfterOverFlow: true,
                           isBold: true,
                           color: logoRed,
@@ -233,7 +236,7 @@ class _myAppointmentsState extends State<myAppointments> {
                               children: <Widget>[
                                 CustomText(
                                   new DateFormat.yMMMEd()
-                                      .format(data.appointment.timeSlotStart)
+                                      .format(data.timeSlotStart)
                                       .toString(),
                                   isBold: true,
                                   color: Colors.grey[600],
@@ -242,12 +245,11 @@ class _myAppointmentsState extends State<myAppointments> {
                                 verticalSpaceTiny,
                                 CustomText(
                                   DateFormat("h:mma")
-                                          .format(
-                                              data.appointment.timeSlotStart)
+                                          .format(data.timeSlotStart)
                                           .toString() +
                                       " - " +
                                       DateFormat("h:mma")
-                                          .format(data.appointment.timeSlotEnd)
+                                          .format(data.timeSlotEnd)
                                           .toString(),
                                   isBold: true,
                                   color: Colors.grey[600],
@@ -262,10 +264,9 @@ class _myAppointmentsState extends State<myAppointments> {
                               color: textIconOrange,
                               borderRadius: BorderRadius.circular(curve30)),
                           child: CustomText(
-                            (data.appointment.status is String)
-                                ? appointmentStatus[
-                                    int.parse(data.appointment.status)]
-                                : appointmentStatus[data.appointment.status],
+                            (data.status is String)
+                                ? appointmentStatus[int.parse(data.status)]
+                                : appointmentStatus[data.status],
                             color: Colors.white,
                             fontSize: 12,
                             isBold: true,
@@ -280,7 +281,8 @@ class _myAppointmentsState extends State<myAppointments> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             ElevatedButton(
-                onPressed: () {},
+                onPressed: () async => await model.onDirectionButtonPressed(
+                    sellerKey: data.seller.id),
                 style: ElevatedButton.styleFrom(
                   elevation: 5,
                   primary: textIconOrange,
@@ -304,9 +306,7 @@ class _myAppointmentsState extends State<myAppointments> {
                     ),
                   ]),
                 )),
-            ((data.appointment.status < 2 ||
-                    data.appointment.status == "1" ||
-                    data.appointment.status == "0")
+            ((data.status < 2 || data.status == "1" || data.status == "0")
                 ? ElevatedButton(
                     style: ElevatedButton.styleFrom(
                         elevation: 0,

@@ -1,4 +1,3 @@
-import 'package:compound/models/orders.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:grouped_list/grouped_list.dart';
@@ -9,6 +8,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../constants/route_names.dart';
 import '../../constants/server_urls.dart';
 import '../../locator.dart';
+import '../../models/orders.dart';
 import '../../services/navigation_service.dart';
 import '../../viewmodels/orders_view_model.dart';
 import '../shared/app_colors.dart';

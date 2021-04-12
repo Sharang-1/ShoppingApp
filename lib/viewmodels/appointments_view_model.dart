@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
+import 'package:location/location.dart';
 
 import '../constants/route_names.dart';
 import '../locator.dart';
@@ -36,12 +37,28 @@ class AppointmentsViewModel extends BaseModel {
     Appointments result = await _apiService.getUserAppointments();
     if (result != null) {
       Fimber.d("Appointments : " + result.appointments.toString());
-      result.appointments.sort((a, b) =>
-          -1 *
-          a.appointment.timeSlotStart.compareTo(b.appointment.timeSlotStart));
+      result.appointments
+          .sort((a, b) => b.timeSlotStart.compareTo(a.timeSlotStart));
       _data = result;
     }
     setBusy(false);
+  }
+
+  Future refreshAppointments() async {
+    Appointments result = await _apiService.getUserAppointments();
+    if (result != null) {
+      result.appointments
+          .sort((a, b) => -1 * a.timeSlotStart.compareTo(b.timeSlotStart));
+      _data = result;
+    }
+  }
+
+  Future onDirectionButtonPressed({@required String sellerKey}) async {
+    var status = await Location().requestPermission();
+    if (status == PermissionStatus.GRANTED) {
+      _navigationService.navigateTo(MapViewRoute, arguments: sellerKey);
+    }
+    return;
   }
 
   Future cancelAppointment(String id, String msg) async {

@@ -1,3 +1,5 @@
+import 'package:fimber/fimber.dart';
+
 import '../../locator.dart';
 import '../../models/grid_view_builder_filter_models/base_filter_model.dart';
 import '../../models/sellers.dart';
@@ -18,6 +20,7 @@ class SellersGridViewBuilderViewModel
   final bool sellerOnly;
   final bool sellerDeliveringToYou;
   final bool boutiquesOnly;
+  final bool sellerWithNoProducts;
   final bool random;
   final String removeId;
   final num subscriptionType;
@@ -29,7 +32,8 @@ class SellersGridViewBuilderViewModel
       this.random = false,
       this.boutiquesOnly = false,
       this.removeId,
-      this.subscriptionType});
+      this.subscriptionType,
+      this.sellerWithNoProducts = true});
 
   @override
   Future init() {
@@ -47,6 +51,7 @@ class SellersGridViewBuilderViewModel
         "startIndex=${pageSize * (pageNumber - 1)};limit=${this.random ? 1000 : pageSize};" +
             filterModel.queryString;
     Sellers res = await _apiService.getSellers(queryString: _queryString);
+    if (res == null) throw "Could not load";
 
     if (this.removeId != null) {
       res.items =
@@ -89,11 +94,23 @@ class SellersGridViewBuilderViewModel
 
     if (this.random) {
       res.items.shuffle();
-      if(res.items.length > pageSize)
-      res.items = res.items.sublist(0, pageSize);
+      if (res.items.length > pageSize)
+        res.items = res.items.sublist(0, pageSize);
     }
 
-    if (res == null) throw "Could not load";
+    if (!sellerWithNoProducts) {
+      List<Seller> sellers = [];
+      await Future.wait([
+        Future.forEach(res.items, (s) async {
+          bool hasProducts = await _apiService.hasProducts(sellerKey: s.key);
+          Fimber.i("hasProducts : $hasProducts");
+          if (hasProducts) sellers.add(s);
+        }),
+      ]);
+      res.items = sellers;
+      return res;
+    }
+
     return res;
   }
 }

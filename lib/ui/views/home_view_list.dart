@@ -306,6 +306,7 @@ class _HomeViewListState extends State<HomeViewList> {
               viewModel: SellersGridViewBuilderViewModel(
                 sellerDeliveringToYou: true,
                 random: true,
+                sellerWithNoProducts: false,
               ),
               disablePagination: true,
               scrollDirection: Axis.horizontal,

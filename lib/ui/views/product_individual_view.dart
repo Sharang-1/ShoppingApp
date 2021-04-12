@@ -136,7 +136,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
           scrollDirection: Axis.horizontal,
           initialIndex: 0,
           showImageLabel: false,
-          loadingBuilder: (context, e) => Center(child: CircularProgressIndicator()),
+          loadingBuilder: (context, e) =>
+              Center(child: CircularProgressIndicator()),
           backgroundDecoration: BoxDecoration(color: backgroundWhiteCreamColor),
         ),
       ),
@@ -639,7 +640,44 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                         ),
                       if (available && (totalQuantity != 0)) verticalSpace(5),
                       if (available && (totalQuantity != 0))
-                        Text("(Inclusive of taxes and charges)"),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("(Inclusive of taxes and charges)"),
+                            Padding(
+                              padding: const EdgeInsets.only(right: 8.0),
+                              child: FittedBox(
+                                alignment: Alignment.centerLeft,
+                                fit: BoxFit.scaleDown,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.green,
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 5.0, horizontal: 12.0),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        "${model?.reviews?.ratingAverage?.rating?.toString() ?? 0} ",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.white,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                      Icon(
+                                        Icons.star,
+                                        color: Colors.white,
+                                        size: 12,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       verticalSpace(10),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -652,17 +690,43 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                   available: available),
                             ),
                           ),
-                          InkWell(
-                              onTap: () async => await showDialog<AlertDialog>(
-                                    context: context,
-                                    builder: (context) => AlertDialog(
-                                      content: Text(
-                                          "Please read the terms and conditions carefully. We only take returns & refund requests only in case of an error on our end. We don’t allow cancellations."),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: InkWell(
+                                onTap: () async => await showDialog<AlertDialog>(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                        content: Text(
+                                            "Please read the terms and conditions carefully. We only take returns & refund requests only in case of an error on our end. We don’t allow cancellations."),
+                                      ),
                                     ),
-                                  ),
-                              child: Icon(Icons.help_outline_rounded)),
+                                child: Icon(Icons.help_outline_rounded)),
+                          ),
                         ],
                       ),
+                      if (productData.made.id == 1)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8.0, right: 8.0),
+                          child: FittedBox(
+                            alignment: Alignment.centerLeft,
+                            fit: BoxFit.scaleDown,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: logoRed,
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              padding: EdgeInsets.all(8.0),
+                              child: Text(
+                                "Home Made",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
                       if (available) verticalSpace(20),
                       if (available)
                         Row(
@@ -1370,6 +1434,19 @@ class ProductDescriptionTable extends StatelessWidget {
           return Table(
             children: [
               // divider,
+              if (product?.fabricDetails != null &&
+                  product?.fabricDetails != "")
+                getProductDetailsRow(
+                  "Fabric Details",
+                  product?.fabricDetails,
+                ),
+              // divider,
+              if (product?.typeOfWork != null && product?.typeOfWork != "")
+                getProductDetailsRow(
+                  "Type Of Work",
+                  product?.typeOfWork,
+                ),
+              // divider,
               if (product?.neck != null && product?.neck != "")
                 getProductDetailsRow("Neck", product?.neck?.toString()),
               // divider,
@@ -1467,19 +1544,6 @@ class ProductDescriptionTable extends StatelessWidget {
                 getProductDetailsRow(
                   "Breath",
                   product?.breath?.toString(),
-                ),
-              // divider,
-              if (product?.fabricDetails != null &&
-                  product?.fabricDetails != "")
-                getProductDetailsRow(
-                  "Fabric Details",
-                  product?.fabricDetails,
-                ),
-              // divider,
-              if (product?.typeOfWork != null && product?.typeOfWork != "")
-                getProductDetailsRow(
-                  "Type Of Work",
-                  product?.typeOfWork,
                 ),
               if (product?.margin != null && product.margin)
                 getProductDetailsRow("Margin", "Margin left in selai"),

@@ -1,7 +1,7 @@
-import 'package:compound/constants/server_urls.dart';
 import 'package:flutter/material.dart';
 
 import '../constants/route_names.dart';
+import '../constants/server_urls.dart';
 import '../locator.dart';
 import '../models/productPageArg.dart';
 import '../models/products.dart';

@@ -202,6 +202,14 @@ class APIService {
     return null;
   }
 
+  Future<bool> hasProducts({@required String sellerKey}) async {
+    Products products =
+        await getProducts(queryString: 'accountKey=$sellerKey;');
+    products.items =
+        products.items.where((p) => (p.enabled && p.available)).toList();
+    return products.items.isNotEmpty;
+  }
+
   Future<Product> getProductById({@required String productId}) async {
     if (productId == null) return null;
     var productData =

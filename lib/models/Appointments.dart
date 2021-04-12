@@ -20,17 +20,15 @@ class Appointments {
   int offset;
   int limit;
   int records;
-  List<AppointmentElement> appointments;
+  List<AppointmentData> appointments;
 
   factory Appointments.fromJson(Map<String, dynamic> json) {
-    List<AppointmentElement> appointmentElements;
+    List<AppointmentData> appointmentElements;
     int records = json["records"];
-      
-    appointmentElements = List<AppointmentElement>.generate(records,
-        (index) {
-          return AppointmentElement.fromJson(json["appointments"][index]);
-        }
-    );
+
+    appointmentElements = List<AppointmentData>.generate(records, (index) {
+      return AppointmentData.fromJson(json["appointments"][index]);
+    });
 
     return Appointments(
       offset: json["offset"],
@@ -48,27 +46,6 @@ class Appointments {
       };
 }
 
-class AppointmentElement {
-  AppointmentElement({
-    this.appointment,
-    this.seller,
-  });
-
-  AppointmentData appointment;
-  SellerData seller;
-
-  factory AppointmentElement.fromJson(Map<String, dynamic> json) => 
-      AppointmentElement(
-    appointment: AppointmentData.fromJson(json["appointment"]),
-    seller: SellerData.fromJson(json["seller"]),
-  );
-
-  Map<String, dynamic> toJson() => {
-        "appointment": appointment.toJson(),
-        "seller": seller.toJson(),
-      };
-}
-
 class AppointmentData {
   AppointmentData({
     this.id,
@@ -78,6 +55,7 @@ class AppointmentData {
     this.status,
     this.customerMessage,
     this.sellerMessage,
+    this.seller,
   });
 
   String id;
@@ -87,6 +65,7 @@ class AppointmentData {
   dynamic status;
   String customerMessage;
   String sellerMessage;
+  SellerData seller;
 
   factory AppointmentData.fromJson(Map<String, dynamic> json) =>
       AppointmentData(
@@ -98,6 +77,7 @@ class AppointmentData {
         customerMessage:
             json["customerMessage"] == null ? null : json["customerMessage"],
         sellerMessage: json["sellerMessage"],
+        seller: SellerData.fromJson(json["seller"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -108,6 +88,7 @@ class AppointmentData {
         "status": status,
         "customerMessage": customerMessage == null ? null : customerMessage,
         "sellerMessage": sellerMessage,
+        "seller": seller?.toJson(),
       };
 }
 
@@ -208,10 +189,12 @@ class AryNumber {
   String code;
   String mobile;
 
-  factory AryNumber.fromJson(Map<String, dynamic> json) => (json == null) ? null : AryNumber(
-        code: json["code"],
-        mobile: json["mobile"],
-      );
+  factory AryNumber.fromJson(Map<String, dynamic> json) => (json == null)
+      ? null
+      : AryNumber(
+          code: json["code"],
+          mobile: json["mobile"],
+        );
 
   Map<String, dynamic> toJson() => {
         "code": code,

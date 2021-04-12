@@ -59,17 +59,14 @@ class _CartViewState extends State<CartView> {
                 showDialog(
                     context: context,
                     builder: (context) => AlertDialog(
-                          content:
-                              Text("Do you really want to leave this screen ?"),
+                          content: Text("Do you really want to leave cart ?"),
                           actions: [
                             ElevatedButton(
                               onPressed: () {},
                               child: Text("Yes"),
                             ),
                             ElevatedButton(
-                              onPressed: () {
-                                return;
-                              },
+                              onPressed: () {},
                               child: Text("No"),
                             )
                           ],

@@ -212,7 +212,7 @@ class _HomeViewState extends State<HomeView> {
                       tooltip: 'map',
                       // icon: Icon(FontAwesomeIcons.mapMarkedAlt),
                       // icon: Image.asset("assets/images/location-4.png"),
-                      icon: Image.asset("assets/images/dzor_map.png"),
+                      icon: Image.asset("assets/images/map.png"),
                       onPressed: () {
                         model.openmap();
                       },

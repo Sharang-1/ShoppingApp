@@ -242,11 +242,28 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                       verticalSpaceMedium,
                                       Align(
                                         alignment: Alignment.centerLeft,
-                                        child: CustomText(
-                                          "Time",
-                                          isTitle: true,
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: titleFontSizeStyle,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            CustomText(
+                                              "Time",
+                                              isTitle: true,
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: titleFontSizeStyle,
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 4.0),
+                                              child: Text(
+                                                "Choose an available time slot",
+                                                style: TextStyle(
+                                                  color: Colors.black45,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
                                       verticalSpaceTiny,

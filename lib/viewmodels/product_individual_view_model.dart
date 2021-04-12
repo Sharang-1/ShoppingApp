@@ -1,5 +1,6 @@
 // import 'package:compound/models/user_details.dart';
 // import 'package:compound/services/address_service.dart';
+import 'package:compound/models/reviews.dart';
 import 'package:compound/services/api/api_service.dart';
 import 'package:compound/services/cart_local_store_service.dart';
 import 'package:compound/services/dialog_service.dart';
@@ -31,6 +32,7 @@ class ProductIndividualViewModel extends BaseModel {
   // final AddressService _addressService = locator<AddressService>();
 
   Seller selleDetail;
+  Reviews reviews;
   // UserDetailsContact defaultAddress;
   // bool isProductInWhishlist = false;
 
@@ -43,6 +45,7 @@ class ProductIndividualViewModel extends BaseModel {
           "product_name": productName
         });
     selleDetail = await _apiService.getSellerByID(sellerId);
+    reviews = await _apiService.getReviews(productId, isSellerReview: false);
     // var addresses = await _addressService.getAddresses();
     // if (addresses != null && addresses.length != 0) {
     //   defaultAddress = addresses.first;

@@ -25,7 +25,7 @@ class WhishListGridViewBuilderViewModel
         this.productIds ?? await _whishListService.getWhishList();
     Products res = await _apiService.getWhishlistProducts(list: list);
     if (res == null) throw "Could not load";
-    res.items = res.items.where((p) => p.available).toList();
+    res.items = res.items.where((p) => (p.enabled && p.available)).toList();
     return res;
   }
 }
