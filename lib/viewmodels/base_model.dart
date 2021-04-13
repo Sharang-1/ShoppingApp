@@ -92,6 +92,6 @@ class BaseModel extends ChangeNotifier {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove(Authtoken);
     prefs.remove(PhoneNo);
-    await _navigationService.navigateReplaceTo(LoginViewRoute);
+    await _navigationService.navigateAndRemoveUntil(LoginViewRoute);
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -13,6 +14,7 @@ import '../shared/ui_helpers.dart';
 import '../widgets/GridListWidget.dart';
 import '../widgets/custom_text.dart';
 import 'help_view.dart';
+import 'seller_indi_view.dart';
 
 // ignore: camel_case_types
 class myAppointments extends StatefulWidget {
@@ -140,27 +142,46 @@ class _myAppointmentsState extends State<myAppointments> {
 
   _showDialog(context, AppointmentData data, AppointmentsViewModel model) {
     final msgTextController = TextEditingController();
+    String _errorText = '';
+    StateSetter _stateSetter;
     return showDialog<String>(
       context: context,
       useRootNavigator: false,
       builder: (context) => AlertDialog(
-        contentPadding: const EdgeInsets.all(16.0),
-        content: new Row(
-          children: <Widget>[
-            new Expanded(
-              child: new TextField(
-                controller: msgTextController,
-                autofocus: true,
-                decoration:
-                    new InputDecoration(hintText: 'Reason for Cancellation ?'),
-              ),
-            )
-          ],
+        title: Center(
+          child: Text(
+            'Cancel Appointment',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ),
+        contentPadding: const EdgeInsets.all(16.0),
+        content: StatefulBuilder(builder: (context, stateSetter) {
+          _stateSetter = stateSetter;
+          return Row(
+            children: <Widget>[
+              Expanded(
+                child: new TextField(
+                  controller: msgTextController,
+                  autofocus: true,
+                  decoration: InputDecoration(
+                    hintText: 'Reason for Cancellation ?',
+                    errorText: _errorText,
+                  ),
+                ),
+              )
+            ],
+          );
+        }),
         actions: <Widget>[
-          new TextButton(
+          TextButton(
               child: const Text('OK'),
               onPressed: () async {
+                if (msgTextController.text.trim().length <= 10)
+                  return _stateSetter(() {
+                    _errorText = 'Enter atleast 10 character';
+                  });
                 await model.cancelAppointment(data.id, msgTextController.text);
                 Navigator.of(context).pop();
                 await model.refreshAppointments();
@@ -194,86 +215,105 @@ class _myAppointmentsState extends State<myAppointments> {
             child: Container(
                 width: MediaQuery.of(context).size.width - 40,
                 padding: EdgeInsets.all(20),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    verticalSpaceTiny,
-                    CustomText(
-                      data.seller.name,
-                      dotsAfterOverFlow: true,
-                      isTitle: true,
-                      isBold: true,
-                      fontSize: headingSize,
-                    ),
-                    verticalSpaceTiny,
-                    Row(
+                child: Stack(
+                  children: [
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
+                        verticalSpaceTiny,
                         CustomText(
-                          "BOOKING ID",
-                          isBold: true,
-                          color: logoRed,
-                          fontSize: subHeadingSize - 2,
-                        ),
-                        horizontalSpaceSmall,
-                        Expanded(
-                            child: CustomText(
-                          data.id,
+                          data.seller.name,
                           dotsAfterOverFlow: true,
+                          isTitle: true,
                           isBold: true,
-                          color: logoRed,
-                          fontSize: subHeadingSize - 2,
-                        ))
-                      ],
-                    ),
-                    verticalSpaceMedium,
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: <Widget>[
-                        Expanded(
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                CustomText(
-                                  new DateFormat.yMMMEd()
-                                      .format(data.timeSlotStart)
-                                      .toString(),
-                                  isBold: true,
-                                  color: Colors.grey[600],
-                                  fontSize: subHeadingSize,
-                                ),
-                                verticalSpaceTiny,
-                                CustomText(
-                                  DateFormat("h:mma")
-                                          .format(data.timeSlotStart)
-                                          .toString() +
-                                      " - " +
-                                      DateFormat("h:mma")
-                                          .format(data.timeSlotEnd)
-                                          .toString(),
-                                  isBold: true,
-                                  color: Colors.grey[600],
-                                  fontSize: subHeadingSize,
-                                ),
-                              ]),
+                          fontSize: headingSize,
                         ),
-                        Container(
-                          padding:
-                              EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                          decoration: BoxDecoration(
-                              color: textIconOrange,
-                              borderRadius: BorderRadius.circular(curve30)),
-                          child: CustomText(
-                            (data.status is String)
-                                ? appointmentStatus[int.parse(data.status)]
-                                : appointmentStatus[data.status],
-                            color: Colors.white,
-                            fontSize: 12,
-                            isBold: true,
-                          ),
+                        verticalSpaceTiny,
+                        Row(
+                          children: <Widget>[
+                            CustomText(
+                              "BOOKING ID",
+                              isBold: true,
+                              color: logoRed,
+                              fontSize: subHeadingSize - 2,
+                            ),
+                            horizontalSpaceSmall,
+                            Expanded(
+                                child: CustomText(
+                              data.id,
+                              dotsAfterOverFlow: true,
+                              isBold: true,
+                              color: logoRed,
+                              fontSize: subHeadingSize - 2,
+                            ))
+                          ],
+                        ),
+                        verticalSpaceMedium,
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: <Widget>[
+                            Expanded(
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    CustomText(
+                                      new DateFormat.yMMMEd()
+                                          .format(data.timeSlotStart)
+                                          .toString(),
+                                      isBold: true,
+                                      color: Colors.grey[600],
+                                      fontSize: subHeadingSize,
+                                    ),
+                                    verticalSpaceTiny,
+                                    CustomText(
+                                      DateFormat("h:mma")
+                                              .format(data.timeSlotStart)
+                                              .toString() +
+                                          " - " +
+                                          DateFormat("h:mma")
+                                              .format(data.timeSlotEnd)
+                                              .toString(),
+                                      isBold: true,
+                                      color: Colors.grey[600],
+                                      fontSize: subHeadingSize,
+                                    ),
+                                  ]),
+                            ),
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 4, horizontal: 8),
+                              decoration: BoxDecoration(
+                                  color: textIconOrange,
+                                  borderRadius: BorderRadius.circular(curve30)),
+                              child: CustomText(
+                                (data.status is String)
+                                    ? appointmentStatus[int.parse(data.status)]
+                                    : appointmentStatus[data.status],
+                                color: Colors.white,
+                                fontSize: 12,
+                                isBold: true,
+                              ),
+                            )
+                          ],
                         )
                       ],
-                    )
+                    ),
+                    if ((data?.sellerMessage ?? '').isNotEmpty)
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: InkWell(
+                          child: Icon(Icons.notifications_active),
+                          onTap: () async => await Get.dialog(AlertDialog(
+                            title: Center(
+                                child: Text(
+                              "Message",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            )),
+                            content: Text(data?.sellerMessage ?? ''),
+                          )),
+                        ),
+                      ),
                   ],
                 ))),
         verticalSpaceSmall,
@@ -281,8 +321,10 @@ class _myAppointmentsState extends State<myAppointments> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             ElevatedButton(
-                onPressed: () async => await model.onDirectionButtonPressed(
-                    sellerKey: data.seller.id),
+                onPressed: () async => await MapUtils.openMap(
+                      data?.seller?.contact?.geoLocation?.latitude ?? 0,
+                      data?.seller?.contact?.geoLocation?.longitude ?? 0,
+                    ),
                 style: ElevatedButton.styleFrom(
                   elevation: 5,
                   primary: textIconOrange,

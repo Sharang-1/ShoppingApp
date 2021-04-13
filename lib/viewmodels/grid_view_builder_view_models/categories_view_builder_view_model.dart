@@ -14,9 +14,11 @@ import 'base_grid_view_builder_view_model.dart';
 class CategoriesGridViewBuilderViewModel
     extends BaseGridViewBuilderViewModel<Categorys, Category> {
   final bool popularCategories;
+  final bool categoriesWithNoProducts;
   final APIService _apiService = locator<APIService>();
 
-  CategoriesGridViewBuilderViewModel({this.popularCategories = false});
+  CategoriesGridViewBuilderViewModel(
+      {this.popularCategories = false, this.categoriesWithNoProducts = true});
 
   @override
   Future init() {
@@ -29,15 +31,31 @@ class CategoriesGridViewBuilderViewModel
     String _queryString =
         "startIndex=${pageSize * (pageNumber - 1)};limit=$pageSize;" +
             filterModel.queryString;
-    Categorys res =
-        await _apiService.getCategory(queryString: _queryString);
+    Categorys res = await _apiService.getCategory(queryString: _queryString);
     if (res == null) throw "Could not load";
 
-    res.items = res.items.where((element) => element.name.trim().toLowerCase() != "n/a").toList();
+    res.items = res.items
+        .where((element) => element.name.trim().toLowerCase() != "n/a")
+        .toList();
     res.items.shuffle();
 
-    if(this.popularCategories) {
+    if (this.popularCategories) {
       res.items = res.items.take(4).toList();
+    }
+
+    if (!this.categoriesWithNoProducts) {
+      List<Category> categories = [];
+      await Future.wait([
+        Future.forEach<Category>(res.items, (c) async {
+          if (categories.length <= 10) {
+            bool hasProducts =
+                await _apiService.hasProducts(category: c.id.toString());
+            if (hasProducts) categories.add(c);
+          }
+        }),
+      ]);
+      res.items = categories;
+      return res;
     }
     return res;
   }

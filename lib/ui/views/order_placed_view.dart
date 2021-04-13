@@ -26,7 +26,7 @@ class OrderPlacedView extends StatelessWidget {
             children: <Widget>[
               Stack(alignment: Alignment.center, children: <Widget>[
                 Image.asset(
-                  'assets/images/order_placed.png',
+                  "assets/images/loading.gif",
                   height: MediaQuery.of(context).size.width * 0.4,
                   width: MediaQuery.of(context).size.width * 0.4,
                 ),

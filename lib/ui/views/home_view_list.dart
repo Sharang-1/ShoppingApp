@@ -488,7 +488,7 @@ class _HomeViewListState extends State<HomeViewList> {
               gridCount: 1,
               childAspectRatio: 0.5,
               viewModel:
-                  CategoriesGridViewBuilderViewModel(popularCategories: true),
+                  CategoriesGridViewBuilderViewModel(popularCategories: true, categoriesWithNoProducts: false),
               disablePagination: true,
               scrollDirection: Axis.horizontal,
               emptyListWidget: Container(),

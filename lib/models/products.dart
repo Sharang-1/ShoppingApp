@@ -58,8 +58,9 @@ class Product {
   bool margin;
   BlousePadding productFor;
   BlousePadding category;
+  BlousePadding lengthOfKurta;
   bool hangings;
-  num breath;
+  num breadth;
   num length;
   num heelHeight;
   String style;
@@ -76,15 +77,19 @@ class Product {
   List<BlousePadding> workOn;
   BlousePadding topsLength;
   BlousePadding pieces;
+  BlousePadding whatDoesItHave;
   String neck;
   num waist;
   num flair;
   bool canCan;
   BlousePadding made;
+  String occasionToWearIn;
   String typeOfSaree;
+  String washing;
   num oldPrice;
   Seller seller;
   Cost cost;
+  num pricePerMeter;
 
   Product({
     this.key,
@@ -106,7 +111,7 @@ class Product {
     this.productFor,
     this.category,
     this.hangings,
-    this.breath,
+    this.breadth,
     this.length,
     this.style,
     this.dimensions,
@@ -132,6 +137,11 @@ class Product {
     this.seller,
     this.cost,
     this.heelHeight,
+    this.lengthOfKurta,
+    this.occasionToWearIn,
+    this.washing,
+    this.pricePerMeter,
+    this.whatDoesItHave,
   });
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
@@ -141,13 +151,16 @@ class Product {
         enabled: json["enabled"],
         created: json["created"],
         modified: json["modified"],
-        account: json["account"] == null ? null : Account.fromJson(json["account"]),
+        account:
+            json["account"] == null ? null : Account.fromJson(json["account"]),
         owner: json["owner"] == null ? null : Account.fromJson(json["owner"]),
         price: json["price"],
         whoMadeIt: json["whoMadeIt"] == null
             ? null
             : BlousePadding.fromJson(json["whoMadeIt"]),
-        shipment:  json["shipment"] == null ? null : Shipment.fromJson(json["shipment"]),
+        shipment: json["shipment"] == null
+            ? null
+            : Shipment.fromJson(json["shipment"]),
         available: json["available"],
         variations: json["variations"] == null
             ? null
@@ -163,9 +176,18 @@ class Product {
         category: json["category"] == null
             ? null
             : BlousePadding.fromJson(json["category"]),
+        whatDoesItHave: json["whatDoesItHave"] == null
+            ? null
+            : BlousePadding.fromJson(json["whatDoesItHave"]),
         hangings: json["hangings"] == null ? null : json["hangings"],
-        breath: json["breath"] == null ? null : json["breath"],
+        breadth: json["breadth"] == null ? null : json["breadth"],
         heelHeight: json["heelHeight"] == null ? null : json["heelHeight"],
+        lengthOfKurta: json["lengthOfKurta"] == null
+            ? null
+            : BlousePadding.fromJson(json["lengthOfKurta"]),
+        occasionToWearIn:
+            json["occasionToWearIn"] == null ? null : json["occasionToWearIn"],
+        washing: json["washing"] == null ? null : json["washing"],
         length: json["length"] == null ? null : json["length"],
         style: json["style"] == null ? null : json["style"],
         dimensions: json["dimensions"] == null ? null : json["dimensions"],
@@ -205,6 +227,8 @@ class Product {
         oldPrice: json["oldPrice"] == null ? null : json["oldPrice"],
         seller: json["seller"] == null ? null : Seller.fromJson(json["seller"]),
         cost: json["cost"] == null ? null : Cost.fromJson(json["cost"]),
+        pricePerMeter:
+            json["pricePerMeter"] == null ? null : json["pricePerMeter"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -228,10 +252,15 @@ class Product {
         "margin": margin == null ? null : margin,
         "productFor": productFor == null ? null : productFor?.toJson(),
         "category": category == null ? null : category?.toJson(),
+        "whatDoesItHave":
+            whatDoesItHave == null ? null : whatDoesItHave.toJson(),
         "hangings": hangings == null ? null : hangings,
-        "breath": breath == null ? null : breath,
+        "breadth": breadth == null ? null : breadth,
         "length": length == null ? null : length,
         "heelHeight": heelHeight == null ? null : heelHeight,
+        "lengthOfKurta": lengthOfKurta == null ? null : lengthOfKurta.toJson(),
+        "occasionToWearIn": occasionToWearIn == null ? null : occasionToWearIn,
+        "washing": washing == null ? null : washing,
         "style": style == null ? null : style,
         "dimensions": dimensions == null ? null : dimensions,
         "rating": rating.toJson(),

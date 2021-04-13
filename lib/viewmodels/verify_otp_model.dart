@@ -106,7 +106,7 @@ class VerifyOTPViewModel extends BaseModel {
     if (loader) {
       UserDetails user = await _apiService.getUserData();
       user.name = name;
-      await _apiService.updateUserData(user);
+      await _apiService.updateUserData(user, onlyName: true);
     }
 
     Future.delayed(Duration(milliseconds: loader ? 1500 : 3000), () async {

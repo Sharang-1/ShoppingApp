@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
-import 'package:location/location.dart';
+import 'package:get/get.dart';
 
 import '../constants/route_names.dart';
 import '../locator.dart';
@@ -53,14 +53,6 @@ class AppointmentsViewModel extends BaseModel {
     }
   }
 
-  Future onDirectionButtonPressed({@required String sellerKey}) async {
-    var status = await Location().requestPermission();
-    if (status == PermissionStatus.GRANTED) {
-      _navigationService.navigateTo(MapViewRoute, arguments: sellerKey);
-    }
-    return;
-  }
-
   Future cancelAppointment(String id, String msg) async {
     var res = await _apiService.cancelAppointment(id, msg);
     if (res != null) {
@@ -107,8 +99,24 @@ class AppointmentsViewModel extends BaseModel {
         "sunday": "Sun"
       };
       result.timeSlot.forEach((t) => t.day = weekDayMap[t.day]);
-      selectedWeekDay = result.timeSlot.first.day;
-      seltectedTime = result.timeSlot.first.time.first;
+      int timeSlotNumber = 0;
+      while ((timeSlotNumber < 2) &&
+          result?.timeSlot[timeSlotNumber].time.isEmpty) {
+        timeSlotNumber++;
+      }
+      if (result?.timeSlot[timeSlotNumber].time.isEmpty) {
+        await Get.dialog(AlertDialog(
+          title: Center(
+              child: Text(
+            "Appointment!",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          )),
+          content: Text("No time slot available !"),
+        ));
+        return Navigator.of(context).pop();
+      }
+      selectedWeekDay = result?.timeSlot[timeSlotNumber]?.day;
+      seltectedTime = result?.timeSlot[timeSlotNumber]?.time?.first;
       _timeSlotsData = result;
       setBusy(false);
     } else {

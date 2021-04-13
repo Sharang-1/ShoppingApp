@@ -202,9 +202,13 @@ class APIService {
     return null;
   }
 
-  Future<bool> hasProducts({@required String sellerKey}) async {
-    Products products =
-        await getProducts(queryString: 'accountKey=$sellerKey;');
+  Future<bool> hasProducts({String sellerKey, String category}) async {
+    Products products;
+    if (sellerKey != null)
+      products = await getProducts(queryString: 'accountKey=$sellerKey;');
+    else if (category != null)
+      products = await getProducts(queryString: 'category=$category;');
+
     products.items =
         products.items.where((p) => (p.enabled && p.available)).toList();
     return products.items.isNotEmpty;
@@ -502,10 +506,15 @@ class APIService {
     return null;
   }
 
-  Future<UserDetails> updateUserData(UserDetails mUserDetails) async {
+  Future<UserDetails> updateUserData(UserDetails mUserDetails,
+      {bool onlyName = false}) async {
     var userData = await apiWrapper("users/" + mUserDetails.key,
         authenticated: true,
-        data: userDetailsToJson(mUserDetails),
+        data: onlyName
+            ? {
+                "name": mUserDetails.name,
+              }
+            : userDetailsToJson(mUserDetails),
         options: Options(headers: {'excludeToken': false}, method: "put"));
     if (userData != null) {
       return UserDetails.fromJson(userData);

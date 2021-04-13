@@ -1,5 +1,3 @@
-import 'package:fimber/fimber.dart';
-
 import '../../locator.dart';
 import '../../models/grid_view_builder_filter_models/base_filter_model.dart';
 import '../../models/sellers.dart';
@@ -94,7 +92,7 @@ class SellersGridViewBuilderViewModel
 
     if (this.random) {
       res.items.shuffle();
-      if (res.items.length > pageSize)
+      if (res.items.length > pageSize && sellerWithNoProducts)
         res.items = res.items.sublist(0, pageSize);
     }
 
@@ -102,9 +100,10 @@ class SellersGridViewBuilderViewModel
       List<Seller> sellers = [];
       await Future.wait([
         Future.forEach(res.items, (s) async {
-          bool hasProducts = await _apiService.hasProducts(sellerKey: s.key);
-          Fimber.i("hasProducts : $hasProducts");
-          if (hasProducts) sellers.add(s);
+          if (sellers.length <= 10) {
+            bool hasProducts = await _apiService.hasProducts(sellerKey: s.key);
+            if (hasProducts) sellers.add(s);
+          }
         }),
       ]);
       res.items = sellers;

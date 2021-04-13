@@ -336,7 +336,42 @@ class _SellerIndiState extends State<SellerIndi> {
                                 width: 30,
                                 height: 30,
                               ),
-                            )
+                            ),
+                            // Align(
+                            //   alignment: Alignment.centerRight,
+                            //   child: Padding(
+                            //     padding: const EdgeInsets.only(right: 8.0),
+                            //     child: FittedBox(
+                            //       alignment: Alignment.centerLeft,
+                            //       fit: BoxFit.scaleDown,
+                            //       child: Container(
+                            //         decoration: BoxDecoration(
+                            //           color: Colors.green,
+                            //           borderRadius: BorderRadius.circular(15),
+                            //         ),
+                            //         padding: EdgeInsets.symmetric(
+                            //             vertical: 5.0, horizontal: 12.0),
+                            //         child: Row(
+                            //           children: [
+                            //             Text(
+                            //               "${model?.reviews?.ratingAverage?.rating?.toString() ?? 0} ",
+                            //               style: TextStyle(
+                            //                 fontWeight: FontWeight.w600,
+                            //                 color: Colors.white,
+                            //                 fontSize: 16,
+                            //               ),
+                            //             ),
+                            //             Icon(
+                            //               Icons.star,
+                            //               color: Colors.white,
+                            //               size: 12,
+                            //             ),
+                            //           ],
+                            //         ),
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
                           ],
                         ),
                       ],
@@ -749,11 +784,12 @@ class _SellerIndiState extends State<SellerIndi> {
         context: context,
         builder: (context) {
           return FractionallySizedBox(
-              heightFactor: MediaQuery.of(context).size.height > 600
-                  ? MediaQuery.of(context).size.height > 800
-                      ? 0.650
-                      : 0.7
-                  : 0.8,
+              // heightFactor: MediaQuery.of(context).size.height > 600
+              //     ? MediaQuery.of(context).size.height > 800
+              //         ? 0.650
+              //         : 0.7
+              //     : 0.8,
+              heightFactor: 0.8,
               child: SellerBottomSheetView(
                 sellerData: sellerData,
                 context: context,

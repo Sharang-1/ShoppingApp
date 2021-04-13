@@ -13,7 +13,14 @@ class AppointmentBookedView extends StatelessWidget {
       onModelReady: (model) => model.appointmentBooked(),
       builder: (context, model, child) => Scaffold(
         backgroundColor: backgroundWhiteCreamColor,
-        body: Center(child: CircularProgressIndicator()),
+        body: Center(
+          child: Container(
+            child: FittedBox(
+              child: Image.asset("assets/images/loading.gif", height: 900),
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
       ),
     );
   }

@@ -455,7 +455,6 @@ class _ProductIndiViewState extends State<ProductIndiView> {
         .toList();
     photosKey = UniqueKey();
     uniqueKey = UniqueKey();
-    print("Yash : ${imageURLs.toString()}");
   }
 
   @override
@@ -707,7 +706,27 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                           ),
                         ],
                       ),
-                      if (productData.made.id == 1)
+                      if (available) verticalSpace(20),
+                      if (available)
+                        Row(
+                          children: <Widget>[
+                            Text(
+                              "Delivery By :",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: subtitleFontSizeStyle - 3,
+                              ),
+                            ),
+                            horizontalSpaceSmall,
+                            Text(
+                              shipment,
+                              style: TextStyle(
+                                fontSize: subtitleFontSizeStyle - 3,
+                              ),
+                            ),
+                          ],
+                        ),
+                      if (productData.whoMadeIt.id == 1)
                         Padding(
                           padding: const EdgeInsets.only(top: 8.0, right: 8.0),
                           child: FittedBox(
@@ -729,26 +748,6 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                               ),
                             ),
                           ),
-                        ),
-                      if (available) verticalSpace(20),
-                      if (available)
-                        Row(
-                          children: <Widget>[
-                            Text(
-                              "Delivery By :",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: subtitleFontSizeStyle - 3,
-                              ),
-                            ),
-                            horizontalSpaceSmall,
-                            Text(
-                              shipment,
-                              style: TextStyle(
-                                fontSize: subtitleFontSizeStyle - 3,
-                              ),
-                            ),
-                          ],
                         ),
                       // if (available) verticalSpace(10),
                       // if (available)
@@ -1485,9 +1484,54 @@ class ProductDescriptionTable extends StatelessWidget {
               //       "Who Made It",
               //       getNameFromLookupId(
               //           productSection, "whoMadeIt", product?.whoMadeIt?.id)),
-              // // divider,
+              // divider,
               if (product?.flair != null)
                 getProductDetailsRow("Flair", product?.flair?.toString()),
+              // divider,
+              if ((product?.washing != null) && (product?.washing != ''))
+                getProductDetailsRow("Washing", product?.washing?.toString()),
+              // divider,
+              if (product?.pricePerMeter != null)
+                getProductDetailsRow(
+                    "Price Per Meter", product?.pricePerMeter?.toString()),
+              // divider,
+              if (product?.hangings != null)
+                getProductDetailsRow(
+                  "Hangings",
+                  product.hangings ? "Yes" : "No",
+                ),
+              // divider,
+              if ((product?.occasionToWearIn != null) &&
+                  (product?.occasionToWearIn != ''))
+                getProductDetailsRow(
+                  "Occasion To Wear In",
+                  product?.occasionToWearIn?.toString(),
+                ),
+
+              // divider,
+              if ((product?.made != null) && (product?.made?.id != -1))
+                getProductDetailsRow(
+                  "Made",
+                  product?.made?.id == 1 ? "Made on Demand" : "Ready Made",
+                ),
+
+              // divider,
+              if ((product?.whatDoesItHave != null) &&
+                  (product?.whatDoesItHave?.id != -1))
+                getProductDetailsRow(
+                  "what Does It Have",
+                  ((product?.whatDoesItHave?.id == 1)
+                      ? 'Sling'
+                      : (product?.whatDoesItHave?.id == 2)
+                          ? 'Handel'
+                          : (product?.whatDoesItHave?.id == 3)
+                              ? 'Bag-Pack Straps'
+                              : ''),
+                ),
+
+              // divider,
+              if (product?.canCan != null)
+                getProductDetailsRow("Can Can", product.canCan ? "Yes" : "No"),
               // divider,
               if (product?.sleeveLength != null &&
                   product?.sleeveLength?.id != -1)
@@ -1543,10 +1587,10 @@ class ProductDescriptionTable extends StatelessWidget {
                   product?.length?.toString(),
                 ),
               // divider,
-              if (product?.breath != null && product?.breath != 0)
+              if (product?.breadth != null && product?.breadth != 0)
                 getProductDetailsRow(
-                  "Breath",
-                  product?.breath?.toString(),
+                  "Breadth",
+                  product?.breadth?.toString(),
                 ),
               // divider,
               if (product?.heelHeight != null && product?.heelHeight != 0)

@@ -1,3 +1,4 @@
+import 'package:compound/models/sellers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -10,7 +11,7 @@ import '../shared/ui_helpers.dart';
 import 'custom_text.dart';
 
 class SellerBottomSheetView extends StatefulWidget {
-  final sellerData;
+  final Seller sellerData;
   final context;
   const SellerBottomSheetView({Key key, this.sellerData, this.context})
       : super(key: key);
@@ -21,6 +22,15 @@ class SellerBottomSheetView extends StatefulWidget {
 
 class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
   String _taskMsg = "";
+  Map<String, int> weekDayMap = {
+      "Mon": 1,
+      "Tue": 2,
+      "Wed": 3,
+      "Thu": 4,
+      "Fri": 5,
+      "Sat": 6,
+      "Sun": 7,
+    };
 
   @override
   Widget build(BuildContext context) {
@@ -68,10 +78,10 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                       ),
                                       verticalSpaceSmall,
                                       CustomText(
-                                        widget.sellerData.bio,
+                                        widget.sellerData.contact.address,
                                         isTitle: true,
                                         color: Colors.grey,
-                                        fontSize: titleFontSizeStyle - 2,
+                                        fontSize: titleFontSizeStyle - 4,
                                       ),
                                       verticalSpaceSmall,
                                       Divider(
@@ -281,7 +291,13 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                                             t.day ==
                                                             model
                                                                 .selectedWeekDay)
-                                                        .time
+                                                        .time.where((e) {
+                                                          var dateTime = DateTime.now();
+                                                          if(weekDayMap[model.selectedWeekDay] == dateTime.weekday){
+                                                            return e > dateTime.hour;
+                                                          }
+                                                          return true;
+                                                        }).toList()
                                                         .map((time) => Padding(
                                                             padding:
                                                                 EdgeInsets.only(
