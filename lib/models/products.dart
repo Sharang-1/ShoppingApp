@@ -61,6 +61,7 @@ class Product {
   bool hangings;
   num breath;
   num length;
+  num heelHeight;
   String style;
   String dimensions;
   Rating rating;
@@ -130,6 +131,7 @@ class Product {
     this.oldPrice,
     this.seller,
     this.cost,
+    this.heelHeight,
   });
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
@@ -163,6 +165,7 @@ class Product {
             : BlousePadding.fromJson(json["category"]),
         hangings: json["hangings"] == null ? null : json["hangings"],
         breath: json["breath"] == null ? null : json["breath"],
+        heelHeight: json["heelHeight"] == null ? null : json["heelHeight"],
         length: json["length"] == null ? null : json["length"],
         style: json["style"] == null ? null : json["style"],
         dimensions: json["dimensions"] == null ? null : json["dimensions"],
@@ -228,6 +231,7 @@ class Product {
         "hangings": hangings == null ? null : hangings,
         "breath": breath == null ? null : breath,
         "length": length == null ? null : length,
+        "heelHeight": heelHeight == null ? null : heelHeight,
         "style": style == null ? null : style,
         "dimensions": dimensions == null ? null : dimensions,
         "rating": rating.toJson(),

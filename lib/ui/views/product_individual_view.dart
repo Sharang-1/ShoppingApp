@@ -644,38 +644,40 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text("(Inclusive of taxes and charges)"),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 8.0),
-                              child: FittedBox(
-                                alignment: Alignment.centerLeft,
-                                fit: BoxFit.scaleDown,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.green,
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 5.0, horizontal: 12.0),
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        "${model?.reviews?.ratingAverage?.rating?.toString() ?? 0} ",
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.white,
-                                          fontSize: 16,
+                            if ((model?.reviews?.ratingAverage?.rating ?? 0) >
+                                0)
+                              Padding(
+                                padding: const EdgeInsets.only(right: 8.0),
+                                child: FittedBox(
+                                  alignment: Alignment.centerLeft,
+                                  fit: BoxFit.scaleDown,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.green,
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 5.0, horizontal: 12.0),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          "${model?.reviews?.ratingAverage?.rating?.toString() ?? 0} ",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.white,
+                                            fontSize: 16,
+                                          ),
                                         ),
-                                      ),
-                                      Icon(
-                                        Icons.star,
-                                        color: Colors.white,
-                                        size: 12,
-                                      ),
-                                    ],
+                                        Icon(
+                                          Icons.star,
+                                          color: Colors.white,
+                                          size: 12,
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
                           ],
                         ),
                       verticalSpace(10),
@@ -693,7 +695,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                           Padding(
                             padding: const EdgeInsets.only(right: 8.0),
                             child: InkWell(
-                                onTap: () async => await showDialog<AlertDialog>(
+                                onTap: () async =>
+                                    await showDialog<AlertDialog>(
                                       context: context,
                                       builder: (context) => AlertDialog(
                                         content: Text(
@@ -1544,6 +1547,12 @@ class ProductDescriptionTable extends StatelessWidget {
                 getProductDetailsRow(
                   "Breath",
                   product?.breath?.toString(),
+                ),
+              // divider,
+              if (product?.heelHeight != null && product?.heelHeight != 0)
+                getProductDetailsRow(
+                  "Heel Height",
+                  product?.heelHeight?.toString(),
                 ),
               if (product?.margin != null && product.margin)
                 getProductDetailsRow("Margin", "Margin left in selai"),

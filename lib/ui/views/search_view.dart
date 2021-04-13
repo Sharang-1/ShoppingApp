@@ -189,7 +189,7 @@ class _SearchViewState extends State<SearchView>
               context: context,
               filter: productFilter,
               gridCount: 2,
-              viewModel: ProductsGridViewBuilderViewModel(),
+              viewModel: ProductsGridViewBuilderViewModel(limit: 50),
               childAspectRatio: 0.7,
               tileBuilder:
                   (BuildContext context, data, index, onUpdate, onDelete) {
@@ -405,7 +405,7 @@ class _SearchViewState extends State<SearchView>
                             context: context,
                             filter: productFilter,
                             gridCount: 2,
-                            viewModel: ProductsGridViewBuilderViewModel(),
+                            viewModel: ProductsGridViewBuilderViewModel(limit: 50),
                             emptyListWidget: EmptyListWidget(
                               text: "",
                             ),

@@ -176,7 +176,7 @@ class _MyOrdersViewState extends State<MyOrdersView> {
                                           placeholder:
                                               "assets/images/product_preloading.png",
                                           image:
-                                              "$PRODUCT_PHOTO_BASE_URL/${order.product.key}/${order.product.photo.photos.first.name}-small.png",
+                                              "$PRODUCT_PHOTO_BASE_URL/${order.product.key}/${order?.product?.photo?.photos?.first?.name ?? 'photo'}-small.png",
                                           imageErrorBuilder:
                                               (context, error, stackTrace) =>
                                                   Image.asset(
