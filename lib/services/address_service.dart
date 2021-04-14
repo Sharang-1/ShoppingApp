@@ -32,10 +32,14 @@ class AddressService {
 
   Future<List<UserDetailsContact>> getAddresses() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<UserDetailsContact> addresses = [];
     var addPreds = prefs.getStringList(AddressList);
-    return addPreds
+    addresses = addPreds
         .map((e) => UserDetailsContact.fromJson(jsonDecode(e)))
         .toList();
+    addresses =
+        addresses.where((address) => address.address.isNotEmpty).toList();
+    return addresses;
   }
 
   Future<bool> addAddresses(UserDetailsContact userAddress) async {

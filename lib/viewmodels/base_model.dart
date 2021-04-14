@@ -90,8 +90,9 @@ class BaseModel extends ChangeNotifier {
 
   Future<void> logout() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.remove(Authtoken);
-    prefs.remove(PhoneNo);
+    await prefs.remove(Authtoken);
+    await prefs.remove(PhoneNo);
+    await prefs.remove(AddressList);
     await _navigationService.navigateAndRemoveUntil(LoginViewRoute);
   }
 }
