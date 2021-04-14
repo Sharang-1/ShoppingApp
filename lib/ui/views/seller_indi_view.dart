@@ -351,8 +351,8 @@ class _SellerIndiState extends State<SellerIndi> {
                                       ? Align(
                                           alignment: Alignment.centerRight,
                                           child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 8.0),
+                                            padding:
+                                                const EdgeInsets.only(top: 8.0),
                                             child: FittedBox(
                                               alignment: Alignment.centerLeft,
                                               fit: BoxFit.scaleDown,
@@ -523,7 +523,10 @@ class _SellerIndiState extends State<SellerIndi> {
                       ),
                     ),
                     verticalSpace(30),
-                    ReviewWidget(id: sellerDetails["key"]),
+                    ReviewWidget(
+                      id: sellerDetails["key"],
+                      isSeller: true,
+                    ),
                     verticalSpaceMedium,
                     WriteReviewWidget(sellerDetails["key"]),
                     verticalSpace(25),

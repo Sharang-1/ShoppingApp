@@ -12,8 +12,9 @@ import 'custom_text.dart';
 import 'input_field.dart';
 
 class WriteReviewWidget extends StatefulWidget {
-  final String productId;
-  WriteReviewWidget(this.productId);
+  final String id;
+  final bool isSeller;
+  WriteReviewWidget(this.id, {this.isSeller = false});
   @override
   _WriteReviewWidget createState() => new _WriteReviewWidget();
 }
@@ -130,9 +131,10 @@ class _WriteReviewWidget extends State<WriteReviewWidget> {
                                         ),
                                         onPressed: () {
                                           model.writeReiew(
-                                              widget.productId,
+                                              widget.id,
                                               selectedRating,
-                                              textController.text);
+                                              textController.text,
+                                              isSellerReview: widget.isSeller);
                                           textController.text = "";
                                         },
                                       ),

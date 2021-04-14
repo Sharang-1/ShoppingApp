@@ -233,9 +233,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
             style: TextStyle(
                 fontSize: titleFontSizeStyle + 8, fontWeight: FontWeight.bold),
           ),
-          productDiscount == 0.0
-              ? Container()
-              : Row(
+          (productDiscount != 0.0 && showPrice)
+              ? Row(
                   children: <Widget>[
                     SizedBox(width: 10),
                     Text(
@@ -254,7 +253,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                     //       fontWeight: FontWeight.w600),
                     // ),
                   ],
-                ),
+                )
+              : Container(),
         ]),
       ],
     );

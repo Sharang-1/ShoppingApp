@@ -11,15 +11,16 @@ import '../shared/app_colors.dart';
 import '../shared/ui_helpers.dart';
 
 class ReviewWidget extends StatelessWidget {
-  ReviewWidget({this.id, this.expanded = false});
+  ReviewWidget({this.id, this.expanded = false, this.isSeller = false});
   final String id;
   final bool expanded;
+  final bool isSeller;
 
   @override
   Widget build(BuildContext context) {
     return ViewModelProvider<ReviewsViewModel>.withConsumer(
         viewModel: ReviewsViewModel(),
-        onModelReady: (model) => model.showReviews(id),
+        onModelReady: (model) => model.showReviews(id, isSeller: isSeller),
         builder: (
           context,
           model,
@@ -104,7 +105,7 @@ class ReviewWidget extends StatelessWidget {
                       radius: 22,
                       foregroundColor: Colors.white,
                       child: Text(
-                        r.reviewer.first.name.substring(0,1).toUpperCase(),
+                        r.reviewer.first.name.substring(0, 1).toUpperCase(),
                         textAlign: TextAlign.center,
                       ),
                     ),

@@ -14,9 +14,9 @@ class ReviewsViewModel extends BaseModel {
     notifyListeners();
   }
 
-  Future showReviews(String productId) async {
+  Future showReviews(String productId, {bool isSeller = false}) async {
     setBusy(true);
-    reviews = await _apiService.getReviews(productId, isSellerReview: false);
+    reviews = await _apiService.getReviews(productId, isSellerReview: isSeller);
     setBusy(false);
   }
 
