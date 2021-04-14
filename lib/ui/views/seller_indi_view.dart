@@ -15,8 +15,10 @@ import '../../models/grid_view_builder_filter_models/productFilter.dart';
 import '../../models/grid_view_builder_filter_models/sellerFilter.dart';
 import '../../models/productPageArg.dart';
 import '../../models/products.dart';
+import '../../models/reviews.dart';
 import '../../models/sellers.dart';
 import '../../services/analytics_service.dart';
+import '../../services/api/api_service.dart';
 import '../../services/dynamic_link_service.dart';
 import '../../services/navigation_service.dart';
 import '../../viewmodels/grid_view_builder_view_models/products_grid_view_builder_view_model.dart';
@@ -337,41 +339,56 @@ class _SellerIndiState extends State<SellerIndi> {
                                 height: 30,
                               ),
                             ),
-                            // Align(
-                            //   alignment: Alignment.centerRight,
-                            //   child: Padding(
-                            //     padding: const EdgeInsets.only(right: 8.0),
-                            //     child: FittedBox(
-                            //       alignment: Alignment.centerLeft,
-                            //       fit: BoxFit.scaleDown,
-                            //       child: Container(
-                            //         decoration: BoxDecoration(
-                            //           color: Colors.green,
-                            //           borderRadius: BorderRadius.circular(15),
-                            //         ),
-                            //         padding: EdgeInsets.symmetric(
-                            //             vertical: 5.0, horizontal: 12.0),
-                            //         child: Row(
-                            //           children: [
-                            //             Text(
-                            //               "${model?.reviews?.ratingAverage?.rating?.toString() ?? 0} ",
-                            //               style: TextStyle(
-                            //                 fontWeight: FontWeight.w600,
-                            //                 color: Colors.white,
-                            //                 fontSize: 16,
-                            //               ),
-                            //             ),
-                            //             Icon(
-                            //               Icons.star,
-                            //               color: Colors.white,
-                            //               size: 12,
-                            //             ),
-                            //           ],
-                            //         ),
-                            //       ),
-                            //     ),
-                            //   ),
-                            // ),
+                            FutureBuilder<Reviews>(
+                                future: locator<APIService>().getReviews(
+                                    widget.data.key,
+                                    isSellerReview: true),
+                                builder: (context, snapshot) {
+                                  return ((snapshot.connectionState ==
+                                              ConnectionState.done) &&
+                                          (snapshot.data.ratingAverage.rating >
+                                              0))
+                                      ? Align(
+                                          alignment: Alignment.centerRight,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 8.0),
+                                            child: FittedBox(
+                                              alignment: Alignment.centerLeft,
+                                              fit: BoxFit.scaleDown,
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  color: Colors.green,
+                                                  borderRadius:
+                                                      BorderRadius.circular(15),
+                                                ),
+                                                padding: EdgeInsets.symmetric(
+                                                    vertical: 5.0,
+                                                    horizontal: 12.0),
+                                                child: Row(
+                                                  children: [
+                                                    Text(
+                                                      "${snapshot?.data?.ratingAverage?.rating?.toString() ?? 0} ",
+                                                      style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        color: Colors.white,
+                                                        fontSize: 16,
+                                                      ),
+                                                    ),
+                                                    Icon(
+                                                      Icons.star,
+                                                      color: Colors.white,
+                                                      size: 12,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      : Container();
+                                }),
                           ],
                         ),
                       ],

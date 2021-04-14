@@ -739,7 +739,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                               ),
                               padding: EdgeInsets.all(8.0),
                               child: Text(
-                                "Home Made",
+                                "Handmade",
                                 style: TextStyle(
                                   fontWeight: FontWeight.w600,
                                   color: Colors.white,
@@ -1495,7 +1495,9 @@ class ProductDescriptionTable extends StatelessWidget {
                 getProductDetailsRow(
                     "Price Per Meter", product?.pricePerMeter?.toString()),
               // divider,
-              if (product?.hangings != null)
+              if ((product?.hangings != null) &&
+                  ((product?.category?.id == 13) ||
+                      (product?.category?.id == 7)))
                 getProductDetailsRow(
                   "Hangings",
                   product.hangings ? "Yes" : "No",
@@ -1530,8 +1532,9 @@ class ProductDescriptionTable extends StatelessWidget {
                 ),
 
               // divider,
-              if (product?.canCan != null)
+              if ((product?.canCan != null) && (product?.category?.id == 14))
                 getProductDetailsRow("Can Can", product.canCan ? "Yes" : "No"),
+
               // divider,
               if (product?.sleeveLength != null &&
                   product?.sleeveLength?.id != -1)

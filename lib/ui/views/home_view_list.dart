@@ -625,9 +625,12 @@ class _HomeViewListState extends State<HomeViewList> {
                   (BuildContext context, data, index, onDelete, onUpdate) {
                 return GestureDetector(
                   onTap: () => {},
-                  child: SellerTileUi(
-                    data: data,
-                    fromHome: true,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8.0),
+                    child: SellerTileUi(
+                      data: data,
+                      fromHome: true,
+                    ),
                   ),
                 );
               },

@@ -1,9 +1,10 @@
-import 'package:compound/models/sellers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 
+import '../../constants/server_urls.dart';
+import '../../models/sellers.dart';
 import '../../viewmodels/appointments_view_model.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
@@ -23,14 +24,14 @@ class SellerBottomSheetView extends StatefulWidget {
 class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
   String _taskMsg = "";
   Map<String, int> weekDayMap = {
-      "Mon": 1,
-      "Tue": 2,
-      "Wed": 3,
-      "Thu": 4,
-      "Fri": 5,
-      "Sat": 6,
-      "Sun": 7,
-    };
+    "Mon": 1,
+    "Tue": 2,
+    "Wed": 3,
+    "Thu": 4,
+    "Fri": 5,
+    "Sat": 6,
+    "Sun": 7,
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -49,18 +50,20 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
         onModelReady: (model) =>
             model.getAvaliableTimeSlots(widget.sellerData.key, widget.context),
         builder: (context, model, child) {
-          return Stack(children: [
-            model.busy
-                ? Center(child: CircularProgressIndicator())
-                : Padding(
-                    padding: EdgeInsets.only(bottom: 60.0),
-                    child: Scrollbar(
-                      child: SingleChildScrollView(
-                          child: Container(
-                        color: Colors.white,
-                        child: Padding(
-                          padding: EdgeInsets.only(top: 30.0),
-                          child: Column(
+          return Container(
+            color: Colors.white,
+            child: Stack(children: [
+              model.busy
+                  ? Center(child: CircularProgressIndicator())
+                  : Padding(
+                      padding: EdgeInsets.only(bottom: 60.0),
+                      child: Scrollbar(
+                        child: SingleChildScrollView(
+                            child: Container(
+                          color: Colors.white,
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 30.0),
+                            child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Padding(
@@ -70,18 +73,81 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: <Widget>[
-                                      CustomText(
-                                        widget.sellerData.name,
-                                        isTitle: true,
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: titleFontSizeStyle + 5,
-                                      ),
-                                      verticalSpaceSmall,
-                                      CustomText(
-                                        widget.sellerData.contact.address,
-                                        isTitle: true,
-                                        color: Colors.grey,
-                                        fontSize: titleFontSizeStyle - 4,
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            flex: 2,
+                                            child: FittedBox(
+                                              fit: BoxFit.scaleDown,
+                                              child: Container(
+                                                height: 100,
+                                                width: 100,
+                                                child: ClipOval(
+                                                  child:
+                                                      FadeInImage.assetNetwork(
+                                                    width: 80,
+                                                    height: 80,
+                                                    fadeInCurve: Curves.easeIn,
+                                                    placeholder:
+                                                        "assets/images/product_preloading.png",
+                                                    image: widget?.sellerData
+                                                                ?.key !=
+                                                            null
+                                                        ? "$SELLER_PHOTO_BASE_URL/${widget?.sellerData?.key}"
+                                                        : "https://images.unsplash.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
+                                                    imageErrorBuilder: (context,
+                                                            error,
+                                                            stackTrace) =>
+                                                        Image.asset(
+                                                      "assets/images/product_preloading.png",
+                                                      width: 80,
+                                                      height: 80,
+                                                      fit: BoxFit.scaleDown,
+                                                    ),
+                                                    fit: BoxFit.scaleDown,
+                                                  ),
+                                                ),
+                                                decoration: BoxDecoration(
+                                                  color: Color.fromRGBO(
+                                                      255, 255, 255, 1),
+                                                  shape: BoxShape.circle,
+                                                  border: Border.all(
+                                                    color: Color.fromRGBO(
+                                                        255, 255, 255, 0.1),
+                                                    width: 8.0,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            flex: 8,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(left: 4.0),
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  CustomText(
+                                                    widget.sellerData.name,
+                                                    isTitle: true,
+                                                    fontWeight: FontWeight.w700,
+                                                    fontSize:
+                                                        titleFontSizeStyle + 5,
+                                                  ),
+                                                  verticalSpaceTiny,
+                                                  CustomText(
+                                                    widget.sellerData.contact
+                                                        .address,
+                                                    isTitle: true,
+                                                    color: Colors.grey,
+                                                    fontSize:
+                                                        titleFontSizeStyle - 4,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                       verticalSpaceSmall,
                                       Divider(
@@ -291,36 +357,48 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                                             t.day ==
                                                             model
                                                                 .selectedWeekDay)
-                                                        .time.where((e) {
-                                                          var dateTime = DateTime.now();
-                                                          if(weekDayMap[model.selectedWeekDay] == dateTime.weekday){
-                                                            return e > dateTime.hour;
+                                                        .time
+                                                        .where((e) {
+                                                          var dateTime =
+                                                              DateTime.now();
+                                                          if (weekDayMap[model
+                                                                  .selectedWeekDay] ==
+                                                              dateTime
+                                                                  .weekday) {
+                                                            return e >
+                                                                dateTime.hour;
                                                           }
                                                           return true;
-                                                        }).toList()
+                                                        })
+                                                        .toList()
                                                         .map((time) => Padding(
                                                             padding:
                                                                 EdgeInsets.only(
                                                                     right: 5),
                                                             child: ChoiceChip(
                                                                 backgroundColor:
-                                                                    model.seltectedTime ==
-                                                                            time
+                                                                    model.seltectedTime == time
                                                                         ? textIconOrange
                                                                         : Colors
                                                                             .white,
-                                                                shape: RoundedRectangleBorder(
-                                                                    borderRadius: BorderRadius.circular(15),
-                                                                    side: BorderSide(
-                                                                      color: model.seltectedTime ==
-                                                                              time
-                                                                          ? textIconOrange
-                                                                          : Colors
-                                                                              .grey,
-                                                                      width:
-                                                                          0.5,
-                                                                    )),
-                                                                labelStyle: TextStyle(fontSize: subtitleFontSizeStyle - 4, fontWeight: model.seltectedTime == time ? FontWeight.w600 : FontWeight.normal, color: model.seltectedTime == time ? Colors.white : Colors.grey),
+                                                                shape:
+                                                                    RoundedRectangleBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(
+                                                                                15),
+                                                                        side:
+                                                                            BorderSide(
+                                                                          color: model.seltectedTime == time
+                                                                              ? textIconOrange
+                                                                              : Colors.grey,
+                                                                          width:
+                                                                              0.5,
+                                                                        )),
+                                                                labelStyle: TextStyle(
+                                                                    fontSize:
+                                                                        subtitleFontSizeStyle - 4,
+                                                                    fontWeight: model.seltectedTime == time ? FontWeight.w600 : FontWeight.normal,
+                                                                    color: model.seltectedTime == time ? Colors.white : Colors.grey),
                                                                 selectedColor: textIconOrange,
                                                                 label: Text(
                                                                   getTime(time) +
@@ -375,60 +453,64 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                     ],
                                   ),
                                 ),
-                              ]),
-                        ),
-                      )),
-                    ),
-                  ),
-            Align(
-              alignment: Alignment.topRight,
-              child: IconButton(
-                tooltip: "Close",
-                iconSize: 22,
-                icon: Icon(CupertinoIcons.clear_circled_solid),
-                color: Colors.grey[600],
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 8.0),
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                        child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              elevation: 5,
-                              primary: logoRed,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30),
-                                // side: BorderSide(
-                                //     color: Colors.black, width: 0.5)
-                              ),
+                              ],
                             ),
-                            onPressed: _taskMsg == ""
-                                ? null
-                                : () {
-                                    model.bookAppointment(
-                                        widget.sellerData.key, _taskMsg);
-                                  },
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 15),
-                              child: Text(
-                                "Book Appointment ",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            )))
-                  ],
+                          ),
+                        )),
+                      ),
+                    ),
+              Align(
+                alignment: Alignment.topRight,
+                child: IconButton(
+                  tooltip: "Close",
+                  iconSize: 22,
+                  icon: Icon(CupertinoIcons.clear_circled_solid),
+                  color: Colors.grey[600],
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
                 ),
               ),
-            )
-          ]);
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding:
+                      EdgeInsets.symmetric(vertical: 12.0, horizontal: 8.0),
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                elevation: 5,
+                                primary: logoRed,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                  // side: BorderSide(
+                                  //     color: Colors.black, width: 0.5)
+                                ),
+                              ),
+                              onPressed: _taskMsg == ""
+                                  ? null
+                                  : () {
+                                      model.bookAppointment(
+                                          widget.sellerData.key, _taskMsg);
+                                    },
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 15),
+                                child: Text(
+                                  "Book Appointment ",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              )))
+                    ],
+                  ),
+                ),
+              )
+            ]),
+          );
         });
   }
 }

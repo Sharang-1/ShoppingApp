@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:compound/models/sellerProfile.dart';
+
 Sellers sellersFromJson(String str) => Sellers.fromJson(json.decode(str));
 
 String sellersToJson(Sellers data) => json.encode(data.toJson());
@@ -43,6 +45,7 @@ class Seller {
     this.documentId,
     this.key,
     this.accountType,
+    this.photo,
     this.created,
     this.name,
     this.bio,
@@ -63,6 +66,7 @@ class Seller {
   String key;
   RatingAverage ratingAverage;
   AccountType accountType;
+  Photo photo;
   String created;
   String name;
   String bio;
@@ -81,6 +85,7 @@ class Seller {
         documentId: json["documentId"],
         key: json["key"],
         accountType: accountTypeValues.map[json["accountType"]],
+        photo: json["photo"] == null ? null : Photo.fromMap(json["photo"]),
         created: json["created"],
         name: json["name"],
         bio: json["bio"] == null ? null : json["bio"],
@@ -103,6 +108,7 @@ class Seller {
         "documentId": documentId,
         "key": key,
         "accountType": accountTypeValues.reverse[accountType],
+        "photo": photo.toMap(),
         "created": created,
         "name": name,
         "bio": bio == null ? null : bio,

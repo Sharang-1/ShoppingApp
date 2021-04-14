@@ -307,7 +307,7 @@ class _myAppointmentsState extends State<myAppointments> {
                           onTap: () async => await Get.dialog(AlertDialog(
                             title: Center(
                                 child: Text(
-                              "Message",
+                              "Message From Designer",
                               style: TextStyle(fontWeight: FontWeight.bold),
                             )),
                             content: Text(data?.sellerMessage ?? ''),
