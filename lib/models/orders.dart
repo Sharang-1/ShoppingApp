@@ -162,6 +162,7 @@ class OrderCost {
       {this.productPrice,
       this.quantity,
       this.productDiscount,
+      this.promocodeDiscount,
       this.convenienceCharges,
       this.gstCharges,
       this.deliveryCharges,
@@ -171,6 +172,7 @@ class OrderCost {
   num productPrice;
   num quantity;
   CostAndRate productDiscount;
+  CostAndRate promocodeDiscount;
   CostAndRate convenienceCharges;
   CostAndRate gstCharges;
   Delivery deliveryCharges;
@@ -183,6 +185,9 @@ class OrderCost {
       productDiscount: json['productDiscount'] == null
           ? null
           : CostAndRate.fromJson(json['productDiscount']),
+      promocodeDiscount: json['promocodeDiscount'] == null
+          ? null
+          : CostAndRate.fromJson(json['promocodeDiscount']),
       convenienceCharges: json['convenienceCharges'] == null
           ? null
           : CostAndRate.fromJson(json['convenienceCharges']),
@@ -200,6 +205,7 @@ class OrderCost {
         "productPrice": productPrice,
         "quantity": quantity,
         "productDiscount": productDiscount == null ? null : productDiscount.toJson(),
+        "promocodeDiscount": promocodeDiscount == null ? null : promocodeDiscount.toJson(),
         "convenienceCharges": convenienceCharges == null ? null :  convenienceCharges.toJson(),
         "gstCharges": gstCharges == null ? null :  gstCharges.toJson(),
         "deliveryCharges": deliveryCharges == null ? null :  deliveryCharges.toJson(),

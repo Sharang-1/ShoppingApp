@@ -452,7 +452,7 @@ class APIService {
       data: {
         "billingAddress": billingAddress,
         "productId": productId,
-        "promoCode": promoCode,
+        "promocode": promoCode,
         "variation": {
           "size": size,
           "quantity": quantity,

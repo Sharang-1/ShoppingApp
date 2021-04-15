@@ -82,51 +82,51 @@ class SellerTileUi extends StatelessWidget {
               elevation: 5,
               child: Stack(
                 children: [
-                  if (data?.subscriptionTypeId != 2)
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: FutureBuilder<Reviews>(
-                        future: locator<APIService>()
-                            .getReviews(data?.key, isSellerReview: true),
-                        builder: (context, snapshot) => ((snapshot
-                                        .connectionState ==
-                                    ConnectionState.done) &&
-                                ((snapshot?.data?.ratingAverage?.rating ?? 0) >
-                                    0))
-                            ? FittedBox(
-                                fit: BoxFit.scaleDown,
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 5, horizontal: 10),
-                                  decoration: BoxDecoration(
-                                      color: getColorAccordingToRattings(
-                                          snapshot.data.ratingAverage.rating),
-                                      borderRadius:
-                                          BorderRadius.circular(curve30)),
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                      CustomText(
-                                        snapshot.data.ratingAverage.rating
-                                            .toString(),
-                                        color: Colors.white,
-                                        isBold: true,
-                                        fontSize: 15,
-                                      ),
-                                      horizontalSpaceTiny,
-                                      Icon(
-                                        Icons.star,
-                                        color: Colors.white,
-                                        size: 15,
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              )
-                            : Container(),
-                      ),
-                    ),
+                  // if (data?.subscriptionTypeId != 2)
+                  //   Align(
+                  //     alignment: Alignment.topRight,
+                  //     child: FutureBuilder<Reviews>(
+                  //       future: locator<APIService>()
+                  //           .getReviews(data?.key, isSellerReview: true),
+                  //       builder: (context, snapshot) => ((snapshot
+                  //                       .connectionState ==
+                  //                   ConnectionState.done) &&
+                  //               ((snapshot?.data?.ratingAverage?.rating ?? 0) >
+                  //                   0))
+                  //           ? FittedBox(
+                  //               fit: BoxFit.scaleDown,
+                  //               child: Container(
+                  //                 padding: EdgeInsets.symmetric(
+                  //                     vertical: 5, horizontal: 10),
+                  //                 decoration: BoxDecoration(
+                  //                     color: getColorAccordingToRattings(
+                  //                         snapshot.data.ratingAverage.rating),
+                  //                     borderRadius:
+                  //                         BorderRadius.circular(curve30)),
+                  //                 child: Row(
+                  //                   crossAxisAlignment:
+                  //                       CrossAxisAlignment.center,
+                  //                   children: <Widget>[
+                  //                     CustomText(
+                  //                       snapshot.data.ratingAverage.rating
+                  //                           .toString(),
+                  //                       color: Colors.white,
+                  //                       isBold: true,
+                  //                       fontSize: 15,
+                  //                     ),
+                  //                     horizontalSpaceTiny,
+                  //                     Icon(
+                  //                       Icons.star,
+                  //                       color: Colors.white,
+                  //                       size: 15,
+                  //                     )
+                  //                   ],
+                  //                 ),
+                  //               ),
+                  //             )
+                  //           : Container(),
+                  //     ),
+                  //   ),
                   Container(
                     // decoration: ((data.subscriptionTypeId != 2) &&
                     //         (data?.photo?.first?.name ?? '').isNotEmpty)
@@ -179,34 +179,102 @@ class SellerTileUi extends StatelessWidget {
                               Expanded(
                                 child: Padding(
                                   padding: EdgeInsets.only(left: 15),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: <Widget>[
-                                      CustomText(
-                                        data.name,
-                                        dotsAfterOverFlow: true,
-                                        isTitle: true,
-                                        isBold: true,
-                                        fontSize: 22,
-                                      ),
-                                      CustomDivider(),
-                                      CustomText(
-                                        data?.establishmentType?.name ??
-                                            accountTypeValues.reverse[
-                                                data?.accountType ??
-                                                    AccountType.SELLER],
-                                        color: data.accountType ==
-                                                AccountType.SELLER
-                                            ? logoRed
-                                            : textIconOrange,
-                                        isBold: true,
-                                        dotsAfterOverFlow: true,
-                                        fontSize: subtitleFontSize +
-                                            2 -
-                                            (2 * multiplyer),
+                                  child: Stack(
+                                    children: [
+                                      
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: <Widget>[
+                                          CustomText(
+                                            data.name,
+                                            dotsAfterOverFlow: true,
+                                            isTitle: true,
+                                            isBold: true,
+                                            fontSize: 22,
+                                          ),
+                                          CustomDivider(),
+                                          CustomText(
+                                            data?.establishmentType?.name ??
+                                                accountTypeValues.reverse[
+                                                    data?.accountType ??
+                                                        AccountType.SELLER],
+                                            color: data.accountType ==
+                                                    AccountType.SELLER
+                                                ? logoRed
+                                                : textIconOrange,
+                                            isBold: true,
+                                            dotsAfterOverFlow: true,
+                                            fontSize: subtitleFontSize +
+                                                2 -
+                                                (2 * multiplyer),
+                                          ),
+                                          Align(
+                                            alignment: Alignment.centerRight,
+                                            child: FutureBuilder<Reviews>(
+                                              future: locator<APIService>()
+                                                  .getReviews(data?.key,
+                                                      isSellerReview: true),
+                                              builder: (context, snapshot) =>
+                                                  ((snapshot.connectionState ==
+                                                              ConnectionState
+                                                                  .done) &&
+                                                          ((snapshot
+                                                                      ?.data
+                                                                      ?.ratingAverage
+                                                                      ?.rating ??
+                                                                  0) >
+                                                              0))
+                                                      ? FittedBox(
+                                                          fit: BoxFit.scaleDown,
+                                                          child: Container(
+                                                            padding: EdgeInsets
+                                                                .symmetric(
+                                                                    vertical: 5,
+                                                                    horizontal: 10),
+                                                            decoration: BoxDecoration(
+                                                                color: getColorAccordingToRattings(
+                                                                    snapshot
+                                                                        .data
+                                                                        .ratingAverage
+                                                                        .rating),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            curve30)),
+                                                            child: Row(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: <Widget>[
+                                                                CustomText(
+                                                                  snapshot
+                                                                      .data
+                                                                      .ratingAverage
+                                                                      .rating
+                                                                      .toString(),
+                                                                  color:
+                                                                      Colors.white,
+                                                                  isBold: true,
+                                                                  fontSize: 15,
+                                                                ),
+                                                                horizontalSpaceTiny,
+                                                                Icon(
+                                                                  Icons.star,
+                                                                  color:
+                                                                      Colors.white,
+                                                                  size: 15,
+                                                                )
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        )
+                                                      : Container(),
+                                            ),
+                                          )
+                                        ],
                                       ),
                                     ],
                                   ),
