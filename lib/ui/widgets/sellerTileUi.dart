@@ -27,6 +27,22 @@ class SellerTileUi extends StatelessWidget {
     @required this.fromHome,
     this.onClick,
   }) : super(key: key);
+
+  Color getColorAccordingToRattings(num rattings) {
+    switch (rattings) {
+      case 5:
+        return Color.fromRGBO(0, 100, 0, 1);
+      case 4:
+        return Colors.green;
+      case 3:
+        return Colors.yellow;
+      case 2:
+        return Colors.orange;
+      default:
+        return logoRed;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double subtitleFontSize = fromHome ? 18 * 0.8 : 18;
@@ -72,41 +88,43 @@ class SellerTileUi extends StatelessWidget {
                       child: FutureBuilder<Reviews>(
                         future: locator<APIService>()
                             .getReviews(data?.key, isSellerReview: true),
-                        builder: (context, snapshot) =>
-                            ((snapshot.connectionState ==
-                                        ConnectionState.done) &&
-                                    (snapshot.data.ratingAverage.rating > 0))
-                                ? FittedBox(
-                                    fit: BoxFit.scaleDown,
-                                    child: Container(
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 5, horizontal: 10),
-                                      decoration: BoxDecoration(
-                                          color: logoRed,
-                                          borderRadius:
-                                              BorderRadius.circular(curve30)),
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: <Widget>[
-                                          CustomText(
-                                            snapshot.data.ratingAverage.rating
-                                                .toString(),
-                                            color: Colors.white,
-                                            isBold: true,
-                                            fontSize: 15,
-                                          ),
-                                          horizontalSpaceTiny,
-                                          Icon(
-                                            Icons.star,
-                                            color: Colors.white,
-                                            size: 15,
-                                          )
-                                        ],
+                        builder: (context, snapshot) => ((snapshot
+                                        .connectionState ==
+                                    ConnectionState.done) &&
+                                ((snapshot?.data?.ratingAverage?.rating ?? 0) >
+                                    0))
+                            ? FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 5, horizontal: 10),
+                                  decoration: BoxDecoration(
+                                      color: getColorAccordingToRattings(
+                                          snapshot.data.ratingAverage.rating),
+                                      borderRadius:
+                                          BorderRadius.circular(curve30)),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      CustomText(
+                                        snapshot.data.ratingAverage.rating
+                                            .toString(),
+                                        color: Colors.white,
+                                        isBold: true,
+                                        fontSize: 15,
                                       ),
-                                    ),
-                                  )
-                                : Container(),
+                                      horizontalSpaceTiny,
+                                      Icon(
+                                        Icons.star,
+                                        color: Colors.white,
+                                        size: 15,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              )
+                            : Container(),
                       ),
                     ),
                   Container(

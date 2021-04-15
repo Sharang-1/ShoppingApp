@@ -11,7 +11,7 @@ import '../shared/app_colors.dart';
 import '../shared/ui_helpers.dart';
 
 class ReviewWidget extends StatelessWidget {
-  ReviewWidget({this.id, this.expanded = false, this.isSeller = false});
+  ReviewWidget({Key key, this.id, this.expanded = false, this.isSeller = false}): super(key: key);
   final String id;
   final bool expanded;
   final bool isSeller;

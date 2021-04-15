@@ -169,8 +169,6 @@ class APIService {
     var mReviewsData = await apiWrapper(query);
     if (mReviewsData != null) {
       Reviews mReviews = Reviews.fromJson(mReviewsData);
-      Fimber.d("mReviewsData : " +
-          mReviews.items.map((o) => o.description).toString());
       return mReviews;
     }
     return null;
@@ -185,9 +183,10 @@ class APIService {
         data: {"rating": ratings, "description": description});
   }
 
-  Future<bool> hasReviewed(String productKey, String userId) async {
-    Reviews reviews = await getReviews(productKey);
-    reviews.items.where((element) => element.userId == userId);
+  Future<bool> hasReviewed(String productKey, {bool isSeller = false}) async {
+    UserDetails ud = await getUserData();
+    Reviews reviews = await getReviews(productKey, isSellerReview: isSeller);
+    reviews.items.where((element) => element.userId == ud.key);
     return reviews.items.isNotEmpty;
   }
 

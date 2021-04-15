@@ -76,12 +76,12 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                       Row(
                                         children: [
                                           Expanded(
-                                            flex: 2,
+                                            flex: 3,
                                             child: FittedBox(
                                               fit: BoxFit.scaleDown,
                                               child: Container(
-                                                height: 100,
-                                                width: 100,
+                                                height: 300,
+                                                width: 300,
                                                 child: ClipOval(
                                                   child:
                                                       FadeInImage.assetNetwork(
@@ -100,8 +100,8 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                                             stackTrace) =>
                                                         Image.asset(
                                                       "assets/images/product_preloading.png",
-                                                      width: 80,
-                                                      height: 80,
+                                                      width: 500,
+                                                      height: 500,
                                                       fit: BoxFit.scaleDown,
                                                     ),
                                                     fit: BoxFit.scaleDown,
@@ -121,11 +121,13 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                             ),
                                           ),
                                           Expanded(
-                                            flex: 8,
+                                            flex: 7,
                                             child: Padding(
-                                              padding: const EdgeInsets.only(left: 4.0),
+                                              padding: const EdgeInsets.only(
+                                                  left: 4.0),
                                               child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
                                                   CustomText(
                                                     widget.sellerData.name,

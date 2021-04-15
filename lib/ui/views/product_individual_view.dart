@@ -881,68 +881,85 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                   selectedColor == ""
                                       ? Container()
                                       : Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: <Widget>[
-                                            Text(
-                                              "Select Qty${(productData.category.id == 13) ? ' in Meters' : ''}",
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize:
-                                                      subtitleFontSizeStyle),
+                                            Expanded(
+                                              child: Text(
+                                                "Select ${(productData.category.id == 13) ? 'No. of Meters' : 'Qty'}",
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize:
+                                                        subtitleFontSizeStyle),
+                                              ),
                                             ),
-                                            horizontalSpaceMedium,
-                                            Container(
-                                              height: 40,
-                                              padding: EdgeInsets.symmetric(
-                                                  vertical: 0, horizontal: 0),
-                                              decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                      color: darkRedSmooth),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          20)),
-                                              child: Row(
-                                                children: <Widget>[
-                                                  IconButton(
-                                                    color: selectedQty == 0
-                                                        ? Colors.grey
-                                                        : darkRedSmooth,
-                                                    icon: Icon(Icons.remove),
-                                                    onPressed: () {
-                                                      if (selectedQty != 0) {
-                                                        setState(() {
-                                                          selectedQty =
-                                                              selectedQty - 1;
-                                                        });
-                                                      }
-                                                    },
+                                            Expanded(
+                                              child: FittedBox(
+                                                fit: BoxFit.scaleDown,
+                                                child: Container(
+                                                  height: 40,
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 0,
+                                                      horizontal: 0),
+                                                  decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                          color: darkRedSmooth),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20)),
+                                                  child: Row(
+                                                    children: <Widget>[
+                                                      IconButton(
+                                                        color: selectedQty == 0
+                                                            ? Colors.grey
+                                                            : darkRedSmooth,
+                                                        icon:
+                                                            Icon(Icons.remove),
+                                                        onPressed: () {
+                                                          if (selectedQty !=
+                                                              0) {
+                                                            setState(() {
+                                                              selectedQty =
+                                                                  selectedQty -
+                                                                      1;
+                                                            });
+                                                          }
+                                                        },
+                                                      ),
+                                                      Text(
+                                                        selectedQty.toString(),
+                                                        style: TextStyle(
+                                                            color:
+                                                                darkRedSmooth,
+                                                            fontSize:
+                                                                titleFontSizeStyle,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
+                                                      IconButton(
+                                                        color: maxQty ==
+                                                                selectedQty
+                                                            ? Colors.grey
+                                                            : darkRedSmooth,
+                                                        icon: Icon(Icons.add),
+                                                        onPressed: () {
+                                                          print("maxQty" +
+                                                              maxQty
+                                                                  .toString());
+                                                          if (maxQty !=
+                                                              selectedQty) {
+                                                            setState(() {
+                                                              selectedQty =
+                                                                  selectedQty +
+                                                                      1;
+                                                            });
+                                                          }
+                                                        },
+                                                      ),
+                                                    ],
                                                   ),
-                                                  Text(
-                                                    selectedQty.toString(),
-                                                    style: TextStyle(
-                                                        color: darkRedSmooth,
-                                                        fontSize:
-                                                            titleFontSizeStyle,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  ),
-                                                  IconButton(
-                                                    color: maxQty == selectedQty
-                                                        ? Colors.grey
-                                                        : darkRedSmooth,
-                                                    icon: Icon(Icons.add),
-                                                    onPressed: () {
-                                                      print("maxQty" +
-                                                          maxQty.toString());
-                                                      if (maxQty !=
-                                                          selectedQty) {
-                                                        setState(() {
-                                                          selectedQty =
-                                                              selectedQty + 1;
-                                                        });
-                                                      }
-                                                    },
-                                                  ),
-                                                ],
+                                                ),
                                               ),
                                             ),
                                           ],
@@ -1519,7 +1536,8 @@ class ProductDescriptionTable extends StatelessWidget {
 
               // divider,
               if ((product?.whatDoesItHave != null) &&
-                  (product?.whatDoesItHave?.id != -1))
+                  (product?.whatDoesItHave?.id != -1) &&
+                  (product?.category?.id == 9))
                 getProductDetailsRow(
                   "what Does It Have",
                   ((product?.whatDoesItHave?.id == 1)

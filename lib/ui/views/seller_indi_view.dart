@@ -46,6 +46,8 @@ class SellerIndi extends StatefulWidget {
 
 class _SellerIndiState extends State<SellerIndi> {
   final productKey = new UniqueKey();
+  Key reviewKey = UniqueKey();
+  Key writeReviewKey = UniqueKey();
   bool showExploreSection = true;
 
   var allDetials = [
@@ -524,12 +526,37 @@ class _SellerIndiState extends State<SellerIndi> {
                     ),
                     verticalSpace(30),
                     ReviewWidget(
+                      key: reviewKey,
                       id: sellerDetails["key"],
                       isSeller: true,
                     ),
                     verticalSpaceMedium,
-                    WriteReviewWidget(sellerDetails["key"]),
-                    verticalSpace(25),
+                    FutureBuilder<bool>(
+                        key: writeReviewKey,
+                        future: locator<APIService>()
+                            .hasReviewed(sellerData.key, isSeller: true),
+                        builder: (context, snapshot) {
+                          return ((snapshot.connectionState ==
+                                      ConnectionState.done) &&
+                                  !snapshot.data)
+                              ? Column(
+                                  children: [
+                                    WriteReviewWidget(
+                                      sellerDetails["key"],
+                                      isSeller: true,
+                                      onSubmit: () {
+                                        setState(() {
+                                          reviewKey = UniqueKey();
+                                          writeReviewKey = UniqueKey();
+                                        });
+                                      },
+                                    ),
+                                    verticalSpace(15),
+                                  ],
+                                )
+                              : Container();
+                        }),
+                    verticalSpace(10),
                     CustomText(
                       "Everything About ${sellerDetails["name"]}",
                       fontSize: headFont - 2,

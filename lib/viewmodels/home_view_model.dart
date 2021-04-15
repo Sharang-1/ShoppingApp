@@ -43,11 +43,11 @@ class HomeViewModel extends BaseModel {
     if (prefs == null) prefs = await SharedPreferences.getInstance();
 
     String lastStoredOrderKey = prefs.getString("lastDeliveredOrderKey");
-    if (lastDeliveredOrder.key != null && (lastDeliveredOrder.key == lastStoredOrderKey)) return null;
+    if (lastDeliveredOrder.key != null &&
+        (lastDeliveredOrder.key == lastStoredOrderKey)) return null;
     try {
-      details = await _apiService.getUserData();
-      if (await _apiService.hasReviewed(
-          lastDeliveredOrder.productId, details.key)) return null;
+      if (await _apiService.hasReviewed(lastDeliveredOrder.productId))
+        return null;
     } catch (e) {
       print(e.toString());
     }
@@ -61,10 +61,10 @@ class HomeViewModel extends BaseModel {
   }
 
   Future postReview(String key, double ratings) async {
-    try{
+    try {
       _apiService.postReview(key, ratings, "");
-      return; 
-    }catch(e){
+      return;
+    } catch (e) {
       print(e.toString());
     }
   }

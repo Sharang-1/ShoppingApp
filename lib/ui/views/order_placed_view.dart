@@ -1,4 +1,6 @@
+import 'package:compound/ui/widgets/circular_progress_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 
 import '../../viewmodels/orders_view_model.dart';
@@ -24,15 +26,22 @@ class OrderPlacedView extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Stack(alignment: Alignment.center, children: <Widget>[
-                Image.asset(
-                  "assets/images/loading.gif",
-                  height: MediaQuery.of(context).size.width * 0.4,
-                  width: MediaQuery.of(context).size.width * 0.4,
-                ),
-              ]),
+              Stack(
+                alignment: Alignment.center,
+                children: <Widget>[
+                  SvgPicture.asset(
+                    "assets/svg/logo.svg",
+                    color: logoRed,
+                    width: MediaQuery.of(context).size.width / 2.5,
+                    height: MediaQuery.of(context).size.width / 2.5,
+                  ),
+                  CircularProgressIndicatorWidget(
+                    fromCart: false,
+                  )
+                ],
+              ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(30, 50, 30, 0),
+                padding: const EdgeInsets.fromLTRB(30, 20, 30, 0),
                 child: Column(children: <Widget>[
                   Text(
                     "Your order has been received.",

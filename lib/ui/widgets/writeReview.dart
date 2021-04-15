@@ -14,7 +14,8 @@ import 'input_field.dart';
 class WriteReviewWidget extends StatefulWidget {
   final String id;
   final bool isSeller;
-  WriteReviewWidget(this.id, {this.isSeller = false});
+  final Function onSubmit;
+  WriteReviewWidget(this.id, {this.isSeller = false, this.onSubmit});
   @override
   _WriteReviewWidget createState() => new _WriteReviewWidget();
 }
@@ -93,7 +94,7 @@ class _WriteReviewWidget extends State<WriteReviewWidget> {
                                       left: 8.0, right: 8.0),
                                   child: InputField(
                                     controller: textController,
-                                    placeholder: 'Feedback',
+                                    placeholder: 'Write a Review',
                                   ),
                                 ),
                                 RatingBar.builder(
@@ -126,16 +127,18 @@ class _WriteReviewWidget extends State<WriteReviewWidget> {
                                           backgroundColor: logoRed,
                                         ),
                                         child: new CustomText(
-                                          "Send",
+                                          "Submit",
                                           color: Colors.white,
                                         ),
-                                        onPressed: () {
-                                          model.writeReiew(
+                                        onPressed: () async {
+                                          await model.writeReiew(
                                               widget.id,
                                               selectedRating,
                                               textController.text,
                                               isSellerReview: widget.isSeller);
                                           textController.text = "";
+                                          if (widget.onSubmit != null)
+                                            widget.onSubmit();
                                         },
                                       ),
                                       SizedBox(
