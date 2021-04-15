@@ -29,6 +29,7 @@ class CategoryIndiView extends StatefulWidget {
 
 class _CategoryIndiViewState extends State<CategoryIndiView> {
   ProductFilter filter;
+  bool showRandomProducts = true;
   UniqueKey key = UniqueKey();
   final refreshController = RefreshController(initialRefresh: false);
 
@@ -151,6 +152,7 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
 
                                       if (filterDialogResponse != null) {
                                         setState(() {
+                                          showRandomProducts = false;
                                           filter = filterDialogResponse;
                                           key = UniqueKey();
                                         });
@@ -209,7 +211,7 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
                                                 EmptyListWidget(text: ""),
                                             viewModel:
                                                 ProductsGridViewBuilderViewModel(
-                                              randomize: true,
+                                              randomize: showRandomProducts,
                                               limit: 1000,
                                             ),
                                             childAspectRatio: 0.7,

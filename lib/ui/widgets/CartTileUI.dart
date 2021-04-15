@@ -35,7 +35,7 @@ class _CartTileUIState extends State<CartTileUI> {
   String finalTotal = "-";
   String shippingCharges = "-";
   String deliveryStatus = "";
-  String promoCode = "No Promocode";
+  String promoCode = "";
   String promoCodeId = "";
   String promoCodeDiscount = "0";
   int quantity = 0;

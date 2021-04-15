@@ -39,6 +39,7 @@ class ProductListView extends StatefulWidget {
 class _ProductListViewState extends State<ProductListView> {
   ProductFilter filter;
   String sellerKey;
+  bool showRandomProducts = true;
   UniqueKey key = UniqueKey();
   final refreshController = RefreshController(initialRefresh: false);
   DynamicLinkService _dynamicLinkService = locator<DynamicLinkService>();
@@ -114,6 +115,7 @@ class _ProductListViewState extends State<ProductListView> {
 
                 if (filterDialogResponse != null) {
                   setState(() {
+                    showRandomProducts = false;
                     filter = filterDialogResponse;
                     key = UniqueKey();
                   });
@@ -244,7 +246,7 @@ class _ProductListViewState extends State<ProductListView> {
                                       widget.subCategory.isEmpty)
                                   ? 50
                                   : 1000,
-                              randomize: true,
+                              randomize: showRandomProducts,
                             ),
                             childAspectRatio: 0.7,
                             tileBuilder: (BuildContext context, data, index,

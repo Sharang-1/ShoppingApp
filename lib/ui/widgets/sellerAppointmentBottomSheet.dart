@@ -77,44 +77,47 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                         children: [
                                           Expanded(
                                             flex: 3,
-                                            child: FittedBox(
-                                              fit: BoxFit.scaleDown,
-                                              child: Container(
-                                                height: 300,
-                                                width: 300,
-                                                child: ClipOval(
-                                                  child:
-                                                      FadeInImage.assetNetwork(
-                                                    width: 80,
-                                                    height: 80,
-                                                    fadeInCurve: Curves.easeIn,
-                                                    placeholder:
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(right: 12.0),
+                                              child: FittedBox(
+                                                fit: BoxFit.scaleDown,
+                                                child: Container(
+                                                  height: 300,
+                                                  width: 300,
+                                                  child: ClipOval(
+                                                    child:
+                                                        FadeInImage.assetNetwork(
+                                                      width: 80,
+                                                      height: 80,
+                                                      fadeInCurve: Curves.easeIn,
+                                                      placeholder:
+                                                          "assets/images/product_preloading.png",
+                                                      image: widget?.sellerData
+                                                                  ?.key !=
+                                                              null
+                                                          ? "$SELLER_PHOTO_BASE_URL/${widget?.sellerData?.key}"
+                                                          : "https://images.unsplash.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
+                                                      imageErrorBuilder: (context,
+                                                              error,
+                                                              stackTrace) =>
+                                                          Image.asset(
                                                         "assets/images/product_preloading.png",
-                                                    image: widget?.sellerData
-                                                                ?.key !=
-                                                            null
-                                                        ? "$SELLER_PHOTO_BASE_URL/${widget?.sellerData?.key}"
-                                                        : "https://images.unsplash.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-                                                    imageErrorBuilder: (context,
-                                                            error,
-                                                            stackTrace) =>
-                                                        Image.asset(
-                                                      "assets/images/product_preloading.png",
-                                                      width: 500,
-                                                      height: 500,
+                                                        width: 500,
+                                                        height: 500,
+                                                        fit: BoxFit.scaleDown,
+                                                      ),
                                                       fit: BoxFit.scaleDown,
                                                     ),
-                                                    fit: BoxFit.scaleDown,
                                                   ),
-                                                ),
-                                                decoration: BoxDecoration(
-                                                  color: Color.fromRGBO(
-                                                      255, 255, 255, 1),
-                                                  shape: BoxShape.circle,
-                                                  border: Border.all(
+                                                  decoration: BoxDecoration(
                                                     color: Color.fromRGBO(
-                                                        255, 255, 255, 0.1),
-                                                    width: 8.0,
+                                                        255, 255, 255, 1),
+                                                    shape: BoxShape.circle,
+                                                    border: Border.all(
+                                                      color: Color.fromRGBO(
+                                                          255, 255, 255, 0.1),
+                                                      width: 8.0,
+                                                    ),
                                                   ),
                                                 ),
                                               ),
