@@ -56,9 +56,9 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
     'Indo-Western': false,
     'Blouses': false,
     'Dupattas': false,
-    'Accessories - Fabric Bags': false,
-    'Accessories -  Tradition…es/Ethnic wear footwear': false,
-    'Accessories - Home Made Jewellery': false,
+    'Fabric Bags': false,
+    'Traditional…/Ethnic wear footwear': false,
+    'Home Made Jewellery': false,
     'Saree': false,
     'Cloth Materials': false,
     'Lenghas': false
@@ -73,9 +73,9 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
     'Indo-Western': 6,
     'Blouses': 7,
     'Dupattas': 8,
-    'Accessories - Fabric Bags': 9,
-    'Accessories -  Tradition…es/Ethnic wear footwear': 10,
-    'Accessories - Home Made Jewellery': 11,
+    'Fabric Bags': 9,
+    'Traditional…/Ethnic wear footwear': 10,
+    'Home Made Jewellery': 11,
     'Saree': 12,
     'Cloth Materials': 13,
     'Lenghas': 14
@@ -90,9 +90,9 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
     6: 'Indo-Western',
     7: 'Blouses',
     8: 'Dupattas',
-    9: 'Accessories - Fabric Bags',
-    10: 'Accessories -  Tradition…es/Ethnic wear footwear',
-    11: 'Accessories - Home Made Jewellery',
+    9: 'Fabric Bags',
+    10: 'Traditional…/Ethnic wear footwear',
+    11: 'Home Made Jewellery',
     12: 'Saree',
     13: 'Cloth Materials',
     14: 'Lenghas'
@@ -180,7 +180,8 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
                       new ProductFilter(
                         fullText: fullText,
                         categories: categories,
-                        subCategories: subCategories,
+                        subCategories:
+                            subCategoriesValues["All"] ? [] : subCategories,
                         size: size,
                         minPrice: minPrice,
                         maxPrice: maxPrice,
@@ -340,6 +341,7 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
                               if (sKey != "All") {
                                 setState(() {
                                   subCategoriesValues[sKey] = val;
+                                  if (!val) subCategoriesValues["All"] = val;
                                 });
                                 return;
                               }
@@ -520,7 +522,7 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
       Fimber.d(subCategoriesValues['All'].toString());
       if (subCategoriesValues['All'] == true) {
         // If all values are selected then no need to filter.
-        subCategories = null;
+        subCategories = [];
       } else {
         Fimber.d("Test ////////////////////////////");
         // Check if all values are false or not.
