@@ -307,6 +307,7 @@ class EmptyListWidget extends StatelessWidget {
               color: Colors.grey[600],
               fontSize: 20,
             ),
+            textAlign: TextAlign.center,
           ),
           verticalSpaceSmall,
           Image.asset("assets/images/empty_cart.png"),
