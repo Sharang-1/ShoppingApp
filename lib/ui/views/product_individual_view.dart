@@ -739,7 +739,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                               ),
                               padding: EdgeInsets.all(8.0),
                               child: Text(
-                                "Handmade",
+                                "Handcrafted",
                                 style: TextStyle(
                                   fontWeight: FontWeight.w600,
                                   color: Colors.white,

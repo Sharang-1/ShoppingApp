@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 import '../../constants/server_urls.dart';
 import '../../models/promotions.dart';
@@ -24,9 +25,11 @@ class PromotionSlider extends StatefulWidget {
 class _PromotionSliderState extends State<PromotionSlider> {
   int _current = 0;
   int _timeOut = 10;
+  DefaultCacheManager defaultCacheManager;
 
   @override
   void initState() {
+    defaultCacheManager = DefaultCacheManager();
     _timeOut = widget.promotions.first.time;
     super.initState();
   }
@@ -93,6 +96,7 @@ class _PromotionSliderState extends State<PromotionSlider> {
                           child: CachedNetworkImage(
                             maxHeightDiskCache: 200,
                             maxWidthDiskCache: 200,
+                            cacheManager: defaultCacheManager,
                             fit: BoxFit.cover,
                             placeholder: (context, url) => Image.asset(
                                 "assets/images/promotion_preloading.png"),
@@ -129,5 +133,11 @@ class _PromotionSliderState extends State<PromotionSlider> {
           ),
       ],
     );
+  }
+
+  @override
+  void dispose() async {
+    defaultCacheManager.emptyCache();
+    super.dispose();
   }
 }
