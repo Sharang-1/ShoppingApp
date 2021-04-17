@@ -207,8 +207,9 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
                                             context: context,
                                             filter: filter,
                                             gridCount: 2,
-                                            emptyListWidget:
-                                                EmptyListWidget(text: ""),
+                                            emptyListWidget: EmptyListWidget(
+                                                text:
+                                                    "We're out of all ${widget.subCategory}. Check Back Later!"),
                                             viewModel:
                                                 ProductsGridViewBuilderViewModel(
                                               randomize: showRandomProducts,
