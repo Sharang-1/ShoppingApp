@@ -209,7 +209,7 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
                                             gridCount: 2,
                                             emptyListWidget: EmptyListWidget(
                                                 text:
-                                                    "We're out of all ${widget.subCategory}. Check Back Later!"),
+                                                    "We're out of all ${widget.subCategory}.\nCheck Back Later!"),
                                             viewModel:
                                                 ProductsGridViewBuilderViewModel(
                                               randomize: showRandomProducts,

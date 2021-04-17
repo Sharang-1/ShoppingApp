@@ -726,7 +726,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                             ),
                           ],
                         ),
-                      if (productData.whoMadeIt.id == 1)
+                      if (productData.whoMadeIt.id == 2)
                         Padding(
                           padding: const EdgeInsets.only(top: 8.0, right: 8.0),
                           child: FittedBox(
@@ -739,7 +739,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                               ),
                               padding: EdgeInsets.all(8.0),
                               child: Text(
-                                "Handcrafted",
+                                "Hand-Crafted",
                                 style: TextStyle(
                                   fontWeight: FontWeight.w600,
                                   color: Colors.white,
