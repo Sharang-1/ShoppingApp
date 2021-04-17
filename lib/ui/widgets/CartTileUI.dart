@@ -160,6 +160,7 @@ class _CartTileUIState extends State<CartTileUI> {
                             padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                             child: TextField(
                               controller: _controller,
+                              textCapitalization: TextCapitalization.characters,
                               decoration: const InputDecoration(
                                 hintText: 'Enter Promo Code',
                                 border: InputBorder.none,
