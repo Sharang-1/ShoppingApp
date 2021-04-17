@@ -20,6 +20,8 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>EnableBackgroundLocationUpdates</key>
+	<true/>
 	<key>FirebaseAppDelegateProxyEnabled</key>
 	<false/>
 	<key>FirebaseDynamicLinksCustomDomains</key>
@@ -30,7 +32,6 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>EnableBackgroundLocationUpdates</key> <true/>
 	<key>NSAppleMusicUsageDescription</key>
 	<string>Dzor App does not require access to Apple Music.</string>
 	<key>NSCalendarsUsageDescription</key>
