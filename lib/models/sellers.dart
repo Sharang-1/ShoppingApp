@@ -93,7 +93,8 @@ class Seller {
         designs: json["designs"] == null ? null : json["designs"],
         works: json["works"] == null ? null : json["works"],
         operations: json["operations"] == null ? null : json["operations"],
-        contact: Contact.fromJson(json["contact"]),
+        contact:
+            json["contact"] == null ? null : Contact.fromJson(json["contact"]),
         timing: Timing.fromJson(json["timing"]),
         establishmentTypeId: json["establishmentTypeId"],
         subscriptionTypeId: json["subscriptionTypeId"],
@@ -116,7 +117,7 @@ class Seller {
         "designs": designs == null ? null : designs,
         "works": works == null ? null : works,
         "operations": operations == null ? null : operations,
-        "contact": contact.toJson(),
+        "contact": contact?.toJson(),
         "timing": timing.toJson(),
         "establishmentTypeId": establishmentTypeId,
         "subscriptionTypeId": subscriptionTypeId,
@@ -185,8 +186,9 @@ class GeoLocation {
   double longitude;
 
   factory GeoLocation.fromJson(Map<String, dynamic> json) => GeoLocation(
-        latitude: json["latitude"].toDouble(),
-        longitude: json["longitude"].toDouble(),
+        latitude: json["latitude"] == null ? null : json["latitude"].toDouble(),
+        longitude:
+            json["longitude"] == null ? null : json["longitude"].toDouble(),
       );
 
   Map<String, dynamic> toJson() => {

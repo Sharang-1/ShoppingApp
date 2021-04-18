@@ -62,12 +62,16 @@ class MapViewModel extends BaseModel {
     sData.items = sData.items
         .where((s) => s?.subscriptionTypeId?.toString() != '2')
         .toList();
+    tData.items = tData.items
+        .where((t) => (t?.contact?.geoLocation?.latitude != null))
+        .toList();
+
     if (sData != null) {
       clientsToggle = true;
     }
+
     sData.items.shuffle();
     tData.items.shuffle();
-    // sData.items = sData.items.sublist(0, 10);
     notifyListeners();
 
     if (sellerKey != null && sellerKey != '') {

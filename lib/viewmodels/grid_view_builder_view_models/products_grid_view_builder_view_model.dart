@@ -14,12 +14,13 @@ class ProductsGridViewBuilderViewModel
   final int limit;
   final List<String> exceptProductIDs;
 
-  ProductsGridViewBuilderViewModel(
-      {this.filteredProductKey,
-      this.randomize = false,
-      this.sameDayDelivery = false,
-      this.limit,
-      this.exceptProductIDs = const [],});
+  ProductsGridViewBuilderViewModel({
+    this.filteredProductKey,
+    this.randomize = false,
+    this.sameDayDelivery = false,
+    this.limit,
+    this.exceptProductIDs = const [],
+  });
 
   @override
   Future init() {
@@ -36,11 +37,18 @@ class ProductsGridViewBuilderViewModel
     String _queryString =
         "startIndex=${pageSize * (pageNumber - 1)};limit=${this.randomize ? 1000 : pageSize};" +
             filterModel.queryString;
+            
     Products res = await _apiService.getProducts(queryString: _queryString);
-    if (res == null) throw "Could not load";
 
-    if(this.exceptProductIDs.isNotEmpty){
-      res.items = res.items.where((element) => !this.exceptProductIDs.contains(element.key)).toList();
+    if (res == null) {
+      res = await _apiService.getProducts(queryString: _queryString);
+      if (res == null) throw "Could not load";
+    }
+
+    if (this.exceptProductIDs.isNotEmpty) {
+      res.items = res.items
+          .where((element) => !this.exceptProductIDs.contains(element.key))
+          .toList();
     }
 
     if (this.randomize) {

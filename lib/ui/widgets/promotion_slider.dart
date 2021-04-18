@@ -94,8 +94,6 @@ class _PromotionSliderState extends State<PromotionSlider> {
                               borderRadius: BorderRadius.circular(curve15)),
                           width: MediaQuery.of(context).size.width - 10,
                           child: CachedNetworkImage(
-                            maxHeightDiskCache: 200,
-                            maxWidthDiskCache: 200,
                             cacheManager: defaultCacheManager,
                             fit: BoxFit.cover,
                             placeholder: (context, url) => Image.asset(

@@ -11,95 +11,100 @@ Tailors tailorsFromJson(String str) => Tailors.fromJson(json.decode(str));
 String tailorsToJson(Tailors data) => json.encode(data.toJson());
 
 class Tailors {
-    int records;
-    int startIndex;
-    int limit;
-    List<Tailor> items;
+  int records;
+  int startIndex;
+  int limit;
+  List<Tailor> items;
 
-    Tailors({
-        this.records,
-        this.startIndex,
-        this.limit,
-        this.items,
-    });
+  Tailors({
+    this.records,
+    this.startIndex,
+    this.limit,
+    this.items,
+  });
 
-    factory Tailors.fromJson(Map<String, dynamic> json) => Tailors(
+  factory Tailors.fromJson(Map<String, dynamic> json) => Tailors(
         records: json["records"],
         startIndex: json["startIndex"],
         limit: json["limit"],
-        items: List<Tailor>.from(json["tailors"].map((x) => Tailor.fromJson(x))),
-    );
+        items:
+            List<Tailor>.from(json["tailors"].map((x) => Tailor.fromJson(x))),
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "records": records,
         "startIndex": startIndex,
         "limit": limit,
         "tailors": List<dynamic>.from(items.map((x) => x.toJson())),
-    };
+      };
 }
 
 class Tailor {
-    String key;
-    String name;
-    bool enabled;
-    String created;
-    String modified;
-    Contact contact;
+  String key;
+  String name;
+  bool enabled;
+  String created;
+  String modified;
+  Contact contact;
 
-    Tailor({
-        this.key,
-        this.name,
-        this.enabled,
-        this.created,
-        this.modified,
-        this.contact,
-    });
+  Tailor({
+    this.key,
+    this.name,
+    this.enabled,
+    this.created,
+    this.modified,
+    this.contact,
+  });
 
-    factory Tailor.fromJson(Map<String, dynamic> json) => Tailor(
+  factory Tailor.fromJson(Map<String, dynamic> json) => Tailor(
         key: json["key"],
         name: json["name"],
         enabled: json["enabled"],
         created: json["created"],
         modified: json["modified"],
         contact: Contact.fromJson(json["contact"]),
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "key": key,
         "name": name,
         "enabled": enabled,
         "created": created,
         "modified": modified,
         "contact": contact.toJson(),
-    };
+      };
 }
 
 class Contact {
-    String address;
-    String email;
-    PrimaryNumber primaryNumber;
-    GeoLocation geoLocation;
+  String address;
+  String email;
+  PrimaryNumber primaryNumber;
+  GeoLocation geoLocation;
 
-    Contact({
-        this.address,
-        this.email,
-        this.primaryNumber,
-        this.geoLocation,
-    });
+  Contact({
+    this.address,
+    this.email,
+    this.primaryNumber,
+    this.geoLocation,
+  });
 
-    factory Contact.fromJson(Map<String, dynamic> json) => Contact(
+  factory Contact.fromJson(Map<String, dynamic> json) => Contact(
         address: json["address"] == null ? null : json["address"],
         email: json["email"] == null ? null : json["email"],
-        primaryNumber: PrimaryNumber.fromJson(json["primaryNumber"]),
-        geoLocation: GeoLocation.fromJson(json["geoLocation"]),
-    );
+        primaryNumber: json["primaryNumber"] == null
+            ? null
+            : PrimaryNumber.fromJson(json["primaryNumber"]),
+        geoLocation: json["geoLocation"] == null
+            ? null
+            : GeoLocation.fromJson(json["geoLocation"]),
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "address": address == null ? null : address,
         "email": email == null ? null : email,
-        "primaryNumber": primaryNumber.toJson(),
-        "geoLocation": geoLocation.toJson(),
-    };
+        "primaryNumber": primaryNumber == null ? null : primaryNumber.toJson(),
+        "geoLocation": geoLocation == null ? null : geoLocation.toJson(),
+      };
 }
 
 // class GeoLocation {
@@ -123,21 +128,21 @@ class Contact {
 // }
 
 class PrimaryNumber {
-    String code;
-    String mobile;
+  String code;
+  String mobile;
 
-    PrimaryNumber({
-        this.code,
-        this.mobile,
-    });
+  PrimaryNumber({
+    this.code,
+    this.mobile,
+  });
 
-    factory PrimaryNumber.fromJson(Map<String, dynamic> json) => PrimaryNumber(
+  factory PrimaryNumber.fromJson(Map<String, dynamic> json) => PrimaryNumber(
         code: json["code"] == null ? null : json["code"],
         mobile: json["mobile"] == null ? null : json["mobile"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "code": code == null ? null : code,
         "mobile": mobile == null ? null : mobile,
-    };
+      };
 }

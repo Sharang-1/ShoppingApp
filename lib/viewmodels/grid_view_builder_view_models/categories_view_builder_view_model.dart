@@ -32,7 +32,10 @@ class CategoriesGridViewBuilderViewModel
         "startIndex=${pageSize * (pageNumber - 1)};limit=$pageSize;" +
             filterModel.queryString;
     Categorys res = await _apiService.getCategory(queryString: _queryString);
-    if (res == null) throw "Could not load";
+    if (res == null) {
+      res = await _apiService.getCategory(queryString: _queryString);
+      if (res == null) throw "Could not load";
+    }
 
     res.items = res.items
         .where((element) => element.name.trim().toLowerCase() != "n/a")

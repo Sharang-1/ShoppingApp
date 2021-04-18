@@ -49,7 +49,10 @@ class SellersGridViewBuilderViewModel
         "startIndex=${pageSize * (pageNumber - 1)};limit=${this.random ? 1000 : pageSize};" +
             filterModel.queryString;
     Sellers res = await _apiService.getSellers(queryString: _queryString);
-    if (res == null) throw "Could not load";
+    if (res == null) {
+      res = await _apiService.getSellers(queryString: _queryString);
+      if (res == null) throw "Could not load";
+    }
 
     if (this.removeId != null) {
       res.items =

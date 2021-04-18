@@ -1,11 +1,5 @@
-// import 'package:compound/ui/shared/ui_helpers.dart';
-// import 'package:compound/ui/widgets/custom_stepper.dart';
-// import 'package:compound/ui/widgets/custom_text.dart';
-import 'package:compound/viewmodels/cart_payment_method_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-// import 'package:flutter/material.dart';
-// import 'package:flutter_svg/svg.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 
 import '../../constants/route_names.dart';
@@ -14,6 +8,7 @@ import '../../models/order.dart';
 import '../../models/user_details.dart';
 import '../../services/error_handling_service.dart';
 import '../../services/navigation_service.dart';
+import '../../viewmodels/cart_payment_method_view_model.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
@@ -78,6 +73,24 @@ class _PaymentMethodState extends State<PaymentMethod> {
     print("color " + widget.color);
     print("qty" + widget.qty.toString());
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await showDialog<AlertDialog>(
+          context: context,
+          builder: (context) => AlertDialog(
+                title: Text(
+                  'Check Size, Color and Quantity',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                content: Text(
+                    'Designers on Dzor work hard to create garments and items for you. Please make sure you’re making an informed buying decision so that we don’t have to return or cancel the order.'),
+                actions: [
+                  TextButton(
+                    child: Text('OK', style: TextStyle(fontWeight: FontWeight.bold),),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                ],
+              ));
+    });
   }
 
   @override
