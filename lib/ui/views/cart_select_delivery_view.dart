@@ -110,6 +110,7 @@ class _SelectAddressState extends State<SelectAddress> {
             ),
           ),
         ),
+        resizeToAvoidBottomInset: false,
         body: SafeArea(
           child: SingleChildScrollView(
             child: Padding(
