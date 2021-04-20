@@ -50,7 +50,7 @@ class LoginView extends StatelessWidget {
                 _mobileFocus.unfocus();
               }
             },
-            countries: ['IN', 'US'],
+            countries: ['IN'],
             inputDecoration: InputDecoration(
                 hintText: "Phone Number",
                 hintStyle: TextStyle(
@@ -60,15 +60,17 @@ class LoginView extends StatelessWidget {
             errorMessage: model.phoneNoValidation,
             textFieldController: phoneNoController,
             isEnabled: true,
-            selectorType: PhoneInputSelectorType.DIALOG,
+            selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
             autoValidate: true,
             formatInput: true,
           ),
-          // InternationalPhoneInput(
-          //     initialPhoneNumber: "",
-
-          //     initialSelection: "IND",
-          //     enabledCountries: ['+91', '+1']),
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              "*Enter a valid Indian mobile number to receive a login OTP.",
+              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
+            ),
+          )
         ],
       )),
     );
