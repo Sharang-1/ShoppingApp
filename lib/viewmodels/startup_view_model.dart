@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:launch_review/launch_review.dart';
 import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -22,9 +24,11 @@ class StartUpViewModel extends BaseModel {
 
   final NavigationService _navigationService = locator<NavigationService>();
   final AnalyticsService _analyticsService = locator<AnalyticsService>();
-  final PushNotificationService _notificationService = locator<PushNotificationService>();
+  final PushNotificationService _notificationService =
+      locator<PushNotificationService>();
   final DynamicLinkService _linkService = locator<DynamicLinkService>();
-  final ErrorHandlingService _errorHandlingService = locator<ErrorHandlingService>();
+  final ErrorHandlingService _errorHandlingService =
+      locator<ErrorHandlingService>();
 
   Future init() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -51,14 +55,24 @@ class StartUpViewModel extends BaseModel {
     await _errorHandlingService.init();
 
     if (updateDetails.version != version) {
-      Get.defaultDialog(
-          title: "Update is here !",
-          onConfirm: () {
-            //ToDo: Go to playstore
-          },
-          onCancel: () {
-            //Close App ??
-          });
+      Get.dialog(
+          AlertDialog(
+            title: Text(
+              "New Version Available!",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            content: Text("Please, update app to new version to continue."),
+            actions: [
+              TextButton(
+                child: Text("Update App"),
+                onPressed: () async {
+                  await LaunchReview.launch(
+                      androidAppId: "in.dzor.dzor_app", iOSAppId: "1562083632");
+                },
+              )
+            ],
+          ),
+          barrierDismissible: false);
     } else {
       Future.delayed(Duration(milliseconds: 2000), () async {
         // SharedPreferences prefs = await SharedPreferences.getInstance();
