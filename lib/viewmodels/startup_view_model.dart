@@ -55,7 +55,7 @@ class StartUpViewModel extends BaseModel {
     await _errorHandlingService.init();
 
     if (updateDetails.version != version) {
-      Get.dialog(
+      await Get.dialog(
           AlertDialog(
             title: Text(
               "New Version Available!",
