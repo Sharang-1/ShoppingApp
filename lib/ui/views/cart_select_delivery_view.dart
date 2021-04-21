@@ -162,19 +162,12 @@ class _SelectAddressState extends State<SelectAddress> {
                           if (pickedPlace != null) {
                             UserDetailsContact userAdd =
                                 await showModalBottomSheet(
-                                    isScrollControlled: true,
-                                    context: context,
-                                    builder: (_) => Padding(
-                                          padding: EdgeInsets.only(
-                                            // bottom: MediaQuery.of(context)
-                                            //     .viewInsets
-                                            //     .bottom),
-                                            bottom: 0.0,
-                                          ),
-                                          child: BottomSheetForAddress(
-                                            pickedPlace: pickedPlace,
-                                          ),
-                                        ));
+                              isScrollControlled: true,
+                              context: context,
+                              builder: (_) => BottomSheetForAddress(
+                                pickedPlace: pickedPlace,
+                              ),
+                            );
                             if (userAdd != null) {
                               model.addAddress(userAdd);
                             }

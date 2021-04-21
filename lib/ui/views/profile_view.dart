@@ -177,6 +177,7 @@ class _ProfileViewState extends State<ProfileView> {
                   ),
                   backgroundColor: backgroundWhiteCreamColor,
                 ),
+                resizeToAvoidBottomInset: false,
                 body: SafeArea(
                     top: false,
                     left: false,
@@ -503,15 +504,9 @@ class _ProfileViewState extends State<ProfileView> {
                                                   await showModalBottomSheet(
                                                 context: context,
                                                 isScrollControlled: true,
-                                                builder: (_) => Padding(
-                                                  padding: EdgeInsets.only(
-                                                      bottom:
-                                                          MediaQuery.of(context)
-                                                              .viewInsets
-                                                              .bottom),
-                                                  child: BottomSheetForAddress(
-                                                    pickedPlace: pickedPlace,
-                                                  ),
+                                                builder: (_) =>
+                                                    BottomSheetForAddress(
+                                                  pickedPlace: pickedPlace,
                                                 ),
                                               );
                                               if (userAdd != null) {
