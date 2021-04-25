@@ -42,10 +42,12 @@ class DynamicContentViewModel extends BaseModel {
         if (product == null) break;
         await _navigationService.navigateTo(ProductIndividualRoute,
             arguments: product);
-        await _navigationService.navigateReplaceTo(HomeViewRoute);
+        await Future.delayed(Duration(milliseconds: 500));
+        await _navigationService.navigateAndRemoveUntil(HomeViewRoute);
         return;
 
       case "sellers":
+      case "seller":
         if (data["id"] == null) break;
         Seller seller = await _apiService.getSellerByID(data["id"]);
         if (seller == null) break;
@@ -62,12 +64,14 @@ class DynamicContentViewModel extends BaseModel {
           await _navigationService.navigateTo(SellerIndiViewRoute,
               arguments: seller);
         }
-        await _navigationService.navigateReplaceTo(HomeViewRoute);
+        await Future.delayed(Duration(milliseconds: 500));
+        await _navigationService.navigateAndRemoveUntil(HomeViewRoute);
         return;
 
       case "orders":
         await _navigationService.navigateTo(MyOrdersRoute);
-        await _navigationService.navigateReplaceTo(HomeViewRoute);
+        await Future.delayed(Duration(milliseconds: 500));
+        await _navigationService.navigateAndRemoveUntil(HomeViewRoute);
         return;
 
       case "promotion":
@@ -88,7 +92,8 @@ class DynamicContentViewModel extends BaseModel {
             ),
           ),
         );
-        await _navigationService.navigateReplaceTo(HomeViewRoute);
+        await Future.delayed(Duration(milliseconds: 500));
+        await _navigationService.navigateAndRemoveUntil(HomeViewRoute);
         return;
 
       default:

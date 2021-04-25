@@ -680,7 +680,7 @@ class _SellerIndiState extends State<SellerIndi> {
                     Row(children: <Widget>[
                       Expanded(
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 15.0),
+                          padding: const EdgeInsets.only(left: 0.0),
                           child: Text(
                             'Similar Designers',
                             style: TextStyle(
@@ -731,7 +731,7 @@ class _SellerIndiState extends State<SellerIndi> {
                           Expanded(
                             child: Padding(
                               padding:
-                                  const EdgeInsets.only(left: 15.0, right: 8.0),
+                                  const EdgeInsets.only(right: 8.0),
                               child: FittedBox(
                                 fit: BoxFit.scaleDown,
                                 alignment: Alignment.centerLeft,

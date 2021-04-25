@@ -294,7 +294,7 @@ class SellerTileUi extends StatelessWidget {
                                   style: TextStyle(
                                     color: Colors.grey[700],
                                     fontSize:
-                                        subtitleFontSize - (4 * multiplyer),
+                                        subtitleFontSize - (4 * multiplyer) - 2,
                                     fontWeight: FontWeight.bold,
                                   ),
                                   overflow: TextOverflow.ellipsis,

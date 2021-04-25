@@ -11,7 +11,8 @@ import '../shared/app_colors.dart';
 import '../shared/ui_helpers.dart';
 
 class ReviewWidget extends StatelessWidget {
-  ReviewWidget({Key key, this.id, this.expanded = false, this.isSeller = false}): super(key: key);
+  ReviewWidget({Key key, this.id, this.expanded = false, this.isSeller = false})
+      : super(key: key);
   final String id;
   final bool expanded;
   final bool isSeller;
@@ -55,17 +56,20 @@ class ReviewWidget extends StatelessWidget {
                                       size: 16, color: Colors.white),
                                 ),
                                 Text(
-                                    model.reviews.ratingAverage.person != null
-                                        ? "${model.reviews.ratingAverage.person} Ratings"
-                                        : "0 Ratings",
-                                    style: TextStyle(
-                                        fontSize: 14, color: Colors.grey)),
-                                Text(
-                                    model.reviews.ratingAverage.total != null
-                                        ? "${model.reviews.ratingAverage.total} Reviews"
-                                        : "0 Reviews",
-                                    style: TextStyle(
-                                        fontSize: 14, color: Colors.grey))
+                                  model.reviews.ratingAverage.person != null
+                                      ? "${model.reviews.ratingAverage.person} Reviews"
+                                      : "0 Reviews",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                // Text(
+                                //     model.reviews.ratingAverage.total != null
+                                //         ? "${model.reviews.ratingAverage.total} Reviews"
+                                //         : "0 Reviews",
+                                //     style: TextStyle(
+                                //         fontSize: 14, color: Colors.grey))
                               ])
                         // : Container()
                         : Container(),

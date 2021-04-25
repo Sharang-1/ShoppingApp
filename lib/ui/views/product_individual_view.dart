@@ -1007,9 +1007,22 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                             onTap: (selectedQty == 0 ||
                                     selectedColor == "" ||
                                     selectedSize == "")
-                                ? () => Get.snackbar(
-                                    'Please select size, color & quantity', '',
-                                    snackPosition: SnackPosition.BOTTOM)
+                                ? () => showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                        title: FittedBox(
+                                          fit: BoxFit.scaleDown,
+                                          child: Text(
+                                              'Please select size, color & quantity'),
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                              onPressed: () =>
+                                                  Navigator.of(context).pop(),
+                                              child: Text("OK")),
+                                        ],
+                                      ),
+                                    )
                                 : () async {
                                     var res = await model.buyNow(
                                         productData,
@@ -1044,11 +1057,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                           0, 3), // changes position of shadow
                                     ),
                                   ],
-                                  color: (selectedQty == 0 ||
-                                          selectedColor == "" ||
-                                          selectedSize == "")
-                                      ? backgroundBlueGreyColor
-                                      : textIconOrange,
+                                  color: textIconOrange,
                                   borderRadius: BorderRadius.circular(40)),
                               child: Center(
                                 child: Text(
@@ -1071,9 +1080,22 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                     selectedQty == 0 ||
                                     selectedColor == "" ||
                                     selectedSize == ""
-                                ? () => Get.snackbar(
-                                    'Please select size, color & quantity', '',
-                                    snackPosition: SnackPosition.BOTTOM)
+                                ? () => showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                        title: FittedBox(
+                                          fit: BoxFit.scaleDown,
+                                          child: Text(
+                                              'Please select size, color & quantity'),
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                              onPressed: () =>
+                                                  Navigator.of(context).pop(),
+                                              child: Text("OK")),
+                                        ],
+                                      ),
+                                    )
                                 : () async {
                                     setState(() {
                                       disabledAddToCartBtn = true;
@@ -1115,11 +1137,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                           0, 3), // changes position of shadow
                                     ),
                                   ],
-                                  color: (selectedQty == 0 ||
-                                          selectedColor == "" ||
-                                          selectedSize == "")
-                                      ? backgroundBlueGreyColor
-                                      : logoRed,
+                                  color: logoRed,
                                   borderRadius: BorderRadius.circular(40)),
                               child: Center(
                                 child: Text(
