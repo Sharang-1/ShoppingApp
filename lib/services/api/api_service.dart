@@ -186,7 +186,8 @@ class APIService {
   Future<bool> hasReviewed(String productKey, {bool isSeller = false}) async {
     UserDetails ud = await getUserData();
     Reviews reviews = await getReviews(productKey, isSellerReview: isSeller);
-    reviews.items.where((element) => element.userId == ud.key);
+    reviews.items =
+        reviews.items.where((element) => element.userId == ud.key).toList();
     return reviews.items.isNotEmpty;
   }
 
