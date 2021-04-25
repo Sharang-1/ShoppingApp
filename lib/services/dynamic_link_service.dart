@@ -48,7 +48,7 @@ class DynamicLinkService {
       iosParameters: IosParameters(
           bundleId: "in.dzor.dzor-app",
           minimumVersion: '1.0.0',
-          appStoreId: '123456789'),
+          appStoreId: '1562083632'),
     );
 
     final link = await parameters.buildUrl();
