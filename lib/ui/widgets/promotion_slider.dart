@@ -30,7 +30,9 @@ class _PromotionSliderState extends State<PromotionSlider> {
   @override
   void initState() {
     defaultCacheManager = DefaultCacheManager();
-    _timeOut = widget.promotions.first.time;
+    _timeOut = widget?.promotions?.isNotEmpty ?? false
+        ? widget.promotions.first.time
+        : 3;
     super.initState();
   }
 
@@ -39,22 +41,11 @@ class _PromotionSliderState extends State<PromotionSlider> {
     return Column(
       children: [
         Container(
-          // decoration: BoxDecoration(
-          //   boxShadow: [
-          //     BoxShadow(
-          //       color: Colors.grey.withOpacity(0.5),
-          //       spreadRadius: 5,
-          //       blurRadius: 7,
-          //       offset: Offset(0, 3), // changes position of shadow
-          //     ),
-          //   ],
-          // ),
           child: CarouselSlider(
             options: CarouselOptions(
               autoPlay: true,
               autoPlayInterval: Duration(seconds: _timeOut),
               pauseAutoPlayOnTouch: true,
-              // pauseAutoPlayOnTouch: Duration(seconds: 10),
               aspectRatio: widget.aspectRatio,
               enableInfiniteScroll: true,
               viewportFraction: 1.0,

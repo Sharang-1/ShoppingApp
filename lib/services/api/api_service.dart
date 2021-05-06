@@ -15,6 +15,7 @@ import 'package:compound/services/api/AppInterceptor.dart';
 import 'package:compound/services/api/CustomLogInterceptor.dart';
 import 'package:compound/services/api/performance_interceptor.dart';
 import 'package:dio/dio.dart';
+import 'package:dio_retry/dio_retry.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
 
@@ -71,6 +72,13 @@ class APIService {
     apiClient
       ..interceptors.addAll([
         AppInterceptors(),
+        RetryInterceptor(
+          dio: apiClient,
+          options: RetryOptions(
+            retryInterval: Duration(milliseconds: 500),
+            retries: 3,
+          ),
+        ),
         CustomLogInterceptor(),
         PerformanceInterceptor()
       ]);

@@ -1,37 +1,29 @@
-// import 'package:cached_network_image/cached_network_image.dart';
-// import 'package:compound/models/cart.dart';
-// import 'package:compound/models/categorys.dart';
-// import 'package:compound/ui/views/categories_view.dart';
-// import 'package:compound/ui/widgets/GridListWidget.dart';
-// import 'package:compound/ui/widgets/categoryTileUI.dart';
-// import 'package:compound/viewmodels/grid_view_builder_view_models/categories_view_builder_view_model.dart';
-import 'package:compound/constants/server_urls.dart';
-import 'package:compound/models/categorys.dart';
-import 'package:compound/models/grid_view_builder_filter_models/categoryFilter.dart';
-import 'package:compound/models/grid_view_builder_filter_models/productFilter.dart';
-import 'package:compound/models/grid_view_builder_filter_models/sellerFilter.dart';
-import 'package:compound/models/productPageArg.dart';
-import 'package:compound/models/products.dart';
-import 'package:compound/models/promotions.dart';
-import 'package:compound/models/sellers.dart';
-import 'package:compound/ui/shared/app_colors.dart';
-import 'package:compound/ui/shared/ui_helpers.dart';
-import 'package:compound/ui/views/promotion_products_view.dart';
-import 'package:compound/ui/widgets/GridListWidget.dart';
-import 'package:compound/ui/widgets/categoryTileUI.dart';
-import 'package:compound/ui/widgets/custom_text.dart';
-import 'package:compound/ui/widgets/home_view_list_header.dart';
-import 'package:compound/ui/widgets/promotion_slider.dart';
-import 'package:compound/ui/widgets/sellerTileUi.dart';
-import 'package:compound/viewmodels/grid_view_builder_view_models/categories_view_builder_view_model.dart';
-import 'package:compound/viewmodels/grid_view_builder_view_models/products_grid_view_builder_view_model.dart';
-import 'package:compound/viewmodels/grid_view_builder_view_models/sellers_grid_view_builder_view.dart';
-import 'package:compound/viewmodels/home_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../constants/server_urls.dart';
+import '../../models/categorys.dart';
+import '../../models/grid_view_builder_filter_models/categoryFilter.dart';
+import '../../models/grid_view_builder_filter_models/productFilter.dart';
+import '../../models/grid_view_builder_filter_models/sellerFilter.dart';
+import '../../models/productPageArg.dart';
+import '../../models/products.dart';
+import '../../models/promotions.dart';
+import '../../models/sellers.dart';
+import '../../viewmodels/grid_view_builder_view_models/categories_view_builder_view_model.dart';
+import '../../viewmodels/grid_view_builder_view_models/products_grid_view_builder_view_model.dart';
+import '../../viewmodels/grid_view_builder_view_models/sellers_grid_view_builder_view.dart';
+import '../../viewmodels/home_view_model.dart';
+import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
+import '../shared/ui_helpers.dart';
+import '../widgets/GridListWidget.dart';
+import '../widgets/categoryTileUI.dart';
+import '../widgets/home_view_list_header.dart';
+import '../widgets/promotion_slider.dart';
+import '../widgets/sellerTileUi.dart';
 import '../widgets/top_picks_deals_card.dart';
+import 'promotion_products_view.dart';
 
 class HomeViewList extends StatefulWidget {
   final HomeViewModel model;
@@ -78,9 +70,6 @@ class _HomeViewListState extends State<HomeViewList> {
 
   @override
   Widget build(BuildContext context) {
-    // const double headingFontSize=25;
-    // const double titleFontSize=20;
-
     return Container(
       padding:
           EdgeInsets.fromLTRB(screenPadding - 15, 5, screenPadding - 15, 5),
@@ -103,7 +92,7 @@ class _HomeViewListState extends State<HomeViewList> {
                 return Container(
                   height: 200,
                   child: Center(
-                    child: Text("No Data"),
+                    child: Text("Could Not Load"),
                   ),
                 );
               }
@@ -134,7 +123,7 @@ class _HomeViewListState extends State<HomeViewList> {
             child: GridListWidget<Categorys, Category>(
               key: widget.categoryUniqueKey ?? categoryUniqueKey,
               context: context,
-              filter: new CategoryFilter(),
+              filter: CategoryFilter(),
               gridCount: 1,
               childAspectRatio: 0.5,
               viewModel: CategoriesGridViewBuilderViewModel(),
@@ -337,6 +326,7 @@ class _HomeViewListState extends State<HomeViewList> {
               context: context,
               filter: ProductFilter(minDiscount: 5),
               gridCount: 2,
+              emptyListWidget: Container(),
               viewModel: ProductsGridViewBuilderViewModel(randomize: true),
               childAspectRatio: 1.50,
               scrollDirection: Axis.horizontal,
@@ -384,7 +374,7 @@ class _HomeViewListState extends State<HomeViewList> {
                 print(productIds);
                 Navigator.push(
                   context,
-                  new MaterialPageRoute(
+                  MaterialPageRoute(
                     builder: (context) => PromotionProduct(
                       promotionId: bottomPromotion[1]?.key,
                       productIds: productIds ?? [],
@@ -488,7 +478,7 @@ class _HomeViewListState extends State<HomeViewList> {
               gridCount: 1,
               childAspectRatio: 0.5,
               viewModel:
-                  CategoriesGridViewBuilderViewModel(popularCategories: true, categoriesWithNoProducts: false),
+                  CategoriesGridViewBuilderViewModel(popularCategories: true),
               disablePagination: true,
               scrollDirection: Axis.horizontal,
               emptyListWidget: Container(),
@@ -681,22 +671,23 @@ class _HomeViewListState extends State<HomeViewList> {
                   child: Container(
                     padding: EdgeInsets.only(left: 20),
                     child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: <Widget>[
-                          FittedBox(
-                            fit: BoxFit.fitWidth,
-                            child: Text(
-                              "Made with Love in Ahmedabad!",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Colors.grey[800],
-                                fontWeight: FontWeight.bold,
-                                // fontSize: 25,
-                              ),
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        FittedBox(
+                          fit: BoxFit.fitWidth,
+                          child: Text(
+                            "Made with Love in Ahmedabad!",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.grey[800],
+                              fontWeight: FontWeight.bold,
+                              // fontSize: 25,
                             ),
                           ),
-                        ]),
+                        ),
+                      ],
+                    ),
                   ),
                 )
               ],
@@ -704,77 +695,6 @@ class _HomeViewListState extends State<HomeViewList> {
           ),
         ],
       ),
-    );
-  }
-}
-
-class CategoriesHomeList extends StatelessWidget {
-  const CategoriesHomeList({
-    Key key,
-    @required this.categories,
-    @required this.subtitleFontSize,
-  }) : super(key: key);
-
-  final List<String> categories;
-  final double subtitleFontSize;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView(
-      scrollDirection: Axis.horizontal,
-      children: categories
-          .map((category) => SizedBox(
-              width: 192,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(5, 10, 0, 5),
-                child: InkWell(
-                  child: Card(
-                    clipBehavior: Clip.antiAlias,
-                    color: Colors.grey,
-                    child: Stack(children: <Widget>[
-                      Positioned.fill(
-                          child: ColorFiltered(
-                        colorFilter: ColorFilter.mode(
-                            Colors.black.withOpacity(0.3), BlendMode.srcATop),
-                        child: FadeInImage.assetNetwork(
-                          fit: BoxFit.fill,
-                          fadeInCurve: Curves.easeIn,
-                          placeholder: 'assets/images/promotion_preloading.png',
-                          image:
-                              // photoName == null?
-                              'https://images.pexels.com/photos/934070/pexels-photo-934070.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
-                          // : photoName
-                          ,
-                          imageErrorBuilder: (context, error, stackTrace) =>
-                              Image.asset(
-                            'assets/images/promotion_preloading.png',
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                      )),
-                      Positioned.fill(
-                          child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              CustomText(category,
-                                  align: TextAlign.center,
-                                  color: Colors.white,
-                                  fontSize: subtitleFontSize - 2,
-                                  fontWeight: FontWeight.w600),
-                            ]),
-                      ))
-                    ]),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(curve15),
-                    ),
-                    elevation: 5,
-                  ),
-                  onTap: () {},
-                ),
-              )))
-          .toList(),
     );
   }
 }

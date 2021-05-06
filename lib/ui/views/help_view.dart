@@ -1,3 +1,4 @@
+import 'package:compound/constants/server_urls.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -27,10 +28,10 @@ class HelpView extends StatelessWidget {
                       )),
                   LinkWidget(
                       name: "Return Policy",
-                      data: "https://dzor.in/#/return-policy"),
+                      data: RETURN_POLICY_URL),
                   LinkWidget(
                       name: "Terms and conditions",
-                      data: "https://dzor.in/#/terms-of-use"),
+                      data: TERMS_AND_CONDITIONS_URL),
                   verticalSpaceMedium,
                   Text("Email Us!",
                       style: TextStyle(
@@ -38,9 +39,9 @@ class HelpView extends StatelessWidget {
                         fontSize: 18,
                       )),
                   LinkWidget(
-                      name: "support@dzor.in",
+                      name: SUPPORT_EMAIL,
                       linkType: LinkType.email,
-                      data: "support@dzor.in"),
+                      data: 'mailto' + SUPPORT_EMAIL),
                   verticalSpaceMedium,
                   Text("Call Us!",
                       style: TextStyle(

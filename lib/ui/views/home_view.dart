@@ -6,7 +6,6 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:rate_my_app/rate_my_app.dart';
 import 'package:rating_dialog/rating_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../models/CartCountSetUp.dart';
 import '../../models/LookupSetUp.dart';
 import '../../models/WhishListSetUp.dart';
@@ -16,9 +15,6 @@ import '../shared/ui_helpers.dart';
 import '../widgets/cart_icon_badge.dart';
 import '../widgets/drawer.dart';
 import 'home_view_list.dart';
-// import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-// import '../shared/shared_styles.dart';
 
 class HomeView extends StatefulWidget {
   HomeView({Key key}) : super(key: key);
@@ -59,7 +55,7 @@ class _HomeViewState extends State<HomeView> {
       remindDays: 2,
       remindLaunches: 2,
       googlePlayIdentifier: 'in.dzor.dzor_app',
-      appStoreIdentifier: 'in.dzor.dzor-app',
+      appStoreIdentifier: '1562083632',
     );
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await rateMyApp.init();
@@ -84,7 +80,6 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    // const double subtitleFontSize = subtitleFontSizeStyle;
     return ViewModelProvider<HomeViewModel>.withConsumer(
       viewModel: HomeViewModel(),
       onModelReady: (model) async {
@@ -140,38 +135,35 @@ class _HomeViewState extends State<HomeView> {
           iconTheme: IconThemeData(color: appBarIconColor),
           backgroundColor: backgroundWhiteCreamColor,
           bottom: PreferredSize(
-              preferredSize:
-                  Size.fromHeight(MediaQuery.of(context).padding.top),
-              child: AppBar(
-                elevation: 0,
-                iconTheme: IconThemeData(color: appBarIconColor),
-                backgroundColor: backgroundWhiteCreamColor,
-                title: Align(
-                  alignment: Alignment.center,
-                  child: Padding(
-                    padding: EdgeInsets.only(right: 8.0),
-                    child: SvgPicture.asset(
-                      "assets/svg/logo.svg",
-                      color: logoRed,
-                      height: 35,
-                      width: 35,
-                    ),
+            preferredSize: Size.fromHeight(MediaQuery.of(context).padding.top),
+            child: AppBar(
+              elevation: 0,
+              iconTheme: IconThemeData(color: appBarIconColor),
+              backgroundColor: backgroundWhiteCreamColor,
+              title: Align(
+                alignment: Alignment.center,
+                child: Padding(
+                  padding: EdgeInsets.only(right: 8.0),
+                  child: SvgPicture.asset(
+                    "assets/svg/logo.svg",
+                    color: logoRed,
+                    height: 35,
+                    width: 35,
                   ),
                 ),
-                actions: <Widget>[
-                  IconButton(
-                    icon: CartIconWithBadge(
-                      iconColor: appBarIconColor,
-                      count: Provider.of<CartCountSetUp>(context, listen: true)
-                          .count,
-                    ),
-                    onPressed: () => model.cart(),
+              ),
+              actions: <Widget>[
+                IconButton(
+                  icon: CartIconWithBadge(
+                    iconColor: appBarIconColor,
+                    count: Provider.of<CartCountSetUp>(context, listen: true)
+                        .count,
                   ),
-                ],
-              )),
-
-          //Do experiment with this for Icon Button else make
-          //flexiblespace to bottom
+                  onPressed: () => model.cart(),
+                ),
+              ],
+            ),
+          ),
         ),
         body: SafeArea(
           top: false,
@@ -198,7 +190,6 @@ class _HomeViewState extends State<HomeView> {
               _onRefresh();
             },
             child: CustomScrollView(
-              // Add the app bar and list of items as slivers in the next steps.
               slivers: <Widget>[
                 SliverAppBar(
                   primary: false,
@@ -265,10 +256,7 @@ class _HomeViewState extends State<HomeView> {
                   ),
                 ),
                 SliverList(
-                  // Use a delegate to build items as they're scrolled on screen.
                   delegate: SliverChildBuilderDelegate(
-                    // The builder function returns a ListTile with a title that
-                    // displays the index of the current item.
                     (context, index) => Padding(
                       padding: const EdgeInsets.only(top: 10),
                       child: HomeViewList(

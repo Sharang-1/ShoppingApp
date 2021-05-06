@@ -310,7 +310,11 @@ class EmptyListWidget extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           verticalSpaceSmall,
-          Image.asset("assets/images/empty_cart.png"),
+          Expanded(
+            child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Image.asset("assets/images/empty_cart.png")),
+          ),
         ],
       ),
     );

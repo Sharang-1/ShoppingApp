@@ -62,7 +62,6 @@ class _HomeSliderState extends State<HomeSlider> {
                 enableInfiniteScroll: false,
                 viewportFraction: 1.0,
                 pauseAutoPlayOnTouch: true,
-                // pauseAutoPlayOnTouch: Duration(seconds: 10),
                 onPageChanged: (index, reason) {
                   setState(() {
                     _current = index;

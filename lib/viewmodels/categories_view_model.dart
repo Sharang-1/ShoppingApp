@@ -12,7 +12,7 @@ class CategoriesViewModel extends BaseModel {
   Future init({String subCategory = ''}) async {
     try{
        await _analyticsService.sendAnalyticsEvent(eventName: "category_view", parameters: <String, dynamic>{
-      "subCategory": subCategory,
+      "category_name": subCategory,
     });
     }catch(e){}
     return null;

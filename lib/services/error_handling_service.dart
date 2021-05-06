@@ -12,7 +12,7 @@ import '../models/internet_connection.dart';
 //   DialogReportMode(),
 //   [
 //     EmailManualHandler(
-//       ["admin@dzor.in"],
+//       [SUPPORT_EMAIL],
 //       emailTitle: "Dzor App Exception",
 //     ),
 //     ConsoleHandler()]
@@ -22,7 +22,7 @@ import '../models/internet_connection.dart';
 //   PageReportMode(),
 //   [
 //     EmailManualHandler(
-//       ["admin@dzor.in"],
+//       [SUPPORT_EMAIL],
 //       emailTitle: "Dzor App Exception",
 //     ),
 //     ConsoleHandler(),

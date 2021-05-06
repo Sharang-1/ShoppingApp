@@ -1,40 +1,27 @@
-// import 'package:compound/models/user_details.dart';
-// import 'package:compound/services/address_service.dart';
-import 'package:compound/models/reviews.dart';
-import 'package:compound/services/api/api_service.dart';
-import 'package:compound/services/cart_local_store_service.dart';
-import 'package:compound/services/dialog_service.dart';
-// import 'package:compound/services/dialog_service.dart';
-import 'package:compound/services/navigation_service.dart';
-import 'package:compound/services/whishlist_service.dart';
-
 import '../constants/route_names.dart';
 import '../locator.dart';
 import '../models/lookups.dart';
 import '../models/products.dart';
+import '../models/reviews.dart';
 import '../models/sellers.dart';
 import '../services/analytics_service.dart';
-// import 'package:compound/ui/views/address_input_form_view.dart';
-// import 'package:flutter/material.dart';
-// import 'package:google_maps_place_picker/google_maps_place_picker.dart';
-// import 'package:page_transition/page_transition.dart';
 import '../services/api/api_service.dart';
+import '../services/cart_local_store_service.dart';
+import '../services/dialog_service.dart';
+import '../services/navigation_service.dart';
+import '../services/whishlist_service.dart';
 import 'base_model.dart';
 
 class ProductIndividualViewModel extends BaseModel {
   final NavigationService _navigationService = locator<NavigationService>();
-  final CartLocalStoreService _cartLocalStoreService =
-      locator<CartLocalStoreService>();
+  final CartLocalStoreService _cartLocalStoreService = locator<CartLocalStoreService>();
   final APIService _apiService = locator<APIService>();
   final AnalyticsService _analyticsService = locator<AnalyticsService>();
   final WhishListService _whishListService = locator<WhishListService>();
   final DialogService _dialogService = locator<DialogService>();
-  // final AddressService _addressService = locator<AddressService>();
 
   Seller selleDetail;
   Reviews reviews;
-  // UserDetailsContact defaultAddress;
-  // bool isProductInWhishlist = false;
 
   Future<void> init(String sellerId,
       {String productId = "", String productName = ""}) async {
@@ -46,50 +33,12 @@ class ProductIndividualViewModel extends BaseModel {
         });
     selleDetail = await _apiService.getSellerByID(sellerId);
     reviews = await _apiService.getReviews(productId, isSellerReview: false);
-    // var addresses = await _addressService.getAddresses();
-    // if (addresses != null && addresses.length != 0) {
-    //   defaultAddress = addresses.first;
-    // } else {
-    //   defaultAddress = null;
-    // }
     notifyListeners();
   }
 
   gotoSellerIndiView() async {
     await goToSellerPage(selleDetail.key);
   }
-
-  // gotoAddView(context) async {
-  //   PickResult pickedPlace = await Navigator.push(
-  //     context,
-  //     PageTransition(
-  //       child: AddressInputPage(),
-  //       type: PageTransitionType.rightToLeft,
-  //     ),
-  //   );
-
-  //   if (pickedPlace != null) {
-  //     // pickedPlace = (PickResult) pickedPlace;
-  //     // print(pickedPlace);
-  //     // model.mUserDetails.contact
-  //     //     .address = pickedPlace;
-
-  //     UserDetailsContact userAdd = await showModalBottomSheet(
-  //         context: context,
-  //         builder: (_) => BottomSheetForAddress(
-  //               pickedPlace: pickedPlace,
-  //             ));
-  //     if (userAdd != null) {
-  //       if (userAdd.city.toUpperCase() != "AHMEDABAD") {
-  //         _dialogService.showNotDeliveringDialog();
-  //       } else {
-  //         defaultAddress = userAdd;
-  //         await _addressService.addAddresses(userAdd);
-  //       }
-  //     }
-  //   }
-  //   notifyListeners();
-  // }
 
   Future<List<Lookups>> getLookups() {
     return _apiService.getLookups();
@@ -178,12 +127,13 @@ class ProductIndividualViewModel extends BaseModel {
     return await _whishListService.removeWhishList(id);
   }
 
-  Future<void> shareProductEvent({String productId = ''}) async {
+  Future<void> shareProductEvent({String productId = '', String productName = ''}) async {
     try {
       await _analyticsService.sendAnalyticsEvent(
           eventName: "product_shared",
           parameters: <String, dynamic>{
             "product_id": productId,
+            "product_name": productName,
           });
     } catch (e) {}
   }

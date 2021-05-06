@@ -3,13 +3,6 @@ import '../../models/grid_view_builder_filter_models/base_filter_model.dart';
 import '../../models/sellers.dart';
 import '../../services/api/api_service.dart';
 import 'base_grid_view_builder_view_model.dart';
-// import 'package:compound/constants/route_names.dart';
-// import 'package:compound/constants/shared_pref.dart';
-// import 'package:compound/locator.dart';
-// import 'package:compound/models/post.dart';
-// import 'package:compound/services/dialog_service.dart';
-// import 'package:compound/services/navigation_service.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
 
 class SellersGridViewBuilderViewModel
     extends BaseGridViewBuilderViewModel<Sellers, Seller> {
@@ -99,19 +92,19 @@ class SellersGridViewBuilderViewModel
         res.items = res.items.sublist(0, pageSize);
     }
 
-    if (!sellerWithNoProducts) {
-      List<Seller> sellers = [];
-      await Future.wait([
-        Future.forEach(res.items, (s) async {
-          if (sellers.length <= 10) {
-            bool hasProducts = await _apiService.hasProducts(sellerKey: s.key);
-            if (hasProducts) sellers.add(s);
-          }
-        }),
-      ]);
-      res.items = sellers;
-      return res;
-    }
+    // if (!sellerWithNoProducts) {
+    // List<Seller> sellers = [];
+    // await Future.wait([
+    //   Future.forEach(res.items, (s) async {
+    //     if (sellers.length <= 10) {
+    //       bool hasProducts = await _apiService.hasProducts(sellerKey: s.key);
+    //       if (hasProducts) sellers.add(s);
+    //     }
+    //   }),
+    // ]);
+    // res.items = sellers;
+    // return res;
+    // }
 
     return res;
   }

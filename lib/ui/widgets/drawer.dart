@@ -1,3 +1,4 @@
+import 'package:compound/constants/server_urls.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:provider_architecture/provider_architecture.dart';
@@ -240,7 +241,7 @@ class HomeDrawer extends StatelessWidget {
                                 ),
                               ),
                               onTap: () =>
-                                  launch('https://dzor.in/#/partner-with-us')),
+                                  launch(PARTNER_WITH_US_URL)),
                           ListTile(
                             title: Padding(
                               padding: EdgeInsets.only(left: 20),

@@ -1,3 +1,4 @@
+import 'package:compound/constants/server_urls.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider_architecture/provider_architecture.dart';
@@ -18,9 +19,10 @@ class SettingsView extends StatelessWidget {
     2: "Terms & Conditions",
   };
   final Map<int, String> buttonToURLMap = {
-    1: 'https://dzor.in/#/contact-us',
-    2: 'https://dzor.in/#/terms-of-use',
+    1: CONTACT_US_URL,
+    2: TERMS_AND_CONDITIONS_URL,
   };
+  
   final AppBar appbar = AppBar(
     elevation: 0,
     centerTitle: true,
@@ -101,9 +103,7 @@ class SettingsView extends StatelessWidget {
                                                     ),
                                                   ),
                                                   onPressed: () {
-                                                    const url =
-                                                        'https://dzor.in/policy.html?source=c';
-                                                    _launchURL(url);
+                                                    _launchURL(TERMS_AND_CONDITIONS_URL);
                                                   },
                                                   child: Padding(
                                                     padding: const EdgeInsets
@@ -136,7 +136,7 @@ class SettingsView extends StatelessWidget {
                                                   ),
                                                   onPressed: () {
                                                     const url =
-                                                        'mailto:admin@dzor.in';
+                                                        'mailto:' + SUPPORT_EMAIL;
                                                     _launchURL(url);
                                                   },
                                                   child: Padding(

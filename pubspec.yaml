@@ -69,6 +69,9 @@ dependencies:
   sign_in_with_apple: ^2.5.4
   grouped_list: ^4.0.0
   launch_review: ^3.0.1
+  flutter_credit_card: ^2.0.0
+  dio_retry: ^0.1.9-beta
+  razorpay_flutter: ^1.2.5
 
 dev_dependencies:
   flutter_test:
