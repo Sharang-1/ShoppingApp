@@ -13,10 +13,9 @@ class UserDetailsViewModel extends BaseModel {
   // final NavigationService _navigationService = locator<NavigationService>();
   final APIService _apiService = locator<APIService>();
   final AddressService _addressService = locator<AddressService>();
-  final DialogService _dialogService = locator<DialogService>();
 
   void showNotDeliveringDialog() {
-    _dialogService.showNotDeliveringDialog();
+    DialogService.showNotDeliveringDialog();
   }
 
   UserDetails mUserDetails;

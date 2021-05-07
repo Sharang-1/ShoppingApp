@@ -4,6 +4,7 @@ import 'package:compound/models/grid_view_builder_filter_models/productFilter.da
 import 'package:compound/models/lookups.dart';
 import 'package:compound/models/productPageArg.dart';
 import 'package:compound/models/products.dart';
+import 'package:compound/services/dialog_service.dart';
 import 'package:compound/services/dynamic_link_service.dart';
 import 'package:compound/services/error_handling_service.dart';
 import 'package:compound/services/navigation_service.dart';
@@ -704,9 +705,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                 padding: const EdgeInsets.only(right: 8.0),
                                 child: InkWell(
                                     onTap: () async =>
-                                        await showDialog<AlertDialog>(
-                                          context: context,
-                                          builder: (context) => AlertDialog(
+                                        await DialogService.showCustomDialog(
+                                          AlertDialog(
                                             content: Text(
                                                 "Please read the terms and conditions carefully. We only take returns & refund requests only in case of an error on our end. We don’t allow cancellations."),
                                           ),
@@ -1014,9 +1014,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                         selectedQty == 0 ||
                                         selectedColor == "" ||
                                         selectedSize == ""
-                                    ? () => showDialog(
-                                          context: context,
-                                          builder: (context) => AlertDialog(
+                                    ? () => DialogService.showCustomDialog(
+                                          AlertDialog(
                                             title: FittedBox(
                                               fit: BoxFit.scaleDown,
                                               child: Text(
@@ -1024,9 +1023,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                             ),
                                             actions: [
                                               TextButton(
-                                                  onPressed: () =>
-                                                      Navigator.of(context)
-                                                          .pop(),
+                                                  onPressed:
+                                                      DialogService.popDialog,
                                                   child: Text("OK")),
                                             ],
                                           ),
@@ -1364,9 +1362,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                           onTap: (selectedQty == 0 ||
                                   selectedColor == "" ||
                                   selectedSize == "")
-                              ? () => showDialog(
-                                    context: context,
-                                    builder: (context) => AlertDialog(
+                              ? () => DialogService.showCustomDialog(
+                                    AlertDialog(
                                       title: FittedBox(
                                         fit: BoxFit.scaleDown,
                                         child: Text(
@@ -1391,8 +1388,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                     Navigator.push(
                                       context,
                                       PageTransition(
-                                        child:
-                                            CartView(productId: productData?.key),
+                                        child: CartView(
+                                            productId: productData?.key),
                                         type: PageTransitionType.rightToLeft,
                                       ),
                                     );
@@ -1407,8 +1404,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                     color: Colors.grey.withOpacity(0.5),
                                     spreadRadius: 2,
                                     blurRadius: 4,
-                                    offset:
-                                        Offset(0, 3), // changes position of shadow
+                                    offset: Offset(
+                                        0, 3), // changes position of shadow
                                   ),
                                 ],
                                 color: textIconOrange,

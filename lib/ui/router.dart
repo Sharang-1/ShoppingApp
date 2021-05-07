@@ -1,8 +1,4 @@
 // import 'package:compound/ui/views/promotion_products_view.dart';
-import 'package:compound/ui/views/search_view.dart';
-import 'package:compound/ui/views/seller_indi_view.dart';
-import 'package:compound/ui/views/settings_page_view.dart';
-import 'package:compound/ui/views/verify_otp.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -32,6 +28,10 @@ import 'views/productListView.dart';
 import 'views/product_individual_view.dart';
 import 'views/product_whishlist_view.dart';
 import 'views/profile_view.dart';
+import 'views/search_view.dart';
+import 'views/seller_indi_view.dart';
+import 'views/settings_page_view.dart';
+import 'views/verify_otp.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   PageTransitionType transitionType = PageTransitionType.fade;
@@ -51,6 +51,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         pageArguments: pageArguments,
         pageTransitionType: transitionType,
       );
+
     case MyHomePageRoute:
       return _getPageRoute(
         routeName: settings.name,
@@ -58,6 +59,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         pageArguments: pageArguments,
         pageTransitionType: transitionType,
       );
+
     case LoaderRoute:
       return _getPageRoute(
         routeName: settings.name,
@@ -65,6 +67,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         pageArguments: pageArguments,
         pageTransitionType: transitionType,
       );
+
     case HomeViewRoute:
       return _getPageRoute(
         routeName: settings.name,
@@ -72,6 +75,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         pageArguments: pageArguments,
         pageTransitionType: transitionType,
       );
+
     case VerifyOTPViewRoute:
       return _getPageRoute(
         routeName: settings.name,
@@ -79,18 +83,21 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         pageArguments: pageArguments,
         pageTransitionType: PageTransitionType.rightToLeft,
       );
+
     case OtpVerifiedRoute:
       return _getPageRoute(
           pageArguments: pageArguments,
           routeName: settings.name,
           viewToShow: OtpVerifiedView(),
           pageTransitionType: PageTransitionType.rightToLeft);
+
     case OtpVerified2Route:
       return _getPageRoute(
           pageArguments: pageArguments,
           routeName: settings.name,
           viewToShow: OtpVerifiedView2(),
           pageTransitionType: PageTransitionType.rightToLeft);
+
     case SearchViewRoute:
       return _getPageRoute(
         routeName: settings.name,
@@ -98,6 +105,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         pageArguments: pageArguments,
         pageTransitionType: transitionType,
       );
+
     case CartViewRoute:
       return _getPageRoute(
         routeName: settings.name,
@@ -105,6 +113,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         pageArguments: pageArguments,
         pageTransitionType: PageTransitionType.rightToLeft,
       );
+
     case ProductsListRoute:
       return _getPageRoute(
         routeName: settings.name,
@@ -206,18 +215,21 @@ Route<dynamic> generateRoute(RouteSettings settings) {
             productId: pageArguments.toString(),
           ),
           pageTransitionType: PageTransitionType.rightToLeft);
+
     case SellerIndiViewRoute:
       return _getPageRoute(
           pageArguments: pageArguments,
           routeName: settings.name,
           viewToShow: SellerIndi(data: pageArguments),
           pageTransitionType: PageTransitionType.rightToLeft);
+
     case MyAppointmentViewRoute:
       return _getPageRoute(
           pageArguments: pageArguments,
           routeName: settings.name,
           viewToShow: myAppointments(),
           pageTransitionType: PageTransitionType.rightToLeft);
+
     case ProfileViewRoute:
       return _getPageRoute(
           pageArguments: pageArguments,
@@ -235,20 +247,14 @@ Route<dynamic> generateRoute(RouteSettings settings) {
             subCategory: pargs.subCategory,
           ),
           pageTransitionType: PageTransitionType.rightToLeft);
+
     case AddressInputPageRoute:
       return _getPageRoute(
           pageArguments: pageArguments,
           routeName: settings.name,
           viewToShow: AddressInputPage(),
           pageTransitionType: PageTransitionType.rightToLeft);
-    // case PromotionProductRoute:
-    //   var pargs = pageArguments as PromotionProductsPageArg;
-    //   return _getPageRoute(
-    //       pageArguments: pageArguments,
-    //       routeName: settings.name,
-    //       viewToShow: PromotionProduct(
-    //           productIds: [], promotionTitle: pargs.promoTitle),
-    //       pageTransitionType: transitionType);
+
     case SettingsRoute:
       return _getPageRoute(
           pageArguments: pageArguments,

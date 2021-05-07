@@ -1,19 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-// import '../../locator.dart';
-// import '../dialog_service.dart';
-// import '../../locator.dart';
-
-import 'package:compound/models/user_details.dart';
-// import 'package:compound/models/order.dart';
-// import 'package:flutter/material.dart';
-// import 'package:dio/dio.dart';
-// import 'package:fimber/fimber.dart';
-
-import 'package:compound/services/api/AppInterceptor.dart';
-import 'package:compound/services/api/CustomLogInterceptor.dart';
-import 'package:compound/services/api/performance_interceptor.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_retry/dio_retry.dart';
 import 'package:fimber/fimber.dart';
@@ -38,8 +25,12 @@ import '../../models/reviews.dart';
 import '../../models/sellerProfile.dart';
 import '../../models/sellers.dart';
 import '../../models/tailors.dart';
+import '../../models/user_details.dart';
 import '../dialog_service.dart';
 import '../error_handling_service.dart';
+import 'AppInterceptor.dart';
+import 'CustomLogInterceptor.dart';
+import 'performance_interceptor.dart';
 
 class APIService {
   final apiClient = Dio(BaseOptions(
@@ -64,7 +55,6 @@ class APIService {
       }));
 
   // final excludeToken = Options(headers: {"excludeToken": true});
-  final DialogService _dialogService = locator<DialogService>();
   final ErrorHandlingService _errorHandlingService =
       locator<ErrorHandlingService>();
 
@@ -567,7 +557,7 @@ class APIService {
     try {
       if (res.data != null) return TimeSlots.fromJson(res.data);
     } catch (e) {
-      _dialogService.showDialog(description: res.data["error"], title: "Note");
+      DialogService.showDialog(description: res.data["error"], title: "Note");
     }
     return null;
   }

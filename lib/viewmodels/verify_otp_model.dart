@@ -18,7 +18,6 @@ import 'base_model.dart';
 class VerifyOTPViewModel extends BaseModel {
   final AuthenticationService _authenticationService =
       locator<AuthenticationService>();
-  final DialogService _dialogService = locator<DialogService>();
   final NavigationService _navigationService = locator<NavigationService>();
   final APIService _apiService = locator<APIService>();
   final AddressService _addressService = locator<AddressService>();
@@ -89,7 +88,7 @@ class VerifyOTPViewModel extends BaseModel {
 
       _navigationService.navigateReplaceTo(OtpVerifiedRoute);
     } else {
-      await _dialogService.showDialog(
+      await DialogService.showDialog(
         title: 'Incorrect OTP',
         description:
             'The OTP, you have entered is incorrect. Please try again.',

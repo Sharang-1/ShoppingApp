@@ -10,6 +10,7 @@ import '../../constants/route_names.dart';
 import '../../models/CartCountSetUp.dart';
 import '../../models/cart.dart';
 import '../../models/grid_view_builder_filter_models/cartFilter.dart';
+import '../../services/dialog_service.dart';
 import '../../viewmodels/cart_view_model.dart';
 import '../../viewmodels/grid_view_builder_view_models/cart_grid_view_builder_view_model.dart';
 import '../shared/app_colors.dart';
@@ -56,21 +57,19 @@ class _CartViewState extends State<CartView> {
           leading: BackButton(
             onPressed: () {
               if (isPromocodeApplied)
-                showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                          content: Text("Do you really want to leave cart ?"),
-                          actions: [
-                            ElevatedButton(
-                              onPressed: () {},
-                              child: Text("Yes"),
-                            ),
-                            ElevatedButton(
-                              onPressed: () {},
-                              child: Text("No"),
-                            )
-                          ],
-                        ));
+                DialogService.showCustomDialog(AlertDialog(
+                  content: Text("Do you really want to leave cart ?"),
+                  actions: [
+                    ElevatedButton(
+                      onPressed: () {},
+                      child: Text("Yes"),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {},
+                      child: Text("No"),
+                    )
+                  ],
+                ));
               Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(

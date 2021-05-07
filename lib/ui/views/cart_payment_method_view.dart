@@ -1,4 +1,5 @@
 // import 'package:compound/ui/views/pay_through_card.dart';
+import 'package:compound/services/dialog_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider_architecture/provider_architecture.dart';
@@ -44,7 +45,7 @@ class PaymentMethod extends StatefulWidget {
 
 class _PaymentMethodState extends State<PaymentMethod> {
   Map<int, String> paymentMethodMap = {
-     1: "Cash on delivery",
+    1: "Cash on delivery",
     2: "Paytm",
     3: "PhonePe",
     4: "Google Pay - Tez"
@@ -76,25 +77,10 @@ class _PaymentMethodState extends State<PaymentMethod> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(
       (_) async {
-        await showDialog<AlertDialog>(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text(
-              'Check Size, Color and Quantity',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            content: Text(
-                'Designers on Dzor work hard to create garments and items for you. Please make sure you’re making an informed buying decision so that we don’t have to return or cancel the order.'),
-            actions: [
-              TextButton(
-                child: Text(
-                  'OK',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                onPressed: () => Navigator.pop(context),
-              ),
-            ],
-          ),
+        await DialogService.showDialog(
+          title: 'Check Size, Color and Quantity',
+          description:
+              'Designers on Dzor work hard to create garments and items for you. Please make sure you’re making an informed buying decision so that we don’t have to return or cancel the order.',
         );
       },
     );

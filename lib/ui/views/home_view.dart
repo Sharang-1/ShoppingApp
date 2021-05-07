@@ -1,3 +1,4 @@
+import 'package:compound/services/dialog_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -92,35 +93,32 @@ class _HomeViewState extends State<HomeView> {
             .setUpLookups(values[2]);
         final lastDeliveredProduct = await model.getLastDeliveredProduct();
         if (lastDeliveredProduct != null)
-          await showDialog(
-              context: context,
-              barrierDismissible: true,
-              builder: (context) {
-                return RatingDialog(
-                  icon: Image.network(
-                    lastDeliveredProduct["image"],
-                    height: 150,
-                    width: 150,
-                    errorBuilder: (context, error, stackTrace) => Image.asset(
-                      'assets/images/product_preloading.png',
-                      height: 150,
-                      width: 150,
-                    ),
-                  ),
-                  title: lastDeliveredProduct["name"],
-                  description: "Tap a star to give your review.",
-                  submitButton: "Submit",
-                  positiveComment: "We’re glad you liked it!! 😊",
-                  negativeComment:
-                      "Please reach us out and help us understand your concerns!",
-                  accentColor: logoRed,
-                  onSubmitPressed: (int rating) async {
-                    print("onSubmitPressed: rating = $rating");
-                    model.postReview(
-                        lastDeliveredProduct['id'], rating.toDouble());
-                  },
-                );
-              });
+          await DialogService.showCustomDialog(
+            RatingDialog(
+              icon: Image.network(
+                lastDeliveredProduct["image"],
+                height: 150,
+                width: 150,
+                errorBuilder: (context, error, stackTrace) => Image.asset(
+                  'assets/images/product_preloading.png',
+                  height: 150,
+                  width: 150,
+                ),
+              ),
+              title: lastDeliveredProduct["name"],
+              description: "Tap a star to give your review.",
+              submitButton: "Submit",
+              positiveComment: "We’re glad you liked it!! 😊",
+              negativeComment:
+                  "Please reach us out and help us understand your concerns!",
+              accentColor: logoRed,
+              onSubmitPressed: (int rating) async {
+                print("onSubmitPressed: rating = $rating");
+                model.postReview(lastDeliveredProduct['id'], rating.toDouble());
+              },
+            ),
+            barrierDismissible: true,
+          );
       },
       builder: (context, model, child) => Scaffold(
         drawerEdgeDragWidth: 0,

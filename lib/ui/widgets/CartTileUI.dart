@@ -1,3 +1,4 @@
+import 'package:compound/services/dialog_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:page_transition/page_transition.dart';
@@ -138,7 +139,6 @@ class _CartTileUIState extends State<CartTileUI> {
             proceedToOrder: proceedToOrder,
 
             // deliveryStatus: proceedToOrder,
-
           ),
         ),
         if (!isPromoCodeApplied) verticalSpaceSmall,
@@ -266,10 +266,13 @@ class _CartTileUIState extends State<CartTileUI> {
         ),
       );
     else
-      Get.dialog(AlertDialog(
+      DialogService.showCustomDialog(AlertDialog(
         content: FittedBox(
           fit: BoxFit.scaleDown,
-          child: Text("Sorry, product is currently not available", style: TextStyle(fontWeight: FontWeight.bold),),
+          child: Text(
+            "Sorry, product is currently not available",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
         ),
       ));
   }

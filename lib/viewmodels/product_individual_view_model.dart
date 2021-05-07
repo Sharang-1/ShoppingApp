@@ -18,7 +18,6 @@ class ProductIndividualViewModel extends BaseModel {
   final APIService _apiService = locator<APIService>();
   final AnalyticsService _analyticsService = locator<AnalyticsService>();
   final WhishListService _whishListService = locator<WhishListService>();
-  final DialogService _dialogService = locator<DialogService>();
 
   Seller selleDetail;
   Reviews reviews;
@@ -70,7 +69,7 @@ class ProductIndividualViewModel extends BaseModel {
           return -1;
         }
         if (showDialog) {
-          await _dialogService.showDialog(
+          await DialogService.showDialog(
             title: "Added to Bag",
             description: "The item has been added to your Bag.",
           );
@@ -82,7 +81,7 @@ class ProductIndividualViewModel extends BaseModel {
           return 1;
         }
         if (showDialog) {
-          await _dialogService.showDialog(
+          await DialogService.showDialog(
             title: "Added to Bag",
             description: "The item has been added to your Bag.",
           );

@@ -1,3 +1,6 @@
+import 'package:compound/locator.dart';
+import 'package:compound/services/dialog_service.dart';
+import 'package:compound/services/navigation_service.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -65,59 +68,57 @@ class _ProfileViewState extends State<ProfileView> {
                 return Future.value(true);
               }
 
-              return showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      // title: new Text("Are you sure?"),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(15))),
-                      content: Padding(
-                        padding: EdgeInsets.only(top: 12.0),
-                        child: Text(
-                          "Are you sure you don't want to make a change?",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 22,
-                          ),
-                        ),
+              return DialogService.showCustomDialog(
+                AlertDialog(
+                  // title: new Text("Are you sure?"),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(15))),
+                  content: Padding(
+                    padding: EdgeInsets.only(top: 12.0),
+                    child: Text(
+                      "Are you sure you don't want to make a change?",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 22,
                       ),
-                      buttonPadding: EdgeInsets.all(12.0),
-                      actions: <Widget>[
-                        new TextButton(
-                          style: TextButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            backgroundColor: logoRed,
-                          ),
-                          child: CustomText("Yes", color: Colors.white),
-                          onPressed: () {
-                            Navigator.pop(context, true);
-                          },
+                    ),
+                  ),
+                  buttonPadding: EdgeInsets.all(12.0),
+                  actions: <Widget>[
+                    new TextButton(
+                      style: TextButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
                         ),
-                        new TextButton(
-                          child: CustomText(
-                            "No",
-                            color: Colors.white,
-                          ),
-                          style: TextButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            backgroundColor: Colors.grey[400],
-                          ),
-                          onPressed: () {
-                            Navigator.pop(context, false);
-                          },
+                        backgroundColor: logoRed,
+                      ),
+                      child: CustomText("Yes", color: Colors.white),
+                      onPressed: () {
+                        Navigator.pop(context, true);
+                      },
+                    ),
+                    new TextButton(
+                      child: CustomText(
+                        "No",
+                        color: Colors.white,
+                      ),
+                      style: TextButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
                         ),
-                      ],
-                    );
-                    // ignore: missing_return
-                  }).then((result) {
+                        backgroundColor: Colors.grey[400],
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context, false);
+                      },
+                    ),
+                  ],
+                ),
+                // ignore: missing_return
+              ).then((result) {
                 if (result == null) return;
                 if (result) {
-                  Navigator.of(context).pop();
+                  locator<NavigationService>().pop();
                 }
               });
             },

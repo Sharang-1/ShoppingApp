@@ -6,34 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../models/internet_connection.dart';
-// import 'package:catcher/catcher.dart';
-
-// CatcherOptions debugOptions = CatcherOptions(
-//   DialogReportMode(),
-//   [
-//     EmailManualHandler(
-//       [SUPPORT_EMAIL],
-//       emailTitle: "Dzor App Exception",
-//     ),
-//     ConsoleHandler()]
-// );
-
-// CatcherOptions  releaseOptions = CatcherOptions(
-//   PageReportMode(),
-//   [
-//     EmailManualHandler(
-//       [SUPPORT_EMAIL],
-//       emailTitle: "Dzor App Exception",
-//     ),
-//     ConsoleHandler(),
-//   ]
-// );
+import 'dialog_service.dart';
 
 class ErrorHandlingService {
   InternetConnectionStatus _connectionStatus =
       InternetConnectionStatus.NotConnected;
   StreamSubscription<DataConnectionStatus> listener;
-  BuildContext _alertDialogContext;
+  bool isDialogOpen = false;
 
   InternetConnectionStatus get connectionStatus => _connectionStatus;
 
@@ -53,29 +32,24 @@ class ErrorHandlingService {
     switch (status) {
       case DataConnectionStatus.connected:
         _connectionStatus = InternetConnectionStatus.Connected;
-        if (_alertDialogContext != null) {
-          Navigator.of(_alertDialogContext).pop();
-          _alertDialogContext = null;
-        }
+        DialogService.popDialog();
+        isDialogOpen = false;
         Fimber.i("Internet Connected");
         return;
       case DataConnectionStatus.disconnected:
         _connectionStatus = InternetConnectionStatus.NotConnected;
-        if (_alertDialogContext == null) {
-          await showDialog(
-              context: Get.context,
-              builder: (context) {
-                _alertDialogContext = context;
-                return AlertDialog(
-                  title: Text("No Internet Connection"),
-                  content: Image.asset(
-                    'assets/images/no_internet.png',
-                    height: 300,
-                    width: 300,
-                  ),
-                );
-              },
+        if (!isDialogOpen) {
+          await DialogService.showCustomDialog(
+              AlertDialog(
+                title: Text("No Internet Connection"),
+                content: Image.asset(
+                  'assets/images/no_internet.png',
+                  height: 300,
+                  width: 300,
+                ),
+              ),
               barrierDismissible: false);
+          isDialogOpen = true;
         }
         Fimber.i("Internet Disconnect");
         return;

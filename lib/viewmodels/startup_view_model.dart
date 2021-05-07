@@ -1,3 +1,4 @@
+import 'package:compound/services/dialog_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -58,7 +59,7 @@ class StartUpViewModel extends BaseModel {
     ]);
 
     if (kReleaseMode && (updateDetails.version != version)) {
-      await Get.dialog(
+      await DialogService.showCustomDialog(
           AlertDialog(
             title: Text(
               "New Version Available!",

@@ -3,15 +3,9 @@ import '../../models/cart.dart';
 import '../../models/grid_view_builder_filter_models/base_filter_model.dart';
 import '../../services/api/api_service.dart';
 import 'base_grid_view_builder_view_model.dart';
-// import 'package:compound/constants/route_names.dart';
-// import 'package:compound/constants/shared_pref.dart';
-// import 'package:compound/locator.dart';
-// import 'package:compound/models/post.dart';
-// import 'package:compound/services/dialog_service.dart';
-// import 'package:compound/services/navigation_service.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
 
-class CartGridViewBuilderViewModel extends BaseGridViewBuilderViewModel<Cart, Item> {
+class CartGridViewBuilderViewModel
+    extends BaseGridViewBuilderViewModel<Cart, Item> {
   final APIService _apiService = locator<APIService>();
 
   @override
@@ -25,12 +19,13 @@ class CartGridViewBuilderViewModel extends BaseGridViewBuilderViewModel<Cart, It
     String _queryString =
         "startIndex=${pageSize * (pageNumber - 1)};limit=$pageSize;";
     Cart res = await _apiService.getCart(queryString: _queryString);
-    if(filterModel.queryString != "") {
+    if (filterModel.queryString != "") {
       print("Cart Query String ======== " + filterModel.queryString);
       var items = res.items;
       var filteredItems = items
-        .where((element) => element.productId.toString() == filterModel.queryString)
-        .toList();
+          .where((element) =>
+              element.productId.toString() == filterModel.queryString)
+          .toList();
       res.items = filteredItems;
       print(res);
       if (res == null) throw "Could not load";
@@ -46,7 +41,7 @@ class CartGridViewBuilderViewModel extends BaseGridViewBuilderViewModel<Cart, It
   Future<bool> deleteData(Item item) async {
     print("Delete ID::::::::::::: " + item.productId.toString());
     final res = await _apiService.removeFromCart(item.productId);
-    if(res != null) {
+    if (res != null) {
       return true;
     }
     return false;

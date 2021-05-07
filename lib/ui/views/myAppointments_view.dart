@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:provider_architecture/provider_architecture.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../models/Appointments.dart';
+import '../../services/dialog_service.dart';
 import '../../viewmodels/appointments_view_model.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
@@ -144,10 +144,8 @@ class _myAppointmentsState extends State<myAppointments> {
     final msgTextController = TextEditingController();
     String _errorText = '';
     StateSetter _stateSetter;
-    return showDialog<String>(
-      context: context,
-      useRootNavigator: false,
-      builder: (context) => AlertDialog(
+    return DialogService.showCustomDialog(
+      AlertDialog(
         title: Center(
           child: Text(
             'Cancel Appointment',
@@ -191,6 +189,7 @@ class _myAppointmentsState extends State<myAppointments> {
               }),
         ],
       ),
+      useRootNavigator: false,
     );
   }
 
@@ -304,7 +303,7 @@ class _myAppointmentsState extends State<myAppointments> {
                         alignment: Alignment.topRight,
                         child: InkWell(
                           child: Icon(Icons.notifications_active),
-                          onTap: () async => await Get.dialog(AlertDialog(
+                          onTap: () async => await DialogService.showCustomDialog(AlertDialog(
                             title: Center(
                                 child: Text(
                               "Message From Designer",

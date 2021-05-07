@@ -19,7 +19,6 @@ import 'base_model.dart';
 
 class AppointmentsViewModel extends BaseModel {
   final APIService _apiService = locator<APIService>();
-  final DialogService _dialogService = locator<DialogService>();
   final NavigationService _navigationService = locator<NavigationService>();
   final AddressService _addressService = locator<AddressService>();
 
@@ -66,13 +65,12 @@ class AppointmentsViewModel extends BaseModel {
 
     var adds = await _addressService.getAddresses();
     if (adds == null || adds.length == 0) {
-      var res = await _dialogService.showConfirmationDialog(
-          title: "Hey there!",
-          description: "Please add your address before booking an application");
-      if (res.confirmed) {
-        await _navigationService.navigateTo(ProfileViewRoute);
-        return;
-      }
+      await DialogService.showConfirmationDialog(
+        title: "Hey there!",
+        description: "Please add your address before booking an application",
+        onConfirm: () async =>
+            await _navigationService.navigateTo(ProfileViewRoute),
+      );
 
       // ,
       // snackPosition: SnackPosition.BOTTOM,
@@ -105,7 +103,7 @@ class AppointmentsViewModel extends BaseModel {
         timeSlotNumber++;
       }
       if (result?.timeSlot[timeSlotNumber].time.isEmpty) {
-        await Get.dialog(AlertDialog(
+        await DialogService.showCustomDialog(AlertDialog(
           title: Center(
               child: Text(
             "Appointment!",
@@ -153,7 +151,7 @@ class AppointmentsViewModel extends BaseModel {
     if (res == null) {
       _navigationService.navigateReplaceTo(AppointmentBookedScreenRoute);
     } else {
-      await _dialogService.showDialog(
+      await DialogService.showDialog(
         title: 'Error',
         description: res,
       );
