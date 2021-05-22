@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../controllers/grid_view_builder/products_grid_view_builder_controller.dart';
 import '../../models/grid_view_builder_filter_models/productFilter.dart';
 import '../../models/products.dart';
-import '../../viewmodels/grid_view_builder_view_models/products_grid_view_builder_view_model.dart';
 import '../shared/app_colors.dart';
 import 'GridListWidget.dart';
 import 'ProductTileUI.dart';
@@ -48,10 +48,13 @@ class PairItWithWidget extends StatelessWidget {
                   subCategories: ['11', '9', '10'],
                 ),
                 gridCount: 2,
-                viewModel: ProductsGridViewBuilderViewModel(
-                    randomize: true, limit: 20, exceptProductIDs: exceptProductIDs),
+                controller: ProductsGridViewBuilderController(
+                    randomize: true,
+                    limit: 20,
+                    exceptProductIDs: exceptProductIDs),
                 childAspectRatio: 1.10,
                 scrollDirection: Axis.horizontal,
+                emptyListWidget: Container(),
                 disablePagination: true,
                 tileBuilder: (BuildContext context, productData, index,
                     onUpdate, onDelete) {

@@ -2,17 +2,17 @@ import 'package:fimber/fimber.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:provider/provider.dart';
-import 'package:provider_architecture/provider_architecture.dart';
+import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../constants/route_names.dart';
-import '../../models/CartCountSetUp.dart';
+import '../../controllers/cart_controller.dart';
+import '../../controllers/cart_count_controller.dart';
+import '../../controllers/grid_view_builder/cart_grid_view_builder_controller.dart';
+import '../../locator.dart';
 import '../../models/cart.dart';
 import '../../models/grid_view_builder_filter_models/cartFilter.dart';
 import '../../services/dialog_service.dart';
-import '../../viewmodels/cart_view_model.dart';
-import '../../viewmodels/grid_view_builder_view_models/cart_grid_view_builder_view_model.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
@@ -40,10 +40,9 @@ class _CartViewState extends State<CartView> {
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelProvider<CartViewModel>.withConsumer(
-      viewModel: CartViewModel(prductId: widget.productId),
-      onModelReady: (model) => model.init(),
-      builder: (context, model, child) => Scaffold(
+    return GetBuilder(
+      init: CartController(),
+      builder: (controller) => Scaffold(
         appBar: AppBar(
           elevation: 0,
           backgroundColor: backgroundWhiteCreamColor,
@@ -75,7 +74,7 @@ class _CartViewState extends State<CartView> {
                   MaterialPageRoute(
                     builder: (context) => HomeView(),
                   ),
-                  ModalRoute.withName(MyHomePageRoute));
+                  ModalRoute.withName(HomeViewRoute));
             },
           ),
           iconTheme: IconThemeData(
@@ -93,7 +92,9 @@ class _CartViewState extends State<CartView> {
             footer: null,
             header: WaterDropHeader(
               waterDropColor: logoRed,
-              refresh: Container(),
+              refresh: Center(
+                child: CircularProgressIndicator(),
+              ),
               complete: Container(),
             ),
             controller: refreshController,
@@ -143,7 +144,7 @@ class _CartViewState extends State<CartView> {
                                       productId: widget.productId),
                                   gridCount: 1,
                                   disablePagination: true,
-                                  viewModel: CartGridViewBuilderViewModel(),
+                                  controller: CartGridViewBuilderController(),
                                   childAspectRatio: 1.30,
                                   tileBuilder: (BuildContext context, data,
                                       index, onDelete, onUpdate) {
@@ -157,13 +158,13 @@ class _CartViewState extends State<CartView> {
                                       onDelete: (int index) async {
                                         final value = await onDelete(index);
                                         if (value != true) return;
-                                        await model.removeFromCartLocalStore(
-                                            dItem.productId.toString());
-                                        Provider.of<CartCountSetUp>(context,
-                                                listen: false)
+                                        await controller
+                                            .removeFromCartLocalStore(
+                                                dItem.productId.toString());
+                                        locator<CartCountController>()
                                             .decrementCartCount();
                                         try {
-                                          await model
+                                          await controller
                                               .removeProductFromCartEvent();
                                         } catch (e) {}
                                       },
@@ -172,8 +173,8 @@ class _CartViewState extends State<CartView> {
                                 ),
                                 FutureBuilder<bool>(
                                   initialData: false,
-                                  future: model.hasProducts(),
-                                  builder: (c, s) => (!model.isCartEmpty)
+                                  future: controller.hasProducts(),
+                                  builder: (c, s) => (!controller.isCartEmpty)
                                       ? Column(
                                           children: [
                                             verticalSpace(10),

@@ -1,9 +1,9 @@
-import 'package:compound/constants/server_urls.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../constants/server_urls.dart';
 import '../shared/ui_helpers.dart';
 import '../widgets/link_widget.dart';
 

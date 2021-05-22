@@ -3,13 +3,13 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider_architecture/provider_architecture.dart';
+import 'package:get/state_manager.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../../controllers/categories_controller.dart';
+import '../../controllers/grid_view_builder/products_grid_view_builder_controller.dart';
 import '../../models/grid_view_builder_filter_models/productFilter.dart';
 import '../../models/products.dart';
-import '../../viewmodels/categories_view_model.dart';
-import '../../viewmodels/grid_view_builder_view_models/products_grid_view_builder_view_model.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 import '../widgets/GridListWidget.dart';
@@ -55,11 +55,10 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelProvider<CategoriesViewModel>.withConsumer(
-      viewModel: CategoriesViewModel(),
-      onModelReady: (model) =>
-          model.init(subCategory: widget?.subCategory ?? ''),
-      builder: (context, model, child) => AnnotatedRegion<SystemUiOverlayStyle>(
+    return GetBuilder(
+      init: CategoriesController()
+        ..init(subCategory: widget?.subCategory ?? ''),
+      builder: (controller) => AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle(statusBarColor: logoRed),
         child: Scaffold(
           backgroundColor: backgroundWhiteCreamColor,
@@ -77,7 +76,9 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
                   enablePullDown: true,
                   header: WaterDropHeader(
                     waterDropColor: Color.fromRGBO(62, 83, 119, 1.0),
-                    refresh: Container(),
+                    refresh: Center(
+                      child: CircularProgressIndicator(),
+                    ),
                     complete: Container(),
                   ),
                   controller: refreshController,
@@ -210,8 +211,8 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
                                             emptyListWidget: EmptyListWidget(
                                                 text:
                                                     "We're out of all ${widget.subCategory}.\nCheck Back Later!"),
-                                            viewModel:
-                                                ProductsGridViewBuilderViewModel(
+                                            controller:
+                                                ProductsGridViewBuilderController(
                                               randomize: showRandomProducts,
                                               limit: 1000,
                                             ),
@@ -223,8 +224,8 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
                                                 onDelete) {
                                               return ProductTileUI(
                                                 data: data,
-                                                onClick: () =>
-                                                    model.goToProductPage(data),
+                                                onClick: () => controller
+                                                    .goToProductPage(data),
                                                 index: index,
                                               );
                                             },

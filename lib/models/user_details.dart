@@ -19,6 +19,10 @@ class UserDetails {
     this.modified,
     this.firstName,
     this.lastName,
+    this.age,
+    this.gender,
+    this.email,
+    this.size,
     this.contact,
     this.appUser,
     this.login,
@@ -36,6 +40,10 @@ class UserDetails {
   String modified;
   String firstName;
   String lastName;
+  String age;
+  String gender;
+  String email;
+  String size;
   UserDetailsContact contact;
   bool appUser;
   String login;
@@ -53,6 +61,10 @@ class UserDetails {
         modified: json["modified"],
         firstName: json["firstName"],
         lastName: json["lastName"],
+        age: json["age"],
+        gender: json["gender"],
+        email: json["email"] != null ? json["email"] : null,
+        size: json["size"],
         contact: UserDetailsContact.fromJson(json["contact"]),
         appUser: json["appUser"],
         login: json["login"],
@@ -71,6 +83,10 @@ class UserDetails {
         "modified": modified,
         "firstName": firstName,
         "lastName": lastName,
+        "age": age,
+        "gender": gender,
+        "email": email,
+        "size": size,
         "contact": contact.toJson(),
         "appUser": appUser,
         "login": login,

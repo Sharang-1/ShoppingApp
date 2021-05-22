@@ -1,17 +1,14 @@
 import 'package:fimber/fimber_base.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-// import 'package:get/get.dart';
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:provider_architecture/viewmodel_provider.dart';
 
+import '../../controllers/address_controller.dart';
 import '../../google_maps_place_picker/google_maps_place_picker.dart';
-// added some stuff here
-
 import '../../locator.dart';
 import '../../models/user_details.dart';
 import '../../services/location_service.dart';
-import '../../viewmodels/address_view_model.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
@@ -32,10 +29,9 @@ class _AddressInputPageState extends State<AddressInputPage> {
     // WidgetsBinding.instance.addPostFrameCallback(
     //     (_) => c.googleAddress.value = selectedPlace?.formattedAddress);
 
-    return ViewModelProvider<AddressViewModel>.withConsumer(
-        viewModel: AddressViewModel(),
-        // onModelReady: (model) => model.getAppointments(),
-        builder: (context, model, child) => Scaffold(
+    return GetBuilder(
+        init: AddressController(),
+        builder: (controller) => Scaffold(
               body: SafeArea(
                 child: Stack(
                   children: [
@@ -62,7 +58,7 @@ class _AddressInputPageState extends State<AddressInputPage> {
                       // usePlaceDetailSearch: true,
                       onPlacePicked: (r) {
                         Fimber.e(r.formattedAddress);
-                        model.selectedResult = r;
+                        controller.selectedResult = r;
                         Navigator.of(context).pop<PickResult>(r);
                       },
                       // selectedPlaceWidgetBuilder:
@@ -193,10 +189,9 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelProvider<AddressViewModel>.withConsumer(
-      viewModel: AddressViewModel(),
-      // onModelReady: (model) => model.getAppointments(),
-      builder: (context, model, child) => Container(
+    return GetBuilder(
+      init: AddressController(),
+      builder: (controller) => Container(
         height: 440,
         color: Colors.transparent,
         child: Padding(

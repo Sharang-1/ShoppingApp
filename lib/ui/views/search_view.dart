@@ -1,26 +1,21 @@
-import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:provider_architecture/provider_architecture.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:get/get.dart';
 
-import '../../constants/shared_pref.dart';
-import '../../models/CartCountSetUp.dart';
+import '../../controllers/base_controller.dart';
+import '../../controllers/cart_count_controller.dart';
+import '../../controllers/grid_view_builder/products_grid_view_builder_controller.dart';
+import '../../controllers/grid_view_builder/sellers_grid_view_builder_controller.dart';
+import '../../controllers/search_controller.dart';
+import '../../locator.dart';
 import '../../models/grid_view_builder_filter_models/productFilter.dart';
-import '../../models/grid_view_builder_filter_models/sellerFilter.dart';
 import '../../models/products.dart';
 import '../../models/sellers.dart';
-import '../../viewmodels/grid_view_builder_view_models/products_grid_view_builder_view_model.dart';
-import '../../viewmodels/grid_view_builder_view_models/sellers_grid_view_builder_view.dart';
-import '../../viewmodels/search_view_model.dart';
 import '../shared/app_colors.dart';
-import '../shared/debouncer.dart';
 import '../shared/shared_styles.dart';
 import '../widgets/GridListWidget.dart';
 import '../widgets/ProductFilterDialog.dart';
 import '../widgets/ProductTileUI.dart';
 import '../widgets/cart_icon_badge.dart';
-import '../widgets/sellerCard.dart';
 import '../widgets/sellerTileUi.dart';
 
 class SearchView extends StatefulWidget {
@@ -34,263 +29,60 @@ class SearchView extends StatefulWidget {
 
 class _SearchViewState extends State<SearchView>
     with SingleTickerProviderStateMixin {
-  TextEditingController _searchController = TextEditingController();
-  TabController _tabController;
-  FocusNode _searchBarFocusNode = FocusNode(canRequestFocus: true);
-
-  // Search States
-  Debouncer _debouncer;
-  int currentTabIndex = 0;
-  bool showRecents = true;
-  bool showResults = false;
-  bool showRandomSellers = true;
-  bool showTopProducts = true;
-  RegExp _searchFilterRegex = RegExp(r"\w+", caseSensitive: true);
-  Key productGridKey = UniqueKey();
-  Key sellerGridKey = UniqueKey();
-
-  // Filter States
-  ProductFilter productFilter;
-  SellerFilter sellerFilter;
-
-  // These lists will be used for showing UI and filtering.
-  List<String> productSearchHistoryList = [];
-  List<String> sellerSearchHistoryList = [];
-
-  // These lists will be in sync with shared prefs.
-  List<String> finalProductHistoryList = [];
-  List<String> finalSellerHistoryList = [];
+  SearchController _controller = SearchController();
 
   @override
   void initState() {
+    _controller.init(this, showSellers: widget.showSellers);
     super.initState();
-    setUpRecentList();
-    _debouncer = Debouncer(100); // To delay search onChange method
-    _searchController = TextEditingController();
-    _tabController = TabController(length: 2, vsync: this);
-    _tabController.addListener(() {
-      if (_tabController.indexIsChanging) _onTabChange();
-    });
-    _searchBarFocusNode.addListener(_showRecentWhenFocusOnSearchBar);
-
-    if (widget.showSellers != null && widget.showSellers) {
-      _tabController.index = 1;
-      _onTabChange();
-    }
-  }
-
-  Future<void> setUpRecentList() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      finalProductHistoryList = productSearchHistoryList =
-          prefs.getStringList(ProductSearchHistoryList);
-      finalSellerHistoryList = sellerSearchHistoryList =
-          prefs.getStringList(SellerSearchHistoryList);
-    });
-  }
-
-  void _onTabChange() {
-    setState(() {
-      if (showTopProducts) showTopProducts = false;
-      currentTabIndex = _tabController.index;
-      if (currentTabIndex == 1 && showRandomSellers) {
-        Future.delayed(Duration(milliseconds: 200), () {
-          setState(() {
-            sellerFilter = new SellerFilter(name: "");
-            showResults = true;
-            if (showRecents) showRecents = false;
-            _changeSearchFieldFocus();
-          });
-        });
-      } else {
-        showResults = false;
-        _searchBarFocusNode.requestFocus();
-      }
-    });
-  }
-
-  void _showRecentWhenFocusOnSearchBar() {
-    if (_searchBarFocusNode.hasFocus) {
-      setState(() {
-        showResults = true;
-      });
-    } else {
-      setState(() {
-        showRecents = false;
-      });
-    }
   }
 
   @override
   void dispose() {
-    _debouncer.dispose();
-    _searchController.dispose();
-    _tabController.dispose();
-    _searchBarFocusNode.dispose();
+    _controller.despose();
     super.dispose();
   }
 
-  List<String> _getListByTabIndex() {
-    return currentTabIndex == 0
-        ? productSearchHistoryList
-        : sellerSearchHistoryList;
-  }
-
-  // // Recent list UI
-  // List<Widget> _getRecentSearchListUI() {
-  //   List<String> recentListByCurrentTab = _getListByTabIndex();
-  //   return [
-  //         ListTile(
-  //           trailing: GestureDetector(
-  //             onTap: _clearRecentButtonAction,
-  //             child: Text("Clear Recent"),
-  //           ),
-  //         )
-  //       ] +
-  //       recentListByCurrentTab.reversed
-  //           .toList()
-  //           .sublist(
-  //               0,
-  //               recentListByCurrentTab.length < 5
-  //                   ? recentListByCurrentTab.length
-  //                   : 5)
-  //           .map(
-  //             (String value) => ListTile(
-  //               onTap: () {
-  //                 _searchController.text = value;
-  //                 _searchAction(value);
-  //               },
-  //               leading: Icon(Icons.history),
-  //               title: Text(value),
-  //               trailing: IconButton(
-  //                 icon: Icon(Icons.call_made),
-  //                 onPressed: () {
-  //                   if (value.contains(_searchController.text.toLowerCase())) {
-  //                     _searchController.text = value;
-  //                     return;
-  //                   }
-  //                   if (!_searchController.text.contains(value))
-  //                     _searchController.text += value;
-  //                 },
-  //               ),
-  //             ),
-  //           )
-  //           .toList();
-  // }
-
-  Widget childWidget(model) {
-    return Stack(
-      children: <Widget>[
-        if (showResults && _tabController.index == 0)
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-            child: GridListWidget<Products, Product>(
-              key: productGridKey,
-              context: context,
-              filter: productFilter,
-              gridCount: 2,
-              viewModel: ProductsGridViewBuilderViewModel(limit: 50),
-              childAspectRatio: 0.7,
-              tileBuilder:
-                  (BuildContext context, data, index, onUpdate, onDelete) {
-                Fimber.d("test");
-                print((data as Product).toJson());
-                return ProductTileUI(
-                  index: index,
-                  data: data,
-                  onClick: () {
-                    model.goToProductPage(data);
-                  },
-                );
-              },
-            ),
-          ),
-        if (showResults && _tabController.index == 1)
-          GridListWidget<Sellers, Seller>(
-            key: sellerGridKey,
-            context: context,
-            filter: sellerFilter,
-            gridCount: 1,
-            viewModel: SellersGridViewBuilderViewModel(),
-            disablePagination: true,
-            childAspectRatio: 2,
-            tileBuilder:
-                (BuildContext context, data, index, onUpdate, onDelete) {
-              return SellerCard(
-                data: data,
-                fromHome: true,
-                onClick: () async {
-                  await model.goToSellerPage(data.key);
-                },
-              );
-            },
-          ),
-        if (showRecents && _getListByTabIndex().length != 0)
-          GestureDetector(
-            onTap: _changeSearchFieldFocus,
-            child: Container(
-              color: Colors.black.withAlpha(150),
-            ),
-          ),
-        // if (showRecents && _getListByTabIndex().length != 0)
-        //   Container(
-        //     color: backgroundWhiteCreamColor,
-        //     child: ListView(
-        //       shrinkWrap: true,
-        //       children: _getRecentSearchListUI(),
-        //     ),
-        //   ),
-      ],
-    );
-  }
-
   @override
-  Widget build(BuildContext context) {
-    return ViewModelProvider<SearchViewModel>.withConsumer(
-      viewModel: SearchViewModel(),
-      onModelReady: (model) => model.init(),
-      builder: (context, model, child) => Scaffold(
-          appBar: AppBar(
-            elevation: 0,
-            iconTheme: IconThemeData(color: appBarIconColor),
-            backgroundColor: backgroundWhiteCreamColor,
-            actions: <Widget>[
-              IconButton(
-                onPressed: () => model.cart(),
-                icon: CartIconWithBadge(
-                  count:
-                      Provider.of<CartCountSetUp>(context, listen: true).count,
+  Widget build(BuildContext context) => Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          iconTheme: IconThemeData(color: appBarIconColor),
+          backgroundColor: backgroundWhiteCreamColor,
+          actions: <Widget>[
+            IconButton(
+              onPressed: () => BaseController.cart(),
+              icon: Obx(
+                () => CartIconWithBadge(
+                  count: locator<CartCountController>().count.value,
                   iconColor: Colors.black,
                 ),
               ),
-              SizedBox(
-                width: 5,
-              )
-            ],
-            bottom: PreferredSize(
-              preferredSize: Size(50, 50),
-              child: AppBar(
+            ),
+            SizedBox(
+              width: 5,
+            )
+          ],
+          bottom: PreferredSize(
+            preferredSize: Size(50, 50),
+            child: Obx(
+              () => AppBar(
                 elevation: 0,
                 iconTheme: IconThemeData(color: appBarIconColor),
                 backgroundColor: backgroundWhiteCreamColor,
                 automaticallyImplyLeading: false,
                 title: _SearchBarTextField(
-                  searchAction: _searchAction,
-                  searchController: _searchController,
-                  focusNode: _searchBarFocusNode,
+                  searchAction: _controller.searchAction,
+                  searchController: _controller.searchController.value,
+                  focusNode: _controller.searchBarFocusNode.value,
                   autofocus: true,
                   onTap: () {
-                    // setState(() {
-                    //   if (!showRecents) {
-                    //     showRecents = true;
-                    //   }
-                    // });
-                    showRandomSellers = false;
+                    _controller.showRandomSellers = false.obs;
                   },
-                  onChanged: _searchBarOnChange,
+                  onChanged: _controller.searchBarOnChange,
                 ),
                 actions: <Widget>[
-                  if (showResults && currentTabIndex == 0)
+                  if (_controller.currentTabIndex.value == 0)
                     IconButton(
                       iconSize: 50,
                       icon: Image.asset("assets/images/filter.png"),
@@ -299,28 +91,26 @@ class _SearchViewState extends State<SearchView>
                             await showModalBottomSheet(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(20),
-                                topRight: Radius.circular(20)),
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20),
+                            ),
                           ),
                           isScrollControlled: true,
                           clipBehavior: Clip.antiAlias,
                           context: context,
-                          builder: (BuildContext context) {
-                            return FractionallySizedBox(
-                                heightFactor: 0.75,
-                                child: ProductFilterDialog(
-                                  oldFilter: productFilter,
-                                ));
-                          },
+                          builder: (BuildContext context) =>
+                              FractionallySizedBox(
+                            heightFactor: 0.75,
+                            child: ProductFilterDialog(
+                                oldFilter: _controller.productFilter.value),
+                          ),
                         );
 
                         if (filterDialogResponse != null) {
-                          setState(() {
-                            productFilter = filterDialogResponse;
-                            showTopProducts = false;
-                            _changeSearchFieldFocus();
-                            productGridKey = UniqueKey();
-                          });
+                          _controller.setProductFilter(filterDialogResponse);
+                          _controller.setShowTopProducts(false);
+                          _controller.changeSearchFieldFocus();
+                          _controller.setProductGridKey(UniqueKey());
                         }
                       },
                     ),
@@ -328,32 +118,31 @@ class _SearchViewState extends State<SearchView>
               ),
             ),
           ),
-          backgroundColor: backgroundWhiteCreamColor,
-          body: SafeArea(
-            top: false,
-            left: false,
-            right: false,
-            bottom: false,
-            child: SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  AppBar(
-                    primary: false,
-                    // floating: true,
-                    // snap: true,
-                    elevation: 0,
-                    iconTheme: IconThemeData(color: Colors.black),
-                    backgroundColor: backgroundWhiteCreamColor,
-                    automaticallyImplyLeading: false,
-                    title: Container(
-                      padding: EdgeInsets.all(2),
-                      decoration: BoxDecoration(
-                        // color: Colors.grey[200],
-                        color: backgroundBlueGreyColor,
-                        borderRadius: BorderRadius.circular(curve30),
-                      ),
-                      width: MediaQuery.of(context).size.width,
-                      child: TabBar(
+        ),
+        backgroundColor: backgroundWhiteCreamColor,
+        body: SafeArea(
+          top: false,
+          left: false,
+          right: false,
+          bottom: false,
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                AppBar(
+                  primary: false,
+                  elevation: 0,
+                  iconTheme: IconThemeData(color: Colors.black),
+                  backgroundColor: backgroundWhiteCreamColor,
+                  automaticallyImplyLeading: false,
+                  title: Container(
+                    padding: EdgeInsets.all(2),
+                    decoration: BoxDecoration(
+                      color: backgroundBlueGreyColor,
+                      borderRadius: BorderRadius.circular(curve30),
+                    ),
+                    width: MediaQuery.of(context).size.width,
+                    child: Obx(
+                      () => TabBar(
                         unselectedLabelColor: Colors.black,
                         labelColor: Colors.black,
                         indicatorSize: TabBarIndicatorSize.tab,
@@ -361,247 +150,96 @@ class _SearchViewState extends State<SearchView>
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(curve30),
                         ),
-                        controller: _tabController,
+                        controller: _controller.tabController.value,
                         tabs: <Widget>[
                           Container(
                             height: 30,
                             child: Tab(
-                                child: Text(
-                              "Products",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: "Raleway"),
-                            )),
+                              child: Text(
+                                "Products",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: "Raleway"),
+                              ),
+                            ),
                           ),
                           Container(
                             height: 30,
                             child: Tab(
-                                child: Text(
-                              "Designers",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: "Raleway"),
-                            )),
+                              child: Text(
+                                "Designers",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: "Raleway"),
+                              ),
+                            ),
                           ),
                         ],
                       ),
                     ),
                   ),
-                  // SliverList(
-                  //   delegate: SliverChildBuilderDelegate(
-                  //     // The builder function returns a ListTile with a title that
-                  //     // displays the index of the current item.
-                  //     (context, index) => childWidget(model),
-                  //     childCount: 1,
-                  //   ),
-                  // )
-                  Stack(
+                ),
+                Obx(
+                  () => Stack(
                     children: <Widget>[
-                      if (showResults && _tabController.index == 0)
+                      if (_controller.tabController.value.index == 0)
                         Padding(
                           padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                           child: GridListWidget<Products, Product>(
-                            key: productGridKey,
+                            key: _controller.productGridKey.value,
                             context: context,
-                            filter: productFilter,
+                            filter: _controller.productFilter.value,
                             gridCount: 2,
-                            viewModel: ProductsGridViewBuilderViewModel(limit: 50),
-                            emptyListWidget: EmptyListWidget(
-                              text: "",
+                            controller: ProductsGridViewBuilderController(
+                              limit: _controller.showTopProducts.value ? 6 : 50,
+                              randomize: _controller.showTopProducts.value,
                             ),
+                            emptyListWidget: EmptyListWidget(text: ""),
                             childAspectRatio: 0.7,
                             tileBuilder: (BuildContext context, data, index,
-                                onUpdate, onDelete) {
-                              return ProductTileUI(
-                                index: index,
-                                data: data,
-                                onClick: () {
-                                  model.goToProductPage(data);
-                                },
-                              );
-                            },
+                                    onUpdate, onDelete) =>
+                                ProductTileUI(
+                              index: index,
+                              data: data,
+                              onClick: () =>
+                                  BaseController.goToProductPage(data),
+                            ),
                           ),
                         ),
-                      if (showResults && _tabController.index == 1)
+                      if (_controller.tabController.value.index == 1)
                         Padding(
                           padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                           child: GridListWidget<Sellers, Seller>(
-                            key: sellerGridKey,
+                            key: _controller.sellerGridKey.value,
                             context: context,
-                            filter: sellerFilter,
+                            filter: _controller.sellerFilter.value,
                             gridCount: 1,
-                            viewModel: SellersGridViewBuilderViewModel(
-                                random: showRandomSellers),
+                            controller: SellersGridViewBuilderController(
+                                random: _controller.showRandomSellers.value),
                             emptyListWidget: EmptyListWidget(text: ""),
                             disablePagination: true,
                             childAspectRatio: 2,
                             tileBuilder: (BuildContext context, data, index,
-                                onUpdate, onDelete) {
-                              return SellerTileUi(
-                                data: data,
-                                fromHome: true,
-                                onClick: () async {
-                                  await model.goToSellerPage(data.key);
-                                },
-                              );
-                            },
-                          ),
-                        ),
-                      // if (showRecents == true)
-                      //   GestureDetector(
-                      //     onTap: _changeSearchFieldFocus,
-                      //     child: Container(
-                      //       height: 720,
-                      //       color: Colors.black.withAlpha(150),
-                      //     ),
-                      //   ),
-                      // if (showRecents == true)
-                      //   Container(
-                      //     color: backgroundWhiteCreamColor,
-                      //     child: SizedBox(
-                      //       height: 120,
-                      //       child: ListView(
-                      //         shrinkWrap: true,
-                      //         children: _getRecentSearchListUI(),
-                      //       ),
-                      //     ),
-                      //   ),
-                      if (showTopProducts && (_tabController.index == 0))
-                        Padding(
-                          padding: EdgeInsets.only(top: 10),
-                          child: GridListWidget<Products, Product>(
-                            key: UniqueKey(),
-                            context: context,
-                            filter: ProductFilter(),
-                            gridCount: 2,
-                            viewModel: ProductsGridViewBuilderViewModel(
-                                limit: 6, randomize: true),
-                            emptyListWidget: EmptyListWidget(
-                              text: "",
+                                    onUpdate, onDelete) =>
+                                SellerTileUi(
+                              data: data,
+                              fromHome: true,
+                              onClick: () async {
+                                await BaseController.goToSellerPage(data.key);
+                              },
                             ),
-                            childAspectRatio: 0.7,
-                            tileBuilder: (BuildContext context, data, index,
-                                onUpdate, onDelete) {
-                              return ProductTileUI(
-                                index: index,
-                                data: data,
-                                onClick: () {
-                                  model.goToProductPage(data);
-                                },
-                              );
-                            },
                           ),
                         ),
                     ],
-                  )
-                ],
-              ),
+                  ),
+                )
+              ],
             ),
-          )),
-    );
-  }
-
-  _searchBarOnChange(value) {
-    _debouncer.run(() {
-      if (currentTabIndex == 0) {
-        setState(() {
-          if (showTopProducts) showTopProducts = false;
-          productSearchHistoryList = finalProductHistoryList
-              .where((String value) =>
-                  _searchController.text == "" ||
-                  value.contains(_searchController.text.toLowerCase()))
-              .toList();
-        });
-      } else {
-        setState(() {
-          sellerSearchHistoryList = finalSellerHistoryList
-              .where((String value) =>
-                  _searchController.text == "" ||
-                  value.contains(_searchController.text.toLowerCase()))
-              .toList();
-        });
-      }
-    });
-  }
-
-  Future<void> _updateRecentSharedPrefs() async {
-    if (currentTabIndex == 0) {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setStringList(ProductSearchHistoryList, finalProductHistoryList);
-    } else {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setStringList(SellerSearchHistoryList, finalSellerHistoryList);
-    }
-  }
-
-  void _searchAction(String searchKey) {
-    // Checking tab controller index
-    // If index is 0 then do search for product page else sellers page
-
-    if (!_searchFilterRegex.hasMatch(searchKey)) return;
-
-    if (currentTabIndex == 0) {
-      // Product Search Here
-      setState(() {
-        productGridKey = new UniqueKey();
-        productFilter = new ProductFilter(fullText: searchKey);
-        showResults = true;
-        if (showRecents) showRecents = false;
-        if (showTopProducts) showTopProducts = false;
-
-        // Append to shared pref only when new element is inserted
-        if (finalProductHistoryList.indexOf(searchKey) == -1)
-          finalProductHistoryList = finalProductHistoryList + [searchKey];
-      });
-      _updateRecentSharedPrefs();
-    } else {
-      // Seller Search Here
-      setState(() {
-        sellerGridKey = new UniqueKey();
-        sellerFilter = new SellerFilter(name: searchKey);
-        showResults = true;
-        if (showRecents) showRecents = false;
-        if (showTopProducts) showTopProducts = false;
-        // Append to shared pref only when new element is inserted
-        // if (finalSellerHistoryList.indexOf(searchKey) == -1)
-        //   finalSellerHistoryList = finalSellerHistoryList + [searchKey];
-      });
-      _updateRecentSharedPrefs();
-    }
-    _changeSearchFieldFocus();
-  }
-
-  // Future<void> _clearRecentButtonAction() async {
-  //   if (currentTabIndex == 0) {
-  //     // Clear Product Search Here
-  //     setState(() {
-  //       finalProductHistoryList = productSearchHistoryList = [];
-  //     });
-
-  //     SharedPreferences prefs = await SharedPreferences.getInstance();
-  //     prefs.setStringList(ProductSearchHistoryList, []);
-  //   } else {
-  //     // Clear Seller Search Here
-  //     setState(() {
-  //       finalSellerHistoryList = sellerSearchHistoryList = [];
-  //     });
-
-  //     SharedPreferences prefs = await SharedPreferences.getInstance();
-  //     prefs.setStringList(SellerSearchHistoryList, []);
-  //   }
-  // }
-
-  void _changeSearchFieldFocus() {
-    _searchBarFocusNode.nextFocus();
-    // setState(() {
-    //   if (showResults) {
-    //     showRecents = false;
-    //   }
-    // });
-  }
+          ),
+        ),
+      );
 }
 
-// We have not used InputField widget b'coz of the style of Widget
 class _SearchBarTextField extends StatelessWidget {
   const _SearchBarTextField({
     Key key,
@@ -630,90 +268,36 @@ class _SearchBarTextField extends StatelessWidget {
         color: backgroundBlueGreyColor,
         borderRadius: BorderRadius.circular(30),
       ),
-      child: Row(children: <Widget>[
-        IconButton(
-          icon: Icon(Icons.search),
-          color: appBarIconColor,
-          onPressed: () => searchAction(searchController.text.trim()),
-        ),
-        Expanded(
-          child: TextField(
-            autofocus: autofocus,
-            focusNode: focusNode,
-            controller: searchController,
-            style: TextStyle(
-              color: Colors.black,
-            ),
-            onTap: onTap,
-            onSubmitted: (txt) => searchAction(searchController.text.trim()),
-            onChanged: onChanged,
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              hintText: "Start typing...",
-              contentPadding: EdgeInsets.only(bottom: 8.0),
-              hintStyle: TextStyle(
-                color: Colors.grey,
+      child: Row(
+        children: <Widget>[
+          IconButton(
+            icon: Icon(Icons.search),
+            color: appBarIconColor,
+            onPressed: () => searchAction(searchController.text.trim()),
+          ),
+          Expanded(
+            child: TextField(
+              autofocus: autofocus,
+              focusNode: focusNode,
+              controller: searchController,
+              style: TextStyle(
+                color: Colors.black,
+              ),
+              onTap: onTap,
+              onSubmitted: (txt) => searchAction(searchController.text.trim()),
+              onChanged: onChanged,
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                hintText: "Start typing...",
+                contentPadding: EdgeInsets.only(bottom: 8.0),
+                hintStyle: TextStyle(
+                  color: Colors.grey,
+                ),
               ),
             ),
           ),
-        ),
-      ]),
+        ],
+      ),
     );
   }
 }
-
-/*-----------------------------------------------------
-isTyping  | isSearched  | ResultScreen / Action
-----------+-------------+----------------------------
-false     | false       | Search History
-----------+-------------+----------------------------
-true      | false       | Search History with Filters
-----------+-------------+----------------------------
-false     | true        | Results
-----------+-------------+----------------------------
-true      | true        | Search History
-----------+-------------+----------------------------
-
-
-// Opacity(
-//   child: GridListWidget<Products, Product>(
-//     context: context,
-//     filter: productFilter,
-//     gridCount: 2,
-//     viewModel: ProductsGridViewBuilderViewModel(),
-//     tileBuilder: (BuildContext context, data) {
-//       return Card(
-//         child: Center(
-//           child: Text("product"),
-//         ),
-//       );
-//     },
-//   ),
-//   opacity: _tabController.index == 0 ? 1 : 0,
-// ),
-// Opacity(
-//   child: SellerGridListWidget(context: context),
-//   opacity: _tabController.index == 1 ? 1 : 0,
-// ),
-// TabBarView(
-//   controller: _tabController,
-//   physics: NeverScrollableScrollPhysics(),
-//   children: [
-//     GridListWidget<Products, Product>(
-//       context: context,
-//       filter: productFilter,
-//       gridCount: 2,
-//       viewModel: ProductsGridViewBuilderViewModel(),
-//       tileBuilder: (BuildContext context, data) {
-//         return Card(
-//           child: Center(
-//             child: Text("product"),
-//           ),
-//         );
-//       },
-//     ),
-//     SellerGridListWidget(context: context),
-//   ],
-// ),
-
-*/

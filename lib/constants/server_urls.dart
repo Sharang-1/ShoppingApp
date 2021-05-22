@@ -1,14 +1,16 @@
 import 'package:flutter/foundation.dart';
 
+const bool releaseMode = kReleaseMode && false;
+
 const String BASE_URL =
-    kReleaseMode ? "https://dzor.in/api/" : "https://dev.dzor.in/api/";
+    releaseMode ? "https://dzor.in/api/" : "https://dev.dzor.in/api/";
 const String PRODUCT_PHOTO_BASE_URL = "${BASE_URL}photos/products";
 const String PROMOTION_PHOTO_BASE_URL = "${BASE_URL}photos/promotions";
 const String CATEGORY_PHOTO_BASE_URL = "${BASE_URL}photos/categories";
 const String SELLER_PHOTO_BASE_URL = "${BASE_URL}photos/sellers";
 const String SELLER_PROFILE_PHOTO_BASE_URL = "${BASE_URL}photos/sellers";
 
-const String APPOINTMENT_URL = kReleaseMode
+const String APPOINTMENT_URL = releaseMode
     ? "https://appointment.dzor.in/api/appointments/"
     : "https://appointment.dev.dzor.in/api/appointments/";
 

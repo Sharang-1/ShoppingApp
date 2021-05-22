@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:provider_architecture/provider_architecture.dart';
 
-import '../../viewmodels/verify_otp_model.dart';
+import '../../constants/route_names.dart';
+import '../../locator.dart';
+import '../../services/api/api_service.dart';
+import '../../services/navigation_service.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 
@@ -15,6 +17,7 @@ class _TextFadeState extends State<OtpVerifiedView2>
   Animation _animation;
   AnimationController _animationController;
   double _position = -1;
+  String name = '';
 
   @override
   void initState() {
@@ -29,48 +32,61 @@ class _TextFadeState extends State<OtpVerifiedView2>
   @override
   Widget build(BuildContext context) {
     const double headingFontSize = headingFontSizeStyle + 15;
-    return ViewModelProvider<VerifyOTPViewModel>.withConsumer(
-      viewModel: VerifyOTPViewModel(),
-      onModelReady: (model) => model.otpVerified(loader: true),
-      builder: (context, model, child) => Scaffold(
+    return FutureBuilder<String>(
+      future: locator<APIService>().updateUserName(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          name = snapshot.data;
+        }
+        Future.delayed(
+          Duration(milliseconds: 2000),
+          () async => await NavigationService.off(LoaderRoute),
+        );
+        return Scaffold(
           backgroundColor: backgroundWhiteCreamColor,
           body: AnimatedBuilder(
-              animation: _animation,
-              child: Padding(
-                  padding: EdgeInsets.all(30),
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          "Hello",
-                          style: TextStyle(
-                            fontSize: headingFontSize,
-                            fontFamily: "Raleway",
-                          ),
-                        ),
-                        Text(
-                          model.name,
-                          style: TextStyle(
-                              fontFamily: "Raleway",
-                              fontSize: headingFontSize + 5,
-                              fontWeight: FontWeight.w600),
-                        ),
-                      ])),
-              builder: (context, child) {
-                return Transform.translate(
-                    offset: Offset(
-                        0,
-                        MediaQuery.of(context).size.height *
-                            _position *
-                            (1 - _animation.value)),
-                    child: AnimatedOpacity(
-                      duration: _animationController.duration,
-                      opacity: _animation.value,
-                      curve: Curves.ease,
-                      child: child,
-                    ));
-              })),
+            animation: _animation,
+            child: Padding(
+              padding: EdgeInsets.all(30),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    "Hello",
+                    style: TextStyle(
+                      fontSize: headingFontSize,
+                      fontFamily: "Raleway",
+                    ),
+                  ),
+                  Text(
+                    name,
+                    style: TextStyle(
+                        fontFamily: "Raleway",
+                        fontSize: headingFontSize + 5,
+                        fontWeight: FontWeight.w600),
+                  ),
+                ],
+              ),
+            ),
+            builder: (context, child) {
+              return Transform.translate(
+                offset: Offset(
+                    0,
+                    MediaQuery.of(context).size.height *
+                        _position *
+                        (1 - _animation.value)),
+                child: AnimatedOpacity(
+                  duration: _animationController.duration,
+                  opacity: _animation.value,
+                  curve: Curves.ease,
+                  child: child,
+                ),
+              );
+            },
+          ),
+        );
+      },
     );
   }
 }

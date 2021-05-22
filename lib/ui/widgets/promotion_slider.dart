@@ -114,7 +114,7 @@ class _PromotionSliderState extends State<PromotionSlider> {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: _current == index
-                      ? Color.fromRGBO(0, 0, 0, 0.9)
+                      ? Color.fromRGBO(190, 80, 95, 0.9)
                       : Color.fromRGBO(0, 0, 0, 0.4),
                 ),
               );

@@ -4,9 +4,12 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:dio_retry/dio_retry.dart';
 import 'package:fimber/fimber.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants/server_urls.dart';
+import '../../constants/shared_pref.dart' as SharedPrefConstants;
 import '../../locator.dart';
 import '../../models/Appointments.dart';
 import '../../models/TimeSlots.dart';
@@ -70,12 +73,14 @@ class APIService {
           ),
         ),
         CustomLogInterceptor(),
+        if(kReleaseMode)
         PerformanceInterceptor()
       ]);
     appointmentClient
       ..interceptors.addAll([
         AppInterceptors(),
         CustomLogInterceptor(),
+        if(kReleaseMode)
         PerformanceInterceptor()
       ]);
   }
@@ -221,7 +226,7 @@ class APIService {
     return product;
   }
 
-  Future<Products> getWhishlistProducts({
+  Future<Products> getWishlistProducts({
     List<String> list,
   }) async {
     final futureList = list.map<Future<Product>>((id) async {
@@ -502,6 +507,17 @@ class APIService {
       return UserDetails.fromJson(userData);
     }
     return null;
+  }
+
+  Future<String> updateUserName([String name]) async {
+    if (name == null) {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      name = prefs.getString(SharedPrefConstants.Name);
+    }
+    UserDetails user = await getUserData();
+    user.name = name;
+    await updateUserData(user, onlyName: true);
+    return name;
   }
 
   Future<UserDetails> updateUserData(UserDetails mUserDetails,

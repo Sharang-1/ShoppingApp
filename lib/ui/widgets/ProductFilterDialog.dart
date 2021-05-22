@@ -2,7 +2,10 @@ import 'package:fimber/fimber.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../controllers/lookup_controller.dart';
+import '../../locator.dart';
 import '../../models/grid_view_builder_filter_models/productFilter.dart';
+import '../../services/navigation_service.dart';
 import '../shared/app_colors.dart';
 import '../shared/ui_helpers.dart';
 
@@ -33,81 +36,105 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
   String sortOrderRadioValue = 'asc';
   String queryString = '';
 
-  Map<String, int> categoriesRadioMap = {
-    'Men': 2,
-    'Women': 1,
-    'Both': -1,
-  };
-  Map<String, String> sortByRadioMap = {
-    'Arrival Date': 'modified',
-    'Price': 'price',
-  };
+  // Map<String, int> categoriesRadioMap = {
+  //   'Men': 2,
+  //   'Women': 1,
+  //   'Both': -1,
+  // };
+
+  // Map<String, String> sortByRadioMap = {
+  //   'Arrival Date': 'modified',
+  //   'Price': 'price',
+  // };
+
   Map<String, String> sortOrderRadioMap = {
     'Low To High': 'asc',
     'High To Low': 'desc',
   };
-  Map<String, bool> subCategoriesValues = {
-    'All': false,
-    'Dresses': false,
-    'Kurtas': false,
-    'Gowns': false,
-    'Chaniya Cholies': false,
-    'Suit Sets': false,
-    'Indo-Western': false,
-    'Blouses': false,
-    'Dupattas': false,
-    'Fabric Bags': false,
-    'Traditional…/Ethnic wear footwear': false,
-    'Home Made Jewellery': false,
-    'Saree': false,
-    'Cloth Materials': false,
-    'Lenghas': false
-  };
-  Map<String, int> subCategoriesAPIValue = {
-    'All': -1,
-    'Kurtas': 1,
-    'Dresses': 2,
-    'Gowns': 3,
-    'Chaniya Cholies': 4,
-    'Suit Sets': 5,
-    'Indo-Western': 6,
-    'Blouses': 7,
-    'Dupattas': 8,
-    'Fabric Bags': 9,
-    'Traditional…/Ethnic wear footwear': 10,
-    'Home Made Jewellery': 11,
-    'Saree': 12,
-    'Cloth Materials': 13,
-    'Lenghas': 14
-  };
-  Map<int, String> subCategoriesAPIIntToValue = {
-    -1: 'All',
-    1: 'Kurtas',
-    2: 'Dresses',
-    3: 'Gowns',
-    4: 'Chaniya Cholies',
-    5: 'Suit Sets',
-    6: 'Indo-Western',
-    7: 'Blouses',
-    8: 'Dupattas',
-    9: 'Fabric Bags',
-    10: 'Traditional…/Ethnic wear footwear',
-    11: 'Home Made Jewellery',
-    12: 'Saree',
-    13: 'Cloth Materials',
-    14: 'Lenghas'
-  };
+
+  Map<String, bool> subCategoriesValues = {};
+  Map<String, int> subCategoriesAPIValue = {};
+  Map<int, String> subCategoriesAPIIntToValue = {};
+
+  // Map<String, bool> subCategoriesValues = {
+  //   'All': false,
+  //   'Dresses': false,
+  //   'Kurtas': false,
+  //   'Gowns': false,
+  //   'Chaniya Cholies': false,
+  //   'Suit Sets': false,
+  //   'Indo-Western': false,
+  //   'Blouses': false,
+  //   'Dupattas': false,
+  //   'Fabric Bags': false,
+  //   'Traditional…/Ethnic wear footwear': false,
+  //   'Home Made Jewellery': false,
+  //   'Saree': false,
+  //   'Cloth Materials': false,
+  //   'Lenghas': false
+  // };
+
+  // Map<String, int> subCategoriesAPIValue = {
+  //   'All': -1,
+  //   'Kurtas': 1,
+  //   'Dresses': 2,
+  //   'Gowns': 3,
+  //   'Chaniya Cholies': 4,
+  //   'Suit Sets': 5,
+  //   'Indo-Western': 6,
+  //   'Blouses': 7,
+  //   'Dupattas': 8,
+  //   'Fabric Bags': 9,
+  //   'Traditional…/Ethnic wear footwear': 10,
+  //   'Home Made Jewellery': 11,
+  //   'Saree': 12,
+  //   'Cloth Materials': 13,
+  //   'Lenghas': 14
+  // };
+  // Map<int, String> subCategoriesAPIIntToValue = {
+  //   -1: 'All',
+  //   1: 'Kurtas',
+  //   2: 'Dresses',
+  //   3: 'Gowns',
+  //   4: 'Chaniya Cholies',
+  //   5: 'Suit Sets',
+  //   6: 'Indo-Western',
+  //   7: 'Blouses',
+  //   8: 'Dupattas',
+  //   9: 'Fabric Bags',
+  //   10: 'Traditional…/Ethnic wear footwear',
+  //   11: 'Home Made Jewellery',
+  //   12: 'Saree',
+  //   13: 'Cloth Materials',
+  //   14: 'Lenghas'
+  // };
 
   final _formKey = GlobalKey();
 
   @override
   void initState() {
-    if (widget?.oldFilter?.categories != null) {
-      if (widget?.oldFilter?.categories == "1") {
-        categoriesRadioValue = 1;
-      } else if (widget?.oldFilter?.categories == "2") {
-        categoriesRadioValue = 2;
+    locator<LookupController>()
+        .lookups
+        .singleWhere((e) => e.sectionName == "Product")
+        .sections
+        .firstWhere((e) => e.option == "categories")
+        .values
+        .forEach((e) {
+      if (e.id == -1) {
+        subCategoriesAPIValue.addAll({"All": e.id});
+        subCategoriesAPIIntToValue.addAll({e.id: "All"});
+        subCategoriesValues.addAll({"All": false});
+        return;
       }
+      subCategoriesAPIValue.addAll({e.name: e.id});
+      subCategoriesAPIIntToValue.addAll({e.id: e.name});
+      subCategoriesValues.addAll({e.name: false});
+    });
+
+    if (widget?.oldFilter?.categories != null) {
+      if (widget?.oldFilter?.categories == "1")
+        categoriesRadioValue = 1;
+      else if (widget?.oldFilter?.categories == "2") categoriesRadioValue = 2;
     }
 
     if (widget?.oldFilter?.subCategories != null) {
@@ -176,8 +203,8 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
                     setUpFilterObject();
                     print(
                         "Typing---------------------------------->>>>>>>>>>>>>>");
-                    Navigator.of(context).pop<ProductFilter>(
-                      new ProductFilter(
+                    NavigationService.back<ProductFilter>(
+                      result: ProductFilter(
                         fullText: fullText,
                         categories: categories,
                         subCategories:
@@ -228,33 +255,12 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
                 });
               },
             ),
-            //   IconButton(
-            //     tooltip: "Apply",
-            //     icon: Icon(Icons.done),
-            //     onPressed: () {
-            //       setUpFilterObject();
-            //       print("Typing---------------------------------->>>>>>>>>>>>>>");
-            //       Navigator.of(context).pop<ProductFilter>(
-            //         new ProductFilter(
-            //           fullText: fullText,
-            //           categories: categories,
-            //           subCategories: subCategories,
-            //           size: size,
-            //           minPrice: minPrice,
-            //           maxPrice: maxPrice,
-            //           minDiscount: minDiscount,
-            //           sortField: sortByRadioValue,
-            //           isSortOrderDesc: sortOrderRadioValue == 'desc',
-            //         ),
-            //       );
-            //     },
-            //   ),
             IconButton(
               tooltip: "Close",
               icon: Icon(CupertinoIcons.clear_circled_solid),
               color: Colors.grey[700],
               onPressed: () {
-                Navigator.of(context).pop();
+                NavigationService.back();
               },
             ),
           ],

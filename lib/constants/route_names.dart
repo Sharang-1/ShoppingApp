@@ -10,7 +10,7 @@ const String SearchViewRoute = "SearchView";
 const String MapViewRoute = "MapView";
 const String LoaderRoute = "loader";
 const String ProdLoaderRoute = "prodloader";
-const String MyHomePageRoute = "MyHomePage";
+const String IntroPageRoute = "IntroPage";
 
 // Cart and Order Routes
 const String CartViewRoute = "CartView";
@@ -23,7 +23,7 @@ const String AppointmentBookedScreenRoute = "AppointmentBookedScreenRoute";
 
 // Product and Categories Routes
 const String ProductsListRoute = "ProductsListView";
-const String WhishListRoute = "WhishListView";
+const String WishListRoute = "WishListView";
 const String ProductIndividualRoute = "ProductIndividualView";
 const String Product1IndividualRoute = "ProductIndiView";
 const String CategoryIndiViewRoute = "CategoryIndiView";

@@ -20,13 +20,12 @@ import 'views/map_view.dart';
 import 'views/myAppointments_view.dart';
 import 'views/myorders_details_view.dart';
 import 'views/myorders_view.dart';
-import 'views/notification_view.dart';
 import 'views/order_placed_view.dart';
 import 'views/otp_verified_2_view.dart';
 import 'views/otp_verified_view.dart';
 import 'views/productListView.dart';
 import 'views/product_individual_view.dart';
-import 'views/product_whishlist_view.dart';
+import 'views/product_wishlist_view.dart';
 import 'views/profile_view.dart';
 import 'views/search_view.dart';
 import 'views/seller_indi_view.dart';
@@ -52,10 +51,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         pageTransitionType: transitionType,
       );
 
-    case MyHomePageRoute:
+    case IntroPageRoute:
       return _getPageRoute(
         routeName: settings.name,
-        viewToShow: MyHomePage(),
+        viewToShow: IntroPage(),
         pageArguments: pageArguments,
         pageTransitionType: transitionType,
       );
@@ -126,10 +125,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         pageTransitionType: PageTransitionType.rightToLeft,
       );
 
-    case WhishListRoute:
+    case WishListRoute:
       return _getPageRoute(
         routeName: settings.name,
-        viewToShow: WhishList(),
+        viewToShow: WishList(),
         pageArguments: pageArguments,
         pageTransitionType: PageTransitionType.rightToLeft,
       );
@@ -190,13 +189,6 @@ Route<dynamic> generateRoute(RouteSettings settings) {
           pageArguments: pageArguments,
           routeName: settings.name,
           viewToShow: MyOrdersDetailsView(pageArguments),
-          pageTransitionType: PageTransitionType.rightToLeft);
-
-    case NotifcationViewRoute:
-      return _getPageRoute(
-          pageArguments: pageArguments,
-          routeName: settings.name,
-          viewToShow: NotificationView(),
           pageTransitionType: PageTransitionType.rightToLeft);
 
     case DynamicContentViewRoute:

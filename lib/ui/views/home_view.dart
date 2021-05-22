@@ -1,278 +1,188 @@
-import 'package:compound/services/dialog_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:provider/provider.dart';
-import 'package:provider_architecture/provider_architecture.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:rate_my_app/rate_my_app.dart';
-import 'package:rating_dialog/rating_dialog.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../../models/CartCountSetUp.dart';
-import '../../models/LookupSetUp.dart';
-import '../../models/WhishListSetUp.dart';
-import '../../viewmodels/home_view_model.dart';
+
+import '../../controllers/base_controller.dart';
+import '../../controllers/cart_count_controller.dart';
+import '../../controllers/home_controller.dart';
+import '../../locator.dart';
 import '../shared/app_colors.dart';
 import '../shared/ui_helpers.dart';
 import '../widgets/cart_icon_badge.dart';
 import '../widgets/drawer.dart';
 import 'home_view_list.dart';
 
-class HomeView extends StatefulWidget {
+class HomeView extends StatelessWidget {
   HomeView({Key key}) : super(key: key);
 
-  @override
-  _HomeViewState createState() => _HomeViewState();
-}
+  final HomeController controller =
+      locator<HomeController>(tag: 'HomeController');
 
-class _HomeViewState extends State<HomeView> {
-  final searchController = TextEditingController();
-
-  UniqueKey key = UniqueKey();
-  UniqueKey productKey = UniqueKey();
-  UniqueKey sellerKey = UniqueKey();
-  UniqueKey categoryKey = UniqueKey();
-
-  final RefreshController refreshController =
-      RefreshController(initialRefresh: false);
-
-  void _onRefresh() async {
-    setState(() {
-      key = UniqueKey();
-      productKey = UniqueKey();
-      sellerKey = UniqueKey();
-      categoryKey = UniqueKey();
-    });
-    await Future.delayed(Duration(milliseconds: 100));
-    refreshController.refreshCompleted(resetFooterState: true);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    final RateMyApp rateMyApp = RateMyApp(
-      preferencesPrefix: 'rateMyApp_',
-      minDays: 0,
-      minLaunches: 0,
-      remindDays: 2,
-      remindLaunches: 2,
-      googlePlayIdentifier: 'in.dzor.dzor_app',
-      appStoreIdentifier: '1562083632',
-    );
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await rateMyApp.init();
-      SharedPreferences preferences = await SharedPreferences.getInstance();
-      int launches = preferences.getInt('rateMyApp_launches') ?? 0;
-      bool doNotOpenAgain =
-          preferences.getBool('rateMyApp_doNotOpenAgain') ?? false;
-
-      if (mounted &&
-          !doNotOpenAgain &&
-          (launches > 0) &&
-          (launches % 2 == 0) &&
-          (launches % 5 == 0)) {
-        await rateMyApp.showRateDialog(context, title: 'Dzor',
-            // message: '',
-            onDismissed: () async {
-          await preferences.setBool('rateMyApp_doNotOpenAgain', true);
-        });
-      }
-    });
-  }
+  final GlobalKey searchBarKey = GlobalKey();
+  final GlobalKey cartKey = GlobalKey();
+  final GlobalKey logoKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelProvider<HomeViewModel>.withConsumer(
-      viewModel: HomeViewModel(),
-      onModelReady: (model) async {
-        final values = await model.init(context);
-        Provider.of<CartCountSetUp>(context, listen: false)
-            .setCartCount(values[0]);
-        Provider.of<WhishListSetUp>(context, listen: false)
-            .setUpWhishList(values[1]);
-        Provider.of<LookupSetUp>(context, listen: false)
-            .setUpLookups(values[2]);
-        final lastDeliveredProduct = await model.getLastDeliveredProduct();
-        if (lastDeliveredProduct != null)
-          await DialogService.showCustomDialog(
-            RatingDialog(
-              icon: Image.network(
-                lastDeliveredProduct["image"],
-                height: 150,
-                width: 150,
-                errorBuilder: (context, error, stackTrace) => Image.asset(
-                  'assets/images/product_preloading.png',
-                  height: 150,
-                  width: 150,
-                ),
-              ),
-              title: lastDeliveredProduct["name"],
-              description: "Tap a star to give your review.",
-              submitButton: "Submit",
-              positiveComment: "We’re glad you liked it!! 😊",
-              negativeComment:
-                  "Please reach us out and help us understand your concerns!",
-              accentColor: logoRed,
-              onSubmitPressed: (int rating) async {
-                print("onSubmitPressed: rating = $rating");
-                model.postReview(lastDeliveredProduct['id'], rating.toDouble());
-              },
+    return GetBuilder<HomeController>(
+        init: controller,
+        initState: (state) {
+          controller.onRefresh();
+          controller.showTutorial(context,
+              searchBarKey: searchBarKey, logoKey: logoKey);
+        },
+        builder: (controller) {
+          return Scaffold(
+            drawerEdgeDragWidth: 0,
+            primary: false,
+            backgroundColor: backgroundWhiteCreamColor,
+            drawer: HomeDrawer(
+              logout: () => BaseController.logout(),
             ),
-            barrierDismissible: true,
-          );
-      },
-      builder: (context, model, child) => Scaffold(
-        drawerEdgeDragWidth: 0,
-        primary: false,
-        backgroundColor: backgroundWhiteCreamColor,
-        drawer: HomeDrawer(
-          logout: () => model.logout(),
-        ),
-        appBar: AppBar(
-          elevation: 0,
-          automaticallyImplyLeading: false,
-          iconTheme: IconThemeData(color: appBarIconColor),
-          backgroundColor: backgroundWhiteCreamColor,
-          bottom: PreferredSize(
-            preferredSize: Size.fromHeight(MediaQuery.of(context).padding.top),
-            child: AppBar(
+            appBar: AppBar(
               elevation: 0,
+              automaticallyImplyLeading: false,
               iconTheme: IconThemeData(color: appBarIconColor),
               backgroundColor: backgroundWhiteCreamColor,
-              title: Align(
-                alignment: Alignment.center,
-                child: Padding(
-                  padding: EdgeInsets.only(right: 8.0),
-                  child: SvgPicture.asset(
-                    "assets/svg/logo.svg",
-                    color: logoRed,
-                    height: 35,
-                    width: 35,
-                  ),
-                ),
-              ),
-              actions: <Widget>[
-                IconButton(
-                  icon: CartIconWithBadge(
-                    iconColor: appBarIconColor,
-                    count: Provider.of<CartCountSetUp>(context, listen: true)
-                        .count,
-                  ),
-                  onPressed: () => model.cart(),
-                ),
-              ],
-            ),
-          ),
-        ),
-        body: SafeArea(
-          top: false,
-          left: false,
-          right: false,
-          bottom: false,
-          child: SmartRefresher(
-            enablePullDown: true,
-            footer: null,
-            header: WaterDropHeader(
-              waterDropColor: logoRed,
-              refresh: Container(),
-              complete: Container(),
-            ),
-            controller: refreshController,
-            onRefresh: () async {
-              final values = await model.init(context);
-              Provider.of<CartCountSetUp>(context, listen: false)
-                  .setCartCount(values[0]);
-              Provider.of<WhishListSetUp>(context, listen: false)
-                  .setUpWhishList(values[1]);
-              Provider.of<LookupSetUp>(context, listen: false)
-                  .setUpLookups(values[2]);
-              _onRefresh();
-            },
-            child: CustomScrollView(
-              slivers: <Widget>[
-                SliverAppBar(
-                  primary: false,
-                  floating: true,
-                  automaticallyImplyLeading: false,
+              bottom: PreferredSize(
+                preferredSize:
+                    Size.fromHeight(MediaQuery.of(context).padding.top),
+                child: AppBar(
+                  elevation: 0,
                   iconTheme: IconThemeData(color: appBarIconColor),
                   backgroundColor: backgroundWhiteCreamColor,
-                  pinned: true,
-                  actions: <Widget>[
-                    IconButton(
-                      tooltip: 'map',
-                      // icon: Icon(FontAwesomeIcons.mapMarkedAlt),
-                      // icon: Image.asset("assets/images/location-4.png"),
-                      icon: Image.asset("assets/images/map.png"),
-                      onPressed: () {
-                        model.openmap();
-                      },
-                    )
-                  ],
-                  title: InkWell(
-                    onTap: () {
-                      model.search();
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: backgroundBlueGreyColor,
-                        borderRadius: BorderRadius.circular(30),
+                  title: Align(
+                    alignment: Alignment.center,
+                    child: Padding(
+                      padding: EdgeInsets.only(right: 8.0),
+                      child: SvgPicture.asset(
+                        "assets/svg/logo.svg",
+                        key: logoKey,
+                        color: logoRed,
+                        height: 35,
+                        width: 35,
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 15,
-                          vertical: 8,
+                    ),
+                  ),
+                  actions: <Widget>[
+                    Obx(
+                      () => IconButton(
+                        key: cartKey,
+                        icon: CartIconWithBadge(
+                          iconColor: appBarIconColor,
+                          count: locator<CartCountController>().count.value,
                         ),
-                        child: Row(
-                          children: <Widget>[
-                            Icon(
-                              Icons.search,
-                              color: appBarIconColor,
+                        onPressed: () => BaseController.cart(),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            body: SafeArea(
+              top: false,
+              left: false,
+              right: false,
+              bottom: false,
+              child: SmartRefresher(
+                enablePullDown: true,
+                footer: null,
+                header: WaterDropHeader(
+                  waterDropColor: logoRed,
+                  refresh: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                  complete: Container(),
+                ),
+                controller: controller.refreshController,
+                onRefresh: controller.onRefresh,
+                child: CustomScrollView(
+                  slivers: <Widget>[
+                    SliverAppBar(
+                      primary: false,
+                      floating: true,
+                      automaticallyImplyLeading: false,
+                      iconTheme: IconThemeData(color: appBarIconColor),
+                      backgroundColor: backgroundWhiteCreamColor,
+                      pinned: true,
+                      actions: <Widget>[
+                        IconButton(
+                          tooltip: 'map',
+                          // icon: Image.asset("assets/images/map.png"),
+                          icon: Icon(FontAwesomeIcons.mapMarkerAlt,),
+                          onPressed: () {
+                            BaseController.openmap();
+                          },
+                        )
+                      ],
+                      title: InkWell(
+                        key: searchBarKey,
+                        onTap: () {
+                          BaseController.search();
+                        },
+                        child: Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: backgroundBlueGreyColor,
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 15,
+                              vertical: 8,
                             ),
-                            horizontalSpaceSmall,
-                            Expanded(
-                              child: FittedBox(
-                                alignment: Alignment.centerLeft,
-                                fit: BoxFit.scaleDown,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8.0),
-                                  child: Text(
-                                    "Designers or their Creations",
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        color: Colors.grey[600],
-                                        fontFamily: "Raleway",
-                                        fontWeight: FontWeight.normal),
+                            child: Row(
+                              children: <Widget>[
+                                Icon(
+                                  Icons.search,
+                                  color: appBarIconColor,
+                                ),
+                                horizontalSpaceSmall,
+                                Expanded(
+                                  child: FittedBox(
+                                    alignment: Alignment.centerLeft,
+                                    fit: BoxFit.scaleDown,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8.0),
+                                      child: Text(
+                                        "Designers or their Creations",
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            color: Colors.grey[600],
+                                            fontFamily: "Raleway",
+                                            fontWeight: FontWeight.normal),
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
+                              ],
                             ),
-                          ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ),
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) => Padding(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: HomeViewList(
-                        gotoCategory: model.category,
-                        model: model,
-                        productUniqueKey: productKey,
-                        sellerUniqueKey: sellerKey,
-                        categoryUniqueKey: categoryKey,
+                    SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (context, index) => Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: HomeViewList(
+                            controller: controller,
+                            productUniqueKey: controller.productKey,
+                            sellerUniqueKey: controller.sellerKey,
+                            categoryUniqueKey: controller.categoryKey,
+                          ),
+                        ),
+                        childCount: 1,
                       ),
                     ),
-                    childCount: 1,
-                  ),
+                  ],
                 ),
-              ],
+              ),
             ),
-          ),
-        ),
-      ),
-    );
+          );
+        });
   }
 }

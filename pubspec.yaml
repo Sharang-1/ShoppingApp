@@ -1,6 +1,6 @@
 name: compound
 description: A new Flutter project.
-version: 1.0.0+11
+version: 1.1.0+1
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -20,14 +20,13 @@ dependencies:
   # firebase_in_app_messaging: 
   firebase_crashlytics: 
   firebase_performance: 
+  firebase_remote_config: 
 
-  page_transition: "^1.1.5"
+  page_transition: ^2.0.2
   http:
   #Check
   async:
-  get_it:
   provider:
-  provider_architecture: 1.0.6
   image_picker:
   cached_network_image:
   flutter_cache_manager:
@@ -71,7 +70,12 @@ dependencies:
   launch_review: ^3.0.1
   flutter_credit_card: ^2.0.0
   dio_retry: ^0.1.9-beta
+  vibration: ^1.7.3
+  tutorial_coach_mark: ^1.0.0
   razorpay_flutter: ^1.2.5
+  open_appstore: ^1.0.2
+  search_widget: ^1.0.2
+  auto_size_text: ^2.1.0
 
 dev_dependencies:
   flutter_test:

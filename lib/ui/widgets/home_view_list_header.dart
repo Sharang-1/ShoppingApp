@@ -39,8 +39,9 @@ class HomeViewListHeader extends StatelessWidget {
                       ),
                     ),
                   ),
-                  if (subTitle != null) verticalSpaceTiny,
-                  if (subTitle != null)
+                  if (subTitle != null && subTitle.isNotEmpty)
+                    verticalSpaceTiny,
+                  if (subTitle != null && subTitle.isNotEmpty)
                     Text(
                       subTitle,
                       maxLines: 3,

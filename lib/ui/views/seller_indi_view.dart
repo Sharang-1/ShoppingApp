@@ -1,15 +1,21 @@
+import 'package:compound/constants/shared_pref.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:location/location.dart';
 import 'package:share/share.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliver_fab/sliver_fab.dart';
+import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../constants/dynamic_links.dart';
 import '../../constants/route_names.dart';
 import '../../constants/server_urls.dart';
+import '../../controllers/base_controller.dart';
+import '../../controllers/grid_view_builder/products_grid_view_builder_controller.dart';
+import '../../controllers/grid_view_builder/sellers_grid_view_builder_controller.dart';
 import '../../locator.dart';
 import '../../models/grid_view_builder_filter_models/productFilter.dart';
 import '../../models/grid_view_builder_filter_models/sellerFilter.dart';
@@ -21,8 +27,6 @@ import '../../services/analytics_service.dart';
 import '../../services/api/api_service.dart';
 import '../../services/dynamic_link_service.dart';
 import '../../services/navigation_service.dart';
-import '../../viewmodels/grid_view_builder_view_models/products_grid_view_builder_view_model.dart';
-import '../../viewmodels/grid_view_builder_view_models/sellers_grid_view_builder_view.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
@@ -50,6 +54,9 @@ class _SellerIndiState extends State<SellerIndi> {
   Key writeReviewKey = UniqueKey();
   bool showExploreSection = true;
 
+  GlobalKey sellerAboutKey = GlobalKey();
+  GlobalKey appointmentBtnKey = GlobalKey();
+
   var allDetials = [
     "Speciality",
     "Designs & Creates",
@@ -71,6 +78,8 @@ class _SellerIndiState extends State<SellerIndi> {
   final double smallFont = 16;
   String selectedTime;
   int selectedIndex;
+
+  TutorialCoachMark tutorialCoachMark;
 
   final DynamicLinkService _dynamicLinkService = locator<DynamicLinkService>();
   final NavigationService _navigationService = locator<NavigationService>();
@@ -120,6 +129,11 @@ class _SellerIndiState extends State<SellerIndi> {
             "seller_name": widget?.data?.name,
           });
     } catch (e) {}
+    showTutorial(
+      context,
+      sellerAboutKey: sellerAboutKey,
+      appointmentBtnKey: appointmentBtnKey,
+    );
   }
 
   Seller sellerData;
@@ -146,6 +160,68 @@ class _SellerIndiState extends State<SellerIndi> {
     };
   }
 
+  void showTutorial(BuildContext context,
+      {GlobalKey sellerAboutKey, GlobalKey appointmentBtnKey}) {
+    SharedPreferences.getInstance().then(
+      (prefs) {
+        if (prefs?.getBool(ShouldShowDesignerProfileTutorial) ?? true) {
+          List<TargetFocus> targets = <TargetFocus>[
+            TargetFocus(
+              identify: "Seller About",
+              keyTarget: sellerAboutKey,
+              paddingFocus: 15,
+              shape: ShapeLightFocus.RRect,
+              contents: [
+                TargetContent(
+                  align: ContentAlign.bottom,
+                  child: Container(),
+                ),
+              ],
+            ),
+            TargetFocus(
+              identify: "Appointment",
+              keyTarget: appointmentBtnKey,
+              shape: ShapeLightFocus.RRect,
+              contents: [
+                TargetContent(
+                  align: ContentAlign.top,
+                  child: Container(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          "Book Appointment",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 20.0,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ];
+
+          tutorialCoachMark = TutorialCoachMark(
+            context,
+            targets: targets,
+            colorShadow: Colors.black45,
+            paddingFocus: 5,
+            onClickOverlay: (targetFocus) => tutorialCoachMark.next(),
+            onClickTarget: (targetFocus) => tutorialCoachMark.next(),
+            onFinish: () async =>
+                await prefs?.setBool(ShouldShowDesignerProfileTutorial, false),
+            hideSkip: true,
+          );
+        }
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     double media = ((MediaQuery.of(context).size.width - 100) / 2);
@@ -161,6 +237,7 @@ class _SellerIndiState extends State<SellerIndi> {
         bottomNavigationBar: BottomAppBar(
           elevation: 0,
           child: Container(
+            key: appointmentBtnKey,
             color: backgroundWhiteCreamColor,
             padding: EdgeInsets.fromLTRB(20, 0, 20, 10),
             child: ElevatedButton(
@@ -171,11 +248,10 @@ class _SellerIndiState extends State<SellerIndi> {
                     : textIconOrange,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
-                  // side: BorderSide(
-                  //     color: Colors.black, width: 0.5)
                 ),
               ),
               onPressed: () {
+                BaseController.vibrate(duration: 50);
                 _showBottomSheet(context, sellerDetails);
                 if (sellerDetails["appointment"] != "true") {}
               },
@@ -342,55 +418,70 @@ class _SellerIndiState extends State<SellerIndi> {
                               ),
                             ),
                             FutureBuilder<Reviews>(
-                                future: locator<APIService>().getReviews(
-                                    widget.data.key,
-                                    isSellerReview: true),
-                                builder: (context, snapshot) {
-                                  return ((snapshot.connectionState ==
-                                              ConnectionState.done) &&
-                                          (snapshot.data.ratingAverage.rating >
-                                              0))
-                                      ? Align(
-                                          alignment: Alignment.centerRight,
-                                          child: Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 8.0),
-                                            child: FittedBox(
-                                              alignment: Alignment.centerLeft,
-                                              fit: BoxFit.scaleDown,
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  color: Colors.green,
-                                                  borderRadius:
-                                                      BorderRadius.circular(15),
-                                                ),
-                                                padding: EdgeInsets.symmetric(
-                                                    vertical: 5.0,
-                                                    horizontal: 12.0),
-                                                child: Row(
-                                                  children: [
-                                                    Text(
-                                                      "${snapshot?.data?.ratingAverage?.rating?.toString() ?? 0} ",
-                                                      style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        color: Colors.white,
-                                                        fontSize: 16,
-                                                      ),
-                                                    ),
-                                                    Icon(
-                                                      Icons.star,
+                              future: locator<APIService>().getReviews(
+                                  widget.data.key,
+                                  isSellerReview: true),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                        ConnectionState.done &&
+                                    tutorialCoachMark != null) {
+                                  Future.delayed(
+                                    Duration(milliseconds: 500),
+                                    () {
+                                      Scrollable.ensureVisible(
+                                        sellerAboutKey.currentContext,
+                                        alignment: 0.7,
+                                      );
+                                      tutorialCoachMark.show();
+                                    },
+                                  );
+                                }
+                                return ((snapshot.connectionState ==
+                                            ConnectionState.done) &&
+                                        (snapshot.data.ratingAverage.rating >
+                                            0))
+                                    ? Align(
+                                        alignment: Alignment.centerRight,
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 8.0),
+                                          child: FittedBox(
+                                            alignment: Alignment.centerLeft,
+                                            fit: BoxFit.scaleDown,
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                color: Colors.green,
+                                                borderRadius:
+                                                    BorderRadius.circular(15),
+                                              ),
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 5.0,
+                                                  horizontal: 12.0),
+                                              child: Row(
+                                                children: [
+                                                  Text(
+                                                    "${snapshot?.data?.ratingAverage?.rating?.toString() ?? 0} ",
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w600,
                                                       color: Colors.white,
-                                                      size: 12,
+                                                      fontSize: 16,
                                                     ),
-                                                  ],
-                                                ),
+                                                  ),
+                                                  Icon(
+                                                    Icons.star,
+                                                    color: Colors.white,
+                                                    size: 12,
+                                                  ),
+                                                ],
                                               ),
                                             ),
                                           ),
-                                        )
-                                      : Container();
-                                }),
+                                        ),
+                                      )
+                                    : Container();
+                              },
+                            ),
                           ],
                         ),
                       ],
@@ -524,6 +615,46 @@ class _SellerIndiState extends State<SellerIndi> {
                         ),
                       ),
                     ),
+                    verticalSpaceTiny,
+                    Center(
+                      child: GestureDetector(
+                        onTap: () async => await BaseController
+                            .goToProductListPage(ProductPageArg(
+                                subCategory: sellerDetails['name'],
+                                queryString:
+                                    "accountKey=${sellerDetails['key']};",
+                                sellerPhoto:
+                                    "$SELLER_PHOTO_BASE_URL/${sellerDetails['key']}")),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.9,
+                          padding: EdgeInsets.symmetric(vertical: 6),
+                          decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 2,
+                                  blurRadius: 4,
+                                  offset: Offset(
+                                    0,
+                                    3,
+                                  ), // changes position of shadow
+                                ),
+                              ],
+                              color: logoRed,
+                              borderRadius: BorderRadius.circular(40)),
+                          child: Center(
+                            child: Text(
+                              "Explore Designer's Collection",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: subtitleFontSizeStyle,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                     verticalSpace(30),
                     ReviewWidget(
                       key: reviewKey,
@@ -557,94 +688,105 @@ class _SellerIndiState extends State<SellerIndi> {
                               : Container();
                         }),
                     verticalSpace(10),
-                    CustomText(
-                      "Everything About ${sellerDetails["name"]}",
-                      fontSize: headFont - 2,
-                      fontFamily: headingFont,
-                      isBold: true,
-                    ),
-                    // verticalSpace(5),
-                    // CustomText(
-                    //   sellerDetails["name"],
-                    //   fontSize: headFont - 2,
-                    //   fontFamily: headingFont,
-                    //   isBold: true,
-                    // ),
-                    verticalSpace(10),
-                    Card(
-                      elevation: 5,
-                      clipBehavior: Clip.antiAlias,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(curve15),
-                      ),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: allDetials.map(
-                            (String key) {
-                              return Row(
+                    Container(
+                      key: sellerAboutKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CustomText(
+                            "Everything About \n${sellerDetails["name"]}",
+                            fontSize: headFont - 2,
+                            fontFamily: headingFont,
+                            isBold: true,
+                          ),
+                          // verticalSpace(5),
+                          // CustomText(
+                          //   sellerDetails["name"],
+                          //   fontSize: headFont - 2,
+                          //   fontFamily: headingFont,
+                          //   isBold: true,
+                          // ),
+                          verticalSpace(10),
+                          Card(
+                            elevation: 5,
+                            clipBehavior: Clip.antiAlias,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(curve15),
+                            ),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
+                              child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  key == "Speciality"
-                                      ? SvgPicture.asset(
-                                          icons[key],
-                                          height: 30,
-                                          width: 30,
-                                          color: Colors.blue[500],
-                                        )
-                                      : SvgPicture.asset(
-                                          icons[key],
-                                          height: 30,
-                                          width: 30,
-                                        ),
-                                  SizedBox(
-                                    width: 20,
-                                  ),
-                                  Expanded(
-                                    child: Column(
+                                children: allDetials.map(
+                                  (String key) {
+                                    return Row(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
-                                        verticalSpace(5),
-                                        CustomText(
-                                          key,
-                                          fontSize: smallFont - 2,
-                                          align: TextAlign.left,
-                                          color: Colors.grey,
-                                        ),
-                                        verticalSpaceSmall,
-                                        CustomText(
-                                          sellerDetails[key],
-                                          // isBold: true,
-                                          fontSize: subHeadFont - 2,
-                                          color: Colors.grey[700],
-                                          align: TextAlign.left,
-                                        ),
-                                        key == "Type"
-                                            ? Container()
-                                            : Container(
-                                                padding: EdgeInsets.symmetric(
-                                                    vertical: 10),
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.6,
-                                                child: Divider(
-                                                  thickness: 1,
-                                                  color: Colors.grey[400]
-                                                      .withOpacity(0.1),
-                                                ),
+                                        key == "Speciality"
+                                            ? SvgPicture.asset(
+                                                icons[key],
+                                                height: 30,
+                                                width: 30,
+                                                color: Colors.blue[500],
+                                              )
+                                            : SvgPicture.asset(
+                                                icons[key],
+                                                height: 30,
+                                                width: 30,
                                               ),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              verticalSpace(5),
+                                              CustomText(
+                                                key,
+                                                fontSize: smallFont - 2,
+                                                align: TextAlign.left,
+                                                color: Colors.grey,
+                                              ),
+                                              verticalSpaceSmall,
+                                              CustomText(
+                                                sellerDetails[key],
+                                                // isBold: true,
+                                                fontSize: subHeadFont - 2,
+                                                color: Colors.grey[700],
+                                                align: TextAlign.left,
+                                              ),
+                                              key == "Type"
+                                                  ? Container()
+                                                  : Container(
+                                                      padding:
+                                                          EdgeInsets.symmetric(
+                                                              vertical: 10),
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.6,
+                                                      child: Divider(
+                                                        thickness: 1,
+                                                        color: Colors.grey[400]
+                                                            .withOpacity(0.1),
+                                                      ),
+                                                    ),
+                                            ],
+                                          ),
+                                        ),
                                       ],
-                                    ),
-                                  ),
-                                ],
-                              );
-                            },
-                          ).toList(),
-                        ),
+                                    );
+                                  },
+                                ).toList(),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     verticalSpace(20),
@@ -701,7 +843,7 @@ class _SellerIndiState extends State<SellerIndi> {
                         filter: new SellerFilter(),
                         gridCount: 1,
                         childAspectRatio: 0.60,
-                        viewModel: SellersGridViewBuilderViewModel(
+                        controller: SellersGridViewBuilderController(
                           removeId: sellerData.key,
                           subscriptionType: sellerData.subscriptionTypeId,
                           random: true,
@@ -730,8 +872,7 @@ class _SellerIndiState extends State<SellerIndi> {
                         children: <Widget>[
                           Expanded(
                             child: Padding(
-                              padding:
-                                  const EdgeInsets.only(right: 8.0),
+                              padding: const EdgeInsets.only(right: 8.0),
                               child: FittedBox(
                                 fit: BoxFit.scaleDown,
                                 alignment: Alignment.centerLeft,
@@ -786,7 +927,7 @@ class _SellerIndiState extends State<SellerIndi> {
                             accountKey: sellerData.key,
                           ),
                           gridCount: 2,
-                          viewModel: ProductsGridViewBuilderViewModel(
+                          controller: ProductsGridViewBuilderController(
                               randomize: true, limit: 6),
                           childAspectRatio: 1.35,
                           scrollDirection: Axis.horizontal,

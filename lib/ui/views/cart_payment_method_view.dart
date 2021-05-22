@@ -2,15 +2,15 @@
 import 'package:compound/services/dialog_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:provider_architecture/provider_architecture.dart';
+import 'package:get/get.dart';
 
 import '../../constants/route_names.dart';
+import '../../controllers/cart_payment_method_controller.dart';
 import '../../locator.dart';
 import '../../models/order.dart';
 import '../../models/user_details.dart';
 import '../../services/error_handling_service.dart';
 import '../../services/navigation_service.dart';
-import '../../viewmodels/cart_payment_method_view_model.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
@@ -44,12 +44,6 @@ class PaymentMethod extends StatefulWidget {
 }
 
 class _PaymentMethodState extends State<PaymentMethod> {
-  Map<int, String> paymentMethodMap = {
-    1: "Cash on delivery",
-    2: "Paytm",
-    3: "PhonePe",
-    4: "Google Pay - Tez"
-  };
   int paymentMethodRadioValue = 1;
   int paymentMethodGrpValue = 1;
   final NavigationService _navigationService = locator<NavigationService>();
@@ -67,7 +61,10 @@ class _PaymentMethodState extends State<PaymentMethod> {
   void initState() {
     print("Cart Payment");
     print("final totle " + widget.finalTotal);
-    print("billing add " + widget.billingAddress.googleAddress);
+    print("billing add " +
+        widget.billingAddress.address +
+        '\n' +
+        widget.billingAddress.googleAddress);
     print("product id " + widget.productId);
     print("promo code " + widget.promoCode);
     print("promo id" + widget.promoCodeId);
@@ -88,10 +85,9 @@ class _PaymentMethodState extends State<PaymentMethod> {
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelProvider<CartPaymentMethodViewModel>.withConsumer(
-      viewModel: CartPaymentMethodViewModel(),
-      onModelReady: (model) => model.init(),
-      builder: (context, model, child) => Scaffold(
+    return GetBuilder<CartPaymentMethodController>(
+      init: CartPaymentMethodController(),
+      builder: (controller) => Scaffold(
         backgroundColor: backgroundWhiteCreamColor,
         appBar: AppBar(
           elevation: 0,
@@ -122,8 +118,10 @@ class _PaymentMethodState extends State<PaymentMethod> {
               ),
             ),
             onPressed: () async {
-              final Order res = await model.createOrder(
-                widget.billingAddress.googleAddress,
+              final Order res = await controller.createOrder(
+                widget.billingAddress.address +
+                    '\n' +
+                    widget.billingAddress.googleAddress,
                 widget.productId,
                 widget.promoCode,
                 widget.promoCodeId,
@@ -208,7 +206,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                   verticalSpaceSmall,
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: paymentMethodMap.keys.map(
+                    children: controller.paymentOptions.keys.map(
                       (int key) {
                         return GestureDetector(
                           onTap: () {
@@ -240,7 +238,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                       },
                                     ),
                                     CustomText(
-                                      paymentMethodMap[key],
+                                      controller.paymentOptions[key],
                                       fontSize: titleFontSizeStyle - 4,
                                       isBold: true,
                                       color: Colors.grey[700],

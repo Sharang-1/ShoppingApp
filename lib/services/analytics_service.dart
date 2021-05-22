@@ -33,17 +33,17 @@ class AnalyticsService {
 
   Future setup() async {
     await Firebase.initializeApp();
+    await _analytics.setAnalyticsCollectionEnabled(kReleaseMode);
     await setupCrashlytics();
     await setupFirebasePerformance();
   }
 
   Future setupFirebasePerformance() async {
     // FirebasePerformance _performance = FirebasePerformance.instance;
-
   }
 
   Future setupCrashlytics() async {
-    await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+    await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(kReleaseMode);
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
     await FirebaseCrashlytics.instance.log("App started");
   }

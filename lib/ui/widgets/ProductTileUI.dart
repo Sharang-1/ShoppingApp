@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:provider/provider.dart';
 
 import '../../constants/server_urls.dart';
+import '../../controllers/wishlist_controller.dart';
 import '../../locator.dart';
-import '../../models/WhishListSetUp.dart';
 import '../../models/products.dart';
-import '../../services/whishlist_service.dart';
+import '../../services/wishlist_service.dart';
 import '../../utils/stringUtils.dart';
 import '../../utils/tools.dart';
 import '../shared/app_colors.dart';
@@ -34,7 +33,7 @@ class ProductTileUI extends StatefulWidget {
 }
 
 class _ProductTileUIState extends State<ProductTileUI> {
-  final WhishListService _whishListService = locator<WhishListService>();
+  final WishListService _wishListService = locator<WishListService>();
   bool toggle = false;
 
   @override
@@ -42,20 +41,19 @@ class _ProductTileUIState extends State<ProductTileUI> {
     super.initState();
   }
 
-  void addToWhishList(id) async {
-    var res = await _whishListService.addWhishList(id);
+  void addToWishList(id) async {
+    var res = await _wishListService.addWishList(id);
     if (res == true) {
-      Provider.of<WhishListSetUp>(context, listen: false).addToWhishList(id);
+      locator<WishListController>().addToWishList(id);
       Get.snackbar('Added to Your wishlist', '',
           snackPosition: SnackPosition.BOTTOM);
     }
   }
 
-  void removeFromWhishList(id) async {
-    var res = await _whishListService.removeWhishList(id);
+  void removeFromWishList(id) async {
+    var res = await _wishListService.removeWishList(id);
     if (res == true) {
-      Provider.of<WhishListSetUp>(context, listen: false)
-          .removeFromWhishList(id);
+      locator<WishListController>().removeFromWishList(id);
     }
   }
 
@@ -154,8 +152,7 @@ class _ProductTileUIState extends State<ProductTileUI> {
                           ),
                           widget?.onAddToCartClicked == null
                               ? InkWell(
-                                  child: Provider.of<WhishListSetUp>(context,
-                                                  listen: true)
+                                  child: locator<WishListController>()
                                               .list
                                               .indexOf(widget.data.key) !=
                                           -1
@@ -170,14 +167,13 @@ class _ProductTileUIState extends State<ProductTileUI> {
                                           height: 18,
                                         ),
                                   onTap: () {
-                                    if (Provider.of<WhishListSetUp>(context,
-                                                listen: false)
+                                    if (locator<WishListController>()
                                             .list
                                             .indexOf(widget.data.key) !=
                                         -1) {
-                                      removeFromWhishList(widget.data.key);
+                                      removeFromWishList(widget.data.key);
                                     } else {
-                                      addToWhishList(widget.data.key);
+                                      addToWishList(widget.data.key);
                                     }
                                   },
                                 )

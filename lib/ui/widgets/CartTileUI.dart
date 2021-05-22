@@ -1,11 +1,11 @@
-import 'package:compound/services/dialog_service.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:page_transition/page_transition.dart';
 
+import '../../controllers/base_controller.dart';
 import '../../locator.dart';
 import '../../models/cart.dart';
 import '../../services/api/api_service.dart';
+import '../../services/dialog_service.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
@@ -247,6 +247,7 @@ class _CartTileUIState extends State<CartTileUI> {
   }
 
   void proceedToOrder() async {
+    BaseController.vibrate(duration: 50);
     final product = await _apiService.getProductById(
         productId: widget.item.productId.toString());
     if (product.available && product.enabled)

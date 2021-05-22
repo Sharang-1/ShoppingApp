@@ -2,10 +2,10 @@ import 'package:async/async.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:provider_architecture/provider_architecture.dart';
+import 'package:get/get.dart';
 
+import '../../controllers/grid_view_builder/base_grid_view_builder_controller.dart';
 import '../../models/grid_view_builder_filter_models/base_filter_model.dart';
-import '../../viewmodels/grid_view_builder_view_models/base_grid_view_builder_view_model.dart';
 import '../shared/ui_helpers.dart';
 
 // Type and Enum declarations
@@ -20,7 +20,7 @@ typedef TileFunctionBuilder = Widget Function(
 
 class GridListWidget<P, I> extends StatelessWidget {
   final BaseFilterModel filter;
-  final BaseGridViewBuilderViewModel viewModel;
+  final BaseGridViewBuilderController controller;
   final TileFunctionBuilder tileBuilder;
   final int gridCount;
   final double childAspectRatio;
@@ -34,7 +34,7 @@ class GridListWidget<P, I> extends StatelessWidget {
     Key key,
     @required this.context,
     @required this.filter,
-    @required this.viewModel,
+    @required this.controller,
     @required this.gridCount,
     @required this.tileBuilder,
     this.childAspectRatio = 1.0,
@@ -49,15 +49,15 @@ class GridListWidget<P, I> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelProvider<BaseGridViewBuilderViewModel>.withConsumer(
-      viewModel: viewModel,
-      onModelReady: (model) => model.init(),
-      builder: (context, model, child) => filter != null
+    return GetBuilder<BaseGridViewBuilderController>(
+      init: controller..init(),
+      global: false,
+      builder: (controller) => filter != null
           ? CustomGridViewFutureBuilder<P, I>(
               filter: filter,
               gridCount: gridCount,
               tileBuilder: tileBuilder,
-              model: model,
+              controller: controller,
               childAspectRatio: childAspectRatio,
               disablePagination: disablePagination,
               scrollDirection: scrollDirection,
@@ -79,7 +79,7 @@ class CustomGridViewFutureBuilder<P, I> extends StatefulWidget {
     @required this.filter,
     @required this.gridCount,
     @required this.tileBuilder,
-    @required this.model,
+    @required this.controller,
     this.childAspectRatio = 1.0,
     this.disablePagination,
     this.scrollDirection = Axis.vertical,
@@ -91,7 +91,7 @@ class CustomGridViewFutureBuilder<P, I> extends StatefulWidget {
   final BaseFilterModel filter;
   final int gridCount;
   final TileFunctionBuilder tileBuilder;
-  final BaseGridViewBuilderViewModel model;
+  final BaseGridViewBuilderController controller;
   final double childAspectRatio;
   final bool disablePagination;
   final Axis scrollDirection;
@@ -112,7 +112,7 @@ class _CustomGridViewFutureBuilderState<P, I>
   @override
   void initState() {
     filter = widget.filter;
-    future = widget.model.getData(
+    future = widget.controller.getData(
       filterModel: filter,
       pageNumber: 1,
     );
@@ -149,7 +149,7 @@ class _CustomGridViewFutureBuilderState<P, I>
             return PaginatedGridView<P, I>(
               data: snapshots.data,
               filter: widget.filter,
-              viewModel: widget.model,
+              controller: widget.controller,
               gridCount: widget.gridCount,
               tileBuilder: widget.tileBuilder,
               childAspectRatio: widget.childAspectRatio,
@@ -167,7 +167,7 @@ class _CustomGridViewFutureBuilderState<P, I>
 }
 
 class PaginatedGridView<P, I> extends StatefulWidget {
-  final BaseGridViewBuilderViewModel viewModel;
+  final BaseGridViewBuilderController controller;
   final P data;
   final BaseFilterModel filter;
   final TileFunctionBuilder tileBuilder;
@@ -182,7 +182,7 @@ class PaginatedGridView<P, I> extends StatefulWidget {
     Key key,
     @required this.data,
     @required this.filter,
-    @required this.viewModel,
+    @required this.controller,
     @required this.gridCount,
     @required this.tileBuilder,
     this.childAspectRatio = 1,
@@ -247,7 +247,7 @@ class _PaginatedGridViewState<I> extends State<PaginatedGridView> {
     final item = items[index];
     print("Current Item");
     print(item);
-    final res = await widget.viewModel.deleteData(item);
+    final res = await widget.controller.deleteData(item);
     if (res) {
       setState(() {
         print("Final Index");
@@ -274,7 +274,7 @@ class _PaginatedGridViewState<I> extends State<PaginatedGridView> {
           Fimber.d(
               "calling again.................................................");
           loadMoreStatus = LoadMoreStatus.LOADING;
-          itemOperation = CancelableOperation.fromFuture(widget.viewModel
+          itemOperation = CancelableOperation.fromFuture(widget.controller
               .getData(filterModel: widget.filter, pageNumber: currentPage + 1)
               .then((productObject) {
             currentPage = currentPage + 1;
@@ -312,8 +312,9 @@ class EmptyListWidget extends StatelessWidget {
           verticalSpaceSmall,
           Expanded(
             child: FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Image.asset("assets/images/empty_cart.png")),
+              fit: BoxFit.scaleDown,
+              child: Image.asset("assets/images/empty_cart.png"),
+            ),
           ),
         ],
       ),

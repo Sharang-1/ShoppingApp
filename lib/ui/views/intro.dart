@@ -3,25 +3,12 @@ import 'package:intro_slider/intro_slider.dart';
 import 'package:intro_slider/slide_object.dart';
 
 import '../../constants/route_names.dart';
+import '../../services/navigation_service.dart';
 
-class MyHomePage extends StatefulWidget {
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-
-  void onDonePress() {
-    Navigator.pushNamed(context, LoginViewRoute);
-  }
-
-  void onSkipPress() {
-    Navigator.pushNamed(context, LoginViewRoute);
-  }
-
+class IntroPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new IntroSlider(
+    return IntroSlider(
         slides: [
           Slide(
               description:
@@ -89,4 +76,8 @@ class _MyHomePageState extends State<MyHomePage> {
         colorDoneBtn: Color.fromARGB(255, 235, 105, 105),
         colorSkipBtn: Color.fromARGB(255, 235, 105, 105));
   }
+
+  void onDonePress() => NavigationService.to(LoginViewRoute);
+
+  void onSkipPress() => NavigationService.to(LoginViewRoute);
 }

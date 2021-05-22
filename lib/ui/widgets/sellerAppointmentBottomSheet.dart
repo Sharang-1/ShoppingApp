@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:provider_architecture/provider_architecture.dart';
 
 import '../../constants/server_urls.dart';
+import '../../controllers/appointments_controller.dart';
 import '../../models/sellers.dart';
-import '../../viewmodels/appointments_view_model.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
@@ -22,6 +22,8 @@ class SellerBottomSheetView extends StatefulWidget {
 }
 
 class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
+
+  AppointmentsController controller = AppointmentsController();
   String _taskMsg = "";
   Map<String, int> weekDayMap = {
     "Mon": 1,
@@ -33,9 +35,7 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
     "Sun": 7,
   };
 
-  @override
-  Widget build(BuildContext context) {
-    String getTime(int time) {
+  String getTime(int time) {
       String meridien = "AM";
       if ((time ~/ 12).isOdd) {
         time = (time % 12);
@@ -45,15 +45,22 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
       return "${time.toString()} ${meridien.toString()}";
     }
 
-    return ViewModelProvider<AppointmentsViewModel>.withConsumer(
-        viewModel: AppointmentsViewModel(),
-        onModelReady: (model) =>
-            model.getAvaliableTimeSlots(widget.sellerData.key, widget.context),
-        builder: (context, model, child) {
+  @override
+  void initState() {
+    controller.getAvaliableTimeSlots(widget.sellerData.key, widget.context);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
+    return GetBuilder<AppointmentsController>(
+        init: controller,
+        builder: (controller) {
           return Container(
             color: Colors.white,
             child: Stack(children: [
-              model.busy
+              controller.busy
                   ? Center(child: CircularProgressIndicator())
                   : Padding(
                       padding: EdgeInsets.only(bottom: 60.0),
@@ -230,7 +237,7 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                                   horizontalSpaceSmall,
                                                   Wrap(
                                                     direction: Axis.horizontal,
-                                                    children: model
+                                                    children: controller
                                                         .timeSlotsData.timeSlot
                                                         .map((timeSlot) => SizedBox(
                                                             height: 80,
@@ -251,7 +258,7 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                                                 //                 weekDayMap[index]
                                                                 //             ? BorderStyle.solid
                                                                 //             : BorderStyle.none)),
-                                                                labelStyle: TextStyle(fontSize: subtitleFontSizeStyle - 3, fontWeight: model.selectedWeekDay == timeSlot.day ? FontWeight.w600 : FontWeight.normal, color: model.selectedWeekDay == timeSlot.day ? darkRedSmooth : Colors.grey),
+                                                                labelStyle: TextStyle(fontSize: subtitleFontSizeStyle - 3, fontWeight: controller.selectedWeekDay == timeSlot.day ? FontWeight.w600 : FontWeight.normal, color: controller.selectedWeekDay == timeSlot.day ? darkRedSmooth : Colors.grey),
                                                                 selectedColor: Colors.white,
                                                                 label: Column(
                                                                   mainAxisAlignment:
@@ -276,7 +283,7 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                                                             timeSlot.day,
                                                                             fontSize:
                                                                                 subtitleFontSizeStyle - 4,
-                                                                            color: model.selectedWeekDay == timeSlot.day
+                                                                            color: controller.selectedWeekDay == timeSlot.day
                                                                                 ? Colors.white
                                                                                 : Colors.grey,
                                                                           ),
@@ -292,17 +299,17 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                                                           // )
                                                                         ],
                                                                       ),
-                                                                      backgroundColor: model.selectedWeekDay ==
+                                                                      backgroundColor: controller.selectedWeekDay ==
                                                                               timeSlot.day
                                                                           ? textIconOrange
                                                                           : Colors.white,
                                                                     ),
                                                                   ],
                                                                 ),
-                                                                selected: model.selectedWeekDay == timeSlot.day,
+                                                                selected: controller.selectedWeekDay == timeSlot.day,
                                                                 onSelected: (val) {
                                                                   setState(() {
-                                                                    model.selectedWeekDay = val
+                                                                    controller.selectedWeekDay = val
                                                                         ? timeSlot
                                                                             .day
                                                                         : null;
@@ -356,17 +363,17 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                                   child: ListView(
                                                     scrollDirection:
                                                         Axis.horizontal,
-                                                    children: model
+                                                    children: controller
                                                         .timeSlotsData.timeSlot
                                                         .firstWhere((t) =>
                                                             t.day ==
-                                                            model
+                                                            controller
                                                                 .selectedWeekDay)
                                                         .time
                                                         .where((e) {
                                                           var dateTime =
                                                               DateTime.now();
-                                                          if (weekDayMap[model
+                                                          if (weekDayMap[controller
                                                                   .selectedWeekDay] ==
                                                               dateTime
                                                                   .weekday) {
@@ -382,7 +389,7 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                                                     right: 5),
                                                             child: ChoiceChip(
                                                                 backgroundColor:
-                                                                    model.seltectedTime == time
+                                                                    controller.seltectedTime == time
                                                                         ? textIconOrange
                                                                         : Colors
                                                                             .white,
@@ -393,7 +400,7 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                                                                 15),
                                                                         side:
                                                                             BorderSide(
-                                                                          color: model.seltectedTime == time
+                                                                          color: controller.seltectedTime == time
                                                                               ? textIconOrange
                                                                               : Colors.grey,
                                                                           width:
@@ -402,8 +409,8 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                                                 labelStyle: TextStyle(
                                                                     fontSize:
                                                                         subtitleFontSizeStyle - 4,
-                                                                    fontWeight: model.seltectedTime == time ? FontWeight.w600 : FontWeight.normal,
-                                                                    color: model.seltectedTime == time ? Colors.white : Colors.grey),
+                                                                    fontWeight: controller.seltectedTime == time ? FontWeight.w600 : FontWeight.normal,
+                                                                    color: controller.seltectedTime == time ? Colors.white : Colors.grey),
                                                                 selectedColor: textIconOrange,
                                                                 label: Text(
                                                                   getTime(time) +
@@ -412,10 +419,10 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                                                           time +
                                                                               1),
                                                                 ),
-                                                                selected: model.seltectedTime == time,
+                                                                selected: controller.seltectedTime == time,
                                                                 onSelected: (val) {
                                                                   setState(() {
-                                                                    model.seltectedTime = val
+                                                                    controller.seltectedTime = val
                                                                         ? time
                                                                         : null;
                                                                     // selectedIndex = index;
@@ -497,7 +504,7 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                               onPressed: _taskMsg == ""
                                   ? null
                                   : () {
-                                      model.bookAppointment(
+                                      controller.bookAppointment(
                                           widget.sellerData.key, _taskMsg);
                                     },
                               child: Padding(

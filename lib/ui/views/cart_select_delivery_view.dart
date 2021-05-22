@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/state_manager.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:provider_architecture/provider_architecture.dart';
 
+import '../../controllers/cart_select_delivery_controller.dart';
 import '../../google_maps_place_picker/google_maps_place_picker.dart';
 import '../../models/user_details.dart';
-import '../../viewmodels/cart_select_delivery_view_model.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
@@ -45,10 +45,9 @@ class _SelectAddressState extends State<SelectAddress> {
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelProvider<CartSelectDeliveryViewModel>.withConsumer(
-      viewModel: CartSelectDeliveryViewModel(),
-      onModelReady: (model) => model.init(),
-      builder: (context, model, child) => Scaffold(
+    return GetBuilder<CartSelectDeliveryController>(
+      init: CartSelectDeliveryController(),
+      builder: (controller) => Scaffold(
         backgroundColor: backgroundWhiteCreamColor,
         appBar: AppBar(
           elevation: 0,
@@ -87,7 +86,7 @@ class _SelectAddressState extends State<SelectAddress> {
                       PageTransition(
                           child: PaymentMethod(
                             billingAddress: (addressRadioValue == null
-                                ? model.addresses[0]
+                                ? controller.addresses[0]
                                 : addressRadioValue),
                             color: widget.color,
                             productId: widget.productId,
@@ -169,7 +168,7 @@ class _SelectAddressState extends State<SelectAddress> {
                               ),
                             );
                             if (userAdd != null) {
-                              model.addAddress(userAdd);
+                              controller.addAddress(userAdd);
                             }
                           }
                         },
@@ -195,7 +194,7 @@ class _SelectAddressState extends State<SelectAddress> {
                         )),
                   ),
                   verticalSpace(35),
-                  if (model.addresses.length != 0)
+                  if (controller.addresses.length != 0)
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: Text(
@@ -208,15 +207,15 @@ class _SelectAddressState extends State<SelectAddress> {
                     ),
                   verticalSpace(15),
                   Column(
-                    children: model.addresses.map(
-                      (UserDetailsContact address) {
-                        return GestureDetector(
-                          onTap: () {
-                            setState(() {
+                    children: List<Widget>.of(
+                      controller.addresses.map(
+                        (UserDetailsContact address) => GestureDetector(
+                          onTap: () => setState(
+                            () {
                               addressGrpValue = addressRadioValue = address;
                               disabledPayment = false;
-                            });
-                          },
+                            },
+                          ),
                           child: Container(
                             margin: EdgeInsets.only(bottom: spaceBetweenCards),
                             child: Card(
@@ -271,9 +270,9 @@ class _SelectAddressState extends State<SelectAddress> {
                               ),
                             ),
                           ),
-                        );
-                      },
-                    ).toList(),
+                        ),
+                      ),
+                    ),
                   )
                 ],
               ),
@@ -283,12 +282,4 @@ class _SelectAddressState extends State<SelectAddress> {
       ),
     );
   }
-
-  // void _setRadioValue(val) {
-  //   setState(() {
-  //     addressRadioValue = val;
-  //   });
-  //   print(val);
-  //   print(addressRadioValue);
-  // }
 }

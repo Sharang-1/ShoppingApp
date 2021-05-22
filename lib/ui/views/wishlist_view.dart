@@ -1,16 +1,16 @@
 import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
-import 'package:provider_architecture/provider_architecture.dart';
+import 'package:get/state_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants/shared_pref.dart';
+import '../../controllers/base_controller.dart';
+import '../../controllers/grid_view_builder/products_grid_view_builder_controller.dart';
+import '../../controllers/grid_view_builder/sellers_grid_view_builder_controller.dart';
 import '../../models/grid_view_builder_filter_models/productFilter.dart';
 import '../../models/grid_view_builder_filter_models/sellerFilter.dart';
 import '../../models/products.dart';
 import '../../models/sellers.dart';
-import '../../viewmodels/grid_view_builder_view_models/products_grid_view_builder_view_model.dart';
-import '../../viewmodels/grid_view_builder_view_models/sellers_grid_view_builder_view.dart';
-import '../../viewmodels/search_view_model.dart';
 import '../shared/app_colors.dart';
 import '../shared/debouncer.dart';
 import '../shared/shared_styles.dart';
@@ -151,7 +151,7 @@ class _WishlistViewState extends State<WishlistView>
             .toList();
   }
 
-  Widget childWidget(model) {
+  Widget childWidget(controller) {
     return Stack(
       children: <Widget>[
         if (showResults && _tabController.index == 0)
@@ -162,15 +162,16 @@ class _WishlistViewState extends State<WishlistView>
               context: context,
               filter: productFilter,
               gridCount: 2,
-              viewModel: ProductsGridViewBuilderViewModel(),
+              controller: ProductsGridViewBuilderController(),
               childAspectRatio: 0.75,
-              tileBuilder: (BuildContext context, data, index, onDelete, onUpdate) {
+              tileBuilder:
+                  (BuildContext context, data, index, onDelete, onUpdate) {
                 Fimber.d("test");
                 return ProductTileUI(
                   index: index,
                   data: data,
                   onClick: () {
-                    model.goToProductPage(data);
+                    controller.goToProductPage(data);
                   },
                 );
               },
@@ -182,9 +183,10 @@ class _WishlistViewState extends State<WishlistView>
             context: context,
             filter: sellerFilter,
             gridCount: 2,
-            viewModel: SellersGridViewBuilderViewModel(),
+            controller: SellersGridViewBuilderController(),
             disablePagination: true,
-            tileBuilder: (BuildContext context, data, index, onDelete, onUpdate) {
+            tileBuilder:
+                (BuildContext context, data, index, onDelete, onUpdate) {
               return Card(
                 child: Center(
                   child: Text(data.name),
@@ -214,17 +216,22 @@ class _WishlistViewState extends State<WishlistView>
   @override
   Widget build(BuildContext context) {
     const double headingFontSize = headingFontSizeStyle + 5;
-    return ViewModelProvider<SearchViewModel>.withConsumer(
-      viewModel: SearchViewModel(),
-      onModelReady: (model) => model.init(),
-      builder: (context, model, child) => Scaffold(
+    return GetBuilder<BaseController>(
+      init: BaseController(),
+      builder: (controller) => Scaffold(
           appBar: AppBar(
             elevation: 0,
             iconTheme: IconThemeData(color: appBarIconColor),
             backgroundColor: backgroundWhiteCreamColor,
             actions: <Widget>[
-              IconButton(onPressed: () {}, icon:CartIconWithBadge(iconColor: Colors.black,)),
-              SizedBox(width: 10,)
+              IconButton(
+                  onPressed: () {},
+                  icon: CartIconWithBadge(
+                    iconColor: Colors.black,
+                  )),
+              SizedBox(
+                width: 10,
+              )
             ],
           ),
           backgroundColor: backgroundWhiteCreamColor,
@@ -304,7 +311,7 @@ class _WishlistViewState extends State<WishlistView>
                   delegate: SliverChildBuilderDelegate(
                     // The builder function returns a ListTile with a title that
                     // displays the index of the current item.
-                    (context, index) => childWidget(model),
+                    (context, index) => childWidget(controller),
                     childCount: 1,
                   ),
                 )
