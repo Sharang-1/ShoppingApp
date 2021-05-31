@@ -4,8 +4,8 @@ import '../../controllers/grid_view_builder/products_grid_view_builder_controlle
 import '../../models/grid_view_builder_filter_models/productFilter.dart';
 import '../../models/products.dart';
 import '../shared/app_colors.dart';
-import 'GridListWidget.dart';
-import 'ProductTileUI.dart';
+import 'grid_list_widget.dart';
+import 'product_tile_ui.dart';
 
 class PairItWithWidget extends StatelessWidget {
   final Key productUniqueKey;

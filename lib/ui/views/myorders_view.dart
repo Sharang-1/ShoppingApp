@@ -13,7 +13,7 @@ import '../../services/navigation_service.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
-import '../widgets/GridListWidget.dart';
+import '../widgets/grid_list_widget.dart';
 import '../widgets/custom_text.dart';
 import 'myorders_details_view.dart';
 

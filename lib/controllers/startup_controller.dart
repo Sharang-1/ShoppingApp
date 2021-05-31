@@ -1,9 +1,10 @@
-import 'package:flutter/foundation.dart';
+import 'package:compound/services/payment_service.dart';
 import 'package:flutter/material.dart';
 import 'package:launch_review/launch_review.dart';
 import 'package:package_info/package_info.dart';
 
 import '../constants/route_names.dart';
+import '../constants/server_urls.dart';
 import '../locator.dart';
 import '../services/analytics_service.dart';
 import '../services/api/api_service.dart';
@@ -29,13 +30,14 @@ class StartUpController extends BaseController {
 
     await Future.wait([
       locator<ErrorHandlingService>().init(),
+       locator<PaymentService>().init(),
       locator<AnalyticsService>().setup(),
       locator<PushNotificationService>().initialise(),
       locator<DynamicLinkService>().handleDynamicLink(),
       locator<RemoteConfigService>().init(),
     ]);
 
-    if (kReleaseMode && (updateDetails.version != version)) {
+    if (releaseMode && (updateDetails.version != version)) {
       await DialogService.showCustomDialog(
         AlertDialog(
           title: Text(

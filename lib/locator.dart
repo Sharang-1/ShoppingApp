@@ -1,5 +1,6 @@
 // Services
 import 'package:compound/controllers/cart_count_controller.dart';
+import 'package:compound/services/payment_service.dart';
 import 'package:compound/services/remote_config_service.dart';
 import 'package:get/get.dart';
 
@@ -26,6 +27,7 @@ void setupLocator() {
   Get.lazyPut(() => NavigationService());
   Get.lazyPut(() => APIService());
   Get.lazyPut(() => AuthenticationService());
+  Get.lazyPut(() => PaymentService());
   Get.lazyPut(() => ImageSelector());
   Get.lazyPut(() => LocationService());
   Get.lazyPut(() => PushNotificationService());

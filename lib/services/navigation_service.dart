@@ -5,9 +5,12 @@ class NavigationService {
   void pop() => back();
 
   Future<dynamic> navigateTo(String routeName,
-      {dynamic arguments, bool popNavbar = false}) {
+      {dynamic arguments,
+      bool popNavbar = false,
+      bool preventDuplicates = false}) {
     if (popNavbar) pop();
-    return to(routeName, arguments: arguments);
+    return to(routeName,
+        arguments: arguments, preventDuplicates: preventDuplicates);
   }
 
   Future<dynamic> navigateReplaceTo(String routeName, {dynamic arguments}) =>
@@ -21,9 +24,13 @@ class NavigationService {
 
   //GetX Routing
   static Future<T> to<T>(String page,
-      {dynamic arguments, int id, bool popNavbar = false}) async {
+      {dynamic arguments,
+      int id,
+      bool popNavbar = false,
+      bool preventDuplicates = false}) async {
     if (popNavbar) back();
-    return await Get.toNamed<T>(page, arguments: arguments, id: id);
+    return await Get.toNamed<T>(page,
+        arguments: arguments, id: id, preventDuplicates: preventDuplicates);
   }
 
   static Future<T> off<T>(String page, {dynamic arguments, int id}) async =>

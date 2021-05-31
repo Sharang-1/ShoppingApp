@@ -82,12 +82,16 @@ class SearchController extends BaseController {
       Future.delayed(
         Duration(milliseconds: 200),
         () {
-          sellerFilter.value = SellerFilter(name: "");
+          sellerFilter.value = SellerFilter(name: '');
           changeSearchFieldFocus();
         },
       );
+      sellerGridKey.value = UniqueKey();
     } else {
       searchBarFocusNode.value.requestFocus();
+      productFilter.value =
+          ProductFilter(fullText: '');
+      setProductGridKey(UniqueKey());
     }
   }
 
@@ -98,7 +102,7 @@ class SearchController extends BaseController {
         if (showRandomSellers.value) showRandomSellers.value = false;
         setProductFilter(ProductFilter(fullText: value));
         setProductGridKey(UniqueKey());
-      }else if(currentTabIndex.value == 1){
+      } else if (currentTabIndex.value == 1) {
         this.sellerFilter.value = SellerFilter(name: value);
         sellerGridKey.value = UniqueKey();
       }

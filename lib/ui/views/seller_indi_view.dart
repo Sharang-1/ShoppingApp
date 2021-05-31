@@ -1,4 +1,3 @@
-import 'package:compound/constants/shared_pref.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -13,15 +12,13 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../constants/dynamic_links.dart';
 import '../../constants/route_names.dart';
 import '../../constants/server_urls.dart';
+import '../../constants/shared_pref.dart';
 import '../../controllers/base_controller.dart';
 import '../../controllers/grid_view_builder/products_grid_view_builder_controller.dart';
 import '../../controllers/grid_view_builder/sellers_grid_view_builder_controller.dart';
 import '../../locator.dart';
 import '../../models/grid_view_builder_filter_models/productFilter.dart';
-import '../../models/grid_view_builder_filter_models/sellerFilter.dart';
 import '../../models/productPageArg.dart';
-import '../../models/products.dart';
-import '../../models/reviews.dart';
 import '../../models/sellers.dart';
 import '../../services/analytics_service.dart';
 import '../../services/api/api_service.dart';
@@ -30,14 +27,11 @@ import '../../services/navigation_service.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
-import '../widgets/GridListWidget.dart';
-import '../widgets/ProductTileUI.dart';
 import '../widgets/custom_text.dart';
 import '../widgets/newcarddesigns/seller_profile_slider.dart';
 import '../widgets/reviews.dart';
+import '../widgets/section_builder.dart';
 import '../widgets/sellerAppointmentBottomSheet.dart';
-import '../widgets/sellerTileUi.dart';
-import '../widgets/seller_status.dart';
 import '../widgets/writeReview.dart';
 
 class SellerIndi extends StatefulWidget {
@@ -101,7 +95,7 @@ class _SellerIndiState extends State<SellerIndi> {
     Day today = Day.fromJson(
         timingJson[DateFormat('EEEE').format(_dateTime).toLowerCase()]);
     if (today.start == 0 && today.end == 0) return "";
-    return "${getTime(today.start)} - ${getTime(today.end)} (Today)";
+    return "${getTime(today.start)} - ${getTime(today.end)}";
   }
 
   bool isOpenNow(Timing timing) {
@@ -326,6 +320,27 @@ class _SellerIndiState extends State<SellerIndi> {
               expandedHeight: 250.0,
               floating: false,
               pinned: true,
+              actions: [
+                IconButton(
+                  onPressed: () async {
+                    await Share.share(await _dynamicLinkService
+                        .createLink(sellerLink + sellerData?.key));
+                    try {
+                      await _analyticsService.sendAnalyticsEvent(
+                          eventName: "seller_shared",
+                          parameters: <String, dynamic>{
+                            "seller_id": sellerData?.key,
+                            "seller_name": sellerData?.name,
+                          });
+                    } catch (e) {}
+                  },
+                  icon: Image.asset(
+                    "assets/images/share_icon.png",
+                    width: 30,
+                    height: 30,
+                  ),
+                ),
+              ],
               backgroundColor: backgroundWhiteCreamColor,
               iconTheme: IconThemeData(color: appBarIconColor),
               flexibleSpace: FlexibleSpaceBar(
@@ -349,168 +364,240 @@ class _SellerIndiState extends State<SellerIndi> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              CustomText(
-                                sellerDetails["name"],
-                                fontSize: headFont,
-                                fontFamily: headingFont,
-                                isBold: true,
-                                dotsAfterOverFlow: true,
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  CustomText(
+                                    sellerDetails["name"],
+                                    fontSize: headFont,
+                                    fontFamily: headingFont,
+                                    isBold: true,
+                                    dotsAfterOverFlow: true,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Image.asset("assets/images/mask.png"),
+                                      horizontalSpaceSmall,
+                                      Image.asset(
+                                          "assets/images/hand-sanitizer.png"),
+                                      horizontalSpaceSmall,
+                                      Icon(Icons.info, color: Colors.grey[500]),
+                                    ],
+                                  ),
+                                ],
                               ),
-                              verticalSpaceSmall,
-                              CustomText(
-                                sellerDetails["type"],
-                                fontSize: subHeadFont,
-                                fontFamily: headingFont,
-                                dotsAfterOverFlow: true,
-                                isBold: true,
-                                color: textIconOrange,
+                              Divider(
+                                color: logoRed,
+                                thickness: 2,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  CustomText(
+                                    sellerDetails["type"],
+                                    fontSize: subHeadFont,
+                                    fontFamily: headingFont,
+                                    dotsAfterOverFlow: true,
+                                    isBold: true,
+                                    color: textIconOrange,
+                                  ),
+                                  Expanded(
+                                    child: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: Wrap(
+                                        direction: Axis.horizontal,
+                                        children: [
+                                          Icon(
+                                            Icons.circle,
+                                            size: 18,
+                                            color: isOpenNow(_timing)
+                                                ? Colors.green
+                                                : Colors.red,
+                                          ),
+                                          horizontalSpaceTiny,
+                                          Text(
+                                            isOpenNow(_timing)
+                                                ? "Open Now"
+                                                : "Closed Now",
+                                            style: TextStyle(
+                                                color: Colors.grey[500],
+                                                fontWeight: FontWeight.bold,
+                                                fontFamily: 'OpenSans-Light'),
+                                          ),
+                                          if (isOpenNow(_timing))
+                                            horizontalSpaceTiny,
+                                          if (isOpenNow(_timing))
+                                            Text(
+                                              "(${getTimeString(_timing)})",
+                                              style: TextStyle(
+                                                  color: Colors.grey[500],
+                                                  fontWeight: FontWeight.bold,
+                                                  fontFamily: 'OpenSans-Light'),
+                                            ),
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                                ],
                               ),
                             ],
                           ),
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: <Widget>[
-                            // if (sellerDetails["rattings"] != "")
-                            //   Container(
-                            //     padding: EdgeInsets.symmetric(
-                            //         vertical: 5, horizontal: 10),
-                            //     decoration: BoxDecoration(
-                            //         color: green,
-                            //         borderRadius:
-                            //             BorderRadius.circular(curve30)),
-                            //     child: Row(
-                            //       crossAxisAlignment: CrossAxisAlignment.center,
-                            //       children: <Widget>[
-                            //         CustomText(
-                            //           sellerDetails["rattings"],
-                            //           color: Colors.white,
-                            //           isBold: true,
-                            //           fontSize: 15,
-                            //         ),
-                            //         horizontalSpaceTiny,
-                            //         Icon(
-                            //           Icons.star,
-                            //           color: Colors.white,
-                            //           size: 15,
-                            //         )
-                            //       ],
-                            //     ),
-                            //   ),
-                            verticalSpaceSmall,
-                            GestureDetector(
-                              onTap: () async {
-                                await Share.share(await _dynamicLinkService
-                                    .createLink(sellerLink + sellerData?.key));
-                                try {
-                                  await _analyticsService.sendAnalyticsEvent(
-                                      eventName: "seller_shared",
-                                      parameters: <String, dynamic>{
-                                        "seller_id": sellerData?.key,
-                                        "seller_name": sellerData?.name,
-                                      });
-                                } catch (e) {}
-                              },
-                              child: Image.asset(
-                                "assets/images/share_icon.png",
-                                width: 30,
-                                height: 30,
-                              ),
-                            ),
-                            FutureBuilder<Reviews>(
-                              future: locator<APIService>().getReviews(
-                                  widget.data.key,
-                                  isSellerReview: true),
-                              builder: (context, snapshot) {
-                                if (snapshot.connectionState ==
-                                        ConnectionState.done &&
-                                    tutorialCoachMark != null) {
-                                  Future.delayed(
-                                    Duration(milliseconds: 500),
-                                    () {
-                                      Scrollable.ensureVisible(
-                                        sellerAboutKey.currentContext,
-                                        alignment: 0.7,
-                                      );
-                                      tutorialCoachMark.show();
-                                    },
-                                  );
-                                }
-                                return ((snapshot.connectionState ==
-                                            ConnectionState.done) &&
-                                        (snapshot.data.ratingAverage.rating >
-                                            0))
-                                    ? Align(
-                                        alignment: Alignment.centerRight,
-                                        child: Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 8.0),
-                                          child: FittedBox(
-                                            alignment: Alignment.centerLeft,
-                                            fit: BoxFit.scaleDown,
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                color: Colors.green,
-                                                borderRadius:
-                                                    BorderRadius.circular(15),
-                                              ),
-                                              padding: EdgeInsets.symmetric(
-                                                  vertical: 5.0,
-                                                  horizontal: 12.0),
-                                              child: Row(
-                                                children: [
-                                                  Text(
-                                                    "${snapshot?.data?.ratingAverage?.rating?.toString() ?? 0} ",
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      color: Colors.white,
-                                                      fontSize: 16,
-                                                    ),
-                                                  ),
-                                                  Icon(
-                                                    Icons.star,
-                                                    color: Colors.white,
-                                                    size: 12,
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      )
-                                    : Container();
-                              },
-                            ),
-                          ],
-                        ),
+                        // Column(
+                        //   crossAxisAlignment: CrossAxisAlignment.end,
+                        //   children: <Widget>[
+                        //     // if (sellerDetails["rattings"] != "")
+                        //     //   Container(
+                        //     //     padding: EdgeInsets.symmetric(
+                        //     //         vertical: 5, horizontal: 10),
+                        //     //     decoration: BoxDecoration(
+                        //     //         color: green,
+                        //     //         borderRadius:
+                        //     //             BorderRadius.circular(curve30)),
+                        //     //     child: Row(
+                        //     //       crossAxisAlignment: CrossAxisAlignment.center,
+                        //     //       children: <Widget>[
+                        //     //         CustomText(
+                        //     //           sellerDetails["rattings"],
+                        //     //           color: Colors.white,
+                        //     //           isBold: true,
+                        //     //           fontSize: 15,
+                        //     //         ),
+                        //     //         horizontalSpaceTiny,
+                        //     //         Icon(
+                        //     //           Icons.star,
+                        //     //           color: Colors.white,
+                        //     //           size: 15,
+                        //     //         )
+                        //     //       ],
+                        //     //     ),
+                        //     //   ),
+                        //     // verticalSpaceSmall,
+                        //     // FutureBuilder<Reviews>(
+                        //     //   future: locator<APIService>().getReviews(
+                        //     //       widget.data.key,
+                        //     //       isSellerReview: true),
+                        //     //   builder: (context, snapshot) {
+                        //     //     if (snapshot.connectionState ==
+                        //     //             ConnectionState.done &&
+                        //     //         tutorialCoachMark != null) {
+                        //     //       Future.delayed(
+                        //     //         Duration(milliseconds: 500),
+                        //     //         () {
+                        //     //           Scrollable.ensureVisible(
+                        //     //             sellerAboutKey.currentContext,
+                        //     //             alignment: 0.7,
+                        //     //           );
+                        //     //           tutorialCoachMark.show();
+                        //     //         },
+                        //     //       );
+                        //     //     }
+                        //     //     return ((snapshot.connectionState ==
+                        //     //                 ConnectionState.done) &&
+                        //     //             (snapshot.data.ratingAverage.rating >
+                        //     //                 0))
+                        //     //         ? Align(
+                        //     //             alignment: Alignment.centerRight,
+                        //     //             child: Padding(
+                        //     //               padding:
+                        //     //                   const EdgeInsets.only(top: 8.0),
+                        //     //               child: FittedBox(
+                        //     //                 alignment: Alignment.centerLeft,
+                        //     //                 fit: BoxFit.scaleDown,
+                        //     //                 child: Container(
+                        //     //                   decoration: BoxDecoration(
+                        //     //                     color: Colors.green,
+                        //     //                     borderRadius:
+                        //     //                         BorderRadius.circular(15),
+                        //     //                   ),
+                        //     //                   padding: EdgeInsets.symmetric(
+                        //     //                       vertical: 5.0,
+                        //     //                       horizontal: 12.0),
+                        //     //                   child: Row(
+                        //     //                     children: [
+                        //     //                       Text(
+                        //     //                         "${snapshot?.data?.ratingAverage?.rating?.toString() ?? 0} ",
+                        //     //                         style: TextStyle(
+                        //     //                           fontWeight:
+                        //     //                               FontWeight.w600,
+                        //     //                           color: Colors.white,
+                        //     //                           fontSize: 16,
+                        //     //                         ),
+                        //     //                       ),
+                        //     //                       Icon(
+                        //     //                         Icons.star,
+                        //     //                         color: Colors.white,
+                        //     //                         size: 12,
+                        //     //                       ),
+                        //     //                     ],
+                        //     //                   ),
+                        //     //                 ),
+                        //     //               ),
+                        //     //             ),
+                        //     //           )
+                        //     //         : Container();
+                        //     //   },
+                        //     // ),
+                        //   ],
+                        // ),
                       ],
                     ),
                     verticalSpace(30),
-                    Row(children: <Widget>[
-                      Image(image: AssetImage("assets/images/mask.png")),
-                      SizedBox(width: 5),
-                      Text(
-                        "Masks and social distancing - Mandatory ",
-                        style: TextStyle(fontFamily: "OpenSans-Light"),
+                    // Row(children: <Widget>[
+                    //   Image(image: AssetImage("assets/images/mask.png")),
+                    //   SizedBox(width: 5),
+                    //   Text(
+                    //     "Masks and social distancing - Mandatory ",
+                    //     style: TextStyle(fontFamily: "OpenSans-Light"),
+                    //   ),
+                    // ]),
+                    // verticalSpace(10),
+                    // Row(children: <Widget>[
+                    //   Image(
+                    //       image:
+                    //           AssetImage("assets/images/hand-sanitizer.png")),
+                    //   SizedBox(width: 5),
+                    //   Text(
+                    //     "Disinfecting hands necessary. ",
+                    //     style: TextStyle(fontFamily: "OpenSans-Light"),
+                    //   ),
+                    // ]),
+                    // verticalSpace(10),
+                    Card(
+                      elevation: 5,
+                      clipBehavior: Clip.antiAlias,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(curve15),
                       ),
-                    ]),
-                    verticalSpace(10),
-                    Row(children: <Widget>[
-                      Image(
-                          image:
-                              AssetImage("assets/images/hand-sanitizer.png")),
-                      SizedBox(width: 5),
-                      Text(
-                        "Disinfecting hands necessary. ",
-                        style: TextStyle(fontFamily: "OpenSans-Light"),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            CustomText(
+                              "Note from Designer",
+                              fontSize: subHeadFont,
+                              isBold: true,
+                              color: Colors.black,
+                            ),
+                            verticalSpace(10),
+                            CustomText(
+                              sellerDetails["Note from Seller"],
+                              fontSize: smallFont,
+                              color: Colors.grey[600],
+                            ),
+                          ],
+                        ),
                       ),
-                    ]),
-                    verticalSpace(10),
-                    SellerStatus(
-                      isOpen: isOpenNow(_timing),
-                      time: getTimeString(_timing),
                     ),
+                    // verticalSpace(30),
+                    // SellerStatus(
+                    //   isOpen: isOpenNow(_timing),
+                    //   time: getTimeString(_timing),
+                    // ),
                     verticalSpace(10),
                     Card(
                       elevation: 5,
@@ -542,7 +629,7 @@ class _SellerIndiState extends State<SellerIndi> {
                               color: Colors.grey[400].withOpacity(0.1),
                             ),
                             verticalSpaceTiny,
-                            GestureDetector(
+                            InkWell(
                               onTap: () {
                                 MapUtils.openMap(
                                     double.parse(sellerDetails["lat"]),
@@ -617,7 +704,7 @@ class _SellerIndiState extends State<SellerIndi> {
                     ),
                     verticalSpaceTiny,
                     Center(
-                      child: GestureDetector(
+                      child: InkWell(
                         onTap: () async => await BaseController
                             .goToProductListPage(ProductPageArg(
                                 subCategory: sellerDetails['name'],
@@ -789,80 +876,6 @@ class _SellerIndiState extends State<SellerIndi> {
                         ],
                       ),
                     ),
-                    verticalSpace(20),
-                    Card(
-                      elevation: 5,
-                      clipBehavior: Clip.antiAlias,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(curve15),
-                      ),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            CustomText(
-                              "Note from Designer",
-                              fontSize: subHeadFont,
-                              isBold: true,
-                              color: Colors.black,
-                            ),
-                            verticalSpace(10),
-                            CustomText(
-                              sellerDetails["Note from Seller"],
-                              fontSize: smallFont,
-                              color: Colors.grey[600],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    verticalSpace(30),
-                    Row(children: <Widget>[
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 0.0),
-                          child: Text(
-                            'Similar Designers',
-                            style: TextStyle(
-                              color: Colors.grey[800],
-                              fontSize: subtitleFontSize,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ),
-                      )
-                    ]),
-                    verticalSpaceSmall,
-                    SizedBox(
-                      height: 190,
-                      child: GridListWidget<Sellers, Seller>(
-                        key: UniqueKey(),
-                        context: context,
-                        filter: new SellerFilter(),
-                        gridCount: 1,
-                        childAspectRatio: 0.60,
-                        controller: SellersGridViewBuilderController(
-                          removeId: sellerData.key,
-                          subscriptionType: sellerData.subscriptionTypeId,
-                          random: true,
-                        ),
-                        disablePagination: true,
-                        scrollDirection: Axis.horizontal,
-                        emptyListWidget: Container(),
-                        tileBuilder: (BuildContext context, data, index,
-                            onDelete, onUpdate) {
-                          return GestureDetector(
-                            onTap: () => {},
-                            child: SellerTileUi(
-                              data: data,
-                              fromHome: true,
-                            ),
-                          );
-                        },
-                      ),
-                    ),
                     if (sellerData.subscriptionTypeId == 1) verticalSpace(20),
                     if (sellerData.subscriptionTypeId == 1 &&
                         showExploreSection)
@@ -918,42 +931,56 @@ class _SellerIndiState extends State<SellerIndi> {
                       verticalSpace(5),
                     if (sellerData.subscriptionTypeId == 1 &&
                         showExploreSection)
-                      SizedBox(
-                        height: 200,
-                        child: GridListWidget<Products, Product>(
-                          key: productKey,
-                          context: context,
-                          filter: ProductFilter(
-                            accountKey: sellerData.key,
-                          ),
-                          gridCount: 2,
-                          controller: ProductsGridViewBuilderController(
-                              randomize: true, limit: 6),
-                          childAspectRatio: 1.35,
-                          scrollDirection: Axis.horizontal,
-                          disablePagination: false,
-                          emptyListWidget: Container(),
-                          onEmptyList: () async {
-                            await Future.delayed(
-                                Duration(milliseconds: 500),
-                                () => setState(() {
-                                      showExploreSection = false;
-                                    }));
-                          },
-                          tileBuilder: (BuildContext context, productData,
-                              index, onUpdate, onDelete) {
-                            return ProductTileUI(
-                              data: productData,
-                              onClick: () => _navigationService.navigateTo(
-                                ProductIndividualRoute,
-                                arguments: productData,
-                              ),
-                              index: index,
-                              cardPadding: EdgeInsets.fromLTRB(0, 0, 0, 10),
-                            );
-                          },
+                      SectionBuilder(
+                        key: productKey ?? UniqueKey(),
+                        context: context,
+                        filter: ProductFilter(
+                          accountKey: sellerData.key,
                         ),
+                        layoutType: LayoutType.PRODUCT_LAYOUT_2,
+                        controller: ProductsGridViewBuilderController(
+                            randomize: true, limit: 6),
+                        scrollDirection: Axis.horizontal,
+                        onEmptyList: () async {
+                          await Future.delayed(
+                            Duration(milliseconds: 500),
+                            () => setState(
+                              () {
+                                showExploreSection = false;
+                              },
+                            ),
+                          );
+                        },
                       ),
+                    verticalSpace(20),
+                    Row(children: <Widget>[
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 0.0),
+                          child: Text(
+                            'Similar Designers',
+                            style: TextStyle(
+                              color: Colors.grey[800],
+                              fontSize: subtitleFontSize,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                      )
+                    ]),
+                    verticalSpaceSmall,
+                    SectionBuilder(
+                      key: UniqueKey(),
+                      context: context,
+                      layoutType: LayoutType.DESIGNER_LAYOUT_1,
+                      fromHome: true,
+                      controller: SellersGridViewBuilderController(
+                        removeId: sellerData.key,
+                        subscriptionType: sellerData.subscriptionTypeId,
+                        random: true,
+                      ),
+                      scrollDirection: Axis.horizontal,
+                    ),
                   ],
                 ),
               ),

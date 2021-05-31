@@ -7,7 +7,7 @@ import '../../models/categorys.dart';
 import '../../models/grid_view_builder_filter_models/categoryFilter.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
-import '../widgets/GridListWidget.dart';
+import '../widgets/grid_list_widget.dart';
 import '../widgets/categoryTileUI.dart';
 
 class CategoriesView extends StatefulWidget {
@@ -62,34 +62,37 @@ class _CategoriesViewState extends State<CategoriesView> {
             });
             refreshController.refreshCompleted(resetFooterState: true);
           },
-          child: FutureBuilder(
-            future: Future.delayed(Duration(milliseconds: 500)),
-            builder: (c, s) => s.connectionState == ConnectionState.done
-                ? GridListWidget<Categorys, Category>(
-                    key: categoriesGridKey,
-                    context: context,
-                    filter: categoryFilter,
-                    gridCount: 2,
-                    childAspectRatio: 2,
-                    controller: CategoriesGridViewBuilderController(),
-                    disablePagination: true,
-                    tileBuilder: (BuildContext context, data, index, onDelete,
-                        onUpdate) {
-                      return GestureDetector(
-                        onTap: () => CategoriesController.showProducts(
-                          data.filter,
-                          data.name,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                          child: CategoryTileUI(
-                            data: data,
+          child: Padding(
+            padding: EdgeInsets.only(left:4.0, right: 8.0),
+            child: FutureBuilder(
+              future: Future.delayed(Duration(milliseconds: 500)),
+              builder: (c, s) => s.connectionState == ConnectionState.done
+                  ? GridListWidget<Categorys, Category>(
+                      key: categoriesGridKey,
+                      context: context,
+                      filter: categoryFilter,
+                      gridCount: 2,
+                      childAspectRatio: 2,
+                      controller: CategoriesGridViewBuilderController(),
+                      disablePagination: true,
+                      tileBuilder: (BuildContext context, data, index, onDelete,
+                          onUpdate) {
+                        return GestureDetector(
+                          onTap: () => CategoriesController.showProducts(
+                            data.filter,
+                            data.name,
                           ),
-                        ),
-                      );
-                    },
-                  )
-                : Container(),
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(4, 4, 0, 0),
+                            child: CategoryTileUI(
+                              data: data,
+                            ),
+                          ),
+                        );
+                      },
+                    )
+                  : Container(),
+            ),
           ),
         ),
       ),

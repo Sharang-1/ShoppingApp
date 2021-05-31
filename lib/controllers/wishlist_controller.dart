@@ -5,7 +5,7 @@ import 'base_controller.dart';
 class WishListController extends BaseController {
   WishListController({Key key, @required this.list}) : assert(List != null);
 
-  List<String> list;
+  List<String> list = [];
 
   void setUpWishList(List<String> list) {
     this.list.clear();

@@ -1,3 +1,6 @@
+import 'package:compound/constants/route_names.dart';
+import 'package:compound/services/navigation_service.dart';
+import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -11,7 +14,6 @@ import '../../locator.dart';
 import '../shared/app_colors.dart';
 import '../shared/ui_helpers.dart';
 import '../widgets/cart_icon_badge.dart';
-import '../widgets/drawer.dart';
 import 'home_view_list.dart';
 
 class HomeView extends StatelessWidget {
@@ -38,8 +40,18 @@ class HomeView extends StatelessWidget {
             drawerEdgeDragWidth: 0,
             primary: false,
             backgroundColor: backgroundWhiteCreamColor,
-            drawer: HomeDrawer(
-              logout: () => BaseController.logout(),
+            // drawer: HomeDrawer(
+            //   logout: () => BaseController.logout(),
+            // ),
+            bottomNavigationBar: ConvexAppBar(
+              style: TabStyle.fixedCircle,
+              items: controller.navigationItems,
+              backgroundColor: logoRed,
+              activeColor: backgroundWhiteCreamColor,
+              disableDefaultTabController: true,
+              initialActiveIndex: 2,
+              onTabNotify: controller.bottomNavigationOnTap,
+              elevation: 5,
             ),
             appBar: AppBar(
               elevation: 0,
@@ -56,7 +68,7 @@ class HomeView extends StatelessWidget {
                   title: Align(
                     alignment: Alignment.center,
                     child: Padding(
-                      padding: EdgeInsets.only(right: 8.0),
+                      padding: EdgeInsets.only(left: 30.0),
                       child: SvgPicture.asset(
                         "assets/svg/logo.svg",
                         key: logoKey,
@@ -66,7 +78,15 @@ class HomeView extends StatelessWidget {
                       ),
                     ),
                   ),
+                  leading: IconButton(
+                    icon: Icon(Icons.settings),
+                    onPressed: () => BaseController.gotoSettingsPage(),
+                  ),
                   actions: <Widget>[
+                    IconButton(
+                      icon: Icon(Icons.person),
+                      onPressed: () => NavigationService.to(ProfileViewRoute),
+                    ),
                     Obx(
                       () => IconButton(
                         key: cartKey,
@@ -106,22 +126,29 @@ class HomeView extends StatelessWidget {
                       automaticallyImplyLeading: false,
                       iconTheme: IconThemeData(color: appBarIconColor),
                       backgroundColor: backgroundWhiteCreamColor,
-                      pinned: true,
-                      actions: <Widget>[
+                      // pinned: true,
+                      // actions: <Widget>[
+                      //   IconButton(
+                      //     tooltip: 'map',
+                      //     // icon: Image.asset("assets/images/map.png"),
+                      //     icon: Icon(
+                      //       FontAwesomeIcons.mapMarkerAlt,
+                      //     ),
+                      //     onPressed: () {
+                      //       BaseController.openmap();
+                      //     },
+                      //   )
+                      // ],
+                      actions: [
                         IconButton(
-                          tooltip: 'map',
-                          // icon: Image.asset("assets/images/map.png"),
-                          icon: Icon(FontAwesomeIcons.mapMarkerAlt,),
-                          onPressed: () {
-                            BaseController.openmap();
-                          },
+                          icon:
+                              Icon(FontAwesomeIcons.solidHeart, color: logoRed),
+                          onPressed: () => BaseController.gotoWishlist(),
                         )
                       ],
                       title: InkWell(
                         key: searchBarKey,
-                        onTap: () {
-                          BaseController.search();
-                        },
+                        onTap: () => BaseController.search(),
                         child: Container(
                           width: double.infinity,
                           decoration: BoxDecoration(

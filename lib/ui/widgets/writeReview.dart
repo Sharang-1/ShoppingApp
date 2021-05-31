@@ -12,8 +12,11 @@ import 'input_field.dart';
 class WriteReviewWidget extends StatefulWidget {
   final String id;
   final bool isSeller;
+  final bool fromProductList;
   final Function onSubmit;
-  WriteReviewWidget(this.id, {this.isSeller = false, this.onSubmit});
+
+  WriteReviewWidget(this.id,
+      {this.isSeller = false, this.fromProductList = false, this.onSubmit});
   @override
   _WriteReviewWidget createState() => new _WriteReviewWidget();
 }
@@ -40,22 +43,23 @@ class _WriteReviewWidget extends State<WriteReviewWidget> {
                           controller.toggleFormVisibility();
                         },
                         style: ElevatedButton.styleFrom(
-                          primary: backgroundWhiteCreamColor,
+                          primary: widget.fromProductList
+                              ? textIconOrange
+                              : backgroundWhiteCreamColor,
                           elevation: 0,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30),
-                              side:
-                                  BorderSide(width: 1.5, color: textIconOrange)
-                              // side: BorderSide(
-                              //     color: Colors.black, width: 0.5)
-                              ),
+                              side: BorderSide(
+                                  width: 1.5, color: textIconOrange)),
                         ),
                         child: Container(
                             padding: const EdgeInsets.symmetric(vertical: 10),
                             child: Row(children: <Widget>[
                               Icon(
                                 Icons.edit,
-                                color: textIconOrange,
+                                color: widget.fromProductList
+                                    ? backgroundWhiteCreamColor
+                                    : textIconOrange,
                                 size: 16,
                               ),
                               horizontalSpaceSmall,
@@ -63,7 +67,10 @@ class _WriteReviewWidget extends State<WriteReviewWidget> {
                                 "Write Review",
                                 isBold: true,
                                 fontSize: 16,
-                                color: textIconOrange,
+                                fontFamily: "Open-Sans",
+                                color: widget.fromProductList
+                                    ? backgroundWhiteCreamColor
+                                    : textIconOrange,
                               )
                             ]))),
                   ],
@@ -156,8 +163,7 @@ class _WriteReviewWidget extends State<WriteReviewWidget> {
                           ]),
                         ),
                       ),
-                    )
-                    ),
+                    )),
         ),
       ),
     );

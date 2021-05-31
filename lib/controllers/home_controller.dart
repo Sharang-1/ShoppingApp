@@ -1,5 +1,8 @@
+import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:rate_my_app/rate_my_app.dart';
@@ -34,6 +37,33 @@ class HomeController extends BaseController {
   UniqueKey sellerKey = UniqueKey();
   UniqueKey categoryKey = UniqueKey();
   UniqueKey promotionKey = UniqueKey();
+
+  final List<TabItem> navigationItems = [
+    TabItem(
+        title: '',
+        icon: Icon(Icons.category, color: backgroundWhiteCreamColor)),
+    TabItem(
+        title: '', icon: Icon(Icons.event, color: backgroundWhiteCreamColor)),
+    TabItem(
+      title: '',
+      icon: Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: SvgPicture.asset(
+          "assets/svg/logo.svg",
+          color: logoRed,
+          height: 15,
+          width: 15,
+        ),
+      ),
+    ),
+    TabItem(
+        title: '',
+        icon: Icon(FontAwesomeIcons.pollH, color: backgroundWhiteCreamColor)),
+    TabItem(
+        title: '',
+        icon: Icon(FontAwesomeIcons.mapMarkerAlt,
+            color: backgroundWhiteCreamColor)),
+  ];
 
   final RefreshController refreshController =
       RefreshController(initialRefresh: false);
@@ -159,6 +189,29 @@ class HomeController extends BaseController {
         }
       },
     );
+  }
+
+  bool bottomNavigationOnTap(int i) {
+    switch (i) {
+      case 0:
+        NavigationService.to(CategoriesRoute);
+        break;
+      case 1:
+        NavigationService.to(MyAppointmentViewRoute);
+        break;
+      case 2:
+        // NavigationService.to(ProfileViewRoute);
+        break;
+      case 3:
+        NavigationService.to(MyOrdersRoute);
+        break;
+      case 4:
+        NavigationService.to(MapViewRoute);
+        break;
+      default:
+        break;
+    }
+    return false;
   }
 
   Future<Map<String, String>> getLastDeliveredProduct() async {
@@ -360,7 +413,8 @@ class HomeController extends BaseController {
         paddingFocus: 5,
         onClickOverlay: (targetFocus) => tutorialCoachMark.next(),
         onClickTarget: (targetFocus) => tutorialCoachMark.next(),
-        onFinish: () async => await prefs?.setBool(ShouldShowHomeTutorial, false),
+        onFinish: () async =>
+            await prefs?.setBool(ShouldShowHomeTutorial, false),
       )..show();
     }
   }

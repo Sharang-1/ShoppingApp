@@ -14,8 +14,8 @@ import '../../services/dynamic_link_service.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
-import '../widgets/GridListWidget.dart';
-import '../widgets/ProductTileUI.dart';
+import '../widgets/grid_list_widget.dart';
+import '../widgets/product_tile_ui.dart';
 
 class PromotionProduct extends StatefulWidget {
   final String promotionId;

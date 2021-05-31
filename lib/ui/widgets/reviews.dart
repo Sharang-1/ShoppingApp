@@ -1,3 +1,4 @@
+import 'package:compound/utils/tools.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
@@ -16,7 +17,7 @@ class ReviewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder(
+    return GetBuilder<ReviewsController>(
         init: ReviewsController(id: id, isSeller: isSeller),
         builder: (controller) => ListTileTheme(
             contentPadding: EdgeInsets.all(0),
@@ -34,7 +35,13 @@ class ReviewWidget extends StatelessWidget {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20),
                               ),
-                              backgroundColor: Colors.green,
+                              backgroundColor:
+                                  Tools.getColorAccordingToRattings(
+                                      controller.reviews.items.isNotEmpty
+                                          ? controller?.reviews?.ratingAverage
+                                                  ?.rating ??
+                                              5
+                                          : 5),
                               avatar: Text(
                                 controller.reviews.ratingAverage.rating != null
                                     ? '${controller.reviews.ratingAverage.rating}'
@@ -100,12 +107,13 @@ class ReviewWidget extends StatelessWidget {
                   radius: 22,
                   foregroundColor: Colors.white,
                   child: Text(
-                    ((r?.reviewer?.length ?? 0) > 0) ?
-                    r?.reviewer?.first?.name != null
-                        ? r?.reviewer?.first?.name
-                            ?.substring(0, 1)
-                            ?.toUpperCase()
-                        : 'U' : 'U',
+                    ((r?.reviewer?.length ?? 0) > 0)
+                        ? r?.reviewer?.first?.name != null
+                            ? r?.reviewer?.first?.name
+                                ?.substring(0, 1)
+                                ?.toUpperCase()
+                            : 'U'
+                        : 'U',
                     textAlign: TextAlign.center,
                   ),
                 ),

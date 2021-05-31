@@ -14,8 +14,8 @@ import '../../models/sellers.dart';
 import '../shared/app_colors.dart';
 import '../shared/debouncer.dart';
 import '../shared/shared_styles.dart';
-import '../widgets/GridListWidget.dart';
-import '../widgets/ProductTileUI.dart';
+import '../widgets/grid_list_widget.dart';
+import '../widgets/product_tile_ui.dart';
 import '../widgets/cart_icon_badge.dart';
 
 class WishlistView extends StatefulWidget {

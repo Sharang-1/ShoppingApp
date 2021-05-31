@@ -76,6 +76,7 @@ dependencies:
   open_appstore: ^1.0.2
   search_widget: ^1.0.2
   auto_size_text: ^2.1.0
+  convex_bottom_bar: ^3.0.0
 
 dev_dependencies:
   flutter_test:

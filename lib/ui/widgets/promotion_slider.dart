@@ -126,7 +126,7 @@ class _PromotionSliderState extends State<PromotionSlider> {
 
   @override
   void dispose() async {
-    defaultCacheManager.emptyCache();
+    // defaultCacheManager.emptyCache();
     super.dispose();
   }
 }

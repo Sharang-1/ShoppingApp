@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:compound/utils/tools.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -29,21 +30,6 @@ class SellerTileUiOld extends StatelessWidget {
     this.onClick,
   }) : super(key: key);
 
-  Color getColorAccordingToRattings(num rattings) {
-    switch (rattings) {
-      case 5:
-        return Color.fromRGBO(0, 100, 0, 1);
-      case 4:
-        return Colors.green;
-      case 3:
-        return Colors.yellow;
-      case 2:
-        return Colors.orange;
-      default:
-        return logoRed;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     double subtitleFontSize = fromHome ? 18 * 0.8 : 18;
@@ -56,7 +42,7 @@ class SellerTileUiOld extends StatelessWidget {
           height: 200.0 * (fromHome ? 0.8 : 1.0),
           width:
               (MediaQuery.of(context).size.width - 40) * (fromHome ? 0.8 : 1),
-          child: GestureDetector(
+          child: InkWell(
             onTap: () async {
               if (toProduct || data.subscriptionTypeId == 2)
                 return NavigationService.to(
@@ -76,7 +62,7 @@ class SellerTileUiOld extends StatelessWidget {
                 borderRadius: BorderRadius.circular(curve15),
               ),
               clipBehavior: Clip.antiAlias,
-              elevation: 5,
+              elevation: 0,
               child: Stack(
                 children: [
                   Container(
@@ -178,7 +164,7 @@ class SellerTileUiOld extends StatelessWidget {
                                                             decoration:
                                                                 BoxDecoration(
                                                               color:
-                                                                  getColorAccordingToRattings(
+                                                                  Tools.getColorAccordingToRattings(
                                                                 snapshot
                                                                     .data
                                                                     .ratingAverage
@@ -294,21 +280,6 @@ class SellerTileUi extends StatelessWidget {
     this.onClick,
   }) : super(key: key);
 
-  Color getColorAccordingToRattings(num rattings) {
-    switch (rattings) {
-      case 5:
-        return Color.fromRGBO(0, 100, 0, 1);
-      case 4:
-        return Colors.green;
-      case 3:
-        return Colors.yellow;
-      case 2:
-        return Colors.orange;
-      default:
-        return logoRed;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     double subtitleFontSize = fromHome ? 18 * 0.8 : 18;
@@ -341,7 +312,7 @@ class SellerTileUi extends StatelessWidget {
                 borderRadius: BorderRadius.circular(curve15),
               ),
               clipBehavior: Clip.antiAlias,
-              elevation: 5,
+              elevation: 0,
               child: Container(
                 padding: EdgeInsets.all(12),
                 child: Row(
@@ -479,7 +450,7 @@ class SellerTileUi extends StatelessWidget {
                                               ),
                                               decoration: BoxDecoration(
                                                 color:
-                                                    getColorAccordingToRattings(
+                                                    Tools.getColorAccordingToRattings(
                                                   snapshot.data.ratingAverage
                                                       .rating,
                                                 ),

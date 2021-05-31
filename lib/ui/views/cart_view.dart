@@ -13,14 +13,14 @@ import '../../locator.dart';
 import '../../models/cart.dart';
 import '../../models/grid_view_builder_filter_models/cartFilter.dart';
 import '../../services/dialog_service.dart';
+import '../../services/navigation_service.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
-import '../widgets/CartTileUI.dart';
-import '../widgets/GridListWidget.dart';
+import '../widgets/grid_list_widget.dart';
+import '../widgets/cart_tile.dart';
 import '../widgets/custom_stepper.dart';
 import '../widgets/pair_it_with_widget.dart';
-import 'home_view.dart';
 import 'product_individual_view.dart';
 
 class CartView extends StatefulWidget {
@@ -54,7 +54,7 @@ class _CartViewState extends State<CartView> {
             width: 35,
           ),
           leading: BackButton(
-            onPressed: () {
+            onPressed: () async {
               if (isPromocodeApplied)
                 DialogService.showCustomDialog(AlertDialog(
                   content: Text("Do you really want to leave cart ?"),
@@ -69,12 +69,7 @@ class _CartViewState extends State<CartView> {
                     )
                   ],
                 ));
-              Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => HomeView(),
-                  ),
-                  ModalRoute.withName(HomeViewRoute));
+              await NavigationService.offAll(HomeViewRoute);
             },
           ),
           iconTheme: IconThemeData(
@@ -140,19 +135,19 @@ class _CartViewState extends State<CartView> {
                               children: [
                                 GridListWidget<Cart, Item>(
                                   context: context,
-                                  filter: new CartFilter(
-                                      productId: widget.productId),
+                                  filter:
+                                      CartFilter(productId: widget.productId),
                                   gridCount: 1,
                                   disablePagination: true,
                                   controller: CartGridViewBuilderController(),
-                                  childAspectRatio: 1.30,
+                                  childAspectRatio: 2.2,
                                   tileBuilder: (BuildContext context, data,
                                       index, onDelete, onUpdate) {
                                     Fimber.d("test");
                                     print((data as Item).toJson());
                                     final Item dItem = data as Item;
                                     exceptProductIDs.add(dItem.product.key);
-                                    return CartTileUI(
+                                    return CartTile(
                                       index: index,
                                       item: dItem,
                                       onDelete: (int index) async {

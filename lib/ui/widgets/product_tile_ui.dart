@@ -35,10 +35,15 @@ class ProductTileUI extends StatefulWidget {
 class _ProductTileUIState extends State<ProductTileUI> {
   final WishListService _wishListService = locator<WishListService>();
   bool toggle = false;
+  bool isWishlistIconFilled = false;
 
   @override
   void initState() {
     super.initState();
+    setState(() {
+      isWishlistIconFilled =
+          locator<WishListController>().list.indexOf(widget.data.key) != -1;
+    });
   }
 
   void addToWishList(id) async {
@@ -113,7 +118,7 @@ class _ProductTileUIState extends State<ProductTileUI> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(curve15),
           ),
-          elevation: 8,
+          elevation: 0,
           clipBehavior: Clip.antiAlias,
           color: Colors.white,
           child: Column(
@@ -152,28 +157,25 @@ class _ProductTileUIState extends State<ProductTileUI> {
                           ),
                           widget?.onAddToCartClicked == null
                               ? InkWell(
-                                  child: locator<WishListController>()
-                                              .list
-                                              .indexOf(widget.data.key) !=
-                                          -1
-                                      ? WishListIcon(
-                                          filled: true,
-                                          width: 18,
-                                          height: 18,
-                                        )
-                                      : WishListIcon(
-                                          filled: false,
-                                          width: 18,
-                                          height: 18,
-                                        ),
+                                  child: WishListIcon(
+                                    filled: isWishlistIconFilled,
+                                    width: 18,
+                                    height: 18,
+                                  ),
                                   onTap: () {
                                     if (locator<WishListController>()
                                             .list
                                             .indexOf(widget.data.key) !=
                                         -1) {
                                       removeFromWishList(widget.data.key);
+                                      setState(() {
+                                        isWishlistIconFilled = false;
+                                      });
                                     } else {
                                       addToWishList(widget.data.key);
+                                      setState(() {
+                                        isWishlistIconFilled = true;
+                                      });
                                     }
                                   },
                                 )

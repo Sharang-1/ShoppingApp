@@ -14,6 +14,7 @@ import '../../locator.dart';
 import '../../models/Appointments.dart';
 import '../../models/TimeSlots.dart';
 import '../../models/appUpdate.dart';
+import '../../models/app_info.dart';
 import '../../models/calculatedPrice.dart';
 import '../../models/cart.dart' as CartModule;
 import '../../models/categorys.dart';
@@ -73,15 +74,13 @@ class APIService {
           ),
         ),
         CustomLogInterceptor(),
-        if(kReleaseMode)
-        PerformanceInterceptor()
+        if (kReleaseMode) PerformanceInterceptor()
       ]);
     appointmentClient
       ..interceptors.addAll([
         AppInterceptors(),
         CustomLogInterceptor(),
-        if(kReleaseMode)
-        PerformanceInterceptor()
+        if (kReleaseMode) PerformanceInterceptor()
       ]);
   }
   Future apiWrapper(
@@ -166,6 +165,13 @@ class APIService {
     return null;
   }
 
+  Future<AppInfo> getAppInfo() async {
+    AppInfo appInfo;
+    var json = await apiWrapper("app/info");
+    if (json != null) appInfo = AppInfo.fromJson(json);
+    return appInfo;
+  }
+
   Future<Reviews> getReviews(String key, {bool isSellerReview = false}) async {
     String query =
         isSellerReview ? "sellers/$key/reviews" : "products/$key/reviews";
@@ -217,10 +223,9 @@ class APIService {
     return products.items.isNotEmpty;
   }
 
-  Future<Product> getProductById({@required String productId}) async {
+  Future<Product> getProductById({@required String productId, bool withPromocodes = false}) async {
     if (productId == null) return null;
-    var productData =
-        await apiWrapper("products/$productId;seller=true;active=true");
+    var productData = withPromocodes ? await apiWrapper("products/$productId;seller=true;active=true;promocode=true") : await apiWrapper("products/$productId;seller=true;active=true");
     if (productData == null) return null;
     Product product = Product.fromJson(productData);
     return product;
@@ -498,6 +503,36 @@ class APIService {
       });
       return orders;
     }
+    return null;
+  }
+
+  Future<OrderModule.Order> verifyPayment(
+      {String orderId,
+      String paymentId,
+      String signature,
+      String msg,
+      bool success = true}) async {
+    var json = await apiWrapper("orders/$orderId/payment",
+        authenticated: true,
+        options: Options(headers: {'excludeToken': false}, method: "post"),
+        queryParameters: {
+          if (paymentId != null) "paymentId": paymentId,
+          if (signature != null) "signature": signature,
+          "message": msg,
+          "status": success ? "succeed" : "failed",
+        });
+
+    if (json != null) {
+      try {
+        OrderModule.Order order = OrderModule.Order.fromJson(json);
+        Fimber.d("Order : " + order.key);
+        return order;
+      } catch (err) {
+        Fimber.e(err.toString());
+        return null;
+      }
+    }
+    print("Razor Success: ${json.toString()}");
     return null;
   }
 

@@ -52,9 +52,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
 
   Map<int, Widget> iconpaymentMethodMap = {
     1: Tab(icon: Image.asset("assets/images/cash_icon.png")),
-    2: Tab(icon: Image.asset("assets/images/paytm_icon.png")),
-    3: Tab(icon: Image.asset("assets/images/phonepe_icon.png")),
-    4: Tab(icon: Image.asset("assets/images/gpay_icon.png")),
+    2: Tab(icon: Image.asset("assets/images/online_payment.png")),
   };
 
   @override

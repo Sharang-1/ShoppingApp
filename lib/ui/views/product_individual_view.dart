@@ -1,4 +1,3 @@
-import 'package:compound/constants/shared_pref.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -14,11 +13,11 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../constants/dynamic_links.dart';
 import '../../constants/route_names.dart';
 import '../../constants/server_urls.dart';
+import '../../constants/shared_pref.dart';
 import '../../controllers/base_controller.dart';
 import '../../controllers/cart_count_controller.dart';
 import '../../controllers/grid_view_builder/products_grid_view_builder_controller.dart';
 import '../../controllers/product_controller.dart';
-import '../../controllers/wishlist_controller.dart';
 import '../../locator.dart';
 import '../../models/grid_view_builder_filter_models/productFilter.dart';
 import '../../models/lookups.dart';
@@ -34,10 +33,9 @@ import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
 import '../views/home_view_slider.dart';
-import '../widgets/GridListWidget.dart';
-import '../widgets/ProductTileUI.dart';
 import '../widgets/cart_icon_badge.dart';
 import '../widgets/reviews.dart';
+import '../widgets/section_builder.dart';
 import '../widgets/wishlist_icon.dart';
 import 'cart_view.dart';
 import 'gallery_view.dart';
@@ -648,33 +646,15 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                   ),
                                 ),
                                 GestureDetector(
-                                  onTap: () async {
-                                    if (locator<WishListController>()
-                                            .list
-                                            .indexOf(productId) !=
-                                        -1) {
-                                      await controller
-                                          .removeFromWishList(productId);
-                                      locator<WishListController>()
-                                          .removeFromWishList(productId);
-                                    } else {
-                                      await controller.addToWishList(productId);
-                                      locator<WishListController>()
-                                          .addToWishList(productId);
-                                      Get.snackbar('Added to Your wishlist', '',
-                                          snackPosition: SnackPosition.BOTTOM);
-                                    }
-                                  },
+                                  onTap: () async => controller
+                                      .onWishlistBtnClicked(productId),
                                   child: Container(
                                     padding: EdgeInsets.all(10),
                                     // decoration: BoxDecoration(
                                     //     borderRadius: BorderRadius.circular(30),
                                     //     color: Colors.white.withOpacity(1)),
                                     child: WishListIcon(
-                                      filled: locator<WishListController>()
-                                              .list
-                                              .indexOf(productId) !=
-                                          -1,
+                                      filled: controller.isWishlistIconFilled,
                                       width: 25,
                                       height: 25,
                                     ),
@@ -817,30 +797,60 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                   ),
                                 ],
                               ),
-                            if (productData.whoMadeIt.id == 2)
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 8.0, right: 8.0),
-                                child: FittedBox(
-                                  alignment: Alignment.centerLeft,
-                                  fit: BoxFit.scaleDown,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: logoRed,
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Text(
-                                      "Hand-Crafted",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.white,
-                                        fontSize: 16,
+                            Row(
+                              children: [
+                                if ((productData?.stitchingType?.id ?? -1) == 2)
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 8.0, right: 8.0),
+                                    child: FittedBox(
+                                      alignment: Alignment.centerLeft,
+                                      fit: BoxFit.scaleDown,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: logoRed,
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                        ),
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Text(
+                                          "Unstitched",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.white,
+                                            fontSize: 16,
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              ),
+                                if (productData.whoMadeIt.id == 2)
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 8.0, right: 8.0),
+                                    child: FittedBox(
+                                      alignment: Alignment.centerLeft,
+                                      fit: BoxFit.scaleDown,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: logoRed,
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                        ),
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Text(
+                                          "Hand-Crafted",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.white,
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                              ],
+                            ),
                             // verticalSpaceMedium,
                             // Center(
                             //   child: GestureDetector(
@@ -1233,7 +1243,6 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                             verticalSpaceMedium,
                             ReviewWidget(
                               id: productId,
-                              expanded: true,
                             ),
                             verticalSpace(20),
                             Text(
@@ -1349,36 +1358,18 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                             // ReviewWidget(productId),
 
                             verticalSpace(5),
-                            SizedBox(
-                              height: 240,
-                              child: GridListWidget<Products, Product>(
-                                key: uniqueKey,
-                                context: context,
-                                filter: ProductFilter(
-                                    existingQueryString:
-                                        "subCategory=${productData?.category?.id ?? -1};"),
-                                gridCount: 2,
-                                emptyListWidget: Container(),
-                                controller: ProductsGridViewBuilderController(
-                                  filteredProductKey: productData?.key,
-                                  randomize: true,
-                                ),
-                                childAspectRatio: 1.35,
-                                scrollDirection: Axis.horizontal,
-                                disablePagination: false,
-                                tileBuilder: (BuildContext context, productData,
-                                    index, onUpdate, onDelete) {
-                                  return ProductTileUI(
-                                    data: productData,
-                                    onClick: () =>
-                                        BaseController.goToProductPage(
-                                            productData),
-                                    index: index,
-                                    cardPadding:
-                                        EdgeInsets.fromLTRB(0, 0, 0, 10),
-                                  );
-                                },
+                            SectionBuilder(
+                              key: uniqueKey ?? UniqueKey(),
+                              context: context,
+                              filter: ProductFilter(
+                                  existingQueryString:
+                                      "subCategory=${productData?.category?.id ?? -1};"),
+                              layoutType: LayoutType.PRODUCT_LAYOUT_2,
+                              controller: ProductsGridViewBuilderController(
+                                filteredProductKey: productData?.key,
+                                randomize: true,
                               ),
+                              scrollDirection: Axis.horizontal,
                             ),
                             if (showMoreFromDesigner) verticalSpace(20),
                             if (showMoreFromDesigner)
@@ -1390,46 +1381,28 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                               ),
                             if (showMoreFromDesigner) verticalSpace(5),
                             if (showMoreFromDesigner)
-                              SizedBox(
-                                height: 240,
-                                child: GridListWidget<Products, Product>(
-                                  key: uniqueKey,
-                                  context: context,
-                                  filter: ProductFilter(
-                                      existingQueryString: productData
-                                                  ?.account?.key !=
-                                              null
-                                          ? "accountKey=${productData?.account?.key};"
-                                          : ""),
-                                  gridCount: 2,
-                                  controller: ProductsGridViewBuilderController(
-                                    filteredProductKey: productData?.key,
-                                    randomize: true,
-                                  ),
-                                  childAspectRatio: 1.35,
-                                  emptyListWidget: Container(),
-                                  onEmptyList: () async {
-                                    await Future.delayed(
-                                        Duration(milliseconds: 500),
-                                        () => setState(() {
-                                              showMoreFromDesigner = false;
-                                            }));
-                                  },
-                                  scrollDirection: Axis.horizontal,
-                                  disablePagination: false,
-                                  tileBuilder: (BuildContext context,
-                                      productData, index, onUpdate, onDelete) {
-                                    return ProductTileUI(
-                                      data: productData,
-                                      onClick: () =>
-                                          BaseController.goToProductPage(
-                                              productData),
-                                      index: index,
-                                      cardPadding:
-                                          EdgeInsets.fromLTRB(0, 0, 0, 10),
-                                    );
-                                  },
+                              SectionBuilder(
+                                key: uniqueKey ?? UniqueKey(),
+                                context: context,
+                                filter: ProductFilter(
+                                    existingQueryString: productData
+                                                ?.account?.key !=
+                                            null
+                                        ? "accountKey=${productData?.account?.key};"
+                                        : ""),
+                                layoutType: LayoutType.PRODUCT_LAYOUT_2,
+                                controller: ProductsGridViewBuilderController(
+                                  filteredProductKey: productData?.key,
+                                  randomize: true,
                                 ),
+                                scrollDirection: Axis.horizontal,
+                                onEmptyList: () async {
+                                  await Future.delayed(
+                                      Duration(milliseconds: 500),
+                                      () => setState(() {
+                                            showMoreFromDesigner = false;
+                                          }));
+                                },
                               ),
                             // bottomTag()
                             // SizedBox(

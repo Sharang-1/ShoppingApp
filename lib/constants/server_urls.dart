@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 
+// const bool releaseMode = kReleaseMode || true;
 const bool releaseMode = kReleaseMode && false;
 
 const String BASE_URL =

@@ -174,6 +174,7 @@ class PaginatedGridView<P, I> extends StatefulWidget {
   final int gridCount;
   final double childAspectRatio;
   final bool disablePagination;
+  final bool showScrollIndicator;
   final Axis scrollDirection;
   final Widget emptyListWidget;
   final Function onEmptyList;
@@ -187,6 +188,7 @@ class PaginatedGridView<P, I> extends StatefulWidget {
     @required this.tileBuilder,
     this.childAspectRatio = 1,
     this.disablePagination,
+    this.showScrollIndicator = false,
     this.scrollDirection = Axis.vertical,
     this.emptyListWidget,
     this.onEmptyList,

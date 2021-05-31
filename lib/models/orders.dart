@@ -180,35 +180,39 @@ class OrderCost {
   String note;
 
   factory OrderCost.fromJson(Map<String, dynamic> json) => OrderCost(
-      productPrice: json["productPrice"],
-      quantity: json["quantity"],
-      productDiscount: json['productDiscount'] == null
-          ? null
-          : CostAndRate.fromJson(json['productDiscount']),
-      promocodeDiscount: json['promocodeDiscount'] == null
-          ? null
-          : CostAndRate.fromJson(json['promocodeDiscount']),
-      convenienceCharges: json['convenienceCharges'] == null
-          ? null
-          : CostAndRate.fromJson(json['convenienceCharges']),
-      gstCharges: json['gstCharges'] == null
-          ? null
-          : CostAndRate.fromJson(json['gstCharges']),
-      deliveryCharges: json['deliveryCharges'] == null
-          ? null
-          : Delivery.fromJson(json['deliveryCharges']),
-      cost: json["cost"] == null ? null : json["cost"],
-      note: json['note'],
-    );
+        productPrice: json["productPrice"],
+        quantity: json["quantity"],
+        productDiscount: json['productDiscount'] == null
+            ? null
+            : CostAndRate.fromJson(json['productDiscount']),
+        promocodeDiscount: json['promocodeDiscount'] == null
+            ? null
+            : CostAndRate.fromJson(json['promocodeDiscount']),
+        convenienceCharges: json['convenienceCharges'] == null
+            ? null
+            : CostAndRate.fromJson(json['convenienceCharges']),
+        gstCharges: json['gstCharges'] == null
+            ? null
+            : CostAndRate.fromJson(json['gstCharges']),
+        deliveryCharges: json['deliveryCharges'] == null
+            ? null
+            : Delivery.fromJson(json['deliveryCharges']),
+        cost: json["cost"] == null ? null : json["cost"],
+        note: json['note'],
+      );
 
   Map<String, dynamic> toJson() => {
         "productPrice": productPrice,
         "quantity": quantity,
-        "productDiscount": productDiscount == null ? null : productDiscount.toJson(),
-        "promocodeDiscount": promocodeDiscount == null ? null : promocodeDiscount.toJson(),
-        "convenienceCharges": convenienceCharges == null ? null :  convenienceCharges.toJson(),
-        "gstCharges": gstCharges == null ? null :  gstCharges.toJson(),
-        "deliveryCharges": deliveryCharges == null ? null :  deliveryCharges.toJson(),
+        "productDiscount":
+            productDiscount == null ? null : productDiscount.toJson(),
+        "promocodeDiscount":
+            promocodeDiscount == null ? null : promocodeDiscount.toJson(),
+        "convenienceCharges":
+            convenienceCharges == null ? null : convenienceCharges.toJson(),
+        "gstCharges": gstCharges == null ? null : gstCharges.toJson(),
+        "deliveryCharges":
+            deliveryCharges == null ? null : deliveryCharges.toJson(),
         "cost": cost,
         "note": note,
       };
@@ -217,16 +221,28 @@ class OrderCost {
 class Payment {
   Payment({
     this.option,
+    this.receiptId,
+    this.orderId,
+    this.orderStatus,
   });
 
   Option option;
+  String receiptId;
+  String orderId;
+  String orderStatus;
 
   factory Payment.fromJson(Map<String, dynamic> json) => Payment(
         option: json["option"] != null ? Option.fromJson(json["option"]) : null,
+        receiptId: json["receiptId"],
+        orderId: json["orderId"],
+        orderStatus: json["orderStatus"],
       );
 
   Map<String, dynamic> toJson() => {
         "option": option?.toJson(),
+        "receiptId": receiptId,
+        "orderId": orderId,
+        "orderStatus": orderStatus,
       };
 }
 

@@ -22,9 +22,9 @@ import '../../ui/widgets/writeReview.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
-import '../widgets/GridListWidget.dart';
-import '../widgets/ProductFilterDialog.dart';
-import '../widgets/ProductTileUI.dart';
+import '../widgets/grid_list_widget.dart';
+import '../widgets/product_filter_dialog.dart';
+import '../widgets/product_tile_ui.dart';
 
 class ProductListView extends StatefulWidget {
   final String queryString;
@@ -105,6 +105,7 @@ class _ProductListViewState extends State<ProductListView> {
                                   child: WriteReviewWidget(
                                     sellerKey,
                                     isSeller: true,
+                                    fromProductList: true,
                                     onSubmit: () {
                                       reviewsKey = UniqueKey();
                                       writeReviewKey = UniqueKey();
@@ -281,7 +282,7 @@ class _ProductListViewState extends State<ProductListView> {
       floatingActionButton: (widget.sellerPhoto != null)
           ? FloatingActionButton.extended(
               label: Text(
-                'Write a Review',
+                'Reviews',
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -360,6 +361,7 @@ class _ProductListViewState extends State<ProductListView> {
                   ),
                 if (widget.sellerPhoto != null)
                   Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
                         height: 100,

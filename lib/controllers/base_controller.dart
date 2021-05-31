@@ -24,7 +24,8 @@ class BaseController extends GetxController {
   User get currentUser => _authenticationService.currentUser;
   bool _busy = false;
   bool get busy => _busy;
-  final num deliveryCharges = 35.40;
+  static const num deliveryCharge = 35.40;
+  num get deliveryCharges => deliveryCharge;
 
   void setBusy(bool value) {
     _busy = value;
@@ -77,6 +78,10 @@ class BaseController extends GetxController {
       await NavigationService.to(CartViewRoute);
   static Future<void> category() async =>
       await NavigationService.to(CategoriesRoute);
+  static Future<dynamic> gotoSettingsPage() async =>
+      await NavigationService.to(SettingsRoute);
+  static Future<dynamic> gotoWishlist() async =>
+      await NavigationService.to(WishListRoute);
   static Future<dynamic> goToProductPage(Product data) =>
       NavigationService.to(ProductIndividualRoute, arguments: data);
   static Future<dynamic> goToProductListPage(ProductPageArg arg) =>

@@ -12,9 +12,9 @@ import '../../models/grid_view_builder_filter_models/productFilter.dart';
 import '../../models/products.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
-import '../widgets/GridListWidget.dart';
-import '../widgets/ProductFilterDialog.dart';
-import '../widgets/ProductTileUI.dart';
+import '../widgets/grid_list_widget.dart';
+import '../widgets/product_filter_dialog.dart';
+import '../widgets/product_tile_ui.dart';
 
 class CategoryIndiView extends StatefulWidget {
   final String queryString;

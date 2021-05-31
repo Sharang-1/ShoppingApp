@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../constants/server_urls.dart';
 import '../../models/cart.dart';
@@ -17,6 +18,7 @@ class CartProductTileUI extends StatefulWidget {
   final String promoCode;
   final String promoCodeDiscount;
   final Function proceedToOrder;
+  final Function onRemove;
 
   CartProductTileUI({
     Key key,
@@ -27,6 +29,7 @@ class CartProductTileUI extends StatefulWidget {
     this.promoCode = "",
     this.promoCodeDiscount = "",
     @required this.proceedToOrder,
+    @required this.onRemove,
   }) : super(key: key);
   @override
   _CartProductTileUIState createState() => _CartProductTileUIState();
@@ -133,115 +136,145 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(curve15),
-      ),
-      clipBehavior: Clip.antiAlias,
-      elevation: 5,
-      child: Padding(
-        padding: EdgeInsets.only(left: 10),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            ClipRRect(
-              borderRadius: BorderRadius.circular(curve15),
-              child: FadeInImage.assetNetwork(
-                width: 120,
-                fadeInCurve: Curves.easeIn,
-                placeholder: "assets\images\product_preloading.png",
-                image: productImage != null
-                    ? '$PRODUCT_PHOTO_BASE_URL/${widget.item.productId}/$productImage-small.png'
-                    : "https://images.unsplashr.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-                imageErrorBuilder: (context, error, stackTrace) => Image.asset(
-                  "assets/images/product_preloading.png",
+    return InkWell(
+      onTap: widget.proceedToOrder,
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(curve15),
+        ),
+        clipBehavior: Clip.antiAlias,
+        elevation: 5,
+        child: Padding(
+          padding: EdgeInsets.only(left: 10),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              ClipRRect(
+                borderRadius: BorderRadius.circular(curve15),
+                child: FadeInImage.assetNetwork(
                   width: 120,
+                  fadeInCurve: Curves.easeIn,
+                  placeholder: "assets\images\product_preloading.png",
+                  image: productImage != null
+                      ? '$PRODUCT_PHOTO_BASE_URL/${widget.item.productId}/$productImage-small.png'
+                      : "https://images.unsplashr.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
+                  imageErrorBuilder: (context, error, stackTrace) =>
+                      Image.asset(
+                    "assets/images/product_preloading.png",
+                    width: 120,
+                    fit: BoxFit.fitWidth,
+                  ),
                   fit: BoxFit.fitWidth,
                 ),
-                fit: BoxFit.fitWidth,
               ),
-            ),
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.only(left: 10),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    verticalSpaceTiny,
-                    CustomText(
-                      capitalizeString(orderSummaryDetails["Product Name"]),
-                      dotsAfterOverFlow: true,
-                      isTitle: true,
-                      isBold: true,
-                      fontSize: titleFontSize,
-                    ),
-                    verticalSpaceSmall,
-                    Row(
-                      children: <Widget>[
-                        CustomText(
-                          orderSummaryDetails["Total"],
-                          color: darkRedSmooth,
-                          isBold: true,
-                          fontSize: priceFontSize,
-                        ),
-                      ],
-                    ),
-                    verticalSpaceTiny,
-                    CustomText(
-                      "Qty : ${orderSummaryDetails["Qty"]} Piece(s)",
-                      dotsAfterOverFlow: true,
-                      color: Colors.grey,
-                      fontSize: subtitleFontSize - 2,
-                    ),
-                    verticalSpaceTiny,
-                    CustomText(
-                      "Size : ${orderSummaryDetails["Size"]}",
-                      dotsAfterOverFlow: true,
-                      color: Colors.grey,
-                      fontSize: subtitleFontSize - 2,
-                    ),
-                  ],
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.only(left: 10),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      verticalSpaceTiny,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: CustomText(
+                              capitalizeString(
+                                  orderSummaryDetails["Product Name"]),
+                              dotsAfterOverFlow: true,
+                              isTitle: true,
+                              isBold: true,
+                              fontSize: titleFontSize,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: InkWell(
+                              onTap: widget.onRemove,
+                              child: Icon(
+                                FontAwesomeIcons.trashAlt,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      verticalSpaceTiny,
+                      CustomText(
+                        "Qty : ${orderSummaryDetails["Qty"]} Piece(s)",
+                        dotsAfterOverFlow: true,
+                        color: Colors.grey,
+                        fontSize: subtitleFontSize - 2,
+                      ),
+                      verticalSpaceTiny,
+                      CustomText(
+                        "Size : ${orderSummaryDetails["Size"]}",
+                        dotsAfterOverFlow: true,
+                        color: Colors.grey,
+                        fontSize: subtitleFontSize - 2,
+                      ),
+                      verticalSpaceSmall,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          CustomText(
+                            orderSummaryDetails["Total"],
+                            color: darkRedSmooth,
+                            isBold: true,
+                            fontSize: priceFontSize,
+                          ),
+                          InkWell(
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 8.0),
+                              child: Icon(
+                                !clicked
+                                    ? Icons.keyboard_arrow_down
+                                    : Icons.keyboard_arrow_up,
+                                color: Colors.grey,
+                              ),
+                            ),
+                            onTap: onTap,
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            IconButton(
-              icon: Icon(
-                !clicked ? Icons.keyboard_arrow_down : Icons.keyboard_arrow_up,
-                color: Colors.grey,
-              ),
-              onPressed: () {
-                setState(() {
-                  clicked = true;
-                });
-
-                showModalBottomSheet<void>(
-                    clipBehavior: Clip.antiAlias,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(30),
-                        topRight: Radius.circular(30),
-                      ),
-                    ),
-                    isScrollControlled: true,
-                    context: context,
-                    builder: (context) {
-                      return bottomSheetDetailsTable(
-                        titleFontSize,
-                        subtitleFontSize,
-                      );
-                    }).whenComplete(() {
-                  setState(() {
-                    clicked = false;
-                  });
-                });
-              },
-            )
-          ],
+            ],
+          ),
         ),
       ),
     );
+  }
+
+  void onTap() {
+    setState(() {
+      clicked = true;
+    });
+
+    showModalBottomSheet<void>(
+        clipBehavior: Clip.antiAlias,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(30),
+            topRight: Radius.circular(30),
+          ),
+        ),
+        isScrollControlled: true,
+        context: context,
+        builder: (context) {
+          return bottomSheetDetailsTable(
+            titleFontSize,
+            subtitleFontSize,
+          );
+        }).whenComplete(() {
+      setState(() {
+        clicked = false;
+      });
+    });
   }
 
   Widget bottomSheetDetailsTable(titleFontSize, subtitleFontSize) {
@@ -479,6 +512,7 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
+                              fontFamily: "Open-Sans",
                             ),
                           ),
                         ),

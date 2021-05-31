@@ -1,4 +1,6 @@
+import 'package:compound/controllers/wishlist_controller.dart';
 import 'package:fimber/fimber.dart';
+import 'package:get/get.dart';
 
 import '../constants/route_names.dart';
 import '../locator.dart';
@@ -15,7 +17,8 @@ import '../services/wishlist_service.dart';
 import 'base_controller.dart';
 
 class ProductController extends BaseController {
-  final CartLocalStoreService _cartLocalStoreService = locator<CartLocalStoreService>();
+  final CartLocalStoreService _cartLocalStoreService =
+      locator<CartLocalStoreService>();
   final APIService _apiService = locator<APIService>();
   final AnalyticsService _analyticsService = locator<AnalyticsService>();
   final WishListService _wishListService = locator<WishListService>();
@@ -26,6 +29,7 @@ class ProductController extends BaseController {
   String sellerId;
   String productId = "";
   String productName = "";
+  bool isWishlistIconFilled = false;
 
   ProductController(this.sellerId,
       {this.productId = "", this.productName = ""});
@@ -37,6 +41,8 @@ class ProductController extends BaseController {
           "product_id": productId,
           "product_name": productName
         });
+    isWishlistIconFilled =
+        locator<WishListController>().list.indexOf(productId) != -1;
     sellerDetail = await _apiService.getSellerByID(sellerId);
     reviews = await _apiService.getReviews(productId, isSellerReview: false);
     update();
@@ -123,16 +129,26 @@ class ProductController extends BaseController {
   }
 
   Future<dynamic> buyNowView(String productId) async {
-    return await NavigationService.to(CartViewRoute,
-        arguments: productId);
+    return await NavigationService.to(CartViewRoute, arguments: productId);
   }
 
-  Future<bool> addToWishList(String id) async {
-    return await _wishListService.addWishList(id);
-  }
-
-  Future<bool> removeFromWishList(String id) async {
-    return await _wishListService.removeWishList(id);
+  Future onWishlistBtnClicked(String id) async {
+    if (locator<WishListController>().list.indexOf(id) != -1) {
+      await _wishListService.removeWishList(id);
+      locator<WishListController>().removeFromWishList(id);
+      isWishlistIconFilled = false;
+      update();
+    } else {
+      await _wishListService.addWishList(id);
+      locator<WishListController>().addToWishList(id);
+      isWishlistIconFilled = true;
+      update();
+      Get.snackbar(
+        'Added to Your wishlist',
+        '',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
   }
 
   Future<void> shareProductEvent(

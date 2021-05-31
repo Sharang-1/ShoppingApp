@@ -8,23 +8,14 @@ import '../../controllers/grid_view_builder/categories_view_builder_controller.d
 import '../../controllers/grid_view_builder/products_grid_view_builder_controller.dart';
 import '../../controllers/grid_view_builder/sellers_grid_view_builder_controller.dart';
 import '../../controllers/home_controller.dart';
-import '../../models/categorys.dart';
-import '../../models/grid_view_builder_filter_models/categoryFilter.dart';
 import '../../models/grid_view_builder_filter_models/productFilter.dart';
-import '../../models/grid_view_builder_filter_models/sellerFilter.dart';
 import '../../models/productPageArg.dart';
-import '../../models/products.dart';
-import '../../models/sellers.dart';
 import '../../services/remote_config_service.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
-import '../widgets/GridListWidget.dart';
-import '../widgets/categoryTileUI.dart';
-import '../widgets/home_view_list_header.dart';
 import '../widgets/promotion_slider.dart';
-import '../widgets/sellerTileUi.dart';
-import '../widgets/top_picks_deals_card.dart';
+import '../widgets/section_builder.dart';
 import 'promotion_products_view.dart';
 
 class HomeViewList extends StatelessWidget {
@@ -64,135 +55,70 @@ class HomeViewList extends StatelessWidget {
                     key: controller.promotionKey,
                     promotions: controller.topPromotion,
                   ),
+                // SectionDivider(),
+
+                SectionBuilder(
+                  key: productUniqueKey ?? UniqueKey(),
+                  context: context,
+                  layoutType: LayoutType.PRODUCT_LAYOUT_1,
+                  filter: ProductFilter(subCategories: ['1']),
+                  controller: ProductsGridViewBuilderController(
+                      randomize: true, limit: 10),
+                  scrollDirection: Axis.horizontal,
+                  header: SectionHeader(
+                    title: controller?.remoteConfig?.getString(
+                            HOMESCREEN_PRODUCT_SECTION_1_TITLE_EN) ??
+                        '',
+                    subTitle: controller?.remoteConfig?.getString(
+                            HOMESCREEN_PRODUCT_SECTION_1_SUBTITLE_EN) ??
+                        '',
+                    // viewAll: () => BaseController.goToProductListPage(
+                    //   ProductPageArg(
+                    //     queryString: 'category=1;',
+                    //     subCategory: '',
+                    //   ),
+                    // ),
+                  ),
+                ),
+
                 SectionDivider(),
-                HomeViewListHeader(
-                  title: controller?.remoteConfig
-                          ?.getString(HOMESCREEN_PRODUCT_SECTION_1_TITLE_EN) ??
-                      '',
-                  subTitle: controller?.remoteConfig?.getString(
-                          HOMESCREEN_PRODUCT_SECTION_1_SUBTITLE_EN) ??
-                      '',
-                  viewAll: () => BaseController.goToProductListPage(
-                    ProductPageArg(
-                      queryString: 'category=1;',
-                      subCategory: '',
-                    ),
+
+                SectionBuilder(
+                  key: sellerUniqueKey ?? UniqueKey(),
+                  context: context,
+                  layoutType: LayoutType.DESIGNER_LAYOUT_1,
+                  fromHome: true,
+                  controller: SellersGridViewBuilderController(
+                    profileOnly: true,
+                    random: true,
+                    boutiquesOnly: true,
+                  ),
+                  scrollDirection: Axis.horizontal,
+                  header: SectionHeader(
+                    title: controller?.remoteConfig?.getString(
+                            HOMESCREEN_DESIGNER_SECTION_1_TITLE_EN) ??
+                        '',
+                    subTitle: controller?.remoteConfig?.getString(
+                            HOMESCREEN_DESIGNER_SECTION_1_SUBTITLE_EN) ??
+                        '',
                   ),
                 ),
-                verticalSpaceSmall,
-                SizedBox(
-                  height: 240,
-                  child: GridListWidget<Products, Product>(
-                    key: productUniqueKey ?? UniqueKey(),
-                    context: context,
-                    filter: ProductFilter(subCategories: ['1']),
-                    gridCount: 2,
-                    controller: ProductsGridViewBuilderController(
-                        randomize: true, limit: 10),
-                    childAspectRatio: 1.35,
-                    scrollDirection: Axis.horizontal,
-                    disablePagination: true,
-                    tileBuilder: (BuildContext context, productData, index,
-                        onUpdate, onDelete) {
-                      var product = productData as Product;
-                      return GestureDetector(
-                        onTap: () =>
-                            BaseController.goToProductPage(productData),
-                        child: TopPicksAndDealsCard(
-                          data: {
-                            "key": product?.key ?? "Test",
-                            "name": product?.name ?? "Test",
-                            "actualCost": (product.cost.cost +
-                                    product.cost.convenienceCharges.cost +
-                                    product.cost.gstCharges.cost +
-                                    controller.deliveryCharges)
-                                .round(),
-                            "price": (product.cost.costToCustomer +
-                                        controller.deliveryCharges)
-                                    .round() ??
-                                0,
-                            "discount":
-                                product?.cost?.productDiscount?.rate ?? 0,
-                            "photo": product?.photo?.photos?.first?.name,
-                            "sellerName": product?.seller?.name ?? "",
-                            "isDiscountAvailable": product?.discount != null &&
-                                    product.discount != 0
-                                ? "true"
-                                : null,
-                          },
-                        ),
-                      );
-                    },
-                  ),
-                ),
+
                 SectionDivider(),
-                HomeViewListHeader(
-                  title: controller?.remoteConfig
-                          ?.getString(HOMESCREEN_DESIGNER_SECTION_1_TITLE_EN) ??
-                      '',
-                  subTitle: controller?.remoteConfig?.getString(
-                          HOMESCREEN_DESIGNER_SECTION_1_SUBTITLE_EN) ??
-                      '',
-                ),
-                verticalSpaceSmall,
-                SizedBox(
-                  height: 220,
-                  child: GridListWidget<Sellers, Seller>(
-                    key: sellerUniqueKey ?? UniqueKey(),
-                    context: context,
-                    filter: SellerFilter(),
-                    gridCount: 1,
-                    childAspectRatio: 0.60,
-                    controller: SellersGridViewBuilderController(
-                        profileOnly: true, random: true, boutiquesOnly: true),
-                    disablePagination: true,
-                    scrollDirection: Axis.horizontal,
-                    emptyListWidget: Container(),
-                    tileBuilder: (BuildContext context, data, index, onDelete,
-                        onUpdate) {
-                      return GestureDetector(
-                        onTap: () => {},
-                        child: SellerTileUi(
-                          data: data,
-                          fromHome: true,
-                        ),
-                      );
-                    },
+
+                SectionBuilder(
+                  key: categoryUniqueKey,
+                  context: context,
+                  layoutType: LayoutType.CATEGORY_LAYOUT_1,
+                  controller: CategoriesGridViewBuilderController(),
+                  scrollDirection: Axis.horizontal,
+                  header: SectionHeader(
+                    title: 'Shop By Category 🛍️',
+                    subTitle: 'Shop designer wear by specific categories',
+                    viewAll: () => BaseController.category(),
                   ),
                 ),
-                SectionDivider(),
-                HomeViewListHeader(
-                  title: 'Shop By Category 🛍️',
-                  subTitle: 'Shop designer wear by specific categories',
-                  viewAll: () => BaseController.category(),
-                ),
-                verticalSpaceSmall,
-                SizedBox(
-                  height: 140,
-                  child: GridListWidget<Categorys, Category>(
-                    key: categoryUniqueKey ?? UniqueKey(),
-                    context: context,
-                    filter: CategoryFilter(),
-                    gridCount: 1,
-                    childAspectRatio: 0.5,
-                    controller: CategoriesGridViewBuilderController(),
-                    disablePagination: true,
-                    scrollDirection: Axis.horizontal,
-                    emptyListWidget: Container(),
-                    tileBuilder: (BuildContext context, data, index, onDelete,
-                        onUpdate) {
-                      return GestureDetector(
-                        onTap: () => controller.showProducts(
-                          data.filter,
-                          data.name,
-                        ),
-                        child: CategoryTileUI(
-                          data: data,
-                        ),
-                      );
-                    },
-                  ),
-                ),
+
                 if ((controller?.bottomPromotion?.length ?? 0) > 0)
                   SectionDivider(),
                 if ((controller?.bottomPromotion?.length ?? 0) > 0)
@@ -244,158 +170,70 @@ class HomeViewList extends StatelessWidget {
                     ),
                   ),
                 SectionDivider(),
-                HomeViewListHeader(
-                  title: controller?.remoteConfig
-                          ?.getString(HOMESCREEN_PRODUCT_SECTION_2_TITLE_EN) ??
-                      '',
-                  subTitle: controller?.remoteConfig?.getString(
-                          HOMESCREEN_PRODUCT_SECTION_2_SUBTITLE_EN) ??
-                      '',
-                  viewAll: () => BaseController.goToProductListPage(
-                    ProductPageArg(
-                      queryString: '',
-                      subCategory: '',
+
+                SectionBuilder(
+                  key: productUniqueKey ?? UniqueKey(),
+                  context: context,
+                  filter: ProductFilter(maxPrice: 1750),
+                  layoutType: LayoutType.PRODUCT_LAYOUT_1,
+                  controller: ProductsGridViewBuilderController(limit: 10),
+                  scrollDirection: Axis.horizontal,
+                  header: SectionHeader(
+                    title: controller?.remoteConfig?.getString(
+                            HOMESCREEN_PRODUCT_SECTION_2_TITLE_EN) ??
+                        '',
+                    subTitle: controller?.remoteConfig?.getString(
+                            HOMESCREEN_PRODUCT_SECTION_2_SUBTITLE_EN) ??
+                        '',
+                    viewAll: () => BaseController.goToProductListPage(
+                      ProductPageArg(
+                        queryString: '',
+                        subCategory: '',
+                      ),
                     ),
                   ),
                 ),
-                verticalSpaceSmall,
-                SizedBox(
-                  height: 240,
-                  child: GridListWidget<Products, Product>(
-                    key: productUniqueKey ?? UniqueKey(),
-                    context: context,
-                    filter: ProductFilter(maxPrice: 1750),
-                    gridCount: 2,
-                    controller: ProductsGridViewBuilderController(limit: 10),
-                    childAspectRatio: 1.35,
-                    scrollDirection: Axis.horizontal,
-                    disablePagination: true,
-                    tileBuilder: (BuildContext context, productData, index,
-                        onUpdate, onDelete) {
-                      var product = productData as Product;
-                      return GestureDetector(
-                        onTap: () =>
-                            BaseController.goToProductPage(productData),
-                        child: TopPicksAndDealsCard(
-                          data: {
-                            "key": product?.key ?? "Test",
-                            "name": product?.name ?? "Test",
-                            "actualCost": (product.cost.cost +
-                                    product.cost.convenienceCharges.cost +
-                                    product.cost.gstCharges.cost +
-                                    controller.deliveryCharges)
-                                .round(),
-                            "price": (product.cost.costToCustomer +
-                                        controller.deliveryCharges)
-                                    .round() ??
-                                0,
-                            "discount":
-                                product?.cost?.productDiscount?.rate ?? 0,
-                            "photo": product?.photo?.photos?.first?.name,
-                            "sellerName": product?.seller?.name ?? "",
-                            "isDiscountAvailable": product?.discount != null &&
-                                    product.discount != 0
-                                ? "true"
-                                : null,
-                          },
-                        ),
-                      );
-                    },
+                SectionDivider(),
+
+                SectionBuilder(
+                  key: sellerUniqueKey ?? UniqueKey(),
+                  context: context,
+                  layoutType: LayoutType.DESIGNER_LAYOUT_1,
+                  scrollDirection: Axis.horizontal,
+                  fromHome: true,
+                  toProduct: true,
+                  controller: SellersGridViewBuilderController(
+                    sellerDeliveringToYou: true,
+                    random: true,
+                    sellerWithNoProducts: false,
+                  ),
+                  header: SectionHeader(
+                    title: controller?.remoteConfig?.getString(
+                            HOMESCREEN_DESIGNER_SECTION_2_TITLE_EN) ??
+                        '',
+                    subTitle: controller?.remoteConfig?.getString(
+                            HOMESCREEN_DESIGNER_SECTION_2_SUBTITLE_EN) ??
+                        '',
                   ),
                 ),
+
                 SectionDivider(),
-                HomeViewListHeader(
-                  title: controller?.remoteConfig
-                          ?.getString(HOMESCREEN_DESIGNER_SECTION_2_TITLE_EN) ??
-                      '',
-                  subTitle: controller?.remoteConfig?.getString(
-                          HOMESCREEN_DESIGNER_SECTION_2_SUBTITLE_EN) ??
-                      '',
-                ),
-                verticalSpaceSmall,
-                SizedBox(
-                  height: 220,
-                  child: GridListWidget<Sellers, Seller>(
-                    key: sellerUniqueKey ?? UniqueKey(),
-                    context: context,
-                    filter: new SellerFilter(),
-                    gridCount: 1,
-                    childAspectRatio: 0.60,
-                    controller: SellersGridViewBuilderController(
-                      sellerDeliveringToYou: true,
-                      random: true,
-                      sellerWithNoProducts: false,
-                    ),
-                    disablePagination: true,
-                    scrollDirection: Axis.horizontal,
-                    emptyListWidget: Container(),
-                    tileBuilder: (BuildContext context, data, index, onDelete,
-                        onUpdate) {
-                      return GestureDetector(
-                        onTap: () => {},
-                        child: SellerTileUi(
-                          data: data,
-                          fromHome: true,
-                          toProduct: true,
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                SectionDivider(),
-                HomeViewListHeader(
-                  title: controller?.remoteConfig
-                          ?.getString(HOMESCREEN_PRODUCT_SECTION_3_TITLE_EN) ??
-                      '',
-                  subTitle: controller?.remoteConfig?.getString(
-                          HOMESCREEN_PRODUCT_SECTION_3_SUBTITLE_EN) ??
-                      '',
-                ),
-                verticalSpaceSmall,
-                SizedBox(
-                  height: 240,
-                  child: GridListWidget<Products, Product>(
-                    key: productUniqueKey ?? UniqueKey(),
-                    context: context,
-                    filter: ProductFilter(minDiscount: 5),
-                    gridCount: 2,
-                    emptyListWidget: Container(),
-                    controller:
-                        ProductsGridViewBuilderController(randomize: true),
-                    childAspectRatio: 1.35,
-                    scrollDirection: Axis.horizontal,
-                    disablePagination: true,
-                    tileBuilder: (BuildContext context, productData, index,
-                        onUpdate, onDelete) {
-                      var product = productData as Product;
-                      return GestureDetector(
-                        onTap: () =>
-                            BaseController.goToProductPage(productData),
-                        child: TopPicksAndDealsCard(
-                          data: {
-                            "key": product?.key ?? "Test",
-                            "name": product?.name ?? "Test",
-                            "actualCost": (product.cost.cost +
-                                    product.cost.convenienceCharges.cost +
-                                    product.cost.gstCharges.cost +
-                                    controller.deliveryCharges)
-                                .round(),
-                            "price": (product.cost.costToCustomer +
-                                        controller.deliveryCharges)
-                                    .round() ??
-                                0,
-                            "discount":
-                                product?.cost?.productDiscount?.rate ?? 0,
-                            "photo": product?.photo?.photos?.first?.name,
-                            "sellerName": product?.seller?.name ?? "",
-                            "isDiscountAvailable": product?.discount != null &&
-                                    product.discount != 0
-                                ? "true"
-                                : null,
-                          },
-                        ),
-                      );
-                    },
+
+                SectionBuilder(
+                  key: productUniqueKey ?? UniqueKey(),
+                  context: context,
+                  layoutType: LayoutType.PRODUCT_LAYOUT_1,
+                  filter: ProductFilter(minDiscount: 5),
+                  controller:
+                      ProductsGridViewBuilderController(randomize: true),
+                  scrollDirection: Axis.horizontal,
+                  header: SectionHeader(
+                    title: controller?.remoteConfig?.getString(
+                            HOMESCREEN_PRODUCT_SECTION_3_TITLE_EN) ??
+                        '',
+                    subTitle: controller?.remoteConfig?.getString(
+                            HOMESCREEN_PRODUCT_SECTION_3_SUBTITLE_EN) ??
+                        '',
                   ),
                 ),
                 if ((controller?.bottomPromotion?.length ?? 0) > 1)
@@ -449,150 +287,60 @@ class HomeViewList extends StatelessWidget {
                     ),
                   ),
                 SectionDivider(),
-                HomeViewListHeader(
-                  title: controller?.remoteConfig
-                          ?.getString(HOMESCREEN_PRODUCT_SECTION_4_TITLE_EN) ??
-                      '',
-                  subTitle: controller?.remoteConfig?.getString(
-                          HOMESCREEN_PRODUCT_SECTION_4_SUBTITLE_EN) ??
-                      '',
-                ),
-                verticalSpaceSmall,
-                SizedBox(
-                  height: 240,
-                  child: GridListWidget<Products, Product>(
-                    key: productUniqueKey ?? UniqueKey(),
-                    context: context,
-                    filter: ProductFilter(subCategories: ['9'], maxPrice: 600),
-                    gridCount: 2,
-                    emptyListWidget: Container(),
-                    controller:
-                        ProductsGridViewBuilderController(randomize: true),
-                    childAspectRatio: 1.35,
-                    scrollDirection: Axis.horizontal,
-                    disablePagination: true,
-                    tileBuilder: (BuildContext context, productData, index,
-                        onUpdate, onDelete) {
-                      var product = productData as Product;
-                      return GestureDetector(
-                        onTap: () =>
-                            BaseController.goToProductPage(productData),
-                        child: TopPicksAndDealsCard(
-                          data: {
-                            "key": product?.key ?? "Test",
-                            "name": product?.name ?? "Test",
-                            "actualCost": (product.cost.cost +
-                                    product.cost.convenienceCharges.cost +
-                                    product.cost.gstCharges.cost +
-                                    controller.deliveryCharges)
-                                .round(),
-                            "price": (product.cost.costToCustomer +
-                                        controller.deliveryCharges)
-                                    .round() ??
-                                0,
-                            "discount":
-                                product?.cost?.productDiscount?.rate ?? 0,
-                            "photo": product?.photo?.photos?.first?.name,
-                            "sellerName": product?.seller?.name ?? "",
-                            "isDiscountAvailable": product?.discount != null &&
-                                    product.discount != 0
-                                ? "true"
-                                : null,
-                          },
-                        ),
-                      );
-                    },
+
+                SectionBuilder(
+                  key: productUniqueKey ?? UniqueKey(),
+                  context: context,
+                  filter: ProductFilter(subCategories: ['9'], maxPrice: 600),
+                  layoutType: LayoutType.PRODUCT_LAYOUT_1,
+                  scrollDirection: Axis.horizontal,
+                  controller:
+                      ProductsGridViewBuilderController(randomize: true),
+                  header: SectionHeader(
+                    title: controller?.remoteConfig?.getString(
+                            HOMESCREEN_PRODUCT_SECTION_4_TITLE_EN) ??
+                        '',
+                    subTitle: controller?.remoteConfig?.getString(
+                            HOMESCREEN_PRODUCT_SECTION_4_SUBTITLE_EN) ??
+                        '',
                   ),
                 ),
                 SectionDivider(),
-                HomeViewListHeader(
-                  title: 'Categories people are searching for 😊',
-                  subTitle: 'Explore the categories people are looking at',
-                  viewAll: BaseController.category,
-                ),
-                verticalSpaceSmall,
-                SizedBox(
-                  height: 200,
-                  child: GridListWidget<Categorys, Category>(
-                    key: categoryUniqueKey ?? UniqueKey(),
-                    context: context,
-                    filter: CategoryFilter(),
-                    gridCount: 2,
-                    childAspectRatio: 2,
-                    controller: CategoriesGridViewBuilderController(
-                        popularCategories: true),
-                    disablePagination: true,
-                    scrollDirection: Axis.vertical,
-                    emptyListWidget: Container(),
-                    tileBuilder: (BuildContext context, data, index, onDelete,
-                        onUpdate) {
-                      return GestureDetector(
-                        onTap: () => controller.showProducts(
-                          data.filter,
-                          data.name,
-                        ),
-                        child: CategoryTileUI(
-                          data: data,
-                        ),
-                      );
-                    },
+                SectionBuilder(
+                  key: categoryUniqueKey ?? UniqueKey(),
+                  context: context,
+                  gridCount: 2,
+                  scrollDirection: Axis.vertical,
+                  layoutType: LayoutType.CATEGORY_LAYOUT_2,
+                  controller: CategoriesGridViewBuilderController(
+                    popularCategories: true,
+                  ),
+                  header: SectionHeader(
+                    title: 'Categories people are searching for 😊',
+                    subTitle: 'Explore the categories people are looking at',
+                    viewAll: BaseController.category,
                   ),
                 ),
                 SectionDivider(),
-                HomeViewListHeader(
-                  title: controller?.remoteConfig
-                          ?.getString(HOMESCREEN_PRODUCT_SECTION_5_TITLE_EN) ??
-                      '',
-                  subTitle: controller?.remoteConfig?.getString(
-                          HOMESCREEN_PRODUCT_SECTION_5_SUBTITLE_EN) ??
-                      '',
-                ),
-                verticalSpaceSmall,
-                SizedBox(
-                  height: 240,
-                  child: GridListWidget<Products, Product>(
-                    key: productUniqueKey ?? UniqueKey(),
-                    context: context,
-                    filter: ProductFilter(maxPrice: 450),
-                    gridCount: 2,
-                    controller: ProductsGridViewBuilderController(
-                        randomize: true, sameDayDelivery: true),
-                    childAspectRatio: 1.35,
-                    scrollDirection: Axis.horizontal,
-                    disablePagination: true,
-                    tileBuilder: (BuildContext context, productData, index,
-                        onUpdate, onDelete) {
-                      var product = productData as Product;
-                      return GestureDetector(
-                        onTap: () =>
-                            BaseController.goToProductPage(productData),
-                        child: TopPicksAndDealsCard(
-                          data: {
-                            "key": product?.key ?? "Test",
-                            "name": product?.name ?? "Test",
-                            "actualCost": (product.cost.cost +
-                                    product.cost.convenienceCharges.cost +
-                                    product.cost.gstCharges.cost +
-                                    controller.deliveryCharges)
-                                .round(),
-                            "price": (product.cost.costToCustomer +
-                                        controller.deliveryCharges)
-                                    .round() ??
-                                0,
-                            "discount":
-                                product?.cost?.productDiscount?.rate ?? 0,
-                            "photo": product?.photo?.photos?.first?.name,
-                            "sellerName": product?.seller?.name ?? "",
-                            "isDiscountAvailable": product?.discount != null &&
-                                    product.discount != 0
-                                ? "true"
-                                : null,
-                          },
-                        ),
-                      );
-                    },
+
+                SectionBuilder(
+                  key: productUniqueKey ?? UniqueKey(),
+                  context: context,
+                  layoutType: LayoutType.PRODUCT_LAYOUT_1,
+                  filter: ProductFilter(maxPrice: 450),
+                  controller: ProductsGridViewBuilderController(
+                      randomize: true, sameDayDelivery: true),
+                  scrollDirection: Axis.horizontal,
+                  header: SectionHeader(
+                    title: controller?.remoteConfig?.getString(
+                            HOMESCREEN_PRODUCT_SECTION_5_TITLE_EN) ??
+                        '',
+                    subTitle: controller?.remoteConfig?.getString(
+                            HOMESCREEN_PRODUCT_SECTION_5_SUBTITLE_EN) ??
+                        '',
                   ),
                 ),
+
                 if ((controller?.bottomPromotion?.length ?? 0) > 2)
                   SectionDivider(),
                 if ((controller?.bottomPromotion?.length ?? 0) > 2)
@@ -644,159 +392,67 @@ class HomeViewList extends StatelessWidget {
                     ),
                   ),
                 SectionDivider(),
-                HomeViewListHeader(
-                  title: controller?.remoteConfig
-                          ?.getString(HOMESCREEN_PRODUCT_SECTION_6_TITLE_EN) ??
-                      '',
-                  subTitle: controller?.remoteConfig?.getString(
-                          HOMESCREEN_PRODUCT_SECTION_6_SUBTITLE_EN) ??
-                      '',
-                ),
-                verticalSpaceSmall,
-                SizedBox(
-                  height: 240,
-                  child: GridListWidget<Products, Product>(
-                    key: productUniqueKey ?? UniqueKey(),
-                    context: context,
-                    filter: ProductFilter(),
-                    gridCount: 2,
-                    controller:
-                        ProductsGridViewBuilderController(randomize: true),
-                    childAspectRatio: 1.35,
-                    scrollDirection: Axis.horizontal,
-                    disablePagination: true,
-                    tileBuilder: (BuildContext context, productData, index,
-                        onUpdate, onDelete) {
-                      var product = productData as Product;
-                      return GestureDetector(
-                        onTap: () =>
-                            BaseController.goToProductPage(productData),
-                        child: TopPicksAndDealsCard(
-                          data: {
-                            "key": product?.key ?? "Test",
-                            "name": product?.name ?? "Test",
-                            "actualCost": (product.cost.cost +
-                                    product.cost.convenienceCharges.cost +
-                                    product.cost.gstCharges.cost +
-                                    controller.deliveryCharges)
-                                .round(),
-                            "price": (product.cost.costToCustomer +
-                                        controller.deliveryCharges)
-                                    .round() ??
-                                0,
-                            "discount":
-                                product?.cost?.productDiscount?.rate ?? 0,
-                            "photo": product?.photo?.photos?.first?.name,
-                            "sellerName": product?.seller?.name ?? "",
-                            "isDiscountAvailable":
-                                product?.cost?.productDiscount?.rate != null &&
-                                        product?.cost?.productDiscount?.rate !=
-                                            0
-                                    ? "true"
-                                    : null,
-                          },
-                        ),
-                      );
-                    },
+
+                SectionBuilder(
+                  key: productUniqueKey ?? UniqueKey(),
+                  context: context,
+                  layoutType: LayoutType.PRODUCT_LAYOUT_1,
+                  controller:
+                      ProductsGridViewBuilderController(randomize: true),
+                  scrollDirection: Axis.horizontal,
+                  header: SectionHeader(
+                    title: controller?.remoteConfig?.getString(
+                            HOMESCREEN_PRODUCT_SECTION_6_TITLE_EN) ??
+                        '',
+                    subTitle: controller?.remoteConfig?.getString(
+                            HOMESCREEN_PRODUCT_SECTION_6_SUBTITLE_EN) ??
+                        '',
                   ),
                 ),
                 SectionDivider(),
-                HomeViewListHeader(
-                  title: controller?.remoteConfig
-                          ?.getString(HOMESCREEN_DESIGNER_SECTION_3_TITLE_EN) ??
-                      '',
-                  subTitle: controller?.remoteConfig?.getString(
-                          HOMESCREEN_DESIGNER_SECTION_3_SUBTITLE_EN) ??
-                      '',
-                ),
-                verticalSpaceSmall,
-                SizedBox(
-                  height: 220,
-                  child: GridListWidget<Sellers, Seller>(
-                    key: sellerUniqueKey ?? UniqueKey(),
-                    context: context,
-                    filter: SellerFilter(),
-                    gridCount: 1,
-                    childAspectRatio: 0.60,
-                    controller: SellersGridViewBuilderController(
-                      sellerDeliveringToYou: true,
-                      topSellers: true,
-                      sellerWithNoProducts: false,
-                    ),
-                    disablePagination: true,
-                    scrollDirection: Axis.horizontal,
-                    emptyListWidget: Container(),
-                    tileBuilder: (BuildContext context, data, index, onDelete,
-                        onUpdate) {
-                      return GestureDetector(
-                        onTap: () => {},
-                        child: SellerTileUi(
-                          data: data,
-                          fromHome: true,
-                          toProduct: true,
-                        ),
-                      );
-                    },
+
+                SectionBuilder(
+                  key: sellerUniqueKey ?? UniqueKey(),
+                  context: context,
+                  layoutType: LayoutType.DESIGNER_LAYOUT_1,
+                  scrollDirection: Axis.horizontal,
+                  fromHome: true,
+                  toProduct: true,
+                  controller: SellersGridViewBuilderController(
+                    sellerDeliveringToYou: true,
+                    topSellers: true,
+                    sellerWithNoProducts: false,
+                  ),
+                  header: SectionHeader(
+                    title: controller?.remoteConfig?.getString(
+                            HOMESCREEN_DESIGNER_SECTION_3_TITLE_EN) ??
+                        '',
+                    subTitle: controller?.remoteConfig?.getString(
+                            HOMESCREEN_DESIGNER_SECTION_3_SUBTITLE_EN) ??
+                        '',
                   ),
                 ),
                 SectionDivider(),
-                HomeViewListHeader(
-                  title: controller?.remoteConfig
-                          ?.getString(HOMESCREEN_PRODUCT_SECTION_7_TITLE_EN) ??
-                      '',
-                  subTitle: controller?.remoteConfig?.getString(
-                          HOMESCREEN_PRODUCT_SECTION_7_SUBTITLE_EN) ??
-                      '',
-                  viewAll: () {
-                    BaseController.goToProductListPage(ProductPageArg(
-                      queryString: '',
-                      subCategory: '',
-                    ));
-                  },
-                ),
-                verticalSpaceSmall,
-                SizedBox(
-                  height: 240,
-                  child: GridListWidget<Products, Product>(
-                    key: productUniqueKey ?? UniqueKey(),
-                    context: context,
-                    filter: ProductFilter(),
-                    gridCount: 2,
-                    controller: ProductsGridViewBuilderController(
-                        randomize: true, limit: 10),
-                    childAspectRatio: 1.35,
-                    scrollDirection: Axis.horizontal,
-                    disablePagination: true,
-                    tileBuilder: (BuildContext context, productData, index,
-                        onUpdate, onDelete) {
-                      var product = productData as Product;
-                      return GestureDetector(
-                        onTap: () =>
-                            BaseController.goToProductPage(productData),
-                        child: TopPicksAndDealsCard(
-                          data: {
-                            "key": product?.key ?? "Test",
-                            "name": product?.name ?? "Test",
-                            "actualCost": (product.cost.cost +
-                                    product.cost.convenienceCharges.cost +
-                                    product.cost.gstCharges.cost +
-                                    controller.deliveryCharges)
-                                .round(),
-                            "price": (product.cost.costToCustomer +
-                                        controller.deliveryCharges)
-                                    .round() ??
-                                0,
-                            "discount":
-                                product?.cost?.productDiscount?.rate ?? 0,
-                            "photo": product?.photo?.photos?.first?.name,
-                            "sellerName": product?.seller?.name ?? "",
-                            "isDiscountAvailable": product?.discount != null &&
-                                    product.discount != 0
-                                ? "true"
-                                : null,
-                          },
-                        ),
-                      );
+
+                SectionBuilder(
+                  key: productUniqueKey ?? UniqueKey(),
+                  context: context,
+                  layoutType: LayoutType.PRODUCT_LAYOUT_1,
+                  controller: ProductsGridViewBuilderController(
+                      randomize: true, limit: 10),
+                  scrollDirection: Axis.horizontal,
+                  header: SectionHeader(
+                    title: controller?.remoteConfig?.getString(
+                            HOMESCREEN_PRODUCT_SECTION_7_TITLE_EN) ??
+                        '',
+                    subTitle: controller?.remoteConfig?.getString(
+                            HOMESCREEN_PRODUCT_SECTION_7_SUBTITLE_EN) ??
+                        '',
+                    viewAll: () {
+                      BaseController.goToProductListPage(ProductPageArg(
+                        queryString: '',
+                        subCategory: '',
+                      ));
                     },
                   ),
                 ),
@@ -851,98 +507,39 @@ class HomeViewList extends StatelessWidget {
                     ),
                   ),
                 SectionDivider(),
-                HomeViewListHeader(
-                  title: controller?.remoteConfig
-                          ?.getString(HOMESCREEN_PRODUCT_SECTION_8_TITLE_EN) ??
-                      '',
-                  subTitle: controller?.remoteConfig?.getString(
-                          HOMESCREEN_PRODUCT_SECTION_8_SUBTITLE_EN) ??
-                      '',
-                ),
-                verticalSpaceSmall,
-                SizedBox(
-                  height: 240,
-                  child: GridListWidget<Products, Product>(
-                    key: productUniqueKey ?? UniqueKey(),
-                    context: context,
-                    filter: ProductFilter(subCategories: ['11']),
-                    gridCount: 2,
-                    controller:
-                        ProductsGridViewBuilderController(randomize: true),
-                    childAspectRatio: 1.35,
-                    scrollDirection: Axis.horizontal,
-                    disablePagination: true,
-                    emptyListWidget: Container(),
-                    tileBuilder: (BuildContext context, productData, index,
-                        onUpdate, onDelete) {
-                      var product = productData as Product;
-                      return GestureDetector(
-                        onTap: () =>
-                            BaseController.goToProductPage(productData),
-                        child: TopPicksAndDealsCard(
-                          data: {
-                            "key": product?.key ?? "Test",
-                            "name": product?.name ?? "Test",
-                            "actualCost": (product.cost.cost +
-                                    product.cost.convenienceCharges.cost +
-                                    product.cost.gstCharges.cost +
-                                    controller.deliveryCharges)
-                                .round(),
-                            "price": (product.cost.costToCustomer +
-                                        controller.deliveryCharges)
-                                    .round() ??
-                                0,
-                            "discount":
-                                product?.cost?.productDiscount?.rate ?? 0,
-                            "photo": product?.photo?.photos?.first?.name,
-                            "sellerName": product?.seller?.name ?? "",
-                            "isDiscountAvailable":
-                                product?.cost?.productDiscount?.rate != null &&
-                                        product?.cost?.productDiscount?.rate !=
-                                            0
-                                    ? "true"
-                                    : null,
-                          },
-                        ),
-                      );
-                    },
+                SectionBuilder(
+                  key: productUniqueKey ?? UniqueKey(),
+                  context: context,
+                  filter: ProductFilter(subCategories: ['11']),
+                  layoutType: LayoutType.PRODUCT_LAYOUT_1,
+                  controller:
+                      ProductsGridViewBuilderController(randomize: true),
+                  scrollDirection: Axis.horizontal,
+                  header: SectionHeader(
+                    title: controller?.remoteConfig?.getString(
+                            HOMESCREEN_PRODUCT_SECTION_8_TITLE_EN) ??
+                        '',
+                    subTitle: controller?.remoteConfig?.getString(
+                            HOMESCREEN_PRODUCT_SECTION_8_SUBTITLE_EN) ??
+                        '',
                   ),
                 ),
                 SectionDivider(),
-                HomeViewListHeader(
-                    title: controller?.remoteConfig?.getString(
-                            HOMESCREEN_DESIGNER_SECTION_4_TITLE_EN) ??
-                        '',
-                    subTitle: controller?.remoteConfig?.getString(
-                            HOMESCREEN_DESIGNER_SECTION_4_SUBTITLE_EN) ??
-                        ''),
-                verticalSpaceSmall,
-                SizedBox(
-                  // height: 300,
-                  child: GridListWidget<Sellers, Seller>(
-                    key: sellerUniqueKey ?? UniqueKey(),
-                    context: context,
-                    filter: new SellerFilter(),
-                    gridCount: 1,
-                    childAspectRatio: 1.80,
-                    controller: SellersGridViewBuilderController(random: true),
-                    disablePagination: true,
-                    scrollDirection: Axis.vertical,
-                    emptyListWidget: Container(),
-                    tileBuilder: (BuildContext context, data, index, onDelete,
-                        onUpdate) {
-                      return GestureDetector(
-                        onTap: () => {},
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 8.0),
-                          child: SellerTileUi(
-                            data: data,
-                            fromHome: true,
-                          ),
-                        ),
-                      );
-                    },
-                  ),
+
+                SectionBuilder(
+                  key: sellerUniqueKey ?? UniqueKey(),
+                  context: context,
+                  layoutType: LayoutType.DESIGNER_LAYOUT_2,
+                  fromHome: true,
+                  scrollDirection: Axis.vertical,
+                  controller: SellersGridViewBuilderController(random: true),
+                  header: SectionHeader(
+                      title: controller?.remoteConfig?.getString(
+                              HOMESCREEN_DESIGNER_SECTION_4_TITLE_EN) ??
+                          '',
+                      subTitle: controller?.remoteConfig?.getString(
+                              HOMESCREEN_DESIGNER_SECTION_4_SUBTITLE_EN) ??
+                          ''),
                 ),
                 verticalSpaceMedium,
                 Row(
@@ -1027,6 +624,8 @@ class HomeViewList extends StatelessWidget {
 class SectionDivider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    return verticalSpaceMedium;
+    // ignore: dead_code
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 15),
       child: Container(

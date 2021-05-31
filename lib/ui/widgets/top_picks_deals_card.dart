@@ -24,7 +24,7 @@ class TopPicksAndDealsCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(curve15),
         ),
         clipBehavior: Clip.antiAlias,
-        elevation: 5,
+        elevation: 0,
         child: Column(
           children: <Widget>[
             Expanded(

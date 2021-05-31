@@ -53,6 +53,7 @@ class Product {
   Shipment shipment;
   bool available;
   List<Variation> variations;
+  bool explore;
   String typeOfWork;
   String fabricDetails;
   bool margin;
@@ -105,6 +106,7 @@ class Product {
     this.shipment,
     this.available,
     this.variations,
+    this.explore,
     this.typeOfWork,
     this.fabricDetails,
     this.margin,
@@ -166,6 +168,7 @@ class Product {
             ? null
             : List<Variation>.from(
                 json["variations"].map((x) => Variation.fromJson(x))),
+        explore: json["explore"],
         typeOfWork: json["typeOfWork"] == null ? null : json["typeOfWork"],
         fabricDetails:
             json["fabricDetails"] == null ? null : json["fabricDetails"],
@@ -247,6 +250,7 @@ class Product {
         "variations": variations == null
             ? null
             : List<dynamic>.from(variations.map((x) => x?.toJson())),
+        "explore": explore,
         "typeOfWork": typeOfWork == null ? null : typeOfWork,
         "fabricDetails": fabricDetails == null ? null : fabricDetails,
         "margin": margin == null ? null : margin,
