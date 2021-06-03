@@ -26,7 +26,6 @@ class LoginView extends StatelessWidget {
               Text(
                 "Sign in with \nyour name & \nphone number",
                 style: TextStyle(
-                  fontFamily: "Raleway",
                   fontSize: headingFontSizeStyle + 2,
                   fontWeight: FontWeight.w600,
                   height: 1.3,
@@ -95,7 +94,6 @@ class LoginView extends StatelessWidget {
                   Text(
                     "Next",
                     style: TextStyle(
-                        fontFamily: "Raleway",
                         fontSize: headingFontSizeStyle,
                         fontWeight: FontWeight.w300),
                   ),

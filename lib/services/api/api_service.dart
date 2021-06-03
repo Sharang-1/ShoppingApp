@@ -28,6 +28,7 @@ import '../../models/promotions.dart';
 import '../../models/reviews.dart';
 import '../../models/sellerProfile.dart';
 import '../../models/sellers.dart';
+import '../../models/service_availability.dart';
 import '../../models/tailors.dart';
 import '../../models/user_details.dart';
 import '../dialog_service.dart';
@@ -147,9 +148,13 @@ class APIService {
     return apiWrapper("message/generateOtpToLogin", data: {"mobile": phoneNo});
   }
 
-  Future verifyOTP({@required String phoneNo, @required String otp}) {
-    return apiWrapper("message/verifyOtpToLogin",
-        data: {"mobile": phoneNo}, queryParameters: {"otp": otp});
+  Future verifyOTP(
+      {@required String phoneNo, @required String otp, @required String fcm}) {
+    return apiWrapper(
+      "message/verifyOtpToLogin",
+      data: {"mobile": phoneNo},
+      queryParameters: {"otp": otp, "device": fcm},
+    );
   }
 
   Future<List<Lookups>> getLookups() async {
@@ -200,9 +205,11 @@ class APIService {
     return reviews.items.isNotEmpty;
   }
 
-  Future<Products> getProducts({String queryString = ""}) async {
-    var productData =
-        await apiWrapper("products;${queryString}seller=true;active=true");
+  Future<Products> getProducts(
+      {String queryString = "", bool explore = false}) async {
+    var productData = await apiWrapper(
+        "products;${queryString}seller=true;active=true" +
+            (explore ? ";explore=true" : ""));
     if (productData != null) {
       Products products = Products.fromJson(productData);
       Fimber.d("products : " + products.items.map((o) => o.name).toString());
@@ -223,9 +230,13 @@ class APIService {
     return products.items.isNotEmpty;
   }
 
-  Future<Product> getProductById({@required String productId, bool withPromocodes = false}) async {
+  Future<Product> getProductById(
+      {@required String productId, bool withPromocodes = false}) async {
     if (productId == null) return null;
-    var productData = withPromocodes ? await apiWrapper("products/$productId;seller=true;active=true;promocode=true") : await apiWrapper("products/$productId;seller=true;active=true");
+    var productData = withPromocodes
+        ? await apiWrapper(
+            "products/$productId;seller=true;active=true;promocode=true")
+        : await apiWrapper("products/$productId;seller=true;active=true");
     if (productData == null) return null;
     Product product = Product.fromJson(productData);
     return product;
@@ -442,6 +453,23 @@ class APIService {
     return null;
   }
 
+  Future<ServiceAvailability> checkPincode(
+      {@required String productId, @required String pincode}) async {
+    final json = await apiWrapper(
+      "products/$productId/pincode",
+      queryParameters: {
+        "pincode": pincode,
+      },
+      authenticated: true,
+      options: Options(headers: {'excludeToken': false}, method: "GET"),
+    );
+
+    if (json == null || json['serviceAvailable'] == null) return null;
+
+    final serviceAvailability = ServiceAvailability.fromJson(json);
+    return serviceAvailability;
+  }
+
   Future<OrderModule.Order> createOrder(
     String billingAddress,
     String productId,
@@ -515,7 +543,7 @@ class APIService {
     var json = await apiWrapper("orders/$orderId/payment",
         authenticated: true,
         options: Options(headers: {'excludeToken': false}, method: "post"),
-        queryParameters: {
+        data: {
           if (paymentId != null) "paymentId": paymentId,
           if (signature != null) "signature": signature,
           "message": msg,

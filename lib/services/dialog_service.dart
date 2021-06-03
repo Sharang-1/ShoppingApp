@@ -61,11 +61,13 @@ class DialogService {
         onCancel: onCancel,
       ));
 
-  static void showNotDeliveringDialog() {
+  static void showNotDeliveringDialog({String msg}) {
     showDialog(
-        title: "Sorry!~",
-        description: "We only deliver to Ahmedabad as of now.",
-        buttonTitle: "Ok");
+      title: "Service is not available",
+      description:
+          msg ?? "We do not provide service to your location as of now.",
+      buttonTitle: "Ok",
+    );
   }
 
   static void popDialog() {

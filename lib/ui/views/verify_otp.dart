@@ -20,7 +20,6 @@ class _VerifyOTPViewState extends State<VerifyOTPView> {
     return Text(
       txt,
       style: TextStyle(
-          fontFamily: "Raleway",
           fontSize: headingFontSize - 3,
           fontWeight: FontWeight.w600),
     );
@@ -65,7 +64,6 @@ class _VerifyOTPViewState extends State<VerifyOTPView> {
               Text(
                 "Finish",
                 style: TextStyle(
-                    fontFamily: "Raleway",
                     fontSize: headingFontSize,
                     fontWeight: FontWeight.w300),
               ),

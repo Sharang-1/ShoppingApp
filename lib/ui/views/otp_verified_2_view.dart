@@ -56,13 +56,11 @@ class _TextFadeState extends State<OtpVerifiedView2>
                     "Hello",
                     style: TextStyle(
                       fontSize: headingFontSize,
-                      fontFamily: "Raleway",
                     ),
                   ),
                   Text(
                     name,
                     style: TextStyle(
-                        fontFamily: "Raleway",
                         fontSize: headingFontSize + 5,
                         fontWeight: FontWeight.w600),
                   ),

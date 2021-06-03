@@ -14,6 +14,7 @@ import '../../models/products.dart';
 import '../../models/sellers.dart';
 import '../../services/navigation_service.dart';
 import '../shared/ui_helpers.dart';
+import 'explore_product_tile.dart';
 import 'grid_list_widget.dart';
 import 'product_tile_ui.dart';
 import 'categoryTileUI.dart';
@@ -28,6 +29,7 @@ enum LayoutType {
   //Product Layouts
   PRODUCT_LAYOUT_1,
   PRODUCT_LAYOUT_2,
+  PRODUCT_LAYOUT_3, // Explore Dzor Product Layout
 
   //Category Layouts
   CATEGORY_LAYOUT_1,
@@ -98,6 +100,7 @@ class SectionBuilder extends StatelessWidget {
                       ),
                     ),
                     child: Scrollbar(
+                      controller: ScrollController(),
                       child: getGridListWidget(layoutType),
                     ),
                   )
@@ -175,6 +178,32 @@ class SectionBuilder extends StatelessWidget {
                 arguments: productData,
               ),
               index: index,
+              cardPadding: EdgeInsets.fromLTRB(0, 0, 0, 8),
+            );
+          },
+        );
+
+      case LayoutType.PRODUCT_LAYOUT_3:
+        return GridListWidget<Products, Product>(
+          key: UniqueKey(),
+          context: context,
+          filter: filter ?? ProductFilter(explore: true),
+          gridCount: gridCount,
+          controller: controller,
+          childAspectRatio: getChildAspectRatio(layoutType),
+          emptyListWidget: Container(),
+          scrollDirection: scrollDirection,
+          disablePagination: true,
+          onEmptyList: onEmptyList,
+          tileBuilder:
+              (BuildContext context, productData, index, onUpdate, onDelete) {
+            return ExploreProductTileUI(
+              data: productData,
+              onClick: () => NavigationService.to(
+                ProductIndividualRoute,
+                arguments: productData,
+              ),
+              index: index,
               cardPadding: EdgeInsets.fromLTRB(0, 0, 0, 10),
             );
           },
@@ -244,19 +273,33 @@ class SectionBuilder extends StatelessWidget {
 
   double getSize(LayoutType type) {
     switch (type) {
+
+      //Product
       case LayoutType.PRODUCT_LAYOUT_1:
       case LayoutType.PRODUCT_LAYOUT_2:
         return 240;
+      case LayoutType.PRODUCT_LAYOUT_3:
+        return null;
+
+
+      //Designer
       case LayoutType.DESIGNER_LAYOUT_1:
         return 220;
       case LayoutType.DESIGNER_LAYOUT_2:
         return null;
+
+
+      //Category
       case LayoutType.CATEGORY_LAYOUT_1:
         return 150;
       case LayoutType.CATEGORY_LAYOUT_2:
         return 200;
+
+      //Promotion
       case LayoutType.PROMOTION_LAYOUT_1:
         return 240;
+
+      //Otherwise
       default:
         return 240;
     }
@@ -267,6 +310,8 @@ class SectionBuilder extends StatelessWidget {
       case LayoutType.PRODUCT_LAYOUT_1:
       case LayoutType.PRODUCT_LAYOUT_2:
         return 1.35;
+      case LayoutType.PRODUCT_LAYOUT_3:
+        return 0.73;
       case LayoutType.DESIGNER_LAYOUT_1:
         return 0.60;
       case LayoutType.DESIGNER_LAYOUT_2:

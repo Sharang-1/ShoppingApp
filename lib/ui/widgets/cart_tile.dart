@@ -1,4 +1,4 @@
-import 'package:compound/ui/views/cart_select_promocode_view.dart';
+import 'package:compound/models/promoCode.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -7,7 +7,10 @@ import '../../locator.dart';
 import '../../models/cart.dart';
 import '../../services/api/api_service.dart';
 import '../../services/dialog_service.dart';
+import '../shared/app_colors.dart';
+import '../shared/ui_helpers.dart';
 import '../views/cart_select_delivery_view.dart';
+import '../views/cart_select_promocode_view.dart';
 import 'cart_product_tile_ui.dart';
 
 class CartTile extends StatefulWidget {
@@ -76,38 +79,6 @@ class _CartTileState extends State<CartTile> {
               deliveryCharges)
           .toStringAsFixed(2);
 
-  void applyPromoCode() async {
-    if (_controller.text == "") return;
-    FocusManager.instance.primaryFocus.unfocus();
-    final res = await _apiService.applyPromocode(
-        widget.item.productId.toString(),
-        widget.item.quantity,
-        _controller.text,
-        "");
-    if (res != null) {
-      setState(() {
-        shippingCharges = res.deliveryCharges.cost.toString();
-        finalTotal = res.cost.toString();
-        promoCode = res.promocodeDiscount.promocode;
-        promoCodeDiscount = res.promocodeDiscount.cost.toString();
-        promoCodeId = res.promocodeDiscount.promocodeId;
-        isPromoCodeApplied = true;
-      });
-
-      _controller.text = "";
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        new SnackBar(content: Text("Promocode Applied Successfully!")),
-      );
-    } else {
-      _controller.text = "";
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        new SnackBar(content: Text("Invalid Promocode")),
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -127,33 +98,59 @@ class _CartTileState extends State<CartTile> {
             // deliveryStatus: proceedToOrder,
           ),
         ),
-        // verticalSpaceTiny,
-        // Row(
-        //   children: <Widget>[
-        //     Expanded(
-        //       child: ElevatedButton(
-        //         style: ElevatedButton.styleFrom(
-        //           elevation: 5,
-        //           primary: green,
-        //           shape: RoundedRectangleBorder(
-        //             borderRadius: BorderRadius.circular(30),
-        //           ),
-        //         ),
-        //         onPressed: proceedToOrder,
-        //         child: Padding(
-        //           padding: const EdgeInsets.symmetric(vertical: 12),
-        //           child: Text(
-        //             "Proceed to Order ",
-        //             style: TextStyle(
-        //               color: Colors.white,
-        //               fontWeight: FontWeight.bold,
-        //             ),
-        //           ),
-        //         ),
-        //       ),
-        //     ),
-        //   ],
-        // ),
+        verticalSpaceTiny,
+        Row(
+          children: <Widget>[
+            OutlinedButton(
+              style: ElevatedButton.styleFrom(
+                elevation: 0,
+                primary: Colors.yellowAccent,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+              ),
+              onPressed: applyCoupon,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: Text(
+                  "🎁 Apply Coupon",
+                  style: TextStyle(
+                    color: textIconBlue,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
+                  ),
+                ),
+              ),
+            ),
+            horizontalSpaceSmall,
+            Expanded(
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  elevation: 0,
+                  primary: green,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                ),
+                onPressed: proceedToOrder,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: Text(
+                    "Proceed to Order ",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+        Divider(
+          color: Colors.grey[500],
+        ),
       ],
     );
   }
@@ -170,6 +167,53 @@ class _CartTileState extends State<CartTile> {
             productId: widget.item.productId.toString(),
             promoCode: promoCode,
             promoCodeId: promoCodeId,
+            size: widget.item.size,
+            color: widget.item.color,
+            qty: widget.item.quantity,
+            finalTotal: finalTotal,
+          ),
+          type: PageTransitionType.rightToLeft,
+        ),
+      );
+    else
+      DialogService.showCustomDialog(AlertDialog(
+        content: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Text(
+            "Sorry, product is currently not available",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
+      ));
+  }
+
+  void applyCoupon() async {
+    BaseController.vibrate(duration: 50);
+    final product = await _apiService.getProductById(
+        productId: widget.item.productId.toString());
+    if (product.available && product.enabled)
+      Navigator.push(
+        context,
+        PageTransition(
+          child: SelectPromocode(
+            productId: widget.item.productId.toString(),
+            promoCode: promoCode,
+            promoCodeId: promoCodeId,
+            //TODO: Add promocodes
+            availablePromoCodes: [
+              PromoCode(
+                promocodeDiscount: PromocodeDiscount(
+                    cost: 10, promocode: "test", promocodeId: "35450188"),
+              ),
+              PromoCode(
+                promocodeDiscount: PromocodeDiscount(
+                    cost: 20, promocode: "test2", promocodeId: "35451361"),
+              ),
+              PromoCode(
+                promocodeDiscount: PromocodeDiscount(
+                    cost: 14, promocode: "test3", promocodeId: "35451500"),
+              ),
+            ],
             size: widget.item.size,
             color: widget.item.color,
             qty: widget.item.quantity,

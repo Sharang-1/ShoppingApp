@@ -200,7 +200,7 @@ class HomeController extends BaseController {
         NavigationService.to(MyAppointmentViewRoute);
         break;
       case 2:
-        // NavigationService.to(ProfileViewRoute);
+        NavigationService.to(DzorExploreViewRoute);
         break;
       case 3:
         NavigationService.to(MyOrdersRoute);

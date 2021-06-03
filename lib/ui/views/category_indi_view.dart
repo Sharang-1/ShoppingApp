@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:compound/controllers/base_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -119,7 +120,6 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
                                         color: Colors.white,
                                         fontSize: 25,
                                         fontWeight: FontWeight.bold,
-                                        fontFamily: "Raleway",
                                       ),
                                     ),
                                   ),
@@ -224,7 +224,7 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
                                                 onDelete) {
                                               return ProductTileUI(
                                                 data: data,
-                                                onClick: () => controller
+                                                onClick: () => BaseController
                                                     .goToProductPage(data),
                                                 index: index,
                                               );

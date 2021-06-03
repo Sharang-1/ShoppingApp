@@ -1,6 +1,9 @@
+import 'package:compound/locator.dart';
+import 'package:compound/services/api/api_service.dart';
+import 'package:compound/services/dialog_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:get/state_manager.dart';
+import 'package:get/get.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../../controllers/cart_select_delivery_controller.dart';
@@ -80,24 +83,41 @@ class _SelectAddressState extends State<SelectAddress> {
             ),
             onPressed: disabledPayment
                 ? null
-                : () {
-                    Navigator.push(
-                      context,
-                      PageTransition(
-                          child: PaymentMethod(
-                            billingAddress: (addressRadioValue == null
-                                ? controller.addresses[0]
-                                : addressRadioValue),
-                            color: widget.color,
+                : () async {
+                    final serviceAvailability = await locator<APIService>()
+                        .checkPincode(
                             productId: widget.productId,
-                            promoCode: widget.promoCode,
-                            promoCodeId: widget.promoCodeId,
-                            qty: widget.qty,
-                            size: widget.size,
-                            finalTotal: widget.finalTotal,
-                          ),
-                          type: PageTransitionType.rightToLeft),
-                    );
+                            pincode: addressRadioValue.pincode.toString());
+
+                    if (serviceAvailability == null) return;
+
+                    if (serviceAvailability.serviceAvailable) {
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                            child: PaymentMethod(
+                              billingAddress: (addressRadioValue == null
+                                  ? controller.addresses[0]
+                                  : addressRadioValue),
+                              color: widget.color,
+                              productId: widget.productId,
+                              promoCode: widget.promoCode,
+                              promoCodeId: widget.promoCodeId,
+                              qty: widget.qty,
+                              size: widget.size,
+                              finalTotal: widget.finalTotal,
+                            ),
+                            type: PageTransitionType.rightToLeft),
+                      );
+                    } else {
+                      DialogService.showNotDeliveringDialog(
+                          msg: serviceAvailability.message);
+                      // Get.snackbar(
+                      //   "Service Not Available",
+                      //   serviceAvailability.message,
+                      //   snackPosition: SnackPosition.BOTTOM,
+                      // );
+                    }
                   },
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 15),
@@ -221,9 +241,9 @@ class _SelectAddressState extends State<SelectAddress> {
                             child: Card(
                               clipBehavior: Clip.antiAlias,
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(curve15),
+                                borderRadius: BorderRadius.circular(10),
                               ),
-                              elevation: 5,
+                              elevation: 0,
                               child: Padding(
                                 padding:
                                     const EdgeInsets.fromLTRB(0, 15, 15, 15),
@@ -250,15 +270,27 @@ class _SelectAddressState extends State<SelectAddress> {
                                             MainAxisAlignment.center,
                                         children: <Widget>[
                                           CustomText(
-                                            "Address",
+                                            "Your Address: ",
                                             color: Colors.grey[700],
+                                            fontSize: 14,
                                             isBold: true,
                                           ),
                                           verticalSpaceTiny_0,
                                           CustomText(
-                                            address.address +
-                                                "\n" +
-                                                address.googleAddress,
+                                            "${address.address}",
+                                            color: Colors.grey,
+                                            fontSize: 14,
+                                          ),
+                                          verticalSpaceTiny_0,
+                                          CustomText(
+                                            "Your Location: ",
+                                            color: Colors.grey[700],
+                                            fontSize: 14,
+                                            isBold: true,
+                                          ),
+                                          verticalSpaceTiny_0,
+                                          CustomText(
+                                            "${address.googleAddress}",
                                             color: Colors.grey,
                                             fontSize: 14,
                                           ),

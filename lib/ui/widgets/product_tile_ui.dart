@@ -99,7 +99,7 @@ class _ProductTileUIState extends State<ProductTileUI> {
     // final productRatingObj = widget.data.rating ?? null;
     // final productRatingValue =
     //     productRatingObj != null ? productRatingObj.rate : 0.0;
-    final String fontFamily = "Raleway";
+    final String fontFamily = "Poppins";
     print("Take this step");
 
     // double tagSize = isTablet ? 14.0 : 10.0;

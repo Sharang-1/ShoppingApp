@@ -158,8 +158,8 @@ class _SearchViewState extends State<SearchView>
                               child: Text(
                                 "Products",
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: "Raleway"),
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           ),
@@ -169,8 +169,8 @@ class _SearchViewState extends State<SearchView>
                               child: Text(
                                 "Designers",
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: "Raleway"),
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           ),

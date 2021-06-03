@@ -1,4 +1,5 @@
 // import 'package:compound/ui/views/promotion_products_view.dart';
+import 'package:compound/ui/views/dzor_explore_view.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -103,6 +104,14 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         viewToShow: SearchView(showSellers: pageArguments),
         pageArguments: pageArguments,
         pageTransitionType: transitionType,
+      );
+
+    case DzorExploreViewRoute:
+      return _getPageRoute(
+        routeName: settings.name,
+        viewToShow: DzorExploreView(),
+        pageArguments: pageArguments,
+        pageTransitionType: PageTransitionType.bottomToTop,
       );
 
     case CartViewRoute:
@@ -226,7 +235,9 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return _getPageRoute(
           pageArguments: pageArguments,
           routeName: settings.name,
-          viewToShow: ProfileView(),
+          viewToShow: ProfileView(
+            controller: pageArguments,
+          ),
           pageTransitionType: PageTransitionType.rightToLeft);
 
     case CategoryIndiViewRoute:

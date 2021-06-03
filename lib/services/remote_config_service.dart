@@ -55,3 +55,7 @@ const String HOMESCREEN_DESIGNER_SECTION_4_SUBTITLE_EN = 'homescreen_designer_se
 //category section 1
 const String HOMESCREEN_CATEGORY_SECTION_1_TITLE_EN = 'homescreen_category_section_1_title_en';
 const String HOMESCREEN_CATEGORY_SECTION_1_SUBTITLE_EN = 'homescreen_category_section_1_subtitle_en';
+
+//Dzor Explore 
+const String DZOR_EXPLORE_TAG_1_EN = "dzor_explore_tag_1_en";
+const String DZOR_EXPLORE_TAG_2_EN = "dzor_explore_tag_2_en";

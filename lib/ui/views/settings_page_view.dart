@@ -1,6 +1,10 @@
+import 'package:compound/constants/route_names.dart';
+import 'package:compound/controllers/user_details_controller.dart';
+import 'package:compound/services/navigation_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:open_appstore/open_appstore.dart';
 
 import '../../constants/server_urls.dart';
@@ -65,99 +69,214 @@ class SettingsView extends StatelessWidget {
   );
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        backgroundColor: backgroundWhiteCreamColor,
-        appBar: appbar,
-        body: SafeArea(
-          top: false,
-          left: false,
-          right: false,
-          bottom: false,
-          child: SingleChildScrollView(
-            child: BottomTag(
-              appBarHeight: appbar.preferredSize.height,
-              statusBarHeight: MediaQuery.of(context).padding.top,
-              childWidget: Padding(
-                padding: EdgeInsets.only(
-                    left: screenPadding,
-                    right: screenPadding,
-                    top: 10,
-                    bottom: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    verticalSpace(20),
-                    Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        "Settings",
-                        style: TextStyle(
-                          fontFamily: headingFont,
-                          fontWeight: FontWeight.w700,
-                          fontSize: headingFontSizeStyle,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    verticalSpace(50),
-                    Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 8.0, vertical: 10),
-                      child: Column(
-                        children: <Widget>[
-                          verticalSpaceTiny_0,
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: sections.keys
-                                .map(
-                                  (int key) => SectionCard(
-                                    name: sections[key],
-                                    settingsCards: sectionsSettingsMap[key]
-                                        .map(
-                                          (int key) => SettingsCard(
-                                            name: settingNameMap[key],
-                                            onTap: settingOnTapMap[key],
-                                            icon: settingIconMap[key],
-                                          ),
-                                        )
-                                        .toList(),
-                                  ),
-                                )
-                                .toList(),
-                          )
-                        ],
-                      ),
-                    ),
-                    verticalSpace(50),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+  Widget build(BuildContext context) => GetBuilder<UserDetailsController>(
+        init: UserDetailsController()..getUserDetails(),
+        builder: (controller) {
+          return Scaffold(
+            backgroundColor: backgroundWhiteCreamColor,
+            appBar: appbar,
+            body: SafeArea(
+              top: false,
+              left: false,
+              right: false,
+              bottom: false,
+              child: SingleChildScrollView(
+                child: BottomTag(
+                  appBarHeight: appbar.preferredSize.height,
+                  statusBarHeight: MediaQuery.of(context).padding.top,
+                  childWidget: Padding(
+                    padding: EdgeInsets.only(
+                        left: screenPadding,
+                        right: screenPadding,
+                        top: 10,
+                        bottom: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        FloatingActionButton.extended(
-                          backgroundColor: Colors.transparent,
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(curve30),
-                            side: BorderSide(color: logoRed, width: 2.5),
+                        verticalSpaceSmall,
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "Settings",
+                            style: TextStyle(
+                              fontFamily: headingFont,
+                              fontWeight: FontWeight.w700,
+                              fontSize: headingFontSizeStyle,
+                            ),
+                            textAlign: TextAlign.center,
                           ),
-                          onPressed: BaseController.logout,
-                          label: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 30.0),
-                            child: CustomText(
-                              "Logout",
-                              color: logoRed,
-                              isBold: true,
+                        ),
+                        verticalSpaceSmall,
+                        Divider(
+                          color: Colors.grey[400],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 10.0,
+                            horizontal: 16.0,
+                          ),
+                          child: Container(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    Icon(
+                                      FontAwesomeIcons.userCircle,
+                                      size: 50,
+                                    ),
+                                    SizedBox(width: 16.0),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        CustomText(
+                                          controller?.mUserDetails?.name ?? '',
+                                          isTitle: true,
+                                          isBold: true,
+                                        ),
+                                        CustomText(
+                                          controller.mUserDetails?.contact
+                                                  ?.phone?.mobile?.replaceRange(5, 10, 'XXXXX')
+                                                  ?.toString() ?? '',
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                InkWell(
+                                  child: CustomText(
+                                    "Edit Details",
+                                    color: logoRed,
+                                  ),
+                                  onTap: () => NavigationService.to(
+                                      ProfileViewRoute,
+                                      arguments: controller),
+                                ),
+                              ],
                             ),
                           ),
                         ),
+                        if ((controller
+                                    ?.mUserDetails?.contact?.address?.length ??
+                                0) !=
+                            0)
+                          Divider(
+                            color: Colors.grey[400],
+                          ),
+                        if ((controller
+                                    ?.mUserDetails?.contact?.address?.length ??
+                                0) !=
+                            0)
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                              vertical: 8.0,
+                              horizontal: 8.0,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                CustomText(
+                                  "My Address: ",
+                                  isBold: true,
+                                ),
+                                verticalSpaceTiny,
+                                CustomText(
+                                  controller?.mUserDetails?.contact?.address ??
+                                      '',
+                                ),
+                                CustomText(
+                                  "My Location: ",
+                                  isBold: true,
+                                ),
+                                verticalSpaceTiny,
+                                CustomText(
+                                  controller?.mUserDetails?.contact
+                                          ?.googleAddress ??
+                                      '',
+                                ),
+                              ],
+                            ),
+                          ),
+                        Divider(
+                          color: Colors.grey[400],
+                        ),
+                        SettingsCard(
+                          name: "My Orders",
+                          color: Colors.black87,
+                          iconColor: Colors.black54,
+                          onTap: () => NavigationService.to(MyOrdersRoute),
+                          icon: FontAwesomeIcons.pollH,
+                        ),
+                        SettingsCard(
+                          name: "My Appointments",
+                          color: Colors.black87,
+                          iconColor: Colors.black54,
+                          onTap: () =>
+                              NavigationService.to(MyAppointmentViewRoute),
+                          icon: Icons.event,
+                        ),
+                        verticalSpaceSmall,
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 8.0, vertical: 10),
+                          child: Column(
+                            children: <Widget>[
+                              verticalSpaceTiny_0,
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: sections.keys
+                                    .map(
+                                      (int key) => SectionCard(
+                                        name: sections[key],
+                                        settingsCards: sectionsSettingsMap[key]
+                                            .map(
+                                              (int key) => SettingsCard(
+                                                name: settingNameMap[key],
+                                                onTap: settingOnTapMap[key],
+                                                icon: settingIconMap[key],
+                                              ),
+                                            )
+                                            .toList(),
+                                      ),
+                                    )
+                                    .toList(),
+                              )
+                            ],
+                          ),
+                        ),
+                        verticalSpace(10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            FloatingActionButton.extended(
+                              backgroundColor: Colors.transparent,
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(curve30),
+                                side: BorderSide(color: logoRed, width: 2.5),
+                              ),
+                              onPressed: BaseController.logout,
+                              label: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 30.0),
+                                child: CustomText(
+                                  "Logout",
+                                  color: logoRed,
+                                  isBold: true,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ],
                     ),
-                  ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ),
+          );
+        },
       );
 }
 
@@ -191,10 +310,17 @@ class SectionCard extends StatelessWidget {
 class SettingsCard extends StatelessWidget {
   final String name;
   final IconData icon;
+  final Color color;
+  final Color iconColor;
   final void Function() onTap;
 
-  const SettingsCard(
-      {@required this.name, @required this.onTap, @required this.icon});
+  const SettingsCard({
+    @required this.name,
+    @required this.onTap,
+    @required this.icon,
+    this.iconColor,
+    this.color,
+  });
 
   @override
   Widget build(BuildContext context) => Container(
@@ -211,11 +337,11 @@ class SettingsCard extends StatelessWidget {
             name,
             isBold: true,
             fontSize: subtitleFontSizeStyle,
-            color: Colors.grey[500],
+            color: color ?? Colors.grey[500],
           ),
           trailing: Icon(
             Icons.navigate_next_sharp,
-            color: Colors.grey[500],
+            color: iconColor ?? Colors.grey[500],
             size: 30,
           ),
           onTap: onTap,

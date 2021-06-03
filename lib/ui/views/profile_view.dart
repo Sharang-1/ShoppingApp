@@ -1,3 +1,4 @@
+import 'package:compound/constants/route_names.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -17,7 +18,8 @@ import '../widgets/custom_text.dart';
 import 'address_input_form_view.dart';
 
 class ProfileView extends StatefulWidget {
-  ProfileView({Key key}) : super(key: key);
+  final UserDetailsController controller;
+  ProfileView({Key key, this.controller}) : super(key: key);
 
   @override
   _ProfileViewState createState() => _ProfileViewState();
@@ -68,7 +70,7 @@ class _ProfileViewState extends State<ProfileView> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<UserDetailsController>(
-      init: UserDetailsController()..getUserDetails(),
+      init: widget.controller ?? (UserDetailsController()..getUserDetails()),
       builder: (controller) => WillPopScope(
         onWillPop: () {
           if (this.isButtonActive == false) {
@@ -140,7 +142,7 @@ class _ProfileViewState extends State<ProfileView> {
                   bottom: 10),
               child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    elevation: 5,
+                    elevation: 0,
                     primary: isButtonActive ? green : Colors.grey[400],
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
@@ -180,6 +182,12 @@ class _ProfileViewState extends State<ProfileView> {
               height: 35,
               width: 35,
             ),
+            // actions: [
+            //   IconButton(
+            //     icon: Icon(Icons.settings),
+            //     onPressed: () => NavigationService.to(SettingsRoute),
+            //   ),
+            // ],
             iconTheme: IconThemeData(
               color: appBarIconColor,
             ),
@@ -218,7 +226,7 @@ class _ProfileViewState extends State<ProfileView> {
                                 verticalSpace(20),
                                 SizedBox(
                                     child: Card(
-                                        elevation: 5,
+                                        elevation: 0,
                                         shape: RoundedRectangleBorder(
                                             borderRadius:
                                                 BorderRadius.circular(curve15)),
@@ -298,7 +306,7 @@ class _ProfileViewState extends State<ProfileView> {
                                 verticalSpace(spaceBetweenCards),
                                 SizedBox(
                                   child: Card(
-                                    elevation: 5,
+                                    elevation: 0,
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
                                             BorderRadius.circular(15)),
@@ -336,7 +344,10 @@ class _ProfileViewState extends State<ProfileView> {
                                                     ?.mUserDetails
                                                     ?.contact
                                                     ?.phone
-                                                    ?.mobile?.replaceRange(5, 10, 'XXXXX').toString(),
+                                                    ?.mobile
+                                                    ?.replaceRange(
+                                                        5, 10, 'XXXXX')
+                                                    .toString(),
                                                 // validator: (text) {
                                                 //   if (text.isEmpty ||
                                                 //       text
@@ -397,7 +408,7 @@ class _ProfileViewState extends State<ProfileView> {
                                 ),
                                 SizedBox(
                                   child: Card(
-                                    elevation: 5,
+                                    elevation: 0,
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
                                             BorderRadius.circular(15)),
@@ -479,7 +490,7 @@ class _ProfileViewState extends State<ProfileView> {
                                 ),
                                 SizedBox(
                                   child: Card(
-                                    elevation: 5,
+                                    elevation: 0,
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
                                             BorderRadius.circular(15)),
@@ -571,7 +582,7 @@ class _ProfileViewState extends State<ProfileView> {
                                           borderRadius:
                                               BorderRadius.circular(15),
                                         ),
-                                        elevation: 5,
+                                        elevation: 0,
                                         child: Padding(
                                           padding: const EdgeInsets.all(15),
                                           child: Row(
@@ -615,7 +626,7 @@ class _ProfileViewState extends State<ProfileView> {
                                       )),
                                 ElevatedButton(
                                     style: ElevatedButton.styleFrom(
-                                      elevation: 5,
+                                      elevation: 0,
                                       primary: darkRedSmooth,
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(30),
@@ -647,26 +658,20 @@ class _ProfileViewState extends State<ProfileView> {
                                           ),
                                         );
                                         if (userAdd != null) {
-                                          if (userAdd.city.toUpperCase() !=
-                                              "AHMEDABAD") {
-                                            controller
-                                                .showNotDeliveringDialog();
-                                          } else {
-                                            controller.mUserDetails.contact
-                                                    .googleAddress =
-                                                userAdd.googleAddress;
-                                            controller.mUserDetails.contact
-                                                .address = userAdd.address;
-                                            controller.mUserDetails.contact
-                                                .pincode = userAdd.pincode;
-                                            controller.mUserDetails.contact
-                                                .state = userAdd.state;
-                                            controller.mUserDetails.contact
-                                                .city = userAdd.city;
-                                            setState(() {
-                                              isButtonActive = true;
-                                            });
-                                          }
+                                          controller.mUserDetails.contact
+                                                  .googleAddress =
+                                              userAdd.googleAddress;
+                                          controller.mUserDetails.contact
+                                              .address = userAdd.address;
+                                          controller.mUserDetails.contact
+                                              .pincode = userAdd.pincode;
+                                          controller.mUserDetails.contact
+                                              .state = userAdd.state;
+                                          controller.mUserDetails.contact.city =
+                                              userAdd.city;
+                                          setState(() {
+                                            isButtonActive = true;
+                                          });
                                         }
                                       }
                                     },

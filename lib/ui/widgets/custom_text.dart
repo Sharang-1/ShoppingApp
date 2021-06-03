@@ -34,11 +34,12 @@ class CustomText extends StatelessWidget {
           ? textStyle
           : TextStyle(
               fontSize: fontSize,
-              fontFamily: isTitle ? "Raleway" : fontFamily,
+              fontFamily: isTitle ? "Poppins" : fontFamily,
               fontWeight: isBold
                   ? FontWeight.bold
                   : (fontWeight != null ? fontWeight : FontWeight.normal),
-              color: color),
+              color: color,
+            ),
     );
   }
 }

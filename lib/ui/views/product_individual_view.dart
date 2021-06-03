@@ -892,294 +892,211 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                             if (available) verticalSpace(20),
                             if (available)
                               Card(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.circular(curve15),
-                                  ),
-                                  elevation: 5,
-                                  child: Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    padding: EdgeInsets.all(20),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        selectedSize == "N/A"
-                                            ? verticalSpace(0)
-                                            : Row(
-                                                children: <Widget>[
-                                                  Expanded(
-                                                    child: Text(
-                                                      "Select Size",
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize:
-                                                              subtitleFontSizeStyle),
-                                                    ),
-                                                  ),
-                                                  InkWell(
-                                                    onTap: () {
-                                                      _showDialog(
-                                                          context,
-                                                          controller
-                                                              .sellerDetail.key,
-                                                          productData?.category
-                                                                  ?.id ??
-                                                              1);
-                                                    },
-                                                    child: Text(
-                                                      "size chart",
-                                                      style: TextStyle(
-                                                          color: darkRedSmooth,
-                                                          decoration:
-                                                              TextDecoration
-                                                                  .underline,
-                                                          fontSize:
-                                                              subtitleFontSizeStyle -
-                                                                  3),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                        verticalSpace(5),
-                                        allSizes(variations),
-                                        selectedSize == ""
-                                            ? Container()
-                                            : Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: <Widget>[
-                                                  selectedSize == "N/A"
-                                                      ? verticalSpace(0)
-                                                      : verticalSpace(20),
-                                                  Text(
-                                                    "Select Color",
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(curve15),
+                                ),
+                                elevation: 5,
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  padding: EdgeInsets.all(20),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      selectedSize == "N/A"
+                                          ? verticalSpace(0)
+                                          : Row(
+                                              children: <Widget>[
+                                                Expanded(
+                                                  child: Text(
+                                                    "Select Size",
                                                     style: TextStyle(
                                                         fontWeight:
                                                             FontWeight.bold,
                                                         fontSize:
                                                             subtitleFontSizeStyle),
                                                   ),
-                                                  verticalSpace(5),
-                                                  allColors(
-                                                    variations,
+                                                ),
+                                                InkWell(
+                                                  onTap: () {
+                                                    _showDialog(
+                                                        context,
+                                                        controller
+                                                            .sellerDetail.key,
+                                                        productData?.category
+                                                                ?.id ??
+                                                            1);
+                                                  },
+                                                  child: Text(
+                                                    "size chart",
+                                                    style: TextStyle(
+                                                        color: darkRedSmooth,
+                                                        decoration:
+                                                            TextDecoration
+                                                                .underline,
+                                                        fontSize:
+                                                            subtitleFontSizeStyle -
+                                                                3),
                                                   ),
-                                                ],
-                                              ),
-                                        verticalSpace(10),
-                                        selectedColor == ""
-                                            ? Container()
-                                            : Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: <Widget>[
-                                                  Expanded(
-                                                    child: Text(
-                                                      "Select ${(productData.category.id == 13) ? 'No. of Meters' : 'Qty'}",
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize:
-                                                              subtitleFontSizeStyle),
-                                                    ),
+                                                )
+                                              ],
+                                            ),
+                                      verticalSpace(5),
+                                      allSizes(variations),
+                                      selectedSize == ""
+                                          ? Container()
+                                          : Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: <Widget>[
+                                                selectedSize == "N/A"
+                                                    ? verticalSpace(0)
+                                                    : verticalSpace(20),
+                                                Text(
+                                                  "Select Color",
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize:
+                                                          subtitleFontSizeStyle),
+                                                ),
+                                                verticalSpace(5),
+                                                allColors(
+                                                  variations,
+                                                ),
+                                              ],
+                                            ),
+                                      verticalSpace(10),
+                                      selectedColor == ""
+                                          ? Container()
+                                          : Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: <Widget>[
+                                                Expanded(
+                                                  child: Text(
+                                                    "Select ${(productData.category.id == 13) ? 'No. of Meters' : 'Qty'}",
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize:
+                                                            subtitleFontSizeStyle),
                                                   ),
-                                                  Expanded(
-                                                    child: FittedBox(
-                                                      fit: BoxFit.scaleDown,
-                                                      child: Container(
-                                                        height: 40,
-                                                        padding: EdgeInsets
-                                                            .symmetric(
-                                                                vertical: 0,
-                                                                horizontal: 0),
-                                                        decoration: BoxDecoration(
-                                                            border: Border.all(
+                                                ),
+                                                Expanded(
+                                                  child: FittedBox(
+                                                    fit: BoxFit.scaleDown,
+                                                    child: Container(
+                                                      height: 40,
+                                                      padding:
+                                                          EdgeInsets.symmetric(
+                                                              vertical: 0,
+                                                              horizontal: 0),
+                                                      decoration: BoxDecoration(
+                                                          border: Border.all(
+                                                              color:
+                                                                  darkRedSmooth),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      20)),
+                                                      child: Row(
+                                                        children: <Widget>[
+                                                          IconButton(
+                                                            color: selectedQty ==
+                                                                    0
+                                                                ? Colors.grey
+                                                                : darkRedSmooth,
+                                                            icon: Icon(
+                                                                Icons.remove),
+                                                            onPressed: () {
+                                                              if (selectedQty !=
+                                                                  0) {
+                                                                setState(() {
+                                                                  selectedQty =
+                                                                      selectedQty -
+                                                                          1;
+                                                                });
+                                                              }
+                                                            },
+                                                          ),
+                                                          Text(
+                                                            selectedQty
+                                                                .toString(),
+                                                            style: TextStyle(
                                                                 color:
-                                                                    darkRedSmooth),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        20)),
-                                                        child: Row(
-                                                          children: <Widget>[
-                                                            IconButton(
-                                                              color: selectedQty ==
-                                                                      0
-                                                                  ? Colors.grey
-                                                                  : darkRedSmooth,
-                                                              icon: Icon(
-                                                                  Icons.remove),
-                                                              onPressed: () {
-                                                                if (selectedQty !=
-                                                                    0) {
-                                                                  setState(() {
-                                                                    selectedQty =
-                                                                        selectedQty -
-                                                                            1;
-                                                                  });
-                                                                }
-                                                              },
-                                                            ),
-                                                            Text(
-                                                              selectedQty
-                                                                  .toString(),
-                                                              style: TextStyle(
-                                                                  color:
-                                                                      darkRedSmooth,
-                                                                  fontSize:
-                                                                      titleFontSizeStyle,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold),
-                                                            ),
-                                                            IconButton(
-                                                              color: maxQty ==
-                                                                      selectedQty
-                                                                  ? Colors.grey
-                                                                  : darkRedSmooth,
-                                                              icon: Icon(
-                                                                  Icons.add),
-                                                              onPressed: () {
-                                                                print("maxQty" +
-                                                                    maxQty
-                                                                        .toString());
-                                                                if (maxQty !=
-                                                                    selectedQty) {
-                                                                  setState(() {
-                                                                    selectedQty =
-                                                                        selectedQty +
-                                                                            1;
-                                                                  });
-                                                                }
-                                                              },
-                                                            ),
-                                                          ],
-                                                        ),
+                                                                    darkRedSmooth,
+                                                                fontSize:
+                                                                    titleFontSizeStyle,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                          IconButton(
+                                                            color: maxQty ==
+                                                                    selectedQty
+                                                                ? Colors.grey
+                                                                : darkRedSmooth,
+                                                            icon:
+                                                                Icon(Icons.add),
+                                                            onPressed: () {
+                                                              print("maxQty" +
+                                                                  maxQty
+                                                                      .toString());
+                                                              if (maxQty !=
+                                                                  selectedQty) {
+                                                                setState(() {
+                                                                  selectedQty =
+                                                                      selectedQty +
+                                                                          1;
+                                                                });
+                                                              }
+                                                            },
+                                                          ),
+                                                        ],
                                                       ),
                                                     ),
                                                   ),
-                                                ],
-                                              ),
-                                        Padding(
-                                          padding: EdgeInsets.only(top: 8.0),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                "*Please select size, color, quantity carefully by referring to the size chart.",
-                                                style: TextStyle(
-                                                  color: Colors.grey,
-                                                  fontSize:
-                                                      subtitleFontSizeStyle - 7,
                                                 ),
-                                              ),
-                                              GestureDetector(
-                                                onTap: () async {
-                                                  if (await canLaunch(
-                                                      RETURN_POLICY_URL))
-                                                    await launch(
-                                                        RETURN_POLICY_URL);
-                                                },
-                                                child: Text(
-                                                  "Return Policy",
-                                                  style: TextStyle(
-                                                      color: Colors.grey,
-                                                      fontSize:
-                                                          subtitleFontSizeStyle -
-                                                              7,
-                                                      decoration: TextDecoration
-                                                          .underline),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  )),
-                            if (available) verticalSpace(20),
-                            if (available)
-                              Center(
-                                child: GestureDetector(
-                                  onTap: disabledAddToCartBtn ||
-                                          selectedQty == 0 ||
-                                          selectedColor == "" ||
-                                          selectedSize == ""
-                                      ? () => DialogService.showCustomDialog(
-                                            AlertDialog(
-                                              title: FittedBox(
-                                                fit: BoxFit.scaleDown,
-                                                child: Text(
-                                                    'Please select size, color & quantity'),
-                                              ),
-                                              actions: [
-                                                TextButton(
-                                                    onPressed:
-                                                        DialogService.popDialog,
-                                                    child: Text("OK")),
                                               ],
                                             ),
-                                          )
-                                      : () async {
-                                          setState(() {
-                                            disabledAddToCartBtn = true;
-                                          });
-
-                                          var res = await controller.addToCart(
-                                              productData,
-                                              selectedQty,
-                                              selectedSize,
-                                              selectedColor,
-                                              fromCart: widget.fromCart,
-                                              onProductAdded: widget.fromCart
-                                                  ? () => Navigator.pop(context)
-                                                  : null);
-
-                                          if (res == 0)
-                                            _errorHandlingService.showError(
-                                                Errors.CouldNotAddToCart);
-                                          else if (res == 1) {
-                                            locator<CartCountController>()
-                                                .incrementCartCount();
-                                          }
-
-                                          setState(() {
-                                            disabledAddToCartBtn = false;
-                                          });
-
-                                          showTutorial(context,
-                                              cartKey: cartKey);
-                                        },
-                                  child: Container(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.8,
-                                    padding: EdgeInsets.symmetric(vertical: 10),
-                                    decoration: BoxDecoration(
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.grey.withOpacity(0.5),
-                                            spreadRadius: 2,
-                                            blurRadius: 4,
-                                            offset: Offset(0,
-                                                3), // changes position of shadow
-                                          ),
-                                        ],
-                                        color: logoRed,
-                                        borderRadius:
-                                            BorderRadius.circular(40)),
-                                    child: Center(
-                                      child: Text(
-                                        "ADD TO BAG",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: subtitleFontSizeStyle,
+                                      Padding(
+                                        padding: EdgeInsets.only(top: 8.0),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "*Please select size, color, quantity carefully by referring to the size chart.",
+                                              style: TextStyle(
+                                                color: Colors.grey,
+                                                fontSize:
+                                                    subtitleFontSizeStyle - 7,
+                                              ),
+                                            ),
+                                            GestureDetector(
+                                              onTap: () async {
+                                                if (await canLaunch(
+                                                    RETURN_POLICY_URL))
+                                                  await launch(
+                                                      RETURN_POLICY_URL);
+                                              },
+                                              child: Text(
+                                                "Return Policy",
+                                                style: TextStyle(
+                                                    color: Colors.grey,
+                                                    fontSize:
+                                                        subtitleFontSizeStyle -
+                                                            7,
+                                                    decoration: TextDecoration
+                                                        .underline),
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                    ),
+                                    ],
                                   ),
                                 ),
                               ),
@@ -1422,79 +1339,163 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                     ),
                   ),
                 ),
-                if (available && !widget.fromCart)
+                if (available)
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: Padding(
-                      padding: const EdgeInsets.only(bottom: 16.0),
+                      padding: EdgeInsets.only(bottom: 16.0, left: 8, right: 8),
                       child: FittedBox(
-                        child: Center(
-                          child: GestureDetector(
-                            onTap: (selectedQty == 0 ||
-                                    selectedColor == "" ||
-                                    selectedSize == "")
-                                ? () => DialogService.showCustomDialog(
-                                      AlertDialog(
-                                        title: FittedBox(
-                                          fit: BoxFit.scaleDown,
-                                          child: Text(
-                                              'Please select size, color & quantity'),
+                        child: Row(
+                          children: [
+                            GestureDetector(
+                              onTap: disabledAddToCartBtn ||
+                                      selectedQty == 0 ||
+                                      selectedColor == "" ||
+                                      selectedSize == ""
+                                  ? () => DialogService.showCustomDialog(
+                                        AlertDialog(
+                                          title: FittedBox(
+                                            fit: BoxFit.scaleDown,
+                                            child: Text(
+                                                'Please select size, color & quantity'),
+                                          ),
+                                          actions: [
+                                            TextButton(
+                                                onPressed:
+                                                    DialogService.popDialog,
+                                                child: Text("OK")),
+                                          ],
                                         ),
-                                        actions: [
-                                          TextButton(
-                                              onPressed: () =>
-                                                  Navigator.of(context).pop(),
-                                              child: Text("OK")),
-                                        ],
-                                      ),
-                                    )
-                                : () async {
-                                    var res = await controller.buyNow(
-                                        productData,
-                                        selectedQty,
-                                        selectedSize,
-                                        selectedColor);
-                                    if (res != null && res == true) {
-                                      locator<CartCountController>()
-                                          .incrementCartCount();
+                                      )
+                                  : () async {
+                                      setState(() {
+                                        disabledAddToCartBtn = true;
+                                      });
 
-                                      Navigator.push(
-                                        context,
-                                        PageTransition(
-                                          child: CartView(
-                                              productId: productData?.key),
-                                          type: PageTransitionType.rightToLeft,
-                                        ),
-                                      );
-                                    }
-                                  },
-                            child: Container(
-                              width: MediaQuery.of(context).size.width * 0.95,
-                              padding: EdgeInsets.symmetric(vertical: 10),
-                              decoration: BoxDecoration(
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.5),
-                                      spreadRadius: 2,
-                                      blurRadius: 4,
-                                      offset: Offset(
-                                          0, 3), // changes position of shadow
+                                      var res = await controller.addToCart(
+                                          productData,
+                                          selectedQty,
+                                          selectedSize,
+                                          selectedColor,
+                                          fromCart: widget.fromCart,
+                                          onProductAdded: widget.fromCart
+                                              ? () => Navigator.pop(context)
+                                              : null);
+
+                                      if (res == 0)
+                                        _errorHandlingService.showError(
+                                            Errors.CouldNotAddToCart);
+                                      else if (res == 1) {
+                                        locator<CartCountController>()
+                                            .incrementCartCount();
+                                      }
+
+                                      setState(() {
+                                        disabledAddToCartBtn = false;
+                                      });
+
+                                      showTutorial(context, cartKey: cartKey);
+                                    },
+                              child: Container(
+                                width: MediaQuery.of(context).size.width * 0.50,
+                                padding: EdgeInsets.symmetric(vertical: 10),
+                                decoration: BoxDecoration(
+                                    border: Border.all(color: logoRed),
+                                    // boxShadow: [
+                                    //   BoxShadow(
+                                    //     color: Colors.grey.withOpacity(0.5),
+                                    //     spreadRadius: 2,
+                                    //     blurRadius: 4,
+                                    //     offset: Offset(
+                                    //         0, 3), // changes position of shadow
+                                    //   ),
+                                    // ],
+                                    color: logoRed,
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: Center(
+                                  child: Text(
+                                    "ADD TO BAG",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: subtitleFontSizeStyle - 4,
                                     ),
-                                  ],
-                                  color: textIconOrange,
-                                  borderRadius: BorderRadius.circular(40)),
-                              child: Center(
-                                child: Text(
-                                  "BUY NOW",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: subtitleFontSizeStyle,
                                   ),
                                 ),
                               ),
                             ),
-                          ),
+                            if (!widget.fromCart) horizontalSpaceTiny,
+                            if (!widget.fromCart)
+                              GestureDetector(
+                                onTap: (selectedQty == 0 ||
+                                        selectedColor == "" ||
+                                        selectedSize == "")
+                                    ? () => DialogService.showCustomDialog(
+                                          AlertDialog(
+                                            title: FittedBox(
+                                              fit: BoxFit.scaleDown,
+                                              child: Text(
+                                                  'Please select size, color & quantity'),
+                                            ),
+                                            actions: [
+                                              TextButton(
+                                                  onPressed: () =>
+                                                      Navigator.of(context)
+                                                          .pop(),
+                                                  child: Text("OK")),
+                                            ],
+                                          ),
+                                        )
+                                    : () async {
+                                        var res = await controller.buyNow(
+                                            productData,
+                                            selectedQty,
+                                            selectedSize,
+                                            selectedColor);
+                                        if (res != null && res == true) {
+                                          locator<CartCountController>()
+                                              .incrementCartCount();
+
+                                          Navigator.push(
+                                            context,
+                                            PageTransition(
+                                              child: CartView(
+                                                  productId: productData?.key),
+                                              type: PageTransitionType
+                                                  .rightToLeft,
+                                            ),
+                                          );
+                                        }
+                                      },
+                                child: Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.50,
+                                  padding: EdgeInsets.symmetric(vertical: 10),
+                                  decoration: BoxDecoration(
+                                      // boxShadow: [
+                                      //   BoxShadow(
+                                      //     color: Colors.grey.withOpacity(0.5),
+                                      //     spreadRadius: 2,
+                                      //     blurRadius: 4,
+                                      //     offset: Offset(0,
+                                      //         3), // changes position of shadow
+                                      //   ),
+                                      // ],
+                                      color: textIconOrange,
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: Center(
+                                    child: Text(
+                                      "BUY NOW",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: subtitleFontSizeStyle - 4,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                          ],
                         ),
                       ),
                     ),

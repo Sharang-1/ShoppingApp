@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliver_fab/sliver_fab.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:readmore/readmore.dart';
 
 import '../../constants/dynamic_links.dart';
 import '../../constants/route_names.dart';
@@ -584,10 +585,15 @@ class _SellerIndiState extends State<SellerIndi> {
                               color: Colors.black,
                             ),
                             verticalSpace(10),
-                            CustomText(
+                            ReadMoreText(
                               sellerDetails["Note from Seller"],
-                              fontSize: smallFont,
-                              color: Colors.grey[600],
+                              trimLines: 3,
+                              colorClickableText: logoRed,
+                              trimMode: TrimMode.Line,
+                              style: TextStyle(
+                                fontSize: smallFont,
+                                color: Colors.grey[600],
+                              ),
                             ),
                           ],
                         ),

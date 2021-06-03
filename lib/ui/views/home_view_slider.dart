@@ -10,9 +10,14 @@ class HomeSlider extends StatefulWidget {
   final List<String> imgList;
   final double aspectRatio;
   final bool fromHome;
+  final bool fromExplore;
 
   const HomeSlider(
-      {Key key, this.imgList, this.aspectRatio = 1.6, this.fromHome = false})
+      {Key key,
+      this.imgList,
+      this.aspectRatio = 1.6,
+      this.fromHome = false,
+      this.fromExplore = false})
       : super(key: key);
 
   @override
@@ -43,65 +48,100 @@ class _HomeSliderState extends State<HomeSlider> {
     return Column(
       children: [
         Container(
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                spreadRadius: 5,
-                blurRadius: 7,
-                offset: Offset(0, 3), // changes position of shadow
+          decoration: widget.fromExplore
+              ? null
+              : BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: Offset(0, 3), // changes position of shadow
+                    ),
+                  ],
+                ),
+          child: Stack(
+            children: [
+              ClipRRect(
+                borderRadius: widget.fromExplore
+                    ? BorderRadius.zero
+                    : BorderRadius.circular(20.0),
+                child: CarouselSlider(
+                  options: CarouselOptions(
+                    autoPlay: false,
+                    aspectRatio: widget.aspectRatio,
+                    enableInfiniteScroll: false,
+                    viewportFraction: 1.0,
+                    pauseAutoPlayOnTouch: true,
+                    onPageChanged: (index, reason) {
+                      setState(() {
+                        _current = index;
+                      });
+                    },
+                  ),
+                  items: imgList.map((i) {
+                    return Builder(
+                      builder: (BuildContext context) {
+                        return GestureDetector(
+                          onTap: widget.fromExplore
+                              ? null
+                              : () {
+                                  if (!widget.fromHome) {
+                                    open(context, imgList.indexOf(i));
+                                  }
+                                },
+                          child: Hero(
+                            tag: 'productPhotos',
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(curve15)),
+                              width: MediaQuery.of(context).size.width,
+                              child: CachedNetworkImage(
+                                maxHeightDiskCache: 200,
+                                maxWidthDiskCache: 200,
+                                fit: BoxFit.cover,
+                                imageUrl: i,
+                                placeholder: (context, e) =>
+                                    Center(child: CircularProgressIndicator()),
+                                errorWidget: (context, url, error) =>
+                                    new Icon(Icons.error),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  }).toList(),
+                ),
               ),
+              if (imgList.length > 1 && (widget.fromExplore))
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: imgList.map((url) {
+                      int index = imgList.indexOf(url);
+                      return Container(
+                        width: 8.0,
+                        height: 8.0,
+                        margin: EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 2.0),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: _current == index
+                              ? Color.fromRGBO(0, 0, 0, 0.9)
+                              : Color.fromRGBO(0, 0, 0, 0.4),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ),
             ],
           ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(20.0),
-            child: CarouselSlider(
-              options: CarouselOptions(
-                autoPlay: false,
-                aspectRatio: widget.aspectRatio,
-                enableInfiniteScroll: false,
-                viewportFraction: 1.0,
-                pauseAutoPlayOnTouch: true,
-                onPageChanged: (index, reason) {
-                  setState(() {
-                    _current = index;
-                  });
-                },
-              ),
-              items: imgList.map((i) {
-                return Builder(
-                  builder: (BuildContext context) {
-                    return GestureDetector(
-                      onTap: () {
-                        if (!widget.fromHome) {
-                          open(context, imgList.indexOf(i));
-                        }
-                      },
-                      child: Hero(
-                        tag: 'productPhotos',
-                        child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(curve15)),
-                          width: MediaQuery.of(context).size.width,
-                          child: CachedNetworkImage(
-                            maxHeightDiskCache: 200,
-                            maxWidthDiskCache: 200,
-                            fit: BoxFit.cover,
-                            imageUrl: i,
-                            placeholder: (context, e)=> Center(child: CircularProgressIndicator()),
-                            errorWidget: (context, url, error) =>
-                                new Icon(Icons.error),
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                );
-              }).toList(),
-            ),
-          ),
         ),
-        if (imgList.length > 1)
+        if (imgList.length > 1 && !(widget.fromExplore))
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: imgList.map((url) {
@@ -131,7 +171,8 @@ class _HomeSliderState extends State<HomeSlider> {
           galleryItems: imgList,
           initialIndex: index,
           scrollDirection: Axis.horizontal,
-          loadingBuilder: (context, e) => Center(child: CircularProgressIndicator()),
+          loadingBuilder: (context, e) =>
+              Center(child: CircularProgressIndicator()),
           backgroundDecoration: BoxDecoration(color: backgroundWhiteCreamColor),
         ),
       ),

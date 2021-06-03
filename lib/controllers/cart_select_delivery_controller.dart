@@ -14,16 +14,12 @@ class CartSelectDeliveryController extends BaseController {
 
   void onInit() async {
     super.onInit();
-    
+
     addresses = await _addressService.getAddresses();
     update();
   }
 
   Future<void> addAddress(UserDetailsContact address) async {
-    if (address.city.toUpperCase() != "AHMEDABAD") {
-      DialogService.showNotDeliveringDialog();
-      return;
-    }
     print("ViewModel: addAddress");
     final res = await _addressService.addAddresses(address);
     print("res : " + res.toString());

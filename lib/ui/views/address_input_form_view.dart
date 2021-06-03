@@ -2,6 +2,7 @@ import 'package:fimber/fimber_base.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:page_transition/page_transition.dart';
 
 import '../../controllers/address_controller.dart';
 import '../../google_maps_place_picker/google_maps_place_picker.dart';
@@ -157,16 +158,22 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
 
   _BottomSheetForAddressState();
 
+  setAddress(PickResult pickedPlace) {
+    setState(() {
+      _googleAddressStringController.text = pickedPlace.formattedAddress;
+
+      var googlePincode =
+          int.tryParse(pickedPlace.addressComponents.last.longName);
+      _pinCodeController.text = googlePincode?.toString() ?? "";
+      // _googleAddressStringController.text =
+      //     widget.selectedPlace?.formattedAddress;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
-    _googleAddressStringController.text = widget.pickedPlace.formattedAddress;
-
-    final googlePincode =
-        int.tryParse(widget.pickedPlace.addressComponents.last.longName);
-    _pinCodeController.text = googlePincode?.toString() ?? "";
-    // _googleAddressStringController.text =
-    //     widget.selectedPlace?.formattedAddress;
+    setAddress(widget.pickedPlace);
   }
 
   @override
@@ -239,23 +246,23 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
                                 return "Please enter Proper Address";
                               return null;
                             },
-                            decoration: const InputDecoration(
+                            decoration: InputDecoration(
                               labelText: 'Your Location',
                               isDense: true,
-                              // suffixIcon: InkWell(
-                              //   onTap: changeAddress,
-                              //   child: Text(
-                              //     "CHANGE",
-                              //     style: TextStyle(
-                              //       fontSize: 10,
-                              //       color: logoRed,
-                              //     ),
-                              //   ),
-                              // ),
+                              suffixIcon: InkWell(
+                                onTap: changeAddress,
+                                child: Text(
+                                  "CHANGE",
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    color: logoRed,
+                                  ),
+                                ),
+                              ),
                             ),
                             autofocus: false,
-                            enabled: false,
-                            maxLines: 2,
+                            readOnly: true,
+                            maxLines: 3,
                           ),
                           verticalSpaceMedium,
                           TextFormField(
@@ -278,7 +285,7 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
                             autofocus: false,
                             enabled: true,
                             style: TextStyle(
-                              fontSize: 17,
+                              fontSize: 16,
                             ),
                           ),
                           verticalSpaceMedium,
@@ -532,5 +539,14 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
     );
   }
 
-  void changeAddress() {}
+  void changeAddress() async {
+    PickResult pickedPlace = await Navigator.push(
+      context,
+      PageTransition(
+        child: AddressInputPage(),
+        type: PageTransitionType.rightToLeft,
+      ),
+    );
+    setAddress(pickedPlace);
+  }
 }

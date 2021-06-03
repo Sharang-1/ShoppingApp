@@ -62,7 +62,7 @@ class SellerTileUiOld extends StatelessWidget {
                 borderRadius: BorderRadius.circular(curve15),
               ),
               clipBehavior: Clip.antiAlias,
-              elevation: 0,
+              elevation: 5,
               child: Stack(
                 children: [
                   Container(
@@ -312,7 +312,7 @@ class SellerTileUi extends StatelessWidget {
                 borderRadius: BorderRadius.circular(curve15),
               ),
               clipBehavior: Clip.antiAlias,
-              elevation: 0,
+              elevation: 5,
               child: Container(
                 padding: EdgeInsets.all(12),
                 child: Row(

@@ -1,9 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
+import '../constants/route_names.dart';
 import '../locator.dart';
 import '../models/app_info.dart';
 import 'api/api_service.dart';
+import 'error_handling_service.dart';
+import 'navigation_service.dart';
 
 class PaymentService {
   String razorPayAPIKey;
@@ -61,6 +64,8 @@ class PaymentService {
           msg: "Success",
           success: true,
         );
+
+        await NavigationService.to(PaymentFinishedScreenRoute);
       });
 
       _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR,
@@ -70,8 +75,10 @@ class PaymentService {
           msg: response.message,
           success: false,
         );
-        
+
         print("RazorPay Error: " + response.message);
+        locator<ErrorHandlingService>().showError(Errors.CouldNotPlaceAnOrder);
+        NavigationService.offAll(HomeViewRoute);
       });
       _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET,
           (ExternalWalletResponse response) {

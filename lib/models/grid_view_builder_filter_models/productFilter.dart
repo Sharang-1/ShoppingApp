@@ -11,6 +11,7 @@ class ProductFilter implements BaseFilterModel {
   final int minDiscount;
   final String sortField;
   final bool isSortOrderDesc;
+  final bool explore;
   final String existingQueryString;
 
   String _queryString = "";
@@ -25,6 +26,7 @@ class ProductFilter implements BaseFilterModel {
     this.maxPrice,
     this.minDiscount,
     this.sortField,
+    this.explore,
     this.isSortOrderDesc,
     this.existingQueryString = "",
   }) {
@@ -86,6 +88,15 @@ class ProductFilter implements BaseFilterModel {
         _queryString = _queryString.replaceFirst(
             RegExp("minDiscount(.*?);"), "minDiscount=$minDiscount;");
     }
+    
+    if (explore != null) {
+      if (!_queryString.contains("explore"))
+        _queryString += "explore=$sortField;";
+      else
+        _queryString = _queryString.replaceFirst(
+            RegExp("explore(.*?);"), "explore=$sortField;");
+    }
+
     if (sortField != null) {
       if (!_queryString.contains("sortField"))
         _queryString += "sortField=$sortField;";

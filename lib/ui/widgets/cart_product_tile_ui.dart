@@ -143,7 +143,7 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
           borderRadius: BorderRadius.circular(curve15),
         ),
         clipBehavior: Clip.antiAlias,
-        elevation: 5,
+        elevation: 0,
         child: Padding(
           padding: EdgeInsets.only(left: 10),
           child: Row(
@@ -307,7 +307,7 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
           ],
           backgroundColor: Colors.grey[300],
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.transparent,
         body: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.fromLTRB(25, 30, 25, 10),
@@ -494,7 +494,7 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                     Expanded(
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          elevation: 5,
+                          elevation: 0,
                           primary: green,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),

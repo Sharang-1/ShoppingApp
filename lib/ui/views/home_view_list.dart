@@ -185,12 +185,12 @@ class HomeViewList extends StatelessWidget {
                     subTitle: controller?.remoteConfig?.getString(
                             HOMESCREEN_PRODUCT_SECTION_2_SUBTITLE_EN) ??
                         '',
-                    viewAll: () => BaseController.goToProductListPage(
-                      ProductPageArg(
-                        queryString: '',
-                        subCategory: '',
-                      ),
-                    ),
+                    // viewAll: () => BaseController.goToProductListPage(
+                    //   ProductPageArg(
+                    //     queryString: '',
+                    //     subCategory: '',
+                    //   ),
+                    // ),
                   ),
                 ),
                 SectionDivider(),
@@ -544,8 +544,9 @@ class HomeViewList extends StatelessWidget {
                 verticalSpaceMedium,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    SizedBox(
+                    Container(
                       height: 50,
                       width: MediaQuery.of(context).size.width * 0.6,
                       child: TextButton(

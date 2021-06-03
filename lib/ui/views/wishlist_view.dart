@@ -171,7 +171,7 @@ class _WishlistViewState extends State<WishlistView>
                   index: index,
                   data: data,
                   onClick: () {
-                    controller.goToProductPage(data);
+                    BaseController.goToProductPage(data);
                   },
                 );
               },
@@ -286,12 +286,13 @@ class _WishlistViewState extends State<WishlistView>
                             Container(
                               height: 30,
                               child: Tab(
-                                  child: Text(
-                                "Products",
-                                style: TextStyle(
+                                child: Text(
+                                  "Products",
+                                  style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    fontFamily: "Raleway"),
-                              )),
+                                  ),
+                                ),
+                              ),
                             ),
                             Container(
                               height: 30,
@@ -300,7 +301,7 @@ class _WishlistViewState extends State<WishlistView>
                                 "Sellers",
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    fontFamily: "Raleway"),
+                                    ),
                               )),
                             ),
                           ],

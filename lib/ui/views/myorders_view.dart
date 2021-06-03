@@ -124,24 +124,29 @@ class _MyOrdersViewState extends State<MyOrdersView> {
                             var date = DateFormat.yMMMMd('en_US').format(
                                 DateTime.parse(
                                     "${created.substring(6, 10)}${created.substring(3, 5)}${created.substring(0, 2)}"));
-                            return Padding(
+                            return Container(
+                              decoration: BoxDecoration(
+                                border: Border(
+                                  top: BorderSide(color: Colors.grey[400]),
+                                ),
+                              ),
                               padding: const EdgeInsets.only(
                                   top: 8.0, left: 8.0, right: 8.0),
                               child: FittedBox(
                                 alignment: Alignment.centerLeft,
                                 fit: BoxFit.scaleDown,
                                 child: Container(
-                                  decoration: BoxDecoration(
-                                    color: logoRed,
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
+                                  // decoration: BoxDecoration(
+                                  // color: logoRed,
+                                  // borderRadius: BorderRadius.circular(15),
+                                  // ),
                                   padding: EdgeInsets.all(8.0),
                                   child: Text(
                                     date,
                                     style: TextStyle(
                                       fontWeight: FontWeight.w600,
-                                      color: Colors.white,
-                                      fontSize: 16,
+                                      color: logoRed,
+                                      fontSize: 14,
                                     ),
                                   ),
                                 ),
@@ -152,7 +157,7 @@ class _MyOrdersViewState extends State<MyOrdersView> {
                               Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8.0),
                             child: SizedBox(
-                              height: 120,
+                              height: 180,
                               child: GestureDetector(
                                 child: Card(
                                   clipBehavior: Clip.antiAlias,
@@ -160,78 +165,181 @@ class _MyOrdersViewState extends State<MyOrdersView> {
                                     borderRadius:
                                         BorderRadius.circular(curve15),
                                   ),
-                                  elevation: 5,
+                                  elevation: 0,
                                   child: Container(
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: <Widget>[
-                                        ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(curve15),
-                                          child: FadeInImage.assetNetwork(
-                                            width: 120,
-                                            height: 120,
-                                            fadeInCurve: Curves.easeIn,
-                                            placeholder:
-                                                "assets/images/product_preloading.png",
-                                            image:
-                                                "$PRODUCT_PHOTO_BASE_URL/${order.product.key}/${order?.product?.photo?.photos?.first?.name ?? 'photo'}-small.png",
-                                            imageErrorBuilder:
-                                                (context, error, stackTrace) =>
-                                                    Image.asset(
-                                              "assets/images/product_preloading.png",
-                                              width: 120,
-                                              height: 120,
-                                              fit: BoxFit.cover,
-                                            ),
-                                            fit: BoxFit.cover,
+                                    child: Column(
+                                      children: [
+                                        verticalSpaceSmall,
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 16.0),
+                                          child: Row(
+                                            children: [
+                                              // Container(
+                                              //   child: Icon(
+                                              //     Icons.cloud_done,
+                                              //     color: Color(0xFF17a17f),
+                                              //   ),
+                                              // ),
+                                              // SizedBox(
+                                              //   width: 15.0,
+                                              // ),
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    order.status.state,
+                                                    style: TextStyle(
+                                                      color: (<int>[
+                                                        0,
+                                                        1,
+                                                        2,
+                                                        3,
+                                                        4,
+                                                        5,
+                                                        7
+                                                      ].contains(
+                                                              order.status.id))
+                                                          ? Color(0xFF17a17f)
+                                                          : logoRed,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 14.0,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    (<int>[
+                                                      1,
+                                                      2,
+                                                      3,
+                                                      4,
+                                                      5,
+                                                    ].contains(order.status.id))
+                                                        ? 'on ${order.created}'
+                                                        : (order.status.id == 7)
+                                                            ? 'on ${order.deliveryDate}'
+                                                            : "",
+                                                    style: TextStyle(
+                                                      fontSize: 12.0,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                        horizontalSpaceMedium,
-                                        Expanded(
-                                            child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
+                                        Row(
                                           crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                              CrossAxisAlignment.center,
                                           children: <Widget>[
-                                            CustomText(
-                                              order.product.name,
-                                              isBold: true,
-                                              color: Colors.grey[800],
-                                              dotsAfterOverFlow: true,
-                                              fontSize: titleFontSize,
+                                            Padding(
+                                              padding: EdgeInsets.all(8.0),
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        curve15),
+                                                child: FadeInImage.assetNetwork(
+                                                  width: 100,
+                                                  height: 100,
+                                                  fadeInCurve: Curves.easeIn,
+                                                  placeholder:
+                                                      "assets/images/product_preloading.png",
+                                                  image:
+                                                      "$PRODUCT_PHOTO_BASE_URL/${order.product.key}/${order?.product?.photo?.photos?.first?.name ?? 'photo'}-small.png",
+                                                  imageErrorBuilder: (context,
+                                                          error, stackTrace) =>
+                                                      Image.asset(
+                                                    "assets/images/product_preloading.png",
+                                                    width: 100,
+                                                    height: 100,
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
                                             ),
-                                            CustomText(
-                                              rupeeUnicode +
-                                                  order.orderCost.cost
-                                                      .toString(),
-                                              dotsAfterOverFlow: true,
-                                              fontSize: titleFontSize,
-                                              isBold: true,
-                                              color: textIconOrange,
-                                            ),
-                                            if (order.variation.size != 'N/A')
-                                              CustomText(order.variation.size,
+                                            horizontalSpaceTiny,
+                                            Expanded(
+                                                child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: <Widget>[
+                                                CustomText(
+                                                  order.product.name,
+                                                  isBold: true,
+                                                  color: Colors.grey[800],
                                                   dotsAfterOverFlow: true,
-                                                  color: Colors.grey,
-                                                  fontSize: subtitleFontSize),
-                                            CustomText(
-                                              order.status.state,
-                                              fontSize: subtitleFontSize,
-                                              isBold: true,
-                                              color: Colors.grey,
-                                            ),
+                                                  fontSize: titleFontSize,
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    CustomText("Qty: ",
+                                                        dotsAfterOverFlow: true,
+                                                        color: Colors.black54,
+                                                        fontSize:
+                                                            subtitleFontSize),
+                                                    horizontalSpaceSmall,
+                                                    CustomText(
+                                                        order.orderCost.quantity
+                                                            .toString(),
+                                                        dotsAfterOverFlow: true,
+                                                        color: Colors.grey,
+                                                        fontSize:
+                                                            subtitleFontSize),
+                                                  ],
+                                                ),
+                                                if (order.variation.size !=
+                                                    'N/A')
+                                                  Row(
+                                                    children: [
+                                                      CustomText("Size: ",
+                                                          dotsAfterOverFlow:
+                                                              true,
+                                                          color: Colors.black54,
+                                                          fontSize:
+                                                              subtitleFontSize),
+                                                      horizontalSpaceSmall,
+                                                      CustomText(
+                                                          order.variation.size,
+                                                          dotsAfterOverFlow:
+                                                              true,
+                                                          color: Colors.grey,
+                                                          fontSize:
+                                                              subtitleFontSize),
+                                                    ],
+                                                  ),
+                                                verticalSpaceTiny,
+                                                CustomText(
+                                                  rupeeUnicode +
+                                                      order.orderCost.cost
+                                                          .toString(),
+                                                  dotsAfterOverFlow: true,
+                                                  fontSize: titleFontSize,
+                                                  isBold: true,
+                                                  color: textIconOrange,
+                                                ),
+                                                // CustomText(
+                                                //   order.status.state,
+                                                //   fontSize: subtitleFontSize,
+                                                //   isBold: true,
+                                                //   color: Colors.grey,
+                                                // ),
+                                              ],
+                                            )),
+                                            IconButton(
+                                              icon: Icon(
+                                                Icons.arrow_forward_ios,
+                                                color: Colors.grey,
+                                              ),
+                                              onPressed: () {},
+                                            )
                                           ],
-                                        )),
-                                        IconButton(
-                                          icon: Icon(
-                                            Icons.arrow_forward_ios,
-                                            color: Colors.grey,
-                                          ),
-                                          onPressed: () {},
-                                        )
+                                        ),
                                       ],
                                     ),
                                   ),

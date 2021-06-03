@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:get/state_manager.dart';
 import 'package:page_transition/page_transition.dart';
 
-import '../../controllers/cart_select_delivery_controller.dart';
-import '../../google_maps_place_picker/google_maps_place_picker.dart';
-import '../../models/user_details.dart';
+import '../../locator.dart';
+import '../../models/promoCode.dart';
+import '../../services/api/api_service.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
 import '../widgets/custom_stepper.dart';
 import '../widgets/custom_text.dart';
-import 'address_input_form_view.dart';
 import 'cart_select_delivery_view.dart';
 
 class SelectPromocode extends StatefulWidget {
   final String finalTotal;
   final String productId;
   final String promoCode;
+  final List<PromoCode> availablePromoCodes;
   final String promoCodeId;
   final String size;
   final String color;
@@ -26,6 +25,7 @@ class SelectPromocode extends StatefulWidget {
   const SelectPromocode({
     Key key,
     @required this.productId,
+    @required this.availablePromoCodes,
     @required this.promoCode,
     @required this.promoCodeId,
     @required this.size,
@@ -39,244 +39,275 @@ class SelectPromocode extends StatefulWidget {
 }
 
 class _SelectPromocodeState extends State<SelectPromocode> {
-  UserDetailsContact addressRadioValue;
-  UserDetailsContact addressGrpValue;
-  bool disabledPayment = true;
+  String couponRadioValue;
+  String couponGrpValue;
+  final _controller = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<CartSelectDeliveryController>(
-      init: CartSelectDeliveryController(),
-      builder: (controller) => Scaffold(
+    return Scaffold(
+      backgroundColor: backgroundWhiteCreamColor,
+      appBar: AppBar(
+        elevation: 0,
         backgroundColor: backgroundWhiteCreamColor,
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: backgroundWhiteCreamColor,
-          centerTitle: true,
-          title: SvgPicture.asset(
-            "assets/svg/logo.svg",
-            color: logoRed,
-            height: 35,
-            width: 35,
+        centerTitle: true,
+        title: SvgPicture.asset(
+          "assets/svg/logo.svg",
+          color: logoRed,
+          height: 35,
+          width: 35,
+        ),
+        iconTheme: IconThemeData(
+          color: appBarIconColor,
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.only(
+          left: screenPadding,
+          right: screenPadding,
+          bottom: 10,
+          top: 0,
+        ),
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            elevation: 5,
+            primary: green,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(curve30),
+            ),
           ),
-          iconTheme: IconThemeData(
-            color: appBarIconColor,
+          onPressed: () {
+            Navigator.push(
+              context,
+              PageTransition(
+                  child: SelectAddress(
+                    productId: widget.productId,
+                    promoCode: widget.promoCode,
+                    promoCodeId: widget.promoCodeId,
+                    size: widget.size,
+                    color: widget.color,
+                    qty: widget.qty,
+                    finalTotal: widget.finalTotal,
+                  ),
+                  type: PageTransitionType.rightToLeft),
+            );
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 15),
+            child: Text(
+              "Select Address",
+              style:
+                  TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+            ),
           ),
         ),
-        bottomNavigationBar: Padding(
-          padding: EdgeInsets.only(
-            left: screenPadding,
-            right: screenPadding,
-            bottom: 10,
-            top: 0,
-          ),
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              elevation: 5,
-              primary: green,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(curve30),
-              ),
-            ),
-            onPressed: disabledPayment
-                ? null
-                : () {
-                    Navigator.push(
-                      context,
-                      PageTransition(
-                          child: SelectAddress(
-                            productId: widget.productId,
-                            promoCode: widget.promoCode,
-                            promoCodeId: widget.promoCodeId,
-                            size: widget.size,
-                            color: widget.color,
-                            qty: widget.qty,
-                            finalTotal: widget.finalTotal,
+      ),
+      resizeToAvoidBottomInset: false,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                verticalSpace(20),
+                Text(
+                  "Select Coupon",
+                  style: TextStyle(
+                      fontFamily: headingFont,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 25),
+                ),
+                verticalSpace(20),
+                const CutomStepper(
+                  step: 1,
+                ),
+                verticalSpace(20),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(curve15),
+                      side: BorderSide(color: logoRed),
+                    ),
+                    clipBehavior: Clip.antiAlias,
+                    elevation: 0,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        Expanded(
+                          child: Padding(
+                            padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                            child: TextField(
+                              controller: _controller,
+                              textCapitalization: TextCapitalization.characters,
+                              decoration: const InputDecoration(
+                                hintText: 'Enter Coupon Code',
+                                border: InputBorder.none,
+                                isDense: true,
+                              ),
+                              autofocus: false,
+                              maxLines: 1,
+                            ),
                           ),
-                          type: PageTransitionType.rightToLeft),
-                    );
-                  },
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 15),
-              child: Text(
-                "Proceed To Payment ",
-                style:
-                    TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-              ),
-            ),
-          ),
-        ),
-        resizeToAvoidBottomInset: false,
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding:
-                  EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  verticalSpace(20),
-                  Text(
-                    "Select Delivery",
-                    style: TextStyle(
-                        fontFamily: headingFont,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 25),
+                        ),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            elevation: 0,
+                            padding: EdgeInsets.all(0),
+                            primary: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              // side: BorderSide(
+                              //     color: Colors.black, width: 0.5)
+                            ),
+                          ),
+                          onPressed: applyPromoCode,
+                          child: Text(
+                            "Apply",
+                            style: TextStyle(
+                                color: darkRedSmooth,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                  Text(
-                    "Address",
-                    style: TextStyle(
-                        fontFamily: headingFont,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 25),
-                  ),
-                  verticalSpace(20),
-                  const CutomStepper(
-                    step: 2,
-                  ),
-                  verticalSpace(20),
+                ),
+                verticalSpace(35),
+                if (widget.availablePromoCodes.isNotEmpty)
                   Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          elevation: 5,
-                          primary: darkRedSmooth,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                            // side: BorderSide(
-                            //     color: Colors.black, width: 0.5)
-                          ),
-                        ),
-                        onPressed: () async {
-                          PickResult pickedPlace = await Navigator.push(
-                            context,
-                            PageTransition(
-                              child: AddressInputPage(),
-                              type: PageTransitionType.rightToLeft,
-                            ),
-                          );
-                          if (pickedPlace != null) {
-                            UserDetailsContact userAdd =
-                                await showModalBottomSheet(
-                              isScrollControlled: true,
-                              context: context,
-                              builder: (_) => BottomSheetForAddress(
-                                pickedPlace: pickedPlace,
-                              ),
-                            );
-                            if (userAdd != null) {
-                              controller.addAddress(userAdd);
-                            }
-                          }
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            SvgPicture.asset(
-                              "assets/svg/address.svg",
-                              color: Colors.white,
-                              width: 25,
-                              height: 25,
-                            ),
-                            horizontalSpaceSmall,
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 15),
-                              child: CustomText(
-                                "Add Address",
-                                isBold: true,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        )),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Text(
+                      "🎁 Coupons For You !",
+                      style: TextStyle(
+                        fontFamily: headingFont,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 20,
+                      ),
+                    ),
                   ),
-                  verticalSpace(35),
-                  if (controller.addresses.length != 0)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Text(
-                        "Previously Added Addresses",
-                        style: TextStyle(
-                            fontFamily: headingFont,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 20),
-                      ),
-                    ),
-                  verticalSpace(15),
-                  Column(
-                    children: List<Widget>.of(
-                      controller.addresses.map(
-                        (UserDetailsContact address) => GestureDetector(
-                          onTap: () => setState(
-                            () {
-                              addressGrpValue = addressRadioValue = address;
-                              disabledPayment = false;
-                            },
-                          ),
-                          child: Container(
-                            margin: EdgeInsets.only(bottom: spaceBetweenCards),
-                            child: Card(
-                              clipBehavior: Clip.antiAlias,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(curve15),
-                              ),
-                              elevation: 5,
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(0, 15, 15, 15),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    Radio(
-                                      value: address,
-                                      groupValue: addressGrpValue,
-                                      onChanged: (val) {
-                                        // setState(() {
-                                        //   addressGrpValue =
-                                        //       addressRadioValue = val;
-                                        //   disabledPayment = false;
-                                        // });
-                                        print(val);
-                                      },
+                verticalSpace(15),
+                Column(
+                  children: List<Widget>.of(
+                    widget.availablePromoCodes.map(
+                      (PromoCode p) => GestureDetector(
+                        onTap: () => setState(
+                          () {
+                            couponGrpValue = couponRadioValue =
+                                p.promocodeDiscount.promocode;
+                            _controller.text = p.promocodeDiscount.promocode;
+                            applyPromoCode();
+                          },
+                        ),
+                        child: Container(
+                          // margin: EdgeInsets.only(bottom: spaceBetweenCards),
+                          child: Card(
+                            clipBehavior: Clip.antiAlias,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            elevation: 0,
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 4, 8, 4),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  Radio(
+                                    value: p.promocodeDiscount.promocode,
+                                    groupValue: couponGrpValue,
+                                    onChanged: (val) {
+                                      setState(() {
+                                        couponGrpValue = couponRadioValue = val;
+                                        _controller.text = val;
+                                        applyPromoCode();
+                                      });
+                                      print(val);
+                                    },
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        CustomText(
+                                          p.promocodeDiscount.promocode
+                                              .toString(),
+                                          color: Colors.grey[700],
+                                          isBold: true,
+                                        ),
+                                      ],
                                     ),
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: <Widget>[
-                                          CustomText(
-                                            "Address",
-                                            color: Colors.grey[700],
-                                            isBold: true,
-                                          ),
-                                          verticalSpaceTiny_0,
-                                          CustomText(
-                                            address.address +
-                                                "\n" +
-                                                address.googleAddress,
-                                            color: Colors.grey,
-                                            fontSize: 14,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
                         ),
                       ),
                     ),
-                  )
-                ],
-              ),
+                  ),
+                )
+              ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  void applyPromoCode() async {
+    if (_controller.text == "") return;
+    FocusManager.instance.primaryFocus.unfocus();
+    final res = await locator<APIService>().applyPromocode(
+      widget.productId.toString(),
+      widget.qty,
+      _controller.text.toLowerCase(),
+      "",
+    );
+    if (res != null) {
+      // setState(() {
+      //   shippingCharges = res.deliveryCharges.cost.toString();
+      //   finalTotal = res.cost.toString();
+      //   promoCode = res.promocodeDiscount.promocode;
+      //   promoCodeDiscount = res.promocodeDiscount.cost.toString();
+      //   promoCodeId = res.promocodeDiscount.promocodeId;
+      //   isPromoCodeApplied = true;
+      // });
+
+      _controller.text = "";
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        new SnackBar(content: Text("Coupon Applied Successfully!")),
+      );
+
+      await Navigator.push(
+        context,
+        PageTransition(
+            child: SelectAddress(
+              productId: widget.productId,
+              promoCode: res.promocodeDiscount.promocode,
+              promoCodeId: res.promocodeDiscount.promocodeId,
+              size: widget.size,
+              color: widget.color,
+              qty: widget.qty,
+              finalTotal: res.cost.toStringAsFixed(2),
+            ),
+            type: PageTransitionType.rightToLeft),
+      );
+    } else {
+      setState(() {
+        _controller.text = "";
+        couponGrpValue = null;
+        couponRadioValue = null;
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Invalid Coupon")),
+      );
+    }
   }
 }

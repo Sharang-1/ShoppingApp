@@ -1,4 +1,5 @@
 // import 'package:compound/services/analytics_service.dart';
+import 'package:compound/services/push_notification_service.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -33,7 +34,11 @@ class AuthenticationService {
   }) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String phoneNo = prefs.getString(PhoneNo);
-    return _apiService.verifyOTP(phoneNo: phoneNo, otp: otp);
+    return _apiService.verifyOTP(
+      phoneNo: phoneNo,
+      otp: otp,
+      fcm: locator<PushNotificationService>().fcmToken,
+    );
   }
 
   Future<bool> isUserLoggedIn() async {
@@ -80,7 +85,7 @@ class AuthenticationService {
   //     password: password,
   //   );
 
-    // create a new user profile on firestore
+  // create a new user profile on firestore
   //   _currentUser = User(
   //     id: authResult.user.uid,
   //     email: email,
@@ -101,9 +106,9 @@ class AuthenticationService {
   // }
 
   // Future _populateCurrentUser() async {
-    // if (user != null) {
-    //   _currentUser = await _apiService.getUser(user.uid);
-    //   await _analyticsService.setUserProperties(userId: user.uid);
-    // }
+  // if (user != null) {
+  //   _currentUser = await _apiService.getUser(user.uid);
+  //   await _analyticsService.setUserProperties(userId: user.uid);
+  // }
   // }
 }

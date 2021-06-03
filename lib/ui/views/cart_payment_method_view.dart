@@ -46,7 +46,6 @@ class PaymentMethod extends StatefulWidget {
 class _PaymentMethodState extends State<PaymentMethod> {
   int paymentMethodRadioValue = 1;
   int paymentMethodGrpValue = 1;
-  final NavigationService _navigationService = locator<NavigationService>();
   final ErrorHandlingService _errorHandlingService =
       locator<ErrorHandlingService>();
 
@@ -129,12 +128,11 @@ class _PaymentMethodState extends State<PaymentMethod> {
                 paymentMethodRadioValue,
               );
 
-              if (res != null) {
-                _navigationService
-                    .navigateReplaceTo(PaymentFinishedScreenRoute);
+              if ((res != null) && (paymentMethodGrpValue != 2)) {
+                NavigationService.off(PaymentFinishedScreenRoute);
               } else {
-                _navigationService.navigateAndRemoveUntil(HomeViewRoute);
                 _errorHandlingService.showError(Errors.CouldNotPlaceAnOrder);
+                NavigationService.offAll(HomeViewRoute);
               }
             },
             child: Padding(
@@ -184,7 +182,6 @@ class _PaymentMethodState extends State<PaymentMethod> {
                           rupeeUnicode + widget.finalTotal,
                           fontSize: titleFontSizeStyle + 4,
                           color: darkRedSmooth,
-                          fontFamily: "RaleWay",
                           isBold: true,
                         ),
                         verticalSpaceSmall,

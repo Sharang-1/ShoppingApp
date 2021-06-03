@@ -34,8 +34,8 @@ class HomeViewListHeader extends StatelessWidget {
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         color: Colors.grey[800],
-                        fontSize: subtitleFontSizeStyle + 2,
-                        fontWeight: FontWeight.w700,
+                        fontSize: subtitleFontSizeStyle,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
@@ -47,7 +47,7 @@ class HomeViewListHeader extends StatelessWidget {
                       maxLines: 3,
                       style: TextStyle(
                         color: Colors.grey[600],
-                        fontSize: subtitleFontSizeStyle - 4,
+                        fontSize: subtitleFontSizeStyle - 6,
                         fontWeight: FontWeight.w500,
                       ),
                     ),

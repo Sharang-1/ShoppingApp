@@ -15,14 +15,12 @@ class IntroPage extends StatelessWidget {
                   "Discover traditional wear designers with unique philosophies around you.",
               marginDescription: EdgeInsets.only(left: 10, right: 10, top: 20),
               styleDescription: TextStyle(
-                  fontFamily: 'Raleway',
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
                   color: Color.fromARGB(255, 62, 83, 119)),
               title: "Discover",
               marginTitle: EdgeInsets.only(top: 100),
               styleTitle: TextStyle(
-                  fontFamily: 'Raleway',
                   fontWeight: FontWeight.bold,
                   fontSize: 40,
                   color: Color.fromARGB(255, 62, 83, 119)),
@@ -36,13 +34,11 @@ class IntroPage extends StatelessWidget {
               marginDescription: EdgeInsets.only(left: 10, right: 10, top: 20),
               marginTitle: EdgeInsets.only(top: 100),
               styleDescription: TextStyle(
-                  fontFamily: 'Raleway',
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
                   color: Color.fromARGB(255, 62, 83, 119)),
               title: "Shop",
               styleTitle: TextStyle(
-                  fontFamily: 'Raleway',
                   fontWeight: FontWeight.bold,
                   fontSize: 40,
                   color: Color.fromARGB(255, 62, 83, 119)),
@@ -54,14 +50,12 @@ class IntroPage extends StatelessWidget {
                   "Book appointments with designers that fit your needs.",
               marginDescription: EdgeInsets.only(left: 10, right: 10, top: 20),
               styleDescription: TextStyle(
-                  fontFamily: 'Raleway',
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
                   color: Color.fromARGB(255, 62, 83, 119)),
               marginTitle: EdgeInsets.only(top: 100),
               title: "Collaborate",
               styleTitle: TextStyle(
-                  fontFamily: 'Raleway',
                   fontWeight: FontWeight.bold,
                   fontSize: 40,
                   color: Color.fromARGB(255, 62, 83, 119)),
