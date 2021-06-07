@@ -1,3 +1,5 @@
+import 'package:compound/locator.dart';
+import 'package:compound/services/api/api_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -17,7 +19,9 @@ class CartProductTileUI extends StatefulWidget {
   final String shippingCharges;
   final String promoCode;
   final String promoCodeDiscount;
-  final Function proceedToOrder;
+  final Function({int qty, String total}) proceedToOrder;
+  final Function increaseQty;
+  final Function decreaseQty;
   final Function onRemove;
 
   CartProductTileUI({
@@ -28,6 +32,8 @@ class CartProductTileUI extends StatefulWidget {
     this.shippingCharges = "",
     this.promoCode = "",
     this.promoCodeDiscount = "",
+    this.increaseQty,
+    this.decreaseQty,
     @required this.proceedToOrder,
     @required this.onRemove,
   }) : super(key: key);
@@ -75,30 +81,7 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
     deliveryCharges = 0;
     discountedPrice = price - (price * discount / 100);
 
-    orderSummaryDetails = {
-      "Product Name": widget.item.product.name,
-      // "Seller": "Nike",
-      "Qty": widget.item.quantity.toString(),
-      "Size": widget.item.size != null && widget.item.size != ""
-          ? (widget.item.size == 'N/A' ? '-' : widget.item.size)
-          : "No Size given",
-      "Color": widget.item.color != null && widget.item.color != ""
-          ? widget.item.color
-          : "No Color given",
-      "Promo Code": widget.promoCode,
-      "Promo Code Discount": '$rupeeUnicode${widget.promoCodeDiscount}',
-      "Price": rupeeUnicode +
-          (widget.item.quantity * widget.item.product.cost.cost).toString(),
-      "Discount": discount.toString() + "%",
-      "Discount Price":
-          rupeeUnicode + (discountedPrice * widget.item.quantity).toString(),
-      "Convenience Charges":
-          '${widget?.item?.product?.cost?.convenienceCharges?.rate} %',
-      "GST":
-          '$rupeeUnicode${((widget?.item?.quantity ?? 0) * (widget?.item?.product?.cost?.gstCharges?.cost ?? 0))?.toStringAsFixed(2)} (${widget?.item?.product?.cost?.gstCharges?.rate}%)',
-      "Delivery Charges": rupeeUnicode + widget.shippingCharges,
-      "Total": rupeeUnicode + widget.finalTotal,
-    };
+    updateDetails();
 
     super.initState();
   }
@@ -106,10 +89,14 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
   @mustCallSuper
   @protected
   void didUpdateWidget(covariant oldWidget) {
+    updateDetails();
+    super.didUpdateWidget(oldWidget);
+  }
+
+  void updateDetails({num qty}) {
     orderSummaryDetails = {
       "Product Name": widget.item.product.name,
-      // "Seller": "Nike",
-      "Qty": widget.item.quantity.toString(),
+      "Qty": qty?.toString() ?? widget.item.quantity.toString(),
       "Size": widget.item.size != null && widget.item.size != ""
           ? (widget.item.size == 'N/A' ? '-' : widget.item.size)
           : "No Size given",
@@ -119,25 +106,24 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
       "Promo Code": widget.promoCode,
       "Promo Code Discount": '$rupeeUnicode${widget.promoCodeDiscount}',
       "Price": rupeeUnicode +
-          (widget.item.quantity * widget.item.product.cost.cost).toString(),
+          ((qty ?? widget.item.quantity) * widget.item.product.cost.cost)
+              .toString(),
       "Discount": discount.toString() + "%",
-      "Discounted Price":
-          rupeeUnicode + (discountedPrice * widget.item.quantity).toString(),
+      "Discounted Price": rupeeUnicode +
+          ((discountedPrice * (qty ?? widget.item.quantity)) ?? 0).toString(),
       "Convenience Charges":
           '${widget?.item?.product?.cost?.convenienceCharges?.rate} %',
       "GST":
-          '$rupeeUnicode${((widget?.item?.quantity ?? 0) * (widget?.item?.product?.cost?.gstCharges?.cost ?? 0))?.toStringAsFixed(2)} (${widget?.item?.product?.cost?.gstCharges?.rate}%)',
+          '$rupeeUnicode${(((qty ?? widget?.item?.quantity) ?? 0) * (widget?.item?.product?.cost?.gstCharges?.cost ?? 0))?.toStringAsFixed(2)} (${widget?.item?.product?.cost?.gstCharges?.rate}%)',
       "Delivery Charges": rupeeUnicode + widget.shippingCharges,
-      "Total": rupeeUnicode + widget.finalTotal,
+      "Total": qty == null ? rupeeUnicode + widget.finalTotal : '-',
     };
-
-    super.didUpdateWidget(oldWidget);
   }
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: widget.proceedToOrder,
+      // onTap: widget.proceedToOrder,
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(curve15),
@@ -202,11 +188,60 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                         ],
                       ),
                       verticalSpaceTiny,
-                      CustomText(
-                        "Qty : ${orderSummaryDetails["Qty"]} Piece(s)",
-                        dotsAfterOverFlow: true,
-                        color: Colors.grey,
-                        fontSize: subtitleFontSize - 2,
+                      Row(
+                        children: [
+                          CustomText(
+                            "Qty : ",
+                            dotsAfterOverFlow: true,
+                            color: Colors.grey,
+                            fontSize: subtitleFontSize - 2,
+                          ),
+                          InkWell(
+                            child: Text(
+                              "-",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: subtitleFontSize - 2,
+                              ),
+                            ),
+                            onTap: () {
+                              num qty = num.parse(orderSummaryDetails["Qty"]);
+                              if (qty > 1)
+                                setState(() {
+                                  qty--;
+                                  widget.decreaseQty();
+                                  updateDetails(qty: qty);
+                                });
+                              setUpProductPrices(qty);
+                            },
+                          ),
+                          horizontalSpaceTiny,
+                          CustomText(
+                            "${orderSummaryDetails["Qty"]}",
+                            dotsAfterOverFlow: true,
+                            color: Colors.grey,
+                            fontSize: subtitleFontSize - 2,
+                          ),
+                          horizontalSpaceTiny,
+                          InkWell(
+                            child: Text(
+                              "+",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: subtitleFontSize - 2,
+                              ),
+                            ),
+                            onTap: () {
+                              num qty = num.parse(orderSummaryDetails["Qty"]);
+                              setState(() {
+                                qty++;
+                                widget.increaseQty();
+                                updateDetails(qty: qty);
+                              });
+                              setUpProductPrices(qty);
+                            },
+                          ),
+                        ],
                       ),
                       verticalSpaceTiny,
                       CustomText(
@@ -249,6 +284,29 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
       ),
     );
   }
+
+  void setUpProductPrices(int qty) async {
+    final res = await locator<APIService>()
+        .calculateProductPrice(widget.item.productId.toString(), qty);
+    if (res != null) {
+      setState(() {
+        orderSummaryDetails["Total"] = rupeeUnicode +
+            calculateTotalCost(
+                widget.item.product.cost, qty, res.deliveryCharges.cost);
+        orderSummaryDetails["Delivery Charges"] =
+            res.deliveryCharges.cost.toString();
+      });
+    }
+  }
+
+  String calculateTotalCost(Cost cost, num quantity, num deliveryCharges) =>
+      (((cost.cost -
+                      (cost?.productDiscount?.cost ?? 0) +
+                      (cost?.convenienceCharges?.cost ?? 0) +
+                      (cost?.gstCharges?.cost ?? 0)) *
+                  quantity) +
+              deliveryCharges)
+          .toStringAsFixed(2);
 
   void onTap() {
     setState(() {
@@ -502,7 +560,9 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                             //     color: Colors.black, width: 0.5)
                           ),
                         ),
-                        onPressed: widget.proceedToOrder,
+                        onPressed: () => widget.proceedToOrder(
+                            qty: int.parse(orderSummaryDetails["Qty"]),
+                            total: orderSummaryDetails["Total"]),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 15),
                           child: Text(

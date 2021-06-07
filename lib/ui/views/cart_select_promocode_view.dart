@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../../locator.dart';
-import '../../models/promoCode.dart';
+import '../../models/coupon.dart';
 import '../../services/api/api_service.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
@@ -16,7 +16,7 @@ class SelectPromocode extends StatefulWidget {
   final String finalTotal;
   final String productId;
   final String promoCode;
-  final List<PromoCode> availablePromoCodes;
+  final List<Coupon> availableCoupons;
   final String promoCodeId;
   final String size;
   final String color;
@@ -25,7 +25,7 @@ class SelectPromocode extends StatefulWidget {
   const SelectPromocode({
     Key key,
     @required this.productId,
-    @required this.availablePromoCodes,
+    @required this.availableCoupons,
     @required this.promoCode,
     @required this.promoCodeId,
     @required this.size,
@@ -176,7 +176,7 @@ class _SelectPromocodeState extends State<SelectPromocode> {
                   ),
                 ),
                 verticalSpace(35),
-                if (widget.availablePromoCodes.isNotEmpty)
+                if (widget.availableCoupons.isNotEmpty)
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Text(
@@ -191,13 +191,12 @@ class _SelectPromocodeState extends State<SelectPromocode> {
                 verticalSpace(15),
                 Column(
                   children: List<Widget>.of(
-                    widget.availablePromoCodes.map(
-                      (PromoCode p) => GestureDetector(
+                    widget.availableCoupons.map(
+                      (Coupon c) => GestureDetector(
                         onTap: () => setState(
                           () {
-                            couponGrpValue = couponRadioValue =
-                                p.promocodeDiscount.promocode;
-                            _controller.text = p.promocodeDiscount.promocode;
+                            couponGrpValue = couponRadioValue = c.code;
+                            _controller.text = c.code;
                             applyPromoCode();
                           },
                         ),
@@ -215,7 +214,7 @@ class _SelectPromocodeState extends State<SelectPromocode> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
                                   Radio(
-                                    value: p.promocodeDiscount.promocode,
+                                    value: c.code,
                                     groupValue: couponGrpValue,
                                     onChanged: (val) {
                                       setState(() {
@@ -234,8 +233,7 @@ class _SelectPromocodeState extends State<SelectPromocode> {
                                           MainAxisAlignment.center,
                                       children: <Widget>[
                                         CustomText(
-                                          p.promocodeDiscount.promocode
-                                              .toString(),
+                                          c.name.toString(),
                                           color: Colors.grey[700],
                                           isBold: true,
                                         ),

@@ -136,8 +136,9 @@ class _ProductIndiViewState extends State<ProductIndiView> {
           scrollDirection: Axis.horizontal,
           initialIndex: 0,
           showImageLabel: false,
-          loadingBuilder: (context, e) =>
-              Center(child: CircularProgressIndicator()),
+          loadingBuilder: (context, e) => Center(
+            child: CircularProgressIndicator(),
+          ),
           backgroundDecoration: BoxDecoration(color: backgroundWhiteCreamColor),
         ),
       ),
@@ -420,6 +421,9 @@ class _ProductIndiViewState extends State<ProductIndiView> {
     imageURLs = (data?.photo?.photos ?? <PhotoElement>[])
         .map((e) => '$PRODUCT_PHOTO_BASE_URL/$productId/${e.name}')
         .toList();
+    imageURLs.add(
+      "${BASE_URL}sellers/${data.account.key}/categories/${data.category.id}/sizechart",
+    );
     photosKey = GlobalKey();
     uniqueKey = UniqueKey();
   }
@@ -629,6 +633,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                 key: photosKey,
                                 imgList: imageURLs,
                                 aspectRatio: 1,
+                                fromProduct: true,
                               ),
                             ]),
                             verticalSpace(20),

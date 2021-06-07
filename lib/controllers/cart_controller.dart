@@ -16,6 +16,7 @@ class CartController extends BaseController {
   final prductId;
   String userName;
   bool isCartEmpty = true;
+  bool showPairItWith = true;
 
   CartController({this.prductId = "", this.userName = ""});
 
@@ -40,9 +41,15 @@ class CartController extends BaseController {
     return !isCartEmpty;
   }
 
+  void hidePairItWith() {
+    showPairItWith = false;
+    update();
+  }
+
   static Future<PromoCode> applyPromocode(
       String productId, int qty, String code, String promotion) async {
-    return await locator<APIService>().applyPromocode(productId, qty, code, promotion);
+    return await locator<APIService>()
+        .applyPromocode(productId, qty, code, promotion);
   }
 
   static Future<CalculatedPrice> calculateProductPrice(

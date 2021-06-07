@@ -12,10 +12,13 @@ class PairItWithWidget extends StatelessWidget {
   final num deliveryCharges = 35.40;
   final List<String> exceptProductIDs;
   final Function(Product product) onProductClicked;
-  const PairItWithWidget(
-      {this.productUniqueKey,
-      this.onProductClicked,
-      this.exceptProductIDs = const []});
+  final Function onEmpty;
+  const PairItWithWidget({
+    this.productUniqueKey,
+    this.onProductClicked,
+    this.exceptProductIDs = const [],
+    this.onEmpty,
+  });
 
   @override
   Widget build(BuildContext context) => Container(
@@ -52,6 +55,7 @@ class PairItWithWidget extends StatelessWidget {
                     randomize: true,
                     limit: 20,
                     exceptProductIDs: exceptProductIDs),
+                onEmptyList: onEmpty,
                 childAspectRatio: 1.10,
                 scrollDirection: Axis.horizontal,
                 emptyListWidget: Container(),

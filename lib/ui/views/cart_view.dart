@@ -40,7 +40,7 @@ class _CartViewState extends State<CartView> {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder(
+    return GetBuilder<CartController>(
       init: CartController(),
       builder: (controller) => Scaffold(
         appBar: AppBar(
@@ -169,7 +169,8 @@ class _CartViewState extends State<CartView> {
                                 FutureBuilder<bool>(
                                   initialData: false,
                                   future: controller.hasProducts(),
-                                  builder: (c, s) => (!controller.isCartEmpty)
+                                  builder: (c, s) => (!controller.isCartEmpty &&
+                                          controller.showPairItWith)
                                       ? Column(
                                           children: [
                                             verticalSpace(10),
@@ -178,6 +179,14 @@ class _CartViewState extends State<CartView> {
                                               child: PairItWithWidget(
                                                 exceptProductIDs:
                                                     exceptProductIDs,
+                                                onEmpty: () async {
+                                                  await Future.delayed(
+                                                    Duration(
+                                                      milliseconds: 5,
+                                                    ),
+                                                  );
+                                                  controller.hidePairItWith();
+                                                },
                                                 onProductClicked:
                                                     (product) async {
                                                   showModalBottomSheet(

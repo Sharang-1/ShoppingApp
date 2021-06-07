@@ -128,9 +128,9 @@ class _PaymentMethodState extends State<PaymentMethod> {
                 paymentMethodRadioValue,
               );
 
-              if ((res != null) && (paymentMethodGrpValue != 2)) {
+              if (res != null) {
                 NavigationService.off(PaymentFinishedScreenRoute);
-              } else {
+              } else if (paymentMethodGrpValue != 2) {
                 _errorHandlingService.showError(Errors.CouldNotPlaceAnOrder);
                 NavigationService.offAll(HomeViewRoute);
               }
@@ -179,7 +179,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
                         ),
                         verticalSpaceSmall,
                         CustomText(
-                          rupeeUnicode + widget.finalTotal,
+                          rupeeUnicode +
+                              widget.finalTotal.replaceAll(rupeeUnicode, ""),
                           fontSize: titleFontSizeStyle + 4,
                           color: darkRedSmooth,
                           isBold: true,

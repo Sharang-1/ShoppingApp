@@ -1,4 +1,3 @@
-import 'package:compound/models/promoCode.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -41,13 +40,15 @@ class _CartTileState extends State<CartTile> {
   String promoCodeId = "";
   String promoCodeDiscount = "0";
   int quantity = 0;
+  Item item;
 
   @override
   void initState() {
-    quantity = widget.item.quantity >= 1 ? widget.item.quantity : 1;
-    widget.item.quantity = widget.item.quantity >= 1 ? widget.item.quantity : 1;
+    item = widget.item;
+    quantity = item.quantity >= 1 ? item.quantity : 1;
+    item.quantity = item.quantity >= 1 ? item.quantity : 1;
 
-    // finalTotal = (discountedPrice * widget.item.quantity).toString();
+    // finalTotal = (discountedPrice * item.quantity).toString();
     setUpProductPrices();
     super.initState();
   }
@@ -60,11 +61,11 @@ class _CartTileState extends State<CartTile> {
 
   void setUpProductPrices() async {
     final res = await _apiService.calculateProductPrice(
-        widget.item.productId.toString(), widget.item.quantity);
+        item.productId.toString(), quantity);
     if (res != null) {
       setState(() {
-        finalTotal = calculateTotalCost(widget.item.product.cost,
-            widget.item.quantity, res.deliveryCharges.cost);
+        finalTotal = calculateTotalCost(
+            item.product.cost, item.quantity, res.deliveryCharges.cost);
         shippingCharges = res.deliveryCharges.cost.toString();
       });
     }
@@ -79,6 +80,22 @@ class _CartTileState extends State<CartTile> {
               deliveryCharges)
           .toStringAsFixed(2);
 
+  void increseQty() {
+    setState(() {
+      item.quantity++;
+      quantity++;
+      setUpProductPrices();
+    });
+  }
+
+  void decreaseQty() {
+    setState(() {
+      item.quantity--;
+      quantity--;
+      setUpProductPrices();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -86,7 +103,7 @@ class _CartTileState extends State<CartTile> {
         SizedBox(
           height: 150,
           child: CartProductTileUI(
-            item: widget.item,
+            item: item,
             finalTotal: finalTotal,
             shippingCharges: shippingCharges,
             promoCode: promoCode,
@@ -94,7 +111,8 @@ class _CartTileState extends State<CartTile> {
             promoCodeDiscount: promoCodeDiscount,
             isPromoCodeApplied: isPromoCodeApplied,
             proceedToOrder: proceedToOrder,
-
+            increaseQty: increseQty,
+            decreaseQty: decreaseQty,
             // deliveryStatus: proceedToOrder,
           ),
         ),
@@ -155,22 +173,22 @@ class _CartTileState extends State<CartTile> {
     );
   }
 
-  void proceedToOrder() async {
+  void proceedToOrder({int qty, String total}) async {
     BaseController.vibrate(duration: 50);
-    final product = await _apiService.getProductById(
-        productId: widget.item.productId.toString());
+    final product =
+        await _apiService.getProductById(productId: item.productId.toString());
     if (product.available && product.enabled)
       Navigator.push(
         context,
         PageTransition(
           child: SelectAddress(
-            productId: widget.item.productId.toString(),
+            productId: item.productId.toString(),
             promoCode: promoCode,
             promoCodeId: promoCodeId,
-            size: widget.item.size,
-            color: widget.item.color,
-            qty: widget.item.quantity,
-            finalTotal: finalTotal,
+            size: item.size,
+            color: item.color,
+            qty: qty ?? quantity,
+            finalTotal: total ?? finalTotal,
           ),
           type: PageTransitionType.rightToLeft,
         ),
@@ -187,37 +205,23 @@ class _CartTileState extends State<CartTile> {
       ));
   }
 
-  void applyCoupon() async {
+  void applyCoupon({int qty, String total}) async {
     BaseController.vibrate(duration: 50);
     final product = await _apiService.getProductById(
-        productId: widget.item.productId.toString());
+        productId: item.productId.toString(), withCoupons: true);
     if (product.available && product.enabled)
       Navigator.push(
         context,
         PageTransition(
           child: SelectPromocode(
-            productId: widget.item.productId.toString(),
+            productId: item.productId.toString(),
             promoCode: promoCode,
             promoCodeId: promoCodeId,
-            //TODO: Add promocodes
-            availablePromoCodes: [
-              PromoCode(
-                promocodeDiscount: PromocodeDiscount(
-                    cost: 10, promocode: "test", promocodeId: "35450188"),
-              ),
-              PromoCode(
-                promocodeDiscount: PromocodeDiscount(
-                    cost: 20, promocode: "test2", promocodeId: "35451361"),
-              ),
-              PromoCode(
-                promocodeDiscount: PromocodeDiscount(
-                    cost: 14, promocode: "test3", promocodeId: "35451500"),
-              ),
-            ],
-            size: widget.item.size,
-            color: widget.item.color,
-            qty: widget.item.quantity,
-            finalTotal: finalTotal,
+            availableCoupons: product.coupons,
+            size: item.size,
+            color: item.color,
+            qty: qty ?? item.quantity,
+            finalTotal: total ?? finalTotal,
           ),
           type: PageTransitionType.rightToLeft,
         ),
