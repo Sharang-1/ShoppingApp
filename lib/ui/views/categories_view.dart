@@ -6,9 +6,8 @@ import '../../controllers/grid_view_builder/categories_view_builder_controller.d
 import '../../models/categorys.dart';
 import '../../models/grid_view_builder_filter_models/categoryFilter.dart';
 import '../shared/app_colors.dart';
-import '../shared/shared_styles.dart';
-import '../widgets/grid_list_widget.dart';
 import '../widgets/categoryTileUI.dart';
+import '../widgets/grid_list_widget.dart';
 
 class CategoriesView extends StatefulWidget {
   CategoriesView({Key key}) : super(key: key);
@@ -25,21 +24,25 @@ class _CategoriesViewState extends State<CategoriesView> {
 
   @override
   Widget build(BuildContext context) {
-    const double headingFontSize = headingFontSizeStyle;
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),
-        title: Text(
-          "Categories",
-          style: TextStyle(
-              fontSize: headingFontSize,
+        title: FittedBox(
+          alignment: Alignment.centerLeft,
+          fit: BoxFit.scaleDown,
+          child: Text(
+            "Categories",
+            style: TextStyle(
               color: Colors.black,
-              fontWeight: FontWeight.w600),
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ),
-        backgroundColor: backgroundWhiteCreamColor,
+        backgroundColor: Colors.white,
         elevation: 0,
       ),
-      backgroundColor: backgroundWhiteCreamColor,
+      backgroundColor: newBackgroundColor,
       body: SafeArea(
         top: false,
         left: false,
@@ -62,7 +65,7 @@ class _CategoriesViewState extends State<CategoriesView> {
             refreshController.refreshCompleted(resetFooterState: true);
           },
           child: Padding(
-            padding: EdgeInsets.only(left:4.0, right: 8.0),
+            padding: EdgeInsets.only(left: 4.0, right: 8.0),
             child: FutureBuilder(
               future: Future.delayed(Duration(milliseconds: 500)),
               builder: (c, s) => s.connectionState == ConnectionState.done

@@ -1,3 +1,5 @@
+import 'package:compound/models/products.dart';
+
 import '../../locator.dart';
 import '../../models/grid_view_builder_filter_models/base_filter_model.dart';
 import '../../models/sellers.dart';
@@ -14,17 +16,21 @@ class SellersGridViewBuilderController
   final bool sellerWithNoProducts;
   final bool random;
   final bool topSellers;
+  final bool withProducts;
   final String removeId;
   final num subscriptionType;
+  final List<num> subscriptionTypes;
 
   SellersGridViewBuilderController({
     this.profileOnly = false,
     this.sellerOnly = false,
     this.sellerDeliveringToYou = false,
     this.random = false,
+    this.withProducts = false,
     this.boutiquesOnly = false,
     this.removeId,
     this.subscriptionType,
+    this.subscriptionTypes,
     this.sellerWithNoProducts = true,
     this.topSellers = false,
   });
@@ -37,7 +43,7 @@ class SellersGridViewBuilderController
   @override
   Future<Sellers> getData(
       {BaseFilterModel filterModel, int pageNumber, int pageSize = 10}) async {
-    if (subscriptionType != null) {
+    if ((subscriptionType != null) || (subscriptionTypes != null)) {
       pageSize = 30;
     }
 
@@ -63,6 +69,13 @@ class SellersGridViewBuilderController
       res.items = res.items
           .where(
               (element) => element?.subscriptionTypeId == this.subscriptionType)
+          .toList();
+    }
+
+    if (this.subscriptionTypes != null) {
+      res.items = res.items
+          .where((element) =>
+              subscriptionTypes.contains(element?.subscriptionTypeId))
           .toList();
     }
 
@@ -112,6 +125,21 @@ class SellersGridViewBuilderController
     // res.items = sellers;
     // return res;
     // }
+
+    if (this.withProducts) {
+      List<Seller> sellers = [];
+      await Future.forEach<Seller>(res.items, (e) async {
+        Products products = await _apiService.getProducts(queryString: "startIndex=0;limit=3;accountKey=${e.key};");
+        print("Yash: ${products.items.length}");
+        if (!((products?.items?.length ?? 0) < 3)) {
+          e.products = products.items;
+          sellers.add(e);
+        }
+      });
+      res.items = sellers;
+      print("Yash: first ${res?.items?.first?.products?.length}");
+      return res;
+    }
 
     return res;
   }

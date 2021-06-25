@@ -48,14 +48,57 @@ class _SearchViewState extends State<SearchView>
         appBar: AppBar(
           elevation: 0,
           iconTheme: IconThemeData(color: appBarIconColor),
-          backgroundColor: backgroundWhiteCreamColor,
+          backgroundColor: Colors.white,
+          title: _SearchBarTextField(
+            searchAction: _controller.searchAction,
+            searchController: _controller.searchController.value,
+            focusNode: _controller.searchBarFocusNode.value,
+            autofocus: true,
+            onTap: () {
+              _controller.showRandomSellers = false.obs;
+            },
+            onChanged: _controller.searchBarOnChange,
+          ),
           actions: <Widget>[
-            IconButton(
-              onPressed: () => BaseController.cart(),
-              icon: Obx(
-                () => CartIconWithBadge(
-                  count: locator<CartCountController>().count.value,
-                  iconColor: Colors.black,
+            if (_controller.currentTabIndex.value == 0)
+              IconButton(
+                iconSize: 50,
+                icon: Image.asset("assets/images/filter.png"),
+                onPressed: () async {
+                  ProductFilter filterDialogResponse =
+                      await showModalBottomSheet(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20),
+                      ),
+                    ),
+                    isScrollControlled: true,
+                    clipBehavior: Clip.antiAlias,
+                    context: context,
+                    builder: (BuildContext context) => FractionallySizedBox(
+                      heightFactor: 0.75,
+                      child: ProductFilterDialog(
+                          oldFilter: _controller.productFilter.value),
+                    ),
+                  );
+
+                  if (filterDialogResponse != null) {
+                    _controller.setProductFilter(filterDialogResponse);
+                    _controller.setShowTopProducts(false);
+                    _controller.changeSearchFieldFocus();
+                    _controller.setProductGridKey(UniqueKey());
+                  }
+                },
+              ),
+            Obx(
+              () => IconButton(
+                onPressed: () => BaseController.cart(),
+                icon: Obx(
+                  () => CartIconWithBadge(
+                    count: locator<CartCountController>().count.value,
+                    iconColor: Colors.black,
+                  ),
                 ),
               ),
             ),
@@ -63,63 +106,8 @@ class _SearchViewState extends State<SearchView>
               width: 5,
             )
           ],
-          bottom: PreferredSize(
-            preferredSize: Size(50, 50),
-            child: Obx(
-              () => AppBar(
-                elevation: 0,
-                iconTheme: IconThemeData(color: appBarIconColor),
-                backgroundColor: backgroundWhiteCreamColor,
-                automaticallyImplyLeading: false,
-                title: _SearchBarTextField(
-                  searchAction: _controller.searchAction,
-                  searchController: _controller.searchController.value,
-                  focusNode: _controller.searchBarFocusNode.value,
-                  autofocus: true,
-                  onTap: () {
-                    _controller.showRandomSellers = false.obs;
-                  },
-                  onChanged: _controller.searchBarOnChange,
-                ),
-                actions: <Widget>[
-                  if (_controller.currentTabIndex.value == 0)
-                    IconButton(
-                      iconSize: 50,
-                      icon: Image.asset("assets/images/filter.png"),
-                      onPressed: () async {
-                        ProductFilter filterDialogResponse =
-                            await showModalBottomSheet(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(20),
-                              topRight: Radius.circular(20),
-                            ),
-                          ),
-                          isScrollControlled: true,
-                          clipBehavior: Clip.antiAlias,
-                          context: context,
-                          builder: (BuildContext context) =>
-                              FractionallySizedBox(
-                            heightFactor: 0.75,
-                            child: ProductFilterDialog(
-                                oldFilter: _controller.productFilter.value),
-                          ),
-                        );
-
-                        if (filterDialogResponse != null) {
-                          _controller.setProductFilter(filterDialogResponse);
-                          _controller.setShowTopProducts(false);
-                          _controller.changeSearchFieldFocus();
-                          _controller.setProductGridKey(UniqueKey());
-                        }
-                      },
-                    ),
-                ],
-              ),
-            ),
-          ),
         ),
-        backgroundColor: backgroundWhiteCreamColor,
+        backgroundColor: newBackgroundColor,
         body: SafeArea(
           top: false,
           left: false,
@@ -132,13 +120,13 @@ class _SearchViewState extends State<SearchView>
                   primary: false,
                   elevation: 0,
                   iconTheme: IconThemeData(color: Colors.black),
-                  backgroundColor: backgroundWhiteCreamColor,
+                  backgroundColor: newBackgroundColor,
                   automaticallyImplyLeading: false,
                   title: Container(
                     padding: EdgeInsets.all(2),
                     decoration: BoxDecoration(
                       color: backgroundBlueGreyColor,
-                      borderRadius: BorderRadius.circular(curve30),
+                      borderRadius: BorderRadius.circular(curve10),
                     ),
                     width: MediaQuery.of(context).size.width,
                     child: Obx(
@@ -148,7 +136,7 @@ class _SearchViewState extends State<SearchView>
                         indicatorSize: TabBarIndicatorSize.tab,
                         indicator: BoxDecoration(
                           color: Colors.white,
-                          borderRadius: BorderRadius.circular(curve30),
+                          borderRadius: BorderRadius.circular(curve10),
                         ),
                         controller: _controller.tabController.value,
                         tabs: <Widget>[
@@ -201,6 +189,7 @@ class _SearchViewState extends State<SearchView>
                                 ProductTileUI(
                               index: index,
                               data: data,
+                              cardPadding: EdgeInsets.zero,
                               onClick: () =>
                                   BaseController.goToProductPage(data),
                             ),
@@ -218,15 +207,12 @@ class _SearchViewState extends State<SearchView>
                                 random: _controller.showRandomSellers.value),
                             emptyListWidget: EmptyListWidget(text: ""),
                             disablePagination: true,
-                            childAspectRatio: 2,
+                            childAspectRatio: 3.50,
                             tileBuilder: (BuildContext context, data, index,
                                     onUpdate, onDelete) =>
-                                SellerTileUi(
+                                DesignerTileUi(
                               data: data,
-                              fromHome: true,
-                              onClick: () async {
-                                await BaseController.goToSellerPage(data.key);
-                              },
+                              isID3: true,
                             ),
                           ),
                         ),
@@ -261,12 +247,12 @@ class _SearchBarTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 40,
-      padding: EdgeInsets.symmetric(horizontal: 10),
+      height: 36,
+      padding: EdgeInsets.symmetric(horizontal: 4.0),
       decoration: BoxDecoration(
         // color: Colors.grey[200],
         color: backgroundBlueGreyColor,
-        borderRadius: BorderRadius.circular(30),
+        borderRadius: BorderRadius.circular(10),
       ),
       child: Row(
         children: <Widget>[
@@ -289,9 +275,10 @@ class _SearchBarTextField extends StatelessWidget {
               decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: "Start typing...",
-                contentPadding: EdgeInsets.only(bottom: 8.0),
+                contentPadding: EdgeInsets.only(bottom: 18.0),
                 hintStyle: TextStyle(
                   color: Colors.grey,
+                  fontSize: 12,
                 ),
               ),
             ),

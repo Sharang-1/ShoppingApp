@@ -46,6 +46,6 @@ double thirdScreenWidth(BuildContext context) =>
 const String rupeeUnicode = "\u20B9";
 
 
-const double priceFontSize = 16.0;
-const double subtitleFontSize = 18;
-const double titleFontSize = 18;
+const double priceFontSize = 12.0;
+const double subtitleFontSize = 12;
+const double titleFontSize = 14;

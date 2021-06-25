@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:compound/models/queue.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_retry/dio_retry.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:http_parser/http_parser.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants/server_urls.dart';
@@ -231,9 +233,9 @@ class APIService {
   }
 
   Future<Product> getProductById(
-      {@required String productId, bool withPromocodes = false}) async {
+      {@required String productId, bool withCoupons = false}) async {
     if (productId == null) return null;
-    var productData = withPromocodes
+    var productData = withCoupons
         ? await apiWrapper(
             "products/$productId;seller=true;active=true;promocode=true")
         : await apiWrapper("products/$productId;seller=true;active=true");
@@ -505,7 +507,16 @@ class APIService {
 
     if (orderData != null) {
       try {
-        OrderModule.Order order = OrderModule.Order.fromJson(orderData);
+        Queue queue = Queue.fromJson(orderData);
+        String queueId = queue.queueId;
+        while ((queue.status == "QUEUE") || (queue.status == "PROCESS")) {
+          queue = Queue.fromJson(await apiWrapper(
+              "orders​/queue/$queueId/status",
+              authenticated: true));
+        }
+        OrderModule.Order order = OrderModule.Order.fromJson(await apiWrapper(
+            "orders/${queue.orderId};product=true",
+            authenticated: true));
         Fimber.d("Order : " + order.key);
         return order;
       } catch (err) {
@@ -552,7 +563,16 @@ class APIService {
 
     if (json != null) {
       try {
-        OrderModule.Order order = OrderModule.Order.fromJson(json);
+        Queue queue = Queue.fromJson(json);
+        String queueId = queue.queueId;
+        while ((queue.status == "QUEUE") || (queue.status == "PROCESS")) {
+          queue = Queue.fromJson(await apiWrapper(
+              "orders​/payment/queue/$queueId/status",
+              authenticated: true));
+        }
+        OrderModule.Order order = OrderModule.Order.fromJson(await apiWrapper(
+            "orders/${queue.orderId};product=true",
+            authenticated: true));
         Fimber.d("Order : " + order.key);
         return order;
       } catch (err) {
@@ -595,6 +615,28 @@ class APIService {
         options: Options(headers: {'excludeToken': false}, method: "put"));
     if (userData != null) {
       return UserDetails.fromJson(userData);
+    }
+    return null;
+  }
+
+  Future<UserPhoto> updateUserPic(File file) async {
+    UserDetails user = await getUserData();
+    var userData = await apiWrapper("users/" + user.key,
+        authenticated: true,
+        data: FormData.fromMap(
+          {
+            "image": await MultipartFile.fromFile(
+              file.path,
+              contentType: MediaType("image", "jpeg"),
+            ),
+          },
+        ),
+        options: Options(
+          headers: {'excludeToken': false},
+          method: "put",
+        ));
+    if (userData != null) {
+      return UserPhoto.fromJson(userData);
     }
     return null;
   }

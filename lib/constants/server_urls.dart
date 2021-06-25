@@ -10,6 +10,7 @@ const String PROMOTION_PHOTO_BASE_URL = "${BASE_URL}photos/promotions";
 const String CATEGORY_PHOTO_BASE_URL = "${BASE_URL}photos/categories";
 const String SELLER_PHOTO_BASE_URL = "${BASE_URL}photos/sellers";
 const String SELLER_PROFILE_PHOTO_BASE_URL = "${BASE_URL}photos/sellers";
+const String USER_PROFILE_PHOTO_BASE_URL = "${BASE_URL}users/photo";
 
 const String APPOINTMENT_URL = releaseMode
     ? "https://appointment.dzor.in/api/appointments/"

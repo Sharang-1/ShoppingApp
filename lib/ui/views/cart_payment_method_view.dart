@@ -1,7 +1,6 @@
 // import 'package:compound/ui/views/pay_through_card.dart';
 import 'package:compound/services/dialog_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import '../../constants/route_names.dart';
@@ -85,65 +84,96 @@ class _PaymentMethodState extends State<PaymentMethod> {
     return GetBuilder<CartPaymentMethodController>(
       init: CartPaymentMethodController(),
       builder: (controller) => Scaffold(
-        backgroundColor: backgroundWhiteCreamColor,
+        backgroundColor: newBackgroundColor,
         appBar: AppBar(
           elevation: 0,
-          backgroundColor: backgroundWhiteCreamColor,
-          centerTitle: true,
-          title: SvgPicture.asset(
-            "assets/svg/logo.svg",
-            color: logoRed,
-            height: 35,
-            width: 35,
+          backgroundColor: Colors.white,
+          title: Text(
+            "Payment",
+            style: TextStyle(
+              fontFamily: headingFont,
+              fontWeight: FontWeight.w700,
+              fontSize: 18,
+              color: Colors.black,
+            ),
           ),
           iconTheme: IconThemeData(
             color: appBarIconColor,
           ),
         ),
-        bottomNavigationBar: Padding(
+        bottomNavigationBar: Container(
+          color: Colors.white,
           padding: EdgeInsets.only(
             left: screenPadding,
             right: screenPadding,
-            bottom: 10,
+            bottom: 8.0,
+            top: 8.0,
           ),
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              elevation: 5,
-              primary: green,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30),
-              ),
-            ),
-            onPressed: () async {
-              final Order res = await controller.createOrder(
-                widget.billingAddress.address +
-                    '\n' +
-                    widget.billingAddress.googleAddress,
-                widget.productId,
-                widget.promoCode,
-                widget.promoCodeId,
-                widget.size,
-                widget.color,
-                widget.qty,
-                paymentMethodRadioValue,
-              );
-
-              if ((res != null) && (paymentMethodGrpValue != 2)) {
-                NavigationService.off(PaymentFinishedScreenRoute);
-              } else {
-                _errorHandlingService.showError(Errors.CouldNotPlaceAnOrder);
-                NavigationService.offAll(HomeViewRoute);
-              }
-            },
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 15),
-              child: Text(
-                "Place Order ",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
+          child: SizedBox(
+            height: 40,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                InkWell(
+                  onTap: () {},
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CustomText(
+                        "₹${widget.finalTotal}",
+                        fontSize: 12,
+                        isBold: true,
+                      ),
+                      CustomText(
+                        "View Details",
+                        fontSize: 12,
+                      ),
+                    ],
+                  ),
                 ),
-              ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    elevation: 0,
+                    primary: green,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  onPressed: () async {
+                    final Order res = await controller.createOrder(
+                      widget.billingAddress.address +
+                          '\n' +
+                          widget.billingAddress.googleAddress,
+                      widget.productId,
+                      widget.promoCode,
+                      widget.promoCodeId,
+                      widget.size,
+                      widget.color,
+                      widget.qty,
+                      paymentMethodRadioValue,
+                    );
+
+                    if (res != null) {
+                      NavigationService.off(PaymentFinishedScreenRoute);
+                    } else if (paymentMethodGrpValue != 2) {
+                      _errorHandlingService
+                          .showError(Errors.CouldNotPlaceAnOrder);
+                      NavigationService.offAll(HomeViewRoute);
+                    }
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Text(
+                      "Place Order ",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ),
@@ -165,31 +195,32 @@ class _PaymentMethodState extends State<PaymentMethod> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            CustomText(
-                              "Payment",
-                              fontSize: headingFontSizeStyle + 5,
-                              fontFamily: headingFont,
-                              fontWeight: FontWeight.w700,
-                            ),
-                            horizontalSpaceSmall,
-                            Icon(Icons.lock_outline),
-                          ],
-                        ),
-                        verticalSpaceSmall,
-                        CustomText(
-                          rupeeUnicode + widget.finalTotal,
-                          fontSize: titleFontSizeStyle + 4,
-                          color: darkRedSmooth,
-                          isBold: true,
-                        ),
-                        verticalSpaceSmall,
+                        // Row(
+                        //   children: <Widget>[
+                        //     CustomText(
+                        //       "Payment",
+                        //       fontSize: headingFontSizeStyle + 5,
+                        //       fontFamily: headingFont,
+                        //       fontWeight: FontWeight.w700,
+                        //     ),
+                        //     horizontalSpaceSmall,
+                        //     Icon(Icons.lock_outline),
+                        //   ],
+                        // ),
+                        // verticalSpaceSmall,
+                        // CustomText(
+                        //   rupeeUnicode +
+                        //       widget.finalTotal.replaceAll(rupeeUnicode, ""),
+                        //   fontSize: titleFontSizeStyle + 4,
+                        //   color: darkRedSmooth,
+                        //   isBold: true,
+                        // ),
+                        // verticalSpaceSmall,
+                        verticalSpace(10),
                         const CutomStepper(
                           step: 3,
                         ),
                         verticalSpace(20),
-                        verticalSpaceSmall,
                         CustomText(
                           "  Pay On Delivery Via",
                           fontSize: titleFontSizeStyle,
@@ -199,56 +230,70 @@ class _PaymentMethodState extends State<PaymentMethod> {
                     ),
                   ),
                   verticalSpaceSmall,
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: controller.paymentOptions.keys.map(
-                      (int key) {
-                        return GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              paymentMethodGrpValue =
-                                  paymentMethodRadioValue = key;
-                            });
-                          },
-                          child: Container(
-                            margin: EdgeInsets.only(bottom: spaceBetweenCards),
-                            child: Card(
-                              elevation: 5,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(curve15),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: controller.paymentOptions.keys.map(
+                        (int key) {
+                          return GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                paymentMethodGrpValue =
+                                    paymentMethodRadioValue = key;
+                              });
+                            },
+                            child: Container(
+                              margin:
+                                  EdgeInsets.only(bottom: spaceBetweenCards),
+                              decoration: BoxDecoration(
+                                border: Border(
+                                  bottom: BorderSide(
+                                    color: Colors.grey[200],
+                                  ),
+                                ),
                               ),
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(0, 10, 15, 10),
-                                child: Row(
-                                  children: <Widget>[
-                                    Radio(
-                                      value: key,
-                                      groupValue: paymentMethodGrpValue,
-                                      onChanged: (val) {
-                                        // setState(() {
-                                        //   paymentMethodRadioValue = val;
-                                        // });
-                                        print(val);
-                                      },
-                                    ),
-                                    CustomText(
-                                      controller.paymentOptions[key],
-                                      fontSize: titleFontSizeStyle - 4,
-                                      isBold: true,
-                                      color: Colors.grey[700],
-                                    ),
-                                    Spacer(),
-                                    iconpaymentMethodMap[key],
-                                    horizontalSpaceTiny,
-                                  ],
+                              child: Card(
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(curve15),
+                                ),
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(0, 8, 8, 8),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Radio(
+                                        value: key,
+                                        groupValue: paymentMethodGrpValue,
+                                        onChanged: (val) {
+                                          // setState(() {
+                                          //   paymentMethodRadioValue = val;
+                                          // });
+                                          print(val);
+                                        },
+                                      ),
+                                      CustomText(
+                                        controller.paymentOptions[key],
+                                        fontSize: titleFontSizeStyle - 4,
+                                        isBold: true,
+                                        color: Colors.grey[700],
+                                      ),
+                                      Spacer(),
+                                      iconpaymentMethodMap[key],
+                                      horizontalSpaceTiny,
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        );
-                      },
-                    ).toList(),
+                          );
+                        },
+                      ).toList(),
+                    ),
                   )
                 ],
               ),

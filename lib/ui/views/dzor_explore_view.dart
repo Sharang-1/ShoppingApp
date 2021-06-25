@@ -1,11 +1,11 @@
-import 'package:compound/controllers/dzor_explore_controller.dart';
-import 'package:compound/controllers/grid_view_builder/products_grid_view_builder_controller.dart';
-import 'package:compound/ui/shared/app_colors.dart';
-import 'package:compound/ui/widgets/section_builder.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+
+import '../../controllers/dzor_explore_controller.dart';
+import '../../controllers/grid_view_builder/products_grid_view_builder_controller.dart';
+import '../shared/app_colors.dart';
+import '../widgets/section_builder.dart';
 
 class DzorExploreView extends StatefulWidget {
   @override
@@ -24,12 +24,18 @@ class _DzorExploreViewState extends State<DzorExploreView> {
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.white,
-          centerTitle: true,
-          title: SvgPicture.asset(
-            "assets/svg/logo.svg",
-            color: logoRed,
-            height: 35,
-            width: 35,
+          // centerTitle: true,
+          title: FittedBox(
+            alignment: Alignment.centerLeft,
+            fit: BoxFit.scaleDown,
+            child: Text(
+              "Dzor Explore",
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
           iconTheme: IconThemeData(color: appBarIconColor),
         ),
@@ -40,55 +46,37 @@ class _DzorExploreViewState extends State<DzorExploreView> {
           right: false,
           child: Padding(
             padding: const EdgeInsets.only(top: 4.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Text(
-                    "Explore Dzor",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+            child: SmartRefresher(
+              enablePullDown: true,
+              footer: null,
+              header: WaterDropHeader(
+                waterDropColor: logoRed,
+                refresh: Center(
+                  child: CircularProgressIndicator(),
                 ),
-                Expanded(
-                  child: SmartRefresher(
-                    enablePullDown: true,
-                    footer: null,
-                    header: WaterDropHeader(
-                      waterDropColor: logoRed,
-                      refresh: Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                      complete: Container(),
+                complete: Container(),
+              ),
+              controller: refreshController,
+              onRefresh: () async {
+                setState(() {
+                  key = UniqueKey();
+                });
+                await Future.delayed(Duration(milliseconds: 100));
+                refreshController.refreshCompleted(resetFooterState: true);
+              },
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    SectionBuilder(
+                      context: context,
+                      layoutType: LayoutType.PRODUCT_LAYOUT_3,
+                      scrollDirection: Axis.vertical,
+                      controller:
+                          ProductsGridViewBuilderController(randomize: true),
                     ),
-                    controller: refreshController,
-                    onRefresh: () async {
-                      setState(() {
-                        key = UniqueKey();
-                      });
-                      await Future.delayed(Duration(milliseconds: 100));
-                      refreshController.refreshCompleted(
-                          resetFooterState: true);
-                    },
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          SectionBuilder(
-                            context: context,
-                            layoutType: LayoutType.PRODUCT_LAYOUT_3,
-                            scrollDirection: Axis.vertical,
-                            controller: ProductsGridViewBuilderController(
-                                randomize: true),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         ),

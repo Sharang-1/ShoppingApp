@@ -1,3 +1,5 @@
+import 'package:compound/ui/shared/app_colors.dart';
+import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/server_urls.dart';
@@ -35,14 +37,16 @@ class CategoryTileUI extends StatelessWidget {
             colorFilter: ColorFilter.mode(
                 Colors.black.withOpacity(0.3), BlendMode.srcATop),
             child: FadeInImage.assetNetwork(
-                fit: BoxFit.fill,
-                fadeInCurve: Curves.easeIn,
-                placeholder: 'assets/images/category_preloading.png',
-                image: data?.id != null
-                      ? '$CATEGORY_PHOTO_BASE_URL/${data.id}' :
-                    'https://images.pexels.com/photos/934070/pexels-photo-934070.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-                imageErrorBuilder: (context, error, stackTrace) => Image.asset("assets/images/category_preloading.png",  fit: BoxFit.fill),
-                ),
+              fit: BoxFit.fill,
+              fadeInCurve: Curves.easeIn,
+              placeholder: 'assets/images/category_preloading.png',
+              image: data?.id != null
+                  ? '$CATEGORY_PHOTO_BASE_URL/${data.id}'
+                  : 'https://images.pexels.com/photos/934070/pexels-photo-934070.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
+              imageErrorBuilder: (context, error, stackTrace) => Image.asset(
+                  "assets/images/category_preloading.png",
+                  fit: BoxFit.fill),
+            ),
           )),
           Positioned.fill(
             child: Column(
@@ -101,5 +105,71 @@ class CategoryTileUI extends StatelessWidget {
     //     ],
     //   ),
     // );
+  }
+}
+
+class HomeScreenCategoryTile extends StatelessWidget {
+  final Category data;
+  const HomeScreenCategoryTile({
+    Key key,
+    @required this.data,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    String name = data.name ?? "";
+    double titleFontSize = 10.0;
+
+    return Column(
+      children: [
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 12.0),
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: logoRed,
+            ),
+            borderRadius: BorderRadius.all(
+              Radius.circular(50.0),
+            ),
+          ),
+          child: AspectRatio(
+            aspectRatio: 1.0,
+            child: ClipOval(
+              child: FadeInImage.assetNetwork(
+                fit: BoxFit.fill,
+                fadeInCurve: Curves.easeIn,
+                placeholder: 'assets/images/category_preloading.png',
+                image: data?.id != null
+                    ? '$CATEGORY_PHOTO_BASE_URL/${data.id}'
+                    : 'assets/images/category_preloading.png',
+                imageErrorBuilder: (context, error, stackTrace) => Image.asset(
+                  "assets/images/category_preloading.png",
+                  fit: BoxFit.fill,
+                ),
+              ),
+            ),
+          ),
+        ),
+        verticalSpaceTiny,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Expanded(
+              child: Text(
+                Tools.getTruncatedString(20, name),
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                style: TextStyle(
+                  color: Colors.black87,
+                  fontSize: titleFontSize,
+                  fontWeight: FontWeight.w500,
+                  height: 1,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
   }
 }

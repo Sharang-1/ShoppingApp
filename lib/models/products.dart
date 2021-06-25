@@ -4,6 +4,7 @@
 
 import 'dart:convert';
 
+import 'package:compound/models/coupon.dart';
 import 'package:compound/models/sellers.dart';
 
 Products productsFromJson(String str) => Products.fromJson(json.decode(str));
@@ -91,6 +92,7 @@ class Product {
   Seller seller;
   Cost cost;
   num pricePerMeter;
+  List<Coupon> coupons;
 
   Product({
     this.key,
@@ -144,6 +146,7 @@ class Product {
     this.washing,
     this.pricePerMeter,
     this.whatDoesItHave,
+    this.coupons,
   });
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
@@ -232,6 +235,9 @@ class Product {
         cost: json["cost"] == null ? null : Cost.fromJson(json["cost"]),
         pricePerMeter:
             json["pricePerMeter"] == null ? null : json["pricePerMeter"],
+        coupons: List<Coupon>.from(
+                json["promocodes"]?.map((x) => Coupon.fromJson(x)) ?? []) ??
+            null,
       );
 
   Map<String, dynamic> toJson() => {
@@ -290,6 +296,9 @@ class Product {
         "oldPrice": oldPrice == null ? null : oldPrice,
         "seller": seller == null ? null : seller?.toJson(),
         "cost": cost == null ? null : cost?.toJson(),
+        "coupons": coupons == null
+            ? null
+            : List<Coupon>.from(coupons.map((x) => x?.toJson())),
       };
 }
 

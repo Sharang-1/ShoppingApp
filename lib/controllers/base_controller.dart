@@ -1,5 +1,6 @@
 import 'package:get/state_manager.dart';
 import 'package:location/location.dart';
+import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:vibration/vibration.dart';
@@ -26,6 +27,7 @@ class BaseController extends GetxController {
   bool get busy => _busy;
   static const num deliveryCharge = 35.40;
   num get deliveryCharges => deliveryCharge;
+
 
   void setBusy(bool value) {
     _busy = value;
@@ -100,4 +102,7 @@ class BaseController extends GetxController {
     }
     return;
   }
+
+  static Future<dynamic> shareApp() async =>
+      await Share.share("https://dzor.page.link/App");
 }

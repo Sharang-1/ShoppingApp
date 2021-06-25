@@ -11,14 +11,16 @@ class HomeSlider extends StatefulWidget {
   final double aspectRatio;
   final bool fromHome;
   final bool fromExplore;
+  final bool fromProduct;
 
-  const HomeSlider(
-      {Key key,
-      this.imgList,
-      this.aspectRatio = 1.6,
-      this.fromHome = false,
-      this.fromExplore = false})
-      : super(key: key);
+  const HomeSlider({
+    Key key,
+    this.imgList,
+    this.aspectRatio = 1.6,
+    this.fromHome = false,
+    this.fromExplore = false,
+    this.fromProduct = false,
+  }) : super(key: key);
 
   @override
   _HomeSliderState createState() => _HomeSliderState();
@@ -48,7 +50,7 @@ class _HomeSliderState extends State<HomeSlider> {
     return Column(
       children: [
         Container(
-          decoration: widget.fromExplore
+          decoration: widget.fromExplore || widget.fromProduct
               ? null
               : BoxDecoration(
                   boxShadow: [
@@ -99,7 +101,7 @@ class _HomeSliderState extends State<HomeSlider> {
                               child: CachedNetworkImage(
                                 maxHeightDiskCache: 200,
                                 maxWidthDiskCache: 200,
-                                fit: BoxFit.cover,
+                                fit: BoxFit.contain,
                                 imageUrl: i,
                                 placeholder: (context, e) =>
                                     Center(child: CircularProgressIndicator()),

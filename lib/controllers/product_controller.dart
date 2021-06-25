@@ -108,7 +108,10 @@ class ProductController extends BaseController {
   }
 
   Future<Product> refreshProduct(String productId) async {
-    return await _apiService.getProductById(productId: productId);
+    return await _apiService.getProductById(
+      productId: productId,
+      withCoupons: true,
+    );
   }
 
   Future<bool> buyNow(

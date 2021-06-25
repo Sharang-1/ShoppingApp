@@ -4,6 +4,7 @@
 
 import 'dart:convert';
 
+import 'package:compound/models/products.dart';
 import 'package:compound/models/sellerProfile.dart';
 
 Sellers sellersFromJson(String str) => Sellers.fromJson(json.decode(str));
@@ -80,6 +81,7 @@ class Seller {
   num subscriptionTypeId;
   Type subscriptionType;
   Type establishmentType;
+  List<Product> products;
 
   factory Seller.fromJson(Map<String, dynamic> json) => Seller(
         documentId: json["documentId"],

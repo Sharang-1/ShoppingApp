@@ -48,7 +48,7 @@ class _WriteReviewWidget extends State<WriteReviewWidget> {
                               : backgroundWhiteCreamColor,
                           elevation: 0,
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
+                              borderRadius: BorderRadius.circular(10),
                               side: BorderSide(
                                   width: 1.5, color: textIconOrange)),
                         ),
@@ -67,7 +67,6 @@ class _WriteReviewWidget extends State<WriteReviewWidget> {
                                 "Write Review",
                                 isBold: true,
                                 fontSize: 16,
-                                fontFamily: "Open-Sans",
                                 color: widget.fromProductList
                                     ? backgroundWhiteCreamColor
                                     : textIconOrange,
@@ -121,7 +120,7 @@ class _WriteReviewWidget extends State<WriteReviewWidget> {
                                   new TextButton(
                                     style: TextButton.styleFrom(
                                       shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(30),
+                                        borderRadius: BorderRadius.circular(10),
                                       ),
                                       backgroundColor: logoRed,
                                     ),
@@ -148,7 +147,7 @@ class _WriteReviewWidget extends State<WriteReviewWidget> {
                                     ),
                                     style: TextButton.styleFrom(
                                       shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(30),
+                                        borderRadius: BorderRadius.circular(10),
                                       ),
                                       backgroundColor: Colors.grey[400],
                                     ),

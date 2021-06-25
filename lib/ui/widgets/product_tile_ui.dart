@@ -7,9 +7,9 @@ import '../../locator.dart';
 import '../../models/products.dart';
 import '../../services/wishlist_service.dart';
 import '../../utils/stringUtils.dart';
-import '../../utils/tools.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
+import '../shared/ui_helpers.dart';
 import 'wishlist_icon.dart';
 
 class ProductTileUI extends StatefulWidget {
@@ -66,14 +66,6 @@ class _ProductTileUIState extends State<ProductTileUI> {
 
   @override
   Widget build(BuildContext context) {
-    bool isTablet = Tools.checkIfTablet(MediaQuery.of(context));
-
-    double titleFontSize =
-        isTablet ? subtitleFontSizeStyle : subtitleFontSizeStyle - 2;
-    double subtitleFontSize =
-        isTablet ? subtitleFontSizeStyle - 2 : subtitleFontSizeStyle - 6;
-    double priceFontSize =
-        isTablet ? subtitleFontSizeStyle : subtitleFontSizeStyle - 4;
     EdgeInsetsGeometry paddingCard = widget.index % 2 == 0
         ? const EdgeInsets.fromLTRB(screenPadding, 0, 0, 10)
         : const EdgeInsets.fromLTRB(0, 0, screenPadding, 10);
@@ -99,8 +91,6 @@ class _ProductTileUIState extends State<ProductTileUI> {
     // final productRatingObj = widget.data.rating ?? null;
     // final productRatingValue =
     //     productRatingObj != null ? productRatingObj.rate : 0.0;
-    final String fontFamily = "Poppins";
-    print("Take this step");
 
     // double tagSize = isTablet ? 14.0 : 10.0;
 
@@ -116,7 +106,7 @@ class _ProductTileUIState extends State<ProductTileUI> {
         padding: paddingCard,
         child: Card(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(curve15),
+            borderRadius: BorderRadius.circular(5),
           ),
           elevation: 0,
           clipBehavior: Clip.antiAlias,
@@ -150,7 +140,6 @@ class _ProductTileUIState extends State<ProductTileUI> {
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 fontSize: titleFontSize,
-                                fontFamily: fontFamily,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -194,7 +183,6 @@ class _ProductTileUIState extends State<ProductTileUI> {
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.left,
                         style: TextStyle(
-                          fontFamily: fontFamily,
                           fontSize: subtitleFontSize,
                           fontWeight: FontWeight.bold,
                           color: Colors.grey,
@@ -209,7 +197,7 @@ class _ProductTileUIState extends State<ProductTileUI> {
                               overflow: TextOverflow.ellipsis,
                               textAlign: TextAlign.left,
                               style: TextStyle(
-                                color: textIconBlue,
+                                color: lightGreen,
                                 fontWeight: FontWeight.bold,
                                 fontSize: priceFontSize,
                               ),
@@ -230,39 +218,7 @@ class _ProductTileUIState extends State<ProductTileUI> {
                             ),
                         ],
                       ),
-                      // Row(
-                      //   crossAxisAlignment: CrossAxisAlignment.center,
-                      //   children: <Widget>[
-                      //     Text(
-                      //       "\u20B9" + '${productPrice.toInt().toString()}',
-                      //       overflow: TextOverflow.ellipsis,
-                      //       textAlign: TextAlign.left,
-                      //       style: TextStyle(
-                      //         color: productDiscount != 0.0
-                      //             ? logoRed
-                      //             : textIconBlue,
-                      //         fontWeight: FontWeight.bold,
-                      //         fontSize: priceFontSize,
-                      //       ),
-                      //     ),
-                      //     if (productDiscount != 0.0)
-                      //       SizedBox(
-                      //         width: 10,
-                      //       ),
-                      //     if (productDiscount != 0.0)
-                      //       Text(
-                      //         "\u20B9" +
-                      //             '${(productPrice / (1 - (productDiscount / 100))).toString()}',
-                      //         textAlign: TextAlign.center,
-                      //         overflow: TextOverflow.ellipsis,
-                      //         style: TextStyle(
-                      //           color: Colors.grey,
-                      //           decoration: TextDecoration.lineThrough,
-                      //           fontSize: priceFontSize,
-                      //         ),
-                      //       ),
-                      //   ],
-                      // ),
+                      
                     ],
                   ),
                 ),

@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/base_controller.dart';
@@ -8,7 +7,6 @@ import '../../controllers/grid_view_builder/wishlist_grid_view_builder_controlle
 import '../../models/grid_view_builder_filter_models/wishlist_filter_model.dart';
 import '../../models/products.dart';
 import '../shared/app_colors.dart';
-import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
 import '../widgets/grid_list_widget.dart';
 import '../widgets/product_tile_ui.dart';
@@ -38,19 +36,25 @@ class _WishListState extends State<WishList> {
       builder: (controller) => Scaffold(
         appBar: AppBar(
           elevation: 0,
-          backgroundColor: backgroundWhiteCreamColor,
-          centerTitle: true,
-          title: SvgPicture.asset(
-            "assets/svg/logo.svg",
-            color: logoRed,
-            height: 35,
-            width: 35,
+          backgroundColor: Colors.white,
+          // centerTitle: true,
+          title: FittedBox(
+            alignment: Alignment.centerLeft,
+            fit: BoxFit.scaleDown,
+            child: Text(
+              "Wishlist",
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
           iconTheme: IconThemeData(
             color: Colors.black,
           ),
         ),
-        backgroundColor: backgroundWhiteCreamColor,
+        backgroundColor: newBackgroundColor,
         body: SafeArea(
           top: true,
           left: false,
@@ -61,22 +65,6 @@ class _WishListState extends State<WishList> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                verticalSpace(20),
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: screenPadding,
-                    right: screenPadding,
-                    top: 10,
-                    bottom: 10,
-                  ),
-                  child: Text(
-                    "Wishlist",
-                    style: TextStyle(
-                        fontFamily: headingFont,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 30),
-                  ),
-                ),
                 verticalSpace(20),
                 FutureBuilder(
                   future: Future.delayed(Duration(milliseconds: 500)),
@@ -94,6 +82,7 @@ class _WishListState extends State<WishList> {
                             final Product dProduct = data as Product;
                             return ProductTileUI(
                               index: index,
+                              cardPadding: EdgeInsets.zero,
                               data: data,
                               onClick: () {
                                 BaseController.goToProductPage(dProduct)

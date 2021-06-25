@@ -52,15 +52,48 @@ class HomeViewList extends StatelessWidget {
                   ),
                 if ((controller?.topPromotion?.length ?? 0) > 0)
                   PromotionSlider(
+                    aspectRatio: 4.0,
                     key: controller.promotionKey,
                     promotions: controller.topPromotion,
                   ),
-                // SectionDivider(),
-
+                verticalSpaceSmall,
+                SectionBuilder(
+                  key: categoryUniqueKey,
+                  context: context,
+                  layoutType: LayoutType.CATEGORY_LAYOUT_3,
+                  controller: CategoriesGridViewBuilderController(),
+                  scrollDirection: Axis.horizontal,
+                  header: SectionHeader(
+                    title: controller.remoteConfig
+                        .getString(HOMESCREEN_CATEGORY_SECTION_1_TITLE_EN),
+                    subTitle: controller.remoteConfig
+                        .getString(HOMESCREEN_CATEGORY_SECTION_1_SUBTITLE_EN),
+                    viewAll: () => BaseController.category(),
+                  ),
+                ),
+                SectionDivider(),
+                SectionBuilder(
+                  context: context,
+                  layoutType: LayoutType.DESIGNER_ID_1_2_LAYOUT,
+                  controller: SellersGridViewBuilderController(
+                    subscriptionTypes: [1, 2],
+                    withProducts: true,
+                  ),
+                  scrollDirection: Axis.horizontal,
+                ),
+                SectionDivider(),
+                SectionBuilder(
+                  context: context,
+                  layoutType: LayoutType.DESIGNER_ID_3_LAYOUT,
+                  controller:
+                      SellersGridViewBuilderController(subscriptionType: 3),
+                  scrollDirection: Axis.horizontal,
+                ),
+                SectionDivider(),
                 SectionBuilder(
                   key: productUniqueKey ?? UniqueKey(),
                   context: context,
-                  layoutType: LayoutType.PRODUCT_LAYOUT_1,
+                  layoutType: LayoutType.PRODUCT_LAYOUT_2,
                   filter: ProductFilter(subCategories: ['1']),
                   controller: ProductsGridViewBuilderController(
                       randomize: true, limit: 10),
@@ -80,13 +113,11 @@ class HomeViewList extends StatelessWidget {
                     // ),
                   ),
                 ),
-
                 SectionDivider(),
-
                 SectionBuilder(
                   key: sellerUniqueKey ?? UniqueKey(),
                   context: context,
-                  layoutType: LayoutType.DESIGNER_LAYOUT_1,
+                  layoutType: LayoutType.DESIGNER_ID_3_LAYOUT,
                   fromHome: true,
                   controller: SellersGridViewBuilderController(
                     profileOnly: true,
@@ -103,22 +134,6 @@ class HomeViewList extends StatelessWidget {
                         '',
                   ),
                 ),
-
-                SectionDivider(),
-
-                SectionBuilder(
-                  key: categoryUniqueKey,
-                  context: context,
-                  layoutType: LayoutType.CATEGORY_LAYOUT_1,
-                  controller: CategoriesGridViewBuilderController(),
-                  scrollDirection: Axis.horizontal,
-                  header: SectionHeader(
-                    title: 'Shop By Category 🛍️',
-                    subTitle: 'Shop designer wear by specific categories',
-                    viewAll: () => BaseController.category(),
-                  ),
-                ),
-
                 if ((controller?.bottomPromotion?.length ?? 0) > 0)
                   SectionDivider(),
                 if ((controller?.bottomPromotion?.length ?? 0) > 0)
@@ -170,12 +185,11 @@ class HomeViewList extends StatelessWidget {
                     ),
                   ),
                 SectionDivider(),
-
                 SectionBuilder(
                   key: productUniqueKey ?? UniqueKey(),
                   context: context,
                   filter: ProductFilter(maxPrice: 1750),
-                  layoutType: LayoutType.PRODUCT_LAYOUT_1,
+                  layoutType: LayoutType.PRODUCT_LAYOUT_2,
                   controller: ProductsGridViewBuilderController(limit: 10),
                   scrollDirection: Axis.horizontal,
                   header: SectionHeader(
@@ -194,11 +208,10 @@ class HomeViewList extends StatelessWidget {
                   ),
                 ),
                 SectionDivider(),
-
                 SectionBuilder(
                   key: sellerUniqueKey ?? UniqueKey(),
                   context: context,
-                  layoutType: LayoutType.DESIGNER_LAYOUT_1,
+                  layoutType: LayoutType.DESIGNER_ID_3_LAYOUT,
                   scrollDirection: Axis.horizontal,
                   fromHome: true,
                   toProduct: true,
@@ -216,13 +229,11 @@ class HomeViewList extends StatelessWidget {
                         '',
                   ),
                 ),
-
                 SectionDivider(),
-
                 SectionBuilder(
                   key: productUniqueKey ?? UniqueKey(),
                   context: context,
-                  layoutType: LayoutType.PRODUCT_LAYOUT_1,
+                  layoutType: LayoutType.PRODUCT_LAYOUT_2,
                   filter: ProductFilter(minDiscount: 5),
                   controller:
                       ProductsGridViewBuilderController(randomize: true),
@@ -287,12 +298,11 @@ class HomeViewList extends StatelessWidget {
                     ),
                   ),
                 SectionDivider(),
-
                 SectionBuilder(
                   key: productUniqueKey ?? UniqueKey(),
                   context: context,
                   filter: ProductFilter(subCategories: ['9'], maxPrice: 600),
-                  layoutType: LayoutType.PRODUCT_LAYOUT_1,
+                  layoutType: LayoutType.PRODUCT_LAYOUT_2,
                   scrollDirection: Axis.horizontal,
                   controller:
                       ProductsGridViewBuilderController(randomize: true),
@@ -322,11 +332,10 @@ class HomeViewList extends StatelessWidget {
                   ),
                 ),
                 SectionDivider(),
-
                 SectionBuilder(
                   key: productUniqueKey ?? UniqueKey(),
                   context: context,
-                  layoutType: LayoutType.PRODUCT_LAYOUT_1,
+                  layoutType: LayoutType.PRODUCT_LAYOUT_2,
                   filter: ProductFilter(maxPrice: 450),
                   controller: ProductsGridViewBuilderController(
                       randomize: true, sameDayDelivery: true),
@@ -340,7 +349,6 @@ class HomeViewList extends StatelessWidget {
                         '',
                   ),
                 ),
-
                 if ((controller?.bottomPromotion?.length ?? 0) > 2)
                   SectionDivider(),
                 if ((controller?.bottomPromotion?.length ?? 0) > 2)
@@ -392,11 +400,10 @@ class HomeViewList extends StatelessWidget {
                     ),
                   ),
                 SectionDivider(),
-
                 SectionBuilder(
                   key: productUniqueKey ?? UniqueKey(),
                   context: context,
-                  layoutType: LayoutType.PRODUCT_LAYOUT_1,
+                  layoutType: LayoutType.PRODUCT_LAYOUT_2,
                   controller:
                       ProductsGridViewBuilderController(randomize: true),
                   scrollDirection: Axis.horizontal,
@@ -410,11 +417,10 @@ class HomeViewList extends StatelessWidget {
                   ),
                 ),
                 SectionDivider(),
-
                 SectionBuilder(
                   key: sellerUniqueKey ?? UniqueKey(),
                   context: context,
-                  layoutType: LayoutType.DESIGNER_LAYOUT_1,
+                  layoutType: LayoutType.DESIGNER_ID_3_LAYOUT,
                   scrollDirection: Axis.horizontal,
                   fromHome: true,
                   toProduct: true,
@@ -433,11 +439,10 @@ class HomeViewList extends StatelessWidget {
                   ),
                 ),
                 SectionDivider(),
-
                 SectionBuilder(
                   key: productUniqueKey ?? UniqueKey(),
                   context: context,
-                  layoutType: LayoutType.PRODUCT_LAYOUT_1,
+                  layoutType: LayoutType.PRODUCT_LAYOUT_2,
                   controller: ProductsGridViewBuilderController(
                       randomize: true, limit: 10),
                   scrollDirection: Axis.horizontal,
@@ -511,7 +516,7 @@ class HomeViewList extends StatelessWidget {
                   key: productUniqueKey ?? UniqueKey(),
                   context: context,
                   filter: ProductFilter(subCategories: ['11']),
-                  layoutType: LayoutType.PRODUCT_LAYOUT_1,
+                  layoutType: LayoutType.PRODUCT_LAYOUT_2,
                   controller:
                       ProductsGridViewBuilderController(randomize: true),
                   scrollDirection: Axis.horizontal,
@@ -525,11 +530,10 @@ class HomeViewList extends StatelessWidget {
                   ),
                 ),
                 SectionDivider(),
-
                 SectionBuilder(
                   key: sellerUniqueKey ?? UniqueKey(),
                   context: context,
-                  layoutType: LayoutType.DESIGNER_LAYOUT_2,
+                  layoutType: LayoutType.DESIGNER_ID_3_VERTICAL_LAYOUT,
                   fromHome: true,
                   scrollDirection: Axis.vertical,
                   controller: SellersGridViewBuilderController(random: true),
@@ -541,7 +545,7 @@ class HomeViewList extends StatelessWidget {
                               HOMESCREEN_DESIGNER_SECTION_4_SUBTITLE_EN) ??
                           ''),
                 ),
-                verticalSpaceMedium,
+                verticalSpaceSmall,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -557,9 +561,9 @@ class HomeViewList extends StatelessWidget {
                           primary: Colors.white,
                           backgroundColor: darkRedSmooth,
                           textStyle: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 18),
+                              fontWeight: FontWeight.bold, fontSize: 16),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(curve30),
+                            borderRadius: BorderRadius.circular(10),
                           ),
                         ),
                         child: Text(
@@ -625,7 +629,7 @@ class HomeViewList extends StatelessWidget {
 class SectionDivider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return verticalSpaceMedium;
+    return verticalSpaceSmall;
     // ignore: dead_code
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 15),

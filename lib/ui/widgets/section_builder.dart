@@ -34,10 +34,14 @@ enum LayoutType {
   //Category Layouts
   CATEGORY_LAYOUT_1,
   CATEGORY_LAYOUT_2,
+  CATEGORY_LAYOUT_3,
 
   //Designer Layouts
   DESIGNER_LAYOUT_1,
   DESIGNER_LAYOUT_2,
+  DESIGNER_ID_1_2_LAYOUT,
+  DESIGNER_ID_3_LAYOUT,
+  DESIGNER_ID_3_VERTICAL_LAYOUT,
 }
 
 // ignore: must_be_immutable
@@ -234,6 +238,52 @@ class SectionBuilder extends StatelessWidget {
           },
         );
 
+      case LayoutType.DESIGNER_ID_1_2_LAYOUT:
+        return GridListWidget<Sellers, Seller>(
+          key: UniqueKey(),
+          context: context,
+          filter: filter ?? SellerFilter(),
+          gridCount: gridCount,
+          childAspectRatio: getChildAspectRatio(layoutType),
+          controller: controller,
+          disablePagination: true,
+          scrollDirection: scrollDirection,
+          emptyListWidget: Container(),
+          onEmptyList: onEmptyList,
+          tileBuilder: (BuildContext context, data, index, onDelete, onUpdate) {
+            return GestureDetector(
+              onTap: () {},
+              child: DesignerTileUi(data: data),
+            );
+          },
+        );
+
+      case LayoutType.DESIGNER_ID_1_2_LAYOUT:
+      case LayoutType.DESIGNER_ID_3_LAYOUT:
+      case LayoutType.DESIGNER_ID_3_VERTICAL_LAYOUT:
+        return GridListWidget<Sellers, Seller>(
+          key: UniqueKey(),
+          context: context,
+          filter: filter ?? SellerFilter(),
+          gridCount: gridCount,
+          childAspectRatio: getChildAspectRatio(layoutType),
+          controller: controller,
+          disablePagination: true,
+          scrollDirection: scrollDirection,
+          emptyListWidget: Container(),
+          onEmptyList: onEmptyList,
+          tileBuilder: (BuildContext context, data, index, onDelete, onUpdate) {
+            return GestureDetector(
+              onTap: () {},
+              child: DesignerTileUi(
+                data: data,
+                isID3: ((layoutType == LayoutType.DESIGNER_ID_3_LAYOUT) ||
+                    layoutType == LayoutType.DESIGNER_ID_3_VERTICAL_LAYOUT),
+              ),
+            );
+          },
+        );
+
       case LayoutType.CATEGORY_LAYOUT_1:
       case LayoutType.CATEGORY_LAYOUT_2:
         return GridListWidget<Categorys, Category>(
@@ -266,6 +316,37 @@ class SectionBuilder extends StatelessWidget {
           },
         );
 
+      case LayoutType.CATEGORY_LAYOUT_3:
+        return GridListWidget<Categorys, Category>(
+          key: UniqueKey(),
+          context: context,
+          filter: filter ?? CategoryFilter(),
+          gridCount: gridCount,
+          childAspectRatio: getChildAspectRatio(layoutType),
+          controller: controller,
+          disablePagination: true,
+          scrollDirection: scrollDirection,
+          emptyListWidget: Container(),
+          onEmptyList: onEmptyList,
+          tileBuilder: (BuildContext context, data, index, onDelete, onUpdate) {
+            return GestureDetector(
+              onTap: () => NavigationService.to(
+                CategoryIndiViewRoute,
+                arguments: ProductPageArg(
+                  queryString: data.filter,
+                  subCategory: data.name,
+                ),
+              ),
+              child: Padding(
+                padding: EdgeInsets.only(bottom: 8.0),
+                child: HomeScreenCategoryTile(
+                  data: data,
+                ),
+              ),
+            );
+          },
+        );
+
       default:
         return null;
     }
@@ -286,12 +367,20 @@ class SectionBuilder extends StatelessWidget {
         return 220;
       case LayoutType.DESIGNER_LAYOUT_2:
         return null;
+      case LayoutType.DESIGNER_ID_1_2_LAYOUT:
+        return 225;
+      case LayoutType.DESIGNER_ID_3_LAYOUT:
+        return 110;
+      case LayoutType.DESIGNER_ID_3_VERTICAL_LAYOUT:
+        return null;
 
       //Category
       case LayoutType.CATEGORY_LAYOUT_1:
         return 150;
       case LayoutType.CATEGORY_LAYOUT_2:
         return 200;
+      case LayoutType.CATEGORY_LAYOUT_3:
+        return 100;
 
       //Promotion
       case LayoutType.PROMOTION_LAYOUT_1:
@@ -314,10 +403,18 @@ class SectionBuilder extends StatelessWidget {
         return 0.60;
       case LayoutType.DESIGNER_LAYOUT_2:
         return 1.80;
+      case LayoutType.DESIGNER_ID_1_2_LAYOUT:
+        return 0.60;
+      case LayoutType.DESIGNER_ID_3_LAYOUT:
+        return 0.30;
+      case LayoutType.DESIGNER_ID_3_VERTICAL_LAYOUT:
+        return 3.50;
       case LayoutType.CATEGORY_LAYOUT_1:
         return 0.50;
       case LayoutType.CATEGORY_LAYOUT_2:
         return 2.0;
+      case LayoutType.CATEGORY_LAYOUT_3:
+        return 1.2;
 
       default:
         return 1.35;

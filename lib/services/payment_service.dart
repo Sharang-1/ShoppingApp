@@ -65,7 +65,7 @@ class PaymentService {
           success: true,
         );
 
-        await NavigationService.to(PaymentFinishedScreenRoute);
+        await NavigationService.off(PaymentFinishedScreenRoute);
       });
 
       _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR,

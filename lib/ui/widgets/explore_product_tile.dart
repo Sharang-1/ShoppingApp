@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:compound/services/remote_config_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:share/share.dart';
@@ -11,9 +10,9 @@ import '../../controllers/wishlist_controller.dart';
 import '../../locator.dart';
 import '../../models/products.dart';
 import '../../services/dynamic_link_service.dart';
+import '../../services/remote_config_service.dart';
 import '../../services/wishlist_service.dart';
 import '../../utils/stringUtils.dart';
-import '../../utils/tools.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
@@ -73,19 +72,10 @@ class _ExploreProductTileUIState extends State<ExploreProductTileUI> {
 
   @override
   Widget build(BuildContext context) {
-    bool isTablet = Tools.checkIfTablet(MediaQuery.of(context));
-
-    double titleFontSize =
-        isTablet ? subtitleFontSizeStyle : subtitleFontSizeStyle - 2;
-    double subtitleFontSize =
-        isTablet ? subtitleFontSizeStyle - 2 : subtitleFontSizeStyle - 6;
-    double priceFontSize =
-        isTablet ? subtitleFontSizeStyle : subtitleFontSizeStyle - 4;
     EdgeInsetsGeometry paddingCard = widget.index % 2 == 0
         ? const EdgeInsets.fromLTRB(screenPadding, 0, 0, 10)
         : const EdgeInsets.fromLTRB(0, 0, screenPadding, 10);
     paddingCard = widget.cardPadding == null ? paddingCard : widget.cardPadding;
-    // final BlousePadding sellerName=widget.data.whoMadeIt;
 
     final designerKey = widget.data.account.key;
     final photo = widget.data.photo ?? null;

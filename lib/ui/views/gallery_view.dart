@@ -13,6 +13,7 @@ class GalleryPhotoViewWrapper extends StatefulWidget {
     this.initialIndex,
     @required this.galleryItems,
     this.showImageLabel = true,
+    this.appbarColor,
     this.scrollDirection = Axis.horizontal,
   }) : pageController = PageController(initialPage: initialIndex);
 
@@ -25,6 +26,7 @@ class GalleryPhotoViewWrapper extends StatefulWidget {
   final List<String> galleryItems;
   final Axis scrollDirection;
   final bool showImageLabel;
+  final Color appbarColor;
 
   @override
   State<StatefulWidget> createState() {
@@ -54,7 +56,7 @@ class _GalleryPhotoViewWrapperState extends State<GalleryPhotoViewWrapper> {
       appBar: AppBar(
         elevation: 0,
         iconTheme: IconThemeData(color: appBarIconColor),
-        backgroundColor: backgroundWhiteCreamColor,
+        backgroundColor: widget.appbarColor ?? backgroundWhiteCreamColor,
       ),
       body: Container(
         decoration: BoxDecoration(color: backgroundWhiteCreamColor),
@@ -74,18 +76,18 @@ class _GalleryPhotoViewWrapperState extends State<GalleryPhotoViewWrapper> {
               onPageChanged: onPageChanged,
               scrollDirection: widget.scrollDirection,
             ),
-            if(widget.showImageLabel)
-            Container(
-              padding: const EdgeInsets.all(20.0),
-              child: Text(
-                "Image ${currentIndex + 1} of ${widget.galleryItems.length}",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 17.0,
-                  decoration: null,
+            if (widget.showImageLabel)
+              Container(
+                padding: const EdgeInsets.all(20.0),
+                child: Text(
+                  "Image ${currentIndex + 1} of ${widget.galleryItems.length}",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 17.0,
+                    decoration: null,
+                  ),
                 ),
-              ),
-            )
+              )
           ],
         ),
       ),

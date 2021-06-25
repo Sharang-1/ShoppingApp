@@ -34,20 +34,20 @@ class HomeViewListHeader extends StatelessWidget {
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         color: Colors.grey[800],
-                        fontSize: subtitleFontSizeStyle,
+                        fontSize: titleFontSizeStyle,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
-                  if (subTitle != null && subTitle.isNotEmpty)
-                    verticalSpaceTiny,
+                  // if (subTitle != null && subTitle.isNotEmpty)
+                  //   verticalSpaceTiny,
                   if (subTitle != null && subTitle.isNotEmpty)
                     Text(
                       subTitle,
                       maxLines: 3,
                       style: TextStyle(
                         color: Colors.grey[600],
-                        fontSize: subtitleFontSizeStyle - 6,
+                        fontSize: subtitleFontSizeStyle,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -68,7 +68,7 @@ class HomeViewListHeader extends StatelessWidget {
                       child: Text(
                         'View All',
                         style: TextStyle(
-                          fontSize: subtitleFontSize - 8,
+                          fontSize: subtitleFontSize,
                           fontWeight: FontWeight.bold,
                           color: textIconBlue,
                         ),

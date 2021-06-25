@@ -51,81 +51,113 @@ class _SelectAddressState extends State<SelectAddress> {
     return GetBuilder<CartSelectDeliveryController>(
       init: CartSelectDeliveryController(),
       builder: (controller) => Scaffold(
-        backgroundColor: backgroundWhiteCreamColor,
+        backgroundColor: newBackgroundColor,
         appBar: AppBar(
           elevation: 0,
-          backgroundColor: backgroundWhiteCreamColor,
-          centerTitle: true,
-          title: SvgPicture.asset(
-            "assets/svg/logo.svg",
-            color: logoRed,
-            height: 35,
-            width: 35,
+          backgroundColor: Colors.white,
+          title: Text(
+            "Select Address",
+            style: TextStyle(
+              fontFamily: headingFont,
+              fontWeight: FontWeight.w700,
+              fontSize: 18,
+              color: Colors.black,
+            ),
           ),
           iconTheme: IconThemeData(
             color: appBarIconColor,
           ),
         ),
-        bottomNavigationBar: Padding(
+        bottomNavigationBar: Container(
+          color: Colors.white,
           padding: EdgeInsets.only(
             left: screenPadding,
             right: screenPadding,
-            bottom: 10,
-            top: 0,
+            bottom: 8.0,
+            top: 8.0,
           ),
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              elevation: 5,
-              primary: green,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(curve30),
-              ),
-            ),
-            onPressed: disabledPayment
-                ? null
-                : () async {
-                    final serviceAvailability = await locator<APIService>()
-                        .checkPincode(
-                            productId: widget.productId,
-                            pincode: addressRadioValue.pincode.toString());
+          child: SizedBox(
+            height: 40,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                InkWell(
+                  onTap: () {},
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CustomText(
+                        "₹${widget.finalTotal}",
+                        fontSize: 12,
+                        isBold: true,
+                      ),
+                      CustomText(
+                        "View Details",
+                        fontSize: 12,
+                      ),
+                    ],
+                  ),
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    elevation: 0,
+                    primary: green,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  onPressed: disabledPayment
+                      ? null
+                      : () async {
+                          final serviceAvailability =
+                              await locator<APIService>().checkPincode(
+                                  productId: widget.productId,
+                                  pincode:
+                                      addressRadioValue.pincode.toString());
 
-                    if (serviceAvailability == null) return;
+                          if (serviceAvailability == null) return;
 
-                    if (serviceAvailability.serviceAvailable) {
-                      Navigator.push(
-                        context,
-                        PageTransition(
-                            child: PaymentMethod(
-                              billingAddress: (addressRadioValue == null
-                                  ? controller.addresses[0]
-                                  : addressRadioValue),
-                              color: widget.color,
-                              productId: widget.productId,
-                              promoCode: widget.promoCode,
-                              promoCodeId: widget.promoCodeId,
-                              qty: widget.qty,
-                              size: widget.size,
-                              finalTotal: widget.finalTotal,
-                            ),
-                            type: PageTransitionType.rightToLeft),
-                      );
-                    } else {
-                      DialogService.showNotDeliveringDialog(
-                          msg: serviceAvailability.message);
-                      // Get.snackbar(
-                      //   "Service Not Available",
-                      //   serviceAvailability.message,
-                      //   snackPosition: SnackPosition.BOTTOM,
-                      // );
-                    }
-                  },
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 15),
-              child: Text(
-                "Proceed To Payment ",
-                style:
-                    TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-              ),
+                          if (serviceAvailability.serviceAvailable) {
+                            Navigator.push(
+                              context,
+                              PageTransition(
+                                  child: PaymentMethod(
+                                    billingAddress: (addressRadioValue == null
+                                        ? controller.addresses[0]
+                                        : addressRadioValue),
+                                    color: widget.color,
+                                    productId: widget.productId,
+                                    promoCode: widget.promoCode,
+                                    promoCodeId: widget.promoCodeId,
+                                    qty: widget.qty,
+                                    size: widget.size,
+                                    finalTotal: widget.finalTotal,
+                                  ),
+                                  type: PageTransitionType.rightToLeft),
+                            );
+                          } else {
+                            DialogService.showNotDeliveringDialog(
+                                msg: serviceAvailability.message);
+                            // Get.snackbar(
+                            //   "Service Not Available",
+                            //   serviceAvailability.message,
+                            //   snackPosition: SnackPosition.BOTTOM,
+                            // );
+                          }
+                        },
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Text(
+                      "Make Payment",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ),
@@ -138,34 +170,126 @@ class _SelectAddressState extends State<SelectAddress> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  verticalSpace(20),
-                  Text(
-                    "Select Delivery",
-                    style: TextStyle(
-                        fontFamily: headingFont,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 25),
-                  ),
-                  Text(
-                    "Address",
-                    style: TextStyle(
-                        fontFamily: headingFont,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 25),
-                  ),
-                  verticalSpace(20),
+                  verticalSpace(10),
                   const CutomStepper(
                     step: 2,
                   ),
                   verticalSpace(20),
+                  if (controller.addresses.length != 0)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Text(
+                        "My Addresses",
+                        style: TextStyle(
+                            fontFamily: headingFont,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 20),
+                      ),
+                    ),
+                  verticalSpace(15),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
+                    ),
+                    child: Column(
+                      children: List<Widget>.of(
+                        controller.addresses.map(
+                          (UserDetailsContact address) => GestureDetector(
+                            onTap: () => setState(
+                              () {
+                                addressGrpValue = addressRadioValue = address;
+                                disabledPayment = false;
+                              },
+                            ),
+                            child: Container(
+                              margin:
+                                  EdgeInsets.only(bottom: spaceBetweenCards),
+                              decoration: BoxDecoration(
+                                border: Border(
+                                  bottom: BorderSide(
+                                    color: Colors.grey[200],
+                                  ),
+                                ),
+                              ),
+                              child: Card(
+                                clipBehavior: Clip.antiAlias,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                elevation: 0,
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(0, 8, 8, 8),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      Radio(
+                                        value: address,
+                                        groupValue: addressGrpValue,
+                                        onChanged: (val) {
+                                          // setState(() {
+                                          //   addressGrpValue =
+                                          //       addressRadioValue = val;
+                                          //   disabledPayment = false;
+                                          // });
+                                          print(val);
+                                        },
+                                      ),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: <Widget>[
+                                            CustomText(
+                                              "My Address: ",
+                                              color: Colors.grey[700],
+                                              fontSize: 14,
+                                              isBold: true,
+                                            ),
+                                            verticalSpaceTiny_0,
+                                            CustomText(
+                                              "${address.address}",
+                                              color: Colors.grey,
+                                              fontSize: 14,
+                                            ),
+                                            // verticalSpaceTiny_0,
+                                            // CustomText(
+                                            //   "My Location: ",
+                                            //   color: Colors.grey[700],
+                                            //   fontSize: 14,
+                                            //   isBold: true,
+                                            // ),
+                                            // verticalSpaceTiny_0,
+                                            // CustomText(
+                                            //   "${address.googleAddress}",
+                                            //   color: Colors.grey,
+                                            //   fontSize: 14,
+                                            // ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                   Padding(
-                    padding: const EdgeInsets.all(10),
+                    padding: const EdgeInsets.symmetric(vertical: 10),
                     child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           elevation: 5,
                           primary: darkRedSmooth,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
+                            borderRadius: BorderRadius.circular(10),
                             // side: BorderSide(
                             //     color: Colors.black, width: 0.5)
                           ),
@@ -213,99 +337,6 @@ class _SelectAddressState extends State<SelectAddress> {
                           ],
                         )),
                   ),
-                  verticalSpace(35),
-                  if (controller.addresses.length != 0)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Text(
-                        "Previously Added Addresses",
-                        style: TextStyle(
-                            fontFamily: headingFont,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 20),
-                      ),
-                    ),
-                  verticalSpace(15),
-                  Column(
-                    children: List<Widget>.of(
-                      controller.addresses.map(
-                        (UserDetailsContact address) => GestureDetector(
-                          onTap: () => setState(
-                            () {
-                              addressGrpValue = addressRadioValue = address;
-                              disabledPayment = false;
-                            },
-                          ),
-                          child: Container(
-                            margin: EdgeInsets.only(bottom: spaceBetweenCards),
-                            child: Card(
-                              clipBehavior: Clip.antiAlias,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              elevation: 0,
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(0, 15, 15, 15),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    Radio(
-                                      value: address,
-                                      groupValue: addressGrpValue,
-                                      onChanged: (val) {
-                                        // setState(() {
-                                        //   addressGrpValue =
-                                        //       addressRadioValue = val;
-                                        //   disabledPayment = false;
-                                        // });
-                                        print(val);
-                                      },
-                                    ),
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: <Widget>[
-                                          CustomText(
-                                            "Your Address: ",
-                                            color: Colors.grey[700],
-                                            fontSize: 14,
-                                            isBold: true,
-                                          ),
-                                          verticalSpaceTiny_0,
-                                          CustomText(
-                                            "${address.address}",
-                                            color: Colors.grey,
-                                            fontSize: 14,
-                                          ),
-                                          verticalSpaceTiny_0,
-                                          CustomText(
-                                            "Your Location: ",
-                                            color: Colors.grey[700],
-                                            fontSize: 14,
-                                            isBold: true,
-                                          ),
-                                          verticalSpaceTiny_0,
-                                          CustomText(
-                                            "${address.googleAddress}",
-                                            color: Colors.grey,
-                                            fontSize: 14,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
                 ],
               ),
             ),

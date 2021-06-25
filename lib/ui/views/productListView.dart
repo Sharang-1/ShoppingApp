@@ -1,6 +1,5 @@
 // import 'package:fimber/fimber_base.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -212,36 +211,15 @@ class _ProductListViewState extends State<ProductListView> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: backgroundWhiteCreamColor,
+        backgroundColor: Colors.white,
         centerTitle: true,
-        title: SvgPicture.asset(
-          "assets/svg/logo.svg",
-          color: logoRed,
-          height: 35,
-          width: 35,
-        ),
+        // title: SvgPicture.asset(
+        //   "assets/svg/logo.svg",
+        //   color: logoRed,
+        //   height: 35,
+        //   width: 35,
+        // ),
         actions: [
-          if (!(widget.queryString.isEmpty && widget.subCategory.isEmpty))
-            InkWell(
-              onTap: () async {
-                await Share.share(
-                  await _dynamicLinkService.createLink(sellerLink + sellerKey),
-                  sharePositionOrigin: Rect.fromCenter(
-                    center: Offset(100, 100),
-                    width: 100,
-                    height: 100,
-                  ),
-                );
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Image.asset(
-                  'assets/images/share_icon.png',
-                  width: 25,
-                  height: 25,
-                ),
-              ),
-            ),
           IconButton(
             icon:
                 Icon(FontAwesomeIcons.slidersH, color: Colors.black, size: 20),
@@ -274,6 +252,27 @@ class _ProductListViewState extends State<ProductListView> {
               }
             },
           ),
+          if (!(widget.queryString.isEmpty && widget.subCategory.isEmpty))
+            InkWell(
+              onTap: () async {
+                await Share.share(
+                  await _dynamicLinkService.createLink(sellerLink + sellerKey),
+                  sharePositionOrigin: Rect.fromCenter(
+                    center: Offset(100, 100),
+                    width: 100,
+                    height: 100,
+                  ),
+                );
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Image.asset(
+                  'assets/images/share_icon.png',
+                  width: 25,
+                  height: 25,
+                ),
+              ),
+            ),
         ],
         iconTheme: IconThemeData(
           color: Colors.black,
@@ -286,7 +285,6 @@ class _ProductListViewState extends State<ProductListView> {
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
-                  fontFamily: "Open-Sans",
                 ),
               ),
               shape: RoundedRectangleBorder(
@@ -295,7 +293,7 @@ class _ProductListViewState extends State<ProductListView> {
               backgroundColor: logoRed,
             )
           : null,
-      backgroundColor: backgroundWhiteCreamColor,
+      backgroundColor: newBackgroundColor,
       body: SafeArea(
         top: false,
         left: false,
@@ -394,74 +392,82 @@ class _ProductListViewState extends State<ProductListView> {
                         ),
                       ),
                       verticalSpaceSmall,
-                      FutureBuilder<Reviews>(
-                          future: reviews == null
-                              ? locator<APIService>().getReviews(
-                                  sellerKey,
-                                  isSellerReview: true,
-                                )
-                              : Future.value(reviews),
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState ==
-                                    ConnectionState.done &&
-                                snapshot.hasData) reviews = snapshot.data;
-
-                            return ((snapshot.connectionState ==
-                                        ConnectionState.done) &&
-                                    ((snapshot?.data?.ratingAverage?.rating ??
-                                            0) >
-                                        0))
-                                ? InkWell(
-                                    onTap: showReviewBottomsheet,
-                                    child: FittedBox(
-                                      fit: BoxFit.scaleDown,
-                                      child: Container(
-                                        padding: EdgeInsets.symmetric(
-                                          vertical: 5,
-                                          horizontal: 10,
-                                        ),
-                                        decoration: BoxDecoration(
-                                          color: getColorAccordingToRattings(
-                                            snapshot.data.ratingAverage.rating,
-                                          ),
-                                          borderRadius: BorderRadius.circular(
-                                            curve30,
-                                          ),
-                                        ),
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: <Widget>[
-                                            CustomText(
-                                              snapshot.data.ratingAverage.rating
-                                                  .toString(),
-                                              color: Colors.white,
-                                              isBold: true,
-                                              fontSize: 15,
-                                            ),
-                                            horizontalSpaceTiny,
-                                            Icon(
-                                              Icons.star,
-                                              color: Colors.white,
-                                              size: 15,
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                : Container();
-                          }),
-                      verticalSpaceSmall,
                       Text(
                         widget.subCategory,
                         overflow: TextOverflow.visible,
                         maxLines: 2,
                         softWrap: true,
                         style: TextStyle(
-                            fontFamily: headingFont,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 30),
+                          fontFamily: headingFont,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 18,
+                        ),
+                      ),
+                      verticalSpaceSmall,
+                      FutureBuilder<Reviews>(
+                        future: reviews == null
+                            ? locator<APIService>().getReviews(
+                                sellerKey,
+                                isSellerReview: true,
+                              )
+                            : Future.value(reviews),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                                  ConnectionState.done &&
+                              snapshot.hasData) reviews = snapshot.data;
+
+                          return ((snapshot.connectionState ==
+                                      ConnectionState.done) &&
+                                  ((snapshot?.data?.ratingAverage?.rating ??
+                                          0) >
+                                      0))
+                              ? InkWell(
+                                  onTap: showReviewBottomsheet,
+                                  child: FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    child: Container(
+                                      padding: EdgeInsets.symmetric(
+                                        vertical: 5,
+                                        horizontal: 10,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: newBackgroundColor,
+                                        borderRadius: BorderRadius.circular(
+                                          5,
+                                        ),
+                                        border: Border.all(
+                                          color: getColorAccordingToRattings(
+                                            snapshot.data.ratingAverage.rating,
+                                          ),
+                                        ),
+                                      ),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                          CustomText(
+                                            snapshot.data.ratingAverage.rating
+                                                .toStringAsFixed(1),
+                                            color: getColorAccordingToRattings(
+                                              snapshot
+                                                  .data.ratingAverage.rating,
+                                            ),
+                                            isBold: true,
+                                            fontSize: 15,
+                                          ),
+                                          // horizontalSpaceTiny,
+                                          // Icon(
+                                          //   Icons.star,
+                                          //   color: Colors.white,
+                                          //   size: 15,
+                                          // )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              : Container();
+                        },
                       ),
                     ],
                   ),
@@ -487,6 +493,7 @@ class _ProductListViewState extends State<ProductListView> {
                               onUpdate, onDelete) {
                             return ProductTileUI(
                               data: data,
+                              cardPadding: EdgeInsets.zero,
                               onClick: () =>
                                   BaseController.goToProductPage(data),
                               index: index,

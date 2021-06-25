@@ -23,7 +23,7 @@ class CartPaymentMethodController extends BaseController {
     //   paymentOptions.addAll({e.id: e.name});
     // });
 
-    paymentOptions.addAll({1: "Cash On Delivery", 2: "Online Payment"});
+    paymentOptions.addAll({1: "Cash On Delivery", 2: "Pay Online"});
     update();
 
     return null;

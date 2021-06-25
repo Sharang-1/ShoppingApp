@@ -2,7 +2,6 @@ import 'package:compound/constants/route_names.dart';
 import 'package:compound/controllers/user_details_controller.dart';
 import 'package:compound/services/navigation_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:open_appstore/open_appstore.dart';
@@ -29,6 +28,7 @@ class SettingsView extends StatelessWidget {
     2: "Send Feedback",
     3: "Customer Service",
     4: "Terms & Conditions",
+    5: "Share with friends",
   };
 
   final Map<int, IconData> settingIconMap = {
@@ -36,6 +36,7 @@ class SettingsView extends StatelessWidget {
     2: FontAwesomeIcons.bookOpen,
     3: FontAwesomeIcons.phoneVolume,
     4: FontAwesomeIcons.solidNewspaper,
+    5: FontAwesomeIcons.share,
   };
 
   final Map<int, void Function()> settingOnTapMap = {
@@ -45,27 +46,32 @@ class SettingsView extends StatelessWidget {
         androidAppId: "in.dzor.dzor_app", iOSAppId: "1562083632"),
     3: () => BaseController.launchURL(CONTACT_US_URL),
     4: () => BaseController.launchURL(TERMS_AND_CONDITIONS_URL),
+    5: BaseController.shareApp,
   };
 
   final Map<int, List<int>> sectionsSettingsMap = {
-    1: [2, 3],
+    1: [2, 3, 5],
     2: [1],
     3: [4]
   };
 
   final AppBar appbar = AppBar(
     elevation: 0,
-    centerTitle: true,
-    title: SvgPicture.asset(
-      "assets/svg/logo.svg",
-      color: logoRed,
-      height: 35,
-      width: 35,
+    // centerTitle: true,
+    title: Text(
+      "Settings",
+      style: TextStyle(
+        fontFamily: headingFont,
+        fontWeight: FontWeight.w700,
+        fontSize: 18,
+        color: Colors.black,
+      ),
+      // textAlign: TextAlign.center,
     ),
     iconTheme: IconThemeData(
       color: appBarIconColor,
     ),
-    backgroundColor: backgroundWhiteCreamColor,
+    backgroundColor: Colors.white,
   );
 
   @override
@@ -73,7 +79,7 @@ class SettingsView extends StatelessWidget {
         init: UserDetailsController()..getUserDetails(),
         builder: (controller) {
           return Scaffold(
-            backgroundColor: backgroundWhiteCreamColor,
+            backgroundColor: newBackgroundColor,
             appBar: appbar,
             body: SafeArea(
               top: false,
@@ -85,28 +91,10 @@ class SettingsView extends StatelessWidget {
                   appBarHeight: appbar.preferredSize.height,
                   statusBarHeight: MediaQuery.of(context).padding.top,
                   childWidget: Padding(
-                    padding: EdgeInsets.only(
-                        left: screenPadding,
-                        right: screenPadding,
-                        top: 10,
-                        bottom: 10),
+                    padding: EdgeInsets.all(8.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        verticalSpaceSmall,
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            "Settings",
-                            style: TextStyle(
-                              fontFamily: headingFont,
-                              fontWeight: FontWeight.w700,
-                              fontSize: headingFontSizeStyle,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        verticalSpaceSmall,
                         Divider(
                           color: Colors.grey[400],
                         ),
@@ -115,45 +103,60 @@ class SettingsView extends StatelessWidget {
                             vertical: 10.0,
                             horizontal: 16.0,
                           ),
-                          child: Container(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    Icon(
-                                      FontAwesomeIcons.userCircle,
-                                      size: 50,
-                                    ),
-                                    SizedBox(width: 16.0),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        CustomText(
-                                          controller?.mUserDetails?.name ?? '',
-                                          isTitle: true,
-                                          isBold: true,
-                                        ),
-                                        CustomText(
-                                          controller.mUserDetails?.contact
-                                                  ?.phone?.mobile?.replaceRange(5, 10, 'XXXXX')
-                                                  ?.toString() ?? '',
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                InkWell(
-                                  child: CustomText(
-                                    "Edit Details",
-                                    color: logoRed,
+                          child: InkWell(
+                            onTap: () async => await NavigationService.to(
+                              ProfileViewRoute,
+                              arguments: controller,
+                            ),
+                            child: Container(
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        FontAwesomeIcons.userCircle,
+                                        size: 50,
+                                      ),
+                                      SizedBox(width: 16.0),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          CustomText(
+                                            controller?.mUserDetails?.name ??
+                                                '',
+                                            isTitle: true,
+                                            fontSize: 16,
+                                            isBold: true,
+                                          ),
+                                          CustomText(
+                                            controller.mUserDetails?.contact
+                                                    ?.phone?.mobile
+                                                    ?.replaceRange(
+                                                        5, 10, 'XXXXX')
+                                                    ?.toString() ??
+                                                '',
+                                            fontSize: 14,
+                                          ),
+                                        ],
+                                      ),
+                                    ],
                                   ),
-                                  onTap: () => NavigationService.to(
+                                  IconButton(
+                                    icon: Icon(
+                                      Icons.edit,
+                                      color: Colors.black,
+                                      size: 25,
+                                    ),
+                                    onPressed: () => NavigationService.to(
                                       ProfileViewRoute,
-                                      arguments: controller),
-                                ),
-                              ],
+                                      arguments: controller,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -177,23 +180,9 @@ class SettingsView extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 CustomText(
-                                  "My Address: ",
+                                  "My City: ${controller?.mUserDetails?.contact?.city}",
                                   isBold: true,
-                                ),
-                                verticalSpaceTiny,
-                                CustomText(
-                                  controller?.mUserDetails?.contact?.address ??
-                                      '',
-                                ),
-                                CustomText(
-                                  "My Location: ",
-                                  isBold: true,
-                                ),
-                                verticalSpaceTiny,
-                                CustomText(
-                                  controller?.mUserDetails?.contact
-                                          ?.googleAddress ??
-                                      '',
+                                  fontSize: 14,
                                 ),
                               ],
                             ),
@@ -235,6 +224,8 @@ class SettingsView extends StatelessWidget {
                                                 name: settingNameMap[key],
                                                 onTap: settingOnTapMap[key],
                                                 icon: settingIconMap[key],
+                                                color: Colors.black87,
+                                                iconColor: Colors.black54,
                                               ),
                                             )
                                             .toList(),
@@ -245,7 +236,7 @@ class SettingsView extends StatelessWidget {
                             ],
                           ),
                         ),
-                        verticalSpace(10),
+                        verticalSpaceTiny,
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
@@ -263,6 +254,7 @@ class SettingsView extends StatelessWidget {
                                 child: CustomText(
                                   "Logout",
                                   color: logoRed,
+                                  fontSize: 14,
                                   isBold: true,
                                 ),
                               ),
@@ -295,7 +287,7 @@ class SectionCard extends StatelessWidget {
         children: [
           Text(
             name,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
           ),
           verticalSpaceTiny,
           Column(
@@ -336,7 +328,7 @@ class SettingsCard extends StatelessWidget {
           title: CustomText(
             name,
             isBold: true,
-            fontSize: subtitleFontSizeStyle,
+            fontSize: titleFontSizeStyle,
             color: color ?? Colors.grey[500],
           ),
           trailing: Icon(

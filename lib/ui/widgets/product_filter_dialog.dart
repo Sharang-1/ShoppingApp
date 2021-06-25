@@ -174,52 +174,54 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
 
   @override
   Widget build(BuildContext context) {
-    TextStyle titleTextStyle =
-        TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold);
+    TextStyle titleTextStyle = TextStyle(
+      fontSize: titleFontSize,
+      fontWeight: FontWeight.bold,
+    );
 
     print("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDd ");
     print(widget.oldFilter?.subCategories);
 
     return Scaffold(
         backgroundColor: Colors.grey[50],
-        bottomNavigationBar: Padding(
-            padding: EdgeInsets.only(bottom: 5, top: 5),
-            child: FractionallySizedBox(
-                widthFactor: 0.45,
-                heightFactor: 0.09,
-                child: FloatingActionButton.extended(
-                  backgroundColor: Colors.green[600],
-                  // shape: RoundedRectangleBorder(
-                  //     borderRadius: BorderRadius.circular(10),
-                  //     side: BorderSide(color: Colors.black, width: 0.5)),
-                  label: Text(
-                    "Apply Filters",
-                    style: TextStyle(color: Colors.white),
-                  ),
-
-                  // icon: Icon(Icons.done),
-                  icon: Icon(Icons.done),
-                  onPressed: () {
-                    setUpFilterObject();
-                    print(
-                        "Typing---------------------------------->>>>>>>>>>>>>>");
-                    NavigationService.back<ProductFilter>(
-                      result: ProductFilter(
-                        fullText: fullText,
-                        categories: categories,
-                        subCategories:
-                            subCategoriesValues["All"] ? [] : subCategories,
-                        size: size,
-                        minPrice: minPrice,
-                        maxPrice: maxPrice,
-                        minDiscount: minDiscount,
-                        sortField: sortByRadioValue,
-                        isSortOrderDesc: sortOrderRadioValue == 'desc',
-                        existingQueryString: queryString,
-                      ),
-                    );
-                  },
-                ))),
+        bottomNavigationBar: FractionallySizedBox(
+          widthFactor: 0.40,
+          heightFactor: 0.08,
+          child: FloatingActionButton.extended(
+            backgroundColor: Colors.green[600],
+            // shape: RoundedRectangleBorder(
+            //     borderRadius: BorderRadius.circular(10),
+            //     side: BorderSide(color: Colors.black, width: 0.5)),
+            label: Text(
+              "Apply Filters",
+              style: TextStyle(color: Colors.white),
+            ),
+            elevation: 0,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            // icon: Icon(Icons.done),
+            icon: Icon(Icons.done),
+            onPressed: () {
+              setUpFilterObject();
+              print("Typing---------------------------------->>>>>>>>>>>>>>");
+              NavigationService.back<ProductFilter>(
+                result: ProductFilter(
+                  fullText: fullText,
+                  categories: categories,
+                  subCategories:
+                      subCategoriesValues["All"] ? [] : subCategories,
+                  size: size,
+                  minPrice: minPrice,
+                  maxPrice: maxPrice,
+                  minDiscount: minDiscount,
+                  sortField: sortByRadioValue,
+                  isSortOrderDesc: sortOrderRadioValue == 'desc',
+                  existingQueryString: queryString,
+                ),
+              );
+            },
+          ),
+        ),
         appBar: AppBar(
           automaticallyImplyLeading: false,
           primary: true,
@@ -326,7 +328,7 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
                             checkmarkColor: green,
                             selectedColor: Colors.white,
                             shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
+                                borderRadius: BorderRadius.circular(5),
                                 side: BorderSide(
                                   color: subCategoriesValues[sKey]
                                       ? green
@@ -470,7 +472,7 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
                         backgroundColor: Colors.white,
                         selectedShadowColor: Colors.white,
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
+                            borderRadius: BorderRadius.circular(5),
                             side: BorderSide(
                               color:
                                   sortOrderRadioValue == sortOrderRadioMap[sKey]
