@@ -95,7 +95,7 @@ class SectionBuilder extends StatelessWidget {
                         trackBorderColor:
                             MaterialStateProperty.all(Colors.grey[500]),
                         isAlwaysShown: true,
-                        interactive: true,
+                        // interactive: true,
                         showTrackOnHover: true,
                       ),
                     ),
@@ -281,13 +281,11 @@ class SectionBuilder extends StatelessWidget {
       case LayoutType.PRODUCT_LAYOUT_3:
         return null;
 
-
       //Designer
       case LayoutType.DESIGNER_LAYOUT_1:
         return 220;
       case LayoutType.DESIGNER_LAYOUT_2:
         return null;
-
 
       //Category
       case LayoutType.CATEGORY_LAYOUT_1:

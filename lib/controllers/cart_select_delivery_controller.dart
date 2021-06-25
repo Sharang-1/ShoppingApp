@@ -4,7 +4,6 @@ import 'package:compound/controllers/base_controller.dart';
 import 'package:compound/locator.dart';
 import 'package:compound/models/user_details.dart';
 import 'package:compound/services/address_service.dart';
-import 'package:compound/services/dialog_service.dart';
 
 class CartSelectDeliveryController extends BaseController {
   // final NavigationService _navigationService = locator<NavigationService>();

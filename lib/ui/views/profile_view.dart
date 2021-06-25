@@ -1,4 +1,3 @@
-import 'package:compound/constants/route_names.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
