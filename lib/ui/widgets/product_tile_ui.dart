@@ -218,7 +218,6 @@ class _ProductTileUIState extends State<ProductTileUI> {
                             ),
                         ],
                       ),
-                      
                     ],
                   ),
                 ),
@@ -243,7 +242,7 @@ class _ProductTileUIState extends State<ProductTileUI> {
                         Colors.transparent.withOpacity(0.12),
                         BlendMode.srcATop),
                     child: FadeInImage.assetNetwork(
-                      fit: BoxFit.cover,
+                      fit: BoxFit.contain,
                       fadeInCurve: Curves.easeIn,
                       placeholder: 'assets/images/product_preloading.png',
                       image: photoURL == null

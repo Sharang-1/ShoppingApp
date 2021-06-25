@@ -1605,8 +1605,9 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: Container(
-                      color: newBackgroundColor,
-                      // padding: EdgeInsets.symmetric(horizontal: 4,),
+                      color: Colors.grey[200],
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 4, vertical: 8.0),
                       child: FittedBox(
                         child: Row(
                           children: [

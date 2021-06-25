@@ -91,14 +91,12 @@ class _SearchViewState extends State<SearchView>
                   }
                 },
               ),
-            Obx(
-              () => IconButton(
-                onPressed: () => BaseController.cart(),
-                icon: Obx(
-                  () => CartIconWithBadge(
-                    count: locator<CartCountController>().count.value,
-                    iconColor: Colors.black,
-                  ),
+            IconButton(
+              onPressed: () => BaseController.cart(),
+              icon: Obx(
+                () => CartIconWithBadge(
+                  count: locator<CartCountController>().count.value,
+                  iconColor: Colors.black,
                 ),
               ),
             ),
@@ -107,7 +105,7 @@ class _SearchViewState extends State<SearchView>
             )
           ],
         ),
-        backgroundColor: newBackgroundColor,
+        backgroundColor: Colors.white,
         body: SafeArea(
           top: false,
           left: false,

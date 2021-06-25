@@ -238,7 +238,7 @@ class _SellerIndiState extends State<SellerIndi> {
           elevation: 0,
           child: Container(
             key: appointmentBtnKey,
-            color: newBackgroundColor,
+            color: Colors.grey[200],
             padding: EdgeInsets.symmetric(
               horizontal: 8,
               vertical: 4,
@@ -896,7 +896,8 @@ class _SellerIndiState extends State<SellerIndi> {
                                   ProductsListRoute,
                                   arguments: ProductPageArg(
                                     subCategory: sellerData.name,
-                                    queryString: "accountKey=${sellerData.key};",
+                                    queryString:
+                                        "accountKey=${sellerData.key};",
                                     sellerPhoto:
                                         "$SELLER_PHOTO_BASE_URL/${sellerData.key}",
                                   ),
@@ -935,21 +936,23 @@ class _SellerIndiState extends State<SellerIndi> {
                     sectionDivider(),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Row(children: <Widget>[
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 0.0),
-                            child: Text(
-                              'Similar Designers',
-                              style: TextStyle(
-                                color: Colors.grey[800],
-                                fontSize: subtitleFontSize,
-                                fontWeight: FontWeight.w700,
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 0.0),
+                              child: Text(
+                                'Similar Designers',
+                                style: TextStyle(
+                                  color: Colors.grey[800],
+                                  fontSize: subtitleFontSize,
+                                  fontWeight: FontWeight.w700,
+                                ),
                               ),
                             ),
-                          ),
-                        )
-                      ],),
+                          )
+                        ],
+                      ),
                     ),
                     verticalSpaceSmall,
                     SectionBuilder(
