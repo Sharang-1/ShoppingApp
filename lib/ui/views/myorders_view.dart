@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
@@ -13,8 +12,8 @@ import '../../services/navigation_service.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
-import '../widgets/grid_list_widget.dart';
 import '../widgets/custom_text.dart';
+import '../widgets/grid_list_widget.dart';
 import 'myorders_details_view.dart';
 
 class MyOrdersView extends StatefulWidget {
@@ -36,17 +35,36 @@ class _MyOrdersViewState extends State<MyOrdersView> {
         builder: (controller) => Scaffold(
           appBar: AppBar(
             elevation: 0,
-            backgroundColor: backgroundWhiteCreamColor,
-            centerTitle: true,
-            title: SvgPicture.asset(
-              "assets/svg/logo.svg",
-              color: logoRed,
-              height: 35,
-              width: 35,
+            backgroundColor: Colors.white,
+            title: Text(
+              "My Orders",
+              style: TextStyle(
+                fontFamily: headingFont,
+                fontWeight: FontWeight.w700,
+                fontSize: 18,
+                color: Colors.black,
+              ),
             ),
+            actions: [
+              TextButton(
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: CustomText(
+                    "Wishlist",
+                    fontFamily: headingFont,
+                    isBold: true,
+                    fontSize: subtitleFontSize,
+                    color: logoRed,
+                  ),
+                ),
+                onPressed: () {
+                  NavigationService.to(WishListRoute);
+                },
+              )
+            ],
             iconTheme: IconThemeData(color: appBarIconColor),
           ),
-          backgroundColor: backgroundWhiteCreamColor,
+          backgroundColor: newBackgroundColor,
           body: SafeArea(
             top: true,
             left: false,
@@ -79,33 +97,25 @@ class _MyOrdersViewState extends State<MyOrdersView> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      verticalSpace(10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            "My Orders",
-                            style: TextStyle(
-                                fontFamily: headingFont,
-                                fontWeight: FontWeight.w700,
-                                fontSize: headingFontSize),
-                          ),
-                          TextButton(
-                            child: CustomText(
-                              "Wishlist",
-                              fontFamily: headingFont,
-                              isBold: true,
-                              fontSize: subtitleFontSize,
-                              color: logoRed,
-                            ),
-                            onPressed: () {
-                              NavigationService.to(WishListRoute);
-                            },
-                          )
-                        ],
-                      ),
-                      verticalSpace(20),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //   crossAxisAlignment: CrossAxisAlignment.center,
+                      //   children: <Widget>[
+                      //     TextButton(
+                      //       child: CustomText(
+                      //         "Wishlist",
+                      //         fontFamily: headingFont,
+                      //         isBold: true,
+                      //         fontSize: subtitleFontSize,
+                      //         color: logoRed,
+                      //       ),
+                      //       onPressed: () {
+                      //         NavigationService.to(WishListRoute);
+                      //       },
+                      //     )
+                      //   ],
+                      // ),
+                      // verticalSpace(10),
                       if (controller.busy) CircularProgressIndicator(),
                       if (!controller.busy && controller.mOrders != null)
                         GroupedListView(

@@ -1,5 +1,6 @@
 import 'package:fimber/fimber_base.dart';
 import 'package:flutter/foundation.dart';
+import 'package:gender_picker/source/enums.dart';
 
 import '../constants/route_names.dart';
 import '../locator.dart';
@@ -12,6 +13,7 @@ class LoginController extends BaseController {
 
   String phoneNoValidationMessage = "";
   String nameValidationMessage = "";
+  Gender selectedGender = Gender.Male;
 
   void validatePhoneNo(String textFieldValue) {
     bool isValid = RegExp(r'^\d{10}$').hasMatch(textFieldValue);
@@ -46,5 +48,10 @@ class LoginController extends BaseController {
     setBusy(false);
 
     if (result != null) await NavigationService.to(VerifyOTPViewRoute);
+  }
+
+  onGenderChanged(Gender gender) {
+    selectedGender = gender;
+    update();
   }
 }

@@ -124,7 +124,7 @@ class _CartTileState extends State<CartTile> {
                 elevation: 0,
                 primary: Colors.yellowAccent,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
+                  borderRadius: BorderRadius.circular(10),
                 ),
               ),
               onPressed: applyCoupon,
@@ -147,7 +147,7 @@ class _CartTileState extends State<CartTile> {
                   elevation: 0,
                   primary: green,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
+                    borderRadius: BorderRadius.circular(10),
                   ),
                 ),
                 onPressed: proceedToOrder,

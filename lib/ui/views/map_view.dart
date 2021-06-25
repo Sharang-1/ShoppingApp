@@ -1,304 +1,358 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../controllers/base_controller.dart';
+import '../../controllers/cart_count_controller.dart';
 import '../../controllers/dzor_map_controller.dart';
+import '../../locator.dart';
+import '../../models/reviews.dart';
 import '../../models/sellers.dart';
 import '../../models/tailors.dart';
+import '../../services/api/api_service.dart';
 import '../shared/app_colors.dart';
-import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
+import '../widgets/cart_icon_badge.dart';
 
 class MapView extends StatelessWidget {
   final CarouselController carouselController = CarouselController();
   final Map<String, int> carouselMap = {};
+  final Map<int, Seller> carouselSellerMap = {};
   final String sellerKey;
 
   MapView({this.sellerKey});
 
-  Widget clientCardSeller(
-      DzorMapController dzorMapController, context, Seller client, int index) {
-    const double titleFontSize = titleFontSizeStyle;
-    const double subtitleFontSize = subtitleFontSizeStyle - 3;
-
-    List<String> tempSplitName = client.name.split(" ");
-    String shortName = tempSplitName.length > 1 &&
-            tempSplitName[tempSplitName.length - 1].length > 1
-        ? tempSplitName[0].substring(0, 1) +
-            tempSplitName[tempSplitName.length - 1].substring(0, 1)
-        : tempSplitName[0].substring(0, 2);
-    print(client.operations ?? "No data");
-    return Padding(
-        padding: EdgeInsets.only(
-          top: 0,
-        ),
-        child: InkWell(
-          onTap: () {
-            dzorMapController.currentClient = client;
-            dzorMapController.currentBearing = 90.0;
-            dzorMapController.zoomInMarker(client.contact.geoLocation.latitude,
-                client.contact.geoLocation.longitude);
-            carouselController.animateToPage(index);
-          },
-          child: Card(
-            clipBehavior: Clip.antiAlias,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            elevation: 5,
-            child: Container(
-              padding: EdgeInsets.fromLTRB(20, 20, 5, 10),
-              width: MediaQuery.of(context).size.width * 1,
-              height: MediaQuery.of(context).size.width * 1.3,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5.0),
-                  color: Colors.white),
-              child: Row(children: <Widget>[
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Row(children: <Widget>[
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: CircleAvatar(
-                            radius: 22,
-                            backgroundColor: darkRedSmooth,
-                            child: Text(
-                              shortName.toUpperCase(),
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: backgroundWhiteCreamColor,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: Padding(
-                            padding: EdgeInsets.only(left: 14.0),
-                            child: Tooltip(
-                              message: client.name,
-                              child: Text(
-                                client.name,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                  fontSize: titleFontSize,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ]),
-                      verticalSpace(12),
-                      Expanded(
-                        child: Text(
-                          dzorMapController.getStringWithBullet(client.works),
-                          style: TextStyle(
-                            fontSize: subtitleFontSize,
-                            color: lightGrey,
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                        ),
-                      ),
-                      verticalSpace(5),
-                      Expanded(
-                        child: Text(
-                          dzorMapController
-                              .getStringWithBullet(client.operations),
-                          style: TextStyle(
-                            fontSize: subtitleFontSize,
-                            color: lightGrey,
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                        ),
-                      ),
-
-                      // Row(children: <Widget>[
-                      //   Padding(
-                      //       padding: EdgeInsets.only(left: 10),
-                      //       child: Text(
-                      //         ratings.toString(),
-                      //         style: TextStyle(
-                      //             color: Colors.black,
-                      //             fontSize: ratingCountFontSize,
-                      //             fontWeight: FontWeight.w600),
-                      //       )),
-                      //   SizedBox(
-                      //     width: 10,
-                      //   ),
-                      //   RatingBarIndicator(
-                      //     rating: ratings,
-                      //     itemCount: 5,
-                      //     itemSize: ratingCountFontSize,
-                      //     direction: Axis.horizontal,
-                      //     itemBuilder: (context, _) => Icon(
-                      //       Icons.star,
-                      //       color: Colors.amber,
-                      //     ),
-                      //   ),
-                      // ]),
-                      // Row(
-                      //     crossAxisAlignment: CrossAxisAlignment.center,
-                      //     children: <Widget>[
-                      //       Expanded(
-                      //         child: Row(
-                      //           children: <Widget>[
-                      //             Chip(
-                      //                 elevation: 2,
-                      //                 backgroundColor: Colors.blueGrey,
-                      //                 label: Text(
-                      //                   tags[0],
-                      //                   style: TextStyle(
-                      //                       fontSize: tagSize,
-                      //                       color: Colors.white,
-                      //                       fontWeight: FontWeight.bold),
-                      //                 )),
-                      //             SizedBox(width: 10),
-                      //             Chip(
-                      //                 elevation: 2,
-                      //                 backgroundColor: Colors.blueGrey,
-                      //                 label: Text(
-                      //                   tags[1],
-                      //                   style: TextStyle(
-                      //                       fontSize: tagSize,
-                      //                       color: Colors.white,
-                      //                       fontWeight: FontWeight.bold),
-                      //                 )),
-                      //           ],
-                      //         ),
-                      //       ),
-                      //       CircleAvatar(
-                      //           radius: 22,
-                      //           backgroundColor: Colors.white,
-                      //           child: IconButton(
-                      //               onPressed: () {
-                      //                 print("object");
-                      //                 launch("tel://${client.contact}");
-                      //               },
-                      //               icon: Icon(
-                      //                 Icons.phone,
-                      //                 color: Colors.black,
-                      //               ))),
-                      //     ])
-                    ],
-                  ),
-                ),
-                Center(
-                  child: GestureDetector(
-                    onTap: () async =>
-                        await BaseController.goToSellerPage(client.key),
-                    child: Icon(
-                      CupertinoIcons.forward,
-                    ),
-                  ),
-                  // Icon(
-                  //   Icons.arrow_right,
-                  //   size: 40,
-                  // ),
-                ),
-              ]),
-            ),
-          ),
-        ));
+  onCardTap({DzorMapController dzorMapController, int index, dynamic client}) {
+    dzorMapController.currentClient = client;
+    dzorMapController.currentBearing = 90.0;
+    dzorMapController.zoomInMarker(client.contact.geoLocation.latitude,
+        client.contact.geoLocation.longitude);
+    carouselController.animateToPage(index);
   }
 
-  Widget clientCardTailor(
-      DzorMapController dzorMapController, context, Tailor client, int index) {
-    const double titleFontSize = titleFontSizeStyle;
+  String formatUnit(double distance) {
+    if ((distance / 1000) > 1) {
+      return "${(distance / 1000).ceil().toString()} KM";
+    } else {
+      return "${(distance / 1000).ceil().toString()} Meters";
+    }
+  }
+
+  Widget clientCardSeller(
+      DzorMapController dzorMapController, context, Seller client, int index) {
 
     List<String> tempSplitName = client.name.split(" ");
-    String shortName = tempSplitName.length > 1
-        ? tempSplitName[0].substring(0, 1) +
-            tempSplitName[tempSplitName.length - 1].substring(0, 1)
-        : tempSplitName[0].substring(0, 2);
+    String shortName = tempSplitName[0].substring(0, 1);
+    // String shortName = tempSplitName.length > 1 &&
+    //         tempSplitName[tempSplitName.length - 1].length > 1
+    //     ? tempSplitName[0].substring(0, 1) +
+    //         tempSplitName[tempSplitName.length - 1].substring(0, 1)
+    //     : tempSplitName[0].substring(0, 2);
+    print(client.operations ?? "No data");
     return Padding(
-      padding: EdgeInsets.only(left: 10.0, top: 10.0),
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: InkWell(
-        onTap: () {
-          dzorMapController.currentClient = client;
-          dzorMapController.currentBearing = 90.0;
-          dzorMapController.zoomInMarker(client.contact.geoLocation.latitude,
-              client.contact.geoLocation.longitude);
-          carouselController.animateToPage(index);
-        },
+        onTap: () => onCardTap(
+            dzorMapController: dzorMapController, index: index, client: client),
         child: Card(
           clipBehavior: Clip.antiAlias,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
-          elevation: 5,
+          elevation: 0,
           child: Container(
-            padding: EdgeInsets.fromLTRB(20, 20, 5, 10),
-            width: MediaQuery.of(context).size.width * 0.8,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            padding: EdgeInsets.all(8.0),
+            // width: MediaQuery.of(context).size.width * 0.6,
+            // height: MediaQuery.of(context).size.width * 0.6,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5.0),
+              color: Colors.white,
+            ),
+            child: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Row(
-                      children: [
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: CircleAvatar(
-                            radius: 22,
-                            backgroundColor: backgroundWhiteCreamColor,
-                            child: Text(
-                              shortName.toUpperCase(),
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: darkRedSmooth,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 15,
-                        ),
-                        Tooltip(
-                          message: client.name,
-                          child: Text(
-                            client.name,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                              fontSize: titleFontSize,
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ],
-                    ),
-                    if (client?.contact?.primaryNumber?.mobile != null &&
-                        client?.contact?.primaryNumber?.mobile != '0000000000')
+                    Row(children: <Widget>[
                       Align(
-                        alignment: Alignment.centerRight,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: InkWell(
-                            onTap: () async {
-                              String contactNo =
-                                  client?.contact?.primaryNumber?.mobile;
-                              return await launch("tel://$contactNo");
-                            },
-                            child: Icon(Icons.call_outlined,
-                                size: 30, color: Colors.green),
+                        alignment: Alignment.centerLeft,
+                        child: CircleAvatar(
+                          radius: 30,
+                          backgroundColor: darkRedSmooth,
+                          child: Text(
+                            shortName.toUpperCase(),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: backgroundWhiteCreamColor,
+                              fontSize: 28,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
                       ),
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 14.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Tooltip(
+                                message: client.name,
+                                child: Text(
+                                  client.name,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.grey[600],
+                                    fontSize: titleFontSize,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              Text(
+                                "Speciality Text",
+                                style: TextStyle(
+                                    color: Colors.grey[500],
+                                    fontSize: subtitleFontSize),
+                              ),
+                              Row(
+                                // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  Text(
+                                    formatUnit(Geolocator.distanceBetween(
+                                      dzorMapController
+                                          .currentLocation.latitude,
+                                      dzorMapController
+                                          .currentLocation.longitude,
+                                      client.contact.geoLocation.latitude,
+                                      client.contact.geoLocation.longitude,
+                                    )),
+                                    style: TextStyle(
+                                      fontSize: subtitleFontSize - 2,
+                                      color: Colors.grey[500],
+                                    ),
+                                  ),
+                                  horizontalSpaceSmall,
+                                  FutureBuilder<Reviews>(
+                                      future: locator<APIService>().getReviews(
+                                        client.key,
+                                        isSellerReview: true,
+                                      ),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.done)
+                                          return Text(
+                                            "⭐${snapshot.data.ratingAverage.rating.toString()}",
+                                            style: TextStyle(
+                                              fontSize: subtitleFontSize - 2,
+                                              color: Colors.grey[500],
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          );
+                                        return Container();
+                                      }),
+                                ],
+                              ),
+                              // verticalSpace(12),
+                              // Expanded(
+                              //   child: Text(
+                              //     dzorMapController
+                              //         .getStringWithBullet(client.works),
+                              //     style: TextStyle(
+                              //       fontSize: subtitleFontSize,
+                              //       color: lightGrey,
+                              //     ),
+                              //     overflow: TextOverflow.ellipsis,
+                              //     maxLines: 1,
+                              //   ),
+                              // ),
+                              // verticalSpace(5),
+                              // Expanded(
+                              //   child: Text(
+                              //     dzorMapController
+                              //         .getStringWithBullet(client.operations),
+                              //     style: TextStyle(
+                              //       fontSize: subtitleFontSize,
+                              //       color: lightGrey,
+                              //     ),
+                              //     overflow: TextOverflow.ellipsis,
+                              //     maxLines: 1,
+                              //   ),
+                              // ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ]),
+
+                    // Row(children: <Widget>[
+                    //   Padding(
+                    //       padding: EdgeInsets.only(left: 10),
+                    //       child: Text(
+                    //         ratings.toString(),
+                    //         style: TextStyle(
+                    //             color: Colors.black,
+                    //             fontSize: ratingCountFontSize,
+                    //             fontWeight: FontWeight.w600),
+                    //       )),
+                    //   SizedBox(
+                    //     width: 10,
+                    //   ),
+                    //   RatingBarIndicator(
+                    //     rating: ratings,
+                    //     itemCount: 5,
+                    //     itemSize: ratingCountFontSize,
+                    //     direction: Axis.horizontal,
+                    //     itemBuilder: (context, _) => Icon(
+                    //       Icons.star,
+                    //       color: Colors.amber,
+                    //     ),
+                    //   ),
+                    // ]),
+                    // Row(
+                    //     crossAxisAlignment: CrossAxisAlignment.center,
+                    //     children: <Widget>[
+                    //       Expanded(
+                    //         child: Row(
+                    //           children: <Widget>[
+                    //             Chip(
+                    //                 elevation: 2,
+                    //                 backgroundColor: Colors.blueGrey,
+                    //                 label: Text(
+                    //                   tags[0],
+                    //                   style: TextStyle(
+                    //                       fontSize: tagSize,
+                    //                       color: Colors.white,
+                    //                       fontWeight: FontWeight.bold),
+                    //                 )),
+                    //             SizedBox(width: 10),
+                    //             Chip(
+                    //                 elevation: 2,
+                    //                 backgroundColor: Colors.blueGrey,
+                    //                 label: Text(
+                    //                   tags[1],
+                    //                   style: TextStyle(
+                    //                       fontSize: tagSize,
+                    //                       color: Colors.white,
+                    //                       fontWeight: FontWeight.bold),
+                    //                 )),
+                    //           ],
+                    //         ),
+                    //       ),
+                    //       CircleAvatar(
+                    //           radius: 22,
+                    //           backgroundColor: Colors.white,
+                    //           child: IconButton(
+                    //               onPressed: () {
+                    //                 print("object");
+                    //                 launch("tel://${client.contact}");
+                    //               },
+                    //               icon: Icon(
+                    //                 Icons.phone,
+                    //                 color: Colors.black,
+                    //               ))),
+                    //     ])
                   ],
                 ),
-              ],
-            ),
+              ),
+              Center(
+                child: GestureDetector(
+                  onTap: () async =>
+                      await BaseController.goToSellerPage(client.key),
+                  child: Icon(
+                    CupertinoIcons.forward,
+                  ),
+                ),
+              ),
+            ]),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget clientCardTailor(
+      DzorMapController dzorMapController, context, Tailor client, int index) {
+    List<String> tempSplitName = client.name.split(" ");
+    String shortName = tempSplitName[0].substring(0, 1);
+    return InkWell(
+      onTap: () => onCardTap(
+          dzorMapController: dzorMapController, index: index, client: client),
+      child: Card(
+        clipBehavior: Clip.antiAlias,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        elevation: 0,
+        child: Container(
+          padding: EdgeInsets.all(8.0),
+          width: MediaQuery.of(context).size.width * 0.8,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Row(
+                    children: [
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: CircleAvatar(
+                          radius: 30,
+                          backgroundColor: backgroundWhiteCreamColor,
+                          child: Text(
+                            shortName.toUpperCase(),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: darkRedSmooth,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 28,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 15,
+                      ),
+                      Tooltip(
+                        message: client.name,
+                        child: Text(
+                          client.name,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: Colors.grey[600],
+                            fontSize: titleFontSize,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+                  if (client?.contact?.primaryNumber?.mobile != null &&
+                      client?.contact?.primaryNumber?.mobile != '0000000000')
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: InkWell(
+                          onTap: () async {
+                            String contactNo =
+                                client?.contact?.primaryNumber?.mobile;
+                            return await launch("tel://$contactNo");
+                          },
+                          child: Icon(Icons.call_outlined,
+                              size: 30, color: Colors.green),
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ],
           ),
         ),
       ),
@@ -360,9 +414,61 @@ class MapView extends StatelessWidget {
       builder: (dzorMapController) => Scaffold(
         body: SafeArea(
           child: Scaffold(
+            appBar: AppBar(
+              backgroundColor: Colors.white,
+              iconTheme: IconThemeData(color: appBarIconColor),
+              title: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "YOU ARE IN",
+                    style: TextStyle(
+                      color: Colors.grey[500],
+                      fontSize: 10,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  Text(
+                    "${dzorMapController.cityName.toUpperCase()}",
+                    style: TextStyle(
+                      color: textIconBlue,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
+              centerTitle: true,
+              actions: [
+                Obx(
+                  () => IconButton(
+                    icon: CartIconWithBadge(
+                      iconColor: appBarIconColor,
+                      count: locator<CartCountController>().count.value,
+                    ),
+                    onPressed: () => BaseController.cart(),
+                  ),
+                ),
+                // IconButton(
+                //   icon: Icon(Icons.search),
+                //   onPressed: () {},
+                // )
+              ],
+            ),
+            bottomNavigationBar: ConvexAppBar(
+              style: TabStyle.fixedCircle,
+              items: dzorMapController.navigationItems,
+              backgroundColor: logoRed,
+              activeColor: backgroundWhiteCreamColor,
+              disableDefaultTabController: true,
+              initialActiveIndex: 2,
+              onTabNotify: dzorMapController.bottomNavigationOnTap,
+              elevation: 5,
+            ),
             body: Stack(
               children: <Widget>[
                 GoogleMap(
+                  padding: EdgeInsets.only(bottom: 150),
                   onMapCreated: dzorMapController.onMapCreated,
                   myLocationEnabled: true,
                   myLocationButtonEnabled: false,
@@ -385,11 +491,11 @@ class MapView extends StatelessWidget {
                 //   dataList: List.generate(dzorMapController.clients.length, (i) => Text(dzorMapController.clients[i].name)),
                 // )),
                 Positioned(
-                  bottom: 10.0,
+                  bottom: 20.0,
                   child: dzorMapController.clientsToggle
                       ? Container(
                           key: dzorMapController.cardsKey,
-                          height: dzorMapController.showSailors ? 240.0 : 180,
+                          height: 140.0,
                           width: MediaQuery.of(context).size.width,
                           child: Column(
                             children: [
@@ -401,7 +507,47 @@ class MapView extends StatelessWidget {
                                   children: [
                                     Row(
                                       children: <Widget>[
-                                        SizedBox(width: 16),
+                                        horizontalSpaceTiny,
+                                        Container(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 8.0),
+                                            height: 24,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(25),
+                                              border: Border.all(
+                                                color: logoRed,
+                                              ),
+                                              color: Colors.white,
+                                            ),
+                                            child: Row(
+                                              children: [
+                                                InkWell(
+                                                  onTap:
+                                                      dzorMapController.zoomIn,
+                                                  child: Icon(
+                                                    Icons.add,
+                                                    size: 18,
+                                                  ),
+                                                ),
+                                                Container(
+                                                  height: 18,
+                                                  child: VerticalDivider(
+                                                    color: Colors.grey[500],
+                                                  ),
+                                                ),
+                                                // horizontalSpaceTiny,
+                                                InkWell(
+                                                  onTap:
+                                                      dzorMapController.zoomOut,
+                                                  child: Icon(
+                                                    Icons.remove,
+                                                    size: 18,
+                                                  ),
+                                                ),
+                                              ],
+                                            )),
+                                        horizontalSpaceMedium,
                                         InkWell(
                                             onTap: () {
                                               dzorMapController
@@ -445,9 +591,7 @@ class MapView extends StatelessWidget {
                                 ),
                               ),
                               Container(
-                                height: dzorMapController.showSailors
-                                    ? 160.0
-                                    : 100.0,
+                                height: 86.0,
                                 width: MediaQuery.of(context).size.width,
                                 child: CarouselSlider(
                                   carouselController: carouselController,
@@ -459,6 +603,9 @@ class MapView extends StatelessWidget {
                                           carouselMap.addAll({
                                             element.value.key.toString():
                                                 element.key
+                                          });
+                                          carouselSellerMap.addAll({
+                                            element.key: element.value,
                                           });
                                           return clientCardSeller(
                                               dzorMapController,
@@ -484,6 +631,17 @@ class MapView extends StatelessWidget {
                                     autoPlay: false,
                                     enableInfiniteScroll: false,
                                     initialPage: carouselMap[sellerKey] ?? 0,
+                                    aspectRatio: 2.0,
+                                    enlargeCenterPage: false,
+                                    viewportFraction: 0.7,
+                                    onPageChanged: (index, reason) {
+                                      if (dzorMapController.showSailors)
+                                        onCardTap(
+                                          dzorMapController: dzorMapController,
+                                          index: index,
+                                          client: carouselSellerMap[index],
+                                        );
+                                    },
                                   ),
                                 ),
                               )
@@ -492,20 +650,20 @@ class MapView extends StatelessWidget {
                         )
                       : Container(height: 1.0, width: 1.0),
                 ),
-                Positioned(
-                  top: 0,
-                  left: 0,
-                  child: GestureDetector(
-                    onTap: () => Navigator.pop(context),
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Icon(
-                        Icons.navigate_before_rounded,
-                        size: 50,
-                      ),
-                    ),
-                  ),
-                ),
+                // Positioned(
+                //   top: 0,
+                //   left: 0,
+                //   child: GestureDetector(
+                //     onTap: () => Navigator.pop(context),
+                //     child: Padding(
+                //       padding: const EdgeInsets.only(top: 8.0),
+                //       child: Icon(
+                //         Icons.navigate_before_rounded,
+                //         size: 50,
+                //       ),
+                //     ),
+                //   ),
+                // ),
                 // Positioned(
                 //   top: 0,
                 //   right: 0,
@@ -603,7 +761,9 @@ class CustomCategoryChip extends StatelessWidget {
             color: focused ? Colors.white : logoRed,
           ),
           SizedBox(width: 8),
-          Text(title, style: TextStyle(color: focused ? Colors.white : logoRed))
+          Text(title,
+              style: TextStyle(
+                  color: focused ? Colors.white : logoRed, fontSize: 12))
         ],
       ),
       backgroundColor: focused ? logoRed : Colors.grey[50],

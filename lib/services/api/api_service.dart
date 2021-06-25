@@ -7,6 +7,7 @@ import 'package:dio_retry/dio_retry.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:http_parser/http_parser.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants/server_urls.dart';
@@ -614,6 +615,28 @@ class APIService {
         options: Options(headers: {'excludeToken': false}, method: "put"));
     if (userData != null) {
       return UserDetails.fromJson(userData);
+    }
+    return null;
+  }
+
+  Future<UserPhoto> updateUserPic(File file) async {
+    UserDetails user = await getUserData();
+    var userData = await apiWrapper("users/" + user.key,
+        authenticated: true,
+        data: FormData.fromMap(
+          {
+            "image": await MultipartFile.fromFile(
+              file.path,
+              contentType: MediaType("image", "jpeg"),
+            ),
+          },
+        ),
+        options: Options(
+          headers: {'excludeToken': false},
+          method: "put",
+        ));
+    if (userData != null) {
+      return UserPhoto.fromJson(userData);
     }
     return null;
   }

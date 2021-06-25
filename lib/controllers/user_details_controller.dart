@@ -1,4 +1,7 @@
 // import 'package:fimber/fimber.dart';
+import 'dart:io';
+
+import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constants/shared_pref.dart';
@@ -8,10 +11,35 @@ import '../services/address_service.dart';
 import '../services/api/api_service.dart';
 import '../services/dialog_service.dart';
 import 'base_controller.dart';
+import 'lookup_controller.dart';
 
 class UserDetailsController extends BaseController {
   final APIService _apiService = locator<APIService>();
   final AddressService _addressService = locator<AddressService>();
+
+  final ageLookup = locator<LookupController>()
+      .lookups
+      .where((element) => element.sectionName.toLowerCase() == "user")
+      .first
+      .sections
+      .where(
+        (e) => e.option == 'age',
+      )
+      .first
+      .values;
+
+  final genderLookup = locator<LookupController>()
+      .lookups
+      .where((element) => element.sectionName.toLowerCase() == "user")
+      .first
+      .sections
+      .where(
+        (e) => e.option == 'gender',
+      )
+      .first
+      .values;
+
+  String token;
 
   void showNotDeliveringDialog() {
     DialogService.showNotDeliveringDialog();
@@ -20,6 +48,7 @@ class UserDetailsController extends BaseController {
   UserDetails mUserDetails;
   Future getUserDetails() async {
     setBusy(true);
+    token = (await SharedPreferences.getInstance()).getString(Authtoken);
     final result = await _apiService.getUserData();
     setBusy(false);
     if (result != null) {
@@ -34,6 +63,20 @@ class UserDetailsController extends BaseController {
 
     // _addressService.setUpAddress(mUserDetails.contact);
     update();
+  }
+
+  Future updateUserPhoto() async {
+    File file;
+    final pickedFile =
+        await ImagePicker().getImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      file = File(pickedFile.path);
+      UserPhoto photo = await _apiService.updateUserPic(file);
+      if (photo != null) {
+        mUserDetails.photo = photo;
+        update();
+      }
+    }
   }
 
   Future updateUserDetails() async {

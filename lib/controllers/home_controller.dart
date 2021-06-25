@@ -1,8 +1,10 @@
+import 'package:compound/services/location_service.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:geocoder/geocoder.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:rate_my_app/rate_my_app.dart';
@@ -37,6 +39,7 @@ class HomeController extends BaseController {
   UniqueKey sellerKey = UniqueKey();
   UniqueKey categoryKey = UniqueKey();
   UniqueKey promotionKey = UniqueKey();
+  String cityName = "AHMEDABAD";
 
   final List<TabItem> navigationItems = [
     TabItem(
@@ -57,12 +60,19 @@ class HomeController extends BaseController {
       ),
     ),
     TabItem(
-        title: '',
-        icon: Icon(FontAwesomeIcons.pollH, color: backgroundWhiteCreamColor)),
+      title: '',
+      icon: Icon(
+        FontAwesomeIcons.pollH,
+        color: backgroundWhiteCreamColor,
+      ),
+    ),
     TabItem(
-        title: '',
-        icon: Icon(FontAwesomeIcons.mapMarkerAlt,
-            color: backgroundWhiteCreamColor)),
+      title: '',
+      icon: Icon(
+        FontAwesomeIcons.mapMarkerAlt,
+        color: backgroundWhiteCreamColor,
+      ),
+    ),
   ];
 
   final RefreshController refreshController =
@@ -86,6 +96,20 @@ class HomeController extends BaseController {
     setup();
     await remoteConfig.fetch();
     await remoteConfig.activateFetched();
+
+    UserLocation currentLocation =
+        await locator<LocationService>().getLocation();
+
+    if (currentLocation != null) {
+      List<Address> addresses =
+          await Geocoder.local.findAddressesFromCoordinates(
+        Coordinates(
+          currentLocation.latitude,
+          currentLocation.longitude,
+        ),
+      );
+      cityName = addresses[0].locality;
+    }
 
     key = UniqueKey();
     productKey = UniqueKey();
@@ -197,12 +221,14 @@ class HomeController extends BaseController {
         NavigationService.to(CategoriesRoute);
         break;
       case 1:
+        // Get.to(AppointmentBookedView());
         NavigationService.to(MyAppointmentViewRoute);
         break;
       case 2:
         NavigationService.to(DzorExploreViewRoute);
         break;
       case 3:
+        // Get.to(OrderPlacedView());
         NavigationService.to(MyOrdersRoute);
         break;
       case 4:

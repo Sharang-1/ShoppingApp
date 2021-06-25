@@ -1,3 +1,4 @@
+import 'package:compound/ui/shared/shared_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -13,6 +14,7 @@ class InputField extends StatefulWidget {
   final String validationMessage;
   final Function enterPressed;
   final bool smallVersion;
+  final bool fromBottomsheet;
   final FocusNode fieldFocusNode;
   final FocusNode nextFocusNode;
   final TextInputAction textInputAction;
@@ -36,6 +38,7 @@ class InputField extends StatefulWidget {
     this.password = false,
     this.isReadOnly = false,
     this.smallVersion = false,
+    this.fromBottomsheet = false,
     this.autoFocus = false,
   });
 
@@ -59,7 +62,9 @@ class _InputFieldState extends State<InputField> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         Container(
-          height: widget.smallVersion ? 30 : fieldHeight,
+          height: (widget.smallVersion || widget.fromBottomsheet)
+              ? 30
+              : fieldHeight,
           alignment: Alignment.center,
           child: Row(
             children: <Widget>[
@@ -88,9 +93,19 @@ class _InputFieldState extends State<InputField> {
                   obscureText: isPassword,
                   readOnly: widget.isReadOnly,
                   decoration: InputDecoration(
-                      hintText: widget.placeholder,
-                      hintStyle:
-                          TextStyle( color: Colors.grey,fontWeight: FontWeight.bold,fontSize: widget.smallVersion ? 15 : 20)),
+                    hintText: widget.placeholder,
+                    hintStyle: TextStyle(
+                      color: Colors.grey,
+                      fontWeight: widget.fromBottomsheet
+                          ? FontWeight.normal
+                          : FontWeight.bold,
+                      fontSize: widget.fromBottomsheet
+                          ? titleFontSizeStyle
+                          : widget.smallVersion
+                              ? 15
+                              : 20,
+                    ),
+                  ),
                 ),
               ),
               GestureDetector(

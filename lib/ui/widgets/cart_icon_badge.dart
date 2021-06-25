@@ -39,10 +39,16 @@ class CartIconWithBadge extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20),
                     color: logoRed,
                   ),
-                  padding: EdgeInsets.symmetric(vertical: 2, horizontal: 4),
+                  padding: EdgeInsets.symmetric(
+                    vertical: 2,
+                    horizontal: 4,
+                  ),
                   child: Text(
                     count.toString(),
-                    style: TextStyle(fontSize: 8),
+                    style: TextStyle(
+                      fontSize: 8,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               )

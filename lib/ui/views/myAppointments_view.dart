@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -11,8 +10,8 @@ import '../../services/dialog_service.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
-import '../widgets/grid_list_widget.dart';
 import '../widgets/custom_text.dart';
+import '../widgets/grid_list_widget.dart';
 import 'help_view.dart';
 import 'seller_indi_view.dart';
 
@@ -36,19 +35,22 @@ class _myAppointmentsState extends State<myAppointments> {
         builder: (controller) => Scaffold(
           appBar: AppBar(
             elevation: 0,
-            backgroundColor: backgroundWhiteCreamColor,
-            centerTitle: true,
-            title: SvgPicture.asset(
-              "assets/svg/logo.svg",
-              color: logoRed,
-              height: 35,
-              width: 35,
+            backgroundColor: Colors.white,
+            // centerTitle: true,
+            title: Text(
+              "My Appointments",
+              style: TextStyle(
+                fontFamily: headingFont,
+                fontWeight: FontWeight.w700,
+                fontSize: 18,
+                color: Colors.black,
+              ),
             ),
             iconTheme: IconThemeData(
               color: Colors.black,
             ),
           ),
-          backgroundColor: backgroundWhiteCreamColor,
+          backgroundColor: newBackgroundColor,
           body: SafeArea(
             top: true,
             left: false,
@@ -89,16 +91,6 @@ class _myAppointmentsState extends State<myAppointments> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: Text(
-                              "My Appointments",
-                              style: TextStyle(
-                                  fontFamily: headingFont,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: headingFontSize),
-                            ),
-                          ),
                           if (!controller.busy &&
                               (controller?.data?.appointments?.length ?? 0) !=
                                   0)

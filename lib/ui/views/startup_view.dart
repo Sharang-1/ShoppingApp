@@ -12,7 +12,7 @@ class StartUpView extends StatelessWidget {
   Widget build(BuildContext context) => GetBuilder(
         init: StartUpController(),
         builder: (controller) => Scaffold(
-          backgroundColor: backgroundWhiteCreamColor,
+          backgroundColor: newBackgroundColor,
           body: Center(
             child: SvgPicture.asset(
               "assets/svg/dzor_logo.svg",

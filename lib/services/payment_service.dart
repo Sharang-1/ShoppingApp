@@ -45,8 +45,7 @@ class PaymentService {
         'prefill': {'contact': contactNo, 'email': email},
         'theme': {
           'color': '#bE505F',
-        },
-        'external': {'wallets': []}
+        }
       };
 
       print(

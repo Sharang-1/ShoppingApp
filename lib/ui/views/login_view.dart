@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gender_picker/source/gender_picker.dart';
 import 'package:get/get.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
@@ -16,7 +17,7 @@ class LoginView extends StatelessWidget {
   final _nameFocus = FocusNode();
   final _mobileFocus = FocusNode();
 
-  Widget inputFields(controller, context) => Padding(
+  Widget inputFields(LoginController controller, context) => Padding(
         padding: const EdgeInsets.only(right: 20),
         child: Center(
           child: Column(
@@ -72,14 +73,48 @@ class LoginView extends StatelessWidget {
                   style: TextStyle(
                       fontWeight: FontWeight.bold, color: Colors.grey),
                 ),
-              )
+              ),
+              verticalSpaceMedium,
+              GenderPickerWithImage(
+                showOtherGender: true,
+                onChanged: controller.onGenderChanged,
+                selectedGender: controller.selectedGender,
+                isCircular: true,
+                size: 50,
+                equallyAligned: true,
+                verticalAlignedText: true,
+                selectedGenderTextStyle: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  color: logoRed,
+                ),
+                unSelectedGenderTextStyle: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  color: Colors.black54,
+                ),
+              ),
+              Center(
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    "Prefer not to say",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black87,
+                      fontSize: 12,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
             ],
           ),
         ),
       );
 
   @override
-  Widget build(BuildContext context) => GetBuilder(
+  Widget build(BuildContext context) => GetBuilder<LoginController>(
         init: LoginController(),
         builder: (controller) => Scaffold(
           bottomNavigationBar: BottomAppBar(

@@ -9,13 +9,15 @@ BoxDecoration disabledFieldDecortaion = BoxDecoration(
     borderRadius: BorderRadius.circular(5), color: Colors.grey[100]);
 
 // Field Variables
-const String headingFont = "Lato";
-const String textFont = "Open Sans";
+const String headingFont = "Poppins";
+const String textFont = "Poppins";
 //FontSizes
-const double titleFontSizeStyle = 20;
-const double subtitleFontSizeStyle = 18;
-const double headingFontSizeStyle = 25;
+const double titleFontSizeStyle = 14;
+const double subtitleFontSizeStyle = 12;
+const double headingFontSizeStyle = 16;
 
+const double curve5 = 5;
+const double curve10 = 10;
 const double curve15 = 15;
 const double curve30 = 30;
 const double spaceBetweenCards = 10;

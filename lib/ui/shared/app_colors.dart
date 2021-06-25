@@ -12,6 +12,7 @@ Color darkRedSmooth = _colorFromHex("#bE505F"); //_colorFromHex("#e1547e");
 Color logoRed = _colorFromHex("#bE505F");
 Color lightBlue = _colorFromHex("#78a2ec");
 Color green = Colors.green[700];
+Color lightGreen = _colorFromHex("#51BF47");
 Color textIconOrange = _colorFromHex("#eb6969");
 Color textIconBlue = _colorFromHex("#3e5377");
 Color appBarIconColor = Colors.black;
@@ -19,6 +20,7 @@ Color appBarIconColor = Colors.black;
 const Color backgroundColor = Color.fromARGB(255, 26, 27, 30);
 Color backgroundWhiteCreamColor = _colorFromHex("#f5f0e5");
 Color backgroundBlueGreyColor = _colorFromHex("#d6d9dD");
+Color newBackgroundColor = Color.fromRGBO(255, 255, 255, 0.95);
 
 Color _colorFromHex(String hexColor) {
   final hexCode = hexColor.replaceAll('#', '');

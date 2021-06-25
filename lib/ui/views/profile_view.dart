@@ -1,9 +1,9 @@
 import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:page_transition/page_transition.dart';
 
+import '../../constants/server_urls.dart';
 import '../../controllers/user_details_controller.dart';
 import '../../google_maps_place_picker/google_maps_place_picker.dart';
 import '../../locator.dart';
@@ -25,36 +25,27 @@ class ProfileView extends StatefulWidget {
 }
 
 class _ProfileViewState extends State<ProfileView> {
-  Map<int, String> buttonNameMap = {
-    1: "Send Feedback",
-    2: "Customer Service",
-    3: "Legal",
-    4: "Terms & Conditions",
-  };
   String nameString;
   String initialString;
+  String selectedAgeId;
+  String selectedGenderId;
   bool isButtonActive;
   bool isEditable;
-  bool isEmailEditable;
-  bool isAgeEditable;
   final _formKey = GlobalKey<FormState>();
   FocusNode nameFocusNode;
   FocusNode emailFocusNode;
-  FocusNode ageFocusNode;
-  // FocusNode mobileFocusNode;
 
   void initState() {
     super.initState();
     initialString = "Dzor";
     isButtonActive = false;
     isEditable = false;
-    isEmailEditable = false;
-    isAgeEditable = false;
+
+    selectedAgeId = "0";
+    selectedGenderId = "0";
 
     nameFocusNode = FocusNode();
     emailFocusNode = FocusNode();
-    ageFocusNode = FocusNode();
-    // mobileFocusNode = FocusNode();
   }
 
   @override
@@ -88,7 +79,7 @@ class _ProfileViewState extends State<ProfileView> {
                   "Are you sure you don't want to make a change?",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 22,
+                    fontSize: 16,
                   ),
                 ),
               ),
@@ -97,7 +88,7 @@ class _ProfileViewState extends State<ProfileView> {
                 new TextButton(
                   style: TextButton.styleFrom(
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(10),
                     ),
                     backgroundColor: logoRed,
                   ),
@@ -113,7 +104,7 @@ class _ProfileViewState extends State<ProfileView> {
                   ),
                   style: TextButton.styleFrom(
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(10),
                     ),
                     backgroundColor: Colors.grey[400],
                   ),
@@ -132,65 +123,65 @@ class _ProfileViewState extends State<ProfileView> {
           });
         },
         child: Scaffold(
-          backgroundColor: backgroundWhiteCreamColor,
-          bottomNavigationBar: Padding(
-              padding: EdgeInsets.only(
-                  left: screenPadding,
-                  right: screenPadding,
-                  top: 10,
-                  bottom: 10),
-              child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    elevation: 0,
-                    primary: isButtonActive ? green : Colors.grey[400],
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                      // side: BorderSide(
-                      //     color: Colors.black, width: 0.5)
+          backgroundColor: newBackgroundColor,
+          bottomNavigationBar: isButtonActive
+              ? Padding(
+                  padding: EdgeInsets.only(
+                    left: screenPadding,
+                    right: screenPadding,
+                    top: 10,
+                    bottom: 10,
+                  ),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      elevation: 0,
+                      primary: isButtonActive ? green : Colors.grey[400],
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    onPressed: () async {
+                      if (isButtonActive) if (_formKey.currentState
+                          .validate()) {
+                        _formKey.currentState.save();
+
+                        await controller.updateUserDetails();
+                        Fimber.e(controller.mUserDetails.name +
+                            " " +
+                            controller.mUserDetails.contact.phone.mobile);
+                        setState(() {
+                          isButtonActive = false;
+                          isEditable = false;
+                        });
+                      }
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      child: CustomText(
+                        "Save ",
+                        fontSize: titleFontSizeStyle,
+                        isBold: true,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
-                  onPressed: () async {
-                    if (isButtonActive) if (_formKey.currentState.validate()) {
-                      _formKey.currentState.save();
-
-                      await controller.updateUserDetails();
-                      Fimber.e(controller.mUserDetails.name +
-                          " " +
-                          controller.mUserDetails.contact.phone.mobile);
-                      setState(() {
-                        isButtonActive = false;
-                        isEditable = false;
-                      });
-                    }
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 15),
-                    child: CustomText(
-                      "Save ",
-                      fontSize: subtitleFontSizeStyle - 2,
-                      isBold: true,
-                      color: Colors.white,
-                    ),
-                  ))),
+                )
+              : null,
           appBar: AppBar(
             elevation: 0,
-            centerTitle: true,
-            title: SvgPicture.asset(
-              "assets/svg/logo.svg",
-              color: logoRed,
-              height: 35,
-              width: 35,
+            title: Text(
+              "Profile",
+              style: TextStyle(
+                fontFamily: headingFont,
+                fontWeight: FontWeight.w700,
+                fontSize: 18,
+                color: Colors.black,
+              ),
             ),
-            // actions: [
-            //   IconButton(
-            //     icon: Icon(Icons.settings),
-            //     onPressed: () => NavigationService.to(SettingsRoute),
-            //   ),
-            // ],
             iconTheme: IconThemeData(
               color: appBarIconColor,
             ),
-            backgroundColor: backgroundWhiteCreamColor,
+            backgroundColor: Colors.white,
           ),
           // resizeToAvoidBottomInset: false,
           body: SafeArea(
@@ -205,504 +196,713 @@ class _ProfileViewState extends State<ProfileView> {
                 : Scrollbar(
                     child: SingleChildScrollView(
                       child: Form(
-                          key: _formKey,
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                                left: 20, right: 20, top: 10, bottom: 10),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                verticalSpace(20),
-                                Align(
-                                    alignment: Alignment.topLeft,
-                                    child: Text(
-                                      "Profile",
-                                      style: TextStyle(
-                                          fontFamily: headingFont,
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: headingFontSizeStyle),
-                                    )),
-                                verticalSpace(20),
-                                SizedBox(
-                                    child: Card(
-                                        elevation: 0,
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(curve15)),
-                                        child: Padding(
-                                          padding: EdgeInsets.all(15),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: <Widget>[
-                                              CustomText(
-                                                "Name",
-                                                fontSize:
-                                                    subtitleFontSizeStyle - 3,
-                                                color: Colors.grey,
-                                              ),
-                                              verticalSpaceTiny,
-                                              Row(
-                                                children: <Widget>[
-                                                  Expanded(
-                                                      child: TextFormField(
-                                                    focusNode: nameFocusNode,
-                                                    style: TextStyle(
-                                                        fontSize:
-                                                            titleFontSizeStyle +
-                                                                2,
-                                                        fontFamily: "Open-Sans",
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        color:
-                                                            Colors.grey[800]),
-                                                    readOnly: !isEditable,
-                                                    initialValue: controller
-                                                        .mUserDetails?.name,
-                                                    validator: (text) {
-                                                      if (text.isEmpty ||
-                                                          text.trim().length ==
-                                                              0)
-                                                        return "Add your Name";
-                                                      return null;
-                                                    },
-                                                    onChanged: (value) {
-                                                      setState(() {
-                                                        isButtonActive = true;
-                                                      });
-                                                      _formKey.currentState
-                                                          .validate();
-                                                    },
-                                                    onSaved: (text) {
-                                                      controller.mUserDetails
-                                                          .name = text;
-                                                    },
-                                                    decoration:
-                                                        const InputDecoration(
-                                                      contentPadding:
-                                                          EdgeInsets.symmetric(
-                                                              vertical: 10),
-                                                      border: InputBorder.none,
-                                                    ),
-                                                    autofocus: true,
-                                                    maxLines: 1,
-                                                  )),
-                                                  IconButton(
-                                                    icon: Icon(Icons.edit),
-                                                    onPressed: () {
-                                                      setState(() {
-                                                        isEditable = true;
-                                                      });
-                                                      nameFocusNode
-                                                          .requestFocus();
-                                                    },
-                                                  )
-                                                ],
-                                              )
-                                            ],
-                                          ),
-                                        ))),
-                                verticalSpace(spaceBetweenCards),
-                                SizedBox(
-                                  child: Card(
-                                    elevation: 0,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(15)),
-                                    child: Padding(
-                                      padding: EdgeInsets.all(15),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Row(
-                                            children: <Widget>[
-                                              CustomText(
-                                                "Mobile No",
-                                                fontSize:
-                                                    subtitleFontSizeStyle - 3,
-                                                color: Colors.grey,
-                                              ),
-                                            ],
-                                          ),
-                                          verticalSpaceSmall,
-                                          Row(
-                                            children: <Widget>[
-                                              Expanded(
-                                                  child: TextFormField(
-                                                // focusNode:
-                                                //     mobileFocusNode,
-                                                style: TextStyle(
-                                                    fontSize:
-                                                        titleFontSizeStyle + 2,
-                                                    fontFamily: "Open-Sans",
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.grey[800]),
-                                                readOnly: true,
-                                                initialValue: controller
-                                                    ?.mUserDetails
-                                                    ?.contact
-                                                    ?.phone
-                                                    ?.mobile
-                                                    ?.replaceRange(
-                                                        5, 10, 'XXXXX')
-                                                    .toString(),
-                                                // validator: (text) {
-                                                //   if (text.isEmpty ||
-                                                //       text
-                                                //               .trim()
-                                                //               .length ==
-                                                //           0 ||
-                                                //       text
-                                                //               .trim()
-                                                //               .length !=
-                                                //           10)
-                                                //     return "Please enter Proper Mobile No.";
-                                                //   return null;
-                                                // },
-                                                // onChanged: (value) {
-                                                //   setState(() {
-                                                //     isButtonActive =
-                                                //         true;
-                                                //   });
-                                                //   _formKey
-                                                //       .currentState
-                                                //       .validate();
-                                                // },
-                                                // onSaved: (text) {
-                                                //   controller
-                                                //       .mUserDetails
-                                                //       .details
-                                                //       .phone
-                                                //       .mobile = text;
-                                                // },
-                                                decoration:
-                                                    const InputDecoration(
-                                                  contentPadding:
-                                                      EdgeInsets.symmetric(
-                                                          vertical: 10),
-                                                  border: InputBorder.none,
-                                                ),
-                                                enabled: false,
-                                                autofocus: true,
-                                                maxLines: 1,
-                                              )),
-                                              // IconButton(
-                                              //   icon:
-                                              //       Icon(Icons.edit),
-                                              //   onPressed: () {
-                                              //     setState(() {
-                                              //       isEditable = true;
-                                              //     });
-                                              //     mobileFocusNode
-                                              //         .requestFocus();
-                                              //   },
-                                              // )
-                                            ],
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  child: Card(
-                                    elevation: 0,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(15)),
-                                    child: Padding(
-                                      padding: EdgeInsets.all(15),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Row(
-                                            children: <Widget>[
-                                              CustomText(
-                                                "Email Address",
-                                                fontSize:
-                                                    subtitleFontSizeStyle - 3,
-                                                color: Colors.grey,
-                                              ),
-                                            ],
-                                          ),
-                                          verticalSpaceSmall,
-                                          Row(
-                                            children: <Widget>[
-                                              Expanded(
-                                                child: TextFormField(
-                                                  focusNode: emailFocusNode,
-                                                  style: TextStyle(
-                                                    fontSize:
-                                                        titleFontSizeStyle + 2,
-                                                    fontFamily: "Open-Sans",
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.grey[800],
-                                                  ),
-                                                  readOnly: !isEmailEditable,
-                                                  initialValue: controller
-                                                          .mUserDetails
-                                                          ?.email ??
-                                                      '',
-                                                  validator: (text) => GetUtils
-                                                          .isEmail(text)
-                                                      ? null
-                                                      : "Please Enter Valid Email Address",
-                                                  onChanged: (value) {
-                                                    setState(() {
-                                                      isButtonActive = true;
-                                                    });
-                                                    _formKey.currentState
-                                                        .validate();
-                                                  },
-                                                  onSaved: (text) {
-                                                    controller.mUserDetails
-                                                        .email = text;
-                                                  },
-                                                  decoration:
-                                                      const InputDecoration(
-                                                    contentPadding:
-                                                        EdgeInsets.symmetric(
-                                                            vertical: 10),
-                                                    border: InputBorder.none,
-                                                  ),
-                                                  autofocus: true,
-                                                  maxLines: 1,
-                                                ),
-                                              ),
-                                              IconButton(
-                                                icon: Icon(Icons.edit),
-                                                onPressed: () {
-                                                  setState(() {
-                                                    isEmailEditable = true;
-                                                  });
-                                                  emailFocusNode.requestFocus();
-                                                },
-                                              )
-                                            ],
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  child: Card(
-                                    elevation: 0,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(15)),
-                                    child: Padding(
-                                      padding: EdgeInsets.all(15),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Row(
-                                            children: <Widget>[
-                                              CustomText(
-                                                "Age",
-                                                fontSize:
-                                                    subtitleFontSizeStyle - 3,
-                                                color: Colors.grey,
-                                              ),
-                                            ],
-                                          ),
-                                          verticalSpaceSmall,
-                                          Row(
-                                            children: <Widget>[
-                                              Expanded(
-                                                child: TextFormField(
-                                                  focusNode: ageFocusNode,
-                                                  style: TextStyle(
-                                                    fontSize:
-                                                        titleFontSizeStyle + 2,
-                                                    fontFamily: "Open-Sans",
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.grey[800],
-                                                  ),
-                                                  readOnly: !isAgeEditable,
-                                                  initialValue: controller
-                                                          .mUserDetails?.age ??
-                                                      '',
-                                                  validator: (text) => (GetUtils
-                                                              .isNum(text)) &&
-                                                          (text.length < 3)
-                                                      ? null
-                                                      : "Please Enter Valid Age",
-                                                  onChanged: (value) {
-                                                    setState(() {
-                                                      isButtonActive = true;
-                                                    });
-                                                    _formKey.currentState
-                                                        .validate();
-                                                  },
-                                                  onSaved: (text) {
-                                                    controller.mUserDetails
-                                                        .age = text;
-                                                  },
-                                                  decoration:
-                                                      const InputDecoration(
-                                                    contentPadding:
-                                                        EdgeInsets.symmetric(
-                                                            vertical: 10),
-                                                    border: InputBorder.none,
-                                                  ),
-                                                  autofocus: true,
-                                                  maxLines: 1,
-                                                ),
-                                              ),
-                                              IconButton(
-                                                icon: Icon(Icons.edit),
-                                                onPressed: () {
-                                                  setState(() {
-                                                    isAgeEditable = true;
-                                                  });
-                                                  ageFocusNode.requestFocus();
-                                                },
-                                              )
-                                            ],
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                verticalSpace(spaceBetweenCards),
-                                if (controller.mUserDetails.contact.address !=
-                                    "")
+                        key: _formKey,
+                        child: Container(
+                          // padding: EdgeInsets.only(
+                          //     left: 20, right: 20, top: 10, bottom: 10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              verticalSpace(spaceBetweenCards),
+                              Stack(
+                                children: [
                                   Container(
-                                      margin: EdgeInsets.only(
-                                          bottom: spaceBetweenCards),
-                                      child: Card(
-                                        clipBehavior: Clip.antiAlias,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                        ),
-                                        elevation: 0,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(15),
-                                          child: Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: <Widget>[
-                                              Expanded(
-                                                  child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: <Widget>[
-                                                  CustomText(
-                                                    "Address",
-                                                    color: Colors.grey,
-                                                    fontSize:
-                                                        subtitleFontSizeStyle -
-                                                            3,
-                                                  ),
-                                                  verticalSpaceSmall,
-                                                  CustomText(
-                                                    controller.mUserDetails
-                                                            .contact.address +
-                                                        "\n" +
-                                                        controller
-                                                            .mUserDetails
-                                                            .contact
-                                                            .googleAddress,
-                                                    color: Colors.grey[800],
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize:
-                                                        subtitleFontSizeStyle -
-                                                            1,
-                                                  )
-                                                ],
-                                              )),
-                                            ],
-                                          ),
-                                        ),
-                                      )),
-                                ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      elevation: 0,
-                                      primary: darkRedSmooth,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(30),
-                                        // side: BorderSide(
-                                        //     color: Colors.black, width: 0.5)
+                                    height: 120,
+                                    width: 120,
+                                    margin: EdgeInsets.only(right: 6.0),
+                                    child: ClipOval(
+                                      child: FadeInImage(
+                                        width: 100,
+                                        height: 100,
+                                        fadeInCurve: Curves.easeIn,
+                                        placeholder:
+                                            AssetImage("assets/icons/user.png"),
+                                        image: NetworkImage(
+                                            "$USER_PROFILE_PHOTO_BASE_URL/${controller?.mUserDetails?.photo?.name}",
+                                            headers: {
+                                              "Authorization":
+                                                  "Bearer ${controller?.token ?? ''}",
+                                            }),
+                                        imageErrorBuilder:
+                                            (context, error, stackTrace) {
+                                          print(
+                                              "User Photo: $USER_PROFILE_PHOTO_BASE_URL/${controller?.mUserDetails?.photo?.name} $error $stackTrace");
+                                          return Image.asset(
+                                            "assets/icons/user.png",
+                                            width: 100,
+                                            height: 100,
+                                            fit: BoxFit.cover,
+                                          );
+                                        },
+                                        fit: BoxFit.cover,
                                       ),
                                     ),
-                                    onPressed: () async {
-                                      PickResult pickedPlace =
-                                          await Navigator.push(
-                                        context,
-                                        PageTransition(
-                                          child: AddressInputPage(),
-                                          type: PageTransitionType.rightToLeft,
+                                    decoration: BoxDecoration(
+                                      color: Color.fromRGBO(255, 255, 255, 1),
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                        color:
+                                            Color.fromRGBO(255, 255, 255, 0.1),
+                                        width: 8.0,
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    bottom: 8,
+                                    right: 8,
+                                    child: Container(
+                                      padding: EdgeInsets.all(4.0),
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Colors.white,
+                                      ),
+                                      child: InkWell(
+                                        onTap: controller.updateUserPhoto,
+                                        child: Icon(
+                                          Icons.edit,
                                         ),
-                                      );
-                                      if (pickedPlace != null) {
-                                        // pickedPlace = (PickResult) pickedPlace;
-                                        // print(pickedPlace);
-                                        // controller.mUserDetails.contact
-                                        //     .address = pickedPlace;
-
-                                        UserDetailsContact userAdd =
-                                            await showModalBottomSheet(
-                                          context: context,
-                                          isScrollControlled: true,
-                                          builder: (_) => BottomSheetForAddress(
-                                            pickedPlace: pickedPlace,
-                                          ),
-                                        );
-                                        if (userAdd != null) {
-                                          controller.mUserDetails.contact
-                                                  .googleAddress =
-                                              userAdd.googleAddress;
-                                          controller.mUserDetails.contact
-                                              .address = userAdd.address;
-                                          controller.mUserDetails.contact
-                                              .pincode = userAdd.pincode;
-                                          controller.mUserDetails.contact
-                                              .state = userAdd.state;
-                                          controller.mUserDetails.contact.city =
-                                              userAdd.city;
-                                          setState(() {
-                                            isButtonActive = true;
-                                          });
-                                        }
-                                      }
-                                    },
-                                    child: Row(
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              verticalSpaceMedium,
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 16.0,
+                                  vertical: 8.0,
+                                ),
+                                color: Colors.white,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        SvgPicture.asset(
-                                          "assets/svg/address.svg",
-                                          color: Colors.white,
-                                          width: 25,
-                                          height: 25,
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        CustomText(
+                                          "Personal Details".toUpperCase(),
+                                          fontSize: 16,
                                         ),
-                                        horizontalSpaceSmall,
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 15),
+                                        IconButton(
+                                          icon: Icon(Icons.edit),
+                                          onPressed: () {
+                                            setState(() {
+                                              isEditable = true;
+                                            });
+                                            nameFocusNode.requestFocus();
+                                          },
+                                        )
+                                      ],
+                                    ),
+                                    Row(
+                                      children: <Widget>[
+                                        Expanded(
+                                          flex: 3,
                                           child: CustomText(
-                                            controller.mUserDetails.contact
-                                                        .address !=
-                                                    ""
-                                                ? "Change Address"
-                                                : "Add Address",
-                                            isBold: true,
-                                            color: Colors.white,
+                                            "Name",
+                                            fontSize: titleFontSizeStyle,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                        Expanded(
+                                          flex: 7,
+                                          child: TextFormField(
+                                            focusNode: nameFocusNode,
+                                            style: TextStyle(
+                                              fontSize: subtitleFontSizeStyle,
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.grey[800],
+                                            ),
+                                            readOnly: !isEditable,
+                                            initialValue:
+                                                controller.mUserDetails?.name,
+                                            validator: (text) {
+                                              if (text.isEmpty ||
+                                                  text.trim().length == 0)
+                                                return "Add your Name";
+                                              return null;
+                                            },
+                                            onChanged: (value) {
+                                              setState(() {
+                                                isButtonActive = true;
+                                              });
+                                              _formKey.currentState.validate();
+                                            },
+                                            onSaved: (text) {
+                                              controller.mUserDetails.name =
+                                                  text;
+                                            },
+                                            decoration: const InputDecoration(
+                                              contentPadding:
+                                                  EdgeInsets.symmetric(
+                                                      vertical: 10),
+                                              border: InputBorder.none,
+                                            ),
+                                            autofocus: true,
+                                            maxLines: 1,
                                           ),
                                         ),
                                       ],
-                                    )),
-                              ],
-                            ),
-                          )),
+                                    ),
+                                    Row(
+                                      children: <Widget>[
+                                        Expanded(
+                                          flex: 3,
+                                          child: CustomText(
+                                            "Mobile No",
+                                            fontSize: titleFontSizeStyle,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                        Expanded(
+                                          flex: 7,
+                                          child: TextFormField(
+                                            style: TextStyle(
+                                              fontSize: subtitleFontSizeStyle,
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.grey[800],
+                                            ),
+                                            readOnly: true,
+                                            initialValue: controller
+                                                ?.mUserDetails
+                                                ?.contact
+                                                ?.phone
+                                                ?.mobile
+                                                ?.replaceRange(5, 10, 'XXXXX')
+                                                .toString(),
+                                            decoration: const InputDecoration(
+                                              contentPadding:
+                                                  EdgeInsets.symmetric(
+                                                vertical: 10,
+                                              ),
+                                              border: InputBorder.none,
+                                            ),
+                                            enabled: false,
+                                            autofocus: true,
+                                            maxLines: 1,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: <Widget>[
+                                        Expanded(
+                                          flex: 3,
+                                          child: CustomText(
+                                            "Email Address",
+                                            fontSize: titleFontSizeStyle,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                        Expanded(
+                                          flex: 7,
+                                          child: TextFormField(
+                                            focusNode: emailFocusNode,
+                                            style: TextStyle(
+                                              fontSize: subtitleFontSizeStyle,
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.grey[800],
+                                            ),
+                                            readOnly: !isEditable,
+                                            initialValue: controller
+                                                    .mUserDetails?.email ??
+                                                '',
+                                            validator: (text) => GetUtils
+                                                    .isEmail(text)
+                                                ? null
+                                                : "Please Enter Valid Email Address",
+                                            onChanged: (value) {
+                                              setState(() {
+                                                isButtonActive = true;
+                                              });
+                                              _formKey.currentState.validate();
+                                            },
+                                            onSaved: (text) {
+                                              controller.mUserDetails.email =
+                                                  text;
+                                            },
+                                            decoration: const InputDecoration(
+                                              contentPadding:
+                                                  EdgeInsets.symmetric(
+                                                      vertical: 10),
+                                              border: InputBorder.none,
+                                            ),
+                                            autofocus: true,
+                                            maxLines: 1,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: <Widget>[
+                                        Expanded(
+                                          flex: 3,
+                                          child: CustomText(
+                                            "Age",
+                                            fontSize: titleFontSizeStyle,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                        Expanded(
+                                          flex: 7,
+                                          child: DropdownButton<String>(
+                                            value: selectedAgeId,
+                                            items: controller.ageLookup
+                                                .map(
+                                                  (e) =>
+                                                      DropdownMenuItem<String>(
+                                                    child: Text(e.name,
+                                                        style: TextStyle(
+                                                          fontSize:
+                                                              subtitleFontSizeStyle,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          color:
+                                                              Colors.grey[800],
+                                                        )),
+                                                    value: e.id.toString(),
+                                                  ),
+                                                )
+                                                .toList(),
+                                            onChanged: isEditable
+                                                ? (value) {
+                                                    setState(() {
+                                                      selectedAgeId = value;
+                                                      isButtonActive = true;
+                                                    });
+                                                    _formKey.currentState
+                                                        .validate();
+                                                  }
+                                                : null,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: <Widget>[
+                                        Expanded(
+                                          flex: 3,
+                                          child: CustomText(
+                                            "Gender",
+                                            fontSize: titleFontSizeStyle,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                        Expanded(
+                                          flex: 7,
+                                          child: DropdownButton<String>(
+                                            value: selectedGenderId,
+                                            items: controller.genderLookup
+                                                .map(
+                                                  (e) =>
+                                                      DropdownMenuItem<String>(
+                                                    child: Text(
+                                                      e.name,
+                                                      style: TextStyle(
+                                                        fontSize:
+                                                            subtitleFontSizeStyle,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: Colors.grey[800],
+                                                      ),
+                                                    ),
+                                                    value: e.id.toString(),
+                                                  ),
+                                                )
+                                                .toList(),
+                                            onChanged: isEditable
+                                                ? (value) {
+                                                    setState(() {
+                                                      selectedAgeId = value;
+                                                      isButtonActive = true;
+                                                    });
+                                                    _formKey.currentState
+                                                        .validate();
+                                                  }
+                                                : null,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    verticalSpaceSmall,
+                                    if (controller
+                                            .mUserDetails.contact.address !=
+                                        "")
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            flex: 3,
+                                            child: CustomText(
+                                              "Address",
+                                              color: Colors.black,
+                                              fontSize: titleFontSizeStyle,
+                                            ),
+                                          ),
+                                          Expanded(
+                                            flex: 7,
+                                            child: InkWell(
+                                              onTap: isEditable
+                                                  ? () async {
+                                                      PickResult pickedPlace =
+                                                          await Navigator.push(
+                                                        context,
+                                                        PageTransition(
+                                                          child:
+                                                              AddressInputPage(),
+                                                          type:
+                                                              PageTransitionType
+                                                                  .rightToLeft,
+                                                        ),
+                                                      );
+                                                      if (pickedPlace != null) {
+                                                        // pickedPlace = (PickResult) pickedPlace;
+                                                        // print(pickedPlace);
+                                                        // controller.mUserDetails.contact
+                                                        //     .address = pickedPlace;
+
+                                                        UserDetailsContact
+                                                            userAdd =
+                                                            await showModalBottomSheet(
+                                                          context: context,
+                                                          isScrollControlled:
+                                                              true,
+                                                          builder: (_) =>
+                                                              BottomSheetForAddress(
+                                                            pickedPlace:
+                                                                pickedPlace,
+                                                          ),
+                                                        );
+                                                        if (userAdd != null) {
+                                                          controller
+                                                                  .mUserDetails
+                                                                  .contact
+                                                                  .googleAddress =
+                                                              userAdd
+                                                                  .googleAddress;
+                                                          controller
+                                                                  .mUserDetails
+                                                                  .contact
+                                                                  .address =
+                                                              userAdd.address;
+                                                          controller
+                                                                  .mUserDetails
+                                                                  .contact
+                                                                  .pincode =
+                                                              userAdd.pincode;
+                                                          controller
+                                                                  .mUserDetails
+                                                                  .contact
+                                                                  .state =
+                                                              userAdd.state;
+                                                          controller
+                                                                  .mUserDetails
+                                                                  .contact
+                                                                  .city =
+                                                              userAdd.city;
+                                                          setState(() {
+                                                            isButtonActive =
+                                                                true;
+                                                          });
+                                                        }
+                                                      }
+                                                    }
+                                                  : null,
+                                              child: CustomText(
+                                                controller.mUserDetails.contact
+                                                    .address,
+                                                color: Colors.grey[800],
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: subtitleFontSizeStyle,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    // verticalSpaceMedium,
+                                    // Container(
+                                    //   padding: EdgeInsets.symmetric(
+                                    //       horizontal: 16.0),
+                                    //   child: ElevatedButton(
+                                    //       style: ElevatedButton.styleFrom(
+                                    //         elevation: 0,
+                                    //         primary: darkRedSmooth,
+                                    //         shape: RoundedRectangleBorder(
+                                    //           borderRadius:
+                                    //               BorderRadius.circular(10),
+                                    //         ),
+                                    //       ),
+                                    //       onPressed: () async {
+                                    //         PickResult pickedPlace =
+                                    //             await Navigator.push(
+                                    //           context,
+                                    //           PageTransition(
+                                    //             child: AddressInputPage(),
+                                    //             type: PageTransitionType
+                                    //                 .rightToLeft,
+                                    //           ),
+                                    //         );
+                                    //         if (pickedPlace != null) {
+                                    //           // pickedPlace = (PickResult) pickedPlace;
+                                    //           // print(pickedPlace);
+                                    //           // controller.mUserDetails.contact
+                                    //           //     .address = pickedPlace;
+
+                                    //           UserDetailsContact userAdd =
+                                    //               await showModalBottomSheet(
+                                    //             context: context,
+                                    //             isScrollControlled: true,
+                                    //             builder: (_) =>
+                                    //                 BottomSheetForAddress(
+                                    //               pickedPlace: pickedPlace,
+                                    //             ),
+                                    //           );
+                                    //           if (userAdd != null) {
+                                    //             controller.mUserDetails.contact
+                                    //                     .googleAddress =
+                                    //                 userAdd.googleAddress;
+                                    //             controller.mUserDetails.contact
+                                    //                 .address = userAdd.address;
+                                    //             controller.mUserDetails.contact
+                                    //                 .pincode = userAdd.pincode;
+                                    //             controller.mUserDetails.contact
+                                    //                 .state = userAdd.state;
+                                    //             controller.mUserDetails.contact
+                                    //                 .city = userAdd.city;
+                                    //             setState(() {
+                                    //               isButtonActive = true;
+                                    //             });
+                                    //           }
+                                    //         }
+                                    //       },
+                                    //       child: Row(
+                                    //         mainAxisAlignment:
+                                    //             MainAxisAlignment.center,
+                                    //         children: <Widget>[
+                                    //           SvgPicture.asset(
+                                    //             "assets/svg/address.svg",
+                                    //             color: Colors.white,
+                                    //             width: 25,
+                                    //             height: 25,
+                                    //           ),
+                                    //           horizontalSpaceSmall,
+                                    //           Padding(
+                                    //             padding:
+                                    //                 const EdgeInsets.symmetric(
+                                    //                     vertical: 15),
+                                    //             child: CustomText(
+                                    //               controller
+                                    //                           .mUserDetails
+                                    //                           .contact
+                                    //                           .address !=
+                                    //                       ""
+                                    //                   ? "Change Address"
+                                    //                   : "Add Address",
+                                    //               isBold: true,
+                                    //               fontSize: 14,
+                                    //               color: Colors.white,
+                                    //             ),
+                                    //           ),
+                                    //         ],
+                                    //       )),
+                                    // ),
+                                    verticalSpaceLarge,
+                                    CustomText(
+                                      "Measurements",
+                                      fontSize: 16,
+                                    ),
+                                    verticalSpaceSmall,
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 4.0),
+                                            child: TextFormField(
+                                              style: TextStyle(
+                                                fontSize: subtitleFontSizeStyle,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.grey[800],
+                                              ),
+                                              readOnly: !isEditable,
+                                              // initialValue:
+                                              //     controller.mUserDetails ?? '',
+                                              // validator: (text) => GetUtils
+                                              //         .isEmail(text)
+                                              //     ? null
+                                              //     : "Please Enter Valid Email Address",
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  isButtonActive = true;
+                                                });
+                                                _formKey.currentState
+                                                    .validate();
+                                              },
+                                              onSaved: (text) {
+                                                // controller.mUserDetails.email =
+                                                //     text;
+                                              },
+                                              decoration: const InputDecoration(
+                                                hintText: "*Shoulder",
+                                                contentPadding:
+                                                    EdgeInsets.symmetric(
+                                                        vertical: 10,
+                                                        horizontal: 8.0),
+                                                border: OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                              ),
+                                              autofocus: true,
+                                              maxLines: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 4.0),
+                                            child: TextFormField(
+                                              style: TextStyle(
+                                                fontSize: subtitleFontSizeStyle,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.grey[800],
+                                              ),
+                                              readOnly: !isEditable,
+                                              // initialValue:
+                                              //     controller.mUserDetails ?? '',
+                                              // validator: (text) => GetUtils
+                                              //         .isEmail(text)
+                                              //     ? null
+                                              //     : "Please Enter Valid Email Address",
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  isButtonActive = true;
+                                                });
+                                                _formKey.currentState
+                                                    .validate();
+                                              },
+                                              onSaved: (text) {
+                                                // controller.mUserDetails.email =
+                                                //     text;
+                                              },
+                                              decoration: const InputDecoration(
+                                                hintText: "*Chest",
+                                                contentPadding:
+                                                    EdgeInsets.symmetric(
+                                                        vertical: 10,
+                                                        horizontal: 8.0),
+                                                border: OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                              ),
+                                              autofocus: true,
+                                              maxLines: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 4.0),
+                                            child: TextFormField(
+                                              style: TextStyle(
+                                                fontSize: subtitleFontSizeStyle,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.grey[800],
+                                              ),
+                                              readOnly: !isEditable,
+                                              // initialValue:
+                                              //     controller.mUserDetails ?? '',
+                                              // validator: (text) => GetUtils
+                                              //         .isEmail(text)
+                                              //     ? null
+                                              //     : "Please Enter Valid Email Address",
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  isButtonActive = true;
+                                                });
+                                                _formKey.currentState
+                                                    .validate();
+                                              },
+                                              onSaved: (text) {
+                                                // controller.mUserDetails.email =
+                                                //     text;
+                                              },
+                                              decoration: const InputDecoration(
+                                                hintText: "*Waist",
+                                                contentPadding:
+                                                    EdgeInsets.symmetric(
+                                                        vertical: 10,
+                                                        horizontal: 8.0),
+                                                border: OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                              ),
+                                              autofocus: true,
+                                              maxLines: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 4.0),
+                                            child: TextFormField(
+                                              style: TextStyle(
+                                                fontSize: subtitleFontSizeStyle,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.grey[800],
+                                              ),
+                                              readOnly: !isEditable,
+                                              // initialValue:
+                                              //     controller.mUserDetails ?? '',
+                                              // validator: (text) => GetUtils
+                                              //         .isEmail(text)
+                                              //     ? null
+                                              //     : "Please Enter Valid Email Address",
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  isButtonActive = true;
+                                                });
+                                                _formKey.currentState
+                                                    .validate();
+                                              },
+                                              onSaved: (text) {
+                                                // controller.mUserDetails.email =
+                                                //     text;
+                                              },
+                                              decoration: const InputDecoration(
+                                                hintText: "*Hips",
+                                                contentPadding:
+                                                    EdgeInsets.symmetric(
+                                                        vertical: 10,
+                                                        horizontal: 8.0),
+                                                border: OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                              ),
+                                              autofocus: true,
+                                              maxLines: 1,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
                   ),
           ),

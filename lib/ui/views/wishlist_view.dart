@@ -215,20 +215,20 @@ class _WishlistViewState extends State<WishlistView>
 
   @override
   Widget build(BuildContext context) {
-    const double headingFontSize = headingFontSizeStyle + 5;
     return GetBuilder<BaseController>(
       init: BaseController(),
       builder: (controller) => Scaffold(
           appBar: AppBar(
             elevation: 0,
             iconTheme: IconThemeData(color: appBarIconColor),
-            backgroundColor: backgroundWhiteCreamColor,
+            backgroundColor: Colors.white,
             actions: <Widget>[
               IconButton(
-                  onPressed: () {},
-                  icon: CartIconWithBadge(
-                    iconColor: Colors.black,
-                  )),
+                onPressed: () {},
+                icon: CartIconWithBadge(
+                  iconColor: Colors.black,
+                ),
+              ),
               SizedBox(
                 width: 10,
               )
@@ -257,7 +257,7 @@ class _WishlistViewState extends State<WishlistView>
                         style: TextStyle(
                             fontFamily: headingFont,
                             fontWeight: FontWeight.w700,
-                            fontSize: headingFontSize,
+                            fontSize: headingFontSizeStyle,
                             color: Colors.black),
                       ),
                     ),
@@ -300,8 +300,8 @@ class _WishlistViewState extends State<WishlistView>
                                   child: Text(
                                 "Sellers",
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    ),
+                                  fontWeight: FontWeight.bold,
+                                ),
                               )),
                             ),
                           ],

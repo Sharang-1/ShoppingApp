@@ -1,5 +1,12 @@
+import 'package:compound/constants/route_names.dart';
 import 'package:compound/constants/shared_pref.dart';
+import 'package:compound/services/navigation_service.dart';
+import 'package:compound/ui/shared/app_colors.dart';
+import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:geocoder/geocoder.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
@@ -28,6 +35,7 @@ class DzorMapController extends BaseController {
   dynamic currentClient;
   var currentBearing;
   UserLocation currentLocation;
+  String cityName = '';
 
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
   BitmapDescriptor iconS, iconT;
@@ -43,6 +51,55 @@ class DzorMapController extends BaseController {
 
   DzorMapController(this.context, {this.sellerKey});
 
+  final List<TabItem> navigationItems = [
+    TabItem(
+        title: '',
+        icon: Icon(Icons.category, color: backgroundWhiteCreamColor)),
+    TabItem(
+        title: '', icon: Icon(Icons.event, color: backgroundWhiteCreamColor)),
+    TabItem(
+      title: '',
+      icon: Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: SvgPicture.asset(
+          "assets/svg/logo.svg",
+          color: logoRed,
+          height: 15,
+          width: 15,
+        ),
+      ),
+    ),
+    TabItem(
+        title: '',
+        icon: Icon(FontAwesomeIcons.pollH, color: backgroundWhiteCreamColor)),
+    TabItem(
+        title: '',
+        icon: Icon(FontAwesomeIcons.mapMarkerAlt,
+            color: backgroundWhiteCreamColor)),
+  ];
+
+  bool bottomNavigationOnTap(int i) {
+    switch (i) {
+      case 0:
+        NavigationService.to(CategoriesRoute);
+        break;
+      case 1:
+        NavigationService.to(MyAppointmentViewRoute);
+        break;
+      case 2:
+        NavigationService.to(DzorExploreViewRoute);
+        break;
+      case 3:
+        NavigationService.to(MyOrdersRoute);
+        break;
+      case 4:
+        break;
+      default:
+        break;
+    }
+    return false;
+  }
+
   @override
   void onInit() async {
     super.onInit();
@@ -52,9 +109,21 @@ class DzorMapController extends BaseController {
     mapToggle = true;
     populateClients(sellerKey: sellerKey);
 
+    List<Address> addresses = await Geocoder.local.findAddressesFromCoordinates(
+      Coordinates(
+        currentLocation.latitude,
+        currentLocation.longitude,
+      ),
+    );
+
+    cityName = addresses[0].locality;
+    update();
+
     ImageConfiguration configuration = ImageConfiguration(size: Size(1, 1));
     iconT = await BitmapDescriptor.fromAssetImage(
-        configuration, 'assets/images/pin.png');
+      configuration,
+      'assets/images/pin.png',
+    );
     iconS = await BitmapDescriptor.fromAssetImage(
         configuration, 'assets/images/location.png');
 
@@ -118,6 +187,42 @@ class DzorMapController extends BaseController {
   setClientCardsToSeller(bool toSeller) {
     showSailors = toSeller;
     update();
+  }
+
+  zoomIn() async {
+    mapController.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+            target: currentClient == null
+                ? LatLng(
+                    currentLocation.latitude,
+                    currentLocation.longitude,
+                  )
+                : LatLng(
+                    currentClient.contact.geoLocation.latitude,
+                    currentClient.contact.geoLocation.longitude,
+                  ),
+            zoom: (await mapController.getZoomLevel()) + 2),
+      ),
+    );
+  }
+
+  zoomOut() async {
+    mapController.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+            target: currentClient == null
+                ? LatLng(
+                    currentLocation.latitude,
+                    currentLocation.longitude,
+                  )
+                : LatLng(
+                    currentClient.contact.geoLocation.latitude,
+                    currentClient.contact.geoLocation.longitude,
+                  ),
+            zoom: (await mapController.getZoomLevel()) - 2),
+      ),
+    );
   }
 
   zoomInMarker(double latitude, double longitude) {
@@ -240,7 +345,8 @@ class DzorMapController extends BaseController {
         paddingFocus: 5,
         onClickOverlay: (targetFocus) => tutorialCoachMark.next(),
         onClickTarget: (targetFocus) => tutorialCoachMark.next(),
-        onFinish: () async => await prefs?.setBool(ShouldShowMapTutorial, false),
+        onFinish: () async =>
+            await prefs?.setBool(ShouldShowMapTutorial, false),
       )..show();
     }
   }

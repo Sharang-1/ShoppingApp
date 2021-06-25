@@ -24,6 +24,7 @@ class UserDetails {
     this.email,
     this.size,
     this.contact,
+    this.photo,
     this.appUser,
     this.login,
     this.facebookUser,
@@ -45,6 +46,7 @@ class UserDetails {
   String email;
   String size;
   UserDetailsContact contact;
+  UserPhoto photo;
   bool appUser;
   String login;
   bool facebookUser;
@@ -66,6 +68,7 @@ class UserDetails {
         email: json["email"] != null ? json["email"] : null,
         size: json["size"],
         contact: UserDetailsContact.fromJson(json["contact"]),
+        photo: json["photo"] == null ? null : UserPhoto.fromJson(json["photo"]),
         appUser: json["appUser"],
         login: json["login"],
         facebookUser: json["facebookUser"],
@@ -88,6 +91,7 @@ class UserDetails {
         "email": email,
         "size": size,
         "contact": contact.toJson(),
+        "photo": photo == null ? null : photo.toJson(),
         "appUser": appUser,
         "login": login,
         "facebookUser": facebookUser,
@@ -152,5 +156,25 @@ class Phone {
   Map<String, dynamic> toJson() => {
         "code": code,
         "mobile": mobile,
+      };
+}
+
+class UserPhoto {
+  UserPhoto({
+    this.name,
+    this.originalName,
+  });
+
+  String name;
+  String originalName;
+
+  factory UserPhoto.fromJson(Map<String, dynamic> json) => UserPhoto(
+        name: json["name"],
+        originalName: json["originalName"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "name": name,
+        "originalName": originalName,
       };
 }

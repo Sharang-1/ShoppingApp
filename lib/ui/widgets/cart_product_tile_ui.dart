@@ -572,7 +572,6 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
-                              fontFamily: "Open-Sans",
                             ),
                           ),
                         ),

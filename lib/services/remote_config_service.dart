@@ -59,3 +59,6 @@ const String HOMESCREEN_CATEGORY_SECTION_1_SUBTITLE_EN = 'homescreen_category_se
 //Dzor Explore 
 const String DZOR_EXPLORE_TAG_1_EN = "dzor_explore_tag_1_en";
 const String DZOR_EXPLORE_TAG_2_EN = "dzor_explore_tag_2_en";
+
+//Dzor HomePage Appbar text
+const String HOMESCREEN_APPBAR_TEXT = "homescreen_appbar_text";

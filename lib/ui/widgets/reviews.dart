@@ -18,79 +18,93 @@ class ReviewWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<ReviewsController>(
-        init: ReviewsController(id: id, isSeller: isSeller),
-        builder: (controller) => ListTileTheme(
-            contentPadding: EdgeInsets.all(0),
-            child: ExpansionTile(
-                title: Text(
-                  "Ratings & Reviews",
-                  style: TextStyle(fontSize: 18),
-                ),
-                subtitle: controller.reviews?.ratingAverage != null
-                    ? Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                            Chip(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              backgroundColor:
-                                  Tools.getColorAccordingToRattings(
-                                      controller.reviews.items.isNotEmpty
-                                          ? controller?.reviews?.ratingAverage
-                                                  ?.rating ??
-                                              5
-                                          : 5),
-                              avatar: Text(
-                                controller.reviews.ratingAverage.rating != null
-                                    ? '${controller.reviews.ratingAverage.rating}'
-                                    : "0",
-                                style: TextStyle(
-                                    fontSize: 16, color: Colors.white),
-                              ),
-                              labelPadding: EdgeInsets.all(0),
-                              label: Icon(Icons.star,
-                                  size: 16, color: Colors.white),
-                            ),
-                            Text(
-                              controller.reviews.ratingAverage.person != null
-                                  ? "${controller.reviews.ratingAverage.person} Reviews"
-                                  : "0 Reviews",
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.grey,
-                              ),
-                            ),
-                            // Text(
-                            //     controller.reviews.ratingAverage.total != null
-                            //         ? "${controller.reviews.ratingAverage.total} Reviews"
-                            //         : "0 Reviews",
-                            //     style: TextStyle(
-                            //         fontSize: 14, color: Colors.grey))
-                          ])
-                    // : Container()
-                    : Container(),
-                initiallyExpanded: expanded,
-                // onExpansionChanged: (bool expanded) {
-                //   if (expanded && controller.reviews == null) {
-                //     controller.showReviews(id);
-                //   }
-                // },
-                children: <Widget>[
-                  if (controller.busy) LinearProgressIndicator(),
-                  if (!controller.busy)
-                    if (controller.reviews?.items?.length == 0)
-                      Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text("No Reviews"),
+      init: ReviewsController(id: id, isSeller: isSeller),
+      builder: (controller) => ListTileTheme(
+        contentPadding: EdgeInsets.all(0),
+        child: ExpansionTile(
+          title: Text(
+            isSeller ? "Ratings & Reviews" : "Item Ratings & Reviews",
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          subtitle: controller.reviews?.ratingAverage != null
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.only(
+                        top: 8.0,
                       ),
-                  if (controller.reviews != null &&
-                      controller.reviews.items.length > 0)
-                    ...controller.reviews.items.map((Review r) {
-                      return _reviewCard(r);
-                    })
-                ])));
+                      padding: EdgeInsets.symmetric(
+                        vertical: 4.0,
+                        horizontal: 8.0,
+                      ),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Tools.getColorAccordingToRattings(
+                            controller.reviews.items.isNotEmpty
+                                ? controller?.reviews?.ratingAverage?.rating ??
+                                    5
+                                : 5,
+                          ),
+                        ),
+                        borderRadius: BorderRadius.circular(5),
+                        color: Colors.white,
+                      ),
+                      child: Text(
+                        controller.reviews.ratingAverage.rating != null
+                            ? '${controller.reviews.ratingAverage.rating.toStringAsFixed(1)}'
+                            : "0",
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Tools.getColorAccordingToRattings(
+                            controller.reviews.items.isNotEmpty
+                                ? controller?.reviews?.ratingAverage?.rating ??
+                                    5
+                                : 5,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Text(
+                      controller.reviews.ratingAverage.person != null
+                          ? "${controller.reviews.ratingAverage.person} Reviews"
+                          : "0 Reviews",
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ],
+                )
+              : Container(),
+          initiallyExpanded: expanded,
+          // onExpansionChanged: (bool expanded) {
+          //   if (expanded && controller.reviews == null) {
+          //     controller.showReviews(id);
+          //   }
+          // },
+          children: <Widget>[
+            if (controller.busy) LinearProgressIndicator(),
+            if (!controller.busy)
+              if (controller.reviews?.items?.length == 0)
+                Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text("No Reviews"),
+                ),
+            if (controller.reviews != null &&
+                controller.reviews.items.length > 0)
+              ...controller.reviews.items.map((Review r) {
+                return _reviewCard(r);
+              })
+          ],
+        ),
+      ),
+    );
   }
 
   _reviewCard(Review r) {

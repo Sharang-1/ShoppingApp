@@ -1,7 +1,6 @@
 import 'package:fimber/fimber.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -17,9 +16,9 @@ import '../../services/navigation_service.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
-import '../widgets/grid_list_widget.dart';
 import '../widgets/cart_tile.dart';
 import '../widgets/custom_stepper.dart';
+import '../widgets/grid_list_widget.dart';
 import '../widgets/pair_it_with_widget.dart';
 import 'product_individual_view.dart';
 
@@ -45,13 +44,15 @@ class _CartViewState extends State<CartView> {
       builder: (controller) => Scaffold(
         appBar: AppBar(
           elevation: 0,
-          backgroundColor: backgroundWhiteCreamColor,
-          centerTitle: true,
-          title: SvgPicture.asset(
-            "assets/svg/logo.svg",
-            color: logoRed,
-            height: 35,
-            width: 35,
+          backgroundColor: Colors.white,
+          title: Text(
+            "My Bag",
+            style: TextStyle(
+              fontFamily: headingFont,
+              fontWeight: FontWeight.w700,
+              fontSize: 18,
+              color: Colors.black,
+            ),
           ),
           leading: BackButton(
             onPressed: () async {
@@ -76,7 +77,7 @@ class _CartViewState extends State<CartView> {
             color: Colors.black,
           ),
         ),
-        backgroundColor: backgroundWhiteCreamColor,
+        backgroundColor: newBackgroundColor,
         body: SafeArea(
           top: true,
           left: false,
@@ -114,14 +115,6 @@ class _CartViewState extends State<CartView> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    verticalSpace(20),
-                    Text(
-                      "My Bag",
-                      style: TextStyle(
-                          fontFamily: headingFont,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 30),
-                    ),
                     verticalSpace(10),
                     const CutomStepper(
                       step: 1,

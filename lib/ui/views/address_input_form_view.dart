@@ -215,7 +215,7 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
                     child: Padding(
                       padding: const EdgeInsets.only(left: 8.0),
                       child: Text(
-                        "Add New Address",
+                        "Add Address",
                         style: TextStyle(
                             fontFamily: headingFont,
                             fontWeight: FontWeight.w700,
@@ -238,6 +238,7 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
                         children: <Widget>[
                           TextFormField(
                             style: TextStyle(
+                              color: Colors.grey[500],
                               fontSize: 12,
                             ),
                             controller: _googleAddressStringController,
