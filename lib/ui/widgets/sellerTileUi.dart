@@ -602,8 +602,13 @@ class DesignerTileUi extends StatelessWidget {
                                   children: [
                                     CustomText(
                                       "₹${(product.cost.costToCustomer + BaseController.deliveryCharge).round()}",
-                                      fontSize: 10,
-                                      color: lightGreen,
+                                      fontSize: 12,
+                                      color: ((product?.cost?.productDiscount
+                                                      ?.rate ??
+                                                  0.0) !=
+                                              0.0)
+                                          ? lightGreen
+                                          : Colors.black,
                                       isBold: true,
                                     ),
                                     if ((product?.cost?.productDiscount?.rate ??

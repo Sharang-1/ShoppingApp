@@ -122,9 +122,12 @@ class _CartTileState extends State<CartTile> {
             OutlinedButton(
               style: ElevatedButton.styleFrom(
                 elevation: 0,
-                primary: Colors.yellowAccent,
+                primary: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
+                  side: BorderSide(
+                    color: logoRed,
+                  ),
                 ),
               ),
               onPressed: applyCoupon,
@@ -133,8 +136,8 @@ class _CartTileState extends State<CartTile> {
                 child: Text(
                   "🎁 Apply Coupon",
                   style: TextStyle(
-                    color: textIconBlue,
-                    fontWeight: FontWeight.bold,
+                    color: logoRed,
+                    // fontWeight: FontWeight.bold,
                     fontSize: 12,
                   ),
                 ),
@@ -145,7 +148,7 @@ class _CartTileState extends State<CartTile> {
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   elevation: 0,
-                  primary: green,
+                  primary: lightGreen,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),

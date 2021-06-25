@@ -18,6 +18,7 @@ import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
 import '../widgets/cart_tile.dart';
 import '../widgets/custom_stepper.dart';
+import '../widgets/custom_text.dart';
 import '../widgets/grid_list_widget.dart';
 import '../widgets/pair_it_with_widget.dart';
 import 'product_individual_view.dart';
@@ -77,7 +78,7 @@ class _CartViewState extends State<CartView> {
             color: Colors.black,
           ),
         ),
-        backgroundColor: newBackgroundColor,
+        backgroundColor: Colors.white,
         body: SafeArea(
           top: true,
           left: false,
@@ -120,6 +121,19 @@ class _CartViewState extends State<CartView> {
                       step: 1,
                     ),
                     verticalSpace(20),
+                    Obx(
+                      () => locator<CartCountController>().count.value > 0
+                          ? CustomText(
+                              "Items in Bag: ${locator<CartCountController>().count.value}",
+                              isBold: true,
+                            )
+                          : Container(),
+                    ),
+                    Center(
+                      child: Divider(
+                        color: Colors.black,
+                      ),
+                    ),
                     FutureBuilder(
                       future: Future.delayed(Duration(seconds: 1)),
                       builder: (c, s) => s.connectionState ==

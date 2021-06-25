@@ -1,3 +1,4 @@
+import 'package:compound/controllers/base_controller.dart';
 import 'package:compound/locator.dart';
 import 'package:compound/services/api/api_service.dart';
 import 'package:flutter/cupertino.dart';
@@ -75,7 +76,7 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
   void initState() {
     clicked = false;
     price = widget.item.product.price;
-    discount = widget.item.product.discount;
+    discount = widget.item.product.discount ?? 0;
     productImage =
         widget.item.product.photo?.photos?.elementAt(0)?.name ?? null;
     deliveryCharges = 0;
@@ -102,7 +103,7 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
           : "No Size given",
       "Color": widget.item.color != null && widget.item.color != ""
           ? widget.item.color
-          : "No Color given",
+          : "-",
       "Promo Code": widget.promoCode,
       "Promo Code Discount": '$rupeeUnicode${widget.promoCodeDiscount}',
       "Price": rupeeUnicode +
@@ -114,8 +115,13 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
       "Convenience Charges":
           '${widget?.item?.product?.cost?.convenienceCharges?.rate} %',
       "GST":
-          '$rupeeUnicode${(((qty ?? widget?.item?.quantity) ?? 0) * (widget?.item?.product?.cost?.gstCharges?.cost ?? 0))?.toStringAsFixed(2)} (${widget?.item?.product?.cost?.gstCharges?.rate}%)',
+          '$rupeeUnicode${(((qty ?? widget?.item?.quantity) ?? 1) * (widget?.item?.product?.cost?.gstCharges?.cost ?? 0))?.toStringAsFixed(2)} (${widget?.item?.product?.cost?.gstCharges?.rate}%)',
       "Delivery Charges": rupeeUnicode + widget.shippingCharges,
+      "Actual Price":
+          "$rupeeUnicode ${(((qty ?? widget?.item?.quantity) ?? 1) * ((widget?.item?.product?.cost?.cost ?? 0) + (widget?.item?.product?.cost?.gstCharges?.cost ?? 0)) + (widget?.item?.product?.cost?.convenienceCharges?.cost) + BaseController.deliveryCharge).toStringAsFixed(2)}",
+      "Saved":
+          // ignore: deprecated_member_use
+          "$rupeeUnicode ${((((qty ?? widget?.item?.quantity) ?? 1) * ((widget?.item?.product?.cost?.cost ?? 0) + (widget?.item?.product?.cost?.gstCharges?.cost ?? 0)) + (widget?.item?.product?.cost?.convenienceCharges?.cost) + BaseController.deliveryCharge) - (double.parse(widget.finalTotal, (s) => 0) ?? 0)).toStringAsFixed(2)}",
       "Total": qty == null ? rupeeUnicode + widget.finalTotal : '-',
     };
   }
@@ -130,156 +136,210 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
         ),
         clipBehavior: Clip.antiAlias,
         elevation: 0,
-        child: Padding(
-          padding: EdgeInsets.only(left: 10),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              ClipRRect(
-                borderRadius: BorderRadius.circular(curve15),
-                child: FadeInImage.assetNetwork(
-                  width: 120,
-                  fadeInCurve: Curves.easeIn,
-                  placeholder: "assets\images\product_preloading.png",
-                  image: productImage != null
-                      ? '$PRODUCT_PHOTO_BASE_URL/${widget.item.productId}/$productImage-small.png'
-                      : "https://images.unsplashr.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-                  imageErrorBuilder: (context, error, stackTrace) =>
-                      Image.asset(
-                    "assets/images/product_preloading.png",
-                    width: 120,
-                    fit: BoxFit.fitWidth,
+        child: Column(
+          children: [
+            Expanded(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(curve10),
+                    child: FadeInImage.assetNetwork(
+                      width: 100,
+                      fadeInCurve: Curves.easeIn,
+                      placeholder: "assets\images\product_preloading.png",
+                      image: productImage != null
+                          ? '$PRODUCT_PHOTO_BASE_URL/${widget.item.productId}/$productImage-small.png'
+                          : "https://images.unsplashr.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
+                      imageErrorBuilder: (context, error, stackTrace) =>
+                          Image.asset(
+                        "assets/images/product_preloading.png",
+                        width: 100,
+                        fit: BoxFit.fitWidth,
+                      ),
+                      fit: BoxFit.fitWidth,
+                    ),
                   ),
-                  fit: BoxFit.fitWidth,
-                ),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.only(left: 10),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      verticalSpaceTiny,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: CustomText(
-                              capitalizeString(
-                                  orderSummaryDetails["Product Name"]),
-                              dotsAfterOverFlow: true,
-                              isTitle: true,
-                              isBold: true,
-                              fontSize: titleFontSize,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 8.0),
-                            child: InkWell(
-                              onTap: widget.onRemove,
-                              child: Icon(
-                                FontAwesomeIcons.trashAlt,
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      verticalSpaceTiny,
-                      Row(
-                        children: [
-                          CustomText(
-                            "Qty : ",
-                            dotsAfterOverFlow: true,
-                            color: Colors.grey,
-                            fontSize: subtitleFontSize - 2,
-                          ),
-                          InkWell(
-                            child: Text(
-                              "-",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: subtitleFontSize - 2,
-                              ),
-                            ),
-                            onTap: () {
-                              num qty = num.parse(orderSummaryDetails["Qty"]);
-                              if (qty > 1)
-                                setState(() {
-                                  qty--;
-                                  widget.decreaseQty();
-                                  updateDetails(qty: qty);
-                                });
-                              setUpProductPrices(qty);
-                            },
-                          ),
-                          horizontalSpaceTiny,
-                          CustomText(
-                            "${orderSummaryDetails["Qty"]}",
-                            dotsAfterOverFlow: true,
-                            color: Colors.grey,
-                            fontSize: subtitleFontSize - 2,
-                          ),
-                          horizontalSpaceTiny,
-                          InkWell(
-                            child: Text(
-                              "+",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: subtitleFontSize - 2,
-                              ),
-                            ),
-                            onTap: () {
-                              num qty = num.parse(orderSummaryDetails["Qty"]);
-                              setState(() {
-                                qty++;
-                                widget.increaseQty();
-                                updateDetails(qty: qty);
-                              });
-                              setUpProductPrices(qty);
-                            },
-                          ),
-                        ],
-                      ),
-                      verticalSpaceTiny,
-                      CustomText(
-                        "Size : ${orderSummaryDetails["Size"]}",
-                        dotsAfterOverFlow: true,
-                        color: Colors.grey,
-                        fontSize: subtitleFontSize - 2,
-                      ),
-                      verticalSpaceSmall,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 10),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          CustomText(
-                            orderSummaryDetails["Total"],
-                            color: darkRedSmooth,
-                            isBold: true,
-                            fontSize: priceFontSize,
-                          ),
-                          InkWell(
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 8.0),
-                              child: Icon(
-                                !clicked
-                                    ? Icons.keyboard_arrow_down
-                                    : Icons.keyboard_arrow_up,
-                                color: Colors.grey,
+                          verticalSpaceTiny,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: CustomText(
+                                  capitalizeString(
+                                      orderSummaryDetails["Product Name"]),
+                                  dotsAfterOverFlow: true,
+                                  isTitle: true,
+                                  isBold: true,
+                                  fontSize: titleFontSize,
+                                ),
                               ),
-                            ),
-                            onTap: onTap,
-                          )
+                              InkWell(
+                                onTap: widget.onRemove,
+                                child: Icon(
+                                  FontAwesomeIcons.trashAlt,
+                                  color: Colors.grey,
+                                  size: 16,
+                                ),
+                              ),
+                            ],
+                          ),
+                          verticalSpaceTiny,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  CustomText(
+                                    "Qty : ",
+                                    dotsAfterOverFlow: true,
+                                    color: Colors.grey,
+                                    fontSize: subtitleFontSize - 2,
+                                  ),
+                                  InkWell(
+                                    child: Text(
+                                      "-",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: subtitleFontSize - 2,
+                                      ),
+                                    ),
+                                    onTap: () {
+                                      num qty =
+                                          num.parse(orderSummaryDetails["Qty"]);
+                                      if (qty > 1)
+                                        setState(() {
+                                          qty--;
+                                          widget.decreaseQty();
+                                          updateDetails(qty: qty);
+                                        });
+                                      setUpProductPrices(qty);
+                                    },
+                                  ),
+                                  horizontalSpaceTiny,
+                                  CustomText(
+                                    "${orderSummaryDetails["Qty"]}",
+                                    dotsAfterOverFlow: true,
+                                    color: Colors.grey,
+                                    fontSize: subtitleFontSize - 2,
+                                  ),
+                                  horizontalSpaceTiny,
+                                  InkWell(
+                                    child: Text(
+                                      "+",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: subtitleFontSize - 2,
+                                      ),
+                                    ),
+                                    onTap: () {
+                                      num qty =
+                                          num.parse(orderSummaryDetails["Qty"]);
+                                      setState(() {
+                                        qty++;
+                                        widget.increaseQty();
+                                        updateDetails(qty: qty);
+                                      });
+                                      setUpProductPrices(qty);
+                                    },
+                                  ),
+                                ],
+                              ),
+                              if ((double.parse(orderSummaryDetails["Saved"]
+                                          .replaceAll(rupeeUnicode, "")) ??
+                                      0) >
+                                  0)
+                                CustomText(
+                                  orderSummaryDetails["Actual Price"],
+                                  textStyle: TextStyle(
+                                    decoration: TextDecoration.lineThrough,
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 10,
+                                  ),
+                                ),
+                            ],
+                          ),
+                          verticalSpaceTiny,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              CustomText(
+                                "Size : ${orderSummaryDetails["Size"]}",
+                                dotsAfterOverFlow: true,
+                                color: Colors.grey,
+                                fontSize: subtitleFontSize - 2,
+                              ),
+                              CustomText(
+                                orderSummaryDetails["Total"],
+                                color: Colors.black,
+                                isBold: true,
+                                fontSize: priceFontSize,
+                              ),
+                            ],
+                          ),
+                          verticalSpaceTiny,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              CustomText(
+                                "Color : ${orderSummaryDetails["Color"]}",
+                                dotsAfterOverFlow: true,
+                                color: Colors.grey,
+                                fontSize: subtitleFontSize - 2,
+                              ),
+                              if ((double.parse(orderSummaryDetails["Saved"]
+                                          .replaceAll(rupeeUnicode, "")) ??
+                                      0) >
+                                  0)
+                                CustomText(
+                                  "You Saved: ${orderSummaryDetails["Saved"]}",
+                                  color: textIconBlue,
+                                  isBold: true,
+                                  fontSize: 10,
+                                ),
+                            ],
+                          ),
+                          verticalSpaceSmall,
                         ],
                       ),
-                    ],
+                    ),
                   ),
+                ],
+              ),
+            ),
+            verticalSpaceSmall,
+            InkWell(
+              onTap: onTap,
+              child: Container(
+                color: Colors.grey[50],
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CustomText(
+                      "Product Details",
+                      fontSize: 12,
+                      color: Colors.grey[500],
+                    ),
+                    Icon(
+                      !clicked
+                          ? Icons.keyboard_arrow_down
+                          : Icons.keyboard_arrow_up,
+                      color: Colors.grey,
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -463,10 +523,12 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                                           isBold: true,
                                           color: Colors.grey,
                                           fontSize: titleFontSize),
-                                      CustomText(orderSummaryDetails[key],
-                                          fontSize: titleFontSize + 2,
-                                          color: darkRedSmooth,
-                                          isBold: true)
+                                      CustomText(
+                                        orderSummaryDetails[key],
+                                        fontSize: titleFontSize + 2,
+                                        color: lightGreen,
+                                        isBold: true,
+                                      )
                                     ],
                                   ),
                                   TableRow(
@@ -553,9 +615,9 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           elevation: 0,
-                          primary: green,
+                          primary: lightGreen,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
+                            borderRadius: BorderRadius.circular(10),
                             // side: BorderSide(
                             //     color: Colors.black, width: 0.5)
                           ),

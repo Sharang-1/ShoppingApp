@@ -89,19 +89,12 @@ class HomeView extends StatelessWidget {
                       ],
                     ),
                     centerTitle: true,
-                    leading: InkWell(
-                      child: Icon(
-                        Icons.settings,
+                    leading: IconButton(
+                      icon: Icon(
+                        FontAwesomeIcons.heart,
                         color: Colors.grey[500],
-                        size: 30,
                       ),
-                      // child: SvgPicture.asset(
-                      //   'assets/svgs/settings.svg',
-                      //   color: Colors.grey[500],
-                      //   width: 30,
-                      //   height: 30,
-                      // ),
-                      onTap: () => NavigationService.to(SettingsRoute),
+                      onPressed: BaseController.gotoWishlist,
                     ),
                     actions: <Widget>[
                       InkWell(
@@ -130,12 +123,19 @@ class HomeView extends StatelessWidget {
                     iconTheme: IconThemeData(color: appBarIconColor),
                     backgroundColor: Colors.white,
                     pinned: true,
-                    leading: IconButton(
-                      icon: Icon(
-                        FontAwesomeIcons.heart,
+                    leading: InkWell(
+                      child: Icon(
+                        Icons.settings,
                         color: Colors.grey[500],
+                        size: 30,
                       ),
-                      onPressed: BaseController.gotoWishlist,
+                      // child: SvgPicture.asset(
+                      //   'assets/svgs/settings.svg',
+                      //   color: Colors.grey[500],
+                      //   width: 30,
+                      //   height: 30,
+                      // ),
+                      onTap: () => NavigationService.to(SettingsRoute),
                     ),
                     actions: <Widget>[
                       Obx(
