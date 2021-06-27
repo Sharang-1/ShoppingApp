@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import '../../controllers/categories_controller.dart';
 import '../../controllers/grid_view_builder/categories_view_builder_controller.dart';
-import '../../models/categorys.dart';
 import '../../models/grid_view_builder_filter_models/categoryFilter.dart';
 import '../shared/app_colors.dart';
-import '../widgets/categoryTileUI.dart';
-import '../widgets/grid_list_widget.dart';
+import '../widgets/section_builder.dart';
 
 class CategoriesView extends StatefulWidget {
   CategoriesView({Key key}) : super(key: key);
@@ -65,34 +62,45 @@ class _CategoriesViewState extends State<CategoriesView> {
             refreshController.refreshCompleted(resetFooterState: true);
           },
           child: Padding(
-            padding: EdgeInsets.only(left: 4.0, right: 8.0),
+            padding: EdgeInsets.only(top: 16.0, left: 4.0, right: 8.0),
             child: FutureBuilder(
               future: Future.delayed(Duration(milliseconds: 500)),
               builder: (c, s) => s.connectionState == ConnectionState.done
-                  ? GridListWidget<Categorys, Category>(
-                      key: categoriesGridKey,
-                      context: context,
-                      filter: categoryFilter,
-                      gridCount: 2,
-                      childAspectRatio: 2,
-                      controller: CategoriesGridViewBuilderController(),
-                      disablePagination: true,
-                      tileBuilder: (BuildContext context, data, index, onDelete,
-                          onUpdate) {
-                        return GestureDetector(
-                          onTap: () => CategoriesController.showProducts(
-                            data.filter,
-                            data.name,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(4, 4, 0, 0),
-                            child: CategoryTileUI(
-                              data: data,
-                            ),
-                          ),
-                        );
-                      },
+                  ? SingleChildScrollView(
+                      child: SectionBuilder(
+                        key: categoriesGridKey,
+                        context: context,
+                        layoutType: LayoutType.CATEGORY_LAYOUT_4,
+                        controller: CategoriesGridViewBuilderController(),
+                        filter: categoryFilter,
+                        scrollDirection: Axis.vertical,
+                        gridCount: 2,
+                      ),
                     )
+                  // ? GridListWidget<Categorys, Category>(
+                  //     key: categoriesGridKey,
+                  //     context: context,
+                  //     filter: categoryFilter,
+                  //     gridCount: 2,
+                  //     childAspectRatio: 2,
+                  //     controller: CategoriesGridViewBuilderController(),
+                  //     disablePagination: true,
+                  //     tileBuilder: (BuildContext context, data, index, onDelete,
+                  //         onUpdate) {
+                  //       return GestureDetector(
+                  //         onTap: () => CategoriesController.showProducts(
+                  //           data.filter,
+                  //           data.name,
+                  //         ),
+                  //         child: Padding(
+                  //           padding: const EdgeInsets.fromLTRB(4, 4, 0, 0),
+                  //           child: CategoryTileUI(
+                  //             data: data,
+                  //           ),
+                  //         ),
+                  //       );
+                  //     },
+                  //   )
                   : Container(),
             ),
           ),

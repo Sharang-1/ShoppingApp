@@ -1,3 +1,4 @@
+import 'package:compound/controllers/base_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -193,7 +194,7 @@ class _ProductTileUIState extends State<ProductTileUI> {
                           Padding(
                             padding: EdgeInsets.only(right: 5.0),
                             child: Text(
-                              "\u20B9" + '$productPrice',
+                              "${BaseController.formatPrice(productPrice)}",
                               overflow: TextOverflow.ellipsis,
                               textAlign: TextAlign.left,
                               style: TextStyle(
@@ -206,7 +207,7 @@ class _ProductTileUIState extends State<ProductTileUI> {
                           if ((productDiscount != null) &&
                               (productDiscount != 0.0))
                             Text(
-                              "\u20B9" + '$actualCost',
+                              "${BaseController.formatPrice(actualCost)}",
                               overflow: TextOverflow.ellipsis,
                               textAlign: TextAlign.left,
                               style: TextStyle(

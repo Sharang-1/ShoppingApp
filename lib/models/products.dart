@@ -93,6 +93,7 @@ class Product {
   Cost cost;
   num pricePerMeter;
   List<Coupon> coupons;
+  Video video;
 
   Product({
     this.key,
@@ -147,6 +148,7 @@ class Product {
     this.pricePerMeter,
     this.whatDoesItHave,
     this.coupons,
+    this.video,
   });
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
@@ -200,6 +202,7 @@ class Product {
         rating: Rating.fromJson(json["rating"]),
         photo:
             json["photo"] == null ? null : ProductPhoto.fromJson(json["photo"]),
+        video: json["video"] == null ? null : Video.fromJson(json["video"]),
         discount: json["discount"] == null ? null : json["discount"],
         productNew: json["new"],
         neckCut: json["neckCut"] == null ? null : json["neckCut"],
@@ -275,6 +278,7 @@ class Product {
         "dimensions": dimensions == null ? null : dimensions,
         "rating": rating.toJson(),
         "photo": photo == null ? null : photo?.toJson(),
+        "video": video == null ? null : video?.toJson(),
         "discount": discount == null ? null : discount,
         "new": productNew,
         "neckCut": neckCut == null ? null : neckCut,
@@ -491,5 +495,39 @@ class CostAndRate {
   Map<String, dynamic> toJson() => {
         "cost": cost,
         "rate": rate,
+      };
+}
+
+class Video {
+  final List<VideoElement> videos;
+
+  const Video({this.videos});
+
+  factory Video.fromJson(Map<String, dynamic> json) => Video(
+        videos: json["videos"] == null
+            ? []
+            : List<VideoElement>.from(
+                json["videos"]?.map((x) => VideoElement.fromJson(x)) ?? []),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "videos": List<dynamic>.from(videos.map((x) => x.toJson())),
+      };
+}
+
+class VideoElement {
+  final String name;
+  final String originalName;
+
+  const VideoElement({this.name, this.originalName});
+
+  factory VideoElement.fromJson(Map<String, dynamic> json) => VideoElement(
+        name: json["name"],
+        originalName: json["originalName"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "name": name,
+        "originalName": originalName,
       };
 }

@@ -148,11 +148,12 @@ class _SelectAddressState extends State<SelectAddress> {
                         },
                   child: Padding(
                     padding: const EdgeInsets.all(10),
-                    child: Text(
-                      "Make Payment",
-                      style: TextStyle(
+                    child: Center(
+                      child: CustomText(
+                        "Make Payment",
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
+                        fontSize: 18,
                       ),
                     ),
                   ),

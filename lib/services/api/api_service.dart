@@ -40,6 +40,8 @@ import 'CustomLogInterceptor.dart';
 import 'performance_interceptor.dart';
 
 class APIService {
+  int pollWaitTime = 1;
+
   final apiClient = Dio(BaseOptions(
       baseUrl: BASE_URL,
       connectTimeout: 15000,
@@ -176,6 +178,7 @@ class APIService {
     AppInfo appInfo;
     var json = await apiWrapper("app/info");
     if (json != null) appInfo = AppInfo.fromJson(json);
+    if ((appInfo?.pollWaitTime ?? 0) > 0) pollWaitTime = appInfo.pollWaitTime;
     return appInfo;
   }
 
@@ -513,6 +516,11 @@ class APIService {
           queue = Queue.fromJson(await apiWrapper(
               "orders​/queue/$queueId/status",
               authenticated: true));
+          await Future.delayed(
+            Duration(
+              seconds: pollWaitTime,
+            ),
+          );
         }
         OrderModule.Order order = OrderModule.Order.fromJson(await apiWrapper(
             "orders/${queue.orderId};product=true",

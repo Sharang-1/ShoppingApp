@@ -45,7 +45,7 @@ class _WriteReviewWidget extends State<WriteReviewWidget> {
                         style: ElevatedButton.styleFrom(
                           primary: widget.fromProductList
                               ? textIconOrange
-                              : backgroundWhiteCreamColor,
+                              : Colors.white,
                           elevation: 0,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),

@@ -1,4 +1,5 @@
 import 'package:get/state_manager.dart';
+import 'package:intl/intl.dart';
 import 'package:location/location.dart';
 import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -105,4 +106,8 @@ class BaseController extends GetxController {
 
   static Future<dynamic> shareApp() async =>
       await Share.share("https://dzor.page.link/App");
+
+  static String formatPrice(n){
+    return NumberFormat.simpleCurrency(name: 'INR').format(n);
+  }
 }

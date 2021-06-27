@@ -1,6 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:compound/constants/server_urls.dart';
 import 'package:flutter/material.dart';
+import 'package:video_player/video_player.dart';
+import 'package:flick_video_player/flick_video_player.dart';
 
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
@@ -8,6 +11,7 @@ import 'gallery_view.dart';
 
 class HomeSlider extends StatefulWidget {
   final List<String> imgList;
+  final List<String> videoList;
   final double aspectRatio;
   final bool fromHome;
   final bool fromExplore;
@@ -16,6 +20,7 @@ class HomeSlider extends StatefulWidget {
   const HomeSlider({
     Key key,
     this.imgList,
+    this.videoList = const [],
     this.aspectRatio = 1.6,
     this.fromHome = false,
     this.fromExplore = false,
@@ -29,6 +34,7 @@ class HomeSlider extends StatefulWidget {
 class _HomeSliderState extends State<HomeSlider> {
   List<String> imgList;
   int _current = 0;
+  VideoPlayerController _playerController;
 
   @override
   void initState() {
@@ -42,7 +48,22 @@ class _HomeSliderState extends State<HomeSlider> {
             'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80'
           ]
         : widget.imgList;
+
+    print("Videos: ${widget.videoList.toString()}");
+
+    if (widget.videoList.isNotEmpty)
+      _playerController = VideoPlayerController.network(
+        widget.videoList.first,
+      )
+        ..initialize()
+        ..setVolume(0.0);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    if (_playerController != null) _playerController.dispose();
+    super.dispose();
   }
 
   @override
@@ -69,52 +90,65 @@ class _HomeSliderState extends State<HomeSlider> {
                     ? BorderRadius.zero
                     : BorderRadius.circular(20.0),
                 child: CarouselSlider(
-                  options: CarouselOptions(
-                    autoPlay: false,
-                    aspectRatio: widget.aspectRatio,
-                    enableInfiniteScroll: false,
-                    viewportFraction: 1.0,
-                    pauseAutoPlayOnTouch: true,
-                    onPageChanged: (index, reason) {
-                      setState(() {
-                        _current = index;
-                      });
-                    },
-                  ),
-                  items: imgList.map((i) {
-                    return Builder(
-                      builder: (BuildContext context) {
-                        return GestureDetector(
-                          onTap: widget.fromExplore
-                              ? null
-                              : () {
-                                  if (!widget.fromHome) {
-                                    open(context, imgList.indexOf(i));
-                                  }
-                                },
-                          child: Hero(
-                            tag: 'productPhotos',
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(curve15)),
-                              width: MediaQuery.of(context).size.width,
-                              child: CachedNetworkImage(
-                                maxHeightDiskCache: 200,
-                                maxWidthDiskCache: 200,
-                                fit: BoxFit.contain,
-                                imageUrl: i,
-                                placeholder: (context, e) =>
-                                    Center(child: CircularProgressIndicator()),
-                                errorWidget: (context, url, error) =>
-                                    new Icon(Icons.error),
-                              ),
-                            ),
-                          ),
-                        );
+                    options: CarouselOptions(
+                      autoPlay: false,
+                      aspectRatio: widget.aspectRatio,
+                      enableInfiniteScroll: false,
+                      viewportFraction: 1.0,
+                      pauseAutoPlayOnTouch: true,
+                      onPageChanged: (index, reason) {
+                        setState(() {
+                          _current = index;
+                        });
                       },
-                    );
-                  }).toList(),
-                ),
+                    ),
+                    items: [
+                      if (_playerController != null)
+                        FlickVideoPlayer(
+                          flickVideoWithControls: FlickVideoWithControls(
+                            backgroundColor: Colors.white,
+                            controls: FlickPortraitControls(),
+                          ),
+                          flickManager: FlickManager(
+                            videoPlayerController: _playerController,
+                            autoPlay: false,
+                          ),
+                        ),
+                      ...imgList.map((i) {
+                        return Builder(
+                          builder: (BuildContext context) {
+                            return GestureDetector(
+                              onTap: widget.fromExplore
+                                  ? null
+                                  : () {
+                                      if (!widget.fromHome) {
+                                        open(context, imgList.indexOf(i));
+                                      }
+                                    },
+                              child: Hero(
+                                tag: 'productPhotos',
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.circular(curve15)),
+                                  width: MediaQuery.of(context).size.width,
+                                  child: CachedNetworkImage(
+                                    maxHeightDiskCache: 200,
+                                    maxWidthDiskCache: 200,
+                                    fit: BoxFit.contain,
+                                    imageUrl: i,
+                                    placeholder: (context, e) => Center(
+                                        child: CircularProgressIndicator()),
+                                    errorWidget: (context, url, error) =>
+                                        new Icon(Icons.error),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      }).toList(),
+                    ]),
               ),
               if (imgList.length > 1 && (widget.fromExplore))
                 Positioned(

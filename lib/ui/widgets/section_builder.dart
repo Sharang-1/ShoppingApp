@@ -35,6 +35,7 @@ enum LayoutType {
   CATEGORY_LAYOUT_1,
   CATEGORY_LAYOUT_2,
   CATEGORY_LAYOUT_3,
+  CATEGORY_LAYOUT_4,
 
   //Designer Layouts
   DESIGNER_LAYOUT_1,
@@ -317,6 +318,7 @@ class SectionBuilder extends StatelessWidget {
         );
 
       case LayoutType.CATEGORY_LAYOUT_3:
+      case LayoutType.CATEGORY_LAYOUT_4:
         return GridListWidget<Categorys, Category>(
           key: UniqueKey(),
           context: context,
@@ -339,8 +341,10 @@ class SectionBuilder extends StatelessWidget {
               ),
               child: Padding(
                 padding: EdgeInsets.only(bottom: 8.0),
-                child: HomeScreenCategoryTile(
+                child: NewCategoryTile(
                   data: data,
+                  fromCategory: layoutType == LayoutType.CATEGORY_LAYOUT_4,
+
                 ),
               ),
             );
@@ -381,6 +385,8 @@ class SectionBuilder extends StatelessWidget {
         return 200;
       case LayoutType.CATEGORY_LAYOUT_3:
         return 100;
+      case LayoutType.CATEGORY_LAYOUT_4:
+        return null;
 
       //Promotion
       case LayoutType.PROMOTION_LAYOUT_1:
@@ -415,6 +421,8 @@ class SectionBuilder extends StatelessWidget {
         return 2.0;
       case LayoutType.CATEGORY_LAYOUT_3:
         return 1.2;
+      case LayoutType.CATEGORY_LAYOUT_4:
+        return 0.95;
 
       default:
         return 1.35;

@@ -1,11 +1,11 @@
-import 'package:compound/ui/shared/app_colors.dart';
-import 'package:compound/ui/shared/ui_helpers.dart';
+import 'package:compound/ui/shared/shared_styles.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/server_urls.dart';
 import '../../models/categorys.dart';
 import '../../utils/tools.dart';
-import '../shared/shared_styles.dart';
+import '../shared/app_colors.dart';
+import '../shared/ui_helpers.dart';
 
 class CategoryTileUI extends StatelessWidget {
   final Category data;
@@ -67,58 +67,22 @@ class CategoryTileUI extends StatelessWidget {
         ],
       ),
     );
-
-    // Card(
-    //   child: Column(
-    //     mainAxisAlignment: MainAxisAlignment.start,
-    //     crossAxisAlignment: CrossAxisAlignment.start,
-    //     children: <Widget>[
-    //       NetworkImageWithPlaceholder(name: photoName),
-    //       Padding(
-    //         padding: const EdgeInsets.all(8.0),
-    //         child: Column(
-    //           mainAxisAlignment: MainAxisAlignment.start,
-    //           crossAxisAlignment: CrossAxisAlignment.start,
-    //           children: <Widget>[
-    //             Text(getTruncatedString(20, name)),
-    //             // Text('Ratings: ${productRatingValue.toString()}',
-    //             //     style: TextStyle(color: Colors.grey, fontSize: 10.0)),
-    //             // Row(
-    //             //   children: <Widget>[
-    //             //     Text('Rs.${productPrice.toString()}'),
-    //             //     SizedBox(
-    //             //       width: 5.0,
-    //             //     ),
-    //             //     // if (productOldPrice != 0.0)
-    //             //     Text(
-    //             //       'Rs.${productOldPrice.toString()}',
-    //             //       style: TextStyle(
-    //             //           color: Colors.grey,
-    //             //           decoration: TextDecoration.lineThrough),
-    //             //     ),
-    //             //   ],
-    //             // ),
-    //             // Text('${productDiscount.toString()}%'),
-    //           ],
-    //         ),
-    //       )
-    //     ],
-    //   ),
-    // );
   }
 }
 
-class HomeScreenCategoryTile extends StatelessWidget {
+class NewCategoryTile extends StatelessWidget {
   final Category data;
-  const HomeScreenCategoryTile({
+  final bool fromCategory;
+  const NewCategoryTile({
     Key key,
     @required this.data,
+    this.fromCategory = false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     String name = data.name ?? "";
-    double titleFontSize = 10.0;
+    double titleFontSize = fromCategory ? 12.0 : 10.0;
 
     return Column(
       children: [
@@ -128,9 +92,7 @@ class HomeScreenCategoryTile extends StatelessWidget {
             border: Border.all(
               color: logoRed,
             ),
-            borderRadius: BorderRadius.all(
-              Radius.circular(50.0),
-            ),
+            shape: BoxShape.circle,
           ),
           child: AspectRatio(
             aspectRatio: 1.0,

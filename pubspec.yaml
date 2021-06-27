@@ -81,6 +81,9 @@ dependencies:
   readmore: ^2.1.0
   gender_picker: ^1.1.0
   geocoder: ^0.2.1
+  md2_tab_indicator: ^1.0.2
+  video_player: ^2.1.6
+  flick_video_player: ^0.3.1
 
 dev_dependencies:
   flutter_test:
