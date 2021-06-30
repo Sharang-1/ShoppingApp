@@ -184,12 +184,24 @@ class _SearchViewState extends State<SearchView>
                             childAspectRatio: 0.7,
                             tileBuilder: (BuildContext context, data, index,
                                     onUpdate, onDelete) =>
-                                ProductTileUI(
-                              index: index,
-                              data: data,
-                              cardPadding: EdgeInsets.zero,
-                              onClick: () =>
-                                  BaseController.goToProductPage(data),
+                                Container(
+                              decoration: BoxDecoration(
+                                border: Border(
+                                  right: BorderSide(
+                                    color: Colors.grey[300],
+                                  ),
+                                  bottom: BorderSide(
+                                    color: Colors.grey[300],
+                                  ),
+                                ),
+                              ),
+                              child: ProductTileUI(
+                                index: index,
+                                data: data,
+                                cardPadding: EdgeInsets.zero,
+                                onClick: () =>
+                                    BaseController.goToProductPage(data),
+                              ),
                             ),
                           ),
                         ),
@@ -208,9 +220,18 @@ class _SearchViewState extends State<SearchView>
                             childAspectRatio: 3.50,
                             tileBuilder: (BuildContext context, data, index,
                                     onUpdate, onDelete) =>
-                                DesignerTileUi(
-                              data: data,
-                              isID3: true,
+                                Container(
+                              decoration: BoxDecoration(
+                                border: Border(
+                                  bottom: BorderSide(
+                                    color: Colors.grey[300],
+                                  ),
+                                ),
+                              ),
+                              child: DesignerTileUi(
+                                data: data,
+                                isID3: true,
+                              ),
                             ),
                           ),
                         ),

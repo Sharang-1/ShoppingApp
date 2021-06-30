@@ -35,7 +35,7 @@ class DzorMapController extends BaseController {
   dynamic currentClient;
   var currentBearing;
   UserLocation currentLocation;
-  String cityName = '';
+  String cityName = 'AHMEDABAD';
 
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
   BitmapDescriptor iconS, iconT;

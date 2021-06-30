@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final userDetails = userDetailsFromJson(jsonString);
-
 import 'dart:convert';
 
 UserDetails userDetailsFromJson(String str) =>
@@ -21,6 +17,7 @@ class UserDetails {
     this.lastName,
     this.age,
     this.gender,
+    this.measure,
     this.email,
     this.size,
     this.contact,
@@ -41,8 +38,9 @@ class UserDetails {
   String modified;
   String firstName;
   String lastName;
-  String age;
-  String gender;
+  Age age;
+  Gender gender;
+  Measure measure;
   String email;
   String size;
   UserDetailsContact contact;
@@ -63,8 +61,10 @@ class UserDetails {
         modified: json["modified"],
         firstName: json["firstName"],
         lastName: json["lastName"],
-        age: json["age"],
-        gender: json["gender"],
+        age: json["age"] == null ? null : Age.fromJson(json["age"]),
+        gender: json["gender"] == null ? null : Gender.fromJson(json["gender"]),
+        measure:
+            json["measure"] == null ? null : Measure.fromJson(json["measure"]),
         email: json["email"] != null ? json["email"] : null,
         size: json["size"],
         contact: UserDetailsContact.fromJson(json["contact"]),
@@ -86,8 +86,9 @@ class UserDetails {
         "modified": modified,
         "firstName": firstName,
         "lastName": lastName,
-        "age": age,
-        "gender": gender,
+        "age": age == null ? null : age.toJson(),
+        "gender": gender == null ? null : gender.toJson(),
+        "measure": measure == null ? null : measure.toJson(),
         "email": email,
         "size": size,
         "contact": contact.toJson(),
@@ -176,5 +177,72 @@ class UserPhoto {
   Map<String, dynamic> toJson() => {
         "name": name,
         "originalName": originalName,
+      };
+}
+
+class Age {
+  Age({
+    this.id,
+    // this.name,
+  });
+
+  int id;
+  // String name;
+
+  factory Age.fromJson(Map<String, dynamic> json) => Age(
+        id: json["id"],
+        // name: json["name"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        // "name": name,
+      };
+}
+
+class Gender {
+  Gender({
+    this.id,
+    // this.name,
+  });
+
+  int id;
+  // String name;
+
+  factory Gender.fromJson(Map<String, dynamic> json) => Gender(
+        id: json["id"],
+        // name: json["name"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        // "name": name,
+      };
+}
+
+class Measure {
+  const Measure(
+      {this.shoulders, this.chest, this.waist, this.hips, this.height});
+
+  final num shoulders;
+  final num chest;
+  final num waist;
+  final num hips;
+  final num height;
+
+  factory Measure.fromJson(Map<String, dynamic> json) => Measure(
+        shoulders: json["shoulders"] == null ? null : json["shoulders"],
+        chest: json["chest"] == null ? null : json["chest"],
+        waist: json["waist"] == null ? null : json["waist"],
+        hips: json["hips"] == null ? null : json["hips"],
+        height: json["height"] == null ? null : json["height"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "shoulders": shoulders,
+        "chest": chest,
+        "waist": waist,
+        "hips": hips,
+        "height": height,
       };
 }

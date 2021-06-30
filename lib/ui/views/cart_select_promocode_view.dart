@@ -1,3 +1,4 @@
+import 'package:compound/controllers/base_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -99,14 +100,15 @@ class _SelectPromocodeState extends State<SelectPromocode> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     CustomText(
-                      "₹${widget.finalTotal}",
+                      "${BaseController.formatPrice(num.parse(widget.finalTotal.replaceAll("₹", "")))}",
                       fontSize: 12,
                       isBold: true,
+                      // color: lightGreen,
                     ),
-                    CustomText(
-                      "View Details",
-                      fontSize: 12,
-                    ),
+                    // CustomText(
+                    //   "View Details",
+                    //   fontSize: 12,
+                    // ),
                   ],
                 ),
               ),

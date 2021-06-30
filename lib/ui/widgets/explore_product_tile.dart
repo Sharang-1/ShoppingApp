@@ -328,8 +328,14 @@ class _ExploreProductTileUIState extends State<ExploreProductTileUI> {
     );
   }
 
-  Widget _imageStackview(
-      {key, photoUrls, discount, priceFontSize, deals = "5+ Coupons"}) {
+  Widget _imageStackview({
+    key,
+    photoUrls,
+    discount,
+    priceFontSize,
+    // deals = "5+ Coupons",
+    deals = "",
+  }) {
     return Stack(
       fit: StackFit.loose,
       children: <Widget>[

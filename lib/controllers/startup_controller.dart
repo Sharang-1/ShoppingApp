@@ -1,7 +1,9 @@
+import 'package:compound/constants/shared_pref.dart';
 import 'package:compound/services/payment_service.dart';
 import 'package:flutter/material.dart';
 import 'package:launch_review/launch_review.dart';
 import 'package:package_info/package_info.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constants/route_names.dart';
 import '../constants/server_urls.dart';
@@ -16,6 +18,7 @@ import '../services/navigation_service.dart';
 import '../services/push_notification_service.dart';
 import '../services/remote_config_service.dart';
 import 'base_controller.dart';
+import 'lookup_controller.dart';
 
 class StartUpController extends BaseController {
   final _authenticationService = locator<AuthenticationService>();
@@ -30,12 +33,14 @@ class StartUpController extends BaseController {
 
     await Future.wait([
       locator<ErrorHandlingService>().init(),
-       locator<PaymentService>().init(),
+      locator<PaymentService>().init(),
       locator<AnalyticsService>().setup(),
       locator<PushNotificationService>().initialise(),
       locator<DynamicLinkService>().handleDynamicLink(),
       locator<RemoteConfigService>().init(),
     ]);
+
+    locator<LookupController>().setUpLookups(await _apiService.getLookups());
 
     if (releaseMode && (updateDetails.version != version)) {
       await DialogService.showCustomDialog(
@@ -62,8 +67,10 @@ class StartUpController extends BaseController {
         Duration(milliseconds: 1500),
         () async {
           var hasLoggedInUser = await _authenticationService.isUserLoggedIn();
+          var pref = await SharedPreferences.getInstance();
+          bool skipLogin = pref.getBool(SkipLogin) ?? false;
           await NavigationService.off(
-              hasLoggedInUser ? HomeViewRoute : IntroPageRoute);
+              (hasLoggedInUser || skipLogin) ? HomeViewRoute : IntroPageRoute);
         },
       );
     }

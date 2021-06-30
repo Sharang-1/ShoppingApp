@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:compound/models/queue.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_retry/dio_retry.dart';
 import 'package:fimber/fimber.dart';
@@ -27,6 +26,7 @@ import '../../models/payment_options.dart';
 import '../../models/products.dart';
 import '../../models/promoCode.dart';
 import '../../models/promotions.dart';
+import '../../models/queue.dart';
 import '../../models/reviews.dart';
 import '../../models/sellerProfile.dart';
 import '../../models/sellers.dart';
@@ -625,6 +625,26 @@ class APIService {
       return UserDetails.fromJson(userData);
     }
     return null;
+  }
+
+  Future<bool> updateUserMeasure(
+      {@required UserDetails userDetails, @required Measure measure}) async {
+    try {
+      if (userDetails == null) userDetails = await getUserData();
+      var res = await apiWrapper("users/${userDetails.key}",
+          authenticated: true,
+          data: {
+            "measure": measure.toJson(),
+          },
+          options: Options(headers: {'excludeToken': false}, method: "put"));
+      if (res != null) {
+        return true;
+      }
+    } catch (e) {
+      print("Error: $e");
+      return false;
+    }
+    return false;
   }
 
   Future<UserPhoto> updateUserPic(File file) async {

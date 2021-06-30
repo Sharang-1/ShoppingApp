@@ -293,7 +293,7 @@ class _ProductListViewState extends State<ProductListView> {
               backgroundColor: logoRed,
             )
           : null,
-      backgroundColor: newBackgroundColor,
+      backgroundColor: Colors.white,
       body: SafeArea(
         top: false,
         left: false,
@@ -491,12 +491,24 @@ class _ProductListViewState extends State<ProductListView> {
                           childAspectRatio: 0.7,
                           tileBuilder: (BuildContext context, data, index,
                               onUpdate, onDelete) {
-                            return ProductTileUI(
-                              data: data,
-                              cardPadding: EdgeInsets.zero,
-                              onClick: () =>
-                                  BaseController.goToProductPage(data),
-                              index: index,
+                            return Container(
+                              decoration: BoxDecoration(
+                                border: Border(
+                                  right: BorderSide(
+                                    color: Colors.grey[300],
+                                  ),
+                                  bottom: BorderSide(
+                                    color: Colors.grey[300],
+                                  ),
+                                ),
+                              ),
+                              child: ProductTileUI(
+                                data: data,
+                                cardPadding: EdgeInsets.zero,
+                                onClick: () =>
+                                    BaseController.goToProductPage(data),
+                                index: index,
+                              ),
                             );
                           },
                         )

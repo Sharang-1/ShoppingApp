@@ -84,6 +84,7 @@ dependencies:
   md2_tab_indicator: ^1.0.2
   video_player: ^2.1.6
   flick_video_player: ^0.3.1
+  custom_radio_grouped_button: ^1.0.6+1
 
 dev_dependencies:
   flutter_test:

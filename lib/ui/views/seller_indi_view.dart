@@ -11,7 +11,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliver_fab/sliver_fab.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:md2_tab_indicator/md2_tab_indicator.dart';
 
 import '../../constants/dynamic_links.dart';
 import '../../constants/route_names.dart';
@@ -606,35 +605,35 @@ class _SellerIndiState extends State<SellerIndi> {
                         ],
                       ),
                     ),
-                    DefaultTabController(
-                      length: 4,
-                      child: TabBar(
-                        labelStyle: TextStyle(fontWeight: FontWeight.w700),
-                        indicatorSize: TabBarIndicatorSize.label,
-                        labelColor: logoRed,
-                        unselectedLabelColor: Color(0xff5f6368),
-                        isScrollable: true,
-                        indicator: MD2Indicator(
-                          indicatorHeight: 3,
-                          indicatorColor: logoRed,
-                          indicatorSize: MD2IndicatorSize.normal,
-                        ),
-                        tabs: <Widget>[
-                          Tab(
-                            text: "OverView",
-                          ),
-                          Tab(
-                            text: "Designer's Details",
-                          ),
-                          Tab(
-                            text: "Reviews",
-                          ),
-                          Tab(
-                            text: "Collections",
-                          ),
-                        ],
-                      ),
-                    ),
+                    // DefaultTabController(
+                    //   length: 4,
+                    //   child: TabBar(
+                    //     labelStyle: TextStyle(fontWeight: FontWeight.w700),
+                    //     indicatorSize: TabBarIndicatorSize.label,
+                    //     labelColor: logoRed,
+                    //     unselectedLabelColor: Color(0xff5f6368),
+                    //     isScrollable: true,
+                    //     indicator: MD2Indicator(
+                    //       indicatorHeight: 3,
+                    //       indicatorColor: logoRed,
+                    //       indicatorSize: MD2IndicatorSize.normal,
+                    //     ),
+                    //     tabs: <Widget>[
+                    //       Tab(
+                    //         text: "OverView",
+                    //       ),
+                    //       Tab(
+                    //         text: "Designer's Details",
+                    //       ),
+                    //       Tab(
+                    //         text: "Reviews",
+                    //       ),
+                    //       Tab(
+                    //         text: "Collections",
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                     sectionDivider(),
                     Container(
                       width: MediaQuery.of(context).size.width,

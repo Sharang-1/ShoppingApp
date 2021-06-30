@@ -16,6 +16,7 @@ import '../../constants/shared_pref.dart';
 import '../../controllers/base_controller.dart';
 import '../../controllers/cart_count_controller.dart';
 import '../../controllers/grid_view_builder/products_grid_view_builder_controller.dart';
+import '../../controllers/home_controller.dart';
 import '../../controllers/product_controller.dart';
 import '../../locator.dart';
 import '../../models/grid_view_builder_filter_models/productFilter.dart';
@@ -36,7 +37,6 @@ import '../shared/ui_helpers.dart';
 import '../views/home_view_slider.dart';
 import '../widgets/cart_icon_badge.dart';
 import '../widgets/custom_text.dart';
-import '../widgets/login_bottomsheet.dart';
 import '../widgets/reviews.dart';
 import '../widgets/section_builder.dart';
 import '../widgets/wishlist_icon.dart';
@@ -156,19 +156,27 @@ class _ProductIndiViewState extends State<ProductIndiView> {
   }
 
   Future<void> goToSellerProfile(controller) async {
-    if (controller?.sellerDetail?.subscriptionTypeId == 2) {
-      await NavigationService.to(
-        ProductsListRoute,
-        arguments: ProductPageArg(
-          subCategory: controller?.sellerDetail?.name,
-          queryString: "accountKey=${controller?.sellerDetail?.key};",
-          sellerPhoto:
-              "$SELLER_PHOTO_BASE_URL/${controller?.sellerDetail?.key}",
-        ),
-      );
+    if (locator<HomeController>().isLoggedIn) {
+      if (controller?.sellerDetail?.subscriptionTypeId == 2) {
+        await NavigationService.to(
+          ProductsListRoute,
+          arguments: ProductPageArg(
+            subCategory: controller?.sellerDetail?.name,
+            queryString: "accountKey=${controller?.sellerDetail?.key};",
+            sellerPhoto:
+                "$SELLER_PHOTO_BASE_URL/${controller?.sellerDetail?.key}",
+          ),
+        );
+      } else {
+        await NavigationService.to(SellerIndiViewRoute,
+            arguments: controller?.sellerDetail);
+      }
     } else {
-      await NavigationService.to(SellerIndiViewRoute,
-          arguments: controller?.sellerDetail);
+      await BaseController.showLoginPopup(
+        nextView: SellerIndiViewRoute,
+        shouldNavigateToNextScreen: false,
+        // arguments: data,
+      );
     }
   }
 
@@ -558,7 +566,6 @@ class _ProductIndiViewState extends State<ProductIndiView> {
   void initState() {
     _scrollController = ScrollController();
     _scrollController.addListener(() {
-      print("Yash:");
       if (_scrollController.position.pixels > Get.width) {
         if (!showHeader)
           setState(() {
@@ -632,7 +639,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                               key: photosKey,
                               imgList: imageURLs,
                               videoList: productData?.video?.videos
-                                      ?.map((e) => "${BASE_URL}products/${productData.key}/videos/${e.name}")
+                                      ?.map((e) =>
+                                          "${BASE_URL}products/${productData.key}/videos/${e.name}")
                                       ?.toList() ??
                                   [],
                               aspectRatio: 1,
@@ -692,8 +700,15 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                     width: 35,
                                     height: 35,
                                     child: InkWell(
-                                      onTap: () async => controller
-                                          .onWishlistBtnClicked(productId),
+                                      onTap: () async => locator<
+                                                  HomeController>()
+                                              .isLoggedIn
+                                          ? controller
+                                              .onWishlistBtnClicked(productId)
+                                          : await BaseController.showLoginPopup(
+                                              nextView: WishListRoute,
+                                              shouldNavigateToNextScreen: true,
+                                            ),
                                       child: WishListIcon(
                                         filled: controller.isWishlistIconFilled,
                                         width: 30,
@@ -1527,53 +1542,71 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                           children: [
                             if (!widget.fromCart)
                               GestureDetector(
-                                onTap: (selectedQty == 0 ||
-                                        selectedColor == "" ||
-                                        selectedSize == "")
-                                    ? () => DialogService.showCustomDialog(
-                                          AlertDialog(
-                                            title: FittedBox(
-                                              fit: BoxFit.scaleDown,
-                                              child: Text(
-                                                  'Please select size, color & quantity'),
-                                            ),
-                                            actions: [
-                                              TextButton(
-                                                  onPressed: () async {
-                                                    DialogService.popDialog();
-                                                    await Scrollable
-                                                        .ensureVisible(
-                                                      variationSelectionCardKey
-                                                          .currentContext,
-                                                      alignment: 0.50,
-                                                    );
-                                                  },
-                                                  child: Text("OK")),
-                                            ],
-                                          ),
-                                        )
-                                    : () async {
-                                        var res = await controller.buyNow(
-                                            productData,
-                                            selectedQty,
-                                            selectedSize,
-                                            selectedColor);
-                                        if (res != null && res == true) {
-                                          locator<CartCountController>()
-                                              .incrementCartCount();
-
-                                          Navigator.push(
-                                            context,
-                                            PageTransition(
-                                              child: CartView(
-                                                productId: productData?.key,
+                                onTap: (locator<HomeController>().isLoggedIn)
+                                    ? (selectedQty == 0 ||
+                                            selectedColor == "" ||
+                                            selectedSize == "")
+                                        ? () => DialogService.showCustomDialog(
+                                              AlertDialog(
+                                                title: FittedBox(
+                                                  fit: BoxFit.scaleDown,
+                                                  child: Text(
+                                                      'Please select size, color & quantity'),
+                                                ),
+                                                actions: [
+                                                  TextButton(
+                                                      onPressed: () async {
+                                                        DialogService
+                                                            .popDialog();
+                                                        await Scrollable
+                                                            .ensureVisible(
+                                                          variationSelectionCardKey
+                                                              .currentContext,
+                                                          alignment: 0.50,
+                                                        );
+                                                      },
+                                                      child: Text("OK")),
+                                                ],
                                               ),
-                                              type: PageTransitionType
-                                                  .rightToLeft,
-                                            ),
-                                          );
-                                        }
-                                      },
+                                            )
+                                        : () async {
+                                            var res = await controller.buyNow(
+                                                productData,
+                                                selectedQty,
+                                                selectedSize,
+                                                selectedColor);
+                                            if (res != null && res == true) {
+                                              locator<CartCountController>()
+                                                  .incrementCartCount();
+
+                                              print(
+                                                  "UserDetails: ${locator<HomeController>().details?.toJson()}");
+
+                                              if (locator<HomeController>()
+                                                      .details
+                                                      ?.measure ==
+                                                  null) {
+                                                await BaseController
+                                                    .showSizePopup();
+                                              }
+
+                                              Navigator.push(
+                                                context,
+                                                PageTransition(
+                                                  child: CartView(
+                                                    productId: productData?.key,
+                                                  ),
+                                                  type: PageTransitionType
+                                                      .rightToLeft,
+                                                ),
+                                              );
+                                            }
+                                          }
+                                    : () async =>
+                                        await BaseController.showLoginPopup(
+                                          nextView: "buynow",
+                                          shouldNavigateToNextScreen: false,
+                                        ),
                                 child: Container(
                                   width:
                                       MediaQuery.of(context).size.width * 0.40,
@@ -1603,12 +1636,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                 ),
                               ),
                             GestureDetector(
-                              onTap: false
-                                  ? () async => await Get.bottomSheet(
-                                        LoginBottomsheet(),
-                                        isScrollControlled: true,
-                                      )
-                                  : disabledAddToCartBtn ||
+                              onTap: (locator<HomeController>().isLoggedIn)
+                                  ? disabledAddToCartBtn ||
                                           selectedQty == 0 ||
                                           selectedColor == "" ||
                                           selectedSize == ""
@@ -1663,7 +1692,12 @@ class _ProductIndiViewState extends State<ProductIndiView> {
 
                                           showTutorial(context,
                                               cartKey: cartKey);
-                                        },
+                                        }
+                                  : () async =>
+                                      await BaseController.showLoginPopup(
+                                        nextView: "addtocart",
+                                        shouldNavigateToNextScreen: false,
+                                      ),
                               child: Container(
                                 width: MediaQuery.of(context).size.width * 0.40,
                                 padding: EdgeInsets.symmetric(
@@ -1697,7 +1731,14 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                 children: [
                                   InkWell(
                                     key: cartKey,
-                                    onTap: () => BaseController.cart(),
+                                    onTap: () async => (locator<
+                                                HomeController>()
+                                            .isLoggedIn)
+                                        ? await BaseController.cart()
+                                        : await BaseController.showLoginPopup(
+                                            nextView: CartViewRoute,
+                                            shouldNavigateToNextScreen: true,
+                                          ),
                                     child: Obx(
                                       () => CartIconWithBadge(
                                         count: locator<CartCountController>()

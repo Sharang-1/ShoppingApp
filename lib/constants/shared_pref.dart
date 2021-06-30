@@ -6,6 +6,7 @@ const String wishList = "wishList";
 const String CartItemList = "CartItemList";
 const String ProductSearchHistoryList = "ProductSearchHistoryList";
 const String SellerSearchHistoryList = "SellerSearchHistoryList";
+const String SkipLogin = "SkipLogin";
 
 //Tutorial Related
 const String ShouldShowHomeTutorial = "ShouldShowHomeTutorial";

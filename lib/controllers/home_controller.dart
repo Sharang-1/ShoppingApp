@@ -1,4 +1,3 @@
-import 'package:compound/services/location_service.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +15,6 @@ import '../constants/route_names.dart';
 import '../constants/server_urls.dart';
 import '../constants/shared_pref.dart';
 import '../controllers/cart_count_controller.dart';
-import '../controllers/lookup_controller.dart';
 import '../controllers/wishlist_controller.dart';
 import '../locator.dart';
 import '../models/orders.dart';
@@ -24,8 +22,10 @@ import '../models/productPageArg.dart';
 import '../models/promotions.dart';
 import '../models/user_details.dart';
 import '../services/api/api_service.dart';
+import '../services/authentication_service.dart';
 import '../services/cart_local_store_service.dart';
 import '../services/dialog_service.dart';
+import '../services/location_service.dart';
 import '../services/navigation_service.dart';
 import '../services/remote_config_service.dart';
 import '../services/wishlist_service.dart';
@@ -43,8 +43,12 @@ class HomeController extends BaseController {
 
   final List<TabItem> navigationItems = [
     TabItem(
-        title: '',
-        icon: Icon(Icons.category, color: backgroundWhiteCreamColor)),
+      title: '',
+      icon: Icon(
+        Icons.category,
+        color: backgroundWhiteCreamColor,
+      ),
+    ),
     TabItem(
         title: '', icon: Icon(Icons.event, color: backgroundWhiteCreamColor)),
     TabItem(
@@ -82,6 +86,7 @@ class HomeController extends BaseController {
       locator<CartLocalStoreService>();
   final WishListService _wishListService = locator<WishListService>();
   final APIService _apiService = locator<APIService>();
+  final AuthenticationService _authService = locator<AuthenticationService>();
   final RemoteConfigService _remoteConfigService =
       locator<RemoteConfigService>();
 
@@ -91,11 +96,14 @@ class HomeController extends BaseController {
   String name = "";
   List<Promotion> topPromotion;
   List<Promotion> bottomPromotion;
+  bool isLoggedIn = false;
 
   void onRefresh() async {
     setup();
     await remoteConfig.fetch();
     await remoteConfig.activateFetched();
+
+    isLoggedIn = await _authService.isUserLoggedIn();
 
     UserLocation currentLocation =
         await locator<LocationService>().getLocation();
@@ -128,6 +136,8 @@ class HomeController extends BaseController {
     await Future.delayed(Duration(milliseconds: 100));
     refreshController.refreshCompleted(resetFooterState: true);
     update();
+
+    details = await _apiService.getUserData();
   }
 
   setup() async {
@@ -135,7 +145,7 @@ class HomeController extends BaseController {
         .setCartCount(await setUpCartListAndGetCount());
     locator<WishListController>()
         .setUpWishList(await _wishListService.getWishList());
-    locator<LookupController>().setUpLookups(await _apiService.getLookups());
+    // locator<LookupController>().setUpLookups(await _apiService.getLookups());
   }
 
   @override
@@ -221,18 +231,34 @@ class HomeController extends BaseController {
         NavigationService.to(CategoriesRoute);
         break;
       case 1:
-        // Get.to(AppointmentBookedView());
-        NavigationService.to(MyAppointmentViewRoute);
+        if (isLoggedIn)
+          NavigationService.to(MyAppointmentViewRoute);
+        else
+          BaseController.showLoginPopup(
+            nextView: MyAppointmentViewRoute,
+            shouldNavigateToNextScreen: true,
+          );
         break;
       case 2:
         NavigationService.to(DzorExploreViewRoute);
         break;
       case 3:
-        // Get.to(OrderPlacedView());
-        NavigationService.to(MyOrdersRoute);
+        if (isLoggedIn)
+          NavigationService.to(MyOrdersRoute);
+        else
+          BaseController.showLoginPopup(
+            nextView: MyOrdersRoute,
+            shouldNavigateToNextScreen: true,
+          );
         break;
       case 4:
-        NavigationService.to(MapViewRoute);
+        if (isLoggedIn)
+          NavigationService.to(MapViewRoute);
+        else
+          BaseController.showLoginPopup(
+            nextView: MapViewRoute,
+            shouldNavigateToNextScreen: true,
+          );
         break;
       default:
         break;

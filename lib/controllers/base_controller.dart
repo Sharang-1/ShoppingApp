@@ -1,4 +1,7 @@
-import 'package:get/state_manager.dart';
+import 'package:compound/controllers/home_controller.dart';
+import 'package:compound/ui/widgets/login_bottomsheet.dart';
+import 'package:compound/ui/widgets/size_bottomsheet.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:location/location.dart';
 import 'package:share/share.dart';
@@ -29,7 +32,6 @@ class BaseController extends GetxController {
   static const num deliveryCharge = 35.40;
   num get deliveryCharges => deliveryCharge;
 
-
   void setBusy(bool value) {
     _busy = value;
     update();
@@ -39,8 +41,11 @@ class BaseController extends GetxController {
   Future<void> setCartList(List<String> list) =>
       _cartLocalStoreService.setCartList(list);
 
-  Future<int> addToCartLocalStore(String productId) =>
-      _cartLocalStoreService.addToCartLocalStore(productId);
+  Future<int> addToCartLocalStore(String productId) async => locator<HomeController>().isLoggedIn ?
+      _cartLocalStoreService.addToCartLocalStore(productId) : await showLoginPopup(
+          nextView: CartViewRoute,
+          shouldNavigateToNextScreen: true,
+        );
 
   Future<void> removeFromCartLocalStore(String productId) =>
       _cartLocalStoreService.removeFromCartLocalStore(productId);
@@ -77,21 +82,60 @@ class BaseController extends GetxController {
   // Goto Pages
   static Future<void> search() async =>
       await NavigationService.to(SearchViewRoute);
-  static Future<dynamic> cart() async =>
-      await NavigationService.to(CartViewRoute);
+  static Future<dynamic> cart() async => locator<HomeController>().isLoggedIn
+      ? await NavigationService.to(CartViewRoute)
+      : await showLoginPopup(
+          nextView: CartViewRoute,
+          shouldNavigateToNextScreen: true,
+        );
   static Future<void> category() async =>
       await NavigationService.to(CategoriesRoute);
   static Future<dynamic> gotoSettingsPage() async =>
       await NavigationService.to(SettingsRoute);
   static Future<dynamic> gotoWishlist() async =>
-      await NavigationService.to(WishListRoute);
+      locator<HomeController>().isLoggedIn
+          ? await NavigationService.to(WishListRoute)
+          : await showLoginPopup(
+              nextView: WishListRoute,
+              shouldNavigateToNextScreen: true,
+            );
   static Future<dynamic> goToProductPage(Product data) =>
       NavigationService.to(ProductIndividualRoute, arguments: data);
   static Future<dynamic> goToProductListPage(ProductPageArg arg) =>
       NavigationService.to(ProductsListRoute, arguments: arg);
+
   static Future<dynamic> goToSellerPage(String sellerId) async {
     Seller seller = await locator<APIService>().getSellerByID(sellerId);
-    return NavigationService.to(SellerIndiViewRoute, arguments: seller);
+    if (locator<HomeController>().isLoggedIn) {
+      return NavigationService.to(SellerIndiViewRoute, arguments: seller);
+    } else {
+      await showLoginPopup(
+        nextView: SellerIndiViewRoute,
+        shouldNavigateToNextScreen: true,
+        arguments: seller,
+      );
+    }
+  }
+
+  static showLoginPopup(
+      {String nextView,
+      bool shouldNavigateToNextScreen,
+      dynamic arguments}) async {
+    await Get.bottomSheet(
+      LoginBottomsheet(
+        nextView: nextView,
+        shouldNavigateToNextScreen: shouldNavigateToNextScreen,
+        arguments: arguments,
+      ),
+      isScrollControlled: true,
+    );
+  }
+
+  static showSizePopup() async {
+    await Get.bottomSheet(
+      SizeBottomsheet(),
+      isScrollControlled: true,
+    );
   }
 
   static Future<dynamic> goToAddressInputPage() =>
@@ -107,7 +151,7 @@ class BaseController extends GetxController {
   static Future<dynamic> shareApp() async =>
       await Share.share("https://dzor.page.link/App");
 
-  static String formatPrice(n){
+  static String formatPrice(n) {
     return NumberFormat.simpleCurrency(name: 'INR').format(n);
   }
 }

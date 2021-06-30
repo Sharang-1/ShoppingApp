@@ -108,75 +108,79 @@ class ReviewWidget extends StatelessWidget {
   }
 
   _reviewCard(Review r) {
-    return Card(
-      child: Padding(
-        padding: EdgeInsets.all(5),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                CircleAvatar(
-                  backgroundColor: lightGrey,
-                  radius: 22,
-                  foregroundColor: Colors.white,
-                  child: Text(
-                    ((r?.reviewer?.length ?? 0) > 0)
-                        ? r?.reviewer?.first?.name != null
-                            ? r?.reviewer?.first?.name
-                                ?.substring(0, 1)
-                                ?.toUpperCase()
-                            : 'U'
-                        : 'U',
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                Expanded(
-                    child: Padding(
-                        padding: EdgeInsets.only(left: 10),
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text((r.userId != null &&
-                                      (r?.reviewer?.length ?? 0) > 0)
-                                  ? r.reviewer.first.name
-                                  : "Unknown User"),
-                              verticalSpaceTiny,
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  RatingBarIndicator(
-                                    rating: r?.rating != null
-                                        ? r?.rating?.toDouble()
-                                        : 0,
-                                    itemCount: 5,
-                                    itemSize: 15,
-                                    itemBuilder: (context, _) => Icon(
-                                      Icons.star,
-                                      color: Colors.amber,
-                                    ),
-                                  ),
-                                  Text(
-                                    (r?.modified?.split(" "))[0],
-                                    textAlign: TextAlign.end,
-                                  )
-                                ],
-                              )
-                            ])))
-              ],
-            ),
-            verticalSpaceSmall,
-            Text(
-              (r?.description ?? '').isNotEmpty
-                  ? r.description
-                  : "No Description",
-              textAlign: TextAlign.justify,
-            ),
-            verticalSpaceSmall,
-          ],
+    return Container(
+      padding: EdgeInsets.all(5),
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            color: Colors.grey[500],
+          ),
         ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              CircleAvatar(
+                backgroundColor: lightGrey,
+                radius: 22,
+                foregroundColor: Colors.white,
+                child: Text(
+                  ((r?.reviewer?.length ?? 0) > 0)
+                      ? r?.reviewer?.first?.name != null
+                          ? r?.reviewer?.first?.name
+                              ?.substring(0, 1)
+                              ?.toUpperCase()
+                          : 'U'
+                      : 'U',
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              Expanded(
+                  child: Padding(
+                      padding: EdgeInsets.only(left: 10),
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text((r.userId != null &&
+                                    (r?.reviewer?.length ?? 0) > 0)
+                                ? r.reviewer.first.name
+                                : "Unknown User"),
+                            verticalSpaceTiny,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                RatingBarIndicator(
+                                  rating: r?.rating != null
+                                      ? r?.rating?.toDouble()
+                                      : 0,
+                                  itemCount: 5,
+                                  itemSize: 15,
+                                  itemBuilder: (context, _) => Icon(
+                                    Icons.star,
+                                    color: Colors.amber,
+                                  ),
+                                ),
+                                Text(
+                                  (r?.modified?.split(" "))[0],
+                                  textAlign: TextAlign.end,
+                                )
+                              ],
+                            )
+                          ])))
+            ],
+          ),
+          verticalSpaceSmall,
+          Text(
+            (r?.description ?? '').isNotEmpty
+                ? r.description
+                : "No Description",
+            textAlign: TextAlign.justify,
+          ),
+          verticalSpaceSmall,
+        ],
       ),
     );
   }

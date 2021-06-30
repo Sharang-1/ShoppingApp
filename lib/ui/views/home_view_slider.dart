@@ -1,11 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:compound/constants/server_urls.dart';
+import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
-import 'package:flick_video_player/flick_video_player.dart';
 
-import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 import 'gallery_view.dart';
 
@@ -209,7 +207,7 @@ class _HomeSliderState extends State<HomeSlider> {
           scrollDirection: Axis.horizontal,
           loadingBuilder: (context, e) =>
               Center(child: CircularProgressIndicator()),
-          backgroundDecoration: BoxDecoration(color: backgroundWhiteCreamColor),
+          backgroundDecoration: BoxDecoration(color: Colors.white),
         ),
       ),
     );

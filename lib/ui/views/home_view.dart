@@ -36,7 +36,7 @@ class HomeView extends StatelessWidget {
         builder: (controller) => Scaffold(
           drawerEdgeDragWidth: 0,
           primary: true,
-          backgroundColor: newBackgroundColor,
+          backgroundColor: Colors.white,
           bottomNavigationBar: ConvexAppBar(
             style: TabStyle.fixedCircle,
             items: controller.navigationItems,
@@ -94,7 +94,12 @@ class HomeView extends StatelessWidget {
                         FontAwesomeIcons.heart,
                         color: Colors.grey[500],
                       ),
-                      onPressed: BaseController.gotoWishlist,
+                      onPressed: controller.isLoggedIn
+                          ? BaseController.gotoWishlist
+                          : () async => await BaseController.showLoginPopup(
+                                nextView: WishListRoute,
+                                shouldNavigateToNextScreen: true,
+                              ),
                     ),
                     actions: <Widget>[
                       InkWell(
@@ -145,7 +150,12 @@ class HomeView extends StatelessWidget {
                             iconColor: Colors.grey[600],
                             count: locator<CartCountController>().count.value,
                           ),
-                          onPressed: () => BaseController.cart(),
+                          onPressed: () async => controller.isLoggedIn
+                              ? await BaseController.cart()
+                              : await BaseController.showLoginPopup(
+                                  nextView: CartViewRoute,
+                                  shouldNavigateToNextScreen: true,
+                                ),
                         ),
                       ),
                     ],

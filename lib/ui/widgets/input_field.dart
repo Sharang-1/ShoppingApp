@@ -22,6 +22,7 @@ class InputField extends StatefulWidget {
   final Function(String) onChanged;
   final TextInputFormatter formatter;
   final bool autoFocus;
+  final double fontSize;
 
   InputField({
     @required this.controller,
@@ -40,6 +41,7 @@ class InputField extends StatefulWidget {
     this.smallVersion = false,
     this.fromBottomsheet = false,
     this.autoFocus = false,
+    this.fontSize,
   });
 
   @override
@@ -48,11 +50,22 @@ class InputField extends StatefulWidget {
 
 class _InputFieldState extends State<InputField> {
   bool isPassword;
-  double fieldHeight = 55;
+  double fieldHeight;
+  double fontSize;
 
   @override
   void initState() {
     super.initState();
+    fieldHeight = (widget.smallVersion || widget.fromBottomsheet) ? 40 : 55;
+
+    fontSize = (widget.fontSize != null)
+        ? widget.fontSize
+        : widget.fromBottomsheet
+            ? titleFontSizeStyle
+            : widget.smallVersion
+                ? 15
+                : 20;
+
     isPassword = widget.password;
   }
 
@@ -62,9 +75,7 @@ class _InputFieldState extends State<InputField> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         Container(
-          height: (widget.smallVersion || widget.fromBottomsheet)
-              ? 30
-              : fieldHeight,
+          height: fieldHeight,
           alignment: Alignment.center,
           child: Row(
             children: <Widget>[
@@ -94,16 +105,13 @@ class _InputFieldState extends State<InputField> {
                   readOnly: widget.isReadOnly,
                   decoration: InputDecoration(
                     hintText: widget.placeholder,
+                    border: OutlineInputBorder(),
                     hintStyle: TextStyle(
                       color: Colors.grey,
                       fontWeight: widget.fromBottomsheet
                           ? FontWeight.normal
                           : FontWeight.bold,
-                      fontSize: widget.fromBottomsheet
-                          ? titleFontSizeStyle
-                          : widget.smallVersion
-                              ? 15
-                              : 20,
+                      fontSize: fontSize,
                     ),
                   ),
                 ),

@@ -1,4 +1,5 @@
 import 'package:compound/constants/route_names.dart';
+import 'package:compound/controllers/home_controller.dart';
 import 'package:compound/controllers/user_details_controller.dart';
 import 'package:compound/services/navigation_service.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import 'package:open_appstore/open_appstore.dart';
 
 import '../../constants/server_urls.dart';
 import '../../controllers/base_controller.dart';
+import '../../locator.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
@@ -104,10 +106,16 @@ class SettingsView extends StatelessWidget {
                             horizontal: 16.0,
                           ),
                           child: InkWell(
-                            onTap: () async => await NavigationService.to(
-                              ProfileViewRoute,
-                              arguments: controller,
-                            ),
+                            onTap: () async =>
+                                locator<HomeController>().isLoggedIn
+                                    ? await NavigationService.to(
+                                        ProfileViewRoute,
+                                        arguments: controller,
+                                      )
+                                    : await BaseController.showLoginPopup(
+                                        nextView: ProfileViewRoute,
+                                        shouldNavigateToNextScreen: true,
+                                      ),
                             child: Container(
                               child: Row(
                                 mainAxisAlignment:
@@ -123,38 +131,53 @@ class SettingsView extends StatelessWidget {
                                       Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
-                                        children: [
-                                          CustomText(
-                                            controller?.mUserDetails?.name ??
-                                                '',
-                                            isTitle: true,
-                                            fontSize: 16,
-                                            isBold: true,
-                                          ),
-                                          CustomText(
-                                            controller.mUserDetails?.contact
-                                                    ?.phone?.mobile
-                                                    ?.replaceRange(
-                                                        5, 10, 'XXXXX')
-                                                    ?.toString() ??
-                                                '',
-                                            fontSize: 14,
-                                          ),
-                                        ],
+                                        children: locator<HomeController>()
+                                                .isLoggedIn
+                                            ? [
+                                                CustomText(
+                                                  controller?.mUserDetails
+                                                          ?.name ??
+                                                      '',
+                                                  isTitle: true,
+                                                  fontSize: 16,
+                                                  isBold: true,
+                                                ),
+                                                CustomText(
+                                                  controller
+                                                          .mUserDetails
+                                                          ?.contact
+                                                          ?.phone
+                                                          ?.mobile
+                                                          ?.replaceRange(
+                                                              5, 10, 'XXXXX')
+                                                          ?.toString() ??
+                                                      '',
+                                                  fontSize: 14,
+                                                ),
+                                              ]
+                                            : [
+                                                CustomText(
+                                                  'Login',
+                                                  isTitle: true,
+                                                  fontSize: 16,
+                                                  isBold: true,
+                                                ),
+                                              ],
                                       ),
                                     ],
                                   ),
-                                  IconButton(
-                                    icon: Icon(
-                                      Icons.edit,
-                                      color: Colors.black,
-                                      size: 25,
+                                  if (locator<HomeController>().isLoggedIn)
+                                    IconButton(
+                                      icon: Icon(
+                                        Icons.edit,
+                                        color: Colors.black,
+                                        size: 25,
+                                      ),
+                                      onPressed: () => NavigationService.to(
+                                        ProfileViewRoute,
+                                        arguments: controller,
+                                      ),
                                     ),
-                                    onPressed: () => NavigationService.to(
-                                      ProfileViewRoute,
-                                      arguments: controller,
-                                    ),
-                                  ),
                                 ],
                               ),
                             ),
@@ -194,15 +217,27 @@ class SettingsView extends StatelessWidget {
                           name: "My Orders",
                           color: Colors.black87,
                           iconColor: Colors.black54,
-                          onTap: () => NavigationService.to(MyOrdersRoute),
+                          onTap: () async =>
+                              locator<HomeController>().isLoggedIn
+                                  ? await NavigationService.to(MyOrdersRoute)
+                                  : await BaseController.showLoginPopup(
+                                      nextView: MyOrdersRoute,
+                                      shouldNavigateToNextScreen: true,
+                                    ),
                           icon: FontAwesomeIcons.pollH,
                         ),
                         SettingsCard(
                           name: "My Appointments",
                           color: Colors.black87,
                           iconColor: Colors.black54,
-                          onTap: () =>
-                              NavigationService.to(MyAppointmentViewRoute),
+                          onTap: () async =>
+                              locator<HomeController>().isLoggedIn
+                                  ? await NavigationService.to(
+                                      MyAppointmentViewRoute)
+                                  : await BaseController.showLoginPopup(
+                                      nextView: MyAppointmentViewRoute,
+                                      shouldNavigateToNextScreen: true,
+                                    ),
                           icon: Icons.event,
                         ),
                         verticalSpaceSmall,

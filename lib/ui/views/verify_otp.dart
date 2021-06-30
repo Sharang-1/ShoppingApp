@@ -11,6 +11,9 @@ import '../widgets/busy_button_circular.dart';
 import '../widgets/text_link.dart';
 
 class VerifyOTPView extends StatefulWidget {
+  final int genderId;
+  final int ageId;
+  const VerifyOTPView({this.ageId, this.genderId});
   @override
   _VerifyOTPViewState createState() => _VerifyOTPViewState();
 }
@@ -19,9 +22,8 @@ class _VerifyOTPViewState extends State<VerifyOTPView> {
   Widget genericWelcomeText(String txt, headingFontSize) {
     return Text(
       txt,
-      style: TextStyle(
-          fontSize: headingFontSize - 3,
-          fontWeight: FontWeight.w600),
+      style:
+          TextStyle(fontSize: headingFontSize - 3, fontWeight: FontWeight.w600),
     );
   }
 
@@ -29,15 +31,10 @@ class _VerifyOTPViewState extends State<VerifyOTPView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        genericWelcomeText("Enter the otp", headingFontSize),
-        SizedBox(
-          height: 5,
+        genericWelcomeText(
+          "Enter the OTP sent to ${controller.phoneNo} \nvia sms",
+          headingFontSize,
         ),
-        genericWelcomeText("sent to ${controller.phoneNo}", headingFontSize),
-        SizedBox(
-          height: 5,
-        ),
-        genericWelcomeText("via sms", headingFontSize)
       ],
     );
   }
@@ -64,8 +61,7 @@ class _VerifyOTPViewState extends State<VerifyOTPView> {
               Text(
                 "Finish",
                 style: TextStyle(
-                    fontSize: headingFontSize,
-                    fontWeight: FontWeight.w300),
+                    fontSize: headingFontSize, fontWeight: FontWeight.w300),
               ),
               horizontalSpaceMedium,
               BusyButtonCicular(
@@ -94,7 +90,8 @@ class _VerifyOTPViewState extends State<VerifyOTPView> {
     );
   }
 
-  Widget inputFields(OtpVerificationController controller, BuildContext context, double headingFontSize) {
+  Widget inputFields(OtpVerificationController controller, BuildContext context,
+      double headingFontSize) {
     return Padding(
       padding: EdgeInsets.only(right: 20),
       child: Center(
@@ -161,22 +158,25 @@ class _VerifyOTPViewState extends State<VerifyOTPView> {
     const double headingFontSize = headingFontSizeStyle + 5;
 
     return GetBuilder<OtpVerificationController>(
-      init: OtpVerificationController(),
+      init: OtpVerificationController(
+        ageId: widget.ageId,
+        genderId: widget.genderId,
+      ),
       builder: (controller) => Scaffold(
         bottomNavigationBar: BottomAppBar(
           elevation: 0,
           color: Colors.transparent,
           child: bottomBar(controller, headingFontSize),
         ),
-        backgroundColor: backgroundWhiteCreamColor,
+        backgroundColor: Colors.white,
         body: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(40, 70, 20, 0),
+            padding: const EdgeInsets.fromLTRB(20, 70, 20, 0),
             child: Column(
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                image(context),
+                Center(child: image(context)),
                 Container(
                   height: MediaQuery.of(context).size.height -
                       (MediaQuery.of(context).size.width / 3) -

@@ -1,4 +1,3 @@
-import 'package:compound/controllers/wishlist_controller.dart';
 import 'package:fimber/fimber.dart';
 import 'package:get/get.dart';
 
@@ -15,6 +14,7 @@ import '../services/dialog_service.dart';
 import '../services/navigation_service.dart';
 import '../services/wishlist_service.dart';
 import 'base_controller.dart';
+import 'wishlist_controller.dart';
 
 class ProductController extends BaseController {
   final CartLocalStoreService _cartLocalStoreService =
@@ -87,6 +87,7 @@ class ProductController extends BaseController {
             title: "Added to Bag",
             description: "The item has been added to your Bag.",
           );
+          await BaseController.showSizePopup();
         }
         return -1;
       } else {
@@ -100,6 +101,7 @@ class ProductController extends BaseController {
             title: "Added to Bag",
             description: "The item has been added to your Bag.",
           );
+          await BaseController.showSizePopup();
         }
       }
       return 1;

@@ -135,27 +135,43 @@ class SectionBuilder extends StatelessWidget {
               onTap: () => BaseController.goToProductPage(productData),
               child: Padding(
                 padding: EdgeInsets.only(bottom: 8.0),
-                child: TopPicksAndDealsCard(
-                  data: {
-                    "key": product?.key ?? "Test",
-                    "name": product?.name ?? "Test",
-                    "actualCost": (product.cost.cost +
-                            product.cost.convenienceCharges.cost +
-                            product.cost.gstCharges.cost +
-                            BaseController.deliveryCharge)
-                        .round(),
-                    "price": (product.cost.costToCustomer +
-                                BaseController.deliveryCharge)
-                            .round() ??
-                        0,
-                    "discount": product?.cost?.productDiscount?.rate ?? 0,
-                    "photo": product?.photo?.photos?.first?.name,
-                    "sellerName": product?.seller?.name ?? "",
-                    "isDiscountAvailable":
-                        product?.discount != null && product.discount != 0
-                            ? "true"
-                            : null,
-                  },
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border(
+                      right: (scrollDirection == Axis.horizontal)
+                          ? BorderSide(
+                              color: Colors.grey[300],
+                            )
+                          : BorderSide.none,
+                      bottom: (scrollDirection == Axis.vertical)
+                          ? BorderSide(
+                              color: Colors.grey[300],
+                            )
+                          : BorderSide.none,
+                    ),
+                  ),
+                  child: TopPicksAndDealsCard(
+                    data: {
+                      "key": product?.key ?? "Test",
+                      "name": product?.name ?? "Test",
+                      "actualCost": (product.cost.cost +
+                              product.cost.convenienceCharges.cost +
+                              product.cost.gstCharges.cost +
+                              BaseController.deliveryCharge)
+                          .round(),
+                      "price": (product.cost.costToCustomer +
+                                  BaseController.deliveryCharge)
+                              .round() ??
+                          0,
+                      "discount": product?.cost?.productDiscount?.rate ?? 0,
+                      "photo": product?.photo?.photos?.first?.name,
+                      "sellerName": product?.seller?.name ?? "",
+                      "isDiscountAvailable":
+                          product?.discount != null && product.discount != 0
+                              ? "true"
+                              : null,
+                    },
+                  ),
                 ),
               ),
             );
@@ -176,14 +192,30 @@ class SectionBuilder extends StatelessWidget {
           onEmptyList: onEmptyList,
           tileBuilder:
               (BuildContext context, productData, index, onUpdate, onDelete) {
-            return ProductTileUI(
-              data: productData,
-              onClick: () => NavigationService.to(
-                ProductIndividualRoute,
-                arguments: productData,
+            return Container(
+              decoration: BoxDecoration(
+                border: Border(
+                  right: (scrollDirection == Axis.horizontal)
+                      ? BorderSide(
+                          color: Colors.grey[300],
+                        )
+                      : BorderSide.none,
+                  bottom: (scrollDirection == Axis.vertical)
+                      ? BorderSide(
+                          color: Colors.grey[300],
+                        )
+                      : BorderSide.none,
+                ),
               ),
-              index: index,
-              cardPadding: EdgeInsets.fromLTRB(0, 0, 0, 8),
+              child: ProductTileUI(
+                data: productData,
+                onClick: () => NavigationService.to(
+                  ProductIndividualRoute,
+                  arguments: productData,
+                ),
+                index: index,
+                cardPadding: EdgeInsets.fromLTRB(0, 0, 0, 8),
+              ),
             );
           },
         );
@@ -254,7 +286,15 @@ class SectionBuilder extends StatelessWidget {
           tileBuilder: (BuildContext context, data, index, onDelete, onUpdate) {
             return GestureDetector(
               onTap: () {},
-              child: DesignerTileUi(data: data),
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border(
+                      right: BorderSide(
+                    color: Colors.grey[300],
+                  )),
+                ),
+                child: DesignerTileUi(data: data),
+              ),
             );
           },
         );
@@ -276,10 +316,26 @@ class SectionBuilder extends StatelessWidget {
           tileBuilder: (BuildContext context, data, index, onDelete, onUpdate) {
             return GestureDetector(
               onTap: () {},
-              child: DesignerTileUi(
-                data: data,
-                isID3: ((layoutType == LayoutType.DESIGNER_ID_3_LAYOUT) ||
-                    layoutType == LayoutType.DESIGNER_ID_3_VERTICAL_LAYOUT),
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border(
+                    right: (scrollDirection == Axis.horizontal)
+                        ? BorderSide(
+                            color: Colors.grey[300],
+                          )
+                        : BorderSide.none,
+                    bottom: (scrollDirection == Axis.vertical)
+                        ? BorderSide(
+                            color: Colors.grey[300],
+                          )
+                        : BorderSide.none,
+                  ),
+                ),
+                child: DesignerTileUi(
+                  data: data,
+                  isID3: ((layoutType == LayoutType.DESIGNER_ID_3_LAYOUT) ||
+                      layoutType == LayoutType.DESIGNER_ID_3_VERTICAL_LAYOUT),
+                ),
               ),
             );
           },
@@ -341,10 +397,23 @@ class SectionBuilder extends StatelessWidget {
               ),
               child: Padding(
                 padding: EdgeInsets.only(bottom: 8.0),
-                child: NewCategoryTile(
-                  data: data,
-                  fromCategory: layoutType == LayoutType.CATEGORY_LAYOUT_4,
-
+                child: Container(
+                  decoration: (layoutType == LayoutType.CATEGORY_LAYOUT_4)
+                      ? BoxDecoration(
+                          border: Border(
+                            right: BorderSide(
+                              color: Colors.grey[300],
+                            ),
+                            bottom: BorderSide(
+                              color: Colors.grey[300],
+                            ),
+                          ),
+                        )
+                      : BoxDecoration(),
+                  child: NewCategoryTile(
+                    data: data,
+                    fromCategory: layoutType == LayoutType.CATEGORY_LAYOUT_4,
+                  ),
                 ),
               ),
             );

@@ -52,14 +52,14 @@ class _GalleryPhotoViewWrapperState extends State<GalleryPhotoViewWrapper> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: backgroundWhiteCreamColor,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0,
         iconTheme: IconThemeData(color: appBarIconColor),
-        backgroundColor: widget.appbarColor ?? backgroundWhiteCreamColor,
+        backgroundColor: widget.appbarColor ?? Colors.white,
       ),
       body: Container(
-        decoration: BoxDecoration(color: backgroundWhiteCreamColor),
+        decoration: BoxDecoration(color: Colors.white),
         constraints: BoxConstraints.expand(
           height: MediaQuery.of(context).size.height,
         ),

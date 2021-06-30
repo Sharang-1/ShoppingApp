@@ -1,4 +1,5 @@
 // import 'package:compound/ui/views/pay_through_card.dart';
+import 'package:compound/controllers/base_controller.dart';
 import 'package:compound/services/dialog_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -121,14 +122,14 @@ class _PaymentMethodState extends State<PaymentMethod> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       CustomText(
-                        "₹${widget.finalTotal}",
+                        "${BaseController.formatPrice(num.parse(widget.finalTotal.replaceAll("₹", "")))}",
                         fontSize: 12,
                         isBold: true,
                       ),
-                      CustomText(
-                        "View Details",
-                        fontSize: 12,
-                      ),
+                      // CustomText(
+                      //   "View Details",
+                      //   fontSize: 12,
+                      // ),
                     ],
                   ),
                 ),
@@ -276,11 +277,25 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                           print(val);
                                         },
                                       ),
-                                      CustomText(
-                                        controller.paymentOptions[key],
-                                        fontSize: titleFontSizeStyle - 4,
-                                        isBold: true,
-                                        color: Colors.grey[700],
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            CustomText(
+                                              controller.paymentOptions[key],
+                                              fontSize: titleFontSizeStyle,
+                                              isBold: true,
+                                              color: Colors.grey[700],
+                                            ),
+                                            if (key == 2) verticalSpaceTiny,
+                                            if (key == 2)
+                                              CustomText(
+                                                "Debit Card, \nCredit Card, \nUPI, \nNetBanking",
+                                                fontSize: titleFontSize - 4,
+                                              )
+                                          ],
+                                        ),
                                       ),
                                       Spacer(),
                                       iconpaymentMethodMap[key],

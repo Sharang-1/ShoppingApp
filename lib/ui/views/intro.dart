@@ -6,28 +6,32 @@ import '../../constants/route_names.dart';
 import '../../services/navigation_service.dart';
 
 class IntroPage extends StatelessWidget {
+  final Color backgroundColor = Colors.white;
+  final double titleFontSize = 20;
+  final double descriptionFontSize = 20;
   @override
   Widget build(BuildContext context) {
     return IntroSlider(
         slides: [
           Slide(
-              description:
-                  "Discover traditional wear designers with unique philosophies around you.",
-              marginDescription: EdgeInsets.only(left: 10, right: 10, top: 20),
-              styleDescription: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                  color: Color.fromARGB(255, 62, 83, 119)),
-              title: "Discover",
-              marginTitle: EdgeInsets.only(top: 100),
-              styleTitle: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 40,
-                  color: Color.fromARGB(255, 62, 83, 119)),
-              pathImage: "assets/images/screen1.png",
-              heightImage: 330,
-              widthImage: 500,
-              backgroundColor: Color.fromARGB(255, 245, 240, 229)),
+            description:
+                "Discover traditional wear designers with unique philosophies around you.",
+            marginDescription: EdgeInsets.only(left: 10, right: 10, top: 20),
+            styleDescription: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: descriptionFontSize,
+                color: Color.fromARGB(255, 62, 83, 119)),
+            title: "Discover",
+            marginTitle: EdgeInsets.only(top: 100),
+            styleTitle: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: titleFontSize,
+                color: Color.fromARGB(255, 62, 83, 119)),
+            pathImage: "assets/images/screen1.png",
+            heightImage: 330,
+            widthImage: 500,
+            backgroundColor: backgroundColor,
+          ),
           Slide(
               description:
                   " Get authentic regional traditional wear delivered home.",
@@ -35,33 +39,33 @@ class IntroPage extends StatelessWidget {
               marginTitle: EdgeInsets.only(top: 100),
               styleDescription: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 20,
+                  fontSize: titleFontSize,
                   color: Color.fromARGB(255, 62, 83, 119)),
               title: "Shop",
               styleTitle: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 40,
+                  fontSize: titleFontSize,
                   color: Color.fromARGB(255, 62, 83, 119)),
               pathImage: "assets/images/screen2.png",
               heightImage: 330,
-              backgroundColor: Color.fromARGB(255, 245, 240, 229)),
+              backgroundColor: backgroundColor),
           Slide(
               description:
                   "Book appointments with designers that fit your needs.",
               marginDescription: EdgeInsets.only(left: 10, right: 10, top: 20),
               styleDescription: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 20,
+                  fontSize: titleFontSize,
                   color: Color.fromARGB(255, 62, 83, 119)),
               marginTitle: EdgeInsets.only(top: 100),
               title: "Collaborate",
               styleTitle: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 40,
+                  fontSize: titleFontSize,
                   color: Color.fromARGB(255, 62, 83, 119)),
               pathImage: "assets/images/screen3.png",
               heightImage: 330,
-              backgroundColor: Color.fromARGB(255, 245, 240, 229)),
+              backgroundColor: backgroundColor),
         ],
         onDonePress: this.onDonePress,
         onSkipPress: this.onSkipPress,

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../controllers/dynamic_content_controller.dart';
-import '../shared/app_colors.dart';
 // import 'package:compound/ui/widgets/circular_progress_indicator.dart';
 
 class DynamicContentLoadingView extends StatelessWidget {
@@ -14,7 +13,7 @@ class DynamicContentLoadingView extends StatelessWidget {
   Widget build(BuildContext context) {
     _controller.init(context, data: data);
     return Scaffold(
-      backgroundColor: backgroundWhiteCreamColor,
+      backgroundColor: Colors.white,
       body: Center(
         child: Container(
           child: FittedBox(

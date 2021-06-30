@@ -629,7 +629,7 @@ class HomeViewList extends StatelessWidget {
 class SectionDivider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return verticalSpaceSmall;
+    // return verticalSpaceSmall;
     // ignore: dead_code
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 15),

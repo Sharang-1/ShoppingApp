@@ -1,4 +1,6 @@
+import 'package:compound/constants/route_names.dart';
 import 'package:compound/controllers/base_controller.dart';
+import 'package:compound/controllers/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -152,22 +154,28 @@ class _ProductTileUIState extends State<ProductTileUI> {
                                     width: 18,
                                     height: 18,
                                   ),
-                                  onTap: () {
-                                    if (locator<WishListController>()
-                                            .list
-                                            .indexOf(widget.data.key) !=
-                                        -1) {
-                                      removeFromWishList(widget.data.key);
-                                      setState(() {
-                                        isWishlistIconFilled = false;
-                                      });
-                                    } else {
-                                      addToWishList(widget.data.key);
-                                      setState(() {
-                                        isWishlistIconFilled = true;
-                                      });
-                                    }
-                                  },
+                                  onTap: (locator<HomeController>().isLoggedIn)
+                                      ? () async {
+                                          if (locator<WishListController>()
+                                                  .list
+                                                  .indexOf(widget.data.key) !=
+                                              -1) {
+                                            removeFromWishList(widget.data.key);
+                                            setState(() {
+                                              isWishlistIconFilled = false;
+                                            });
+                                          } else {
+                                            setState(() {
+                                              isWishlistIconFilled = true;
+                                            });
+                                          }
+                                        }
+                                      : () async {
+                                          await BaseController.showLoginPopup(
+                                            nextView: WishListRoute,
+                                            shouldNavigateToNextScreen: true,
+                                          );
+                                        },
                                 )
                               : InkWell(
                                   child: Image.asset(

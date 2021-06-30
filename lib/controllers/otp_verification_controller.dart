@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:compound/models/user_details.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,6 +25,10 @@ class OtpVerificationController extends BaseController {
   final oneSec = const Duration(seconds: 1);
   bool otpSendButtonEnabled = false;
   int timerCountDownSeconds = 30;
+  int ageId;
+  int genderId;
+
+  OtpVerificationController({this.ageId, this.genderId});
 
   final AuthenticationService _authenticationService =
       locator<AuthenticationService>();
@@ -129,6 +134,8 @@ class OtpVerificationController extends BaseController {
 
       var mUserDetails = await _apiService.getUserData();
       mUserDetails.name = prefs.getString(Name);
+      mUserDetails.age = Age(id: ageId);
+      mUserDetails.gender = Gender(id: genderId);
       await _addressService.setUpAddress(mUserDetails.contact);
       await _apiService.updateUserData(mUserDetails);
 

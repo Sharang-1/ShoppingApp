@@ -79,7 +79,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case VerifyOTPViewRoute:
       return _getPageRoute(
         routeName: settings.name,
-        viewToShow: VerifyOTPView(),
+        viewToShow: VerifyOTPView(
+          ageId: (pageArguments as Map<String, int>)["ageId"],
+          genderId: (pageArguments as Map<String, int>)["genderId"],
+        ),
         pageArguments: pageArguments,
         pageTransitionType: PageTransitionType.rightToLeft,
       );

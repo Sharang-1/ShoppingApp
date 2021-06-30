@@ -725,8 +725,12 @@ class _ProfileViewState extends State<ProfileView> {
                                                 color: Colors.grey[800],
                                               ),
                                               readOnly: !isEditable,
-                                              // initialValue:
-                                              //     controller.mUserDetails ?? '',
+                                              initialValue: controller
+                                                      ?.mUserDetails
+                                                      ?.measure
+                                                      ?.shoulders
+                                                      .toString() ??
+                                                  '',
                                               // validator: (text) => GetUtils
                                               //         .isEmail(text)
                                               //     ? null
@@ -746,8 +750,8 @@ class _ProfileViewState extends State<ProfileView> {
                                                 hintText: "*Shoulder",
                                                 contentPadding:
                                                     EdgeInsets.symmetric(
-                                                        vertical: 10,
-                                                        horizontal: 8.0),
+                                                  horizontal: 8.0,
+                                                ),
                                                 border: OutlineInputBorder(
                                                   borderSide: BorderSide(
                                                     color: Colors.black,
@@ -770,8 +774,12 @@ class _ProfileViewState extends State<ProfileView> {
                                                 color: Colors.grey[800],
                                               ),
                                               readOnly: !isEditable,
-                                              // initialValue:
-                                              //     controller.mUserDetails ?? '',
+                                              initialValue: controller
+                                                      ?.mUserDetails
+                                                      ?.measure
+                                                      ?.chest
+                                                      .toString() ??
+                                                  '',
                                               // validator: (text) => GetUtils
                                               //         .isEmail(text)
                                               //     ? null
@@ -791,7 +799,6 @@ class _ProfileViewState extends State<ProfileView> {
                                                 hintText: "*Chest",
                                                 contentPadding:
                                                     EdgeInsets.symmetric(
-                                                        vertical: 10,
                                                         horizontal: 8.0),
                                                 border: OutlineInputBorder(
                                                   borderSide: BorderSide(
@@ -815,8 +822,12 @@ class _ProfileViewState extends State<ProfileView> {
                                                 color: Colors.grey[800],
                                               ),
                                               readOnly: !isEditable,
-                                              // initialValue:
-                                              //     controller.mUserDetails ?? '',
+                                              initialValue: controller
+                                                      ?.mUserDetails
+                                                      ?.measure
+                                                      ?.waist
+                                                      .toString() ??
+                                                  '',
                                               // validator: (text) => GetUtils
                                               //         .isEmail(text)
                                               //     ? null
@@ -836,7 +847,6 @@ class _ProfileViewState extends State<ProfileView> {
                                                 hintText: "*Waist",
                                                 contentPadding:
                                                     EdgeInsets.symmetric(
-                                                        vertical: 10,
                                                         horizontal: 8.0),
                                                 border: OutlineInputBorder(
                                                   borderSide: BorderSide(
@@ -860,8 +870,12 @@ class _ProfileViewState extends State<ProfileView> {
                                                 color: Colors.grey[800],
                                               ),
                                               readOnly: !isEditable,
-                                              // initialValue:
-                                              //     controller.mUserDetails ?? '',
+                                              initialValue: controller
+                                                      ?.mUserDetails
+                                                      ?.measure
+                                                      ?.hips
+                                                      .toString() ??
+                                                  '',
                                               // validator: (text) => GetUtils
                                               //         .isEmail(text)
                                               //     ? null
@@ -881,7 +895,54 @@ class _ProfileViewState extends State<ProfileView> {
                                                 hintText: "*Hips",
                                                 contentPadding:
                                                     EdgeInsets.symmetric(
-                                                        vertical: 10,
+                                                        horizontal: 8.0),
+                                                border: OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                              ),
+                                              autofocus: true,
+                                              maxLines: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 4.0),
+                                            child: TextFormField(
+                                              style: TextStyle(
+                                                fontSize: subtitleFontSizeStyle,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.grey[800],
+                                              ),
+                                              readOnly: !isEditable,
+                                              initialValue: controller
+                                                      ?.mUserDetails
+                                                      ?.measure
+                                                      ?.height
+                                                      .toString() ??
+                                                  '',
+                                              // validator: (text) => GetUtils
+                                              //         .isEmail(text)
+                                              //     ? null
+                                              //     : "Please Enter Valid Email Address",
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  isButtonActive = true;
+                                                });
+                                                _formKey.currentState
+                                                    .validate();
+                                              },
+                                              onSaved: (text) {
+                                                // controller.mUserDetails.email =
+                                                //     text;
+                                              },
+                                              decoration: const InputDecoration(
+                                                hintText: "*Height",
+                                                contentPadding:
+                                                    EdgeInsets.symmetric(
                                                         horizontal: 8.0),
                                                 border: OutlineInputBorder(
                                                   borderSide: BorderSide(

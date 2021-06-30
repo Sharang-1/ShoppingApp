@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import '../../constants/route_names.dart';
 import '../../locator.dart';
 import '../../services/navigation_service.dart';
-import '../shared/app_colors.dart';
 
 // ignore: camel_case_types
 class loader extends StatefulWidget {
@@ -25,7 +24,7 @@ class _loaderState extends State<loader> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: backgroundWhiteCreamColor,
+      backgroundColor: Colors.white,
       body: Center(
         child: Container(
           child: FittedBox(

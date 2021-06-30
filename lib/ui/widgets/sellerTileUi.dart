@@ -1,18 +1,19 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:compound/controllers/base_controller.dart';
-import 'package:compound/utils/tools.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../constants/route_names.dart';
 import '../../constants/server_urls.dart';
+import '../../controllers/base_controller.dart';
+import '../../controllers/home_controller.dart';
 import '../../locator.dart';
 import '../../models/productPageArg.dart';
 import '../../models/reviews.dart';
 import '../../models/sellers.dart';
 import '../../services/api/api_service.dart';
 import '../../services/navigation_service.dart';
+import '../../utils/tools.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
@@ -295,17 +296,25 @@ class DesignerTileUi extends StatelessWidget {
       width: MediaQuery.of(context).size.width - 40,
       child: GestureDetector(
         onTap: () async {
-          if (data.subscriptionTypeId == 2)
-            return NavigationService.to(
-              ProductsListRoute,
-              arguments: ProductPageArg(
-                subCategory: data.name,
-                queryString: "accountKey=${data.key};",
-                sellerPhoto: "$SELLER_PHOTO_BASE_URL/${data.key}",
-              ),
+          if (locator<HomeController>().isLoggedIn) {
+            if (data.subscriptionTypeId == 2)
+              return NavigationService.to(
+                ProductsListRoute,
+                arguments: ProductPageArg(
+                  subCategory: data.name,
+                  queryString: "accountKey=${data.key};",
+                  sellerPhoto: "$SELLER_PHOTO_BASE_URL/${data.key}",
+                ),
+              );
+            else
+              return NavigationService.to(SellerIndiViewRoute, arguments: data);
+          } else {
+            await BaseController.showLoginPopup(
+              nextView: SellerIndiViewRoute,
+              shouldNavigateToNextScreen: false,
+              // arguments: data,
             );
-          else
-            return NavigationService.to(SellerIndiViewRoute, arguments: data);
+          }
         },
         child: Card(
           shape: RoundedRectangleBorder(

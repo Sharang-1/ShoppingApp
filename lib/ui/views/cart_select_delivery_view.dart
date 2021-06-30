@@ -1,3 +1,4 @@
+import 'package:compound/controllers/base_controller.dart';
 import 'package:compound/locator.dart';
 import 'package:compound/services/api/api_service.dart';
 import 'package:compound/services/dialog_service.dart';
@@ -88,14 +89,14 @@ class _SelectAddressState extends State<SelectAddress> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       CustomText(
-                        "₹${widget.finalTotal}",
+                        "${BaseController.formatPrice(num.parse(widget.finalTotal.replaceAll("₹", "")))}",
                         fontSize: 12,
                         isBold: true,
                       ),
-                      CustomText(
-                        "View Details",
-                        fontSize: 12,
-                      ),
+                      // CustomText(
+                      //   "View Details",
+                      //   fontSize: 12,
+                      // ),
                     ],
                   ),
                 ),

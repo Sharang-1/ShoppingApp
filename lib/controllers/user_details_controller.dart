@@ -1,6 +1,7 @@
 // import 'package:fimber/fimber.dart';
 import 'dart:io';
 
+import 'package:compound/controllers/home_controller.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -45,7 +46,7 @@ class UserDetailsController extends BaseController {
     DialogService.showNotDeliveringDialog();
   }
 
-  UserDetails mUserDetails;
+  UserDetails mUserDetails = locator<HomeController>().details;
   Future getUserDetails() async {
     setBusy(true);
     token = (await SharedPreferences.getInstance()).getString(Authtoken);
