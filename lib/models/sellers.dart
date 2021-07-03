@@ -55,6 +55,7 @@ class Seller {
     this.works,
     this.operations,
     this.contact,
+    this.owner,
     this.timing,
     this.establishmentTypeId,
     this.subscriptionTypeId,
@@ -76,6 +77,7 @@ class Seller {
   String works;
   String operations;
   Contact contact;
+  Owner owner;
   Timing timing;
   num establishmentTypeId;
   num subscriptionTypeId;
@@ -97,6 +99,7 @@ class Seller {
         operations: json["operations"] == null ? null : json["operations"],
         contact:
             json["contact"] == null ? null : Contact.fromJson(json["contact"]),
+        owner: json["owner"] == null ? null : Owner.fromJson(json["owner"]),
         timing: Timing.fromJson(json["timing"]),
         establishmentTypeId: json["establishmentTypeId"],
         subscriptionTypeId: json["subscriptionTypeId"],
@@ -235,6 +238,26 @@ class Type {
 
   Map<String, dynamic> toJson() => {
         "id": id,
+        "name": name,
+      };
+}
+
+class Owner {
+  Owner({
+    this.key,
+    this.name,
+  });
+
+  String key;
+  String name;
+
+  factory Owner.fromJson(Map<String, dynamic> json) => Owner(
+        key: json["key"],
+        name: json["name"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "key": key,
         "name": name,
       };
 }

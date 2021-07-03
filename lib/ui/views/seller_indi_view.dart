@@ -52,6 +52,7 @@ class _SellerIndiState extends State<SellerIndi> {
   Key reviewKey = UniqueKey();
   Key writeReviewKey = UniqueKey();
   bool showExploreSection = true;
+  String token = '';
 
   GlobalKey sellerAboutKey = GlobalKey();
   GlobalKey appointmentBtnKey = GlobalKey();
@@ -120,6 +121,9 @@ class _SellerIndiState extends State<SellerIndi> {
   @override
   void initState() {
     super.initState();
+    SharedPreferences.getInstance().then((pref) {
+      token = pref.getString(Authtoken);
+    });
     try {
       _analyticsService.sendAnalyticsEvent(
           eventName: "seller_view",
@@ -156,7 +160,8 @@ class _SellerIndiState extends State<SellerIndi> {
       "Works Offered": data.works,
       "Type": data?.establishmentType?.name ??
           accountTypeValues.reverse[data?.accountType ?? AccountType.SELLER],
-      "Note from Seller": data.bio
+      "Note from Seller": data.bio,
+      "Owner Name": data.owner.name,
     };
   }
 
@@ -661,15 +666,59 @@ class _SellerIndiState extends State<SellerIndi> {
                             color: Colors.black,
                           ),
                           verticalSpace(10),
-                          ReadMoreText(
-                            sellerDetails["Note from Seller"],
-                            trimLines: 3,
-                            colorClickableText: logoRed,
-                            trimMode: TrimMode.Line,
-                            style: TextStyle(
-                              fontSize: subtitleFontSize,
-                              color: Colors.grey[600],
-                            ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ClipOval(
+                                child: FadeInImage(
+                                  width: 50,
+                                  height: 50,
+                                  fadeInCurve: Curves.easeIn,
+                                  fit: BoxFit.cover,
+                                  placeholder: AssetImage(
+                                      "assets/images/product_preloading.png"),
+                                  image: NetworkImage(
+                                      "$DESIGNER_PROFILE_PHOTO_BASE_URL/${sellerData?.owner?.key}",
+                                      headers: {
+                                        "Authorization":
+                                            "Bearer ${token ?? ''}",
+                                      }),
+                                  imageErrorBuilder:
+                                      (context, error, stackTrace) {
+                                        print("Image Error: $error $stackTrace");
+                                          return Image.asset(
+                                    "assets/images/product_preloading.png",
+                                    width: 50,
+                                    height: 50,
+                                    fit: BoxFit.cover,
+                                  );}
+                                ),
+                              ),
+                              horizontalSpaceSmall,
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    CustomText(
+                                      sellerDetails['Owner Name'],
+                                      isBold: true,
+                                      fontSize: titleFontSize,
+                                      dotsAfterOverFlow: true,
+                                    ),
+                                    ReadMoreText(
+                                      sellerDetails["Note from Seller"],
+                                      trimLines: 2,
+                                      colorClickableText: logoRed,
+                                      trimMode: TrimMode.Line,
+                                      style: TextStyle(
+                                        fontSize: subtitleFontSize - 2,
+                                        color: Colors.grey[600],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
                           elementDivider(),
                           CustomText(
