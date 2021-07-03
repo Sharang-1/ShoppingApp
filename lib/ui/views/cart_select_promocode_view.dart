@@ -112,40 +112,43 @@ class _SelectPromocodeState extends State<SelectPromocode> {
                   ],
                 ),
               ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  elevation: 0,
-                  primary: green,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+              horizontalSpaceMedium,
+              Expanded(
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    elevation: 0,
+                    primary: green,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                   ),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    PageTransition(
-                        child: SelectAddress(
-                          productId: widget.productId,
-                          promoCode: widget.promoCode,
-                          promoCodeId: widget.promoCodeId,
-                          size: widget.size,
-                          color: widget.color,
-                          qty: widget.qty,
-                          finalTotal: widget.finalTotal,
-                        ),
-                        type: PageTransitionType.rightToLeft),
-                  );
-                },
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 10.0,
-                    horizontal: 10,
-                  ),
-                  child: Text(
-                    "Select Address",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      PageTransition(
+                          child: SelectAddress(
+                            productId: widget.productId,
+                            promoCode: widget.promoCode,
+                            promoCodeId: widget.promoCodeId,
+                            size: widget.size,
+                            color: widget.color,
+                            qty: widget.qty,
+                            finalTotal: widget.finalTotal,
+                          ),
+                          type: PageTransitionType.rightToLeft),
+                    );
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 10.0,
+                      horizontal: 10,
+                    ),
+                    child: Text(
+                      "Select Address",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),

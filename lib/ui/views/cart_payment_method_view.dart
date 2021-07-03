@@ -133,43 +133,46 @@ class _PaymentMethodState extends State<PaymentMethod> {
                     ],
                   ),
                 ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    elevation: 0,
-                    primary: green,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                horizontalSpaceMedium,
+                Expanded(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      elevation: 0,
+                      primary: green,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                     ),
-                  ),
-                  onPressed: () async {
-                    final Order res = await controller.createOrder(
-                      widget.billingAddress.address +
-                          '\n' +
-                          widget.billingAddress.googleAddress,
-                      widget.productId,
-                      widget.promoCode,
-                      widget.promoCodeId,
-                      widget.size,
-                      widget.color,
-                      widget.qty,
-                      paymentMethodRadioValue,
-                    );
+                    onPressed: () async {
+                      final Order res = await controller.createOrder(
+                        widget.billingAddress.address +
+                            '\n' +
+                            widget.billingAddress.googleAddress,
+                        widget.productId,
+                        widget.promoCode,
+                        widget.promoCodeId,
+                        widget.size,
+                        widget.color,
+                        widget.qty,
+                        paymentMethodRadioValue,
+                      );
 
-                    if (res != null) {
-                      NavigationService.off(PaymentFinishedScreenRoute);
-                    } else if (paymentMethodGrpValue != 2) {
-                      _errorHandlingService
-                          .showError(Errors.CouldNotPlaceAnOrder);
-                      NavigationService.offAll(HomeViewRoute);
-                    }
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Text(
-                      "Place Order ",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                      if (res != null) {
+                        NavigationService.off(PaymentFinishedScreenRoute);
+                      } else if (paymentMethodGrpValue != 2) {
+                        _errorHandlingService
+                            .showError(Errors.CouldNotPlaceAnOrder);
+                        NavigationService.offAll(HomeViewRoute);
+                      }
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Text(
+                        "Place Order ",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),

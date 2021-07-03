@@ -100,61 +100,64 @@ class _SelectAddressState extends State<SelectAddress> {
                     ],
                   ),
                 ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    elevation: 0,
-                    primary: green,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                horizontalSpaceMedium,
+                Expanded(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      elevation: 0,
+                      primary: green,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                     ),
-                  ),
-                  onPressed: disabledPayment
-                      ? null
-                      : () async {
-                          final serviceAvailability =
-                              await locator<APIService>().checkPincode(
-                                  productId: widget.productId,
-                                  pincode:
-                                      addressRadioValue.pincode.toString());
-
-                          if (serviceAvailability == null) return;
-
-                          if (serviceAvailability.serviceAvailable) {
-                            Navigator.push(
-                              context,
-                              PageTransition(
-                                  child: PaymentMethod(
-                                    billingAddress: (addressRadioValue == null
-                                        ? controller.addresses[0]
-                                        : addressRadioValue),
-                                    color: widget.color,
+                    onPressed: disabledPayment
+                        ? null
+                        : () async {
+                            final serviceAvailability =
+                                await locator<APIService>().checkPincode(
                                     productId: widget.productId,
-                                    promoCode: widget.promoCode,
-                                    promoCodeId: widget.promoCodeId,
-                                    qty: widget.qty,
-                                    size: widget.size,
-                                    finalTotal: widget.finalTotal,
-                                  ),
-                                  type: PageTransitionType.rightToLeft),
-                            );
-                          } else {
-                            DialogService.showNotDeliveringDialog(
-                                msg: serviceAvailability.message);
-                            // Get.snackbar(
-                            //   "Service Not Available",
-                            //   serviceAvailability.message,
-                            //   snackPosition: SnackPosition.BOTTOM,
-                            // );
-                          }
-                        },
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Center(
-                      child: CustomText(
-                        "Make Payment",
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        fontSize: 18,
+                                    pincode:
+                                        addressRadioValue.pincode.toString());
+
+                            if (serviceAvailability == null) return;
+
+                            if (serviceAvailability.serviceAvailable) {
+                              Navigator.push(
+                                context,
+                                PageTransition(
+                                    child: PaymentMethod(
+                                      billingAddress: (addressRadioValue == null
+                                          ? controller.addresses[0]
+                                          : addressRadioValue),
+                                      color: widget.color,
+                                      productId: widget.productId,
+                                      promoCode: widget.promoCode,
+                                      promoCodeId: widget.promoCodeId,
+                                      qty: widget.qty,
+                                      size: widget.size,
+                                      finalTotal: widget.finalTotal,
+                                    ),
+                                    type: PageTransitionType.rightToLeft),
+                              );
+                            } else {
+                              DialogService.showNotDeliveringDialog(
+                                  msg: serviceAvailability.message);
+                              // Get.snackbar(
+                              //   "Service Not Available",
+                              //   serviceAvailability.message,
+                              //   snackPosition: SnackPosition.BOTTOM,
+                              // );
+                            }
+                          },
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Center(
+                        child: CustomText(
+                          "Make Payment",
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          fontSize: 18,
+                        ),
                       ),
                     ),
                   ),

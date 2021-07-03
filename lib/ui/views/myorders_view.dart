@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
@@ -46,16 +47,10 @@ class _MyOrdersViewState extends State<MyOrdersView> {
               ),
             ),
             actions: [
-              TextButton(
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: CustomText(
-                    "Wishlist",
-                    fontFamily: headingFont,
-                    isBold: true,
-                    fontSize: subtitleFontSize,
-                    color: logoRed,
-                  ),
+              IconButton(
+                icon: Icon(
+                  FontAwesomeIcons.solidHeart,
+                  color: logoRed,
                 ),
                 onPressed: () {
                   NavigationService.to(WishListRoute);
