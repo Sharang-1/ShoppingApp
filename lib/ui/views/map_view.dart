@@ -46,7 +46,6 @@ class MapView extends StatelessWidget {
 
   Widget clientCardSeller(
       DzorMapController dzorMapController, context, Seller client, int index) {
-
     List<String> tempSplitName = client.name.split(" ");
     String shortName = tempSplitName[0].substring(0, 1);
     // String shortName = tempSplitName.length > 1 &&
@@ -413,6 +412,10 @@ class MapView extends StatelessWidget {
       init: DzorMapController(context, sellerKey: sellerKey),
       builder: (dzorMapController) => Scaffold(
         body: SafeArea(
+          top: true,
+          left: false,
+          right: false,
+          bottom: false,
           child: Scaffold(
             appBar: AppBar(
               backgroundColor: Colors.white,

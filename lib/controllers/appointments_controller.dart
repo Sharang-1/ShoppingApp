@@ -65,7 +65,7 @@ class AppointmentsController extends BaseController {
     if (adds == null || adds.length == 0) {
       await DialogService.showConfirmationDialog(
         title: "Hey there!",
-        description: "Please add your address before booking an application",
+        description: "Please add your address before booking an appointment.",
         onConfirm: () async =>
             await NavigationService.to(ProfileViewRoute),
       );

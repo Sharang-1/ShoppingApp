@@ -646,17 +646,6 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                               aspectRatio: 1,
                               fromProduct: true,
                             ),
-                            Positioned(
-                              top: 4,
-                              left: 4,
-                              child: InkWell(
-                                child: Icon(
-                                  Icons.navigate_before,
-                                  size: 40,
-                                ),
-                                onTap: () => NavigationService.back(),
-                              ),
-                            ),
                             if ((productData?.discount ?? 0.0) != 0.0)
                               Positioned(
                                 top: 4,
@@ -1536,7 +1525,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                     child: Container(
                       color: Colors.grey[200],
                       padding:
-                          EdgeInsets.symmetric(horizontal: 4, vertical: 8.0),
+                          EdgeInsets.only(left: 4, right:4, top: 8.0, bottom: 12.0,),
                       child: FittedBox(
                         child: Row(
                           children: [
@@ -1763,6 +1752,23 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                       ),
                     ),
                   ),
+                Positioned(
+                  top: 4,
+                  left: 4,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.white,
+                    ),
+                    child: InkWell(
+                      child: Icon(
+                        Icons.navigate_before,
+                        size: 40,
+                      ),
+                      onTap: () => NavigationService.back(),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

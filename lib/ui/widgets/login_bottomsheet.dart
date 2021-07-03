@@ -33,10 +33,7 @@ class LoginBottomsheet extends StatelessWidget {
             ),
             color: Colors.white,
           ),
-          padding: EdgeInsets.symmetric(
-            vertical: 8.0,
-            horizontal: 16.0,
-          ),
+          padding: EdgeInsets.all(20.0),
           child: SingleChildScrollView(
             child: Column(
               children: [
@@ -130,6 +127,8 @@ class LoginBottomsheet extends StatelessWidget {
                             pinTextAnimatedSwitcherDuration:
                                 Duration(milliseconds: 300),
                           ),
+                          // verticalSpaceSmall,
+                          // TextButton(child: Text("Change Mobile umber"),)
                         ],
                       ),
                 verticalSpaceSmall,

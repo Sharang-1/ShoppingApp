@@ -32,6 +32,10 @@ class SearchController extends BaseController {
     this.productGridKey.value = key;
   }
 
+  void setSellerGridKey(UniqueKey key) {
+    this.sellerGridKey.value = key;
+  }
+
   void setShowTopProducts(bool showTopProducts) {
     this.showTopProducts.value = showTopProducts;
   }
@@ -45,7 +49,7 @@ class SearchController extends BaseController {
     productFilter = ProductFilter().obs;
     sellerFilter = SellerFilter().obs;
 
-    debouncer = Debouncer(100).obs; // To delay search onChange method
+    debouncer = Debouncer(10).obs; // To delay search onChange method
     searchController = TextEditingController().obs;
     tabController = TabController(length: 2, vsync: tickerProvider).obs;
     tabController.value.addListener(() {
@@ -80,17 +84,16 @@ class SearchController extends BaseController {
     currentTabIndex.value = tabController.value.index;
     if (currentTabIndex.value == 1 && showRandomSellers.value) {
       Future.delayed(
-        Duration(milliseconds: 200),
+        Duration(milliseconds: 100),
         () {
           sellerFilter.value = SellerFilter(name: '');
-          changeSearchFieldFocus();
+          searchBarFocusNode.value.unfocus();
         },
       );
-      sellerGridKey.value = UniqueKey();
+      setSellerGridKey(UniqueKey());
     } else {
       searchBarFocusNode.value.requestFocus();
-      productFilter.value =
-          ProductFilter(fullText: '');
+      productFilter.value = ProductFilter(fullText: '');
       setProductGridKey(UniqueKey());
     }
   }
@@ -104,7 +107,7 @@ class SearchController extends BaseController {
         setProductGridKey(UniqueKey());
       } else if (currentTabIndex.value == 1) {
         this.sellerFilter.value = SellerFilter(name: value);
-        sellerGridKey.value = UniqueKey();
+        setSellerGridKey(UniqueKey());
       }
     });
   }
@@ -117,13 +120,13 @@ class SearchController extends BaseController {
 
     if (currentTabIndex.value == 0) {
       // Product Search Here
-      productGridKey = UniqueKey().obs;
-      productFilter = ProductFilter(fullText: searchKey).obs;
+      productGridKey.value = UniqueKey();
+      productFilter.value = ProductFilter(fullText: searchKey);
       if (showTopProducts.value) showTopProducts.value = false;
     } else {
       // Seller Search Here
-      sellerGridKey = UniqueKey().obs;
-      sellerFilter = SellerFilter(name: searchKey).obs;
+      sellerGridKey.value = UniqueKey();
+      sellerFilter.value = SellerFilter(name: searchKey);
       if (showRandomSellers.value) showRandomSellers.value = false;
     }
     changeSearchFieldFocus();

@@ -246,7 +246,7 @@ class _SellerIndiState extends State<SellerIndi> {
             child: Row(
               children: [
                 Expanded(
-                  flex: 6,
+                  flex: 5,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       elevation: 0,
@@ -296,7 +296,7 @@ class _SellerIndiState extends State<SellerIndi> {
                 ),
                 horizontalSpaceSmall,
                 Expanded(
-                  flex: 4,
+                  flex: 5,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       elevation: 0,
@@ -314,7 +314,7 @@ class _SellerIndiState extends State<SellerIndi> {
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       child: CustomText(
-                        "Explore",
+                        "Explore Collection",
                         align: TextAlign.center,
                         color: Colors.black,
                         isBold: true,

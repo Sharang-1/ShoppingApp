@@ -293,6 +293,11 @@ class DesignerTileUi extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(left: 5, bottom: 10, right: 5),
       height: 200.0,
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.grey[200],
+        ),
+      ),
       width: MediaQuery.of(context).size.width - 40,
       child: GestureDetector(
         onTap: () async {

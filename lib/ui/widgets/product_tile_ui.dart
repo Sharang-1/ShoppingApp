@@ -107,6 +107,11 @@ class _ProductTileUIState extends State<ProductTileUI> {
       onTap: widget.onClick,
       child: Container(
         padding: paddingCard,
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: Colors.grey[200],
+          ),
+        ),
         child: Card(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5),

@@ -49,6 +49,7 @@ class _SearchViewState extends State<SearchView>
           elevation: 0,
           iconTheme: IconThemeData(color: appBarIconColor),
           backgroundColor: Colors.white,
+          // centerTitle: true,
           title: _SearchBarTextField(
             searchAction: _controller.searchAction,
             searchController: _controller.searchController.value,

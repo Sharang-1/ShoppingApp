@@ -1,4 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:compound/constants/route_names.dart';
+import 'package:compound/controllers/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:share/share.dart';
@@ -230,7 +232,7 @@ class _ExploreProductTileUIState extends State<ExploreProductTileUI> {
                           Padding(
                             padding: EdgeInsets.only(right: 5.0),
                             child: Text(
-                              "\u20B9" + '$productPrice',
+                              BaseController.formatPrice(productPrice),
                               overflow: TextOverflow.ellipsis,
                               textAlign: TextAlign.left,
                               style: TextStyle(
@@ -243,7 +245,7 @@ class _ExploreProductTileUIState extends State<ExploreProductTileUI> {
                           if ((productDiscount != null) &&
                               (productDiscount != 0.0))
                             Text(
-                              "\u20B9" + '$actualCost',
+                              BaseController.formatPrice(actualCost),
                               overflow: TextOverflow.ellipsis,
                               textAlign: TextAlign.left,
                               style: TextStyle(
@@ -292,17 +294,29 @@ class _ExploreProductTileUIState extends State<ExploreProductTileUI> {
                     Expanded(
                       child: Container(
                         child: InkWell(
-                          onTap: () {
-                            if (locator<WishListController>()
-                                    .list
-                                    .indexOf(widget.data.key) ==
-                                -1) {
-                              addToWishList(widget.data.key);
-                              setState(() {
-                                isWishlistIconFilled = true;
-                              });
-                            }
-                          },
+                          onTap: (locator<HomeController>().isLoggedIn)
+                              ? () async {
+                                  if (locator<WishListController>()
+                                          .list
+                                          .indexOf(widget.data.key) !=
+                                      -1) {
+                                    removeFromWishList(widget.data.key);
+                                    setState(() {
+                                      isWishlistIconFilled = false;
+                                    });
+                                  } else {
+                                    addToWishList(widget.data.key);
+                                    setState(() {
+                                      isWishlistIconFilled = true;
+                                    });
+                                  }
+                                }
+                              : () async {
+                                  await BaseController.showLoginPopup(
+                                    nextView: WishListRoute,
+                                    shouldNavigateToNextScreen: false,
+                                  );
+                                },
                           child: Text(
                             isWishlistIconFilled
                                 ? "❤️ Added to wishlist"
