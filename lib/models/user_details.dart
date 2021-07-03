@@ -221,14 +221,13 @@ class Gender {
 }
 
 class Measure {
-  const Measure(
-      {this.shoulders, this.chest, this.waist, this.hips, this.height});
+  Measure({this.shoulders, this.chest, this.waist, this.hips, this.height});
 
-  final num shoulders;
-  final num chest;
-  final num waist;
-  final num hips;
-  final num height;
+  num shoulders;
+  num chest;
+  num waist;
+  num hips;
+  num height;
 
   factory Measure.fromJson(Map<String, dynamic> json) => Measure(
         shoulders: json["shoulders"] == null ? null : json["shoulders"],

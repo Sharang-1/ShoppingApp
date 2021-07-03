@@ -37,8 +37,8 @@ void setupLocator() {
   Get.lazyPut(() => DynamicLinkService());
   Get.lazyPut(() => RemoteConfigService());
   Get.lazyPut(() => ErrorHandlingService());
-  Get.lazyPut(() => HomeController(), tag: "HomeController");
   Get.lazyPut(() => CartCountController(count: 0.obs));
   Get.lazyPut(() => WishListController(list: []));
   Get.lazyPut(() => LookupController());
+  Get.lazyPut(() => HomeController(), fenix: true);
 }

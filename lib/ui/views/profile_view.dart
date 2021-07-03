@@ -408,10 +408,11 @@ class _ProfileViewState extends State<ProfileView> {
                                             initialValue: controller
                                                     .mUserDetails?.email ??
                                                 '',
-                                            validator: (text) => GetUtils
-                                                    .isEmail(text)
+                                            validator: (text) => text.isEmpty
                                                 ? null
-                                                : "Please Enter Valid Email Address",
+                                                : GetUtils.isEmail(text)
+                                                    ? null
+                                                    : "Please Enter Valid Email Address",
                                             onChanged: (value) {
                                               setState(() {
                                                 isButtonActive = true;
@@ -711,251 +712,94 @@ class _ProfileViewState extends State<ProfileView> {
                                       "Measurements",
                                       fontSize: 16,
                                     ),
-                                    verticalSpaceSmall,
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 4.0),
-                                            child: TextFormField(
-                                              style: TextStyle(
-                                                fontSize: subtitleFontSizeStyle,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.grey[800],
-                                              ),
-                                              readOnly: !isEditable,
-                                              initialValue: controller
-                                                      ?.mUserDetails
-                                                      ?.measure
-                                                      ?.shoulders
-                                                      .toString() ??
-                                                  '',
-                                              // validator: (text) => GetUtils
-                                              //         .isEmail(text)
-                                              //     ? null
-                                              //     : "Please Enter Valid Email Address",
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  isButtonActive = true;
-                                                });
-                                                _formKey.currentState
-                                                    .validate();
-                                              },
-                                              onSaved: (text) {
-                                                // controller.mUserDetails.email =
-                                                //     text;
-                                              },
-                                              decoration: const InputDecoration(
-                                                hintText: "*Shoulder",
-                                                contentPadding:
-                                                    EdgeInsets.symmetric(
-                                                  horizontal: 8.0,
-                                                ),
-                                                border: OutlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                    color: Colors.black,
-                                                  ),
-                                                ),
-                                              ),
-                                              autofocus: true,
-                                              maxLines: 1,
-                                            ),
+                                    // verticalSpaceSmall,
+                                    SizedBox(
+                                      height: Get.height / 2,
+                                      child: Row(
+                                        children: [
+                                          Image.asset(
+                                            "assets/images/measurements.png",
+                                            height: Get.height / 2,
                                           ),
-                                        ),
-                                        Expanded(
-                                          child: Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 4.0),
-                                            child: TextFormField(
-                                              style: TextStyle(
-                                                fontSize: subtitleFontSizeStyle,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.grey[800],
-                                              ),
-                                              readOnly: !isEditable,
-                                              initialValue: controller
-                                                      ?.mUserDetails
-                                                      ?.measure
-                                                      ?.chest
-                                                      .toString() ??
-                                                  '',
-                                              // validator: (text) => GetUtils
-                                              //         .isEmail(text)
-                                              //     ? null
-                                              //     : "Please Enter Valid Email Address",
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  isButtonActive = true;
-                                                });
-                                                _formKey.currentState
-                                                    .validate();
-                                              },
-                                              onSaved: (text) {
-                                                // controller.mUserDetails.email =
-                                                //     text;
-                                              },
-                                              decoration: const InputDecoration(
-                                                hintText: "*Chest",
-                                                contentPadding:
-                                                    EdgeInsets.symmetric(
-                                                        horizontal: 8.0),
-                                                border: OutlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                    color: Colors.black,
-                                                  ),
-                                                ),
-                                              ),
-                                              autofocus: true,
-                                              maxLines: 1,
-                                            ),
+                                          horizontalSpaceMedium,
+                                          Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              getSizeWidget(
+                                                  initialValue: controller
+                                                          ?.mUserDetails
+                                                          ?.measure
+                                                          ?.shoulders
+                                                          .toString() ??
+                                                      '',
+                                                  hint: "*shoulders",
+                                                  onSaved: (text) {
+                                                    controller.mUserDetails
+                                                            .measure.shoulders =
+                                                        num.parse(text);
+                                                  }),
+                                              verticalSpaceSmall,
+                                              getSizeWidget(
+                                                  hint: "*Chest",
+                                                  initialValue: controller
+                                                          ?.mUserDetails
+                                                          ?.measure
+                                                          ?.chest
+                                                          .toString() ??
+                                                      '',
+                                                  onSaved: (text) {
+                                                    controller.mUserDetails
+                                                            .measure.chest =
+                                                        num.parse(text);
+                                                  }),
+                                              verticalSpaceSmall,
+                                              getSizeWidget(
+                                                  hint: "*Waist",
+                                                  initialValue: controller
+                                                          ?.mUserDetails
+                                                          ?.measure
+                                                          ?.waist
+                                                          .toString() ??
+                                                      '',
+                                                  onSaved: (text) {
+                                                    controller.mUserDetails
+                                                            .measure.waist =
+                                                        num.parse(text);
+                                                  }),
+                                              verticalSpaceSmall,
+                                              getSizeWidget(
+                                                  hint: "*Hips",
+                                                  initialValue: controller
+                                                          ?.mUserDetails
+                                                          ?.measure
+                                                          ?.hips
+                                                          .toString() ??
+                                                      '',
+                                                  onSaved: (text) {
+                                                    controller
+                                                        .mUserDetails
+                                                        .measure
+                                                        .hips = num.parse(text);
+                                                  }),
+                                              verticalSpaceSmall,
+                                              getSizeWidget(
+                                                  hint: "*Height",
+                                                  initialValue: controller
+                                                          ?.mUserDetails
+                                                          ?.measure
+                                                          ?.height
+                                                          .toString() ??
+                                                      '',
+                                                  onSaved: (text) {
+                                                    controller.mUserDetails
+                                                            .measure.height =
+                                                        num.parse(text);
+                                                  }),
+                                            ],
                                           ),
-                                        ),
-                                        Expanded(
-                                          child: Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 4.0),
-                                            child: TextFormField(
-                                              style: TextStyle(
-                                                fontSize: subtitleFontSizeStyle,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.grey[800],
-                                              ),
-                                              readOnly: !isEditable,
-                                              initialValue: controller
-                                                      ?.mUserDetails
-                                                      ?.measure
-                                                      ?.waist
-                                                      .toString() ??
-                                                  '',
-                                              // validator: (text) => GetUtils
-                                              //         .isEmail(text)
-                                              //     ? null
-                                              //     : "Please Enter Valid Email Address",
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  isButtonActive = true;
-                                                });
-                                                _formKey.currentState
-                                                    .validate();
-                                              },
-                                              onSaved: (text) {
-                                                // controller.mUserDetails.email =
-                                                //     text;
-                                              },
-                                              decoration: const InputDecoration(
-                                                hintText: "*Waist",
-                                                contentPadding:
-                                                    EdgeInsets.symmetric(
-                                                        horizontal: 8.0),
-                                                border: OutlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                    color: Colors.black,
-                                                  ),
-                                                ),
-                                              ),
-                                              autofocus: true,
-                                              maxLines: 1,
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 4.0),
-                                            child: TextFormField(
-                                              style: TextStyle(
-                                                fontSize: subtitleFontSizeStyle,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.grey[800],
-                                              ),
-                                              readOnly: !isEditable,
-                                              initialValue: controller
-                                                      ?.mUserDetails
-                                                      ?.measure
-                                                      ?.hips
-                                                      .toString() ??
-                                                  '',
-                                              // validator: (text) => GetUtils
-                                              //         .isEmail(text)
-                                              //     ? null
-                                              //     : "Please Enter Valid Email Address",
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  isButtonActive = true;
-                                                });
-                                                _formKey.currentState
-                                                    .validate();
-                                              },
-                                              onSaved: (text) {
-                                                // controller.mUserDetails.email =
-                                                //     text;
-                                              },
-                                              decoration: const InputDecoration(
-                                                hintText: "*Hips",
-                                                contentPadding:
-                                                    EdgeInsets.symmetric(
-                                                        horizontal: 8.0),
-                                                border: OutlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                    color: Colors.black,
-                                                  ),
-                                                ),
-                                              ),
-                                              autofocus: true,
-                                              maxLines: 1,
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 4.0),
-                                            child: TextFormField(
-                                              style: TextStyle(
-                                                fontSize: subtitleFontSizeStyle,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.grey[800],
-                                              ),
-                                              readOnly: !isEditable,
-                                              initialValue: controller
-                                                      ?.mUserDetails
-                                                      ?.measure
-                                                      ?.height
-                                                      .toString() ??
-                                                  '',
-                                              // validator: (text) => GetUtils
-                                              //         .isEmail(text)
-                                              //     ? null
-                                              //     : "Please Enter Valid Email Address",
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  isButtonActive = true;
-                                                });
-                                                _formKey.currentState
-                                                    .validate();
-                                              },
-                                              onSaved: (text) {
-                                                // controller.mUserDetails.email =
-                                                //     text;
-                                              },
-                                              decoration: const InputDecoration(
-                                                hintText: "*Height",
-                                                contentPadding:
-                                                    EdgeInsets.symmetric(
-                                                        horizontal: 8.0),
-                                                border: OutlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                    color: Colors.black,
-                                                  ),
-                                                ),
-                                              ),
-                                              autofocus: true,
-                                              maxLines: 1,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -968,6 +812,46 @@ class _ProfileViewState extends State<ProfileView> {
                   ),
           ),
         ),
+      ),
+    );
+  }
+
+  getSizeWidget(
+      {String hint = '', String initialValue = '', Function(String) onSaved}) {
+    return SizedBox(
+      width: 60,
+      child: TextFormField(
+        style: TextStyle(
+          fontSize: subtitleFontSizeStyle,
+          fontWeight: FontWeight.w500,
+          color: Colors.grey[800],
+        ),
+        readOnly: !isEditable,
+        initialValue: initialValue,
+        validator: (text) => (GetUtils.isNum(text)) &&
+                (num.parse(text) > 0 && num.parse(text) < 100)
+            ? null
+            : "Please Enter Valid Size",
+        onChanged: (value) {
+          setState(() {
+            isButtonActive = true;
+          });
+          _formKey.currentState.validate();
+        },
+        onSaved: onSaved,
+        decoration: InputDecoration(
+          hintText: hint,
+          contentPadding: EdgeInsets.symmetric(
+            horizontal: 8.0,
+          ),
+          border: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.black,
+            ),
+          ),
+        ),
+        autofocus: true,
+        maxLines: 1,
       ),
     );
   }

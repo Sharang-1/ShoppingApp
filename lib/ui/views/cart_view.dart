@@ -4,15 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import '../../constants/route_names.dart';
 import '../../controllers/cart_controller.dart';
 import '../../controllers/cart_count_controller.dart';
 import '../../controllers/grid_view_builder/cart_grid_view_builder_controller.dart';
 import '../../locator.dart';
 import '../../models/cart.dart';
 import '../../models/grid_view_builder_filter_models/cartFilter.dart';
-import '../../services/dialog_service.dart';
-import '../../services/navigation_service.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
@@ -55,25 +52,25 @@ class _CartViewState extends State<CartView> {
               color: Colors.black,
             ),
           ),
-          leading: BackButton(
-            onPressed: () async {
-              if (isPromocodeApplied)
-                DialogService.showCustomDialog(AlertDialog(
-                  content: Text("Do you really want to leave cart ?"),
-                  actions: [
-                    ElevatedButton(
-                      onPressed: () {},
-                      child: Text("Yes"),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {},
-                      child: Text("No"),
-                    )
-                  ],
-                ));
-              await NavigationService.offAll(HomeViewRoute);
-            },
-          ),
+          // leading: BackButton(
+          //   onPressed: () async {
+          //     if (isPromocodeApplied)
+          //       DialogService.showCustomDialog(AlertDialog(
+          //         content: Text("Do you really want to leave cart ?"),
+          //         actions: [
+          //           ElevatedButton(
+          //             onPressed: () {},
+          //             child: Text("Yes"),
+          //           ),
+          //           ElevatedButton(
+          //             onPressed: () {},
+          //             child: Text("No"),
+          //           )
+          //         ],
+          //       ));
+          //     await NavigationService.offAll(HomeViewRoute);
+          //   },
+          // ),
           iconTheme: IconThemeData(
             color: Colors.black,
           ),

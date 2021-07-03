@@ -6,7 +6,6 @@ import '../../controllers/base_controller.dart';
 import '../../controllers/grid_view_builder/wishlist_grid_view_builder_controller.dart';
 import '../../models/grid_view_builder_filter_models/wishlist_filter_model.dart';
 import '../../models/products.dart';
-import '../shared/app_colors.dart';
 import '../shared/ui_helpers.dart';
 import '../widgets/grid_list_widget.dart';
 import '../widgets/product_tile_ui.dart';
@@ -54,7 +53,7 @@ class _WishListState extends State<WishList> {
             color: Colors.black,
           ),
         ),
-        backgroundColor: newBackgroundColor,
+        backgroundColor: Colors.white,
         body: SafeArea(
           top: true,
           left: false,

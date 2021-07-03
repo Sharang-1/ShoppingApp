@@ -72,7 +72,7 @@ class _DzorExploreViewState extends State<DzorExploreView> {
                       layoutType: LayoutType.PRODUCT_LAYOUT_3,
                       scrollDirection: Axis.vertical,
                       controller:
-                          ProductsGridViewBuilderController(randomize: true),
+                          ProductsGridViewBuilderController(randomize: true, limit: 100),
                     ),
                   ],
                 ),

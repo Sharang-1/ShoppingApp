@@ -91,10 +91,10 @@ class ProductFilter implements BaseFilterModel {
     
     if (explore != null) {
       if (!_queryString.contains("explore"))
-        _queryString += "explore=$sortField;";
+        _queryString += "explore=true;";
       else
         _queryString = _queryString.replaceFirst(
-            RegExp("explore(.*?);"), "explore=$sortField;");
+            RegExp("explore(.*?);"), "explore=true;");
     }
 
     if (sortField != null) {

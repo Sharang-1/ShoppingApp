@@ -1,3 +1,4 @@
+import 'package:compound/services/cart_local_store_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -475,9 +476,9 @@ class _ProductIndiViewState extends State<ProductIndiView> {
     imageURLs = (data?.photo?.photos ?? <PhotoElement>[])
         .map((e) => '$PRODUCT_PHOTO_BASE_URL/$productId/${e.name}')
         .toList();
-    imageURLs.add(
-      "${BASE_URL}sellers/${data.account.key}/categories/${data.category.id}/sizechart",
-    );
+    // imageURLs.add(
+    //   "${BASE_URL}sellers/${data.account.key}/categories/${data.category.id}/sizechart",
+    // );
     photosKey = GlobalKey();
     uniqueKey = UniqueKey();
   }
@@ -638,6 +639,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                             HomeSlider(
                               key: photosKey,
                               imgList: imageURLs,
+                              sizeChartUrl:
+                                  "${BASE_URL}sellers/${productData.account.key}/categories/${productData.category.id}/sizechart",
                               videoList: productData?.video?.videos
                                       ?.map((e) =>
                                           "${BASE_URL}products/${productData.key}/videos/${e.name}")
@@ -1524,8 +1527,12 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                     alignment: Alignment.bottomCenter,
                     child: Container(
                       color: Colors.grey[200],
-                      padding:
-                          EdgeInsets.only(left: 4, right:4, top: 8.0, bottom: 12.0,),
+                      padding: EdgeInsets.only(
+                        left: 4,
+                        right: 4,
+                        top: 8.0,
+                        bottom: 12.0,
+                      ),
                       child: FittedBox(
                         child: Row(
                           children: [
@@ -1565,8 +1572,17 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                 selectedSize,
                                                 selectedColor);
                                             if (res != null && res == true) {
-                                              locator<CartCountController>()
-                                                  .incrementCartCount();
+                                              final cartRes =
+                                                  await locator<APIService>()
+                                                      .getCartProductItemList();
+                                              if (cartRes != null) {
+                                                await locator<
+                                                        CartLocalStoreService>()
+                                                    .setCartList(cartRes);
+                                                locator<CartCountController>()
+                                                    .setCartCount(
+                                                        cartRes.length);
+                                              }
 
                                               print(
                                                   "UserDetails: ${locator<HomeController>().details?.toJson()}");

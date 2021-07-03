@@ -10,6 +10,7 @@ class ReviewsController extends BaseController {
   Reviews reviews;
   RxBool isBusyWritingReview = false.obs;
   RxBool isFormVisible = false.obs;
+  RxDouble selectedRating = RxDouble();
 
   String id;
   bool isSeller;
@@ -32,7 +33,7 @@ class ReviewsController extends BaseController {
     isFormVisible.value = !isFormVisible.value;
   }
 
-  Future writeReiew(String key, double ratings, String description,
+  Future writeReview(String key, double ratings, String description,
       {isSellerReview = false}) async {
     isBusyWritingReview.value = true;
 

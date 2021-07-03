@@ -10,6 +10,7 @@ import 'gallery_view.dart';
 class HomeSlider extends StatefulWidget {
   final List<String> imgList;
   final List<String> videoList;
+  final String sizeChartUrl;
   final double aspectRatio;
   final bool fromHome;
   final bool fromExplore;
@@ -19,6 +20,7 @@ class HomeSlider extends StatefulWidget {
     Key key,
     this.imgList,
     this.videoList = const [],
+    this.sizeChartUrl = '',
     this.aspectRatio = 1.6,
     this.fromHome = false,
     this.fromExplore = false,
@@ -30,37 +32,28 @@ class HomeSlider extends StatefulWidget {
 }
 
 class _HomeSliderState extends State<HomeSlider> {
-  List<String> imgList;
   int _current = 0;
-  VideoPlayerController _playerController;
+  List<VideoPlayerController> videoControllers = [];
 
   @override
   void initState() {
-    imgList = widget.imgList == null || widget.imgList.length == 0
-        ? [
-            'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
-            'https://images.unsplash.com/photo-1522205408450-add114ad53fe?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=368f45b0888aeb0b7b08e3a1084d3ede&auto=format&fit=crop&w=1950&q=80',
-            'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=94a1e718d89ca60a6337a6008341ca50&auto=format&fit=crop&w=1950&q=80',
-            'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80',
-            'https://images.unsplash.com/photo-1508704019882-f9cf40e475b4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8c6e5e3aba713b17aa1fe71ab4f0ae5b&auto=format&fit=crop&w=1352&q=80',
-            'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80'
-          ]
-        : widget.imgList;
-
     print("Videos: ${widget.videoList.toString()}");
 
-    if (widget.videoList.isNotEmpty)
-      _playerController = VideoPlayerController.network(
-        widget.videoList.first,
+    widget.videoList.forEach((videoUrl) {
+      videoControllers.add(VideoPlayerController.network(
+        videoUrl,
       )
         ..initialize()
-        ..setVolume(0.0);
+        ..setVolume(0.0));
+    });
     super.initState();
   }
 
   @override
   void dispose() {
-    if (_playerController != null) _playerController.dispose();
+    videoControllers.forEach((element) {
+      element.dispose();
+    });
     super.dispose();
   }
 
@@ -101,18 +94,7 @@ class _HomeSliderState extends State<HomeSlider> {
                       },
                     ),
                     items: [
-                      if (_playerController != null)
-                        FlickVideoPlayer(
-                          flickVideoWithControls: FlickVideoWithControls(
-                            backgroundColor: Colors.white,
-                            controls: FlickPortraitControls(),
-                          ),
-                          flickManager: FlickManager(
-                            videoPlayerController: _playerController,
-                            autoPlay: false,
-                          ),
-                        ),
-                      ...imgList.map((i) {
+                      ...widget.imgList.map((i) {
                         return Builder(
                           builder: (BuildContext context) {
                             return GestureDetector(
@@ -120,7 +102,8 @@ class _HomeSliderState extends State<HomeSlider> {
                                   ? null
                                   : () {
                                       if (!widget.fromHome) {
-                                        open(context, imgList.indexOf(i));
+                                        open(
+                                            context, widget.imgList.indexOf(i));
                                       }
                                     },
                               child: Hero(
@@ -146,52 +129,165 @@ class _HomeSliderState extends State<HomeSlider> {
                           },
                         );
                       }).toList(),
+                      if (videoControllers.isNotEmpty)
+                        ...videoControllers
+                            .map((videoController) => FlickVideoPlayer(
+                                  flickVideoWithControls:
+                                      FlickVideoWithControls(
+                                    backgroundColor: Colors.white,
+                                    controls: FlickPortraitControls(),
+                                  ),
+                                  flickManager: FlickManager(
+                                    videoPlayerController: videoController,
+                                    autoPlay: false,
+                                  ),
+                                ))
+                            .toList(),
+                      if (widget.sizeChartUrl.isNotEmpty)
+                        Builder(
+                          builder: (BuildContext context) {
+                            return GestureDetector(
+                              onTap: widget.fromExplore
+                                  ? null
+                                  : () {
+                                      if (!widget.fromHome) {
+                                        open(context,
+                                            (widget.imgList.length + 1));
+                                      }
+                                    },
+                              child: Hero(
+                                tag: 'productPhotos',
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.circular(curve15)),
+                                  width: MediaQuery.of(context).size.width,
+                                  child: CachedNetworkImage(
+                                    maxHeightDiskCache: 200,
+                                    maxWidthDiskCache: 200,
+                                    fit: BoxFit.contain,
+                                    imageUrl: widget.sizeChartUrl,
+                                    placeholder: (context, e) => Center(
+                                        child: CircularProgressIndicator()),
+                                    errorWidget: (context, url, error) =>
+                                        new Icon(Icons.error),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
                     ]),
               ),
-              if (imgList.length > 1 && (widget.fromExplore))
+              if (widget.imgList.length > 1 && (widget.fromExplore))
                 Positioned(
                   bottom: 0,
                   left: 0,
                   right: 0,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: imgList.map((url) {
-                      int index = imgList.indexOf(url);
-                      return Container(
+                    children: [
+                      ...widget.imgList.map((url) {
+                        int index = widget.imgList.indexOf(url);
+                        return Container(
+                          width: 8.0,
+                          height: 8.0,
+                          margin: EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 2.0),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: _current == index
+                                ? Color.fromRGBO(0, 0, 0, 0.9)
+                                : Color.fromRGBO(0, 0, 0, 0.4),
+                          ),
+                        );
+                      }).toList(),
+                      if ((widget?.videoList?.length ?? 0) > 0)
+                        ...widget.videoList
+                            .map(
+                              (e) => Container(
+                                width: 8.0,
+                                height: 8.0,
+                                margin: EdgeInsets.symmetric(
+                                    vertical: 10.0, horizontal: 2.0),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: _current ==
+                                          (widget.imgList.length +
+                                              widget.videoList.indexOf(e))
+                                      ? Color.fromRGBO(0, 0, 0, 0.9)
+                                      : Color.fromRGBO(0, 0, 0, 0.4),
+                                ),
+                                child: Icon(
+                                  Icons.play_arrow,
+                                  color: Colors.white,
+                                  size: 8,
+                                ),
+                              ),
+                            )
+                            .toList(),
+                    ],
+                  ),
+                ),
+            ],
+          ),
+        ),
+        if (widget.imgList.length > 1 && !(widget.fromExplore))
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ...widget.imgList.map((url) {
+                int index = widget.imgList.indexOf(url);
+                return Container(
+                  width: 8.0,
+                  height: 8.0,
+                  margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: _current == index
+                        ? Color.fromRGBO(0, 0, 0, 0.9)
+                        : Color.fromRGBO(0, 0, 0, 0.4),
+                  ),
+                );
+              }).toList(),
+              if ((widget?.videoList?.length ?? 0) > 0)
+                ...widget.videoList
+                    .map(
+                      (e) => Container(
                         width: 8.0,
                         height: 8.0,
                         margin: EdgeInsets.symmetric(
                             vertical: 10.0, horizontal: 2.0),
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: _current == index
+                          color: _current ==
+                                  (widget.imgList.length +
+                                      widget.videoList.indexOf(e))
                               ? Color.fromRGBO(0, 0, 0, 0.9)
                               : Color.fromRGBO(0, 0, 0, 0.4),
                         ),
-                      );
-                    }).toList(),
+                        child: Icon(
+                          Icons.play_arrow,
+                          color: Colors.white,
+                          size: 8,
+                        ),
+                      ),
+                    )
+                    .toList(),
+              if (widget.sizeChartUrl.isNotEmpty)
+                Container(
+                  width: 8.0,
+                  height: 8.0,
+                  margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: _current ==
+                            (widget.imgList.length + widget.videoList.length)
+                        ? Color.fromRGBO(0, 0, 0, 0.9)
+                        : Color.fromRGBO(0, 0, 0, 0.4),
                   ),
                 ),
             ],
-          ),
-        ),
-        if (imgList.length > 1 && !(widget.fromExplore))
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: imgList.map((url) {
-              int index = imgList.indexOf(url);
-              return Container(
-                width: 8.0,
-                height: 8.0,
-                margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: _current == index
-                      ? Color.fromRGBO(0, 0, 0, 0.9)
-                      : Color.fromRGBO(0, 0, 0, 0.4),
-                ),
-              );
-            }).toList(),
           ),
       ],
     );
@@ -202,7 +298,10 @@ class _HomeSliderState extends State<HomeSlider> {
       context,
       MaterialPageRoute(
         builder: (context) => GalleryPhotoViewWrapper(
-          galleryItems: imgList,
+          galleryItems: [
+            ...widget.imgList,
+            if (widget.sizeChartUrl.isNotEmpty) widget.sizeChartUrl
+          ],
           initialIndex: index,
           scrollDirection: Axis.horizontal,
           loadingBuilder: (context, e) =>

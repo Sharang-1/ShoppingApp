@@ -322,6 +322,7 @@ class HomeViewList extends StatelessWidget {
                   gridCount: 2,
                   scrollDirection: Axis.vertical,
                   layoutType: LayoutType.CATEGORY_LAYOUT_2,
+                  withScrollBar: false,
                   controller: CategoriesGridViewBuilderController(
                     popularCategories: true,
                   ),

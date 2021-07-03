@@ -1,3 +1,4 @@
+import 'package:compound/ui/shared/app_colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -95,7 +96,7 @@ class SectionBuilder extends StatelessWidget {
                 ? Theme(
                     data: ThemeData(
                       scrollbarTheme: ScrollbarThemeData().copyWith(
-                        thumbColor: MaterialStateProperty.all(Colors.grey[600]),
+                        thumbColor: MaterialStateProperty.all(logoRed),
                         trackColor: MaterialStateProperty.all(Colors.black),
                         trackBorderColor:
                             MaterialStateProperty.all(Colors.grey[500]),
@@ -473,7 +474,7 @@ class SectionBuilder extends StatelessWidget {
       case LayoutType.PRODUCT_LAYOUT_2:
         return 1.35;
       case LayoutType.PRODUCT_LAYOUT_3:
-        return 0.73;
+        return 0.70;
       case LayoutType.DESIGNER_LAYOUT_1:
         return 0.60;
       case LayoutType.DESIGNER_LAYOUT_2:

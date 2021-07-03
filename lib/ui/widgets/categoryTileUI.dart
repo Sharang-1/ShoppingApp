@@ -1,4 +1,3 @@
-import 'package:compound/ui/shared/shared_styles.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/server_urls.dart';
@@ -25,9 +24,9 @@ class CategoryTileUI extends StatelessWidget {
 
     return Card(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(curve15),
+        borderRadius: BorderRadius.circular(10),
       ),
-      elevation: 5,
+      elevation: 0,
       clipBehavior: Clip.antiAlias,
       color: Colors.grey,
       child: Stack(

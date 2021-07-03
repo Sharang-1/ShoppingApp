@@ -294,6 +294,7 @@ class DesignerTileUi extends StatelessWidget {
       margin: EdgeInsets.only(left: 5, bottom: 10, right: 5),
       height: 200.0,
       decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
         border: Border.all(
           color: Colors.grey[200],
         ),

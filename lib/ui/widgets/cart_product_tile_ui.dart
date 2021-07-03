@@ -131,9 +131,9 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
     return InkWell(
       // onTap: widget.proceedToOrder,
       child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(curve15),
-        ),
+        // shape: RoundedRectangleBorder(
+        //   borderRadius: BorderRadius.circular(10),
+        // ),
         clipBehavior: Clip.antiAlias,
         elevation: 0,
         child: Column(
@@ -326,7 +326,8 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                   children: [
                     CustomText(
                       "Product Details",
-                      fontSize: 12,
+                      fontSize: 14,
+                      isBold: true,
                       color: Colors.grey[500],
                     ),
                     Icon(

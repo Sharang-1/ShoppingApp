@@ -366,6 +366,20 @@ class _SellerIndiState extends State<SellerIndi> {
               expandedHeight: 250.0,
               floating: false,
               pinned: true,
+              leading: InkWell(
+                onTap: () => NavigationService.back(),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                  ),
+                  margin: EdgeInsets.all(8.0),
+                  child: Icon(
+                    Icons.navigate_before,
+                    size: 30,
+                  ),
+                ),
+              ),
               actions: [
                 Container(
                   margin: EdgeInsets.only(right: 4.0),
@@ -855,30 +869,31 @@ class _SellerIndiState extends State<SellerIndi> {
                           ),
                           verticalSpaceMedium,
                           FutureBuilder<bool>(
-                              key: writeReviewKey,
-                              future: locator<APIService>()
-                                  .hasReviewed(sellerData.key, isSeller: true),
-                              builder: (context, snapshot) {
-                                return ((snapshot.connectionState ==
-                                            ConnectionState.done) &&
-                                        !snapshot.data)
-                                    ? Column(
-                                        children: [
-                                          WriteReviewWidget(
-                                            sellerDetails["key"],
-                                            isSeller: true,
-                                            onSubmit: () {
-                                              setState(() {
-                                                reviewKey = UniqueKey();
-                                                writeReviewKey = UniqueKey();
-                                              });
-                                            },
-                                          ),
-                                          verticalSpace(15),
-                                        ],
-                                      )
-                                    : Container();
-                              }),
+                            key: writeReviewKey,
+                            future: locator<APIService>()
+                                .hasReviewed(sellerData.key, isSeller: true),
+                            builder: (context, snapshot) {
+                              return ((snapshot.connectionState ==
+                                          ConnectionState.done) &&
+                                      !snapshot.data)
+                                  ? Column(
+                                      children: [
+                                        WriteReviewWidget(
+                                          sellerDetails["key"],
+                                          isSeller: true,
+                                          onSubmit: () {
+                                            setState(() {
+                                              reviewKey = UniqueKey();
+                                              writeReviewKey = UniqueKey();
+                                            });
+                                          },
+                                        ),
+                                        verticalSpace(15),
+                                      ],
+                                    )
+                                  : Container();
+                            },
+                          ),
                         ],
                       ),
                     ),

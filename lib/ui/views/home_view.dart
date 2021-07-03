@@ -19,7 +19,7 @@ class HomeView extends StatelessWidget {
   HomeView({Key key}) : super(key: key);
 
   final HomeController controller =
-      locator<HomeController>(tag: 'HomeController');
+      locator<HomeController>();
 
   final GlobalKey searchBarKey = GlobalKey();
   final GlobalKey cartKey = GlobalKey();

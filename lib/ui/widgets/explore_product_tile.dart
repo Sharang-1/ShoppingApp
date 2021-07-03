@@ -1,13 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:compound/constants/route_names.dart';
-import 'package:compound/controllers/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:share/share.dart';
 
 import '../../constants/dynamic_links.dart';
+import '../../constants/route_names.dart';
 import '../../constants/server_urls.dart';
 import '../../controllers/base_controller.dart';
+import '../../controllers/home_controller.dart';
 import '../../controllers/wishlist_controller.dart';
 import '../../locator.dart';
 import '../../models/products.dart';
@@ -94,6 +94,8 @@ class _ExploreProductTileUIState extends State<ExploreProductTileUI> {
                 deliveryCharges)
             .round() ??
         0;
+    final List<String> videos =
+        widget?.data?.video?.videos?.map((e) => e.name)?.toList() ?? [];
     final String fontFamily = "Poppins";
 
     return InkWell(
@@ -126,7 +128,7 @@ class _ExploreProductTileUIState extends State<ExploreProductTileUI> {
                           height: 50,
                           fit: BoxFit.cover,
                         ),
-                        fit: BoxFit.contain,
+                        fit: BoxFit.cover,
                       ),
                     ),
                     horizontalSpaceSmall,
@@ -190,6 +192,11 @@ class _ExploreProductTileUIState extends State<ExploreProductTileUI> {
                     .map((e) =>
                         '$PRODUCT_PHOTO_BASE_URL/${widget.data.key}/${e.name}')
                     .toList(),
+                videoUrls: (videos ?? <String>[])
+                        ?.map((e) =>
+                            "${BASE_URL}products/${widget.data.key}/videos/$e")
+                        ?.toList() ??
+                    [],
                 discount: productDiscount,
                 priceFontSize: priceFontSize,
               ),
@@ -204,7 +211,8 @@ class _ExploreProductTileUIState extends State<ExploreProductTileUI> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Expanded(
-                        child: Row(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               " ${capitalizeString(productName)}",
@@ -215,14 +223,31 @@ class _ExploreProductTileUIState extends State<ExploreProductTileUI> {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            horizontalSpaceSmall,
-                            Text(
-                              "${locator<RemoteConfigService>().remoteConfig.getString(DZOR_EXPLORE_TAG_1_EN)}",
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontSize: subtitleFontSize,
-                                fontFamily: fontFamily,
-                              ),
+                            SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                  children: <String>[
+                                "${locator<RemoteConfigService>().remoteConfig.getString(DZOR_EXPLORE_TAG_1_EN)}",
+                                if ((widget.data?.stitchingType?.id ?? -1) == 2)
+                                  "#Unstitched",
+                                if (widget.data.whoMadeIt.id == 2)
+                                  "#HandCrafted",
+                              ]
+                                      .map(
+                                        (e) => Padding(
+                                          padding:
+                                              const EdgeInsets.only(right: 4.0),
+                                          child: Text(
+                                            e,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                              fontSize: subtitleFontSize,
+                                              fontFamily: fontFamily,
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                      .toList()),
                             ),
                           ],
                         ),
@@ -345,6 +370,7 @@ class _ExploreProductTileUIState extends State<ExploreProductTileUI> {
   Widget _imageStackview({
     key,
     photoUrls,
+    videoUrls = const [],
     discount,
     priceFontSize,
     // deals = "5+ Coupons",
@@ -362,6 +388,7 @@ class _ExploreProductTileUIState extends State<ExploreProductTileUI> {
               child: HomeSlider(
                 aspectRatio: 1,
                 imgList: photoUrls,
+                videoList: videoUrls,
                 fromExplore: true,
               ),
             ),
