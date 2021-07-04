@@ -4,6 +4,7 @@ import 'package:page_transition/page_transition.dart';
 import '../../controllers/base_controller.dart';
 import '../../locator.dart';
 import '../../models/cart.dart';
+import '../../models/order_details.dart';
 import '../../services/api/api_service.dart';
 import '../../services/dialog_service.dart';
 import '../shared/app_colors.dart';
@@ -41,6 +42,7 @@ class _CartTileState extends State<CartTile> {
   String promoCodeDiscount = "0";
   int quantity = 0;
   Item item;
+  OrderDetails orderDetails;
 
   @override
   void initState() {
@@ -49,6 +51,7 @@ class _CartTileState extends State<CartTile> {
     item.quantity = item.quantity >= 1 ? item.quantity : 1;
 
     // finalTotal = (discountedPrice * item.quantity).toString();
+    setUpOrderDetails();
     setUpProductPrices();
     super.initState();
   }
@@ -69,6 +72,8 @@ class _CartTileState extends State<CartTile> {
         shippingCharges = res.deliveryCharges.cost.toString();
       });
     }
+    orderDetails.total = rupeeUnicode + finalTotal;
+    orderDetails.deliveryCharges = rupeeUnicode + shippingCharges;
   }
 
   String calculateTotalCost(Cost cost, num quantity, num deliveryCharges) =>
@@ -79,6 +84,43 @@ class _CartTileState extends State<CartTile> {
                   quantity) +
               deliveryCharges)
           .toStringAsFixed(2);
+
+  void setUpOrderDetails() {
+    orderDetails = OrderDetails(
+      productName: widget.item.product.name,
+      qty: widget.item.quantity.toString(),
+      size: widget.item.size != null && widget.item.size != ""
+          ? (widget.item.size == 'N/A' ? '-' : widget.item.size)
+          : "No Size given",
+      color: widget.item.color != null && widget.item.color != ""
+          ? widget.item.color
+          : "-",
+      promocode: promoCode,
+      promocodeDiscount: '$rupeeUnicode$promoCodeDiscount',
+      price: rupeeUnicode +
+          (widget.item.quantity * widget.item.product.cost.cost).toString(),
+      discount: "${widget.item.product.discount.toString()} %",
+      discountedPrice: rupeeUnicode +
+          (((widget.item.product.price -
+                          (widget.item.product.price *
+                              widget.item.product.discount /
+                              100)) *
+                      (widget.item.quantity)) ??
+                  0)
+              .toString(),
+      convenienceCharges:
+          '${widget?.item?.product?.cost?.convenienceCharges?.rate} %',
+      gst:
+          '$rupeeUnicode${((widget?.item?.quantity ?? 1) * (widget?.item?.product?.cost?.gstCharges?.cost ?? 0))?.toStringAsFixed(2)} (${widget?.item?.product?.cost?.gstCharges?.rate}%)',
+      deliveryCharges: rupeeUnicode + shippingCharges,
+      actualPrice:
+          "$rupeeUnicode ${((widget?.item?.quantity ?? 1) * ((widget?.item?.product?.cost?.cost ?? 0) + (widget?.item?.product?.cost?.gstCharges?.cost ?? 0)) + (widget?.item?.product?.cost?.convenienceCharges?.cost) + BaseController.deliveryCharge).toStringAsFixed(2)}",
+      saved:
+          // ignore: deprecated_member_use
+          "$rupeeUnicode ${(((widget?.item?.quantity ?? 1) * ((widget?.item?.product?.cost?.cost ?? 0) + (widget?.item?.product?.cost?.gstCharges?.cost ?? 0)) + (widget?.item?.product?.cost?.convenienceCharges?.cost) + BaseController.deliveryCharge) - (double.parse(finalTotal, (s) => 0) ?? 0)).toStringAsFixed(2)}",
+      total: rupeeUnicode + finalTotal,
+    );
+  }
 
   void increseQty() {
     setState(() {
@@ -113,6 +155,7 @@ class _CartTileState extends State<CartTile> {
             proceedToOrder: proceedToOrder,
             increaseQty: increseQty,
             decreaseQty: decreaseQty,
+            orderDetails: orderDetails,
             // deliveryStatus: proceedToOrder,
           ),
         ),
@@ -192,6 +235,7 @@ class _CartTileState extends State<CartTile> {
             color: item.color,
             qty: qty ?? quantity,
             finalTotal: total ?? finalTotal,
+            orderDetails: orderDetails,
           ),
           type: PageTransitionType.rightToLeft,
         ),
@@ -225,6 +269,7 @@ class _CartTileState extends State<CartTile> {
             color: item.color,
             qty: qty ?? item.quantity,
             finalTotal: total ?? finalTotal,
+            orderDetails: orderDetails,
           ),
           type: PageTransitionType.rightToLeft,
         ),

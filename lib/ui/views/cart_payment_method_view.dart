@@ -1,6 +1,8 @@
 // import 'package:compound/ui/views/pay_through_card.dart';
 import 'package:compound/controllers/base_controller.dart';
+import 'package:compound/models/order_details.dart';
 import 'package:compound/services/dialog_service.dart';
+import 'package:compound/ui/widgets/order_details_bottomsheet.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -26,6 +28,7 @@ class PaymentMethod extends StatefulWidget {
   final String size;
   final String color;
   final int qty;
+  final OrderDetails orderDetails;
 
   const PaymentMethod({
     Key key,
@@ -37,6 +40,7 @@ class PaymentMethod extends StatefulWidget {
     this.qty,
     this.billingAddress,
     this.finalTotal,
+    this.orderDetails,
   }) : super(key: key);
 
   @override
@@ -116,7 +120,28 @@ class _PaymentMethodState extends State<PaymentMethod> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    {
+                      showModalBottomSheet<void>(
+                        clipBehavior: Clip.antiAlias,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            topRight: Radius.circular(10),
+                          ),
+                        ),
+                        isScrollControlled: true,
+                        context: context,
+                        builder: (context) => OrderDetailsBottomsheet(
+                          orderDetails: widget.orderDetails,
+                          buttonText: "Place Order",
+                          onButtonPressed: () async =>
+                              await makePayment(controller),
+                          isPromocodeApplied: widget.promoCode.isNotEmpty,
+                        ),
+                      );
+                    }
+                  },
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -126,10 +151,10 @@ class _PaymentMethodState extends State<PaymentMethod> {
                         fontSize: 12,
                         isBold: true,
                       ),
-                      // CustomText(
-                      //   "View Details",
-                      //   fontSize: 12,
-                      // ),
+                      CustomText(
+                        "View Details",
+                        fontSize: 12,
+                      ),
                     ],
                   ),
                 ),
@@ -138,33 +163,12 @@ class _PaymentMethodState extends State<PaymentMethod> {
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       elevation: 0,
-                      primary: green,
+                      primary: lightGreen,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    onPressed: () async {
-                      final Order res = await controller.createOrder(
-                        widget.billingAddress.address +
-                            '\n' +
-                            widget.billingAddress.googleAddress,
-                        widget.productId,
-                        widget.promoCode,
-                        widget.promoCodeId,
-                        widget.size,
-                        widget.color,
-                        widget.qty,
-                        paymentMethodRadioValue,
-                      );
-
-                      if (res != null) {
-                        NavigationService.off(PaymentFinishedScreenRoute);
-                      } else if (paymentMethodGrpValue != 2) {
-                        _errorHandlingService
-                            .showError(Errors.CouldNotPlaceAnOrder);
-                        NavigationService.offAll(HomeViewRoute);
-                      }
-                    },
+                    onPressed: () async => await makePayment(controller),
                     child: Padding(
                       padding: const EdgeInsets.all(10),
                       child: Text(
@@ -320,5 +324,27 @@ class _PaymentMethodState extends State<PaymentMethod> {
         ),
       ),
     );
+  }
+
+  Future<void> makePayment(controller) async {
+    final Order res = await controller.createOrder(
+      widget.billingAddress.address +
+          '\n' +
+          widget.billingAddress.googleAddress,
+      widget.productId,
+      widget.promoCode,
+      widget.promoCodeId,
+      widget.size,
+      widget.color,
+      widget.qty,
+      paymentMethodRadioValue,
+    );
+
+    if (res != null) {
+      NavigationService.off(PaymentFinishedScreenRoute);
+    } else if (paymentMethodGrpValue != 2) {
+      _errorHandlingService.showError(Errors.CouldNotPlaceAnOrder);
+      NavigationService.offAll(HomeViewRoute);
+    }
   }
 }

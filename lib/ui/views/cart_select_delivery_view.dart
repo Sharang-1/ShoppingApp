@@ -1,7 +1,9 @@
 import 'package:compound/controllers/base_controller.dart';
 import 'package:compound/locator.dart';
+import 'package:compound/models/order_details.dart';
 import 'package:compound/services/api/api_service.dart';
 import 'package:compound/services/dialog_service.dart';
+import 'package:compound/ui/widgets/order_details_bottomsheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -26,6 +28,8 @@ class SelectAddress extends StatefulWidget {
   final String size;
   final String color;
   final int qty;
+  final OrderDetails orderDetails;
+  final bool isPromocodeApplied;
 
   const SelectAddress({
     Key key,
@@ -36,6 +40,8 @@ class SelectAddress extends StatefulWidget {
     @required this.color,
     @required this.qty,
     @required this.finalTotal,
+    @required this.orderDetails,
+    this.isPromocodeApplied = false,
   }) : super(key: key);
 
   @override
@@ -83,7 +89,27 @@ class _SelectAddressState extends State<SelectAddress> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    showModalBottomSheet<void>(
+                      clipBehavior: Clip.antiAlias,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(10),
+                          topRight: Radius.circular(10),
+                        ),
+                      ),
+                      isScrollControlled: true,
+                      context: context,
+                      builder: (context) => OrderDetailsBottomsheet(
+                        orderDetails: widget.orderDetails,
+                        buttonText: "Make Payment",
+                        onButtonPressed: disabledPayment
+                            ? null
+                            : () async => await makePayment(controller),
+                        isPromocodeApplied: widget.isPromocodeApplied,
+                      ),
+                    );
+                  },
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -93,10 +119,10 @@ class _SelectAddressState extends State<SelectAddress> {
                         fontSize: 12,
                         isBold: true,
                       ),
-                      // CustomText(
-                      //   "View Details",
-                      //   fontSize: 12,
-                      // ),
+                      CustomText(
+                        "View Details",
+                        fontSize: 12,
+                      ),
                     ],
                   ),
                 ),
@@ -105,50 +131,14 @@ class _SelectAddressState extends State<SelectAddress> {
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       elevation: 0,
-                      primary: green,
+                      primary: lightGreen,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
                     onPressed: disabledPayment
                         ? null
-                        : () async {
-                            final serviceAvailability =
-                                await locator<APIService>().checkPincode(
-                                    productId: widget.productId,
-                                    pincode:
-                                        addressRadioValue.pincode.toString());
-
-                            if (serviceAvailability == null) return;
-
-                            if (serviceAvailability.serviceAvailable) {
-                              Navigator.push(
-                                context,
-                                PageTransition(
-                                    child: PaymentMethod(
-                                      billingAddress: (addressRadioValue == null
-                                          ? controller.addresses[0]
-                                          : addressRadioValue),
-                                      color: widget.color,
-                                      productId: widget.productId,
-                                      promoCode: widget.promoCode,
-                                      promoCodeId: widget.promoCodeId,
-                                      qty: widget.qty,
-                                      size: widget.size,
-                                      finalTotal: widget.finalTotal,
-                                    ),
-                                    type: PageTransitionType.rightToLeft),
-                              );
-                            } else {
-                              DialogService.showNotDeliveringDialog(
-                                  msg: serviceAvailability.message);
-                              // Get.snackbar(
-                              //   "Service Not Available",
-                              //   serviceAvailability.message,
-                              //   snackPosition: SnackPosition.BOTTOM,
-                              // );
-                            }
-                          },
+                        : () async => await makePayment(controller),
                     child: Padding(
                       padding: const EdgeInsets.all(10),
                       child: Center(
@@ -349,5 +339,41 @@ class _SelectAddressState extends State<SelectAddress> {
         ),
       ),
     );
+  }
+
+  Future<void> makePayment(controller) async {
+    final serviceAvailability = await locator<APIService>().checkPincode(
+        productId: widget.productId,
+        pincode: addressRadioValue.pincode.toString());
+
+    if (serviceAvailability == null) return;
+
+    if (serviceAvailability.serviceAvailable) {
+      Navigator.push(
+        context,
+        PageTransition(
+            child: PaymentMethod(
+              billingAddress: (addressRadioValue == null
+                  ? controller.addresses[0]
+                  : addressRadioValue),
+              color: widget.color,
+              productId: widget.productId,
+              promoCode: widget.promoCode,
+              promoCodeId: widget.promoCodeId,
+              qty: widget.qty,
+              size: widget.size,
+              finalTotal: widget.finalTotal,
+              orderDetails: widget.orderDetails,
+            ),
+            type: PageTransitionType.rightToLeft),
+      );
+    } else {
+      DialogService.showNotDeliveringDialog(msg: serviceAvailability.message);
+      // Get.snackbar(
+      //   "Service Not Available",
+      //   serviceAvailability.message,
+      //   snackPosition: SnackPosition.BOTTOM,
+      // );
+    }
   }
 }

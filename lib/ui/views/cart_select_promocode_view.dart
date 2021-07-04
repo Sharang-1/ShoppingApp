@@ -1,15 +1,17 @@
-import 'package:compound/controllers/base_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
+import '../../controllers/base_controller.dart';
 import '../../locator.dart';
 import '../../models/coupon.dart';
+import '../../models/order_details.dart';
 import '../../services/api/api_service.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
 import '../widgets/custom_stepper.dart';
 import '../widgets/custom_text.dart';
+import '../widgets/order_details_bottomsheet.dart';
 import 'cart_select_delivery_view.dart';
 
 class SelectPromocode extends StatefulWidget {
@@ -21,6 +23,7 @@ class SelectPromocode extends StatefulWidget {
   final String size;
   final String color;
   final int qty;
+  final OrderDetails orderDetails;
 
   const SelectPromocode({
     Key key,
@@ -32,6 +35,7 @@ class SelectPromocode extends StatefulWidget {
     @required this.color,
     @required this.qty,
     @required this.finalTotal,
+    @required this.orderDetails,
   }) : super(key: key);
 
   @override
@@ -77,24 +81,25 @@ class _SelectPromocodeState extends State<SelectPromocode> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               InkWell(
-                //         onTap: () async {
-                //           await showModalBottomSheet<void>(
-                // clipBehavior: Clip.antiAlias,
-                // shape: RoundedRectangleBorder(
-                //   borderRadius: BorderRadius.only(
-                //     topLeft: Radius.circular(30),
-                //     topRight: Radius.circular(30),
-                //   ),
-                // ),
-                // isScrollControlled: true,
-                // context: context,
-                // builder: (context) {
-                //   return bottomSheetDetailsTable(
-                //     titleFontSize,
-                //     subtitleFontSize,
-                //   );
-                // });
-                // },
+                onTap: () {
+                  showModalBottomSheet<void>(
+                    clipBehavior: Clip.antiAlias,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10),
+                        topRight: Radius.circular(10),
+                      ),
+                    ),
+                    isScrollControlled: true,
+                    context: context,
+                    builder: (context) => OrderDetailsBottomsheet(
+                      orderDetails: widget.orderDetails,
+                      buttonText: "Select Address",
+                      onButtonPressed: selectAddress,
+                      isPromocodeApplied: false,
+                    ),
+                  );
+                },
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -105,10 +110,10 @@ class _SelectPromocodeState extends State<SelectPromocode> {
                       isBold: true,
                       // color: lightGreen,
                     ),
-                    // CustomText(
-                    //   "View Details",
-                    //   fontSize: 12,
-                    // ),
+                    CustomText(
+                      "View Details",
+                      fontSize: 12,
+                    ),
                   ],
                 ),
               ),
@@ -117,27 +122,12 @@ class _SelectPromocodeState extends State<SelectPromocode> {
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     elevation: 0,
-                    primary: green,
+                    primary: lightGreen,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      PageTransition(
-                          child: SelectAddress(
-                            productId: widget.productId,
-                            promoCode: widget.promoCode,
-                            promoCodeId: widget.promoCodeId,
-                            size: widget.size,
-                            color: widget.color,
-                            qty: widget.qty,
-                            finalTotal: widget.finalTotal,
-                          ),
-                          type: PageTransitionType.rightToLeft),
-                    );
-                  },
+                  onPressed: selectAddress,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                       vertical: 10.0,
@@ -330,6 +320,11 @@ class _SelectPromocodeState extends State<SelectPromocode> {
 
       _controller.text = "";
 
+      OrderDetails orderDetails = widget.orderDetails;
+      orderDetails.promocode = res.promocodeDiscount.promocode;
+      orderDetails.promocodeDiscount =
+          '$rupeeUnicode${res.promocodeDiscount.cost}';
+
       ScaffoldMessenger.of(context).showSnackBar(
         new SnackBar(content: Text("Coupon Applied Successfully!")),
       );
@@ -345,6 +340,7 @@ class _SelectPromocodeState extends State<SelectPromocode> {
               color: widget.color,
               qty: widget.qty,
               finalTotal: res.cost.toStringAsFixed(2),
+              orderDetails: orderDetails,
             ),
             type: PageTransitionType.rightToLeft),
       );
@@ -359,5 +355,23 @@ class _SelectPromocodeState extends State<SelectPromocode> {
         SnackBar(content: Text("Invalid Coupon")),
       );
     }
+  }
+
+  void selectAddress() {
+    Navigator.push(
+      context,
+      PageTransition(
+          child: SelectAddress(
+            productId: widget.productId,
+            promoCode: widget.promoCode,
+            promoCodeId: widget.promoCodeId,
+            size: widget.size,
+            color: widget.color,
+            qty: widget.qty,
+            finalTotal: widget.finalTotal,
+            orderDetails: widget.orderDetails,
+          ),
+          type: PageTransitionType.rightToLeft),
+    );
   }
 }
