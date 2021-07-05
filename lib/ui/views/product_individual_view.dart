@@ -1528,10 +1528,10 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                     child: Container(
                       color: Colors.grey[200],
                       padding: EdgeInsets.only(
-                        left: 4,
+                        left: 12,
                         right: 4,
                         top: 8.0,
-                        bottom: 12.0,
+                        bottom: MediaQuery.of(context).padding.bottom,
                       ),
                       child: FittedBox(
                         child: Row(

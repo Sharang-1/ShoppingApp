@@ -111,7 +111,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
           padding: EdgeInsets.only(
             left: screenPadding,
             right: screenPadding,
-            bottom: 8.0,
+            bottom: MediaQuery.of(context).padding.bottom,
             top: 8.0,
           ),
           child: SizedBox(
@@ -298,13 +298,13 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                             if (key == 2) verticalSpaceTiny,
                                             if (key == 2)
                                               CustomText(
-                                                "Debit Card, \nCredit Card, \nUPI, \nNetBanking",
+                                                "Debit Card, Credit Card, UPI, \nNetBanking",
                                                 fontSize: titleFontSize - 4,
                                               )
                                           ],
                                         ),
                                       ),
-                                      Spacer(),
+                                      // Spacer(),
                                       iconpaymentMethodMap[key],
                                       horizontalSpaceTiny,
                                     ],

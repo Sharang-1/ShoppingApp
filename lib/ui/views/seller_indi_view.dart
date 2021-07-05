@@ -122,7 +122,9 @@ class _SellerIndiState extends State<SellerIndi> {
   void initState() {
     super.initState();
     SharedPreferences.getInstance().then((pref) {
-      token = pref.getString(Authtoken);
+      setState(() {
+        token = pref.getString(Authtoken);
+      });
     });
     try {
       _analyticsService.sendAnalyticsEvent(
@@ -232,15 +234,19 @@ class _SellerIndiState extends State<SellerIndi> {
     double media = ((MediaQuery.of(context).size.width - 100) / 2);
     double multiplyer = 0.8;
 
+    String designerProfilePicUrl =
+        "$DESIGNER_PROFILE_PHOTO_BASE_URL/${sellerData?.owner?.key}";
     setupSellerDetails(widget?.data);
 
     Timing _timing = sellerData.timing;
+    print("Seller Profile Pic token $token $designerProfilePicUrl");
 
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: null,
         bottomNavigationBar: BottomAppBar(
           elevation: 0,
+          color: newBackgroundColor,
           child: Container(
             key: appointmentBtnKey,
             color: Colors.grey[200],
@@ -602,7 +608,7 @@ class _SellerIndiState extends State<SellerIndi> {
                                 ),
                                 Divider(
                                   color: Colors.grey,
-                                  thickness: 2,
+                                  thickness: 1,
                                 ),
                                 Row(
                                   mainAxisAlignment:
@@ -667,37 +673,38 @@ class _SellerIndiState extends State<SellerIndi> {
                           ),
                           verticalSpace(10),
                           Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               ClipOval(
                                 child: FadeInImage(
-                                  width: 50,
-                                  height: 50,
-                                  fadeInCurve: Curves.easeIn,
-                                  fit: BoxFit.cover,
-                                  placeholder: AssetImage(
-                                      "assets/images/product_preloading.png"),
-                                  image: NetworkImage(
-                                      "$DESIGNER_PROFILE_PHOTO_BASE_URL/${sellerData?.owner?.key}",
-                                      headers: {
-                                        "Authorization":
-                                            "Bearer ${token ?? ''}",
-                                      }),
-                                  imageErrorBuilder:
-                                      (context, error, stackTrace) {
-                                        print("Image Error: $error $stackTrace");
-                                          return Image.asset(
-                                    "assets/images/product_preloading.png",
-                                    width: 50,
-                                    height: 50,
+                                    width: 80,
+                                    height: 80,
+                                    fadeInCurve: Curves.easeIn,
                                     fit: BoxFit.cover,
-                                  );}
-                                ),
+                                    placeholder: AssetImage(
+                                        "assets/images/product_preloading.png"),
+                                    image: NetworkImage(
+                                        "$designerProfilePicUrl",
+                                        headers: {
+                                          "Authorization":
+                                              "Bearer ${token ?? ''}",
+                                        }),
+                                    imageErrorBuilder:
+                                        (context, error, stackTrace) {
+                                      print("Image Error: $error $stackTrace");
+                                      return Image.asset(
+                                        "assets/images/product_preloading.png",
+                                        width: 80,
+                                        height: 80,
+                                        fit: BoxFit.cover,
+                                      );
+                                    }),
                               ),
                               horizontalSpaceSmall,
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     CustomText(
                                       sellerDetails['Owner Name'],
@@ -707,7 +714,7 @@ class _SellerIndiState extends State<SellerIndi> {
                                     ),
                                     ReadMoreText(
                                       sellerDetails["Note from Seller"],
-                                      trimLines: 2,
+                                      trimLines: 3,
                                       colorClickableText: logoRed,
                                       trimMode: TrimMode.Line,
                                       style: TextStyle(
@@ -1094,7 +1101,7 @@ class _SellerIndiState extends State<SellerIndi> {
   Widget sectionDivider({double thickness}) => Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: Divider(
-          color: Colors.grey[400],
+          color: Colors.grey[300],
           thickness: thickness ?? 5,
         ),
       );

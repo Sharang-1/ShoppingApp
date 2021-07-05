@@ -303,6 +303,7 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
             InkWell(
               onTap: onTap,
               child: Container(
+                padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
                 color: Colors.grey[50],
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

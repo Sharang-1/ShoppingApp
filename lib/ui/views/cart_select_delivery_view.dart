@@ -80,7 +80,7 @@ class _SelectAddressState extends State<SelectAddress> {
           padding: EdgeInsets.only(
             left: screenPadding,
             right: screenPadding,
-            bottom: 8.0,
+            bottom: MediaQuery.of(context).padding.bottom,
             top: 8.0,
           ),
           child: SizedBox(
@@ -119,10 +119,11 @@ class _SelectAddressState extends State<SelectAddress> {
                         fontSize: 12,
                         isBold: true,
                       ),
-                      CustomText(
-                        "View Details",
-                        fontSize: 12,
-                      ),
+                      CustomText("View Details",
+                          textStyle: TextStyle(
+                            fontSize: 12,
+                            decoration: TextDecoration.underline,
+                          )),
                     ],
                   ),
                 ),
