@@ -44,6 +44,7 @@ class _DzorExploreViewState extends State<DzorExploreView> {
           top: true,
           left: false,
           right: false,
+          bottom: false,
           child: Padding(
             padding: const EdgeInsets.only(top: 4.0),
             child: SmartRefresher(
@@ -71,8 +72,8 @@ class _DzorExploreViewState extends State<DzorExploreView> {
                       context: context,
                       layoutType: LayoutType.PRODUCT_LAYOUT_3,
                       scrollDirection: Axis.vertical,
-                      controller:
-                          ProductsGridViewBuilderController(randomize: true, limit: 100),
+                      controller: ProductsGridViewBuilderController(
+                          randomize: true, limit: 100),
                     ),
                   ],
                 ),

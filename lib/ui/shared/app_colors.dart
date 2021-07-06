@@ -15,6 +15,7 @@ Color green = Colors.green[700];
 Color lightGreen = _colorFromHex("#51BF47");
 Color textIconOrange = _colorFromHex("#eb6969");
 Color textIconBlue = _colorFromHex("#3e5377");
+Color cityTextBlueColor = Colors.blue[900];
 Color appBarIconColor = Colors.black;
 
 const Color backgroundColor = Color.fromARGB(255, 26, 27, 30);

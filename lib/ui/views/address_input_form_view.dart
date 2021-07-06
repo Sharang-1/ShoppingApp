@@ -299,7 +299,7 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
                                   elevation: 5,
                                   primary: green,
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30),
+                                    borderRadius: BorderRadius.circular(10),
                                     // side: BorderSide(
                                     //     color: Colors.black, width: 0.5)
                                   ),

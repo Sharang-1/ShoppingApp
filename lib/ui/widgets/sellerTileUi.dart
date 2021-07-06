@@ -378,8 +378,9 @@ class DesignerTileUi extends StatelessWidget {
                               dotsAfterOverFlow: true,
                               isTitle: true,
                               isBold: false,
-                              fontSize: 16,
+                              fontSize: 18,
                             ),
+                            verticalSpaceTiny,
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -495,7 +496,7 @@ class DesignerTileUi extends StatelessWidget {
                           horizontalSpaceTiny,
                           CustomText(
                             data.contact.city,
-                            fontSize: 10,
+                            fontSize: 12,
                           ),
                           if (!isID3)
                             Row(
@@ -530,10 +531,12 @@ class DesignerTileUi extends StatelessWidget {
                                     "$SELLER_PHOTO_BASE_URL/${data.key}",
                               ),
                             ),
-                            child: CustomText(
-                              "View All",
-                              fontSize: 10,
-                            ),
+                            child: CustomText("View All",
+                                textStyle: TextStyle(
+                                  fontSize: 10,
+                                  color: textIconBlue,
+                                  decoration: TextDecoration.underline,
+                                )),
                           ),
                         ),
                     ],

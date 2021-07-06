@@ -115,7 +115,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
             top: 8.0,
           ),
           child: SizedBox(
-            height: 40,
+            height: 50,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -171,11 +171,16 @@ class _PaymentMethodState extends State<PaymentMethod> {
                     onPressed: () async => await makePayment(controller),
                     child: Padding(
                       padding: const EdgeInsets.all(10),
-                      child: Text(
-                        "Place Order ",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                      child: Container(
+                        alignment: Alignment.center,
+                        child: Text(
+                          "Place Order",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            color: Colors.white,
+                          ),
+                          textAlign: TextAlign.center,
                         ),
                       ),
                     ),
@@ -186,6 +191,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
           ),
         ),
         body: SafeArea(
+          bottom: false,
           child: SingleChildScrollView(
             child: Padding(
               padding: EdgeInsets.only(

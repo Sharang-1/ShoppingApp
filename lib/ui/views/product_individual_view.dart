@@ -201,7 +201,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
               child: Text(
                 capitalizeString(productName.toString()),
                 style: TextStyle(
-                  fontSize: 14,
+                  fontSize: 18,
                   fontFamily: headingFont,
                   fontWeight: FontWeight.bold,
                 ),
@@ -914,51 +914,6 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                         .toList()),
                               ),
                               sectionDivider(),
-                              SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: Row(
-                                  children: [
-                                    "#JustHere",
-                                    if (totalQuantity != 0) "In Stock",
-                                    if ((productData?.stitchingType?.id ??
-                                            -1) ==
-                                        2)
-                                      "Unstitched",
-                                    if (productData.whoMadeIt.id == 2)
-                                      "Hand-Crafted",
-                                    if (totalQuantity == 1)
-                                      "One in Market Product",
-                                    if (!available) "Unavailable",
-                                  ]
-                                      .map(
-                                        (e) => Container(
-                                          margin: EdgeInsets.symmetric(
-                                            vertical: 4.0,
-                                            horizontal: 8.0,
-                                          ),
-                                          child: Text(
-                                            e,
-                                            style: TextStyle(
-                                              fontSize: 10.0,
-                                              color: e == "In Stock"
-                                                  ? lightGreen
-                                                  : Colors.black,
-                                            ),
-                                          ),
-                                        ),
-                                      )
-                                      .toList(),
-                                ),
-                              ),
-                              if (available) sectionDivider(),
-                              if (available)
-                                Text(
-                                  "Delivery By : $shipment",
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              if (available) sectionDivider(),
                               if (available)
                                 Container(
                                   width: MediaQuery.of(context).size.width,
@@ -972,11 +927,12 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                               children: <Widget>[
                                                 Expanded(
                                                   child: Text(
-                                                    "Select Size",
+                                                    "Select Size".toUpperCase(),
                                                     style: TextStyle(
                                                       fontWeight:
-                                                          FontWeight.bold,
+                                                          FontWeight.normal,
                                                       fontSize: 14,
+                                                      letterSpacing: 1.0,
                                                     ),
                                                   ),
                                                 ),
@@ -1013,10 +969,11 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                     ? verticalSpace(0)
                                                     : verticalSpace(10),
                                                 Text(
-                                                  "Select Color",
+                                                  "Select Color".toUpperCase(),
                                                   style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
+                                                    // fontWeight: FontWeight.bold,
                                                     fontSize: 14,
+                                                    letterSpacing: 1.0,
                                                   ),
                                                 ),
                                                 verticalSpace(5),
@@ -1028,103 +985,100 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                       verticalSpace(10),
                                       selectedColor == ""
                                           ? Container()
-                                          : Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                          : Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: <Widget>[
-                                                Expanded(
-                                                  child: Text(
-                                                    "Select ${(productData.category.id == 13) ? 'No. of Meters' : 'Qty'}",
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 14,
-                                                    ),
+                                                Text(
+                                                  "Select ${(productData.category.id == 13) ? 'No. of Meters' : 'Qty'}"
+                                                      .toUpperCase(),
+                                                  style: TextStyle(
+                                                    // fontWeight:
+                                                    //     FontWeight.bold,
+                                                    fontSize: 14,
+                                                    letterSpacing: 1.0,
                                                   ),
                                                 ),
-                                                Expanded(
-                                                  child: FittedBox(
-                                                    fit: BoxFit.scaleDown,
-                                                    child: Container(
-                                                      height: 30,
-                                                      decoration: BoxDecoration(
-                                                        border: Border.all(
-                                                          color: darkRedSmooth,
+                                                verticalSpaceSmall,
+                                                FittedBox(
+                                                  fit: BoxFit.scaleDown,
+                                                  child: Container(
+                                                    height: 30,
+                                                    decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                        color: darkRedSmooth,
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5),
+                                                    ),
+                                                    child: Row(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: <Widget>[
+                                                        IconButton(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .symmetric(
+                                                                  vertical:
+                                                                      4.0),
+                                                          color: selectedQty ==
+                                                                  0
+                                                              ? Colors.grey
+                                                              : darkRedSmooth,
+                                                          iconSize: 18,
+                                                          icon: Icon(
+                                                              Icons.remove),
+                                                          onPressed: () {
+                                                            if (selectedQty !=
+                                                                0) {
+                                                              setState(() {
+                                                                selectedQty =
+                                                                    selectedQty -
+                                                                        1;
+                                                              });
+                                                            }
+                                                          },
                                                         ),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(5),
-                                                      ),
-                                                      child: Row(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
-                                                        children: <Widget>[
-                                                          IconButton(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .symmetric(
-                                                                    vertical:
-                                                                        4.0),
-                                                            color: selectedQty ==
-                                                                    0
-                                                                ? Colors.grey
-                                                                : darkRedSmooth,
-                                                            iconSize: 18,
-                                                            icon: Icon(
-                                                                Icons.remove),
-                                                            onPressed: () {
-                                                              if (selectedQty !=
-                                                                  0) {
-                                                                setState(() {
-                                                                  selectedQty =
-                                                                      selectedQty -
-                                                                          1;
-                                                                });
-                                                              }
-                                                            },
-                                                          ),
-                                                          Text(
-                                                            selectedQty
-                                                                .toString(),
-                                                            style: TextStyle(
-                                                                color:
-                                                                    darkRedSmooth,
-                                                                fontSize: 12,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold),
-                                                          ),
-                                                          IconButton(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .symmetric(
-                                                                    vertical:
-                                                                        4.0),
-                                                            iconSize: 18,
-                                                            color: maxQty ==
-                                                                    selectedQty
-                                                                ? Colors.grey
-                                                                : darkRedSmooth,
-                                                            icon:
-                                                                Icon(Icons.add),
-                                                            onPressed: () {
-                                                              print("maxQty" +
-                                                                  maxQty
-                                                                      .toString());
-                                                              if (maxQty !=
-                                                                  selectedQty) {
-                                                                setState(() {
-                                                                  selectedQty =
-                                                                      selectedQty +
-                                                                          1;
-                                                                });
-                                                              }
-                                                            },
-                                                          ),
-                                                        ],
-                                                      ),
+                                                        Text(
+                                                          selectedQty
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                              color:
+                                                                  darkRedSmooth,
+                                                              fontSize: 12,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
+                                                        IconButton(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .symmetric(
+                                                                  vertical:
+                                                                      4.0),
+                                                          iconSize: 18,
+                                                          color: maxQty ==
+                                                                  selectedQty
+                                                              ? Colors.grey
+                                                              : darkRedSmooth,
+                                                          icon: Icon(Icons.add),
+                                                          onPressed: () {
+                                                            print("maxQty" +
+                                                                maxQty
+                                                                    .toString());
+                                                            if (maxQty !=
+                                                                selectedQty) {
+                                                              setState(() {
+                                                                selectedQty =
+                                                                    selectedQty +
+                                                                        1;
+                                                              });
+                                                            }
+                                                          },
+                                                        ),
+                                                      ],
                                                     ),
                                                   ),
                                                 ),
@@ -1168,11 +1122,57 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                     ],
                                   ),
                                 ),
+                              SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Row(
+                                  children: [
+                                    "#JustHere",
+                                    if (totalQuantity != 0) "In Stock",
+                                    if ((productData?.stitchingType?.id ??
+                                            -1) ==
+                                        2)
+                                      "Unstitched",
+                                    if (productData.whoMadeIt.id == 2)
+                                      "Hand-Crafted",
+                                    if (totalQuantity == 1)
+                                      "One in Market Product",
+                                    if (!available) "Unavailable",
+                                  ]
+                                      .map(
+                                        (e) => Container(
+                                          margin: EdgeInsets.symmetric(
+                                            vertical: 4.0,
+                                            horizontal: 8.0,
+                                          ),
+                                          child: Text(
+                                            e,
+                                            style: TextStyle(
+                                                fontSize: 10.0,
+                                                color: e == "In Stock"
+                                                    ? lightGreen
+                                                    : Colors.grey),
+                                          ),
+                                        ),
+                                      )
+                                      .toList(),
+                                ),
+                              ),
+                              if (available) sectionDivider(),
+                              if (available)
+                                Text(
+                                  "Delivery By : $shipment",
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              // if (available) sectionDivider(),
                               sectionDivider(),
                               Text(
-                                "Know Your Designer",
+                                "Know Your Designer".toUpperCase(),
                                 style: TextStyle(
-                                  fontWeight: FontWeight.bold,
+                                  // fontWeight: FontWeight.bold,
+                                  letterSpacing: 1.0,
                                   fontSize: 14,
                                 ),
                               ),
@@ -1375,11 +1375,11 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                               ),
                               sectionDivider(),
                               Text(
-                                "Item Details",
+                                "Item Details".toUpperCase(),
                                 style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14,
-                                ),
+                                    // fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                    letterSpacing: 1.0),
                               ),
                               verticalSpace(5),
                               Card(
@@ -1431,10 +1431,11 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                               ),
                               sectionDivider(),
                               Text(
-                                "Recommended Products",
+                                "Recommended Products".toUpperCase(),
                                 style: TextStyle(
-                                  fontWeight: FontWeight.bold,
+                                  // fontWeight: FontWeight.bold,
                                   fontSize: 14,
+                                  letterSpacing: 1.0,
                                 ),
                               ),
                               verticalSpace(5),
@@ -1454,10 +1455,11 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                               if (showMoreFromDesigner) sectionDivider(),
                               if (showMoreFromDesigner)
                                 Text(
-                                  "More From Designer",
+                                  "More From Designer".toUpperCase(),
                                   style: TextStyle(
-                                    fontWeight: FontWeight.bold,
+                                    // fontWeight: FontWeight.bold,
                                     fontSize: 14,
+                                    letterSpacing: 1.0,
                                   ),
                                 ),
                               if (showMoreFromDesigner) verticalSpace(5),

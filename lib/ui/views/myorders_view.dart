@@ -270,17 +270,19 @@ class _MyOrdersViewState extends State<MyOrdersView> {
                                             Expanded(
                                                 child: Column(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
+                                                  MainAxisAlignment.spaceAround,
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: <Widget>[
                                                 CustomText(
-                                                  order.product.name,
+                                                  order.product.name
+                                                      .capitalizeFirst,
                                                   isBold: true,
                                                   color: Colors.grey[800],
                                                   dotsAfterOverFlow: true,
-                                                  fontSize: titleFontSize,
+                                                  fontSize: titleFontSize + 4,
                                                 ),
+                                                verticalSpaceSmall,
                                                 Row(
                                                   children: [
                                                     CustomText("Qty: ",

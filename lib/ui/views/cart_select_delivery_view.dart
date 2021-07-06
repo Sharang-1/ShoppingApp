@@ -6,6 +6,7 @@ import 'package:compound/services/dialog_service.dart';
 import 'package:compound/ui/widgets/order_details_bottomsheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -143,11 +144,21 @@ class _SelectAddressState extends State<SelectAddress> {
                     child: Padding(
                       padding: const EdgeInsets.all(10),
                       child: Center(
-                        child: CustomText(
-                          "Make Payment",
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          fontSize: 18,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              FontAwesomeIcons.lock,
+                              size: 16,
+                            ),
+                            horizontalSpaceSmall,
+                            CustomText(
+                              "Make Payment",
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              fontSize: 16,
+                            ),
+                          ],
                         ),
                       ),
                     ),

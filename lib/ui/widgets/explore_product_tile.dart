@@ -290,73 +290,81 @@ class _ExploreProductTileUIState extends State<ExploreProductTileUI> {
                     color: Colors.grey[400],
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Expanded(
-                      child: Container(
-                        child: InkWell(
-                          onTap: widget.onClick,
-                          child: Text(
-                            "🛍️ Shop Now !",
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: logoRed,
-                              fontWeight: FontWeight.bold,
+                Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Expanded(
+                        child: Container(
+                          padding: EdgeInsets.symmetric(vertical: 8.0),
+                          margin: EdgeInsets.only(left: 8.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: lightGreen,
+                          ),
+                          child: InkWell(
+                            onTap: widget.onClick,
+                            child: Text(
+                              "Shop Now !",
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              textAlign: TextAlign.center,
                             ),
-                            textAlign: TextAlign.center,
                           ),
                         ),
                       ),
-                    ),
-                    Container(
-                      height: 16,
-                      child: VerticalDivider(
-                        color: Colors.grey[400],
-                        thickness: 1,
+                      Container(
+                        height: 16,
+                        child: VerticalDivider(
+                          color: Colors.grey[400],
+                          thickness: 1,
+                        ),
                       ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        child: InkWell(
-                          onTap: (locator<HomeController>().isLoggedIn)
-                              ? () async {
-                                  if (locator<WishListController>()
-                                          .list
-                                          .indexOf(widget.data.key) !=
-                                      -1) {
-                                    removeFromWishList(widget.data.key);
-                                    setState(() {
-                                      isWishlistIconFilled = false;
-                                    });
-                                  } else {
-                                    addToWishList(widget.data.key);
-                                    setState(() {
-                                      isWishlistIconFilled = true;
-                                    });
+                      Expanded(
+                        child: Container(
+                          child: InkWell(
+                            onTap: (locator<HomeController>().isLoggedIn)
+                                ? () async {
+                                    if (locator<WishListController>()
+                                            .list
+                                            .indexOf(widget.data.key) !=
+                                        -1) {
+                                      removeFromWishList(widget.data.key);
+                                      setState(() {
+                                        isWishlistIconFilled = false;
+                                      });
+                                    } else {
+                                      addToWishList(widget.data.key);
+                                      setState(() {
+                                        isWishlistIconFilled = true;
+                                      });
+                                    }
                                   }
-                                }
-                              : () async {
-                                  await BaseController.showLoginPopup(
-                                    nextView: WishListRoute,
-                                    shouldNavigateToNextScreen: false,
-                                  );
-                                },
-                          child: Text(
-                            isWishlistIconFilled
-                                ? "❤️ Added to wishlist"
-                                : "❤️ Add to wishlist",
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: logoRed,
-                              fontWeight: FontWeight.w500,
+                                : () async {
+                                    await BaseController.showLoginPopup(
+                                      nextView: WishListRoute,
+                                      shouldNavigateToNextScreen: false,
+                                    );
+                                  },
+                            child: Text(
+                              isWishlistIconFilled
+                                  ? "Added to wishlist"
+                                  : "Add to wishlist",
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: logoRed,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              textAlign: TextAlign.center,
                             ),
-                            textAlign: TextAlign.center,
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 verticalSpaceSmall,
               ],
@@ -385,11 +393,25 @@ class _ExploreProductTileUIState extends State<ExploreProductTileUI> {
             child: ColorFiltered(
               colorFilter: ColorFilter.mode(
                   Colors.transparent.withOpacity(0.12), BlendMode.srcATop),
-              child: HomeSlider(
-                aspectRatio: 1,
-                imgList: photoUrls,
-                videoList: videoUrls,
-                fromExplore: true,
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border(
+                    top: BorderSide(
+                      width: 0.5,
+                      color: Colors.grey[400],
+                    ),
+                    bottom: BorderSide(
+                      width: 0.5,
+                      color: Colors.grey[400],
+                    ),
+                  ),
+                ),
+                child: HomeSlider(
+                  aspectRatio: 1,
+                  imgList: photoUrls,
+                  videoList: videoUrls,
+                  fromExplore: true,
+                ),
               ),
             ),
           ),

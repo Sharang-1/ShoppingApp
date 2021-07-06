@@ -4,7 +4,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:location/location.dart';
 import 'package:readmore/readmore.dart';
 import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -82,7 +81,6 @@ class _SellerIndiState extends State<SellerIndi> {
   TutorialCoachMark tutorialCoachMark;
 
   final DynamicLinkService _dynamicLinkService = locator<DynamicLinkService>();
-  final NavigationService _navigationService = locator<NavigationService>();
   final AnalyticsService _analyticsService = locator<AnalyticsService>();
 
   String getTime(int time) {
@@ -244,97 +242,100 @@ class _SellerIndiState extends State<SellerIndi> {
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: null,
-        bottomNavigationBar: BottomAppBar(
-          elevation: 0,
-          color: newBackgroundColor,
-          child: Container(
-            key: appointmentBtnKey,
-            color: Colors.grey[200],
-            padding: EdgeInsets.symmetric(
-              horizontal: 8,
-              vertical: 4,
-            ),
-            child: Row(
-              children: [
-                Expanded(
-                  flex: 5,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      elevation: 0,
-                      primary: sellerDetails["appointment"] != "true"
-                          ? lightGreen
-                          : textIconOrange,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
+        bottomNavigationBar: Container(
+          color: Colors.grey[200],
+          child: Padding(
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).padding.bottom, top: 4.0),
+            child: Container(
+              key: appointmentBtnKey,
+              color: Colors.grey[200],
+              padding: EdgeInsets.symmetric(
+                horizontal: 8,
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 5,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        elevation: 0,
+                        primary: sellerDetails["appointment"] != "true"
+                            ? lightGreen
+                            : textIconOrange,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
                       ),
-                    ),
-                    onPressed: () {
-                      BaseController.vibrate(duration: 50);
-                      _showBottomSheet(context, sellerDetails);
-                      if (sellerDetails["appointment"] != "true") {}
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      child: sellerDetails["appointment"] != "true"
-                          ? CustomText(
-                              "Book Appointment",
-                              align: TextAlign.center,
-                              color: Colors.white,
-                              isBold: true,
-                              fontSize: 14,
-                            )
-                          : Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                CustomText(
-                                  "Your Appointment is Booked",
-                                  align: TextAlign.center,
-                                  color: Colors.white,
-                                  isBold: true,
-                                  fontSize: 14,
-                                ),
-                                verticalSpace(10),
-                                CustomText(
-                                  "(12/6/20 4:30 am)",
-                                  align: TextAlign.center,
-                                  color: Colors.white,
-                                  isBold: true,
-                                )
-                              ],
-                            ),
-                    ),
-                  ),
-                ),
-                horizontalSpaceSmall,
-                Expanded(
-                  flex: 5,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      elevation: 0,
-                      primary: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                    ),
-                    onPressed: () async =>
-                        await BaseController.goToProductListPage(ProductPageArg(
-                            subCategory: sellerDetails['name'],
-                            queryString: "accountKey=${sellerDetails['key']};",
-                            sellerPhoto:
-                                "$SELLER_PHOTO_BASE_URL/${sellerDetails['key']}")),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      child: CustomText(
-                        "Explore Collection",
-                        align: TextAlign.center,
-                        color: Colors.black,
-                        isBold: true,
-                        fontSize: 14,
+                      onPressed: () {
+                        BaseController.vibrate(duration: 50);
+                        _showBottomSheet(context, sellerDetails);
+                        if (sellerDetails["appointment"] != "true") {}
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        child: sellerDetails["appointment"] != "true"
+                            ? CustomText(
+                                "Book Appointment",
+                                align: TextAlign.center,
+                                color: Colors.white,
+                                isBold: true,
+                                fontSize: 14,
+                              )
+                            : Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  CustomText(
+                                    "Your Appointment is Booked",
+                                    align: TextAlign.center,
+                                    color: Colors.white,
+                                    isBold: true,
+                                    fontSize: 14,
+                                  ),
+                                  verticalSpace(10),
+                                  CustomText(
+                                    "(12/6/20 4:30 am)",
+                                    align: TextAlign.center,
+                                    color: Colors.white,
+                                    isBold: true,
+                                  )
+                                ],
+                              ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                  horizontalSpaceSmall,
+                  Expanded(
+                    flex: 5,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        elevation: 0,
+                        primary: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                      ),
+                      onPressed: () async => await BaseController
+                          .goToProductListPage(ProductPageArg(
+                              subCategory: sellerDetails['name'],
+                              queryString:
+                                  "accountKey=${sellerDetails['key']};",
+                              sellerPhoto:
+                                  "$SELLER_PHOTO_BASE_URL/${sellerDetails['key']}")),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        child: CustomText(
+                          "Explore Collection",
+                          align: TextAlign.center,
+                          color: Colors.black,
+                          isBold: true,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -496,62 +497,72 @@ class _SellerIndiState extends State<SellerIndi> {
                           ),
                           SizedBox(
                             width: (Get.width / 2) - 80,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    Icon(
-                                      FontAwesomeIcons.mapMarkerAlt,
-                                      size: 16,
-                                      color: Colors.black,
-                                    ),
-                                    horizontalSpaceSmall,
-                                    Expanded(
-                                      child: Text(
-                                        sellerDetails["City"],
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w400,
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Icon(
+                                        FontAwesomeIcons.mapMarkerAlt,
+                                        size: 14,
+                                        color: Colors.black,
+                                      ),
+                                      horizontalSpaceTiny,
+                                      FittedBox(
+                                        fit: BoxFit.scaleDown,
+                                        alignment: Alignment.centerRight,
+                                        child: Text(
+                                          sellerDetails["City"],
+                                          overflow: TextOverflow.ellipsis,
+                                          textAlign: TextAlign.end,
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 12,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                verticalSpaceTiny,
-                                Wrap(
-                                  direction: Axis.horizontal,
-                                  children: [
-                                    Icon(
-                                      Icons.circle,
-                                      size: 16,
-                                      color: isOpenNow(_timing)
-                                          ? Colors.green
-                                          : Colors.grey,
-                                    ),
-                                    horizontalSpaceSmall,
-                                    Text(
-                                      isOpenNow(_timing)
-                                          ? "Open Now"
-                                          : "Closed Now",
-                                      style: TextStyle(
-                                        color: Colors.grey[500],
-                                        fontWeight: FontWeight.w400,
+                                    ],
+                                  ),
+                                  verticalSpaceTiny,
+                                  Wrap(
+                                    direction: Axis.horizontal,
+                                    children: [
+                                      Icon(
+                                        Icons.circle,
+                                        size: 14,
+                                        color: isOpenNow(_timing)
+                                            ? Colors.green
+                                            : Colors.grey,
                                       ),
-                                    ),
-                                    if (isOpenNow(_timing)) horizontalSpaceTiny,
-                                    if (isOpenNow(_timing))
+                                      horizontalSpaceSmall,
                                       Text(
-                                        "(${getTimeString(_timing)})",
+                                        isOpenNow(_timing)
+                                            ? "Open Now"
+                                            : "Closed Now",
                                         style: TextStyle(
                                           color: Colors.grey[500],
-                                          fontWeight: FontWeight.bold,
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 12,
                                         ),
                                       ),
-                                  ],
-                                ),
-                              ],
+                                      if (isOpenNow(_timing))
+                                        horizontalSpaceTiny,
+                                      if (isOpenNow(_timing))
+                                        Text(
+                                          "(${getTimeString(_timing)})",
+                                          style: TextStyle(
+                                            color: Colors.grey[500],
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ],
@@ -574,9 +585,12 @@ class _SellerIndiState extends State<SellerIndi> {
                                     Expanded(
                                       child: CustomText(
                                         sellerDetails["name"],
-                                        fontSize: headFont,
-                                        fontFamily: headingFont,
-                                        isBold: true,
+                                        textStyle: TextStyle(
+                                          fontSize: headFont + 2,
+                                          fontFamily: headingFont,
+                                          // letterSpacing: 1.2,
+                                          fontWeight: FontWeight.w600,
+                                        ),
                                         dotsAfterOverFlow: true,
                                       ),
                                     ),
@@ -617,10 +631,11 @@ class _SellerIndiState extends State<SellerIndi> {
                                     CustomText(
                                       sellerDetails["type"],
                                       fontSize: subHeadFont,
+                                      fontWeight: FontWeight.w500,
                                       fontFamily: headingFont,
                                       dotsAfterOverFlow: true,
-                                      isBold: true,
-                                      color: textIconOrange,
+                                      // isBold: true,
+                                      color: textIconBlue,
                                     ),
                                   ],
                                 ),
@@ -668,8 +683,11 @@ class _SellerIndiState extends State<SellerIndi> {
                         children: <Widget>[
                           CustomText(
                             "Know The Designer".toUpperCase(),
-                            fontSize: subHeadFont,
-                            color: Colors.black,
+                            textStyle: TextStyle(
+                              fontSize: subHeadFont,
+                              letterSpacing: 1.2,
+                              color: Colors.black,
+                            ),
                           ),
                           verticalSpace(10),
                           Row(
@@ -708,7 +726,8 @@ class _SellerIndiState extends State<SellerIndi> {
                                   children: [
                                     CustomText(
                                       sellerDetails['Owner Name'],
-                                      isBold: true,
+                                      // isBold: true,
+                                      fontWeight: FontWeight.w500,
                                       fontSize: titleFontSize,
                                       dotsAfterOverFlow: true,
                                     ),
@@ -729,8 +748,9 @@ class _SellerIndiState extends State<SellerIndi> {
                           ),
                           elementDivider(),
                           CustomText(
-                            "Address".toUpperCase(),
+                            "Location".toUpperCase(),
                             fontSize: subHeadFont,
+                            letterSpacing: 1.2,
                             color: Colors.black,
                           ),
                           verticalSpaceSmall,
@@ -748,7 +768,7 @@ class _SellerIndiState extends State<SellerIndi> {
                             },
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
                                 Container(
                                   padding: EdgeInsets.symmetric(
@@ -774,42 +794,42 @@ class _SellerIndiState extends State<SellerIndi> {
                                     ],
                                   ),
                                 ),
-                                InkWell(
-                                  onTap: () async {
-                                    var status =
-                                        await Location().requestPermission();
-                                    if (status == PermissionStatus.GRANTED) {
-                                      _navigationService.navigateTo(
-                                          MapViewRoute,
-                                          arguments: sellerData?.key);
-                                    }
-                                    return;
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 8.0, vertical: 4.0),
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: logoRed,
-                                      ),
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
-                                    child: Row(
-                                      children: <Widget>[
-                                        Icon(
-                                          Icons.directions,
-                                          color: logoRed,
-                                        ),
-                                        horizontalSpaceTiny,
-                                        CustomText(
-                                          "Locate",
-                                          fontSize: subHeadFont,
-                                          color: logoRed,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
+                                //       InkWell(
+                                //         onTap: () async {
+                                //           var status =
+                                //               await Location().requestPermission();
+                                //           if (status == PermissionStatus.GRANTED) {
+                                //             _navigationService.navigateTo(
+                                //                 MapViewRoute,
+                                //                 arguments: sellerData?.key);
+                                //           }
+                                //           return;
+                                //         },
+                                //         child: Container(
+                                //           padding: EdgeInsets.symmetric(
+                                //               horizontal: 8.0, vertical: 4.0),
+                                //           decoration: BoxDecoration(
+                                //             border: Border.all(
+                                //               color: logoRed,
+                                //             ),
+                                //             borderRadius: BorderRadius.circular(5),
+                                //           ),
+                                //           child: Row(
+                                //             children: <Widget>[
+                                //               Icon(
+                                //                 Icons.directions,
+                                //                 color: logoRed,
+                                //               ),
+                                //               horizontalSpaceTiny,
+                                //               CustomText(
+                                //                 "Locate",
+                                //                 fontSize: subHeadFont,
+                                //                 color: logoRed,
+                                //               ),
+                                //             ],
+                                //           ),
+                                //         ),
+                                //       ),
                               ],
                             ),
                           ),
@@ -827,6 +847,7 @@ class _SellerIndiState extends State<SellerIndi> {
                             "Designer Details".toUpperCase(),
                             fontSize: headFont - 2,
                             fontFamily: headingFont,
+                            letterSpacing: 1.2,
                           ),
                           verticalSpace(20),
                           Card(
@@ -969,11 +990,13 @@ class _SellerIndiState extends State<SellerIndi> {
                                   fit: BoxFit.scaleDown,
                                   alignment: Alignment.centerLeft,
                                   child: Text(
-                                    "Explore Designer's Collection",
+                                    "Explore Designer's Collection"
+                                        .toUpperCase(),
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
-                                      fontWeight: FontWeight.bold,
+                                      // fontWeight: FontWeight.bold,
                                       fontSize: titleFontSizeStyle,
+                                      letterSpacing: 1.2,
                                     ),
                                   ),
                                 ),
@@ -985,8 +1008,8 @@ class _SellerIndiState extends State<SellerIndi> {
                                 child: Text(
                                   'View All',
                                   style: TextStyle(
-                                    fontSize: subtitleFontSize,
-                                    fontWeight: FontWeight.bold,
+                                    fontSize: subtitleFontSize - 2,
+                                    // fontWeight: FontWeight.bold,
                                     color: textIconBlue,
                                   ),
                                 ),
@@ -1042,11 +1065,12 @@ class _SellerIndiState extends State<SellerIndi> {
                             child: Padding(
                               padding: const EdgeInsets.only(left: 0.0),
                               child: Text(
-                                'Similar Designers',
+                                'Similar Designers'.toUpperCase(),
                                 style: TextStyle(
+                                  letterSpacing: 1.2,
                                   color: Colors.grey[800],
-                                  fontSize: subtitleFontSize,
-                                  fontWeight: FontWeight.w700,
+                                  fontSize: titleFontSize,
+                                  // fontWeight: FontWeight.w700,
                                 ),
                               ),
                             ),

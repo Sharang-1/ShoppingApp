@@ -18,8 +18,7 @@ import 'home_view_list.dart';
 class HomeView extends StatelessWidget {
   HomeView({Key key}) : super(key: key);
 
-  final HomeController controller =
-      locator<HomeController>();
+  final HomeController controller = locator<HomeController>();
 
   final GlobalKey searchBarKey = GlobalKey();
   final GlobalKey cartKey = GlobalKey();
@@ -73,17 +72,17 @@ class HomeView extends StatelessWidget {
                     title: Column(
                       children: [
                         Text(
-                          "You Are In",
+                          "You Are In".toUpperCase(),
                           style: TextStyle(
-                            fontSize: 10,
+                            fontSize: 12,
                             color: Colors.grey[400],
                           ),
                         ),
                         Text(
-                          "${controller.cityName.toUpperCase()}",
+                          "${controller.cityName.capitalize}",
                           style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.black87,
+                            fontSize: 16,
+                            color: textIconBlue,
                           ),
                         )
                       ],
@@ -163,7 +162,7 @@ class HomeView extends StatelessWidget {
                       "${controller.remoteConfig.getString(HOMESCREEN_APPBAR_TEXT)}",
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: 12,
+                        fontSize: 14,
                       ),
                     ),
                     centerTitle: true,

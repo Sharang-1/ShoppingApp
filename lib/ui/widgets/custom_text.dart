@@ -11,6 +11,7 @@ class CustomText extends StatelessWidget {
   final FontWeight fontWeight;
   final bool isTitle;
   final TextAlign align;
+  final double letterSpacing;
 
   CustomText(this.text,
       {this.color = Colors.black,
@@ -20,6 +21,7 @@ class CustomText extends StatelessWidget {
       this.dotsAfterOverFlow = false,
       this.fontFamily = "",
       this.fontWeight,
+      this.letterSpacing,
       this.isTitle = false,
       this.align});
 
@@ -39,6 +41,7 @@ class CustomText extends StatelessWidget {
                   ? FontWeight.bold
                   : (fontWeight != null ? fontWeight : FontWeight.normal),
               color: color,
+              letterSpacing: letterSpacing ?? 0.2,
             ),
     );
   }
