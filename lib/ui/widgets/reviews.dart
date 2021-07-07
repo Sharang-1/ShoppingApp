@@ -1,11 +1,10 @@
-import 'package:compound/utils/tools.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/reviews_controller.dart';
 import '../../models/reviews.dart';
-import '../shared/app_colors.dart';
+import '../../utils/tools.dart';
 import '../shared/ui_helpers.dart';
 
 class ReviewWidget extends StatelessWidget {
@@ -123,7 +122,7 @@ class ReviewWidget extends StatelessWidget {
           Row(
             children: <Widget>[
               CircleAvatar(
-                backgroundColor: lightGrey,
+                backgroundColor: Colors.grey[600],
                 radius: 22,
                 foregroundColor: Colors.white,
                 child: Text(

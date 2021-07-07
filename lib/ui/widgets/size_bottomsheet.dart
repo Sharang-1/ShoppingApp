@@ -11,7 +11,7 @@ class SizeBottomsheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<BottomsheetSizeController>(
-      init: BottomsheetSizeController(),
+      init: BottomsheetSizeController()..init(),
       builder: (controller) {
         return Container(
           decoration: BoxDecoration(
@@ -150,19 +150,32 @@ class SizeBottomsheet extends StatelessWidget {
           @required TextEditingController controller,
           @required String hint}) =>
       SizedBox(
-        width: 80,
-        child: TextField(
-          focusNode: focusNode,
-          controller: controller,
-          keyboardType: TextInputType.number,
-          decoration: InputDecoration(
-            hintText: hint,
-            hintStyle: TextStyle(
-              fontSize: 10.0,
+        width: 120,
+        child: Row(
+          children: [
+            Expanded(
+              child: CustomText(
+                hint,
+                fontSize: 10,
+                color: Colors.grey[500],
+              ),
             ),
-            border: OutlineInputBorder(),
-            contentPadding: EdgeInsets.symmetric(horizontal: 4.0),
-          ),
+            Expanded(
+              child: TextField(
+                focusNode: focusNode,
+                controller: controller,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  // hintText: hint,
+                  // hintStyle: TextStyle(
+                  //   fontSize: 8.0,
+                  // ),
+                  border: OutlineInputBorder(),
+                  contentPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                ),
+              ),
+            ),
+          ],
         ),
       );
 }

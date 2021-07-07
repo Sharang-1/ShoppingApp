@@ -6,7 +6,6 @@ import 'package:dio_retry/dio_retry.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:http_parser/http_parser.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants/server_urls.dart';
@@ -647,26 +646,24 @@ class APIService {
     return false;
   }
 
-  Future<UserPhoto> updateUserPic(File file) async {
-    UserDetails user = await getUserData();
-    var userData = await apiWrapper("users/" + user.key,
+  Future<bool> updateUserPic(File file) async {
+    var res = await apiWrapper("users/photo",
         authenticated: true,
         data: FormData.fromMap(
           {
             "image": await MultipartFile.fromFile(
               file.path,
-              contentType: MediaType("image", "jpeg"),
             ),
           },
         ),
         options: Options(
           headers: {'excludeToken': false},
-          method: "put",
+          method: "post",
         ));
-    if (userData != null) {
-      return UserPhoto.fromJson(userData);
+    if (res != null) {
+      return true;
     }
-    return null;
+    return false;
   }
 
   Future<List<PaymentOption>> getPaymentOptions() async {

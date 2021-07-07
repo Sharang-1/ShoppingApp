@@ -1,11 +1,11 @@
-import 'package:compound/locator.dart';
-import 'package:compound/models/user_details.dart';
-import 'package:compound/services/api/api_service.dart';
-import 'package:compound/services/navigation_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../locator.dart';
+import '../models/user_details.dart';
+import '../services/api/api_service.dart';
 import '../services/dialog_service.dart';
+import '../services/navigation_service.dart';
 import 'base_controller.dart';
 
 class BottomsheetSizeController extends BaseController {
@@ -24,6 +24,23 @@ class BottomsheetSizeController extends BaseController {
   final size3Focus = FocusNode();
   final size4Focus = FocusNode();
   final size5Focus = FocusNode();
+
+  init() async {
+    UserDetails _userDetails = await locator<APIService>().getUserData();
+    Measure _measure = _userDetails?.measure;
+    if (_measure != null) {
+      if (_measure?.shoulders != null)
+        size1Controller.text = _measure.shoulders.toString();
+      if (_measure?.chest != null)
+        size2Controller.text = _measure.chest.toString();
+      if (_measure?.waist != null)
+        size3Controller.text = _measure.waist.toString();
+      if (_measure?.hips != null)
+        size4Controller.text = _measure.hips.toString();
+      if (_measure?.height != null)
+        size5Controller.text = _measure.height.toString();
+    }
+  }
 
   submit() async {
     if (((size1Controller.text.isEmpty) || (!size1Controller.text.isNum)) ||

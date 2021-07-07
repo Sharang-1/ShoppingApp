@@ -246,7 +246,7 @@ class _SellerIndiState extends State<SellerIndi> {
           color: Colors.grey[200],
           child: Padding(
             padding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).padding.bottom, top: 4.0),
+                bottom: MediaQuery.of(context).padding.bottom + 4.0, top: 4.0),
             child: Container(
               key: appointmentBtnKey,
               color: Colors.grey[200],
@@ -415,7 +415,7 @@ class _SellerIndiState extends State<SellerIndi> {
                     },
                     child: Icon(
                       Icons.share,
-                      size: 30,
+                      size: 25,
                     ),
                   ),
                 ),
@@ -556,7 +556,8 @@ class _SellerIndiState extends State<SellerIndi> {
                                           "(${getTimeString(_timing)})",
                                           style: TextStyle(
                                             color: Colors.grey[500],
-                                            fontWeight: FontWeight.bold,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400,
                                           ),
                                         ),
                                     ],

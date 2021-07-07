@@ -681,60 +681,61 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                             Positioned(
                               bottom: 32,
                               left: 8,
-                              child: Row(
-                                children: [
-                                  Container(
-                                    padding: EdgeInsets.all(8.0),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(50),
-                                    ),
-                                    width: 35,
-                                    height: 35,
-                                    child: InkWell(
-                                      onTap: () async => locator<
-                                                  HomeController>()
-                                              .isLoggedIn
-                                          ? controller
-                                              .onWishlistBtnClicked(productId)
-                                          : await BaseController.showLoginPopup(
-                                              nextView: WishListRoute,
-                                              shouldNavigateToNextScreen: true,
-                                            ),
-                                      child: WishListIcon(
-                                        filled: controller.isWishlistIconFilled,
-                                        width: 30,
-                                        height: 30,
+                              child: Container(
+                                padding: EdgeInsets.all(8.0),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      width: 20,
+                                      height: 20,
+                                      child: InkWell(
+                                        onTap: () async =>
+                                            locator<HomeController>().isLoggedIn
+                                                ? controller
+                                                    .onWishlistBtnClicked(
+                                                        productId)
+                                                : await BaseController
+                                                    .showLoginPopup(
+                                                    nextView: WishListRoute,
+                                                    shouldNavigateToNextScreen:
+                                                        true,
+                                                  ),
+                                        child: WishListIcon(
+                                          filled:
+                                              controller.isWishlistIconFilled,
+                                          width: 20,
+                                          height: 20,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  horizontalSpaceSmall,
-                                  Container(
-                                    padding: EdgeInsets.all(8.0),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(50),
-                                    ),
-                                    width: 35,
-                                    height: 35,
-                                    child: GestureDetector(
-                                      onTap: () async {
-                                        await Share.share(
-                                          await _dynamicLinkService.createLink(
-                                              productLink + productId),
-                                        );
-                                        await controller.shareProductEvent(
-                                            productId: productId,
-                                            productName: productName);
-                                      },
-                                      child: Image.asset(
-                                        "assets/images/share_icon.png",
-                                        width: 30,
-                                        height: 30,
+                                    horizontalSpaceSmall,
+                                    Container(
+                                      width: 20,
+                                      height: 20,
+                                      child: GestureDetector(
+                                        onTap: () async {
+                                          await Share.share(
+                                            await _dynamicLinkService
+                                                .createLink(
+                                                    productLink + productId),
+                                          );
+                                          await controller.shareProductEvent(
+                                              productId: productId,
+                                              productName: productName);
+                                        },
+                                        child: Image.asset(
+                                          "assets/images/share_icon.png",
+                                          width: 20,
+                                          height: 20,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           ],
@@ -1533,7 +1534,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                         left: 12,
                         right: 4,
                         top: 8.0,
-                        bottom: MediaQuery.of(context).padding.bottom,
+                        bottom: MediaQuery.of(context).padding.bottom + 4.0,
                       ),
                       child: FittedBox(
                         child: Row(

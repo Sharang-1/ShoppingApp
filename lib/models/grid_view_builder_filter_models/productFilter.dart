@@ -4,6 +4,7 @@ class ProductFilter implements BaseFilterModel {
   final String fullText;
   final String accountKey;
   final String categories;
+  final List<int> demographicIds;
   final List<String> subCategories;
   final List<String> size;
   final int minPrice;
@@ -21,6 +22,7 @@ class ProductFilter implements BaseFilterModel {
     this.accountKey,
     this.categories,
     this.subCategories,
+    this.demographicIds,
     this.size,
     this.minPrice,
     this.maxPrice,
@@ -59,6 +61,18 @@ class ProductFilter implements BaseFilterModel {
             subCategories.map((String value) => "category=$value;").join("");
       }
     }
+
+    if ((demographicIds?.length ?? 0) > 0) {
+      if (!_queryString.contains("demographic"))
+        _queryString +=
+            demographicIds.map((int value) => "demographic=$value;").join("");
+      else {
+        _queryString = _queryString.replaceAll(RegExp("demographic(.*?);"), "");
+        _queryString +=
+            demographicIds.map((int value) => "demographic=$value;").join("");
+      }
+    }
+
     if (size != null) {
       if (!_queryString.contains("size"))
         _queryString += size.map((String value) => "size=$size;").join("");
@@ -88,13 +102,13 @@ class ProductFilter implements BaseFilterModel {
         _queryString = _queryString.replaceFirst(
             RegExp("minDiscount(.*?);"), "minDiscount=$minDiscount;");
     }
-    
+
     if (explore != null) {
       if (!_queryString.contains("explore"))
         _queryString += "explore=true;";
       else
-        _queryString = _queryString.replaceFirst(
-            RegExp("explore(.*?);"), "explore=true;");
+        _queryString =
+            _queryString.replaceFirst(RegExp("explore(.*?);"), "explore=true;");
     }
 
     if (sortField != null) {

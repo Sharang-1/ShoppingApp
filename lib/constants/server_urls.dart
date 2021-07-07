@@ -10,7 +10,7 @@ const String PROMOTION_PHOTO_BASE_URL = "${BASE_URL}photos/promotions";
 const String CATEGORY_PHOTO_BASE_URL = "${BASE_URL}photos/categories";
 const String SELLER_PHOTO_BASE_URL = "${BASE_URL}photos/sellers";
 const String SELLER_PROFILE_PHOTO_BASE_URL = "${BASE_URL}photos/sellers";
-const String USER_PROFILE_PHOTO_BASE_URL = "${BASE_URL}users/photo";
+const String USER_PROFILE_PHOTO_BASE_URL = "${BASE_URL}photos/users";
 const String DESIGNER_PROFILE_PHOTO_BASE_URL = "${BASE_URL}photos/users";
 
 const String APPOINTMENT_URL = releaseMode

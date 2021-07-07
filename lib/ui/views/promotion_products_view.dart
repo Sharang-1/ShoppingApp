@@ -1,3 +1,5 @@
+import 'package:compound/controllers/grid_view_builder/products_grid_view_builder_controller.dart';
+import 'package:compound/models/grid_view_builder_filter_models/productFilter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -8,7 +10,6 @@ import '../../constants/dynamic_links.dart';
 import '../../controllers/base_controller.dart';
 import '../../controllers/grid_view_builder/wishlist_grid_view_builder_controller.dart';
 import '../../locator.dart';
-import '../../models/grid_view_builder_filter_models/wishlist_filter_model.dart';
 import '../../models/products.dart';
 import '../../services/dynamic_link_service.dart';
 import '../shared/app_colors.dart';
@@ -20,20 +21,21 @@ import '../widgets/product_tile_ui.dart';
 class PromotionProduct extends StatefulWidget {
   final String promotionId;
   final List<String> productIds;
+  final List<int> demographicIds;
   final String promotionTitle;
-  PromotionProduct(
-      {Key key,
-      @required this.productIds,
-      @required this.promotionTitle,
-      @required this.promotionId})
-      : super(key: key);
+  PromotionProduct({
+    Key key,
+    @required this.productIds,
+    @required this.promotionTitle,
+    @required this.promotionId,
+    this.demographicIds,
+  }) : super(key: key);
 
   @override
   _PromotionProductState createState() => _PromotionProductState();
 }
 
 class _PromotionProductState extends State<PromotionProduct> {
-  WishListFilter filter = WishListFilter();
   Key promotionProductKey = UniqueKey();
   final RefreshController refreshController =
       RefreshController(initialRefresh: false);
@@ -145,11 +147,13 @@ class _PromotionProductState extends State<PromotionProduct> {
                       ? GridListWidget<Products, Product>(
                           key: promotionProductKey,
                           context: context,
-                          filter: filter,
+                          filter: ProductFilter(demographicIds: widget.demographicIds),
                           gridCount: 2,
                           disablePagination: true,
-                          controller: WishListGridViewBuilderController(
-                              productIds: widget.productIds),
+                          controller: (widget?.demographicIds?.length ?? 0) == 0
+                              ? WishListGridViewBuilderController(
+                                  productIds: widget.productIds)
+                              : ProductsGridViewBuilderController(),
                           childAspectRatio: 0.8,
                           emptyListWidget: EmptyListWidget(
                             text: "",
@@ -162,12 +166,12 @@ class _PromotionProductState extends State<PromotionProduct> {
                               data: data,
                               onClick: () {
                                 BaseController.goToProductPage(dProduct).then(
-                                      (value) => setState(
-                                        () {
-                                          promotionProductKey = UniqueKey();
-                                        },
-                                      ),
-                                    );
+                                  (value) => setState(
+                                    () {
+                                      promotionProductKey = UniqueKey();
+                                    },
+                                  ),
+                                );
                               },
                             );
                           },

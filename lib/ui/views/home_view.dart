@@ -129,7 +129,7 @@ class HomeView extends StatelessWidget {
                     pinned: true,
                     leading: InkWell(
                       child: Icon(
-                        Icons.settings,
+                        Icons.person,
                         color: Colors.grey[500],
                         size: 30,
                       ),

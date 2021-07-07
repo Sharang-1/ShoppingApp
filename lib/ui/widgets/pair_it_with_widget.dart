@@ -22,7 +22,7 @@ class PairItWithWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        color: backgroundWhiteCreamColor,
+        color: newBackgroundColor,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -31,13 +31,14 @@ class PairItWithWidget extends StatelessWidget {
               child: FittedBox(
                 alignment: Alignment.centerLeft,
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Text(
                     "Pair It With",
                     style: TextStyle(
-                        fontSize: 12,
-                        color: logoRed,
-                        fontWeight: FontWeight.bold),
+                      fontSize: 12,
+                      color: logoRed,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
@@ -56,7 +57,7 @@ class PairItWithWidget extends StatelessWidget {
                     limit: 20,
                     exceptProductIDs: exceptProductIDs),
                 onEmptyList: onEmpty,
-                childAspectRatio: 1.10,
+                childAspectRatio: 1.20,
                 scrollDirection: Axis.horizontal,
                 emptyListWidget: Container(),
                 disablePagination: true,

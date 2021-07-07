@@ -72,7 +72,7 @@ class _SelectPromocodeState extends State<SelectPromocode> {
         padding: EdgeInsets.only(
           left: screenPadding,
           right: screenPadding,
-          bottom: MediaQuery.of(context).padding.bottom,
+          bottom: MediaQuery.of(context).padding.bottom + 4.0,
           top: 8.0,
         ),
         child: SizedBox(

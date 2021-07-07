@@ -65,6 +65,7 @@ class _PromotionSliderState extends State<PromotionSlider> {
                       List<String> productIds =
                           i?.products?.map((e) => e.toString())?.toList();
                       print(productIds);
+                      print("Demographics: ${i?.demographics?.map((e) => e.id)}");
                       Navigator.push(
                         context,
                         new MaterialPageRoute(
@@ -72,6 +73,8 @@ class _PromotionSliderState extends State<PromotionSlider> {
                             promotionId: i?.key,
                             productIds: productIds ?? [],
                             promotionTitle: promoTitle,
+                            demographicIds:
+                                i?.demographics?.map((e) => e?.id)?.toList(),
                           ),
                         ),
                       );

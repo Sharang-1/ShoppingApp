@@ -27,8 +27,6 @@ class ProfileView extends StatefulWidget {
 class _ProfileViewState extends State<ProfileView> {
   String nameString;
   String initialString;
-  String selectedAgeId;
-  String selectedGenderId;
   bool isButtonActive;
   bool isEditable;
   final _formKey = GlobalKey<FormState>();
@@ -40,9 +38,6 @@ class _ProfileViewState extends State<ProfileView> {
     initialString = "Dzor";
     isButtonActive = false;
     isEditable = false;
-
-    selectedAgeId = "0";
-    selectedGenderId = "0";
 
     nameFocusNode = FocusNode();
     emailFocusNode = FocusNode();
@@ -218,7 +213,7 @@ class _ProfileViewState extends State<ProfileView> {
                                         placeholder:
                                             AssetImage("assets/icons/user.png"),
                                         image: NetworkImage(
-                                            "$USER_PROFILE_PHOTO_BASE_URL/${controller?.mUserDetails?.photo?.name}",
+                                            "$USER_PROFILE_PHOTO_BASE_URL/${controller?.mUserDetails?.key}?v=${controller.dateTimeString}",
                                             headers: {
                                               "Authorization":
                                                   "Bearer ${controller?.token ?? ''}",
@@ -336,7 +331,8 @@ class _ProfileViewState extends State<ProfileView> {
                                             decoration: const InputDecoration(
                                               contentPadding:
                                                   EdgeInsets.symmetric(
-                                                      vertical: 10),
+                                                vertical: 10,
+                                              ),
                                               border: InputBorder.none,
                                             ),
                                             autofocus: true,
@@ -385,56 +381,56 @@ class _ProfileViewState extends State<ProfileView> {
                                         ),
                                       ],
                                     ),
-                                    Row(
-                                      children: <Widget>[
-                                        Expanded(
-                                          flex: 3,
-                                          child: CustomText(
-                                            "Email Address",
-                                            fontSize: titleFontSizeStyle,
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                        Expanded(
-                                          flex: 7,
-                                          child: TextFormField(
-                                            focusNode: emailFocusNode,
-                                            style: TextStyle(
-                                              fontSize: subtitleFontSizeStyle,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.grey[800],
-                                            ),
-                                            readOnly: !isEditable,
-                                            initialValue: controller
-                                                    .mUserDetails?.email ??
-                                                '',
-                                            validator: (text) => text.isEmpty
-                                                ? null
-                                                : GetUtils.isEmail(text)
-                                                    ? null
-                                                    : "Please Enter Valid Email Address",
-                                            onChanged: (value) {
-                                              setState(() {
-                                                isButtonActive = true;
-                                              });
-                                              _formKey.currentState.validate();
-                                            },
-                                            onSaved: (text) {
-                                              controller.mUserDetails.email =
-                                                  text;
-                                            },
-                                            decoration: const InputDecoration(
-                                              contentPadding:
-                                                  EdgeInsets.symmetric(
-                                                      vertical: 10),
-                                              border: InputBorder.none,
-                                            ),
-                                            autofocus: true,
-                                            maxLines: 1,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                    // Row(
+                                    //   children: <Widget>[
+                                    //     Expanded(
+                                    //       flex: 3,
+                                    //       child: CustomText(
+                                    //         "Email Address",
+                                    //         fontSize: titleFontSizeStyle,
+                                    //         color: Colors.black,
+                                    //       ),
+                                    //     ),
+                                    //     Expanded(
+                                    //       flex: 7,
+                                    //       child: TextFormField(
+                                    //         focusNode: emailFocusNode,
+                                    //         style: TextStyle(
+                                    //           fontSize: subtitleFontSizeStyle,
+                                    //           fontWeight: FontWeight.w500,
+                                    //           color: Colors.grey[800],
+                                    //         ),
+                                    //         readOnly: !isEditable,
+                                    //         initialValue: controller
+                                    //                 .mUserDetails?.email ??
+                                    //             '',
+                                    //         validator: (text) => text.isEmpty
+                                    //             ? null
+                                    //             : GetUtils.isEmail(text)
+                                    //                 ? null
+                                    //                 : "Please Enter Valid Email Address",
+                                    //         onChanged: (value) {
+                                    //           setState(() {
+                                    //             isButtonActive = true;
+                                    //           });
+                                    //           _formKey.currentState.validate();
+                                    //         },
+                                    //         onSaved: (text) {
+                                    //           controller.mUserDetails.email =
+                                    //               text;
+                                    //         },
+                                    //         decoration: const InputDecoration(
+                                    //           contentPadding:
+                                    //               EdgeInsets.symmetric(
+                                    //                   vertical: 10),
+                                    //           border: InputBorder.none,
+                                    //         ),
+                                    //         autofocus: true,
+                                    //         maxLines: 1,
+                                    //       ),
+                                    //     ),
+                                    //   ],
+                                    // ),
                                     Row(
                                       children: <Widget>[
                                         Expanded(
@@ -447,35 +443,44 @@ class _ProfileViewState extends State<ProfileView> {
                                         ),
                                         Expanded(
                                           flex: 7,
-                                          child: DropdownButton<String>(
-                                            value: selectedAgeId,
-                                            items: controller.ageLookup
-                                                .map(
-                                                  (e) =>
-                                                      DropdownMenuItem<String>(
-                                                    child: Text(e.name,
-                                                        style: TextStyle(
-                                                          fontSize:
-                                                              subtitleFontSizeStyle,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          color:
-                                                              Colors.grey[800],
-                                                        )),
-                                                    value: e.id.toString(),
-                                                  ),
-                                                )
-                                                .toList(),
-                                            onChanged: isEditable
-                                                ? (value) {
-                                                    setState(() {
-                                                      selectedAgeId = value;
-                                                      isButtonActive = true;
-                                                    });
-                                                    _formKey.currentState
-                                                        .validate();
-                                                  }
-                                                : null,
+                                          child: FittedBox(
+                                            fit: BoxFit.scaleDown,
+                                            alignment: Alignment.centerLeft,
+                                            child: DropdownButton<String>(
+                                              value:
+                                                  "${controller?.mUserDetails?.age?.id ?? 0}",
+                                              items: controller.ageLookup
+                                                  .map(
+                                                    (e) => DropdownMenuItem<
+                                                        String>(
+                                                      child: Text(e.name,
+                                                          style: TextStyle(
+                                                            fontSize:
+                                                                subtitleFontSizeStyle,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            color: Colors
+                                                                .grey[800],
+                                                          )),
+                                                      value: e.id.toString(),
+                                                    ),
+                                                  )
+                                                  .toList(),
+                                              onChanged: isEditable
+                                                  ? (value) {
+                                                      setState(() {
+                                                        controller.mUserDetails
+                                                                .age =
+                                                            Age(
+                                                                id: int.parse(
+                                                                    value));
+                                                        isButtonActive = true;
+                                                      });
+                                                      _formKey.currentState
+                                                          .validate();
+                                                    }
+                                                  : null,
+                                            ),
                                           ),
                                         ),
                                       ],
@@ -492,134 +497,138 @@ class _ProfileViewState extends State<ProfileView> {
                                         ),
                                         Expanded(
                                           flex: 7,
-                                          child: DropdownButton<String>(
-                                            value: selectedGenderId,
-                                            items: controller.genderLookup
-                                                .map(
-                                                  (e) =>
-                                                      DropdownMenuItem<String>(
-                                                    child: Text(
-                                                      e.name,
-                                                      style: TextStyle(
-                                                        fontSize:
-                                                            subtitleFontSizeStyle,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        color: Colors.grey[800],
+                                          child: FittedBox(
+                                            fit: BoxFit.scaleDown,
+                                            alignment: Alignment.centerLeft,
+                                            child: DropdownButton<String>(
+                                              value:
+                                                  "${controller?.mUserDetails?.gender?.id ?? 0}",
+                                              items: controller.genderLookup
+                                                  .map(
+                                                    (e) => DropdownMenuItem<
+                                                        String>(
+                                                      child: Text(
+                                                        e.name,
+                                                        style: TextStyle(
+                                                          fontSize:
+                                                              subtitleFontSizeStyle,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          color:
+                                                              Colors.grey[800],
+                                                        ),
                                                       ),
+                                                      value: e.id.toString(),
                                                     ),
-                                                    value: e.id.toString(),
-                                                  ),
-                                                )
-                                                .toList(),
-                                            onChanged: isEditable
-                                                ? (value) {
-                                                    setState(() {
-                                                      selectedAgeId = value;
-                                                      isButtonActive = true;
-                                                    });
-                                                    _formKey.currentState
-                                                        .validate();
-                                                  }
-                                                : null,
+                                                  )
+                                                  .toList(),
+                                              onChanged: isEditable
+                                                  ? (value) {
+                                                      setState(() {
+                                                        controller.mUserDetails
+                                                                .gender =
+                                                            Gender(
+                                                                id: int.parse(
+                                                                    value));
+                                                        isButtonActive = true;
+                                                      });
+                                                      _formKey.currentState
+                                                          .validate();
+                                                    }
+                                                  : null,
+                                            ),
                                           ),
                                         ),
                                       ],
                                     ),
                                     verticalSpaceSmall,
-                                    if (controller
-                                            .mUserDetails.contact.address !=
-                                        "")
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                            flex: 3,
-                                            child: CustomText(
-                                              "Address",
-                                              color: Colors.black,
-                                              fontSize: titleFontSizeStyle,
-                                            ),
+                                    // if (controller
+                                    //         .mUserDetails.contact.address !=
+                                    //     "")
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          flex: 3,
+                                          child: CustomText(
+                                            "Address",
+                                            color: Colors.black,
+                                            fontSize: titleFontSizeStyle,
                                           ),
-                                          Expanded(
-                                            flex: 7,
-                                            child: InkWell(
-                                              onTap: isEditable
-                                                  ? () async {
-                                                      PickResult pickedPlace =
-                                                          await Navigator.push(
-                                                        context,
-                                                        PageTransition(
-                                                          child:
-                                                              AddressInputPage(),
-                                                          type:
-                                                              PageTransitionType
-                                                                  .rightToLeft,
+                                        ),
+                                        Expanded(
+                                          flex: 7,
+                                          child: InkWell(
+                                            onTap: isEditable
+                                                ? () async {
+                                                    PickResult pickedPlace =
+                                                        await Navigator.push(
+                                                      context,
+                                                      PageTransition(
+                                                        child:
+                                                            AddressInputPage(),
+                                                        type: PageTransitionType
+                                                            .rightToLeft,
+                                                      ),
+                                                    );
+                                                    if (pickedPlace != null) {
+                                                      // pickedPlace = (PickResult) pickedPlace;
+                                                      // print(pickedPlace);
+                                                      // controller.mUserDetails.contact
+                                                      //     .address = pickedPlace;
+
+                                                      UserDetailsContact
+                                                          userAdd =
+                                                          await showModalBottomSheet(
+                                                        context: context,
+                                                        isScrollControlled:
+                                                            true,
+                                                        builder: (_) =>
+                                                            BottomSheetForAddress(
+                                                          pickedPlace:
+                                                              pickedPlace,
                                                         ),
                                                       );
-                                                      if (pickedPlace != null) {
-                                                        // pickedPlace = (PickResult) pickedPlace;
-                                                        // print(pickedPlace);
-                                                        // controller.mUserDetails.contact
-                                                        //     .address = pickedPlace;
-
-                                                        UserDetailsContact
-                                                            userAdd =
-                                                            await showModalBottomSheet(
-                                                          context: context,
-                                                          isScrollControlled:
-                                                              true,
-                                                          builder: (_) =>
-                                                              BottomSheetForAddress(
-                                                            pickedPlace:
-                                                                pickedPlace,
-                                                          ),
-                                                        );
-                                                        if (userAdd != null) {
-                                                          controller
-                                                                  .mUserDetails
-                                                                  .contact
-                                                                  .googleAddress =
-                                                              userAdd
-                                                                  .googleAddress;
-                                                          controller
-                                                                  .mUserDetails
-                                                                  .contact
-                                                                  .address =
-                                                              userAdd.address;
-                                                          controller
-                                                                  .mUserDetails
-                                                                  .contact
-                                                                  .pincode =
-                                                              userAdd.pincode;
-                                                          controller
-                                                                  .mUserDetails
-                                                                  .contact
-                                                                  .state =
-                                                              userAdd.state;
-                                                          controller
-                                                                  .mUserDetails
-                                                                  .contact
-                                                                  .city =
-                                                              userAdd.city;
-                                                          setState(() {
-                                                            isButtonActive =
-                                                                true;
-                                                          });
-                                                        }
+                                                      if (userAdd != null) {
+                                                        controller
+                                                                .mUserDetails
+                                                                .contact
+                                                                .googleAddress =
+                                                            userAdd
+                                                                .googleAddress;
+                                                        controller
+                                                                .mUserDetails
+                                                                .contact
+                                                                .address =
+                                                            userAdd.address;
+                                                        controller
+                                                                .mUserDetails
+                                                                .contact
+                                                                .pincode =
+                                                            userAdd.pincode;
+                                                        controller.mUserDetails
+                                                                .contact.state =
+                                                            userAdd.state;
+                                                        controller.mUserDetails
+                                                                .contact.city =
+                                                            userAdd.city;
+                                                        setState(() {
+                                                          isButtonActive = true;
+                                                        });
                                                       }
                                                     }
-                                                  : null,
-                                              child: CustomText(
-                                                controller.mUserDetails.contact
-                                                    .address,
-                                                color: Colors.grey[800],
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: subtitleFontSizeStyle,
-                                              ),
+                                                  }
+                                                : null,
+                                            child: CustomText(
+                                              controller
+                                                  .mUserDetails.contact.address,
+                                              color: Colors.grey[800],
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: subtitleFontSizeStyle,
                                             ),
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
+                                    ),
                                     // verticalSpaceMedium,
                                     // Container(
                                     //   padding: EdgeInsets.symmetric(
@@ -733,7 +742,7 @@ class _ProfileViewState extends State<ProfileView> {
                                                           ?.shoulders
                                                           .toString() ??
                                                       '',
-                                                  hint: "*shoulders",
+                                                  hint: "*Shoulders",
                                                   onSaved: (text) {
                                                     controller.mUserDetails
                                                             .measure.shoulders =
@@ -796,6 +805,18 @@ class _ProfileViewState extends State<ProfileView> {
                                                             .measure.height =
                                                         num.parse(text);
                                                   }),
+                                              verticalSpaceSmall,
+                                              FittedBox(
+                                                fit: BoxFit.scaleDown,
+                                                child: Text(
+                                                  "*In inches",
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.grey,
+                                                    fontSize: 10.0,
+                                                  ),
+                                                ),
+                                              ),
                                             ],
                                           ),
                                         ],
@@ -819,39 +840,52 @@ class _ProfileViewState extends State<ProfileView> {
   getSizeWidget(
       {String hint = '', String initialValue = '', Function(String) onSaved}) {
     return SizedBox(
-      width: 60,
-      child: TextFormField(
-        style: TextStyle(
-          fontSize: subtitleFontSizeStyle,
-          fontWeight: FontWeight.w500,
-          color: Colors.grey[800],
-        ),
-        readOnly: !isEditable,
-        initialValue: initialValue,
-        validator: (text) => (GetUtils.isNum(text)) &&
-                (num.parse(text) > 0 && num.parse(text) < 100)
-            ? null
-            : "Please Enter Valid Size",
-        onChanged: (value) {
-          setState(() {
-            isButtonActive = true;
-          });
-          _formKey.currentState.validate();
-        },
-        onSaved: onSaved,
-        decoration: InputDecoration(
-          hintText: hint,
-          contentPadding: EdgeInsets.symmetric(
-            horizontal: 8.0,
-          ),
-          border: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: Colors.black,
+      width: 120,
+      child: Row(
+        children: [
+          Expanded(
+            child: CustomText(
+              hint,
+              fontSize: 10,
+              color: Colors.grey[500],
             ),
           ),
-        ),
-        autofocus: true,
-        maxLines: 1,
+          Expanded(
+            child: TextFormField(
+              style: TextStyle(
+                fontSize: subtitleFontSizeStyle,
+                fontWeight: FontWeight.w500,
+                color: Colors.grey[800],
+              ),
+              readOnly: !isEditable,
+              initialValue: initialValue,
+              validator: (text) => (GetUtils.isNum(text)) &&
+                      (num.parse(text) > 0 && num.parse(text) < 100)
+                  ? null
+                  : "Please Enter Valid Size",
+              onChanged: (value) {
+                setState(() {
+                  isButtonActive = true;
+                });
+                _formKey.currentState.validate();
+              },
+              onSaved: onSaved,
+              decoration: InputDecoration(
+                hintText: hint,
+                contentPadding: EdgeInsets.symmetric(
+                  horizontal: 8.0,
+                ),
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+              autofocus: true,
+              maxLines: 1,
+            ),
+          ),
+        ],
       ),
     );
   }

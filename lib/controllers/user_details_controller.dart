@@ -17,6 +17,7 @@ import 'lookup_controller.dart';
 class UserDetailsController extends BaseController {
   final APIService _apiService = locator<APIService>();
   final AddressService _addressService = locator<AddressService>();
+  String dateTimeString = DateTime.now().millisecondsSinceEpoch.toString();
 
   final ageLookup = locator<LookupController>()
       .lookups
@@ -72,9 +73,8 @@ class UserDetailsController extends BaseController {
         await ImagePicker().getImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       file = File(pickedFile.path);
-      UserPhoto photo = await _apiService.updateUserPic(file);
-      if (photo != null) {
-        mUserDetails.photo = photo;
+      if (await _apiService.updateUserPic(file)) {
+        dateTimeString = DateTime.now().millisecondsSinceEpoch.toString();
         update();
       }
     }

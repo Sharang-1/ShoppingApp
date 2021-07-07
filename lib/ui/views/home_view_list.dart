@@ -152,6 +152,7 @@ class HomeViewList extends StatelessWidget {
                             promotionId: controller.bottomPromotion[0]?.key,
                             productIds: productIds ?? [],
                             promotionTitle: promoTitle,
+                            demographicIds: controller.bottomPromotion[0]?.demographics?.map((e) => e?.id)?.toList(),
                           ),
                         ),
                       );
@@ -265,6 +266,7 @@ class HomeViewList extends StatelessWidget {
                             promotionId: controller.bottomPromotion[1]?.key,
                             productIds: productIds ?? [],
                             promotionTitle: promoTitle,
+                            demographicIds: controller.bottomPromotion[1]?.demographics?.map((e) => e?.id)?.toList(),
                           ),
                         ),
                       );
@@ -368,6 +370,7 @@ class HomeViewList extends StatelessWidget {
                             promotionId: controller.bottomPromotion[2]?.key,
                             productIds: productIds ?? [],
                             promotionTitle: promoTitle,
+                            demographicIds: controller.bottomPromotion[2]?.demographics?.map((e) => e?.id)?.toList(),
                           ),
                         ),
                       );
@@ -480,6 +483,7 @@ class HomeViewList extends StatelessWidget {
                             promotionId: controller.bottomPromotion[3]?.key,
                             productIds: productIds ?? [],
                             promotionTitle: promoTitle,
+                            demographicIds: controller.bottomPromotion[3]?.demographics?.map((e) => e?.id)?.toList(),
                           ),
                         ),
                       );

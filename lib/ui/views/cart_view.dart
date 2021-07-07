@@ -179,7 +179,7 @@ class _CartViewState extends State<CartView> {
                                           children: [
                                             verticalSpace(10),
                                             SizedBox(
-                                              height: 260,
+                                              height: 300,
                                               child: PairItWithWidget(
                                                 exceptProductIDs:
                                                     exceptProductIDs,

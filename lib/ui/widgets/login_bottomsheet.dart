@@ -37,12 +37,21 @@ class LoginBottomsheet extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               children: [
+                if(!controller.isOTPScreen)
+                Center(
+                  child: CustomText(
+                    "Login To Continue",
+                    fontSize: 20,
+                    isBold: true,
+                  ),
+                ),
+                verticalSpaceSmall,
                 FittedBox(
                   fit: BoxFit.scaleDown,
                   child: Center(
                     child: CustomText(
                       getTitle(nextView, controller.isOTPScreen),
-                      fontSize: 16.0,
+                      fontSize: 14.0,
                     ),
                   ),
                 ),
