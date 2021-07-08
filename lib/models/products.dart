@@ -57,6 +57,14 @@ class Product {
   bool explore;
   String typeOfWork;
   String fabricDetails;
+
+  String art;
+  String bottomStyle;
+  String closureType;
+  String fittingType;
+  String riseStyle;
+  String weaveType;
+
   bool margin;
   BlousePadding productFor;
   BlousePadding category;
@@ -112,6 +120,12 @@ class Product {
     this.explore,
     this.typeOfWork,
     this.fabricDetails,
+    this.art,
+    this.bottomStyle,
+    this.closureType,
+    this.fittingType,
+    this.riseStyle,
+    this.weaveType,
     this.margin,
     this.productFor,
     this.category,
@@ -177,6 +191,12 @@ class Product {
         typeOfWork: json["typeOfWork"] == null ? null : json["typeOfWork"],
         fabricDetails:
             json["fabricDetails"] == null ? null : json["fabricDetails"],
+        art: json["art"] == null ? null : json["art"],
+        bottomStyle: json["bottomStyle"] == null ? null : json["bottomStyle"],
+        closureType: json["closureType"] == null ? null : json["closureType"],
+        fittingType: json["fittingType"] == null ? null : json["fittingType"],
+        riseStyle: json["riseStyle"] == null ? null : json["riseStyle"],
+        weaveType: json["weaveType"] == null ? null : json["weaveType"],
         margin: json["margin"] == null ? null : json["margin"],
         productFor: json["productFor"] == null
             ? null
@@ -262,6 +282,12 @@ class Product {
         "explore": explore,
         "typeOfWork": typeOfWork == null ? null : typeOfWork,
         "fabricDetails": fabricDetails == null ? null : fabricDetails,
+        "art": art == null ? null : art,
+        "bottomStyle": bottomStyle == null ? null : bottomStyle,
+        "closureType": closureType == null ? null : closureType,
+        "fittingType": fittingType == null ? null : fittingType,
+        "riseStyle": riseStyle == null ? null : riseStyle,
+        "weaveType": weaveType == null ? null : weaveType,
         "margin": margin == null ? null : margin,
         "productFor": productFor == null ? null : productFor?.toJson(),
         "category": category == null ? null : category?.toJson(),

@@ -152,7 +152,10 @@ class HomeViewList extends StatelessWidget {
                             promotionId: controller.bottomPromotion[0]?.key,
                             productIds: productIds ?? [],
                             promotionTitle: promoTitle,
-                            demographicIds: controller.bottomPromotion[0]?.demographics?.map((e) => e?.id)?.toList(),
+                            demographicIds: controller
+                                .bottomPromotion[0]?.demographics
+                                ?.map((e) => e?.id)
+                                ?.toList(),
                           ),
                         ),
                       );
@@ -266,7 +269,10 @@ class HomeViewList extends StatelessWidget {
                             promotionId: controller.bottomPromotion[1]?.key,
                             productIds: productIds ?? [],
                             promotionTitle: promoTitle,
-                            demographicIds: controller.bottomPromotion[1]?.demographics?.map((e) => e?.id)?.toList(),
+                            demographicIds: controller
+                                .bottomPromotion[1]?.demographics
+                                ?.map((e) => e?.id)
+                                ?.toList(),
                           ),
                         ),
                       );
@@ -370,7 +376,10 @@ class HomeViewList extends StatelessWidget {
                             promotionId: controller.bottomPromotion[2]?.key,
                             productIds: productIds ?? [],
                             promotionTitle: promoTitle,
-                            demographicIds: controller.bottomPromotion[2]?.demographics?.map((e) => e?.id)?.toList(),
+                            demographicIds: controller
+                                .bottomPromotion[2]?.demographics
+                                ?.map((e) => e?.id)
+                                ?.toList(),
                           ),
                         ),
                       );
@@ -483,7 +492,10 @@ class HomeViewList extends StatelessWidget {
                             promotionId: controller.bottomPromotion[3]?.key,
                             productIds: productIds ?? [],
                             promotionTitle: promoTitle,
-                            demographicIds: controller.bottomPromotion[3]?.demographics?.map((e) => e?.id)?.toList(),
+                            demographicIds: controller
+                                .bottomPromotion[3]?.demographics
+                                ?.map((e) => e?.id)
+                                ?.toList(),
                           ),
                         ),
                       );
@@ -634,15 +646,11 @@ class HomeViewList extends StatelessWidget {
 class SectionDivider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // return verticalSpaceSmall;
-    // ignore: dead_code
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 15),
-      child: Container(
-        height: 4.0,
-        decoration: BoxDecoration(
-          color: Colors.grey.shade300,
-        ),
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Divider(
+        color: Colors.grey[300],
+        thickness: 5,
       ),
     );
   }

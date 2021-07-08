@@ -474,7 +474,7 @@ class SectionBuilder extends StatelessWidget {
       case LayoutType.PRODUCT_LAYOUT_2:
         return 1.35;
       case LayoutType.PRODUCT_LAYOUT_3:
-        return 0.70;
+        return 0.68;
       case LayoutType.DESIGNER_LAYOUT_1:
         return 0.60;
       case LayoutType.DESIGNER_LAYOUT_2:

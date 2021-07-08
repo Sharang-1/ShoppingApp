@@ -262,6 +262,15 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                               fontWeight: FontWeight.bold,
                               color: lightGreen,
                             ),
+                          )
+                        else
+                          Text(
+                            "Unavailable",
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: logoRed,
+                            ),
                           ),
                       ],
                     ),
@@ -968,7 +977,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                               children: <Widget>[
                                                 selectedSize == "N/A"
                                                     ? verticalSpace(0)
-                                                    : verticalSpace(10),
+                                                    : elementDivider(),
                                                 Text(
                                                   "Select Color".toUpperCase(),
                                                   style: TextStyle(
@@ -983,13 +992,13 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                 ),
                                               ],
                                             ),
-                                      verticalSpace(10),
                                       selectedColor == ""
                                           ? Container()
                                           : Column(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: <Widget>[
+                                                elementDivider(),
                                                 Text(
                                                   "Select ${(productData.category.id == 13) ? 'No. of Meters' : 'Qty'}"
                                                       .toUpperCase(),
@@ -1085,6 +1094,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                 ),
                                               ],
                                             ),
+                                      verticalSpaceTiny,
                                       Padding(
                                         padding: EdgeInsets.only(top: 8.0),
                                         child: Column(
@@ -1099,6 +1109,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                     subtitleFontSizeStyle - 2,
                                               ),
                                             ),
+                                            verticalSpaceTiny,
                                             GestureDetector(
                                               onTap: () async {
                                                 if (await canLaunch(
@@ -1123,6 +1134,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                     ],
                                   ),
                                 ),
+                              elementDivider(),
                               SingleChildScrollView(
                                 scrollDirection: Axis.horizontal,
                                 child: Row(
@@ -1488,7 +1500,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                             }));
                                   },
                                 ),
-                              verticalSpaceMedium,
+                              verticalSpaceLarge,
                             ],
                           ),
                         ),
@@ -1796,10 +1808,23 @@ class _ProductIndiViewState extends State<ProductIndiView> {
 
   Widget sectionDivider() {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10.0),
-      child: Center(
-        child: SizedBox(
-            width: 300, child: Divider(color: Colors.grey[500], height: 1)),
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Divider(
+        color: Colors.grey[300],
+        thickness: 5,
+      ),
+    );
+  }
+
+  Widget elementDivider() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        vertical: 4.0,
+        horizontal: 25.0,
+      ),
+      child: Divider(
+        color: Colors.grey[300],
+        thickness: 1.0,
       ),
     );
   }
@@ -2027,6 +2052,25 @@ class ProductDescriptionTable extends StatelessWidget {
                 ),
               if (product?.margin != null && product.margin)
                 getProductDetailsRow("Margin", "Margin left in selai"),
+
+              // divider
+              if ((product?.art?.length ?? 0) > 0)
+                getProductDetailsRow("Art", product.art),
+              // divider
+              if ((product?.bottomStyle?.length ?? 0) > 0)
+                getProductDetailsRow("BottomStyle", product.bottomStyle),
+              // divider
+              if ((product?.closureType?.length ?? 0) > 0)
+                getProductDetailsRow("ClosureType", product.closureType),
+              // divider
+              if ((product?.fittingType?.length ?? 0) > 0)
+                getProductDetailsRow("FittingType", product.fittingType),
+              // divider
+              if ((product?.riseStyle?.length ?? 0) > 0)
+                getProductDetailsRow("RiseStyle", product.riseStyle),
+              // divider
+              if ((product?.weaveType?.length ?? 0) > 0)
+                getProductDetailsRow("WeaveType", product.weaveType),
             ],
           );
         }

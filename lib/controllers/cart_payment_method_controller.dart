@@ -11,6 +11,10 @@ class CartPaymentMethodController extends BaseController {
 
   final Map<int, String> paymentOptions = {};
 
+  final String city;
+
+  CartPaymentMethodController({this.city});
+
   Future<void> onInit() async {
     super.onInit();
     // locator<LookupController>()
@@ -23,7 +27,15 @@ class CartPaymentMethodController extends BaseController {
     //   paymentOptions.addAll({e.id: e.name});
     // });
 
-    paymentOptions.addAll({1: "Cash On Delivery", 2: "Pay Online"});
+    paymentOptions.addAll(
+      {
+        1: "Cash On Delivery",
+        2: "Pay Online",
+      },
+    );
+    if (!<String>["AHMEDABAD"].contains(city.toUpperCase())) {
+      paymentOptions.remove(1);
+    }
     update();
 
     return null;

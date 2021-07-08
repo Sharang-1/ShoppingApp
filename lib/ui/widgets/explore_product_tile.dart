@@ -104,7 +104,7 @@ class _ExploreProductTileUIState extends State<ExploreProductTileUI> {
         padding: EdgeInsets.only(top: 8.0),
         decoration: BoxDecoration(
             border: Border(
-                bottom: BorderSide(width: 5.0, color: Colors.grey[500]))),
+                bottom: BorderSide(width: 5.0, color: Colors.grey[300]))),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -201,6 +201,7 @@ class _ExploreProductTileUIState extends State<ExploreProductTileUI> {
                 priceFontSize: priceFontSize,
               ),
             ),
+            verticalSpaceTiny,
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -317,7 +318,7 @@ class _ExploreProductTileUIState extends State<ExploreProductTileUI> {
                         ),
                       ),
                       Container(
-                        height: 16,
+                        height: 25,
                         child: VerticalDivider(
                           color: Colors.grey[400],
                           thickness: 1,
@@ -407,7 +408,7 @@ class _ExploreProductTileUIState extends State<ExploreProductTileUI> {
                   ),
                 ),
                 child: HomeSlider(
-                  aspectRatio: 1,
+                  aspectRatio: 0.98,
                   imgList: photoUrls,
                   videoList: videoUrls,
                   fromExplore: true,

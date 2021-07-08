@@ -44,7 +44,7 @@ class HomeView extends StatelessWidget {
             disableDefaultTabController: true,
             initialActiveIndex: 2,
             onTabNotify: controller.bottomNavigationOnTap,
-            elevation: 0,
+            elevation: 5,
           ),
           body: SafeArea(
             top: true,

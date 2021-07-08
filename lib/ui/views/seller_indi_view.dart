@@ -975,7 +975,7 @@ class _SellerIndiState extends State<SellerIndi> {
                         ],
                       ),
                     ),
-                    if (sellerData.subscriptionTypeId == 1) sectionDivider(),
+                    if (sellerData.subscriptionTypeId == 1 && showExploreSection) sectionDivider(),
                     if (sellerData.subscriptionTypeId == 1 &&
                         showExploreSection)
                       Padding(
