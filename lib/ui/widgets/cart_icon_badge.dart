@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import '../shared/app_colors.dart';
 
@@ -23,11 +22,11 @@ class CartIconWithBadge extends StatelessWidget {
         ),
         Positioned(
           top: 4,
-          child: SvgPicture.asset(
-            "assets/svg/bag.svg",
+          child: Image.asset(
+            "assets/images/shopping.png",
             color: iconColor,
-            height: 26,
-            width: 26,
+            height: 30,
+            width: 30,
           ),
         ),
         count > 0

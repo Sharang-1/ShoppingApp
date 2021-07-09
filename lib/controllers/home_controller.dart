@@ -44,13 +44,28 @@ class HomeController extends BaseController {
   final List<TabItem> navigationItems = [
     TabItem(
       title: '',
-      icon: Icon(
-        Icons.category,
-        color: backgroundWhiteCreamColor,
+      icon: Container(
+        decoration: BoxDecoration(
+          color: newBackgroundColor,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Icon(
+          Icons.list,
+          color: logoRed,
+        ),
       ),
     ),
     TabItem(
-        title: '', icon: Icon(Icons.event, color: backgroundWhiteCreamColor)),
+        title: '', icon: Container(
+        decoration: BoxDecoration(
+          color: newBackgroundColor,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Image.asset(
+          "assets/images/appointments.png",
+          color: logoRed,
+        ),
+      ),),
     TabItem(
       title: '',
       icon: Padding(
@@ -65,17 +80,33 @@ class HomeController extends BaseController {
     ),
     TabItem(
       title: '',
-      icon: Icon(
-        FontAwesomeIcons.pollH,
-        color: backgroundWhiteCreamColor,
+      icon: Container(
+        decoration: BoxDecoration(
+          color: newBackgroundColor,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Image.asset(
+          "assets/images/my_orders.png",
+          color: logoRed,
+        ),
       ),
     ),
     TabItem(
       title: '',
-      icon: Icon(
-        FontAwesomeIcons.mapMarkerAlt,
-        color: backgroundWhiteCreamColor,
+      icon: Container(
+        decoration: BoxDecoration(
+          color: newBackgroundColor,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Image.asset(
+          "assets/images/dzor_map.png",
+          color: logoRed,
+        ),
       ),
+      // Icon(
+      //   FontAwesomeIcons.mapMarkerAlt,
+      //   color: backgroundWhiteCreamColor,
+      // ),
     ),
   ];
 

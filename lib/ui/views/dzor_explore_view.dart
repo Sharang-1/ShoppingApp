@@ -33,7 +33,10 @@ class _DzorExploreViewState extends State<DzorExploreView> {
           backgroundColor: Colors.white,
           actions: <Widget>[
             IconButton(
-              icon: WishListIcon(width: 20, height: 22, filled: true),
+              icon: Image.asset(
+                "assets/images/wishlist.png",
+                color: Colors.grey[500],
+              ),
               onPressed: () async => locator<HomeController>().isLoggedIn
                   ? await BaseController.gotoWishlist()
                   : await BaseController.showLoginPopup(

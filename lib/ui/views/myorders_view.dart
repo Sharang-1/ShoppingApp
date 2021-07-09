@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
@@ -48,9 +47,9 @@ class _MyOrdersViewState extends State<MyOrdersView> {
             ),
             actions: [
               IconButton(
-                icon: Icon(
-                  FontAwesomeIcons.solidHeart,
-                  color: logoRed,
+                iconSize: 30,
+                icon: Image.asset(
+                  "assets/images/wishlist.png",
                 ),
                 onPressed: () {
                   NavigationService.to(WishListRoute);

@@ -595,14 +595,14 @@ class _SellerIndiState extends State<SellerIndi> {
                                         children: [
                                           Image.asset(
                                             "assets/images/mask.png",
-                                            height: 50,
-                                            width: 50,
+                                            height: 30,
+                                            width: 30,
                                           ),
                                           horizontalSpaceTiny,
                                           Image.asset(
                                             "assets/images/hand-sanitizer.png",
-                                            height: 50,
-                                            width: 50,
+                                            height: 30,
+                                            width: 30,
                                           ),
                                           horizontalSpaceTiny,
                                           Icon(

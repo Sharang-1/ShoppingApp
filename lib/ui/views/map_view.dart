@@ -762,6 +762,8 @@ class CustomCategoryChip extends StatelessWidget {
           Image.asset(
             image,
             color: focused ? Colors.white : logoRed,
+            height: 16,
+            width: 16,
           ),
           SizedBox(width: 8),
           Text(title,

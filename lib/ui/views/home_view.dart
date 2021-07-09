@@ -1,6 +1,6 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -89,8 +89,8 @@ class HomeView extends StatelessWidget {
                     ),
                     centerTitle: true,
                     leading: IconButton(
-                      icon: Icon(
-                        FontAwesomeIcons.heart,
+                      icon: Image.asset(
+                        "assets/images/wishlist.png",
                         color: Colors.grey[500],
                       ),
                       onPressed: controller.isLoggedIn
@@ -107,12 +107,14 @@ class HomeView extends StatelessWidget {
                         child: Container(
                           margin: EdgeInsets.only(right: 8.0),
                           padding: EdgeInsets.all(4.0),
+                          height: 35,
+                          width: 35,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             color: logoRed,
                           ),
-                          child: Icon(
-                            Icons.search,
+                          child: Image.asset(
+                            "assets/images/search.png",
                             color: Colors.white,
                           ),
                         ),
@@ -127,34 +129,35 @@ class HomeView extends StatelessWidget {
                     iconTheme: IconThemeData(color: appBarIconColor),
                     backgroundColor: Colors.white,
                     pinned: true,
-                    leading: InkWell(
-                      child: Icon(
-                        Icons.person,
+                    leading: IconButton(
+                      icon: Image.asset(
+                        "assets/images/profile_m.png",
                         color: Colors.grey[500],
-                        size: 30,
                       ),
-                      // child: SvgPicture.asset(
-                      //   'assets/svgs/settings.svg',
-                      //   color: Colors.grey[500],
-                      //   width: 30,
-                      //   height: 30,
-                      // ),
-                      onTap: () => NavigationService.to(SettingsRoute),
+                      onPressed: () => NavigationService.to(SettingsRoute),
                     ),
                     actions: <Widget>[
                       Obx(
-                        () => IconButton(
-                          key: cartKey,
-                          icon: CartIconWithBadge(
-                            iconColor: Colors.grey[600],
-                            count: locator<CartCountController>().count.value,
+                        () => Center(
+                          child: InkWell(
+                            key: cartKey,
+                            child: Container(
+                            margin: EdgeInsets.only(right: 12.0),
+                            padding: EdgeInsets.all(4.0),
+                            height: 35,
+                            width: 35,
+                              child: CartIconWithBadge(
+                                iconColor: Colors.grey[600],
+                                count: locator<CartCountController>().count.value,
+                              ),
+                            ),
+                            onTap: () async => controller.isLoggedIn
+                                ? await BaseController.cart()
+                                : await BaseController.showLoginPopup(
+                                    nextView: CartViewRoute,
+                                    shouldNavigateToNextScreen: true,
+                                  ),
                           ),
-                          onPressed: () async => controller.isLoggedIn
-                              ? await BaseController.cart()
-                              : await BaseController.showLoginPopup(
-                                  nextView: CartViewRoute,
-                                  shouldNavigateToNextScreen: true,
-                                ),
                         ),
                       ),
                     ],
