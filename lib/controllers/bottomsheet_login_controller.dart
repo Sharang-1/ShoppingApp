@@ -1,8 +1,5 @@
-import 'package:compound/controllers/home_controller.dart';
-import 'package:compound/services/analytics_service.dart';
-import 'package:compound/services/dialog_service.dart';
-import 'package:compound/services/navigation_service.dart';
-import 'package:compound/services/payment_service.dart';
+import 'dart:async';
+
 import 'package:fimber/fimber_base.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -10,9 +7,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../constants/shared_pref.dart';
 import '../locator.dart';
 import '../services/address_service.dart';
+import '../services/analytics_service.dart';
 import '../services/api/api_service.dart';
 import '../services/authentication_service.dart';
+import '../services/dialog_service.dart';
+import '../services/navigation_service.dart';
+import '../services/payment_service.dart';
 import 'base_controller.dart';
+import 'home_controller.dart';
 
 class BottomsheetLoginController extends BaseController {
   final _authenticationService = locator<AuthenticationService>();
@@ -28,6 +30,10 @@ class BottomsheetLoginController extends BaseController {
   String nameValidationMessage = "";
   String otpValidationMessage = "";
   bool isOTPScreen = false;
+
+  Timer _timer;
+  bool otpSendButtonEnabled = false;
+  int timerCountDownSeconds = 30;
 
   void validatePhoneNo(String textFieldValue) {
     bool isValid = RegExp(r'^\d{10}$').hasMatch(textFieldValue);
@@ -77,7 +83,10 @@ class BottomsheetLoginController extends BaseController {
         resend: false);
     Fimber.d("---> login " + result.toString());
     setBusy(false);
-    if (result != null) isOTPScreen = true;
+    if (result != null) {
+      isOTPScreen = true;
+      updateTimer();
+    }
     update();
   }
 
@@ -126,4 +135,45 @@ class BottomsheetLoginController extends BaseController {
       );
     }
   }
+
+  //OTP verification screen
+
+  Future<void> resendOTP() async {
+    // resend otp here.
+    setBusy(true);
+    final result = await _authenticationService.loginWithPhoneNo(
+        phoneNo: phoneNoController.text.trim().replaceAll(" ", ""),
+        name: (nameController.text).trim(),
+        resend: true);
+    print("Reset OTP Results : ");
+    print(result);
+    setBusy(false);
+    return;
+  }
+
+  void updateTimer() {
+    _timer = Timer.periodic(
+      Duration(seconds: 1),
+      (Timer timer) {
+        if (timerCountDownSeconds < 1) {
+          timer.cancel();
+          otpSendButtonEnabled = true;
+          update();
+        } else {
+          timerCountDownSeconds--;
+          update();
+        }
+      },
+    );
+  }
+
+  FutureOr<dynamic> resetTimer(void value) {
+    _timer.cancel();
+    otpSendButtonEnabled = false;
+    timerCountDownSeconds = 30;
+    updateTimer();
+  }
+
+  String getFormatedCountDowndTimer() =>
+      "00:${(timerCountDownSeconds < 10 ? '0' : '') + timerCountDownSeconds.toString()}";
 }

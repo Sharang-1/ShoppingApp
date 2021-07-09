@@ -68,6 +68,7 @@ class UserDetailsController extends BaseController {
   }
 
   Future updateUserPhoto() async {
+    setBusy(true);
     File file;
     final pickedFile =
         await ImagePicker().getImage(source: ImageSource.gallery);
@@ -78,6 +79,7 @@ class UserDetailsController extends BaseController {
         update();
       }
     }
+    setBusy(false);
   }
 
   Future updateUserDetails() async {

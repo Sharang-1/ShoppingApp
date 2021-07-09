@@ -10,6 +10,7 @@ import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
 import 'custom_text.dart';
 import 'input_field.dart';
+import 'text_link.dart';
 
 class LoginBottomsheet extends StatelessWidget {
   final String nextView;
@@ -37,14 +38,14 @@ class LoginBottomsheet extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                if(!controller.isOTPScreen)
-                Center(
-                  child: CustomText(
-                    "Login To Continue",
-                    fontSize: 20,
-                    isBold: true,
+                if (!controller.isOTPScreen)
+                  Center(
+                    child: CustomText(
+                      "Login To Continue",
+                      fontSize: 20,
+                      isBold: true,
+                    ),
                   ),
-                ),
                 verticalSpaceSmall,
                 FittedBox(
                   fit: BoxFit.scaleDown,
@@ -136,7 +137,23 @@ class LoginBottomsheet extends StatelessWidget {
                             pinTextAnimatedSwitcherDuration:
                                 Duration(milliseconds: 300),
                           ),
-                          // verticalSpaceSmall,
+                          verticalSpaceSmall,
+                          Text(
+                            controller.getFormatedCountDowndTimer(),
+                            style: TextStyle(fontSize: titleFontSizeStyle),
+                          ),
+                          verticalSpaceSmall,
+                          TextLink(
+                            'RESEND OTP',
+                            onPressed: controller.otpSendButtonEnabled
+                                ? () {
+                                    controller
+                                        .resendOTP()
+                                        .then(controller.resetTimer);
+                                  }
+                                : null,
+                            enabled: controller.otpSendButtonEnabled,
+                          ),
                           // TextButton(child: Text("Change Mobile umber"),)
                         ],
                       ),

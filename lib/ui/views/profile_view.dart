@@ -125,12 +125,12 @@ class _ProfileViewState extends State<ProfileView> {
                     left: screenPadding,
                     right: screenPadding,
                     top: 10,
-                    bottom: 10,
+                    bottom: MediaQuery.of(context).padding.bottom + 4.0,
                   ),
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       elevation: 0,
-                      primary: isButtonActive ? green : Colors.grey[400],
+                      primary: isButtonActive ? lightGreen : Colors.grey[400],
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -153,7 +153,7 @@ class _ProfileViewState extends State<ProfileView> {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 15),
                       child: CustomText(
-                        "Save ",
+                        "Save",
                         fontSize: titleFontSizeStyle,
                         isBold: true,
                         color: Colors.white,
@@ -618,13 +618,28 @@ class _ProfileViewState extends State<ProfileView> {
                                                     }
                                                   }
                                                 : null,
-                                            child: CustomText(
-                                              controller
-                                                  .mUserDetails.contact.address,
-                                              color: Colors.grey[800],
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: subtitleFontSizeStyle,
-                                            ),
+                                            child: (controller
+                                                            ?.mUserDetails
+                                                            ?.contact
+                                                            ?.address
+                                                            ?.length ??
+                                                        0) >
+                                                    0
+                                                ? CustomText(
+                                                    controller.mUserDetails
+                                                        .contact.address,
+                                                    color: Colors.grey[800],
+                                                    fontWeight: FontWeight.w400,
+                                                    fontSize:
+                                                        subtitleFontSizeStyle,
+                                                  )
+                                                : CustomText(
+                                                    "Add Address",
+                                                    color: logoRed,
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize:
+                                                        subtitleFontSizeStyle,
+                                                  ),
                                           ),
                                         ),
                                       ],
@@ -718,7 +733,7 @@ class _ProfileViewState extends State<ProfileView> {
                                     // ),
                                     verticalSpaceLarge,
                                     CustomText(
-                                      "Measurements",
+                                      "My Measurements",
                                       fontSize: 16,
                                     ),
                                     // verticalSpaceSmall,

@@ -18,6 +18,7 @@ import '../../constants/shared_pref.dart';
 import '../../controllers/base_controller.dart';
 import '../../controllers/grid_view_builder/products_grid_view_builder_controller.dart';
 import '../../controllers/grid_view_builder/sellers_grid_view_builder_controller.dart';
+import '../../controllers/home_controller.dart';
 import '../../locator.dart';
 import '../../models/grid_view_builder_filter_models/productFilter.dart';
 import '../../models/productPageArg.dart';
@@ -51,7 +52,6 @@ class _SellerIndiState extends State<SellerIndi> {
   Key reviewKey = UniqueKey();
   Key writeReviewKey = UniqueKey();
   bool showExploreSection = true;
-  String token = '';
 
   GlobalKey sellerAboutKey = GlobalKey();
   GlobalKey appointmentBtnKey = GlobalKey();
@@ -119,11 +119,6 @@ class _SellerIndiState extends State<SellerIndi> {
   @override
   void initState() {
     super.initState();
-    SharedPreferences.getInstance().then((pref) {
-      setState(() {
-        token = pref.getString(Authtoken);
-      });
-    });
     try {
       _analyticsService.sendAnalyticsEvent(
           eventName: "seller_view",
@@ -237,7 +232,6 @@ class _SellerIndiState extends State<SellerIndi> {
     setupSellerDetails(widget?.data);
 
     Timing _timing = sellerData.timing;
-    print("Seller Profile Pic token $token $designerProfilePicUrl");
 
     return Scaffold(
         backgroundColor: Colors.white,
@@ -388,7 +382,7 @@ class _SellerIndiState extends State<SellerIndi> {
                   margin: EdgeInsets.all(8.0),
                   child: Icon(
                     Icons.navigate_before,
-                    size: 30,
+                    size: 40,
                   ),
                 ),
               ),
@@ -706,7 +700,7 @@ class _SellerIndiState extends State<SellerIndi> {
                                         "$designerProfilePicUrl",
                                         headers: {
                                           "Authorization":
-                                              "Bearer ${token ?? ''}",
+                                              "Bearer ${locator<HomeController>()?.prefs?.getString(Authtoken) ?? ''}",
                                         }),
                                     imageErrorBuilder:
                                         (context, error, stackTrace) {
@@ -975,7 +969,9 @@ class _SellerIndiState extends State<SellerIndi> {
                         ],
                       ),
                     ),
-                    if (sellerData.subscriptionTypeId == 1 && showExploreSection) sectionDivider(),
+                    if (sellerData.subscriptionTypeId == 1 &&
+                        showExploreSection)
+                      sectionDivider(),
                     if (sellerData.subscriptionTypeId == 1 &&
                         showExploreSection)
                       Padding(

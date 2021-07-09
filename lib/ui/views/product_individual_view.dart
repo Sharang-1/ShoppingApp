@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:readmore/readmore.dart';
 import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
@@ -1181,13 +1182,87 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                 ),
                               // if (available) sectionDivider(),
                               sectionDivider(),
-                              Text(
-                                "Know Your Designer".toUpperCase(),
-                                style: TextStyle(
-                                  // fontWeight: FontWeight.bold,
-                                  letterSpacing: 1.0,
-                                  fontSize: 14,
-                                ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Know Your Designer".toUpperCase(),
+                                    style: TextStyle(
+                                      // fontWeight: FontWeight.bold,
+                                      letterSpacing: 1.0,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 20.0),
+                                    child: FutureBuilder<Reviews>(
+                                      future: locator<APIService>().getReviews(
+                                          controller.sellerDetail?.key,
+                                          isSellerReview: true),
+                                      builder: (context, snapshot) => ((snapshot
+                                                      .connectionState ==
+                                                  ConnectionState.done) &&
+                                              ((snapshot?.data?.ratingAverage
+                                                          ?.rating ??
+                                                      0) >
+                                                  0))
+                                          ? FittedBox(
+                                              fit: BoxFit.scaleDown,
+                                              child: Container(
+                                                padding: EdgeInsets.symmetric(
+                                                  vertical: 2,
+                                                  horizontal: 5,
+                                                ),
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color: Tools
+                                                        .getColorAccordingToRattings(
+                                                      snapshot.data
+                                                          .ratingAverage.rating,
+                                                    ),
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(5),
+                                                ),
+                                                child: Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: <Widget>[
+                                                    CustomText(
+                                                      snapshot.data
+                                                          .ratingAverage.rating
+                                                          .toString(),
+                                                      color: Tools
+                                                          .getColorAccordingToRattings(
+                                                        snapshot
+                                                            .data
+                                                            .ratingAverage
+                                                            .rating,
+                                                      ),
+                                                      isBold: true,
+                                                      fontSize: 12,
+                                                    ),
+                                                    horizontalSpaceTiny,
+                                                    Icon(
+                                                      Icons.star,
+                                                      color: Tools
+                                                          .getColorAccordingToRattings(
+                                                        snapshot
+                                                            .data
+                                                            .ratingAverage
+                                                            .rating,
+                                                      ),
+                                                      size: 12,
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            )
+                                          : Container(),
+                                    ),
+                                  ),
+                                ],
                               ),
                               if (controller
                                       ?.sellerDetail?.subscriptionTypeId !=
@@ -1221,152 +1296,68 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                   ),
                                                 ),
                                                 child: ClipOval(
-                                                  child:
-                                                      FadeInImage.assetNetwork(
-                                                    width: 50,
-                                                    height: 50,
-                                                    fadeInCurve: Curves.easeIn,
-                                                    fit: BoxFit.cover,
-                                                    placeholder:
-                                                        "assets/images/product_preloading.png",
-                                                    image: controller
-                                                                .sellerDetail
-                                                                ?.key !=
-                                                            null
-                                                        ? "$SELLER_PHOTO_BASE_URL/${controller.sellerDetail.key}"
-                                                        : "assets/images/product_preloading.png",
-                                                    imageErrorBuilder: (context,
-                                                            error,
-                                                            stackTrace) =>
-                                                        Image.asset(
-                                                      "assets/images/product_preloading.png",
-                                                      width: 50,
-                                                      height: 50,
+                                                  child: FadeInImage(
+                                                      width: 70,
+                                                      height: 70,
+                                                      fadeInCurve:
+                                                          Curves.easeIn,
                                                       fit: BoxFit.cover,
-                                                    ),
-                                                  ),
+                                                      placeholder: AssetImage(
+                                                          "assets/images/product_preloading.png"),
+                                                      image: NetworkImage(
+                                                        "$DESIGNER_PROFILE_PHOTO_BASE_URL/${controller?.sellerDetail?.owner?.key}",
+                                                        headers: {
+                                                          "Authorization":
+                                                              "Bearer ${locator<HomeController>()?.prefs?.getString(Authtoken) ?? ''}",
+                                                        },
+                                                      ),
+                                                      imageErrorBuilder:
+                                                          (context, error,
+                                                              stackTrace) {
+                                                        print(
+                                                            "Image Error: $error $stackTrace");
+                                                        return Image.asset(
+                                                          "assets/images/product_preloading.png",
+                                                          width: 70,
+                                                          height: 70,
+                                                          fit: BoxFit.cover,
+                                                        );
+                                                      }),
                                                 ),
                                               ),
                                               horizontalSpaceSmall,
                                               Expanded(
-                                                child: Container(
-                                                  padding: EdgeInsets.all(0),
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: <Widget>[
-                                                      Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        children: [
-                                                          Text(
-                                                            controller
-                                                                    .sellerDetail
-                                                                    ?.name ??
-                                                                "",
-                                                            style: TextStyle(
-                                                              fontSize: 12,
-                                                              color:
-                                                                  Colors.black,
-                                                            ),
-                                                          ),
-                                                          FutureBuilder<
-                                                              Reviews>(
-                                                            future: locator<
-                                                                    APIService>()
-                                                                .getReviews(
-                                                                    controller
-                                                                        .sellerDetail
-                                                                        ?.key,
-                                                                    isSellerReview:
-                                                                        true),
-                                                            builder: (context,
-                                                                    snapshot) =>
-                                                                ((snapshot.connectionState ==
-                                                                            ConnectionState
-                                                                                .done) &&
-                                                                        ((snapshot?.data?.ratingAverage?.rating ??
-                                                                                0) >
-                                                                            0))
-                                                                    ? FittedBox(
-                                                                        fit: BoxFit
-                                                                            .scaleDown,
-                                                                        child:
-                                                                            Container(
-                                                                          padding:
-                                                                              EdgeInsets.symmetric(
-                                                                            vertical:
-                                                                                2,
-                                                                            horizontal:
-                                                                                5,
-                                                                          ),
-                                                                          decoration:
-                                                                              BoxDecoration(
-                                                                            border:
-                                                                                Border.all(
-                                                                              color: Tools.getColorAccordingToRattings(
-                                                                                snapshot.data.ratingAverage.rating,
-                                                                              ),
-                                                                            ),
-                                                                            borderRadius:
-                                                                                BorderRadius.circular(5),
-                                                                          ),
-                                                                          child:
-                                                                              Row(
-                                                                            crossAxisAlignment:
-                                                                                CrossAxisAlignment.center,
-                                                                            children: <Widget>[
-                                                                              CustomText(
-                                                                                snapshot.data.ratingAverage.rating.toString(),
-                                                                                color: Tools.getColorAccordingToRattings(
-                                                                                  snapshot.data.ratingAverage.rating,
-                                                                                ),
-                                                                                isBold: true,
-                                                                                fontSize: 12,
-                                                                              ),
-                                                                              horizontalSpaceTiny,
-                                                                              Icon(
-                                                                                Icons.star,
-                                                                                color: Tools.getColorAccordingToRattings(
-                                                                                  snapshot.data.ratingAverage.rating,
-                                                                                ),
-                                                                                size: 12,
-                                                                              )
-                                                                            ],
-                                                                          ),
-                                                                        ),
-                                                                      )
-                                                                    : Container(),
-                                                          ),
-                                                        ],
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    CustomText(
+                                                      controller?.sellerDetail
+                                                              ?.owner?.name ??
+                                                          "",
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      fontSize: titleFontSize,
+                                                      dotsAfterOverFlow: true,
+                                                    ),
+                                                    ReadMoreText(
+                                                      controller?.sellerDetail
+                                                              ?.bio ??
+                                                          "",
+                                                      trimLines: 3,
+                                                      colorClickableText:
+                                                          logoRed,
+                                                      trimMode: TrimMode.Line,
+                                                      style: TextStyle(
+                                                        fontSize:
+                                                            subtitleFontSize -
+                                                                2,
+                                                        color: Colors.grey[600],
                                                       ),
-                                                      if (controller
-                                                              ?.sellerDetail
-                                                              ?.subscriptionTypeId !=
-                                                          2)
-                                                        Text(
-                                                          Tools
-                                                              .getTruncatedString(
-                                                            100,
-                                                            controller
-                                                                    .sellerDetail
-                                                                    ?.name ??
-                                                                "",
-                                                          ),
-                                                          style: TextStyle(
-                                                              fontSize: 10,
-                                                              color:
-                                                                  Colors.black),
-                                                        ),
-                                                    ],
-                                                  ),
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
                                             ],
