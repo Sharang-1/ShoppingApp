@@ -1,5 +1,6 @@
 // import 'package:compound/ui/views/promotion_products_view.dart';
 import 'package:compound/ui/views/dzor_explore_view.dart';
+import 'package:compound/ui/views/order_error_view.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -180,6 +181,13 @@ Route<dynamic> generateRoute(RouteSettings settings) {
           pageArguments: pageArguments,
           routeName: settings.name,
           viewToShow: OrderPlacedView(),
+          pageTransitionType: PageTransitionType.rightToLeft);
+
+    case PaymentErrorScreenRoute:
+      return _getPageRoute(
+          pageArguments: pageArguments,
+          routeName: settings.name,
+          viewToShow: OrderErrorView(error: (pageArguments as OrderError)),
           pageTransitionType: PageTransitionType.rightToLeft);
 
     case AppointmentBookedScreenRoute:

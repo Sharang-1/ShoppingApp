@@ -36,18 +36,22 @@ class Payment {
   Payment({
     this.apiKey,
     this.merchantName,
+    this.email,
   });
 
   String apiKey;
   String merchantName;
+  String email;
 
   factory Payment.fromJson(Map<String, dynamic> json) => Payment(
         apiKey: json["apiKey"],
         merchantName: json["merchantName"],
+        email: json["email"],
       );
 
   Map<String, dynamic> toJson() => {
         "apiKey": apiKey,
         "merchantName": merchantName,
+        "email": email,
       };
 }

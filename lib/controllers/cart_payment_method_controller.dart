@@ -8,9 +8,7 @@ import 'base_controller.dart';
 class CartPaymentMethodController extends BaseController {
   final APIService _apiService = locator<APIService>();
   final PaymentService _paymentService = locator<PaymentService>();
-
   final Map<int, String> paymentOptions = {};
-
   final String city;
 
   CartPaymentMethodController({this.city});
@@ -56,14 +54,12 @@ class CartPaymentMethodController extends BaseController {
     if (order != null) {
       if (order.payment.option.id != 2) return order;
 
-      //TODO: static email
       await _paymentService.makePayment(
         amount: order.orderCost.cost,
         contactNo: order.billingPhone.mobile,
         orderId: order.payment.orderId,
         receiptId: order.payment.receiptId,
         dzorOrderId: order.key,
-        email: 'abc@gmail.com',
       );
     }
     return null;

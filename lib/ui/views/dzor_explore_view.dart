@@ -12,7 +12,6 @@ import '../../locator.dart';
 import '../shared/app_colors.dart';
 import '../widgets/cart_icon_badge.dart';
 import '../widgets/section_builder.dart';
-import '../widgets/wishlist_icon.dart';
 
 class DzorExploreView extends StatefulWidget {
   @override

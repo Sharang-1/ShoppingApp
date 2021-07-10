@@ -13,7 +13,6 @@ import '../ui/views/myorders_details_view.dart';
 class OrdersController extends BaseController {
   final APIService _apiService = locator<APIService>();
 
-
   Orders mOrders;
   Future getOrders() async {
     setBusy(true);
@@ -36,7 +35,14 @@ class OrdersController extends BaseController {
         ),
         ModalRoute.withName(HomeViewRoute),
       );
-      if (await CartController().hasProducts()) await NavigationService.to(CartViewRoute);
+      if (await CartController().hasProducts())
+        await NavigationService.to(CartViewRoute);
+    });
+  }
+
+  static Future orderError(context) async {
+    Future.delayed(Duration(milliseconds: 3500), () async {
+      await NavigationService.offAll(HomeViewRoute);
     });
   }
 }

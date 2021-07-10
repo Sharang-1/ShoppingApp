@@ -16,6 +16,7 @@ const String IntroPageRoute = "IntroPage";
 const String CartViewRoute = "CartView";
 const String CategoriesRoute = "CategoriesView";
 const String PaymentFinishedScreenRoute = "PaymentFinishedScreenView";
+const String PaymentErrorScreenRoute = "PaymentErrorScreenView";
 const String MyOrdersRoute = "MyOrdersView";
 const String MyOrderDetailsRoute = "MyOrderDetailsView";
 const String BuyNowRoute = "BuyNowView";

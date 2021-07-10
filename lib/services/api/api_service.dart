@@ -10,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants/server_urls.dart';
 import '../../constants/shared_pref.dart' as SharedPrefConstants;
+import '../../controllers/base_controller.dart';
 import '../../locator.dart';
 import '../../models/Appointments.dart';
 import '../../models/TimeSlots.dart';
@@ -115,6 +116,10 @@ class APIService {
         res = await apiClient.put(path,
             data: data, queryParameters: queryParameters, options: options);
       }
+      if (res.statusCode == 401) {
+        throw Exception("Unauthorized");
+      }
+
       print("Fetched Raw Response From API");
       Map resJSON = res.data;
       print("Response converted to json");
@@ -129,21 +134,10 @@ class APIService {
         _errorHandlingService.showError(Errors.PoorConnection);
       }
     } catch (e, stacktrace) {
-      // if(!((e.toString().startsWith("Exception: Seller profile photo for")))){
       Fimber.e("Api Service error", ex: e, stacktrace: stacktrace);
-      //   GetModule.Get.snackbar(
-      //   "Error",
-      //   e.toString(),
-      //   snackPosition: GetModule.SnackPosition.BOTTOM,
-      //   isDismissible: true,
-      //   snackStyle: GetModule.SnackStyle.FLOATING,
-      //   margin: EdgeInsets.only(
-      //     bottom: 20,
-      //     left: 10,
-      //     right: 10,
-      //   ),
-      //  );
-      // }
+      if (e.toString() == "Unauthorized") {
+        BaseController.logout();
+      }
     }
   }
 

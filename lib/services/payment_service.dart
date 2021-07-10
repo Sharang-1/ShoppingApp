@@ -1,3 +1,4 @@
+import 'package:compound/ui/views/order_error_view.dart';
 import 'package:flutter/foundation.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
@@ -11,6 +12,7 @@ import 'navigation_service.dart';
 class PaymentService {
   String razorPayAPIKey;
   Razorpay _razorpay;
+  AppInfo appInfo;
 
   Future init() async {
     _razorpay = Razorpay();
@@ -18,21 +20,24 @@ class PaymentService {
   }
 
   Future<String> getApiKey() async {
-    AppInfo _appInfo = await locator<APIService>().getAppInfo();
-    if (_appInfo != null) razorPayAPIKey = _appInfo.payment.apiKey;
+    appInfo = await locator<APIService>().getAppInfo();
+    if (appInfo != null) razorPayAPIKey = appInfo.payment.apiKey;
     return razorPayAPIKey;
   }
 
   Future makePayment(
       {@required num amount,
       @required String contactNo,
-      @required String email,
       @required String orderId,
       @required String receiptId,
       @required String dzorOrderId,
+      String email,
       String name = 'Dzor Infotech Pvt Ltd',
       String currency = 'INR',
       String description = ''}) async {
+    if (razorPayAPIKey == null) {
+      razorPayAPIKey = await getApiKey();
+    }
     if (razorPayAPIKey != null) {
       var options = {
         'key': razorPayAPIKey,
@@ -42,7 +47,10 @@ class PaymentService {
         'receipt': receiptId,
         'name': name,
         'description': description,
-        'prefill': {'contact': contactNo, 'email': email},
+        'prefill': {
+          'contact': contactNo,
+          'email': email ?? (appInfo?.payment?.email ?? "info@dzor.in")
+        },
         'theme': {
           'color': '#bE505F',
         }
@@ -76,9 +84,13 @@ class PaymentService {
           success: false,
         );
 
-        print("RazorPay Error: " + response.message);
+        print(
+            "RazorPay Error: Code: ${response.code} Msg: ${response.message}");
         locator<ErrorHandlingService>().showError(Errors.CouldNotPlaceAnOrder);
-        NavigationService.offAll(HomeViewRoute);
+        await NavigationService.off(
+          PaymentErrorScreenRoute,
+          arguments: OrderError.PAYMENT_ERROR,
+        );
       });
       _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET,
           (ExternalWalletResponse response) {
@@ -88,6 +100,11 @@ class PaymentService {
       try {
         _razorpay.open(options);
       } catch (e) {
+         print("RazorPay : ${e.toString()}");
+        await NavigationService.off(
+          PaymentFinishedScreenRoute,
+          arguments: OrderError.PAYMENT_ERROR,
+        );
         return null;
       }
     }
