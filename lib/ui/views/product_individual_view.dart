@@ -772,157 +772,169 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                 isClothMeterial:
                                     (productData.category.id == 13),
                               ),
-                              if (productData.coupons.isNotEmpty)
+                              if ((controller?.productData?.coupons?.length ??
+                                      0) >
+                                  0)
                                 sectionDivider(),
                               SingleChildScrollView(
                                 scrollDirection: Axis.horizontal,
                                 child: Row(
-                                    children: productData.coupons
-                                        .map(
-                                          (e) => InkWell(
-                                            onTap: () async {
-                                              await Get.bottomSheet(
-                                                Container(
-                                                  padding: EdgeInsets.symmetric(
-                                                    vertical: 16.0,
-                                                    horizontal: 8.0,
-                                                  ),
-                                                  color: Colors.white,
-                                                  child: Column(
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Text(
-                                                        "Coupon",
-                                                        style: TextStyle(
-                                                          fontSize: 16,
-                                                          color: logoRed,
-                                                        ),
+                                    children: controller?.productData?.coupons
+                                            ?.map(
+                                              (e) => InkWell(
+                                                onTap: () async {
+                                                  await Get.bottomSheet(
+                                                    Container(
+                                                      padding:
+                                                          EdgeInsets.symmetric(
+                                                        vertical: 16.0,
+                                                        horizontal: 8.0,
                                                       ),
-                                                      verticalSpaceSmall,
-                                                      Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
+                                                      color: Colors.white,
+                                                      child: Column(
+                                                        mainAxisSize:
+                                                            MainAxisSize.min,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
                                                         children: [
-                                                          Container(
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              border:
-                                                                  Border.all(
-                                                                color: logoRed,
-                                                              ),
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                5,
-                                                              ),
-                                                            ),
-                                                            padding: EdgeInsets
-                                                                .symmetric(
-                                                              vertical: 4.0,
-                                                              horizontal: 8.0,
-                                                            ),
-                                                            child: Text(
-                                                              e.code
-                                                                  .toUpperCase(),
-                                                              style: TextStyle(
-                                                                fontSize: 16,
-                                                              ),
+                                                          Text(
+                                                            "Coupon",
+                                                            style: TextStyle(
+                                                              fontSize: 16,
+                                                              color: logoRed,
                                                             ),
                                                           ),
-                                                          ElevatedButton(
-                                                            style:
-                                                                ElevatedButton
-                                                                    .styleFrom(
-                                                              primary:
-                                                                  Colors.white,
-                                                              elevation: 0,
-                                                            ),
-                                                            child: Text(
-                                                              "COPY",
-                                                              style: TextStyle(
-                                                                color: logoRed,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                              ),
-                                                            ),
-                                                            onPressed:
-                                                                () async {
-                                                              await Clipboard
-                                                                  .setData(
-                                                                ClipboardData(
-                                                                  text: e.code,
+                                                          verticalSpaceSmall,
+                                                          Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                            children: [
+                                                              Container(
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  border: Border
+                                                                      .all(
+                                                                    color:
+                                                                        logoRed,
+                                                                  ),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                    5,
+                                                                  ),
                                                                 ),
-                                                              );
+                                                                padding: EdgeInsets
+                                                                    .symmetric(
+                                                                  vertical: 4.0,
+                                                                  horizontal:
+                                                                      8.0,
+                                                                ),
+                                                                child: Text(
+                                                                  e.code
+                                                                      .toUpperCase(),
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        16,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              ElevatedButton(
+                                                                style: ElevatedButton
+                                                                    .styleFrom(
+                                                                  primary: Colors
+                                                                      .white,
+                                                                  elevation: 0,
+                                                                ),
+                                                                child: Text(
+                                                                  "COPY",
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color:
+                                                                        logoRed,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                  ),
+                                                                ),
+                                                                onPressed:
+                                                                    () async {
+                                                                  await Clipboard
+                                                                      .setData(
+                                                                    ClipboardData(
+                                                                      text: e
+                                                                          .code,
+                                                                    ),
+                                                                  );
 
-                                                              Get.snackbar(
-                                                                "Coupon Code Copied",
-                                                                "Use this code while placing order.",
-                                                                snackPosition:
-                                                                    SnackPosition
-                                                                        .BOTTOM,
-                                                              );
-                                                            },
+                                                                  Get.snackbar(
+                                                                    "Coupon Code Copied",
+                                                                    "Use this code while placing order.",
+                                                                    snackPosition:
+                                                                        SnackPosition
+                                                                            .BOTTOM,
+                                                                  );
+                                                                },
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          verticalSpaceSmall,
+                                                          Text(
+                                                            "Get FLAT Rs. ${e.discount} off",
+                                                            style: TextStyle(
+                                                              fontSize: 14,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
+                                                          ),
+                                                          verticalSpaceMedium,
+                                                          Center(
+                                                            child: Divider(
+                                                              color: Colors
+                                                                  .grey[500],
+                                                            ),
+                                                          ),
+                                                          verticalSpaceTiny,
+                                                          Text(
+                                                            "Use Code ${e.code.toUpperCase()} and get FLAT Rs. ${e.discount} off on order above Rs.${e.minimumOrderValue}. No Upper Limit.",
+                                                            style: TextStyle(
+                                                              fontSize: 12,
+                                                            ),
                                                           ),
                                                         ],
                                                       ),
-                                                      verticalSpaceSmall,
-                                                      Text(
-                                                        "Get FLAT Rs. ${e.discount} off",
-                                                        style: TextStyle(
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                        ),
-                                                      ),
-                                                      verticalSpaceMedium,
-                                                      Center(
-                                                        child: Divider(
-                                                          color:
-                                                              Colors.grey[500],
-                                                        ),
-                                                      ),
-                                                      verticalSpaceTiny,
-                                                      Text(
-                                                        "Use Code ${e.code.toUpperCase()} and get FLAT Rs. ${e.discount} off on order above Rs.${e.minimumOrderValue}. No Upper Limit.",
-                                                        style: TextStyle(
-                                                          fontSize: 12,
-                                                        ),
-                                                      ),
-                                                    ],
+                                                    ),
+                                                    // isScrollControlled: true,
+                                                  );
+                                                },
+                                                child: Container(
+                                                  margin: EdgeInsets.all(8.0),
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 4.0,
+                                                      horizontal: 8.0),
+                                                  decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                      color: logoRed,
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5),
+                                                  ),
+                                                  child: Text(
+                                                    e.name,
+                                                    style: TextStyle(
+                                                      fontSize: 10.0,
+                                                      color: logoRed,
+                                                    ),
                                                   ),
                                                 ),
-                                                // isScrollControlled: true,
-                                              );
-                                            },
-                                            child: Container(
-                                              margin: EdgeInsets.all(8.0),
-                                              padding: EdgeInsets.symmetric(
-                                                  vertical: 4.0,
-                                                  horizontal: 8.0),
-                                              decoration: BoxDecoration(
-                                                border: Border.all(
-                                                  color: logoRed,
-                                                ),
-                                                borderRadius:
-                                                    BorderRadius.circular(5),
                                               ),
-                                              child: Text(
-                                                e.name,
-                                                style: TextStyle(
-                                                  fontSize: 10.0,
-                                                  color: logoRed,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        )
-                                        .toList()),
+                                            )
+                                            ?.toList() ??
+                                        []),
                               ),
                               sectionDivider(),
                               if (available)

@@ -494,10 +494,10 @@ class _SellerIndiState extends State<SellerIndi> {
                             child: Align(
                               alignment: Alignment.centerRight,
                               child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Icon(
                                         FontAwesomeIcons.mapMarkerAlt,
@@ -505,17 +505,19 @@ class _SellerIndiState extends State<SellerIndi> {
                                         color: Colors.black,
                                       ),
                                       horizontalSpaceTiny,
-                                      FittedBox(
-                                        fit: BoxFit.scaleDown,
-                                        alignment: Alignment.centerRight,
-                                        child: Text(
-                                          sellerDetails["City"],
-                                          overflow: TextOverflow.ellipsis,
-                                          textAlign: TextAlign.end,
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 12,
+                                      Expanded(
+                                        child: FittedBox(
+                                          fit: BoxFit.scaleDown,
+                                          alignment: Alignment.centerLeft,
+                                          child: Text(
+                                            sellerDetails["City"],
+                                            overflow: TextOverflow.ellipsis,
+                                            textAlign: TextAlign.end,
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 12,
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -524,6 +526,8 @@ class _SellerIndiState extends State<SellerIndi> {
                                   verticalSpaceTiny,
                                   Wrap(
                                     direction: Axis.horizontal,
+                                    crossAxisAlignment:
+                                        WrapCrossAlignment.center,
                                     children: [
                                       Icon(
                                         Icons.circle,
@@ -532,7 +536,7 @@ class _SellerIndiState extends State<SellerIndi> {
                                             ? Colors.green
                                             : Colors.grey,
                                       ),
-                                      horizontalSpaceSmall,
+                                      horizontalSpaceTiny,
                                       Text(
                                         isOpenNow(_timing)
                                             ? "Open Now"
@@ -694,8 +698,8 @@ class _SellerIndiState extends State<SellerIndi> {
                                     height: 80,
                                     fadeInCurve: Curves.easeIn,
                                     fit: BoxFit.cover,
-                                    placeholder: AssetImage(
-                                        "assets/images/product_preloading.png"),
+                                    placeholder:
+                                        AssetImage("assets/icons/user.png"),
                                     image: NetworkImage(
                                         "$designerProfilePicUrl",
                                         headers: {
@@ -706,7 +710,7 @@ class _SellerIndiState extends State<SellerIndi> {
                                         (context, error, stackTrace) {
                                       print("Image Error: $error $stackTrace");
                                       return Image.asset(
-                                        "assets/images/product_preloading.png",
+                                        "assets/icons/user.png",
                                         width: 80,
                                         height: 80,
                                         fit: BoxFit.cover,

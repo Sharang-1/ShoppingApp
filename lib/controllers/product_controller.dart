@@ -1,3 +1,4 @@
+import 'package:compound/models/coupon.dart';
 import 'package:fimber/fimber.dart';
 import 'package:get/get.dart';
 
@@ -24,11 +25,14 @@ class ProductController extends BaseController {
   final WishListService _wishListService = locator<WishListService>();
 
   Seller sellerDetail;
+  Product productData;
   Reviews reviews;
 
   String sellerId;
   String productId = "";
   String productName = "";
+
+  List<Coupon> coupons = [];
   bool isWishlistIconFilled = false;
 
   ProductController(this.sellerId,
@@ -43,6 +47,10 @@ class ProductController extends BaseController {
         });
     isWishlistIconFilled =
         locator<WishListController>().list.indexOf(productId) != -1;
+    productData = await _apiService.getProductById(
+      productId: productId,
+      withCoupons: true,
+    );
     sellerDetail = await _apiService.getSellerByID(sellerId);
     reviews = await _apiService.getReviews(productId, isSellerReview: false);
     update();
@@ -110,10 +118,11 @@ class ProductController extends BaseController {
   }
 
   Future<Product> refreshProduct(String productId) async {
-    return await _apiService.getProductById(
+    productData = await _apiService.getProductById(
       productId: productId,
       withCoupons: true,
     );
+    return productData;
   }
 
   Future<bool> buyNow(
