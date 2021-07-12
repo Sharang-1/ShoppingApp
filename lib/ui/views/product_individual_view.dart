@@ -1722,7 +1722,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                         shouldNavigateToNextScreen: false,
                                       ),
                               child: Container(
-                                width: MediaQuery.of(context).size.width * 0.40,
+                                width: MediaQuery.of(context).size.width *
+                                    (widget.fromCart ? 0.80 : 0.40),
                                 padding: EdgeInsets.symmetric(
                                   vertical: 10,
                                 ),
@@ -1731,16 +1732,21 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                 ),
                                 decoration: BoxDecoration(
                                   // border: Border.all(color: lightGreen),
-                                  color: Colors.white,
+                                  color: widget.fromCart
+                                      ? lightGreen
+                                      : Colors.white,
                                   borderRadius: BorderRadius.circular(5),
                                 ),
                                 child: Center(
                                   child: Text(
                                     "ADD TO BAG",
                                     style: TextStyle(
-                                      color: Colors.black,
+                                      color: widget.fromCart
+                                          ? Colors.white
+                                          : Colors.black,
                                       fontWeight: FontWeight.bold,
-                                      fontSize: subtitleFontSizeStyle,
+                                      fontSize: subtitleFontSizeStyle +
+                                          (widget.fromCart ? 2 : 0),
                                     ),
                                   ),
                                 ),

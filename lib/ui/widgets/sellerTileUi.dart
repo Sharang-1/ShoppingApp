@@ -382,13 +382,13 @@ class DesignerTileUi extends StatelessWidget {
                             ),
                             verticalSpaceTiny,
                             Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Image.asset(
                                   'assets/images/shop.png',
                                   color: Colors.black,
-                                  width: 12.0,
-                                  height: 12.0,
+                                  width: 18.0,
+                                  height: 18.0,
                                 ),
                                 horizontalSpaceTiny,
                                 CustomText(
@@ -400,6 +400,7 @@ class DesignerTileUi extends StatelessWidget {
                                   isBold: false,
                                   dotsAfterOverFlow: true,
                                   fontSize: 10,
+                                  align: TextAlign.center,
                                 ),
                               ],
                             ),
@@ -503,33 +504,28 @@ class DesignerTileUi extends StatelessWidget {
                           if (!isID3)
                             Row(
                               children: [
-                                horizontalSpaceMedium,
-                                Image.asset(
-                                  'assets/images/boutique.png',
-                                  color: logoRed,
-                                  width: 18.0,
-                                  height: 16.0,
-                                ),
-                                horizontalSpaceTiny,
-                                Image.asset(
-                                  'assets/images/sewing.png',
-                                  color: logoRed,
-                                  width: 14.0,
-                                  height: 12.0,
-                                ),
-                                horizontalSpaceTiny,
+                                horizontalSpaceSmall,
+                                //TODO: If type is home boutique
+                                // Image.asset(
+                                //   'assets/images/boutique.png',
+                                //   color: logoRed,
+                                //   width: 22.0,
+                                //   height: 20.0,
+                                // ),
+                                // horizontalSpaceTiny,
+
+                                //TODO: if Seller Pro
                                 Image.asset(
                                   'assets/images/stitching.png',
                                   color: logoRed,
-                                  width: 18.0,
-                                  height: 16.0,
+                                  width: 24.0,
+                                  height: 24.0,
                                 ),
-                                horizontalSpaceTiny,
                                 Image.asset(
                                   'assets/images/selling.png',
                                   color: logoRed,
-                                  width: 18.0,
-                                  height: 16.0,
+                                  width: 24.0,
+                                  height: 24.0,
                                 ),
                               ],
                             ),
@@ -558,7 +554,7 @@ class DesignerTileUi extends StatelessWidget {
                     ],
                   ),
                 ),
-                if (!isID3) verticalSpaceTiny,
+                if (!isID3) verticalSpaceSmall,
                 if (!isID3)
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,

@@ -67,7 +67,7 @@ class HomeView extends StatelessWidget {
                 slivers: <Widget>[
                   SliverAppBar(
                     elevation: 0,
-                    iconTheme: IconThemeData(color: Colors.grey[500]),
+                    iconTheme: IconThemeData(color: Colors.grey.shade900),
                     backgroundColor: Colors.white,
                     title: Column(
                       children: [
@@ -91,7 +91,7 @@ class HomeView extends StatelessWidget {
                     leading: IconButton(
                       icon: Image.asset(
                         "assets/images/wishlist.png",
-                        color: Colors.grey[500],
+                        color: Colors.grey.shade900,
                       ),
                       onPressed: controller.isLoggedIn
                           ? BaseController.gotoWishlist
@@ -132,7 +132,7 @@ class HomeView extends StatelessWidget {
                     leading: IconButton(
                       icon: Image.asset(
                         "assets/images/profile_m.png",
-                        color: Colors.grey[500],
+                        color: Colors.grey.shade900,
                       ),
                       onPressed: () => NavigationService.to(SettingsRoute),
                     ),
@@ -142,13 +142,14 @@ class HomeView extends StatelessWidget {
                           child: InkWell(
                             key: cartKey,
                             child: Container(
-                            margin: EdgeInsets.only(right: 12.0),
-                            padding: EdgeInsets.all(4.0),
-                            height: 35,
-                            width: 35,
+                              margin: EdgeInsets.only(right: 12.0),
+                              padding: EdgeInsets.all(4.0),
+                              height: 35,
+                              width: 35,
                               child: CartIconWithBadge(
-                                iconColor: Colors.grey[600],
-                                count: locator<CartCountController>().count.value,
+                                iconColor: Colors.grey.shade900,
+                                count:
+                                    locator<CartCountController>().count.value,
                               ),
                             ),
                             onTap: () async => controller.isLoggedIn

@@ -138,19 +138,19 @@ class SectionBuilder extends StatelessWidget {
                 padding: EdgeInsets.only(bottom: 8.0),
                 child: Container(
                   decoration: BoxDecoration(
-                    // border: Border(
-                    //   right: (scrollDirection == Axis.horizontal)
-                    //       ? BorderSide(
-                    //           color: Colors.grey[300],
-                    //         )
-                    //       : BorderSide.none,
-                    //   bottom: (scrollDirection == Axis.vertical)
-                    //       ? BorderSide(
-                    //           color: Colors.grey[300],
-                    //         )
-                    //       : BorderSide.none,
-                    // ),
-                  ),
+                      // border: Border(
+                      //   right: (scrollDirection == Axis.horizontal)
+                      //       ? BorderSide(
+                      //           color: Colors.grey[300],
+                      //         )
+                      //       : BorderSide.none,
+                      //   bottom: (scrollDirection == Axis.vertical)
+                      //       ? BorderSide(
+                      //           color: Colors.grey[300],
+                      //         )
+                      //       : BorderSide.none,
+                      // ),
+                      ),
                   child: TopPicksAndDealsCard(
                     data: {
                       "key": product?.key ?? "Test",
@@ -195,19 +195,19 @@ class SectionBuilder extends StatelessWidget {
               (BuildContext context, productData, index, onUpdate, onDelete) {
             return Container(
               decoration: BoxDecoration(
-                // border: Border(
-                //   right: (scrollDirection == Axis.horizontal)
-                //       ? BorderSide(
-                //           color: Colors.grey[300],
-                //         )
-                //       : BorderSide.none,
-                //   bottom: (scrollDirection == Axis.vertical)
-                //       ? BorderSide(
-                //           color: Colors.grey[300],
-                //         )
-                //       : BorderSide.none,
-                // ),
-              ),
+                  // border: Border(
+                  //   right: (scrollDirection == Axis.horizontal)
+                  //       ? BorderSide(
+                  //           color: Colors.grey[300],
+                  //         )
+                  //       : BorderSide.none,
+                  //   bottom: (scrollDirection == Axis.vertical)
+                  //       ? BorderSide(
+                  //           color: Colors.grey[300],
+                  //         )
+                  //       : BorderSide.none,
+                  // ),
+                  ),
               child: ProductTileUI(
                 data: productData,
                 onClick: () => NavigationService.to(
@@ -289,11 +289,11 @@ class SectionBuilder extends StatelessWidget {
               onTap: () {},
               child: Container(
                 decoration: BoxDecoration(
-                  // border: Border(
-                  //     right: BorderSide(
-                  //   color: Colors.grey[300],
-                  // )),
-                ),
+                    // border: Border(
+                    //     right: BorderSide(
+                    //   color: Colors.grey[300],
+                    // )),
+                    ),
                 child: DesignerTileUi(data: data),
               ),
             );
@@ -319,19 +319,19 @@ class SectionBuilder extends StatelessWidget {
               onTap: () {},
               child: Container(
                 decoration: BoxDecoration(
-                  // border: Border(
-                  //   right: (scrollDirection == Axis.horizontal)
-                  //       ? BorderSide(
-                  //           color: Colors.grey[300],
-                  //         )
-                  //       : BorderSide.none,
-                  //   bottom: (scrollDirection == Axis.vertical)
-                  //       ? BorderSide(
-                  //           color: Colors.grey[300],
-                  //         )
-                  //       : BorderSide.none,
-                  // ),
-                ),
+                    // border: Border(
+                    //   right: (scrollDirection == Axis.horizontal)
+                    //       ? BorderSide(
+                    //           color: Colors.grey[300],
+                    //         )
+                    //       : BorderSide.none,
+                    //   bottom: (scrollDirection == Axis.vertical)
+                    //       ? BorderSide(
+                    //           color: Colors.grey[300],
+                    //         )
+                    //       : BorderSide.none,
+                    // ),
+                    ),
                 child: DesignerTileUi(
                   data: data,
                   isID3: ((layoutType == LayoutType.DESIGNER_ID_3_LAYOUT) ||
@@ -442,7 +442,7 @@ class SectionBuilder extends StatelessWidget {
       case LayoutType.DESIGNER_LAYOUT_2:
         return null;
       case LayoutType.DESIGNER_ID_1_2_LAYOUT:
-        return 235;
+        return 250;
       case LayoutType.DESIGNER_ID_3_LAYOUT:
         return 110;
       case LayoutType.DESIGNER_ID_3_VERTICAL_LAYOUT:

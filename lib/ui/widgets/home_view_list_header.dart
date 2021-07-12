@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
-import '../shared/ui_helpers.dart';
 
 class HomeViewListHeader extends StatelessWidget {
   final String title;
@@ -68,9 +67,9 @@ class HomeViewListHeader extends StatelessWidget {
                       child: Text(
                         'View All',
                         style: TextStyle(
-                          fontSize: subtitleFontSize,
-                          fontWeight: FontWeight.bold,
+                          fontSize: 12,
                           color: textIconBlue,
+                          decoration: TextDecoration.underline,
                         ),
                       ),
                     ),

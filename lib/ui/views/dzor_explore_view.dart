@@ -34,7 +34,7 @@ class _DzorExploreViewState extends State<DzorExploreView> {
             IconButton(
               icon: Image.asset(
                 "assets/images/wishlist.png",
-                color: Colors.grey[500],
+                color: Colors.grey.shade900,
               ),
               onPressed: () async => locator<HomeController>().isLoggedIn
                   ? await BaseController.gotoWishlist()
@@ -46,7 +46,7 @@ class _DzorExploreViewState extends State<DzorExploreView> {
             Obx(
               () => IconButton(
                 icon: CartIconWithBadge(
-                  iconColor: Colors.grey[600],
+                  iconColor: Colors.grey.shade900,
                   count: locator<CartCountController>().count.value,
                 ),
                 onPressed: () async => locator<HomeController>().isLoggedIn
@@ -58,17 +58,13 @@ class _DzorExploreViewState extends State<DzorExploreView> {
               ),
             ),
           ],
-          // centerTitle: true,
-          title: FittedBox(
-            alignment: Alignment.centerLeft,
-            fit: BoxFit.scaleDown,
-            child: Text(
-              "Dzor Explore",
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+          centerTitle: true,
+          title: Text(
+            "Dzor Explore",
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
             ),
           ),
           iconTheme: IconThemeData(color: appBarIconColor),

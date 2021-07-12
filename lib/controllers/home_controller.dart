@@ -55,7 +55,8 @@ class HomeController extends BaseController {
       ),
     ),
     TabItem(
-        title: '', icon: Container(
+      title: '',
+      icon: Container(
         decoration: BoxDecoration(
           color: newBackgroundColor,
           borderRadius: BorderRadius.circular(10),
@@ -64,7 +65,8 @@ class HomeController extends BaseController {
           "assets/images/appointments.png",
           color: logoRed,
         ),
-      ),),
+      ),
+    ),
     TabItem(
       title: '',
       icon: Padding(

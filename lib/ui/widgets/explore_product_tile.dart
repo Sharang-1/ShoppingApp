@@ -230,9 +230,9 @@ class _ExploreProductTileUIState extends State<ExploreProductTileUI> {
                                   children: <String>[
                                 "${locator<RemoteConfigService>().remoteConfig.getString(DZOR_EXPLORE_TAG_1_EN)}",
                                 if ((widget.data?.stitchingType?.id ?? -1) == 2)
-                                  "#Unstitched",
+                                  "Unstitched",
                                 if (widget.data.whoMadeIt.id == 2)
-                                  "#HandCrafted",
+                                  "HandCrafted",
                               ]
                                       .map(
                                         (e) => Padding(
@@ -242,9 +242,12 @@ class _ExploreProductTileUIState extends State<ExploreProductTileUI> {
                                             e,
                                             overflow: TextOverflow.ellipsis,
                                             style: TextStyle(
-                                              fontSize: subtitleFontSize,
-                                              fontFamily: fontFamily,
-                                            ),
+                                                fontSize: subtitleFontSize,
+                                                fontFamily: fontFamily,
+                                                color: e.toLowerCase() ==
+                                                        "#justhere"
+                                                    ? textIconBlue
+                                                    : Colors.black),
                                           ),
                                         ),
                                       )
