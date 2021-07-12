@@ -285,7 +285,7 @@ class _ProfileViewState extends State<ProfileView> {
                                             setState(() {
                                               isEditable = true;
                                             });
-                                            nameFocusNode.requestFocus();
+                                            // nameFocusNode.requestFocus();
                                           },
                                         )
                                       ],
@@ -751,18 +751,19 @@ class _ProfileViewState extends State<ProfileView> {
                                                 MainAxisAlignment.center,
                                             children: [
                                               getSizeWidget(
-                                                  initialValue: controller
-                                                          ?.mUserDetails
-                                                          ?.measure
-                                                          ?.shoulders
-                                                          .toString() ??
-                                                      '',
-                                                  hint: "*Shoulders",
-                                                  onSaved: (text) {
-                                                    controller.mUserDetails
-                                                            .measure.shoulders =
-                                                        num.parse(text);
-                                                  }),
+                                                initialValue: controller
+                                                        ?.mUserDetails
+                                                        ?.measure
+                                                        ?.shoulders
+                                                        .toString() ??
+                                                    '',
+                                                hint: "*Shoulders",
+                                                onSaved: (text) {
+                                                  controller.mUserDetails
+                                                          .measure.shoulders =
+                                                      num.parse(text);
+                                                },
+                                              ),
                                               verticalSpaceSmall,
                                               getSizeWidget(
                                                   hint: "*Chest",

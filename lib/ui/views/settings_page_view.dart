@@ -123,9 +123,32 @@ class SettingsView extends StatelessWidget {
                                 children: [
                                   Row(
                                     children: [
-                                      Icon(
-                                        FontAwesomeIcons.userCircle,
-                                        size: 50,
+                                      ClipOval(
+                                        child: FadeInImage(
+                                          width: 50,
+                                          height: 50,
+                                          fadeInCurve: Curves.easeIn,
+                                          placeholder: AssetImage(
+                                              "assets/icons/user.png"),
+                                          image: NetworkImage(
+                                              "$USER_PROFILE_PHOTO_BASE_URL/${controller?.mUserDetails?.key}",
+                                              headers: {
+                                                "Authorization":
+                                                    "Bearer ${controller?.token ?? ''}",
+                                              }),
+                                          imageErrorBuilder:
+                                              (context, error, stackTrace) {
+                                            print(
+                                                "User Photo: $USER_PROFILE_PHOTO_BASE_URL/${controller?.mUserDetails?.photo?.name} $error $stackTrace");
+                                            return Image.asset(
+                                              "assets/icons/user.png",
+                                              width: 50,
+                                              height: 50,
+                                              fit: BoxFit.cover,
+                                            );
+                                          },
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
                                       SizedBox(width: 16.0),
                                       Column(

@@ -14,6 +14,7 @@ class OrderDetailsBottomsheet extends StatelessWidget {
     this.proceedToOrder,
     this.isPromocodeApplied,
     this.buttonText,
+    this.buttonIcon,
     this.onButtonPressed,
   }) {
     orderSummaryDetails = {
@@ -38,6 +39,7 @@ class OrderDetailsBottomsheet extends StatelessWidget {
   final OrderDetails orderDetails;
   final Function proceedToOrder;
   final String buttonText;
+  final IconData buttonIcon;
   final Function onButtonPressed;
   final bool isPromocodeApplied;
   Map<String, String> orderSummaryDetails;
@@ -327,12 +329,23 @@ class OrderDetailsBottomsheet extends StatelessWidget {
                           onPressed: onButtonPressed,
                           child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 15),
-                            child: Text(
-                              buttonText,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                if (buttonIcon != null)
+                                  Icon(
+                                    buttonIcon,
+                                    size: 16,
+                                  ),
+                                if (buttonIcon != null) horizontalSpaceSmall,
+                                Text(
+                                  buttonText,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),

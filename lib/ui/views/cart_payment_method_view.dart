@@ -134,7 +134,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                         context: context,
                         builder: (context) => OrderDetailsBottomsheet(
                           orderDetails: widget.orderDetails,
-                          buttonText: "Place Order",
+                          buttonText: paymentMethodGrpValue == 2 ? "Proceed to Pay":"Place Order",
                           onButtonPressed: () async =>
                               await makePayment(controller),
                           isPromocodeApplied: widget.promoCode.isNotEmpty,
@@ -153,7 +153,10 @@ class _PaymentMethodState extends State<PaymentMethod> {
                       ),
                       CustomText(
                         "View Details",
-                        fontSize: 12,
+                        textStyle: TextStyle(
+                          fontSize: 12,
+                          decoration: TextDecoration.underline,
+                        ),
                       ),
                     ],
                   ),
@@ -174,7 +177,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                       child: Container(
                         alignment: Alignment.center,
                         child: Text(
-                          "Place Order",
+                          paymentMethodGrpValue == 2 ? "Proceed to Pay":"Place Order",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,

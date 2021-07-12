@@ -112,7 +112,10 @@ class _SelectPromocodeState extends State<SelectPromocode> {
                     ),
                     CustomText(
                       "View Details",
-                      fontSize: 12,
+                      textStyle: TextStyle(
+                        fontSize: 12,
+                        decoration: TextDecoration.underline,
+                      ),
                     ),
                   ],
                 ),

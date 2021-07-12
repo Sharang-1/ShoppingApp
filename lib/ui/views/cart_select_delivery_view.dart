@@ -104,6 +104,7 @@ class _SelectAddressState extends State<SelectAddress> {
                       builder: (context) => OrderDetailsBottomsheet(
                         orderDetails: widget.orderDetails,
                         buttonText: "Make Payment",
+                        buttonIcon: FontAwesomeIcons.lock,
                         onButtonPressed: disabledPayment
                             ? null
                             : () async => await makePayment(controller),
@@ -120,11 +121,13 @@ class _SelectAddressState extends State<SelectAddress> {
                         fontSize: 12,
                         isBold: true,
                       ),
-                      CustomText("View Details",
-                          textStyle: TextStyle(
-                            fontSize: 12,
-                            decoration: TextDecoration.underline,
-                          )),
+                      CustomText(
+                        "View Details",
+                        textStyle: TextStyle(
+                          fontSize: 12,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
                     ],
                   ),
                 ),
