@@ -156,6 +156,7 @@ class _CartViewState extends State<CartView> {
                                       item: dItem,
                                       onDelete: (int index) async {
                                         final value = await onDelete(index);
+                                        print("Delete product index: $index");
                                         if (value != true) return;
                                         await controller
                                             .removeFromCartLocalStore(

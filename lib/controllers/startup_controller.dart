@@ -1,5 +1,3 @@
-import 'package:compound/constants/shared_pref.dart';
-import 'package:compound/services/payment_service.dart';
 import 'package:flutter/material.dart';
 import 'package:launch_review/launch_review.dart';
 import 'package:package_info/package_info.dart';
@@ -7,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constants/route_names.dart';
 import '../constants/server_urls.dart';
+import '../constants/shared_pref.dart';
 import '../locator.dart';
 import '../services/analytics_service.dart';
 import '../services/api/api_service.dart';
@@ -15,6 +14,7 @@ import '../services/dialog_service.dart';
 import '../services/dynamic_link_service.dart';
 import '../services/error_handling_service.dart';
 import '../services/navigation_service.dart';
+import '../services/payment_service.dart';
 import '../services/push_notification_service.dart';
 import '../services/remote_config_service.dart';
 import 'base_controller.dart';

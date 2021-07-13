@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:compound/models/user_details.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,6 +10,7 @@ import '../constants/server_urls.dart';
 import '../constants/shared_pref.dart';
 import '../locator.dart';
 import '../models/route_argument.dart';
+import '../models/user_details.dart';
 import '../services/address_service.dart';
 import '../services/analytics_service.dart';
 import '../services/api/api_service.dart';

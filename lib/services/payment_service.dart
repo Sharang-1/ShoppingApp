@@ -1,10 +1,10 @@
-import 'package:compound/ui/views/order_error_view.dart';
 import 'package:flutter/foundation.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 import '../constants/route_names.dart';
 import '../locator.dart';
 import '../models/app_info.dart';
+import '../ui/views/order_error_view.dart';
 import 'api/api_service.dart';
 import 'error_handling_service.dart';
 import 'navigation_service.dart';

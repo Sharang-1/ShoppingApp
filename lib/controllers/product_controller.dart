@@ -1,9 +1,9 @@
-import 'package:compound/models/coupon.dart';
 import 'package:fimber/fimber.dart';
 import 'package:get/get.dart';
 
 import '../constants/route_names.dart';
 import '../locator.dart';
+import '../models/coupon.dart';
 import '../models/lookups.dart';
 import '../models/products.dart';
 import '../models/reviews.dart';

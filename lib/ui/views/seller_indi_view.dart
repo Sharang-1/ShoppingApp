@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -227,9 +229,10 @@ class _SellerIndiState extends State<SellerIndi> {
     double media = ((MediaQuery.of(context).size.width - 100) / 2);
     double multiplyer = 0.8;
 
+    setupSellerDetails(widget?.data);
+    
     String designerProfilePicUrl =
         "$DESIGNER_PROFILE_PHOTO_BASE_URL/${sellerData?.owner?.key}";
-    setupSellerDetails(widget?.data);
 
     Timing _timing = sellerData.timing;
 
@@ -408,7 +411,9 @@ class _SellerIndiState extends State<SellerIndi> {
                       } catch (e) {}
                     },
                     child: Icon(
-                      Icons.share,
+                      Platform.isIOS
+                                  ? CupertinoIcons.share
+                                  : Icons.share,
                       size: 25,
                     ),
                   ),

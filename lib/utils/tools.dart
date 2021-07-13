@@ -1,7 +1,8 @@
 import 'dart:math';
 
-import 'package:compound/ui/shared/app_colors.dart';
 import 'package:flutter/material.dart';
+
+import '../ui/shared/app_colors.dart';
 
 class Tools {
   static bool checkIfTablet(MediaQueryData query) {

@@ -1,22 +1,21 @@
-import 'package:compound/constants/route_names.dart';
-import 'package:compound/constants/shared_pref.dart';
-import 'package:compound/services/navigation_service.dart';
-import 'package:compound/ui/shared/app_colors.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
+import '../constants/route_names.dart';
+import '../constants/shared_pref.dart';
 import '../locator.dart';
 import '../models/sellers.dart';
 import '../models/tailors.dart';
 import '../services/analytics_service.dart';
 import '../services/api/api_service.dart';
 import '../services/location_service.dart';
+import '../services/navigation_service.dart';
+import '../ui/shared/app_colors.dart';
 import 'base_controller.dart';
 
 class DzorMapController extends BaseController {
@@ -53,10 +52,39 @@ class DzorMapController extends BaseController {
 
   final List<TabItem> navigationItems = [
     TabItem(
-        title: '',
-        icon: Icon(Icons.category, color: backgroundWhiteCreamColor)),
+      title: '',
+      icon: Container(
+        padding: EdgeInsets.symmetric(
+          horizontal: 2.0,
+          vertical: 2.0,
+        ),
+        decoration: BoxDecoration(
+          color: newBackgroundColor,
+          borderRadius: BorderRadius.circular(5),
+        ),
+        child: Image.asset(
+          "assets/images/nav_categories.png",
+          color: logoRed,
+        ),
+      ),
+    ),
     TabItem(
-        title: '', icon: Icon(Icons.event, color: backgroundWhiteCreamColor)),
+      title: '',
+      icon: Container(
+        padding: EdgeInsets.symmetric(
+          horizontal: 2.0,
+          vertical: 2.0,
+        ),
+        decoration: BoxDecoration(
+          color: newBackgroundColor,
+          borderRadius: BorderRadius.circular(5),
+        ),
+        child: Image.asset(
+          "assets/images/nav_appointment.png",
+          color: logoRed,
+        ),
+      ),
+    ),
     TabItem(
       title: '',
       icon: Padding(
@@ -70,12 +98,39 @@ class DzorMapController extends BaseController {
       ),
     ),
     TabItem(
-        title: '',
-        icon: Icon(FontAwesomeIcons.pollH, color: backgroundWhiteCreamColor)),
+      title: '',
+      icon: Container(
+        padding: EdgeInsets.symmetric(
+          horizontal: 2.0,
+          vertical: 2.0,
+        ),
+        decoration: BoxDecoration(
+          color: newBackgroundColor,
+          borderRadius: BorderRadius.circular(5),
+        ),
+        child: Image.asset(
+          "assets/images/nav_orders.png",
+          color: logoRed,
+        ),
+      ),
+    ),
     TabItem(
-        title: '',
-        icon: Icon(FontAwesomeIcons.mapMarkerAlt,
-            color: backgroundWhiteCreamColor)),
+      title: '',
+      icon: Container(
+        padding: EdgeInsets.symmetric(
+          horizontal: 2.0,
+          vertical: 2.0,
+        ),
+        decoration: BoxDecoration(
+          color: newBackgroundColor,
+          borderRadius: BorderRadius.circular(5),
+        ),
+        child: Image.asset(
+          "assets/images/nav_map.png",
+          color: logoRed,
+        ),
+      ),
+    ),
   ];
 
   bool bottomNavigationOnTap(int i) {

@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:share/share.dart';
@@ -165,10 +168,11 @@ class _ExploreProductTileUIState extends State<ExploreProductTileUI> {
                             ],
                           ),
                           IconButton(
-                            icon: Image.asset(
-                              "assets/images/share_icon.png",
-                              width: 25,
-                              height: 25,
+                            icon: Icon(
+                              Platform.isIOS
+                                  ? CupertinoIcons.share
+                                  : Icons.share,
+                              size: 25,
                             ),
                             onPressed: () async {
                               await Share.share(
@@ -420,29 +424,6 @@ class _ExploreProductTileUIState extends State<ExploreProductTileUI> {
             ),
           ),
         ),
-        // Positioned(
-        //   bottom: 20,
-        //   right: 8,
-        //   child: Container(
-        //     decoration: BoxDecoration(
-        //       shape: BoxShape.circle,
-        //       color: Colors.white,
-        //     ),
-        //     child: IconButton(
-        //       icon: Image.asset(
-        //         "assets/images/share_icon.png",
-        //         width: 25,
-        //         height: 25,
-        //       ),
-        //       onPressed: () async {
-        //         await Share.share(
-        //           await locator<DynamicLinkService>()
-        //               .createLink(productLink + key),
-        //         );
-        //       },
-        //     ),
-        //   ),
-        // ),
         if (deals != null && deals != '')
           Positioned(
             top: 10,

@@ -1,6 +1,3 @@
-import 'package:compound/controllers/home_controller.dart';
-import 'package:compound/ui/widgets/login_bottomsheet.dart';
-import 'package:compound/ui/widgets/size_bottomsheet.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:location/location.dart';
@@ -20,6 +17,9 @@ import '../services/api/api_service.dart';
 import '../services/authentication_service.dart';
 import '../services/cart_local_store_service.dart';
 import '../services/navigation_service.dart';
+import '../ui/widgets/login_bottomsheet.dart';
+import '../ui/widgets/size_bottomsheet.dart';
+import 'home_controller.dart';
 
 class BaseController extends GetxController {
   final AuthenticationService _authenticationService =

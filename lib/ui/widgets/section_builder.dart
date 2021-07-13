@@ -1,4 +1,3 @@
-import 'package:compound/ui/shared/app_colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -14,12 +13,13 @@ import '../../models/productPageArg.dart';
 import '../../models/products.dart';
 import '../../models/sellers.dart';
 import '../../services/navigation_service.dart';
+import '../shared/app_colors.dart';
 import '../shared/ui_helpers.dart';
+import 'categoryTileUI.dart';
 import 'explore_product_tile.dart';
 import 'grid_list_widget.dart';
-import 'product_tile_ui.dart';
-import 'categoryTileUI.dart';
 import 'home_view_list_header.dart';
+import 'product_tile_ui.dart';
 import 'sellerTileUi.dart';
 import 'top_picks_deals_card.dart';
 

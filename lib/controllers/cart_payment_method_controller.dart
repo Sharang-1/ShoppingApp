@@ -1,8 +1,7 @@
-import 'package:compound/services/payment_service.dart';
-
 import '../locator.dart';
 import '../models/order.dart';
 import '../services/api/api_service.dart';
+import '../services/payment_service.dart';
 import 'base_controller.dart';
 
 class CartPaymentMethodController extends BaseController {
@@ -49,10 +48,14 @@ class CartPaymentMethodController extends BaseController {
     int qty,
     int paymentOptionId,
   ) async {
+    setBusy(true);
     final order = await _apiService.createOrder(billingAddress, productId,
         promoCode, promoCodeId, size, color, qty, paymentOptionId);
     if (order != null) {
-      if (order.payment.option.id != 2) return order;
+      if (order.payment.option.id != 2) {
+        setBusy(false);
+        return order;
+      }
 
       await _paymentService.makePayment(
         amount: order.orderCost.cost,
@@ -62,6 +65,7 @@ class CartPaymentMethodController extends BaseController {
         dzorOrderId: order.key,
       );
     }
+    setBusy(false);
     return null;
   }
 }

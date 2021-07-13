@@ -134,7 +134,9 @@ class _PaymentMethodState extends State<PaymentMethod> {
                         context: context,
                         builder: (context) => OrderDetailsBottomsheet(
                           orderDetails: widget.orderDetails,
-                          buttonText: paymentMethodGrpValue == 2 ? "Proceed to Pay":"Place Order",
+                          buttonText: paymentMethodGrpValue == 2
+                              ? "Proceed to Pay"
+                              : "Place Order",
                           onButtonPressed: () async =>
                               await makePayment(controller),
                           isPromocodeApplied: widget.promoCode.isNotEmpty,
@@ -177,7 +179,9 @@ class _PaymentMethodState extends State<PaymentMethod> {
                       child: Container(
                         alignment: Alignment.center,
                         child: Text(
-                          paymentMethodGrpValue == 2 ? "Proceed to Pay":"Place Order",
+                          paymentMethodGrpValue == 2
+                              ? "Proceed to Pay"
+                              : "Place Order",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
@@ -195,141 +199,148 @@ class _PaymentMethodState extends State<PaymentMethod> {
         ),
         body: SafeArea(
           bottom: false,
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.only(
-                left: screenPadding,
-                right: screenPadding,
-                top: 10,
-                bottom: 10,
-              ),
-              child: Column(
-                children: <Widget>[
-                  verticalSpaceTiny,
-                  Align(
-                    alignment: Alignment.bottomLeft,
+          child: controller.busy
+              ? Center(child: CircularProgressIndicator())
+              : SingleChildScrollView(
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      left: screenPadding,
+                      right: screenPadding,
+                      top: 10,
+                      bottom: 10,
+                    ),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
-                        // Row(
-                        //   children: <Widget>[
-                        //     CustomText(
-                        //       "Payment",
-                        //       fontSize: headingFontSizeStyle + 5,
-                        //       fontFamily: headingFont,
-                        //       fontWeight: FontWeight.w700,
-                        //     ),
-                        //     horizontalSpaceSmall,
-                        //     Icon(Icons.lock_outline),
-                        //   ],
-                        // ),
-                        // verticalSpaceSmall,
-                        // CustomText(
-                        //   rupeeUnicode +
-                        //       widget.finalTotal.replaceAll(rupeeUnicode, ""),
-                        //   fontSize: titleFontSizeStyle + 4,
-                        //   color: darkRedSmooth,
-                        //   isBold: true,
-                        // ),
-                        // verticalSpaceSmall,
-                        verticalSpace(10),
-                        const CutomStepper(
-                          step: 3,
-                        ),
-                        verticalSpace(20),
-                        CustomText(
-                          "  Pay On Delivery Via",
-                          fontSize: titleFontSizeStyle,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ],
-                    ),
-                  ),
-                  verticalSpaceSmall,
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.white,
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: controller.paymentOptions.keys.map(
-                        (int key) {
-                          return GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                paymentMethodGrpValue =
-                                    paymentMethodRadioValue = key;
-                              });
-                            },
-                            child: Container(
-                              margin:
-                                  EdgeInsets.only(bottom: spaceBetweenCards),
-                              decoration: BoxDecoration(
-                                border: Border(
-                                  bottom: BorderSide(
-                                    color: Colors.grey[200],
-                                  ),
-                                ),
+                        verticalSpaceTiny,
+                        Align(
+                          alignment: Alignment.bottomLeft,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              // Row(
+                              //   children: <Widget>[
+                              //     CustomText(
+                              //       "Payment",
+                              //       fontSize: headingFontSizeStyle + 5,
+                              //       fontFamily: headingFont,
+                              //       fontWeight: FontWeight.w700,
+                              //     ),
+                              //     horizontalSpaceSmall,
+                              //     Icon(Icons.lock_outline),
+                              //   ],
+                              // ),
+                              // verticalSpaceSmall,
+                              // CustomText(
+                              //   rupeeUnicode +
+                              //       widget.finalTotal.replaceAll(rupeeUnicode, ""),
+                              //   fontSize: titleFontSizeStyle + 4,
+                              //   color: darkRedSmooth,
+                              //   isBold: true,
+                              // ),
+                              // verticalSpaceSmall,
+                              verticalSpace(10),
+                              const CutomStepper(
+                                step: 3,
                               ),
-                              child: Card(
-                                elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(curve15),
-                                ),
-                                child: Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(0, 8, 8, 8),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Radio(
-                                        value: key,
-                                        groupValue: paymentMethodGrpValue,
-                                        onChanged: (val) {
-                                          // setState(() {
-                                          //   paymentMethodRadioValue = val;
-                                          // });
-                                          print(val);
-                                        },
+                              verticalSpace(20),
+                              CustomText(
+                                "  Pay On Delivery Via",
+                                fontSize: titleFontSizeStyle,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ],
+                          ),
+                        ),
+                        verticalSpaceSmall,
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.white,
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: controller.paymentOptions.keys.map(
+                              (int key) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      paymentMethodGrpValue =
+                                          paymentMethodRadioValue = key;
+                                    });
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.only(
+                                        bottom: spaceBetweenCards),
+                                    decoration: BoxDecoration(
+                                      border: Border(
+                                        bottom: BorderSide(
+                                          color: Colors.grey[200],
+                                        ),
                                       ),
-                                      Expanded(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            CustomText(
-                                              controller.paymentOptions[key],
-                                              fontSize: titleFontSizeStyle,
-                                              isBold: true,
-                                              color: Colors.grey[700],
+                                    ),
+                                    child: Card(
+                                      elevation: 0,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(curve15),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            0, 8, 8, 8),
+                                        child: Row(
+                                          children: <Widget>[
+                                            Radio(
+                                              value: key,
+                                              groupValue: paymentMethodGrpValue,
+                                              onChanged: (val) {
+                                                // setState(() {
+                                                //   paymentMethodRadioValue = val;
+                                                // });
+                                                print(val);
+                                              },
                                             ),
-                                            if (key == 2) verticalSpaceTiny,
-                                            if (key == 2)
-                                              CustomText(
-                                                "Debit Card, Credit Card, UPI, \nNetBanking",
-                                                fontSize: titleFontSize - 4,
-                                              )
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  CustomText(
+                                                    controller
+                                                        .paymentOptions[key],
+                                                    fontSize:
+                                                        titleFontSizeStyle,
+                                                    isBold: true,
+                                                    color: Colors.grey[700],
+                                                  ),
+                                                  if (key == 2)
+                                                    verticalSpaceTiny,
+                                                  if (key == 2)
+                                                    CustomText(
+                                                      "Debit Card, Credit Card, UPI, \nNetBanking",
+                                                      fontSize:
+                                                          titleFontSize - 4,
+                                                    )
+                                                ],
+                                              ),
+                                            ),
+                                            // Spacer(),
+                                            iconpaymentMethodMap[key],
+                                            horizontalSpaceTiny,
                                           ],
                                         ),
                                       ),
-                                      // Spacer(),
-                                      iconpaymentMethodMap[key],
-                                      horizontalSpaceTiny,
-                                    ],
+                                    ),
                                   ),
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                      ).toList(),
+                                );
+                              },
+                            ).toList(),
+                          ),
+                        )
+                      ],
                     ),
-                  )
-                ],
-              ),
-            ),
-          ),
+                  ),
+                ),
         ),
       ),
     );

@@ -1,5 +1,5 @@
-import 'package:compound/controllers/grid_view_builder/products_grid_view_builder_controller.dart';
-import 'package:compound/models/grid_view_builder_filter_models/productFilter.dart';
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -8,8 +8,10 @@ import 'package:share/share.dart';
 
 import '../../constants/dynamic_links.dart';
 import '../../controllers/base_controller.dart';
+import '../../controllers/grid_view_builder/products_grid_view_builder_controller.dart';
 import '../../controllers/grid_view_builder/wishlist_grid_view_builder_controller.dart';
 import '../../locator.dart';
+import '../../models/grid_view_builder_filter_models/productFilter.dart';
 import '../../models/products.dart';
 import '../../services/dynamic_link_service.dart';
 import '../shared/app_colors.dart';
@@ -131,10 +133,9 @@ class _PromotionProductState extends State<PromotionProduct> {
                             ),
                           );
                         },
-                        child: Image.asset(
-                          'assets/images/share_icon.png',
-                          width: 25,
-                          height: 25,
+                        child: Icon(
+                          Platform.isIOS ? CupertinoIcons.share : Icons.share,
+                          size: 25,
                         ),
                       ),
                     ),
@@ -147,7 +148,8 @@ class _PromotionProductState extends State<PromotionProduct> {
                       ? GridListWidget<Products, Product>(
                           key: promotionProductKey,
                           context: context,
-                          filter: ProductFilter(demographicIds: widget.demographicIds),
+                          filter: ProductFilter(
+                              demographicIds: widget.demographicIds),
                           gridCount: 2,
                           disablePagination: true,
                           controller: (widget?.demographicIds?.length ?? 0) == 0

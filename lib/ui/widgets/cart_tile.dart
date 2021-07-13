@@ -176,13 +176,23 @@ class _CartTileState extends State<CartTile> {
               onPressed: applyCoupon,
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8),
-                child: Text(
-                  "🎁 Apply Coupon",
-                  style: TextStyle(
-                    color: logoRed,
-                    // fontWeight: FontWeight.bold,
-                    fontSize: 12,
-                  ),
+                child: Row(
+                  children: [
+                    Image.asset(
+                      'assets/images/coupon.png',
+                      height: 20,
+                      width: 20,
+                    ),
+                    horizontalSpaceSmall,
+                    Text(
+                      "Apply Coupon",
+                      style: TextStyle(
+                        color: logoRed,
+                        // fontWeight: FontWeight.bold,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),

@@ -1,7 +1,6 @@
-import 'package:compound/models/products.dart';
-
 import '../../locator.dart';
 import '../../models/grid_view_builder_filter_models/base_filter_model.dart';
+import '../../models/products.dart';
 import '../../models/sellers.dart';
 import '../../services/api/api_service.dart';
 import 'base_grid_view_builder_controller.dart';

@@ -385,7 +385,9 @@ class DesignerTileUi extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Image.asset(
-                                  'assets/images/shop.png',
+                                  data?.establishmentType?.id == 1
+                                      ? 'assets/images/boutique.png'
+                                      : 'assets/images/shop.png',
                                   color: Colors.black,
                                   width: 18.0,
                                   height: 18.0,
@@ -483,7 +485,7 @@ class DesignerTileUi extends StatelessWidget {
                     ),
                   ],
                 ),
-                verticalSpaceSmall,
+                verticalSpaceTiny,
                 Padding(
                   padding: const EdgeInsets.only(left: 8.0),
                   child: Row(
@@ -505,22 +507,13 @@ class DesignerTileUi extends StatelessWidget {
                             Row(
                               children: [
                                 horizontalSpaceSmall,
-                                //TODO: If type is home boutique
-                                // Image.asset(
-                                //   'assets/images/boutique.png',
-                                //   color: logoRed,
-                                //   width: 22.0,
-                                //   height: 20.0,
-                                // ),
-                                // horizontalSpaceTiny,
-
-                                //TODO: if Seller Pro
-                                Image.asset(
-                                  'assets/images/stitching.png',
-                                  color: logoRed,
-                                  width: 24.0,
-                                  height: 24.0,
-                                ),
+                                if (data?.subscriptionType?.id == 1)
+                                  Image.asset(
+                                    'assets/images/stitching.png',
+                                    color: logoRed,
+                                    width: 24.0,
+                                    height: 24.0,
+                                  ),
                                 Image.asset(
                                   'assets/images/selling.png',
                                   color: logoRed,

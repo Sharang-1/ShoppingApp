@@ -1,4 +1,4 @@
-import 'package:compound/ui/shared/shared_styles.dart';
+import '../shared/shared_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

@@ -1,4 +1,5 @@
-import 'package:compound/services/cart_local_store_service.dart';
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -27,6 +28,7 @@ import '../../models/productPageArg.dart';
 import '../../models/products.dart';
 import '../../models/reviews.dart';
 import '../../services/api/api_service.dart';
+import '../../services/cart_local_store_service.dart';
 import '../../services/dialog_service.dart';
 import '../../services/dynamic_link_service.dart';
 import '../../services/error_handling_service.dart';
@@ -737,10 +739,11 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                               productId: productId,
                                               productName: productName);
                                         },
-                                        child: Image.asset(
-                                          "assets/images/share_icon.png",
-                                          width: 20,
-                                          height: 20,
+                                        child: Icon(
+                                          Platform.isIOS
+                                              ? CupertinoIcons.share
+                                              : Icons.share,
+                                          size: 20,
                                         ),
                                       ),
                                     ),
@@ -785,10 +788,15 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                 onTap: () async {
                                                   await Get.bottomSheet(
                                                     Container(
-                                                      padding:
-                                                          EdgeInsets.symmetric(
-                                                        vertical: 16.0,
-                                                        horizontal: 8.0,
+                                                      padding: EdgeInsets.only(
+                                                        top: 16.0,
+                                                        right: 8.0,
+                                                        left: 8.0,
+                                                        bottom: MediaQuery.of(
+                                                                    context)
+                                                                .padding
+                                                                .bottom +
+                                                            16.0,
                                                       ),
                                                       color: Colors.white,
                                                       child: Column(
@@ -798,12 +806,24 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                             CrossAxisAlignment
                                                                 .start,
                                                         children: [
-                                                          Text(
-                                                            "Coupon",
-                                                            style: TextStyle(
-                                                              fontSize: 16,
-                                                              color: logoRed,
-                                                            ),
+                                                          Row(
+                                                            children: [
+                                                              Image.asset(
+                                                                'assets/images/coupon.png',
+                                                                height: 20,
+                                                                width: 20,
+                                                              ),
+                                                              horizontalSpaceSmall,
+                                                              Text(
+                                                                "Deals",
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize: 18,
+                                                                  color:
+                                                                      logoRed,
+                                                                ),
+                                                              ),
+                                                            ],
                                                           ),
                                                           verticalSpaceSmall,
                                                           Row(
@@ -837,7 +857,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                                   style:
                                                                       TextStyle(
                                                                     fontSize:
-                                                                        16,
+                                                                        14,
                                                                   ),
                                                                 ),
                                                               ),
@@ -880,7 +900,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                               ),
                                                             ],
                                                           ),
-                                                          verticalSpaceSmall,
+                                                          verticalSpaceMedium,
                                                           Text(
                                                             "Get FLAT Rs. ${e.discount} off",
                                                             style: TextStyle(
@@ -890,7 +910,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                                       .bold,
                                                             ),
                                                           ),
-                                                          verticalSpaceMedium,
+                                                          verticalSpaceTiny,
                                                           Center(
                                                             child: Divider(
                                                               color: Colors
@@ -899,7 +919,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                           ),
                                                           verticalSpaceTiny,
                                                           Text(
-                                                            "Use Code ${e.code.toUpperCase()} and get FLAT Rs. ${e.discount} off on order above Rs.${e.minimumOrderValue}. No Upper Limit.",
+                                                            "Use Code ${e.code.toUpperCase()} and get FLAT Rs.${e.discount} off on order above Rs.${e.minimumOrderValue}.",
                                                             style: TextStyle(
                                                               fontSize: 12,
                                                             ),

@@ -1,10 +1,10 @@
-import 'package:compound/constants/route_names.dart';
-import 'package:compound/controllers/base_controller.dart';
-import 'package:compound/controllers/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../constants/route_names.dart';
 import '../../constants/server_urls.dart';
+import '../../controllers/base_controller.dart';
+import '../../controllers/home_controller.dart';
 import '../../controllers/wishlist_controller.dart';
 import '../../locator.dart';
 import '../../models/products.dart';

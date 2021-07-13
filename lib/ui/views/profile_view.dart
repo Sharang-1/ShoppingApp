@@ -30,25 +30,16 @@ class _ProfileViewState extends State<ProfileView> {
   bool isButtonActive;
   bool isEditable;
   final _formKey = GlobalKey<FormState>();
-  FocusNode nameFocusNode;
-  FocusNode emailFocusNode;
 
   void initState() {
     super.initState();
     initialString = "Dzor";
     isButtonActive = false;
     isEditable = false;
-
-    nameFocusNode = FocusNode();
-    emailFocusNode = FocusNode();
   }
 
   @override
   void dispose() {
-    // Clean up the focus node when the Form is disposed.
-    nameFocusNode.dispose();
-    emailFocusNode.dispose();
-    // mobileFocusNode.dispose();
     super.dispose();
   }
 
@@ -285,7 +276,6 @@ class _ProfileViewState extends State<ProfileView> {
                                             setState(() {
                                               isEditable = true;
                                             });
-                                            // nameFocusNode.requestFocus();
                                           },
                                         )
                                       ],
@@ -303,7 +293,6 @@ class _ProfileViewState extends State<ProfileView> {
                                         Expanded(
                                           flex: 7,
                                           child: TextFormField(
-                                            focusNode: nameFocusNode,
                                             style: TextStyle(
                                               fontSize: subtitleFontSizeStyle,
                                               fontWeight: FontWeight.w500,
@@ -328,14 +317,16 @@ class _ProfileViewState extends State<ProfileView> {
                                               controller.mUserDetails.name =
                                                   text;
                                             },
-                                            decoration: const InputDecoration(
+                                            decoration: InputDecoration(
                                               contentPadding:
                                                   EdgeInsets.symmetric(
-                                                vertical: 10,
-                                              ),
-                                              border: InputBorder.none,
+                                                      vertical: 10,
+                                                      horizontal: 8.0),
+                                              border: isEditable
+                                                  ? OutlineInputBorder()
+                                                  : InputBorder.none,
                                             ),
-                                            autofocus: true,
+                                            // autofocus: true,
                                             maxLines: 1,
                                           ),
                                         ),
@@ -371,11 +362,12 @@ class _ProfileViewState extends State<ProfileView> {
                                               contentPadding:
                                                   EdgeInsets.symmetric(
                                                 vertical: 10,
+                                                horizontal: 8.0,
                                               ),
                                               border: InputBorder.none,
                                             ),
                                             enabled: false,
-                                            autofocus: true,
+                                            // autofocus: true,
                                             maxLines: 1,
                                           ),
                                         ),
@@ -443,43 +435,49 @@ class _ProfileViewState extends State<ProfileView> {
                                         ),
                                         Expanded(
                                           flex: 7,
-                                          child: FittedBox(
-                                            fit: BoxFit.scaleDown,
-                                            alignment: Alignment.centerLeft,
-                                            child: DropdownButton<String>(
-                                              value:
-                                                  "${controller?.mUserDetails?.age?.id ?? 0}",
-                                              items: controller.ageLookup
-                                                  .map(
-                                                    (e) => DropdownMenuItem<
-                                                        String>(
-                                                      child: Text(e.name,
-                                                          style: TextStyle(
-                                                            fontSize:
-                                                                subtitleFontSizeStyle,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            color: Colors
-                                                                .grey[800],
-                                                          )),
-                                                      value: e.id.toString(),
-                                                    ),
-                                                  )
-                                                  .toList(),
-                                              onChanged: isEditable
-                                                  ? (value) {
-                                                      setState(() {
-                                                        controller.mUserDetails
-                                                                .age =
-                                                            Age(
-                                                                id: int.parse(
-                                                                    value));
-                                                        isButtonActive = true;
-                                                      });
-                                                      _formKey.currentState
-                                                          .validate();
-                                                    }
-                                                  : null,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 8.0),
+                                            child: FittedBox(
+                                              fit: BoxFit.scaleDown,
+                                              alignment: Alignment.centerLeft,
+                                              child: DropdownButton<String>(
+                                                value:
+                                                    "${controller?.mUserDetails?.age?.id ?? 0}",
+                                                items: controller.ageLookup
+                                                    .map(
+                                                      (e) => DropdownMenuItem<
+                                                          String>(
+                                                        child: Text(e.name,
+                                                            style: TextStyle(
+                                                              fontSize:
+                                                                  subtitleFontSizeStyle,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              color: Colors
+                                                                  .grey[800],
+                                                            )),
+                                                        value: e.id.toString(),
+                                                      ),
+                                                    )
+                                                    .toList(),
+                                                onChanged: isEditable
+                                                    ? (value) {
+                                                        setState(() {
+                                                          controller
+                                                                  .mUserDetails
+                                                                  .age =
+                                                              Age(
+                                                                  id: int.parse(
+                                                                      value));
+                                                          isButtonActive = true;
+                                                        });
+                                                        _formKey.currentState
+                                                            .validate();
+                                                      }
+                                                    : null,
+                                              ),
                                             ),
                                           ),
                                         ),
@@ -497,45 +495,50 @@ class _ProfileViewState extends State<ProfileView> {
                                         ),
                                         Expanded(
                                           flex: 7,
-                                          child: FittedBox(
-                                            fit: BoxFit.scaleDown,
-                                            alignment: Alignment.centerLeft,
-                                            child: DropdownButton<String>(
-                                              value:
-                                                  "${controller?.mUserDetails?.gender?.id ?? 0}",
-                                              items: controller.genderLookup
-                                                  .map(
-                                                    (e) => DropdownMenuItem<
-                                                        String>(
-                                                      child: Text(
-                                                        e.name,
-                                                        style: TextStyle(
-                                                          fontSize:
-                                                              subtitleFontSizeStyle,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          color:
-                                                              Colors.grey[800],
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 8.0),
+                                            child: FittedBox(
+                                              fit: BoxFit.scaleDown,
+                                              alignment: Alignment.centerLeft,
+                                              child: DropdownButton<String>(
+                                                value:
+                                                    "${controller?.mUserDetails?.gender?.id ?? 0}",
+                                                items: controller.genderLookup
+                                                    .map(
+                                                      (e) => DropdownMenuItem<
+                                                          String>(
+                                                        child: Text(
+                                                          e.name,
+                                                          style: TextStyle(
+                                                            fontSize:
+                                                                subtitleFontSizeStyle,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            color: Colors
+                                                                .grey[800],
+                                                          ),
                                                         ),
+                                                        value: e.id.toString(),
                                                       ),
-                                                      value: e.id.toString(),
-                                                    ),
-                                                  )
-                                                  .toList(),
-                                              onChanged: isEditable
-                                                  ? (value) {
-                                                      setState(() {
-                                                        controller.mUserDetails
-                                                                .gender =
-                                                            Gender(
-                                                                id: int.parse(
-                                                                    value));
-                                                        isButtonActive = true;
-                                                      });
-                                                      _formKey.currentState
-                                                          .validate();
-                                                    }
-                                                  : null,
+                                                    )
+                                                    .toList(),
+                                                onChanged: isEditable
+                                                    ? (value) {
+                                                        setState(() {
+                                                          controller
+                                                                  .mUserDetails
+                                                                  .gender =
+                                                              Gender(
+                                                                  id: int.parse(
+                                                                      value));
+                                                          isButtonActive = true;
+                                                        });
+                                                        _formKey.currentState
+                                                            .validate();
+                                                      }
+                                                    : null,
+                                              ),
                                             ),
                                           ),
                                         ),
@@ -557,89 +560,111 @@ class _ProfileViewState extends State<ProfileView> {
                                         ),
                                         Expanded(
                                           flex: 7,
-                                          child: InkWell(
-                                            onTap: isEditable
-                                                ? () async {
-                                                    PickResult pickedPlace =
-                                                        await Navigator.push(
-                                                      context,
-                                                      PageTransition(
-                                                        child:
-                                                            AddressInputPage(),
-                                                        type: PageTransitionType
-                                                            .rightToLeft,
-                                                      ),
-                                                    );
-                                                    if (pickedPlace != null) {
-                                                      // pickedPlace = (PickResult) pickedPlace;
-                                                      // print(pickedPlace);
-                                                      // controller.mUserDetails.contact
-                                                      //     .address = pickedPlace;
-
-                                                      UserDetailsContact
-                                                          userAdd =
-                                                          await showModalBottomSheet(
-                                                        context: context,
-                                                        isScrollControlled:
-                                                            true,
-                                                        builder: (_) =>
-                                                            BottomSheetForAddress(
-                                                          pickedPlace:
-                                                              pickedPlace,
+                                          child: Container(
+                                            decoration: isEditable
+                                                ? BoxDecoration(
+                                                    border: Border.all(
+                                                      color: Colors.grey,
+                                                      width: 1.0,
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5))
+                                                : BoxDecoration(),
+                                            padding: const EdgeInsets.only(
+                                                left: 8.0, top: 10, bottom: 10),
+                                            child: InkWell(
+                                              onTap: isEditable
+                                                  ? () async {
+                                                      PickResult pickedPlace =
+                                                          await Navigator.push(
+                                                        context,
+                                                        PageTransition(
+                                                          child:
+                                                              AddressInputPage(),
+                                                          type:
+                                                              PageTransitionType
+                                                                  .rightToLeft,
                                                         ),
                                                       );
-                                                      if (userAdd != null) {
-                                                        controller
-                                                                .mUserDetails
-                                                                .contact
-                                                                .googleAddress =
-                                                            userAdd
-                                                                .googleAddress;
-                                                        controller
-                                                                .mUserDetails
-                                                                .contact
-                                                                .address =
-                                                            userAdd.address;
-                                                        controller
-                                                                .mUserDetails
-                                                                .contact
-                                                                .pincode =
-                                                            userAdd.pincode;
-                                                        controller.mUserDetails
-                                                                .contact.state =
-                                                            userAdd.state;
-                                                        controller.mUserDetails
-                                                                .contact.city =
-                                                            userAdd.city;
-                                                        setState(() {
-                                                          isButtonActive = true;
-                                                        });
+                                                      if (pickedPlace != null) {
+                                                        // pickedPlace = (PickResult) pickedPlace;
+                                                        // print(pickedPlace);
+                                                        // controller.mUserDetails.contact
+                                                        //     .address = pickedPlace;
+
+                                                        UserDetailsContact
+                                                            userAdd =
+                                                            await showModalBottomSheet(
+                                                          context: context,
+                                                          isScrollControlled:
+                                                              true,
+                                                          builder: (_) =>
+                                                              BottomSheetForAddress(
+                                                            pickedPlace:
+                                                                pickedPlace,
+                                                          ),
+                                                        );
+                                                        if (userAdd != null) {
+                                                          controller
+                                                                  .mUserDetails
+                                                                  .contact
+                                                                  .googleAddress =
+                                                              userAdd
+                                                                  .googleAddress;
+                                                          controller
+                                                                  .mUserDetails
+                                                                  .contact
+                                                                  .address =
+                                                              userAdd.address;
+                                                          controller
+                                                                  .mUserDetails
+                                                                  .contact
+                                                                  .pincode =
+                                                              userAdd.pincode;
+                                                          controller
+                                                                  .mUserDetails
+                                                                  .contact
+                                                                  .state =
+                                                              userAdd.state;
+                                                          controller
+                                                                  .mUserDetails
+                                                                  .contact
+                                                                  .city =
+                                                              userAdd.city;
+                                                          setState(() {
+                                                            isButtonActive =
+                                                                true;
+                                                          });
+                                                        }
                                                       }
                                                     }
-                                                  }
-                                                : null,
-                                            child: (controller
-                                                            ?.mUserDetails
-                                                            ?.contact
-                                                            ?.address
-                                                            ?.length ??
-                                                        0) >
-                                                    0
-                                                ? CustomText(
-                                                    controller.mUserDetails
-                                                        .contact.address,
-                                                    color: Colors.grey[800],
-                                                    fontWeight: FontWeight.w400,
-                                                    fontSize:
-                                                        subtitleFontSizeStyle,
-                                                  )
-                                                : CustomText(
-                                                    "Add Address",
-                                                    color: logoRed,
-                                                    fontWeight: FontWeight.w600,
-                                                    fontSize:
-                                                        subtitleFontSizeStyle,
-                                                  ),
+                                                  : null,
+                                              child: (controller
+                                                              ?.mUserDetails
+                                                              ?.contact
+                                                              ?.address
+                                                              ?.length ??
+                                                          0) >
+                                                      0
+                                                  ? CustomText(
+                                                      controller.mUserDetails
+                                                          .contact.address,
+                                                      color: Colors.grey[800],
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      fontSize:
+                                                          subtitleFontSizeStyle,
+                                                    )
+                                                  : CustomText(
+                                                      "Add Address",
+                                                      color: logoRed,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontSize:
+                                                          subtitleFontSizeStyle,
+                                                    ),
+                                            ),
                                           ),
                                         ),
                                       ],
@@ -897,7 +922,7 @@ class _ProfileViewState extends State<ProfileView> {
                   ),
                 ),
               ),
-              autofocus: true,
+              // autofocus: true,
               maxLines: 1,
             ),
           ),

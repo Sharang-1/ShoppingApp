@@ -44,12 +44,16 @@ class HomeController extends BaseController {
     TabItem(
       title: '',
       icon: Container(
+        padding: EdgeInsets.symmetric(
+          horizontal: 2.0,
+          vertical: 2.0,
+        ),
         decoration: BoxDecoration(
           color: newBackgroundColor,
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(5),
         ),
-        child: Icon(
-          Icons.list,
+        child: Image.asset(
+          "assets/images/nav_categories.png",
           color: logoRed,
         ),
       ),
@@ -57,12 +61,16 @@ class HomeController extends BaseController {
     TabItem(
       title: '',
       icon: Container(
+        padding: EdgeInsets.symmetric(
+          horizontal: 2.0,
+          vertical: 2.0,
+        ),
         decoration: BoxDecoration(
           color: newBackgroundColor,
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(5),
         ),
         child: Image.asset(
-          "assets/images/appointments.png",
+          "assets/images/nav_appointment.png",
           color: logoRed,
         ),
       ),
@@ -82,12 +90,16 @@ class HomeController extends BaseController {
     TabItem(
       title: '',
       icon: Container(
+        padding: EdgeInsets.symmetric(
+          horizontal: 2.0,
+          vertical: 2.0,
+        ),
         decoration: BoxDecoration(
           color: newBackgroundColor,
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(5),
         ),
         child: Image.asset(
-          "assets/images/my_orders.png",
+          "assets/images/nav_orders.png",
           color: logoRed,
         ),
       ),
@@ -95,19 +107,19 @@ class HomeController extends BaseController {
     TabItem(
       title: '',
       icon: Container(
+        padding: EdgeInsets.symmetric(
+          horizontal: 2.0,
+          vertical: 2.0,
+        ),
         decoration: BoxDecoration(
           color: newBackgroundColor,
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(5),
         ),
         child: Image.asset(
-          "assets/images/dzor_map.png",
+          "assets/images/nav_map.png",
           color: logoRed,
         ),
       ),
-      // Icon(
-      //   FontAwesomeIcons.mapMarkerAlt,
-      //   color: backgroundWhiteCreamColor,
-      // ),
     ),
   ];
 

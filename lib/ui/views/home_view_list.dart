@@ -81,59 +81,6 @@ class HomeViewList extends StatelessWidget {
                   ),
                   scrollDirection: Axis.horizontal,
                 ),
-                SectionDivider(),
-                SectionBuilder(
-                  context: context,
-                  layoutType: LayoutType.DESIGNER_ID_3_LAYOUT,
-                  controller:
-                      SellersGridViewBuilderController(subscriptionType: 3),
-                  scrollDirection: Axis.horizontal,
-                ),
-                SectionDivider(),
-                SectionBuilder(
-                  key: productUniqueKey ?? UniqueKey(),
-                  context: context,
-                  layoutType: LayoutType.PRODUCT_LAYOUT_2,
-                  filter: ProductFilter(subCategories: ['1']),
-                  controller: ProductsGridViewBuilderController(
-                      randomize: true, limit: 10),
-                  scrollDirection: Axis.horizontal,
-                  header: SectionHeader(
-                    title: controller?.remoteConfig?.getString(
-                            HOMESCREEN_PRODUCT_SECTION_1_TITLE_EN) ??
-                        '',
-                    subTitle: controller?.remoteConfig?.getString(
-                            HOMESCREEN_PRODUCT_SECTION_1_SUBTITLE_EN) ??
-                        '',
-                    // viewAll: () => BaseController.goToProductListPage(
-                    //   ProductPageArg(
-                    //     queryString: 'category=1;',
-                    //     subCategory: '',
-                    //   ),
-                    // ),
-                  ),
-                ),
-                SectionDivider(),
-                SectionBuilder(
-                  key: sellerUniqueKey ?? UniqueKey(),
-                  context: context,
-                  layoutType: LayoutType.DESIGNER_ID_3_LAYOUT,
-                  fromHome: true,
-                  controller: SellersGridViewBuilderController(
-                    profileOnly: true,
-                    random: true,
-                    boutiquesOnly: true,
-                  ),
-                  scrollDirection: Axis.horizontal,
-                  header: SectionHeader(
-                    title: controller?.remoteConfig?.getString(
-                            HOMESCREEN_DESIGNER_SECTION_1_TITLE_EN) ??
-                        '',
-                    subTitle: controller?.remoteConfig?.getString(
-                            HOMESCREEN_DESIGNER_SECTION_1_SUBTITLE_EN) ??
-                        '',
-                  ),
-                ),
                 if ((controller?.bottomPromotion?.length ?? 0) > 0)
                   SectionDivider(),
                 if ((controller?.bottomPromotion?.length ?? 0) > 0)
@@ -190,66 +137,11 @@ class HomeViewList extends StatelessWidget {
                   ),
                 SectionDivider(),
                 SectionBuilder(
-                  key: productUniqueKey ?? UniqueKey(),
-                  context: context,
-                  filter: ProductFilter(maxPrice: 1750),
-                  layoutType: LayoutType.PRODUCT_LAYOUT_2,
-                  controller: ProductsGridViewBuilderController(limit: 10),
-                  scrollDirection: Axis.horizontal,
-                  header: SectionHeader(
-                    title: controller?.remoteConfig?.getString(
-                            HOMESCREEN_PRODUCT_SECTION_2_TITLE_EN) ??
-                        '',
-                    subTitle: controller?.remoteConfig?.getString(
-                            HOMESCREEN_PRODUCT_SECTION_2_SUBTITLE_EN) ??
-                        '',
-                    // viewAll: () => BaseController.goToProductListPage(
-                    //   ProductPageArg(
-                    //     queryString: '',
-                    //     subCategory: '',
-                    //   ),
-                    // ),
-                  ),
-                ),
-                SectionDivider(),
-                SectionBuilder(
-                  key: sellerUniqueKey ?? UniqueKey(),
                   context: context,
                   layoutType: LayoutType.DESIGNER_ID_3_LAYOUT,
-                  scrollDirection: Axis.horizontal,
-                  fromHome: true,
-                  toProduct: true,
-                  controller: SellersGridViewBuilderController(
-                    sellerDeliveringToYou: true,
-                    random: true,
-                    sellerWithNoProducts: false,
-                  ),
-                  header: SectionHeader(
-                    title: controller?.remoteConfig?.getString(
-                            HOMESCREEN_DESIGNER_SECTION_2_TITLE_EN) ??
-                        '',
-                    subTitle: controller?.remoteConfig?.getString(
-                            HOMESCREEN_DESIGNER_SECTION_2_SUBTITLE_EN) ??
-                        '',
-                  ),
-                ),
-                SectionDivider(),
-                SectionBuilder(
-                  key: productUniqueKey ?? UniqueKey(),
-                  context: context,
-                  layoutType: LayoutType.PRODUCT_LAYOUT_2,
-                  filter: ProductFilter(minDiscount: 5),
                   controller:
-                      ProductsGridViewBuilderController(randomize: true),
+                      SellersGridViewBuilderController(subscriptionType: 3),
                   scrollDirection: Axis.horizontal,
-                  header: SectionHeader(
-                    title: controller?.remoteConfig?.getString(
-                            HOMESCREEN_PRODUCT_SECTION_3_TITLE_EN) ??
-                        '',
-                    subTitle: controller?.remoteConfig?.getString(
-                            HOMESCREEN_PRODUCT_SECTION_3_SUBTITLE_EN) ??
-                        '',
-                  ),
                 ),
                 if ((controller?.bottomPromotion?.length ?? 0) > 1)
                   SectionDivider(),
@@ -264,7 +156,7 @@ class HomeViewList extends StatelessWidget {
                       print(productIds);
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
+                        new MaterialPageRoute(
                           builder: (context) => PromotionProduct(
                             promotionId: controller.bottomPromotion[1]?.key,
                             productIds: productIds ?? [],
@@ -296,7 +188,7 @@ class HomeViewList extends StatelessWidget {
                           child: Image(
                             fit: BoxFit.cover,
                             image: NetworkImage(
-                              controller.bottomPromotion[0]?.banner != null
+                              controller.bottomPromotion[1]?.banner != null
                                   ? "$PROMOTION_PHOTO_BASE_URL/${controller.bottomPromotion[1]?.key}"
                                   : "https://templates.designwizard.com/663467c0-7840-11e7-81f8-bf6782823ae8.jpg",
                             ),
@@ -307,56 +199,13 @@ class HomeViewList extends StatelessWidget {
                   ),
                 SectionDivider(),
                 SectionBuilder(
-                  key: productUniqueKey ?? UniqueKey(),
                   context: context,
-                  filter: ProductFilter(subCategories: ['9'], maxPrice: 600),
-                  layoutType: LayoutType.PRODUCT_LAYOUT_2,
+                  layoutType: LayoutType.DESIGNER_ID_1_2_LAYOUT,
+                  controller: SellersGridViewBuilderController(
+                    subscriptionTypes: [2],
+                    withProducts: true,
+                  ),
                   scrollDirection: Axis.horizontal,
-                  controller:
-                      ProductsGridViewBuilderController(randomize: true),
-                  header: SectionHeader(
-                    title: controller?.remoteConfig?.getString(
-                            HOMESCREEN_PRODUCT_SECTION_4_TITLE_EN) ??
-                        '',
-                    subTitle: controller?.remoteConfig?.getString(
-                            HOMESCREEN_PRODUCT_SECTION_4_SUBTITLE_EN) ??
-                        '',
-                  ),
-                ),
-                SectionDivider(),
-                SectionBuilder(
-                  key: categoryUniqueKey ?? UniqueKey(),
-                  context: context,
-                  gridCount: 2,
-                  scrollDirection: Axis.vertical,
-                  layoutType: LayoutType.CATEGORY_LAYOUT_2,
-                  withScrollBar: false,
-                  controller: CategoriesGridViewBuilderController(
-                    popularCategories: true,
-                  ),
-                  header: SectionHeader(
-                    title: 'Categories people are searching for 😊',
-                    subTitle: 'Explore the categories people are looking at',
-                    viewAll: BaseController.category,
-                  ),
-                ),
-                SectionDivider(),
-                SectionBuilder(
-                  key: productUniqueKey ?? UniqueKey(),
-                  context: context,
-                  layoutType: LayoutType.PRODUCT_LAYOUT_2,
-                  filter: ProductFilter(maxPrice: 450),
-                  controller: ProductsGridViewBuilderController(
-                      randomize: true, sameDayDelivery: true),
-                  scrollDirection: Axis.horizontal,
-                  header: SectionHeader(
-                    title: controller?.remoteConfig?.getString(
-                            HOMESCREEN_PRODUCT_SECTION_5_TITLE_EN) ??
-                        '',
-                    subTitle: controller?.remoteConfig?.getString(
-                            HOMESCREEN_PRODUCT_SECTION_5_SUBTITLE_EN) ??
-                        '',
-                  ),
                 ),
                 if ((controller?.bottomPromotion?.length ?? 0) > 2)
                   SectionDivider(),
@@ -402,10 +251,10 @@ class HomeViewList extends StatelessWidget {
                           borderRadius: BorderRadius.circular(curve15),
                           child: Image(
                             fit: BoxFit.cover,
-                            image: AssetImage(
-                              controller.bottomPromotion[0]?.banner != null
-                                  ? "assets/preloading1.png"
-                                  : "assets/preloading1.png",
+                            image: NetworkImage(
+                              controller.bottomPromotion[2]?.banner != null
+                                  ? "$PROMOTION_PHOTO_BASE_URL/${controller.bottomPromotion[2]?.key}"
+                                  : "https://templates.designwizard.com/663467c0-7840-11e7-81f8-bf6782823ae8.jpg",
                             ),
                           ),
                         ),
@@ -414,65 +263,13 @@ class HomeViewList extends StatelessWidget {
                   ),
                 SectionDivider(),
                 SectionBuilder(
-                  key: productUniqueKey ?? UniqueKey(),
                   context: context,
-                  layoutType: LayoutType.PRODUCT_LAYOUT_2,
-                  controller:
-                      ProductsGridViewBuilderController(randomize: true),
-                  scrollDirection: Axis.horizontal,
-                  header: SectionHeader(
-                    title: controller?.remoteConfig?.getString(
-                            HOMESCREEN_PRODUCT_SECTION_6_TITLE_EN) ??
-                        '',
-                    subTitle: controller?.remoteConfig?.getString(
-                            HOMESCREEN_PRODUCT_SECTION_6_SUBTITLE_EN) ??
-                        '',
-                  ),
-                ),
-                SectionDivider(),
-                SectionBuilder(
-                  key: sellerUniqueKey ?? UniqueKey(),
-                  context: context,
-                  layoutType: LayoutType.DESIGNER_ID_3_LAYOUT,
-                  scrollDirection: Axis.horizontal,
-                  fromHome: true,
-                  toProduct: true,
+                  layoutType: LayoutType.DESIGNER_ID_1_2_LAYOUT,
                   controller: SellersGridViewBuilderController(
-                    sellerDeliveringToYou: true,
-                    topSellers: true,
-                    sellerWithNoProducts: false,
+                    subscriptionTypes: [1],
+                    withProducts: true,
                   ),
-                  header: SectionHeader(
-                    title: controller?.remoteConfig?.getString(
-                            HOMESCREEN_DESIGNER_SECTION_3_TITLE_EN) ??
-                        '',
-                    subTitle: controller?.remoteConfig?.getString(
-                            HOMESCREEN_DESIGNER_SECTION_3_SUBTITLE_EN) ??
-                        '',
-                  ),
-                ),
-                SectionDivider(),
-                SectionBuilder(
-                  key: productUniqueKey ?? UniqueKey(),
-                  context: context,
-                  layoutType: LayoutType.PRODUCT_LAYOUT_2,
-                  controller: ProductsGridViewBuilderController(
-                      randomize: true, limit: 10),
                   scrollDirection: Axis.horizontal,
-                  header: SectionHeader(
-                    title: controller?.remoteConfig?.getString(
-                            HOMESCREEN_PRODUCT_SECTION_7_TITLE_EN) ??
-                        '',
-                    subTitle: controller?.remoteConfig?.getString(
-                            HOMESCREEN_PRODUCT_SECTION_7_SUBTITLE_EN) ??
-                        '',
-                    viewAll: () {
-                      BaseController.goToProductListPage(ProductPageArg(
-                        queryString: '',
-                        subCategory: '',
-                      ));
-                    },
-                  ),
                 ),
                 if ((controller?.bottomPromotion?.length ?? 0) > 3)
                   SectionDivider(),
@@ -518,10 +315,10 @@ class HomeViewList extends StatelessWidget {
                           borderRadius: BorderRadius.circular(curve15),
                           child: Image(
                             fit: BoxFit.cover,
-                            image: AssetImage(
-                              controller.bottomPromotion[0]?.banner != null
-                                  ? "assets/preloading1.png"
-                                  : "assets/preloading1.png",
+                            image: NetworkImage(
+                              controller.bottomPromotion[3]?.banner != null
+                                  ? "$PROMOTION_PHOTO_BASE_URL/${controller.bottomPromotion[3]?.key}"
+                                  : "https://templates.designwizard.com/663467c0-7840-11e7-81f8-bf6782823ae8.jpg",
                             ),
                           ),
                         ),
@@ -532,18 +329,262 @@ class HomeViewList extends StatelessWidget {
                 SectionBuilder(
                   key: productUniqueKey ?? UniqueKey(),
                   context: context,
-                  filter: ProductFilter(subCategories: ['11']),
                   layoutType: LayoutType.PRODUCT_LAYOUT_2,
+                  filter: ProductFilter(
+                    subCategories: [
+                      '1',
+                      '2',
+                      '3',
+                      '4',
+                      '5',
+                      '6',
+                      '7',
+                      '8',
+                      '12'
+                    ],
+                    maxPrice: 750,
+                  ),
+                  controller: ProductsGridViewBuilderController(
+                    randomize: true,
+                    limit: 10,
+                  ),
+                  scrollDirection: Axis.horizontal,
+                  header: SectionHeader(
+                    title: "Below ₹999",
+                    subTitle: controller?.remoteConfig?.getString(
+                            HOMESCREEN_PRODUCT_SECTION_1_SUBTITLE_EN) ??
+                        '',
+                    // viewAll: () => BaseController.goToProductListPage(
+                    //   ProductPageArg(
+                    //     queryString: 'category=1;',
+                    //     subCategory: '',
+                    //   ),
+                    // ),
+                  ),
+                ),
+                SectionDivider(),
+                SectionBuilder(
+                  key: sellerUniqueKey ?? UniqueKey(),
+                  context: context,
+                  layoutType: LayoutType.DESIGNER_ID_3_LAYOUT,
+                  fromHome: true,
+                  controller: SellersGridViewBuilderController(
+                    random: true,
+                    subscriptionType: 3,
+                  ),
+                  scrollDirection: Axis.horizontal,
+                ),
+                if ((controller?.bottomPromotion?.length ?? 0) > 4)
+                  SectionDivider(),
+                if ((controller?.bottomPromotion?.length ?? 0) > 4)
+                  GestureDetector(
+                    onTap: () {
+                      var promoTitle = controller.bottomPromotion[4]?.name;
+                      List<String> productIds = controller
+                          .bottomPromotion[4]?.products
+                          ?.map((e) => e.toString())
+                          ?.toList();
+                      print(productIds);
+                      Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                          builder: (context) => PromotionProduct(
+                            promotionId: controller.bottomPromotion[4]?.key,
+                            productIds: productIds ?? [],
+                            promotionTitle: promoTitle,
+                            demographicIds: controller
+                                .bottomPromotion[4]?.demographics
+                                ?.map((e) => e?.id)
+                                ?.toList(),
+                          ),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 5,
+                            blurRadius: 7,
+                            offset: Offset(0, 3), // changes position of shadow
+                          ),
+                        ],
+                      ),
+                      child: SizedBox(
+                        height: (MediaQuery.of(context).size.width) / 1.6,
+                        width: MediaQuery.of(context).size.width,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(curve15),
+                          child: Image(
+                            fit: BoxFit.cover,
+                            image: NetworkImage(
+                              controller.bottomPromotion[4]?.banner != null
+                                  ? "$PROMOTION_PHOTO_BASE_URL/${controller.bottomPromotion[4]?.key}"
+                                  : "https://templates.designwizard.com/663467c0-7840-11e7-81f8-bf6782823ae8.jpg",
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                SectionDivider(),
+                SectionBuilder(
+                  key: productUniqueKey ?? UniqueKey(),
+                  context: context,
+                  layoutType: LayoutType.PRODUCT_LAYOUT_2,
+                  filter: ProductFilter(minDiscount: 5),
                   controller:
                       ProductsGridViewBuilderController(randomize: true),
                   scrollDirection: Axis.horizontal,
                   header: SectionHeader(
                     title: controller?.remoteConfig?.getString(
-                            HOMESCREEN_PRODUCT_SECTION_8_TITLE_EN) ??
+                            HOMESCREEN_PRODUCT_SECTION_3_TITLE_EN) ??
                         '',
                     subTitle: controller?.remoteConfig?.getString(
-                            HOMESCREEN_PRODUCT_SECTION_8_SUBTITLE_EN) ??
+                            HOMESCREEN_PRODUCT_SECTION_3_SUBTITLE_EN) ??
                         '',
+                  ),
+                ),
+                if ((controller?.bottomPromotion?.length ?? 0) > 5)
+                  SectionDivider(),
+                if ((controller?.bottomPromotion?.length ?? 0) > 5)
+                  GestureDetector(
+                    onTap: () {
+                      var promoTitle = controller.bottomPromotion[5]?.name;
+                      List<String> productIds = controller
+                          .bottomPromotion[5]?.products
+                          ?.map((e) => e.toString())
+                          ?.toList();
+                      print(productIds);
+                      Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                          builder: (context) => PromotionProduct(
+                            promotionId: controller.bottomPromotion[5]?.key,
+                            productIds: productIds ?? [],
+                            promotionTitle: promoTitle,
+                            demographicIds: controller
+                                .bottomPromotion[5]?.demographics
+                                ?.map((e) => e?.id)
+                                ?.toList(),
+                          ),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 5,
+                            blurRadius: 7,
+                            offset: Offset(0, 3), // changes position of shadow
+                          ),
+                        ],
+                      ),
+                      child: SizedBox(
+                        height: (MediaQuery.of(context).size.width) / 1.6,
+                        width: MediaQuery.of(context).size.width,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(curve15),
+                          child: Image(
+                            fit: BoxFit.cover,
+                            image: NetworkImage(
+                              controller.bottomPromotion[5]?.banner != null
+                                  ? "$PROMOTION_PHOTO_BASE_URL/${controller.bottomPromotion[5]?.key}"
+                                  : "https://templates.designwizard.com/663467c0-7840-11e7-81f8-bf6782823ae8.jpg",
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                SectionDivider(),
+                SectionBuilder(
+                  context: context,
+                  layoutType: LayoutType.DESIGNER_ID_1_2_LAYOUT,
+                  controller: SellersGridViewBuilderController(
+                    subscriptionTypes: [1, 2],
+                    withProducts: true,
+                  ),
+                  scrollDirection: Axis.horizontal,
+                ),
+                if ((controller?.bottomPromotion?.length ?? 0) > 6)
+                  SectionDivider(),
+                if ((controller?.bottomPromotion?.length ?? 0) > 6)
+                  GestureDetector(
+                    onTap: () {
+                      var promoTitle = controller.bottomPromotion[6]?.name;
+                      List<String> productIds = controller
+                          .bottomPromotion[6]?.products
+                          ?.map((e) => e.toString())
+                          ?.toList();
+                      print(productIds);
+                      Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                          builder: (context) => PromotionProduct(
+                            promotionId: controller.bottomPromotion[6]?.key,
+                            productIds: productIds ?? [],
+                            promotionTitle: promoTitle,
+                            demographicIds: controller
+                                .bottomPromotion[6]?.demographics
+                                ?.map((e) => e?.id)
+                                ?.toList(),
+                          ),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 5,
+                            blurRadius: 7,
+                            offset: Offset(0, 3), // changes position of shadow
+                          ),
+                        ],
+                      ),
+                      child: SizedBox(
+                        height: (MediaQuery.of(context).size.width) / 1.6,
+                        width: MediaQuery.of(context).size.width,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(curve15),
+                          child: Image(
+                            fit: BoxFit.cover,
+                            image: NetworkImage(
+                              controller.bottomPromotion[6]?.banner != null
+                                  ? "$PROMOTION_PHOTO_BASE_URL/${controller.bottomPromotion[6]?.key}"
+                                  : "https://templates.designwizard.com/663467c0-7840-11e7-81f8-bf6782823ae8.jpg",
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                SectionDivider(),
+                SectionBuilder(
+                  key: productUniqueKey ?? UniqueKey(),
+                  context: context,
+                  layoutType: LayoutType.PRODUCT_LAYOUT_2,
+                  controller: ProductsGridViewBuilderController(
+                      randomize: true, limit: 10),
+                  scrollDirection: Axis.horizontal,
+                  header: SectionHeader(
+                    title: controller?.remoteConfig?.getString(
+                            HOMESCREEN_PRODUCT_SECTION_7_TITLE_EN) ??
+                        '',
+                    subTitle: controller?.remoteConfig?.getString(
+                            HOMESCREEN_PRODUCT_SECTION_7_SUBTITLE_EN) ??
+                        '',
+                    viewAll: () {
+                      BaseController.goToProductListPage(ProductPageArg(
+                        queryString: '',
+                        subCategory: '',
+                      ));
+                    },
                   ),
                 ),
                 SectionDivider(),

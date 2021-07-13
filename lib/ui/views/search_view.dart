@@ -12,10 +12,10 @@ import '../../models/products.dart';
 import '../../models/sellers.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
+import '../widgets/cart_icon_badge.dart';
 import '../widgets/grid_list_widget.dart';
 import '../widgets/product_filter_dialog.dart';
 import '../widgets/product_tile_ui.dart';
-import '../widgets/cart_icon_badge.dart';
 import '../widgets/sellerTileUi.dart';
 
 class SearchView extends StatefulWidget {

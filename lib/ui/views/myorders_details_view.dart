@@ -1,4 +1,3 @@
-import 'package:compound/ui/views/home_view_list.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
@@ -12,6 +11,7 @@ import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
 import '../widgets/custom_text.dart';
 import 'help_view.dart';
+import 'home_view_list.dart';
 
 class MyOrdersDetailsView extends StatefulWidget {
   final Order mOrder;

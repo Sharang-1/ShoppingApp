@@ -222,13 +222,23 @@ class _SelectPromocodeState extends State<SelectPromocode> {
                 if (widget.availableCoupons.isNotEmpty)
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Text(
-                      "🎁 Coupons For You !",
-                      style: TextStyle(
-                        fontFamily: headingFont,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 20,
-                      ),
+                    child: Row(
+                      children: [
+                        Image.asset(
+                          'assets/images/coupon.png',
+                          height: 24,
+                          width: 24,
+                        ),
+                        horizontalSpaceSmall,
+                        Text(
+                          "Coupons For You !",
+                          style: TextStyle(
+                            fontFamily: headingFont,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 verticalSpace(15),

@@ -1,4 +1,7 @@
 // import 'package:fimber/fimber_base.dart';
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -266,10 +269,9 @@ class _ProductListViewState extends State<ProductListView> {
               },
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Image.asset(
-                  'assets/images/share_icon.png',
-                  width: 25,
-                  height: 25,
+                child: Icon(
+                  Platform.isIOS ? CupertinoIcons.share : Icons.share,
+                  size: 25,
                 ),
               ),
             ),

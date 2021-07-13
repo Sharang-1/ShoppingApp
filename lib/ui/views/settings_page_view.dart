@@ -1,15 +1,18 @@
-import 'package:compound/constants/route_names.dart';
-import 'package:compound/controllers/home_controller.dart';
-import 'package:compound/controllers/user_details_controller.dart';
-import 'package:compound/services/navigation_service.dart';
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:open_appstore/open_appstore.dart';
 
+import '../../constants/route_names.dart';
 import '../../constants/server_urls.dart';
 import '../../controllers/base_controller.dart';
+import '../../controllers/home_controller.dart';
+import '../../controllers/user_details_controller.dart';
 import '../../locator.dart';
+import '../../services/navigation_service.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
@@ -38,7 +41,7 @@ class SettingsView extends StatelessWidget {
     2: FontAwesomeIcons.bookOpen,
     3: FontAwesomeIcons.phoneVolume,
     4: FontAwesomeIcons.solidNewspaper,
-    5: FontAwesomeIcons.share,
+    5: Platform.isIOS ? CupertinoIcons.share : Icons.share,
   };
 
   final Map<int, void Function()> settingOnTapMap = {
@@ -106,16 +109,18 @@ class SettingsView extends StatelessWidget {
                             horizontal: 16.0,
                           ),
                           child: InkWell(
-                            onTap: () async =>
-                                locator<HomeController>().isLoggedIn
-                                    ? await NavigationService.to(
-                                        ProfileViewRoute,
-                                        arguments: controller,
-                                      )
-                                    : await BaseController.showLoginPopup(
-                                        nextView: ProfileViewRoute,
-                                        shouldNavigateToNextScreen: true,
-                                      ),
+                            onTap: () async {
+                              if (locator<HomeController>().isLoggedIn)
+                                return await NavigationService.to(
+                                  ProfileViewRoute,
+                                  arguments: controller,
+                                );
+                              await BaseController.showLoginPopup(
+                                nextView: ProfileViewRoute,
+                                shouldNavigateToNextScreen: false,
+                              );
+                              await controller.getUserDetails();
+                            },
                             child: Container(
                               child: Row(
                                 mainAxisAlignment:
@@ -294,31 +299,36 @@ class SettingsView extends StatelessWidget {
                             ],
                           ),
                         ),
-                        verticalSpaceTiny,
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            FloatingActionButton.extended(
-                              backgroundColor: Colors.transparent,
-                              elevation: 0,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(curve30),
-                                side: BorderSide(color: logoRed, width: 2.5),
-                              ),
-                              onPressed: BaseController.logout,
-                              label: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 30.0),
-                                child: CustomText(
-                                  "Logout",
-                                  color: logoRed,
-                                  fontSize: 14,
-                                  isBold: true,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                        if (locator<HomeController>().isLoggedIn)
+                          verticalSpaceTiny,
+                        locator<HomeController>().isLoggedIn
+                            ? Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  FloatingActionButton.extended(
+                                    backgroundColor: Colors.transparent,
+                                    elevation: 0,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(curve30),
+                                      side: BorderSide(
+                                          color: logoRed, width: 2.5),
+                                    ),
+                                    onPressed: BaseController.logout,
+                                    label: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 30.0),
+                                      child: CustomText(
+                                        "Logout",
+                                        color: logoRed,
+                                        fontSize: 14,
+                                        isBold: true,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : verticalSpaceLarge,
                       ],
                     ),
                   ),
