@@ -119,7 +119,12 @@ class _HomeSliderState extends State<HomeSlider> {
                                     fit: BoxFit.contain,
                                     imageUrl: i,
                                     placeholder: (context, e) => Center(
-                                        child: CircularProgressIndicator()),
+                                      child: Image.asset(
+                                        "assets/images/loading_img.gif",
+                                        height: 50,
+                                        width: 50,
+                                      ),
+                                    ),
                                     errorWidget: (context, url, error) =>
                                         new Icon(Icons.error),
                                   ),
@@ -168,7 +173,12 @@ class _HomeSliderState extends State<HomeSlider> {
                                     fit: BoxFit.contain,
                                     imageUrl: widget.sizeChartUrl,
                                     placeholder: (context, e) => Center(
-                                        child: CircularProgressIndicator()),
+                                      child: Image.asset(
+                                        "assets/images/loading_img.gif",
+                                        height: 50,
+                                        width: 50,
+                                      ),
+                                    ),
                                     errorWidget: (context, url, error) =>
                                         new Icon(Icons.error),
                                   ),
@@ -179,7 +189,10 @@ class _HomeSliderState extends State<HomeSlider> {
                         ),
                     ]),
               ),
-              if (widget.imgList.length > 1 && (widget.fromExplore))
+              if (((widget?.imgList?.length ?? 0) +
+                          (widget?.videoList?.length ?? 0)) >
+                      1 &&
+                  (widget.fromExplore))
                 Positioned(
                   bottom: 0,
                   left: 0,
@@ -232,7 +245,11 @@ class _HomeSliderState extends State<HomeSlider> {
             ],
           ),
         ),
-        if (widget.imgList.length > 1 && !(widget.fromExplore))
+        if (((widget?.imgList?.length ?? 0) +
+                    (widget?.videoList?.length ?? 0) +
+                    (widget.sizeChartUrl == null ? 0 : 1)) >
+                1 &&
+            !(widget.fromExplore))
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -304,8 +321,13 @@ class _HomeSliderState extends State<HomeSlider> {
           ],
           initialIndex: index,
           scrollDirection: Axis.horizontal,
-          loadingBuilder: (context, e) =>
-              Center(child: CircularProgressIndicator()),
+          loadingBuilder: (context, e) => Center(
+            child: Image.asset(
+              "assets/images/loading_img.gif",
+              height: 50,
+              width: 50,
+            ),
+          ),
           backgroundDecoration: BoxDecoration(color: Colors.white),
         ),
       ),

@@ -57,8 +57,9 @@ class MapView extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: InkWell(
-        onTap: () => onCardTap(
-            dzorMapController: dzorMapController, index: index, client: client),
+        // onTap: () => onCardTap(
+        //     dzorMapController: dzorMapController, index: index, client: client),
+        onTap: () => BaseController.goToSellerPage(client.key),
         child: Card(
           clipBehavior: Clip.antiAlias,
           shape: RoundedRectangleBorder(
@@ -432,7 +433,7 @@ class MapView extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "${dzorMapController.cityName.toUpperCase()}",
+                    "${dzorMapController.cityName.capitalize}",
                     style: TextStyle(
                       color: textIconBlue,
                       fontSize: 16,

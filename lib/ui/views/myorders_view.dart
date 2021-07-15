@@ -110,7 +110,12 @@ class _MyOrdersViewState extends State<MyOrdersView> {
                       //   ],
                       // ),
                       // verticalSpace(10),
-                      if (controller.busy) CircularProgressIndicator(),
+                      if (controller.busy)
+                        Image.asset(
+                          "assets/images/loading_img.gif",
+                          height: 50,
+                          width: 50,
+                        ),
                       if (!controller.busy && controller.mOrders != null)
                         GroupedListView(
                           shrinkWrap: true,

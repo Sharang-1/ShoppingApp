@@ -43,36 +43,16 @@ class HomeController extends BaseController {
   final List<TabItem> navigationItems = [
     TabItem(
       title: '',
-      icon: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: 2.0,
-          vertical: 2.0,
-        ),
-        decoration: BoxDecoration(
-          color: newBackgroundColor,
-          borderRadius: BorderRadius.circular(5),
-        ),
-        child: Image.asset(
-          "assets/images/nav_categories.png",
-          color: logoRed,
-        ),
+      icon: Image.asset(
+        "assets/images/nav_categories.png",
+        color: newBackgroundColor,
       ),
     ),
     TabItem(
       title: '',
-      icon: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: 2.0,
-          vertical: 2.0,
-        ),
-        decoration: BoxDecoration(
-          color: newBackgroundColor,
-          borderRadius: BorderRadius.circular(5),
-        ),
-        child: Image.asset(
-          "assets/images/nav_appointment.png",
-          color: logoRed,
-        ),
+      icon: Image.asset(
+        "assets/images/nav_appointment.png",
+        color: newBackgroundColor,
       ),
     ),
     TabItem(
@@ -89,36 +69,16 @@ class HomeController extends BaseController {
     ),
     TabItem(
       title: '',
-      icon: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: 2.0,
-          vertical: 2.0,
-        ),
-        decoration: BoxDecoration(
-          color: newBackgroundColor,
-          borderRadius: BorderRadius.circular(5),
-        ),
-        child: Image.asset(
-          "assets/images/nav_orders.png",
-          color: logoRed,
-        ),
+      icon: Image.asset(
+        "assets/images/nav_orders.png",
+        color: newBackgroundColor,
       ),
     ),
     TabItem(
       title: '',
-      icon: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: 2.0,
-          vertical: 2.0,
-        ),
-        decoration: BoxDecoration(
-          color: newBackgroundColor,
-          borderRadius: BorderRadius.circular(5),
-        ),
-        child: Image.asset(
-          "assets/images/nav_map.png",
-          color: logoRed,
-        ),
+      icon: Image.asset(
+        "assets/images/nav_map.png",
+        color: newBackgroundColor,
       ),
     ),
   ];
@@ -176,6 +136,9 @@ class HomeController extends BaseController {
     bottomPromotion = promotions
         .where((element) => element.position.toLowerCase() == "bottom")
         .toList();
+
+    print("Top Promotions : ${topPromotion.length}");
+    print("Bottom Promotions : ${bottomPromotion.length}");
 
     await Future.delayed(Duration(milliseconds: 100));
     refreshController.refreshCompleted(resetFooterState: true);

@@ -81,7 +81,8 @@ class NewCategoryTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String name = data.name ?? "";
-    double titleFontSize = fromCategory ? 12.0 : 10.0;
+    // double titleFontSize = fromCategory ? 12.0 : 10.0;
+    double titleFontSize = 10.0;
 
     return Column(
       children: [

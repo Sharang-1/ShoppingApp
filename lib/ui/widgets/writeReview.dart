@@ -39,9 +39,8 @@ class _WriteReviewWidgetState extends State<WriteReviewWidget> {
                     toggleFormVisibility();
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: widget.fromProductList
-                        ? textIconOrange
-                        : Colors.white,
+                    primary:
+                        widget.fromProductList ? textIconOrange : Colors.white,
                     elevation: 0,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -70,7 +69,11 @@ class _WriteReviewWidgetState extends State<WriteReviewWidget> {
             ],
           )
         : (isBusyWritingReview
-            ? CircularProgressIndicator()
+            ? Image.asset(
+                "assets/images/loading_img.gif",
+                height: 50,
+                width: 50,
+              )
             : Card(
                 elevation: 3,
                 clipBehavior: Clip.antiAlias,
@@ -105,8 +108,7 @@ class _WriteReviewWidgetState extends State<WriteReviewWidget> {
                             direction: Axis.horizontal,
                             allowHalfRating: true,
                             itemCount: 5,
-                            itemPadding:
-                                EdgeInsets.symmetric(horizontal: 4.0),
+                            itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
                             unratedColor: Colors.grey[400],
                             itemBuilder: (context, _) => Icon(
                               Icons.star,
@@ -134,8 +136,8 @@ class _WriteReviewWidgetState extends State<WriteReviewWidget> {
                                     color: Colors.white,
                                   ),
                                   onPressed: () async {
-                                    await writeReview(widget.id,
-                                        selectedRating, textController.text,
+                                    await writeReview(widget.id, selectedRating,
+                                        textController.text,
                                         isSellerReview: widget.isSeller);
                                     textController.text = "";
                                     if (widget.onSubmit != null)

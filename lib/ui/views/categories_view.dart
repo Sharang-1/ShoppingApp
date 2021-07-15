@@ -74,7 +74,7 @@ class _CategoriesViewState extends State<CategoriesView> {
                         controller: CategoriesGridViewBuilderController(),
                         filter: categoryFilter,
                         scrollDirection: Axis.vertical,
-                        gridCount: 2,
+                        gridCount: 3,
                       ),
                     )
                   // ? GridListWidget<Categorys, Category>(

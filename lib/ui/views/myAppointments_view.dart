@@ -111,7 +111,12 @@ class _myAppointmentsState extends State<myAppointments> {
                         ],
                       ),
                       verticalSpace(20),
-                      if (controller.busy) CircularProgressIndicator(),
+                      if (controller.busy)
+                        Image.asset(
+                          "assets/images/loading_img.gif",
+                          height: 50,
+                          width: 50,
+                        ),
                       if (!controller.busy &&
                           (controller?.data?.appointments?.length ?? 0) == 0)
                         Padding(

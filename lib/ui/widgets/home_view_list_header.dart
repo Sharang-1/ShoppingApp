@@ -29,12 +29,13 @@ class HomeViewListHeader extends StatelessWidget {
                     fit: BoxFit.scaleDown,
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      title,
+                      title.toUpperCase(),
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         color: Colors.grey[800],
+                        letterSpacing: 1.0,
                         fontSize: titleFontSizeStyle,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w400,
                       ),
                     ),
                   ),
@@ -47,7 +48,7 @@ class HomeViewListHeader extends StatelessWidget {
                       style: TextStyle(
                         color: Colors.grey[600],
                         fontSize: subtitleFontSizeStyle,
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w300,
                       ),
                     ),
                 ],

@@ -24,11 +24,9 @@ class HelpView extends StatelessWidget {
                   Text("Useful Links!",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 18,
+                        fontSize: 16,
                       )),
-                  LinkWidget(
-                      name: "Return Policy",
-                      data: RETURN_POLICY_URL),
+                  LinkWidget(name: "Return Policy", data: RETURN_POLICY_URL),
                   LinkWidget(
                       name: "Terms and conditions",
                       data: TERMS_AND_CONDITIONS_URL),
@@ -36,7 +34,7 @@ class HelpView extends StatelessWidget {
                   Text("Email Us!",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 18,
+                        fontSize: 16,
                       )),
                   LinkWidget(
                       name: SUPPORT_EMAIL,
@@ -46,7 +44,7 @@ class HelpView extends StatelessWidget {
                   Text("Call Us!",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 18,
+                        fontSize: 16,
                       )),
                   LinkWidget(
                       name: "8511465948",
@@ -59,11 +57,11 @@ class HelpView extends StatelessWidget {
                   verticalSpaceMedium,
                   Text(
                     "We accept calls made between 10am and 6pm - Monday to Saturday.",
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(fontSize: titleFontSize),
                   ),
                   verticalSpaceSmall,
                   Text("We’ll be prompt to respond to your requests.",
-                      style: TextStyle(fontSize: 16)),
+                      style: TextStyle(fontSize: titleFontSize)),
                 ],
               ),
             ),
@@ -86,7 +84,7 @@ class HelpView extends StatelessWidget {
                 padding: EdgeInsets.only(top: 12.0),
                 child: Text(
                   "Help Desk",
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
               )),
           Align(
@@ -101,7 +99,7 @@ class HelpView extends StatelessWidget {
                         elevation: 3,
                         primary: Color.fromRGBO(37, 211, 102, 1),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
+                          borderRadius: BorderRadius.circular(10),
                         ),
                       ),
                       onPressed: () async =>
@@ -119,9 +117,10 @@ class HelpView extends StatelessWidget {
                             Text(
                               "Chat With Us ",
                               style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20),
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
                             ),
                           ],
                         ),

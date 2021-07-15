@@ -16,7 +16,7 @@ class OtpVerifiedView extends StatelessWidget {
       },
     );
     return Scaffold(
-      backgroundColor: backgroundWhiteCreamColor,
+      backgroundColor: newBackgroundColor,
       body: Center(
         child: Stack(
           alignment: Alignment.center,

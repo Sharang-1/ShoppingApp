@@ -141,7 +141,13 @@ class _CustomGridViewFutureBuilderState<P, I>
         switch (snapshots.connectionState) {
           case ConnectionState.waiting:
             return widget.loadingWidget == null
-                ? Center(child: CircularProgressIndicator())
+                ? Center(
+                    child: Image.asset(
+                      "assets/images/loading_img.gif",
+                      height: 50,
+                      width: 50,
+                    ),
+                  )
                 : widget.loadingWidget;
           case ConnectionState.done:
             print("snapshots.data");

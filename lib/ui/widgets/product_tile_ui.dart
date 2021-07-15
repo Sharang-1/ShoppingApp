@@ -170,6 +170,7 @@ class _ProductTileUIState extends State<ProductTileUI> {
                                               isWishlistIconFilled = false;
                                             });
                                           } else {
+                                            addToWishList(widget.data.key);
                                             setState(() {
                                               isWishlistIconFilled = true;
                                             });

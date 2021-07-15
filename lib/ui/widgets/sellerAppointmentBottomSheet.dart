@@ -22,7 +22,6 @@ class SellerBottomSheetView extends StatefulWidget {
 }
 
 class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
-
   AppointmentsController controller = AppointmentsController();
   String _taskMsg = "";
   Map<String, int> weekDayMap = {
@@ -36,14 +35,14 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
   };
 
   String getTime(int time) {
-      String meridien = "AM";
-      if ((time ~/ 12).isOdd) {
-        time = (time % 12);
-        meridien = "PM";
-      }
-      time = (time == 0) ? 12 : time;
-      return "${time.toString()} ${meridien.toString()}";
+    String meridien = "AM";
+    if ((time ~/ 12).isOdd) {
+      time = (time % 12);
+      meridien = "PM";
     }
+    time = (time == 0) ? 12 : time;
+    return "${time.toString()} ${meridien.toString()}";
+  }
 
   @override
   void initState() {
@@ -53,7 +52,6 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
 
   @override
   Widget build(BuildContext context) {
-
     return GetBuilder<AppointmentsController>(
         init: controller,
         builder: (controller) {
@@ -61,7 +59,13 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
             color: Colors.white,
             child: Stack(children: [
               controller.busy
-                  ? Center(child: CircularProgressIndicator())
+                  ? Center(
+                      child: Image.asset(
+                        "assets/images/loading_img.gif",
+                        height: 50,
+                        width: 50,
+                      ),
+                    )
                   : Padding(
                       padding: EdgeInsets.only(bottom: 60.0),
                       child: Scrollbar(
@@ -85,18 +89,20 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                           Expanded(
                                             flex: 3,
                                             child: Padding(
-                                              padding: const EdgeInsets.only(right: 12.0),
+                                              padding: const EdgeInsets.only(
+                                                  right: 12.0),
                                               child: FittedBox(
                                                 fit: BoxFit.scaleDown,
                                                 child: Container(
                                                   height: 300,
                                                   width: 300,
                                                   child: ClipOval(
-                                                    child:
-                                                        FadeInImage.assetNetwork(
+                                                    child: FadeInImage
+                                                        .assetNetwork(
                                                       width: 80,
                                                       height: 80,
-                                                      fadeInCurve: Curves.easeIn,
+                                                      fadeInCurve:
+                                                          Curves.easeIn,
                                                       placeholder:
                                                           "assets/images/product_preloading.png",
                                                       image: widget?.sellerData
@@ -104,10 +110,10 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                                               null
                                                           ? "$SELLER_PHOTO_BASE_URL/${widget?.sellerData?.key}"
                                                           : "https://images.unsplash.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-                                                      imageErrorBuilder: (context,
-                                                              error,
-                                                              stackTrace) =>
-                                                          Image.asset(
+                                                      imageErrorBuilder:
+                                                          (context, error,
+                                                                  stackTrace) =>
+                                                              Image.asset(
                                                         "assets/images/product_preloading.png",
                                                         width: 500,
                                                         height: 500,
@@ -395,9 +401,8 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                                                             .white,
                                                                 shape:
                                                                     RoundedRectangleBorder(
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(
-                                                                                15),
+                                                                        borderRadius: BorderRadius.circular(
+                                                                            15),
                                                                         side:
                                                                             BorderSide(
                                                                           color: controller.seltectedTime == time
@@ -422,9 +427,11 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                                                 selected: controller.seltectedTime == time,
                                                                 onSelected: (val) {
                                                                   setState(() {
-                                                                    controller.seltectedTime = val
-                                                                        ? time
-                                                                        : null;
+                                                                    controller
+                                                                            .seltectedTime =
+                                                                        val
+                                                                            ? time
+                                                                            : null;
                                                                     // selectedIndex = index;
                                                                   });
                                                                 })))

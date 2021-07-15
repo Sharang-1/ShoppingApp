@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:open_appstore/open_appstore.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../constants/route_names.dart';
 import '../../constants/server_urls.dart';
@@ -18,6 +19,7 @@ import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
 import '../widgets/bottom_tag.dart';
 import '../widgets/custom_text.dart';
+import 'help_view.dart';
 
 class SettingsView extends StatelessWidget {
   SettingsView({Key key}) : super(key: key);
@@ -31,9 +33,10 @@ class SettingsView extends StatelessWidget {
   final Map<int, String> settingNameMap = {
     1: "Rate The App",
     2: "Send Feedback",
-    3: "Customer Service",
+    3: "Customer Support",
     4: "Terms & Conditions",
     5: "Share with friends",
+    6: "About Dzor",
   };
 
   final Map<int, IconData> settingIconMap = {
@@ -42,6 +45,7 @@ class SettingsView extends StatelessWidget {
     3: FontAwesomeIcons.phoneVolume,
     4: FontAwesomeIcons.solidNewspaper,
     5: Platform.isIOS ? CupertinoIcons.share : Icons.share,
+    6: FontAwesomeIcons.infoCircle,
   };
 
   final Map<int, void Function()> settingOnTapMap = {
@@ -49,15 +53,26 @@ class SettingsView extends StatelessWidget {
         androidAppId: "in.dzor.dzor_app", iOSAppId: "1562083632"),
     2: () => OpenAppstore.launch(
         androidAppId: "in.dzor.dzor_app", iOSAppId: "1562083632"),
-    3: () => BaseController.launchURL(CONTACT_US_URL),
+    3: () => Get.bottomSheet(
+          HelpView(),
+          backgroundColor: Colors.white,
+          isScrollControlled: true,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(curve10),
+            ),
+          ),
+          clipBehavior: Clip.antiAlias,
+        ),
     4: () => BaseController.launchURL(TERMS_AND_CONDITIONS_URL),
     5: BaseController.shareApp,
+    6: () => launch("https://dzor.page.link/76UZ"),
   };
 
   final Map<int, List<int>> sectionsSettingsMap = {
     1: [2, 3, 5],
     2: [1],
-    3: [4]
+    3: [4, 6]
   };
 
   final AppBar appbar = AppBar(
@@ -199,7 +214,7 @@ class SettingsView extends StatelessWidget {
                                       icon: Icon(
                                         Icons.edit,
                                         color: Colors.black,
-                                        size: 25,
+                                        size: 20,
                                       ),
                                       onPressed: () => NavigationService.to(
                                         ProfileViewRoute,

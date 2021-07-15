@@ -22,10 +22,12 @@ class ReviewWidget extends StatelessWidget {
         contentPadding: EdgeInsets.all(0),
         child: ExpansionTile(
           title: Text(
-            isSeller ? "Ratings & Reviews" : "Item Ratings & Reviews",
+            (isSeller ? "Ratings & Reviews" : "Item Ratings & Reviews")
+                .toUpperCase(),
             style: TextStyle(
               fontSize: 14,
-              fontWeight: FontWeight.bold,
+              letterSpacing: 1.0,
+              // fontWeight: FontWeight.bold,
             ),
           ),
           subtitle: controller.reviews?.ratingAverage != null

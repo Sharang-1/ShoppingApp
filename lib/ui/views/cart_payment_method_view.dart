@@ -200,7 +200,13 @@ class _PaymentMethodState extends State<PaymentMethod> {
         body: SafeArea(
           bottom: false,
           child: controller.busy
-              ? Center(child: CircularProgressIndicator())
+              ? Center(
+                  child: Image.asset(
+                    "assets/images/loading_img.gif",
+                    height: 50,
+                    width: 50,
+                  ),
+                )
               : SingleChildScrollView(
                   child: Padding(
                     padding: EdgeInsets.only(

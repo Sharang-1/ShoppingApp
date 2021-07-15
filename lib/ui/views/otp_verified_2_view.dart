@@ -43,7 +43,7 @@ class _TextFadeState extends State<OtpVerifiedView2>
           () async => await NavigationService.off(LoaderRoute),
         );
         return Scaffold(
-          backgroundColor: backgroundWhiteCreamColor,
+          backgroundColor: newBackgroundColor,
           body: AnimatedBuilder(
             animation: _animation,
             child: Padding(

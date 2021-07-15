@@ -56,7 +56,6 @@ class _ProfileViewState extends State<ProfileView> {
 
           return DialogService.showCustomDialog(
             AlertDialog(
-              // title: new Text("Are you sure?"),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(15))),
               content: Padding(
@@ -177,7 +176,11 @@ class _ProfileViewState extends State<ProfileView> {
             bottom: false,
             child: controller.busy
                 ? Center(
-                    child: CircularProgressIndicator(),
+                    child: Image.asset(
+                      "assets/images/loading_img.gif",
+                      height: 50,
+                      width: 50,
+                    ),
                   )
                 : Scrollbar(
                     child: SingleChildScrollView(
@@ -272,6 +275,7 @@ class _ProfileViewState extends State<ProfileView> {
                                         ),
                                         IconButton(
                                           icon: Icon(Icons.edit),
+                                          iconSize: 18,
                                           onPressed: () {
                                             setState(() {
                                               isEditable = true;
@@ -560,208 +564,150 @@ class _ProfileViewState extends State<ProfileView> {
                                         ),
                                         Expanded(
                                           flex: 7,
-                                          child: Container(
-                                            decoration: isEditable
-                                                ? BoxDecoration(
-                                                    border: Border.all(
-                                                      color: Colors.grey,
-                                                      width: 1.0,
-                                                    ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            5))
-                                                : BoxDecoration(),
-                                            padding: const EdgeInsets.only(
-                                                left: 8.0, top: 10, bottom: 10),
-                                            child: InkWell(
-                                              onTap: isEditable
-                                                  ? () async {
-                                                      PickResult pickedPlace =
-                                                          await Navigator.push(
-                                                        context,
-                                                        PageTransition(
-                                                          child:
-                                                              AddressInputPage(),
-                                                          type:
-                                                              PageTransitionType
-                                                                  .rightToLeft,
+                                          child: InkWell(
+                                            onTap: isEditable
+                                                ? () async {
+                                                    PickResult pickedPlace =
+                                                        await Navigator.push(
+                                                      context,
+                                                      PageTransition(
+                                                        child:
+                                                            AddressInputPage(),
+                                                        type: PageTransitionType
+                                                            .rightToLeft,
+                                                      ),
+                                                    );
+                                                    if (pickedPlace != null) {
+                                                      // pickedPlace = (PickResult) pickedPlace;
+                                                      // print(pickedPlace);
+                                                      // controller.mUserDetails.contact
+                                                      //     .address = pickedPlace;
+
+                                                      UserDetailsContact
+                                                          userAdd =
+                                                          await showModalBottomSheet(
+                                                        context: context,
+                                                        isScrollControlled:
+                                                            true,
+                                                        builder: (_) =>
+                                                            BottomSheetForAddress(
+                                                          pickedPlace:
+                                                              pickedPlace,
                                                         ),
                                                       );
-                                                      if (pickedPlace != null) {
-                                                        // pickedPlace = (PickResult) pickedPlace;
-                                                        // print(pickedPlace);
-                                                        // controller.mUserDetails.contact
-                                                        //     .address = pickedPlace;
-
-                                                        UserDetailsContact
-                                                            userAdd =
-                                                            await showModalBottomSheet(
-                                                          context: context,
-                                                          isScrollControlled:
-                                                              true,
-                                                          builder: (_) =>
-                                                              BottomSheetForAddress(
-                                                            pickedPlace:
-                                                                pickedPlace,
-                                                          ),
-                                                        );
-                                                        if (userAdd != null) {
-                                                          controller
-                                                                  .mUserDetails
-                                                                  .contact
-                                                                  .googleAddress =
-                                                              userAdd
-                                                                  .googleAddress;
-                                                          controller
-                                                                  .mUserDetails
-                                                                  .contact
-                                                                  .address =
-                                                              userAdd.address;
-                                                          controller
-                                                                  .mUserDetails
-                                                                  .contact
-                                                                  .pincode =
-                                                              userAdd.pincode;
-                                                          controller
-                                                                  .mUserDetails
-                                                                  .contact
-                                                                  .state =
-                                                              userAdd.state;
-                                                          controller
-                                                                  .mUserDetails
-                                                                  .contact
-                                                                  .city =
-                                                              userAdd.city;
-                                                          setState(() {
-                                                            isButtonActive =
-                                                                true;
-                                                          });
-                                                        }
+                                                      if (userAdd != null) {
+                                                        controller
+                                                                .mUserDetails
+                                                                .contact
+                                                                .googleAddress =
+                                                            userAdd
+                                                                .googleAddress;
+                                                        controller
+                                                                .mUserDetails
+                                                                .contact
+                                                                .address =
+                                                            userAdd.address;
+                                                        controller
+                                                                .mUserDetails
+                                                                .contact
+                                                                .pincode =
+                                                            userAdd.pincode;
+                                                        controller.mUserDetails
+                                                                .contact.state =
+                                                            userAdd.state;
+                                                        controller.mUserDetails
+                                                                .contact.city =
+                                                            userAdd.city;
+                                                        setState(() {
+                                                          isButtonActive = true;
+                                                        });
                                                       }
                                                     }
-                                                  : null,
-                                              child: (controller
-                                                              ?.mUserDetails
-                                                              ?.contact
-                                                              ?.address
-                                                              ?.length ??
-                                                          0) >
-                                                      0
-                                                  ? CustomText(
-                                                      controller.mUserDetails
-                                                          .contact.address,
-                                                      color: Colors.grey[800],
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      fontSize:
-                                                          subtitleFontSizeStyle,
-                                                    )
-                                                  : CustomText(
-                                                      "Add Address",
-                                                      color: logoRed,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      fontSize:
-                                                          subtitleFontSizeStyle,
-                                                    ),
+                                                  }
+                                                : null,
+                                            child: Row(
+                                              children: [
+                                                Expanded(
+                                                  child: Container(
+                                                    decoration: isEditable
+                                                        ? BoxDecoration(
+                                                            border: Border.all(
+                                                              color:
+                                                                  Colors.grey,
+                                                              width: 1.0,
+                                                            ),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        5))
+                                                        : BoxDecoration(),
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 8.0,
+                                                            top: 10,
+                                                            bottom: 10),
+                                                    child: (controller
+                                                                    ?.mUserDetails
+                                                                    ?.contact
+                                                                    ?.address
+                                                                    ?.length ??
+                                                                0) >
+                                                            0
+                                                        ? CustomText(
+                                                            controller
+                                                                .mUserDetails
+                                                                .contact
+                                                                .address,
+                                                            color: Colors
+                                                                .grey[800],
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            fontSize:
+                                                                subtitleFontSizeStyle,
+                                                          )
+                                                        : CustomText(
+                                                            "Add Address",
+                                                            color: logoRed,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            fontSize:
+                                                                subtitleFontSizeStyle,
+                                                          ),
+                                                  ),
+                                                ),
+                                                if (isEditable &&
+                                                    ((controller
+                                                                ?.mUserDetails
+                                                                ?.contact
+                                                                ?.address
+                                                                ?.length ??
+                                                            0) >
+                                                        0))
+                                                  horizontalSpaceTiny,
+                                                if (isEditable &&
+                                                    ((controller
+                                                                ?.mUserDetails
+                                                                ?.contact
+                                                                ?.address
+                                                                ?.length ??
+                                                            0) >
+                                                        0))
+                                                  CustomText(
+                                                    "Change",
+                                                    color: logoRed,
+                                                    fontSize: subtitleFontSize,
+                                                  ),
+                                              ],
                                             ),
                                           ),
                                         ),
                                       ],
                                     ),
-                                    // verticalSpaceMedium,
-                                    // Container(
-                                    //   padding: EdgeInsets.symmetric(
-                                    //       horizontal: 16.0),
-                                    //   child: ElevatedButton(
-                                    //       style: ElevatedButton.styleFrom(
-                                    //         elevation: 0,
-                                    //         primary: darkRedSmooth,
-                                    //         shape: RoundedRectangleBorder(
-                                    //           borderRadius:
-                                    //               BorderRadius.circular(10),
-                                    //         ),
-                                    //       ),
-                                    //       onPressed: () async {
-                                    //         PickResult pickedPlace =
-                                    //             await Navigator.push(
-                                    //           context,
-                                    //           PageTransition(
-                                    //             child: AddressInputPage(),
-                                    //             type: PageTransitionType
-                                    //                 .rightToLeft,
-                                    //           ),
-                                    //         );
-                                    //         if (pickedPlace != null) {
-                                    //           // pickedPlace = (PickResult) pickedPlace;
-                                    //           // print(pickedPlace);
-                                    //           // controller.mUserDetails.contact
-                                    //           //     .address = pickedPlace;
-
-                                    //           UserDetailsContact userAdd =
-                                    //               await showModalBottomSheet(
-                                    //             context: context,
-                                    //             isScrollControlled: true,
-                                    //             builder: (_) =>
-                                    //                 BottomSheetForAddress(
-                                    //               pickedPlace: pickedPlace,
-                                    //             ),
-                                    //           );
-                                    //           if (userAdd != null) {
-                                    //             controller.mUserDetails.contact
-                                    //                     .googleAddress =
-                                    //                 userAdd.googleAddress;
-                                    //             controller.mUserDetails.contact
-                                    //                 .address = userAdd.address;
-                                    //             controller.mUserDetails.contact
-                                    //                 .pincode = userAdd.pincode;
-                                    //             controller.mUserDetails.contact
-                                    //                 .state = userAdd.state;
-                                    //             controller.mUserDetails.contact
-                                    //                 .city = userAdd.city;
-                                    //             setState(() {
-                                    //               isButtonActive = true;
-                                    //             });
-                                    //           }
-                                    //         }
-                                    //       },
-                                    //       child: Row(
-                                    //         mainAxisAlignment:
-                                    //             MainAxisAlignment.center,
-                                    //         children: <Widget>[
-                                    //           SvgPicture.asset(
-                                    //             "assets/svg/address.svg",
-                                    //             color: Colors.white,
-                                    //             width: 25,
-                                    //             height: 25,
-                                    //           ),
-                                    //           horizontalSpaceSmall,
-                                    //           Padding(
-                                    //             padding:
-                                    //                 const EdgeInsets.symmetric(
-                                    //                     vertical: 15),
-                                    //             child: CustomText(
-                                    //               controller
-                                    //                           .mUserDetails
-                                    //                           .contact
-                                    //                           .address !=
-                                    //                       ""
-                                    //                   ? "Change Address"
-                                    //                   : "Add Address",
-                                    //               isBold: true,
-                                    //               fontSize: 14,
-                                    //               color: Colors.white,
-                                    //             ),
-                                    //           ),
-                                    //         ],
-                                    //       )),
-                                    // ),
                                     verticalSpaceLarge,
                                     CustomText(
-                                      "My Measurements",
+                                      "My Measurements".toUpperCase(),
                                       fontSize: 16,
                                     ),
-                                    // verticalSpaceSmall,
                                     SizedBox(
                                       height: Get.height / 2,
                                       child: Row(
@@ -922,7 +868,6 @@ class _ProfileViewState extends State<ProfileView> {
                   ),
                 ),
               ),
-              // autofocus: true,
               maxLines: 1,
             ),
           ),

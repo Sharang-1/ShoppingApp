@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../shared/ui_helpers.dart';
+
 class LinkWidget extends StatelessWidget {
   LinkWidget({Key key, this.name, this.linkType = LinkType.webLink, this.data}) : super(key: key);
 
@@ -22,7 +24,7 @@ class LinkWidget extends StatelessWidget {
         },
         child: Text(
           name,
-          style: TextStyle(color: Colors.blue, fontSize: 18),
+          style: TextStyle(color: Colors.blue, fontSize: titleFontSize + 2),
         ),
       ),
     );

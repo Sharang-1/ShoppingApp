@@ -1,3 +1,4 @@
+import 'package:compound/ui/shared/shared_styles.dart';
 import 'package:flutter/material.dart';
 
 import '../../controllers/grid_view_builder/products_grid_view_builder_controller.dart';
@@ -29,15 +30,16 @@ class PairItWithWidget extends StatelessWidget {
             Expanded(
               flex: 2,
               child: FittedBox(
+                fit: BoxFit.scaleDown,
                 alignment: Alignment.centerLeft,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Text(
                     "Pair It With",
                     style: TextStyle(
-                      fontSize: 12,
-                      color: logoRed,
-                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.0,
+                      fontSize: titleFontSizeStyle + 2,
+                      fontWeight: FontWeight.w400,
                     ),
                   ),
                 ),
@@ -75,8 +77,6 @@ class PairItWithWidget extends StatelessWidget {
                     ),
                   );
                 },
-                // ),
-                // ),
               ),
             ),
           ],

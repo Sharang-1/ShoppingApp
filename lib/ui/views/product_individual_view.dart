@@ -23,7 +23,6 @@ import '../../controllers/home_controller.dart';
 import '../../controllers/product_controller.dart';
 import '../../locator.dart';
 import '../../models/grid_view_builder_filter_models/productFilter.dart';
-import '../../models/lookups.dart';
 import '../../models/productPageArg.dart';
 import '../../models/products.dart';
 import '../../models/reviews.dart';
@@ -41,6 +40,7 @@ import '../shared/ui_helpers.dart';
 import '../views/home_view_slider.dart';
 import '../widgets/cart_icon_badge.dart';
 import '../widgets/custom_text.dart';
+import '../widgets/product_description_table.dart';
 import '../widgets/reviews.dart';
 import '../widgets/section_builder.dart';
 import '../widgets/wishlist_icon.dart';
@@ -150,7 +150,11 @@ class _ProductIndiViewState extends State<ProductIndiView> {
           initialIndex: 0,
           showImageLabel: false,
           loadingBuilder: (context, e) => Center(
-            child: CircularProgressIndicator(),
+            child: Image.asset(
+              "assets/images/loading_img.gif",
+              height: 50,
+              width: 50,
+            ),
           ),
           backgroundDecoration: BoxDecoration(color: Colors.white),
           appbarColor: Colors.white,
@@ -692,7 +696,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                               ),
                             Positioned(
                               bottom: 32,
-                              left: 8,
+                              right: 8,
                               child: Container(
                                 padding: EdgeInsets.all(8.0),
                                 decoration: BoxDecoration(
@@ -807,21 +811,42 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                                 .start,
                                                         children: [
                                                           Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
                                                             children: [
-                                                              Image.asset(
-                                                                'assets/images/coupon.png',
-                                                                height: 20,
-                                                                width: 20,
+                                                              Row(
+                                                                children: [
+                                                                  Image.asset(
+                                                                    'assets/images/coupon.png',
+                                                                    height: 20,
+                                                                    width: 20,
+                                                                  ),
+                                                                  horizontalSpaceSmall,
+                                                                  Text(
+                                                                    "Deals",
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          18,
+                                                                      color:
+                                                                          logoRed,
+                                                                    ),
+                                                                  ),
+                                                                ],
                                                               ),
-                                                              horizontalSpaceSmall,
-                                                              Text(
-                                                                "Deals",
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize: 18,
-                                                                  color:
-                                                                      logoRed,
-                                                                ),
+                                                              IconButton(
+                                                                tooltip:
+                                                                    "Close",
+                                                                iconSize: 28,
+                                                                icon: Icon(
+                                                                    CupertinoIcons
+                                                                        .clear_circled_solid),
+                                                                color: Colors
+                                                                    .grey[500],
+                                                                onPressed: () =>
+                                                                    NavigationService
+                                                                        .back(),
                                                               ),
                                                             ],
                                                           ),
@@ -1459,8 +1484,10 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                           color: Colors.grey.withOpacity(0.5),
                                           height: 1),
                                       ProductDescriptionTable(
-                                          product: productData,
-                                          controller: controller),
+                                        product: productData,
+                                        controller: controller,
+                                        workOnMap: workOnMap,
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -1855,295 +1882,6 @@ class _ProductIndiViewState extends State<ProductIndiView> {
         color: Colors.grey[300],
         thickness: 1.0,
       ),
-    );
-  }
-}
-
-class ProductDescriptionTable extends StatelessWidget {
-  const ProductDescriptionTable({
-    Key key,
-    @required this.product,
-    @required this.controller,
-  }) : super(key: key);
-
-  final ProductController controller;
-  final Product product;
-
-  String getNameFromLookupId(Lookups section, String option, num id) {
-    return section?.sections
-            ?.where((element) =>
-                element?.option?.toLowerCase() == option?.toLowerCase())
-            ?.first
-            ?.values
-            ?.where((element) => element?.id == id)
-            ?.first
-            ?.name ??
-        "No Lookup Found";
-  }
-
-  String getWorkOn(List<BlousePadding> workOn) {
-    List<String> workOnStrings = [];
-    workOn.forEach((e) => workOnStrings.add(workOnMap[e.id]));
-    return workOnStrings.join(', ');
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: controller.getLookups(),
-      builder: (c, AsyncSnapshot<List<Lookups>> s) {
-        if (s.connectionState == ConnectionState.done) {
-          if (s.error != null) {
-            return Container(
-              child: Text(
-                s.error.toString(),
-              ),
-            );
-          }
-
-          var lookups = s.data;
-          if (lookups == null) {
-            return Container();
-          }
-          var productSection = lookups
-              .where(
-                  (element) => element.sectionName.toLowerCase() == "product")
-              .first;
-          if (productSection == null) {
-            return Container();
-          }
-          return Table(
-            children: [
-              // divider,
-              if (product?.fabricDetails != null &&
-                  product?.fabricDetails != "")
-                getProductDetailsRow(
-                  "Fabric Feel",
-                  product?.fabricDetails,
-                ),
-              // divider,
-              if (product?.typeOfWork != null && product?.typeOfWork != "")
-                getProductDetailsRow(
-                  "Type Of Work",
-                  product?.typeOfWork,
-                ),
-              // divider,
-              if (product?.neck != null && product?.neck != "")
-                getProductDetailsRow("Neck", product?.neck?.toString()),
-              // divider,
-              if (product?.waist != null)
-                getProductDetailsRow("Waist", product?.waist?.toString()),
-              // divider,
-              if (product?.typeOfSaree != null && product?.typeOfSaree != "")
-                getProductDetailsRow("Type of Saree", product?.typeOfSaree),
-              // divider,
-              if (product?.pieces != null && product?.pieces?.id != -1)
-                getProductDetailsRow(
-                    "Pieces",
-                    getNameFromLookupId(
-                        productSection, "pieces", product?.pieces?.id)),
-              // divider,
-              if (product?.workOn != null && product?.workOn?.length != 0)
-                getProductDetailsRow("Work on", getWorkOn(product?.workOn)),
-              // divider,
-              if (product?.topsLength != null && product?.topsLength?.id != -1)
-                getProductDetailsRow(
-                    "Top's length",
-                    getNameFromLookupId(
-                        productSection, "topsLength", product?.topsLength?.id)),
-              // divider,
-              if (product?.made != null && product?.made?.id != -1)
-                getProductDetailsRow(
-                    "Made",
-                    getNameFromLookupId(
-                        productSection, "made", product?.made?.id)),
-              // divider,
-              // if (product?.whoMadeIt != null && product?.whoMadeIt?.id != -1)
-              //   getProductDetailsRow(
-              //       "Who Made It",
-              //       getNameFromLookupId(
-              //           productSection, "whoMadeIt", product?.whoMadeIt?.id)),
-              // divider,
-              if (product?.flair != null)
-                getProductDetailsRow("Flair", product?.flair?.toString()),
-              // divider,
-              if ((product?.washing != null) && (product?.washing != ''))
-                getProductDetailsRow("Washing", product?.washing?.toString()),
-              // divider,
-              if (product?.pricePerMeter != null)
-                getProductDetailsRow(
-                    "Price Per Meter", product?.pricePerMeter?.toString()),
-              // divider,
-              if ((product?.hangings != null) && (product?.category?.id == 7))
-                getProductDetailsRow(
-                  "Hangings",
-                  product.hangings ? "Yes" : "No",
-                ),
-              // divider,
-              if ((product?.occasionToWearIn != null) &&
-                  (product?.occasionToWearIn != ''))
-                getProductDetailsRow(
-                  "Occasion To Wear In",
-                  product?.occasionToWearIn?.toString(),
-                ),
-
-              // divider,
-              if ((product?.made != null) && (product?.made?.id != -1))
-                getProductDetailsRow(
-                  "Made",
-                  product?.made?.id == 1 ? "Made on Demand" : "Ready Made",
-                ),
-
-              // divider,
-              if ((product?.whatDoesItHave != null) &&
-                  (product?.whatDoesItHave?.id != -1) &&
-                  (product?.category?.id == 9))
-                getProductDetailsRow(
-                  "what Does It Have",
-                  ((product?.whatDoesItHave?.id == 1)
-                      ? 'Sling'
-                      : (product?.whatDoesItHave?.id == 2)
-                          ? 'Handel'
-                          : (product?.whatDoesItHave?.id == 3)
-                              ? 'Bag-Pack Straps'
-                              : ''),
-                ),
-
-              // divider,
-              if ((product?.canCan != null) && (product?.category?.id == 14))
-                getProductDetailsRow("Can Can", product.canCan ? "Yes" : "No"),
-
-              // divider,
-              if (product?.sleeveLength != null &&
-                  product?.sleeveLength?.id != -1)
-                getProductDetailsRow(
-                  "Sleeve Length",
-                  getNameFromLookupId(productSection, "sleeveLength",
-                      product?.sleeveLength?.id),
-                ),
-              // divider,
-              if (product?.stitchingType != null &&
-                  product?.stitchingType?.id != -1)
-                getProductDetailsRow(
-                  "Stiching Type",
-                  getNameFromLookupId(productSection, "stitchingType",
-                      product?.stitchingType?.id),
-                ),
-              // divider,
-              if (product?.blousePadding != null &&
-                  product?.blousePadding?.id != -1)
-                getProductDetailsRow(
-                  "Blouse Padding",
-                  getNameFromLookupId(productSection, "blousePadding",
-                      product?.blousePadding?.id),
-                ),
-              // divider,
-              if (product?.backCut != null && product?.backCut != "")
-                getProductDetailsRow(
-                  "Back Cut",
-                  product?.backCut,
-                ),
-              // divider,
-              if (product?.neckCut != null && product?.neckCut != "")
-                getProductDetailsRow(
-                  "Neck Cut",
-                  product?.neckCut,
-                ),
-              // divider,
-              if (product?.dimensions != null && product?.dimensions != "")
-                getProductDetailsRow(
-                  "Dimensions",
-                  product?.dimensions,
-                ),
-              // divider,
-              if (product?.style != null && product?.style != "")
-                getProductDetailsRow(
-                  "Style",
-                  product?.style,
-                ),
-              // divider,
-              if (product?.length != null)
-                getProductDetailsRow(
-                  "Length",
-                  product?.length?.toString(),
-                ),
-              // divider,
-              if (product?.breadth != null && product?.breadth != 0)
-                getProductDetailsRow(
-                  "Breadth",
-                  product?.breadth?.toString(),
-                ),
-              // divider,
-              if (product?.heelHeight != null && product?.heelHeight != 0)
-                getProductDetailsRow(
-                  "Heel Height",
-                  product?.heelHeight?.toString(),
-                ),
-              if (product?.margin != null && product.margin)
-                getProductDetailsRow("Margin", "Margin left in selai"),
-
-              // divider
-              if ((product?.art?.length ?? 0) > 0)
-                getProductDetailsRow("Art", product.art),
-              // divider
-              if ((product?.bottomStyle?.length ?? 0) > 0)
-                getProductDetailsRow("BottomStyle", product.bottomStyle),
-              // divider
-              if ((product?.closureType?.length ?? 0) > 0)
-                getProductDetailsRow("ClosureType", product.closureType),
-              // divider
-              if ((product?.fittingType?.length ?? 0) > 0)
-                getProductDetailsRow("FittingType", product.fittingType),
-              // divider
-              if ((product?.riseStyle?.length ?? 0) > 0)
-                getProductDetailsRow("RiseStyle", product.riseStyle),
-              // divider
-              if ((product?.weaveType?.length ?? 0) > 0)
-                getProductDetailsRow("WeaveType", product.weaveType),
-            ],
-          );
-        }
-        return Container();
-      },
-    );
-  }
-
-  TableRow getProductDetailsRow(productDetailsKey, productDetailsValue) {
-    return TableRow(
-      decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(color: Colors.grey, width: 0.2),
-        ),
-      ),
-      children: [
-        TableCell(
-          child: Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Text(
-              productDetailsKey,
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                fontSize: 12,
-                color: Colors.grey,
-              ),
-            ),
-          ),
-        ),
-        TableCell(
-          child: Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Text(
-              productDetailsValue,
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
-                color: Colors.black,
-              ),
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

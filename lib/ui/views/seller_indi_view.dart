@@ -609,15 +609,9 @@ class _SellerIndiState extends State<SellerIndi> {
                                           ),
                                           horizontalSpaceTiny,
                                           Image.asset(
-                                            "assets/images/hand-sanitizer.png",
+                                            "assets/images/sanitiser.png",
                                             height: 30,
                                             width: 30,
-                                          ),
-                                          horizontalSpaceTiny,
-                                          Icon(
-                                            Icons.info,
-                                            color: Colors.grey[500],
-                                            size: 30,
                                           ),
                                         ],
                                       ),

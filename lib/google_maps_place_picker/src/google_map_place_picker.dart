@@ -360,7 +360,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
         children: <Widget>[
           Text(
             result.formattedAddress,
-            style: TextStyle(fontSize: 18),
+            style: TextStyle(fontSize: 14),
             textAlign: TextAlign.center,
           ),
           SizedBox(height: 10),
@@ -373,7 +373,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
             ),
             child: Text(
               "Select here",
-              style: TextStyle(fontSize: 16),
+              style: TextStyle(fontSize: 14),
             ),
             onPressed: () {
               onPlacePicked(result);
