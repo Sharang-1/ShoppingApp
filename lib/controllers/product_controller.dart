@@ -15,6 +15,7 @@ import '../services/dialog_service.dart';
 import '../services/navigation_service.dart';
 import '../services/wishlist_service.dart';
 import 'base_controller.dart';
+import 'home_controller.dart';
 import 'wishlist_controller.dart';
 
 class ProductController extends BaseController {
@@ -39,12 +40,6 @@ class ProductController extends BaseController {
       {this.productId = "", this.productName = ""});
 
   void init() async {
-    await _analyticsService.sendAnalyticsEvent(
-        eventName: "product_view",
-        parameters: <String, dynamic>{
-          "product_id": productId,
-          "product_name": productName
-        });
     isWishlistIconFilled =
         locator<WishListController>().list.indexOf(productId) != -1;
     productData = await _apiService.getProductById(
@@ -54,6 +49,17 @@ class ProductController extends BaseController {
     sellerDetail = await _apiService.getSellerByID(sellerId);
     reviews = await _apiService.getReviews(productId, isSellerReview: false);
     update();
+
+    await _analyticsService.sendAnalyticsEvent(
+        eventName: "product_view",
+        parameters: <String, dynamic>{
+          "product_id": productData?.key,
+          "product_name": productData?.name,
+          "category_id": productData?.category?.id,
+          "category_name": productData?.category?.name,
+          "user_id": locator<HomeController>()?.details?.key,
+          "user_name": locator<HomeController>()?.details?.name,
+        });
   }
 
   gotoSellerIndiView() async {
@@ -76,8 +82,12 @@ class ProductController extends BaseController {
       await _analyticsService.sendAnalyticsEvent(
           eventName: "add_to_cart",
           parameters: <String, dynamic>{
-            "product_id": product.key,
-            "product_name": product.name
+            "product_id": product?.key,
+            "product_name": product?.name,
+            "category_id": product?.category?.id,
+            "category_name": product?.category?.name,
+            "user_id": locator<HomeController>()?.details?.key,
+            "user_name": locator<HomeController>()?.details?.name,
           });
 
     final res = await _apiService.addToCart(product.key, qty, size, color);
@@ -129,9 +139,13 @@ class ProductController extends BaseController {
       Product product, int qty, String size, String color) async {
     await _analyticsService
         .sendAnalyticsEvent(eventName: "buy_now", parameters: <String, dynamic>{
-      "product_id": product.key,
-      "product_name": product.name,
+      "product_id": product?.key,
+      "product_name": product?.name,
+      "category_id": product?.category?.id,
+      "category_name": product?.category?.name,
       "quantity": qty,
+      "user_id": locator<HomeController>()?.details?.key,
+      "user_name": locator<HomeController>()?.details?.name,
     });
 
     var res = await addToCart(product, qty, size, color,
@@ -173,6 +187,10 @@ class ProductController extends BaseController {
           parameters: <String, dynamic>{
             "product_id": productId,
             "product_name": productName,
+            "category_id": productData?.category?.id,
+            "category_name": productData?.category?.name,
+            "user_id": locator<HomeController>()?.details?.key,
+            "user_name": locator<HomeController>()?.details?.name,
           });
     } catch (e) {}
   }

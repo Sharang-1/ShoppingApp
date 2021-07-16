@@ -4,10 +4,13 @@ import 'package:compound/constants/shared_pref.dart';
 import 'package:compound/controllers/base_controller.dart';
 import 'package:compound/locator.dart';
 import 'package:compound/models/calculatedPrice.dart';
+import 'package:compound/models/cart.dart';
 import 'package:compound/models/promoCode.dart';
 import 'package:compound/services/analytics_service.dart';
 import 'package:compound/services/api/api_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'home_controller.dart';
 
 class CartController extends BaseController {
   final APIService _apiService = locator<APIService>();
@@ -27,8 +30,17 @@ class CartController extends BaseController {
     return;
   }
 
-  Future<void> removeProductFromCartEvent() async {
-    await _analyticsService.sendAnalyticsEvent(eventName: "remove_from_cart");
+  Future<void> removeProductFromCartEvent(Product product) async {
+    await _analyticsService.sendAnalyticsEvent(
+        eventName: "remove_from_cart",
+        parameters: <String, dynamic>{
+          "product_id": product?.key,
+          "product_name": product?.name,
+          "category_id": product?.category?.id,
+          "category_name": product?.category?.name,
+          "user_id": locator<HomeController>()?.details?.key,
+          "user_name": locator<HomeController>()?.details?.name,
+        });
     var products = await _apiService.getCartProductItemList();
     isCartEmpty = products.isEmpty;
     update();

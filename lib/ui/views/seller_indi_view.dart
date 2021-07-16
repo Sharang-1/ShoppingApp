@@ -127,6 +127,12 @@ class _SellerIndiState extends State<SellerIndi> {
           parameters: <String, dynamic>{
             "seller_id": widget?.data?.key,
             "seller_name": widget?.data?.name,
+            "subscription_id": widget?.data?.subscriptionType?.id,
+            "subscription_name": widget?.data?.subscriptionType?.name,
+            "establishment_id": widget?.data?.establishmentType?.id,
+            "establishment_name": widget?.data?.establishmentType?.name,
+            "user_id": locator<HomeController>()?.details?.key,
+            "user_name": locator<HomeController>()?.details?.name,
           });
     } catch (e) {}
     showTutorial(
@@ -230,7 +236,7 @@ class _SellerIndiState extends State<SellerIndi> {
     double multiplyer = 0.8;
 
     setupSellerDetails(widget?.data);
-    
+
     String designerProfilePicUrl =
         "$DESIGNER_PROFILE_PHOTO_BASE_URL/${sellerData?.owner?.key}";
 
@@ -407,13 +413,23 @@ class _SellerIndiState extends State<SellerIndi> {
                             parameters: <String, dynamic>{
                               "seller_id": sellerData?.key,
                               "seller_name": sellerData?.name,
+                              "subscription_id":
+                                  widget?.data?.subscriptionType?.id,
+                              "subscription_name":
+                                  widget?.data?.subscriptionType?.name,
+                              "establishment_id":
+                                  widget?.data?.establishmentType?.id,
+                              "establishment_name":
+                                  widget?.data?.establishmentType?.name,
+                              "user_id":
+                                  locator<HomeController>()?.details?.key,
+                              "user_name":
+                                  locator<HomeController>()?.details?.name,
                             });
                       } catch (e) {}
                     },
                     child: Icon(
-                      Platform.isIOS
-                                  ? CupertinoIcons.share
-                                  : Icons.share,
+                      Platform.isIOS ? CupertinoIcons.share : Icons.share,
                       size: 25,
                     ),
                   ),

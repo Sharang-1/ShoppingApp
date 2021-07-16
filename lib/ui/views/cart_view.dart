@@ -165,7 +165,7 @@ class _CartViewState extends State<CartView> {
                                             .decrementCartCount();
                                         try {
                                           await controller
-                                              .removeProductFromCartEvent();
+                                              .removeProductFromCartEvent(dItem?.product);
                                         } catch (e) {}
                                       },
                                     );

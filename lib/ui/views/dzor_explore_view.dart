@@ -1,3 +1,4 @@
+import 'package:compound/ui/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -9,7 +10,9 @@ import '../../controllers/dzor_explore_controller.dart';
 import '../../controllers/grid_view_builder/products_grid_view_builder_controller.dart';
 import '../../controllers/home_controller.dart';
 import '../../locator.dart';
+import '../../services/analytics_service.dart';
 import '../shared/app_colors.dart';
+import '../shared/ui_helpers.dart';
 import '../widgets/cart_icon_badge.dart';
 import '../widgets/section_builder.dart';
 
@@ -21,6 +24,20 @@ class DzorExploreView extends StatefulWidget {
 class _DzorExploreViewState extends State<DzorExploreView> {
   UniqueKey key = UniqueKey();
   final refreshController = RefreshController(initialRefresh: false);
+
+  @override
+  void initState() {
+    super.initState();
+
+    try {
+      locator<AnalyticsService>().sendAnalyticsEvent(
+          eventName: "dzor_explore_view",
+          parameters: <String, dynamic>{
+            "user_id": locator<HomeController>()?.details?.key,
+            "user_name": locator<HomeController>()?.details?.name,
+          });
+    } catch (e) {}
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,13 +76,32 @@ class _DzorExploreViewState extends State<DzorExploreView> {
             ),
           ],
           centerTitle: true,
-          title: Text(
-            "Dzor Explore",
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
+          title: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    "assets/images/logo_red.png",
+                    height: 20,
+                    width: 20,
+                  ),
+                  horizontalSpaceSmall,
+                  Text(
+                    "Dzor Explore",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+              CustomText(
+                "Explore Best Listings on Dzor",
+                fontSize: 10,
+              ),
+            ],
           ),
           iconTheme: IconThemeData(color: appBarIconColor),
         ),

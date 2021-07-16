@@ -117,7 +117,7 @@ class BottomsheetLoginController extends BaseController {
 
       try {
         await locator<AnalyticsService>()
-            .sendAnalyticsEvent(eventName: "bottomsheet login");
+            .sendAnalyticsEvent(eventName: "bottomsheet_login");
       } catch (e) {}
 
       await locator<PaymentService>().getApiKey();

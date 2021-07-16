@@ -350,17 +350,21 @@ class Account {
 
 class BlousePadding {
   num id;
+  String name;
 
   BlousePadding({
     this.id,
+    this.name,
   });
 
   factory BlousePadding.fromJson(Map<String, dynamic> json) => BlousePadding(
         id: json["id"],
+        name: json["name"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
+        "name": name,
       };
 }
 

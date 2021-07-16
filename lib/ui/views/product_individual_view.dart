@@ -1198,7 +1198,10 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                 child: Row(
                                   children: [
                                     "#JustHere",
-                                    if (totalQuantity != 0) "In Stock",
+                                    if (available && (totalQuantity != 0))
+                                      "In Stock",
+                                    if (available && (totalQuantity == 0))
+                                      "Out of Stock",
                                     if ((productData?.stitchingType?.id ??
                                             -1) ==
                                         2)
@@ -1221,7 +1224,9 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                 fontSize: 10.0,
                                                 color: e == "In Stock"
                                                     ? lightGreen
-                                                    : Colors.grey),
+                                                    : e == "Out of Stock"
+                                                        ? logoRed
+                                                        : Colors.grey),
                                           ),
                                         ),
                                       )
