@@ -35,7 +35,7 @@ class PairItWithWidget extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Text(
-                    "Pair It With",
+                    "Pair It With".toUpperCase(),
                     style: TextStyle(
                       letterSpacing: 1.0,
                       fontSize: titleFontSizeStyle + 2,

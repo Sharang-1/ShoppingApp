@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:compound/constants/shared_pref.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -154,12 +155,12 @@ class SettingsView extends StatelessWidget {
                                               "$USER_PROFILE_PHOTO_BASE_URL/${controller?.mUserDetails?.key}",
                                               headers: {
                                                 "Authorization":
-                                                    "Bearer ${controller?.token ?? ''}",
+                                                    "Bearer ${locator<HomeController>()?.prefs?.getString(Authtoken) ?? ''}",
                                               }),
                                           imageErrorBuilder:
                                               (context, error, stackTrace) {
                                             print(
-                                                "User Photo: $USER_PROFILE_PHOTO_BASE_URL/${controller?.mUserDetails?.photo?.name} $error $stackTrace");
+                                                "User Photo: $error $stackTrace");
                                             return Image.asset(
                                               "assets/icons/user.png",
                                               width: 50,

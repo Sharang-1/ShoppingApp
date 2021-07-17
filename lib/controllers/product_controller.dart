@@ -92,6 +92,8 @@ class ProductController extends BaseController {
 
     final res = await _apiService.addToCart(product.key, qty, size, color);
     if (res != null) {
+      await BaseController.vibrate(duration: 100);
+
       final localStoreResult =
           await _cartLocalStoreService.addToCartLocalStore(product.key);
       if (localStoreResult == -1) {
@@ -100,7 +102,6 @@ class ProductController extends BaseController {
           return -1;
         }
         if (showDialog) {
-          await BaseController.vibrate(duration: 100);
           await DialogService.showDialog(
             title: "Added to Bag",
             description: "The item has been added to your Bag.",
@@ -114,7 +115,6 @@ class ProductController extends BaseController {
           return 1;
         }
         if (showDialog) {
-          await BaseController.vibrate(duration: 100);
           await DialogService.showDialog(
             title: "Added to Bag",
             description: "The item has been added to your Bag.",

@@ -79,7 +79,13 @@ class _PromotionProductState extends State<PromotionProduct> {
           header: WaterDropHeader(
             waterDropColor: logoRed,
             refresh: Center(
-              child: CircularProgressIndicator(),
+              child: Center(
+                child: Image.asset(
+                  "assets/images/loading_img.gif",
+                  height: 25,
+                  width: 25,
+                ),
+              ),
             ),
             complete: Container(),
           ),

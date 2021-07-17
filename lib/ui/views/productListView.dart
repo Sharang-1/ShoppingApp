@@ -289,10 +289,11 @@ class _ProductListViewState extends State<ProductListView> {
       floatingActionButton: (widget.sellerPhoto != null)
           ? FloatingActionButton.extended(
               label: Text(
-                'Reviews',
+                'Reviews'.toUpperCase(),
                 style: TextStyle(
                   color: Colors.white,
-                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1.2,
+                  // fontWeight: FontWeight.bold,
                 ),
               ),
               shape: RoundedRectangleBorder(
@@ -312,7 +313,13 @@ class _ProductListViewState extends State<ProductListView> {
           header: WaterDropHeader(
             waterDropColor: logoRed,
             refresh: Center(
-              child: CircularProgressIndicator(),
+              child: Center(
+                child: Image.asset(
+                  "assets/images/loading_img.gif",
+                  height: 25,
+                  width: 25,
+                ),
+              ),
             ),
             complete: Container(),
           ),

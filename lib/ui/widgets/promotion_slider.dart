@@ -41,6 +41,16 @@ class _PromotionSliderState extends State<PromotionSlider> {
     return Column(
       children: [
         Container(
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 5,
+                blurRadius: 7,
+                offset: Offset(0, 3),
+              ),
+            ],
+          ),
           child: CarouselSlider(
             options: CarouselOptions(
               autoPlay: true,
@@ -65,7 +75,8 @@ class _PromotionSliderState extends State<PromotionSlider> {
                       List<String> productIds =
                           i?.products?.map((e) => e.toString())?.toList();
                       print(productIds);
-                      print("Demographics: ${i?.demographics?.map((e) => e.id)}");
+                      print(
+                          "Demographics: ${i?.demographics?.map((e) => e.id)}");
                       Navigator.push(
                         context,
                         new MaterialPageRoute(
@@ -85,7 +96,8 @@ class _PromotionSliderState extends State<PromotionSlider> {
                         borderRadius: BorderRadius.circular(15.0),
                         child: Container(
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(curve15)),
+                            borderRadius: BorderRadius.circular(curve15),
+                          ),
                           width: MediaQuery.of(context).size.width - 10,
                           child: CachedNetworkImage(
                             cacheManager: defaultCacheManager,

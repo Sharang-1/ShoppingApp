@@ -48,10 +48,10 @@ class HomeViewList extends StatelessWidget {
                     height: 200,
                     child: Center(
                       child: Image.asset(
-                      "assets/images/loading_img.gif",
-                      height: 50,
-                      width: 50,
-                    ),
+                        "assets/images/loading_img.gif",
+                        height: 50,
+                        width: 50,
+                      ),
                     ),
                   ),
                 if ((controller?.topPromotion?.length ?? 0) > 0)
@@ -82,6 +82,7 @@ class HomeViewList extends StatelessWidget {
                   controller: SellersGridViewBuilderController(
                     subscriptionTypes: [1, 2],
                     withProducts: true,
+                    random: true,
                   ),
                   scrollDirection: Axis.horizontal,
                 ),
@@ -143,8 +144,10 @@ class HomeViewList extends StatelessWidget {
                 SectionBuilder(
                   context: context,
                   layoutType: LayoutType.DESIGNER_ID_3_LAYOUT,
-                  controller:
-                      SellersGridViewBuilderController(subscriptionType: 3),
+                  controller: SellersGridViewBuilderController(
+                    subscriptionType: 3,
+                    random: true,
+                  ),
                   scrollDirection: Axis.horizontal,
                 ),
                 if ((controller?.bottomPromotion?.length ?? 0) > 1)
@@ -208,6 +211,7 @@ class HomeViewList extends StatelessWidget {
                   controller: SellersGridViewBuilderController(
                     subscriptionTypes: [2],
                     withProducts: true,
+                    random: true,
                   ),
                   scrollDirection: Axis.horizontal,
                 ),
@@ -272,6 +276,7 @@ class HomeViewList extends StatelessWidget {
                   controller: SellersGridViewBuilderController(
                     subscriptionTypes: [1],
                     withProducts: true,
+                    random: true,
                   ),
                   scrollDirection: Axis.horizontal,
                 ),
@@ -511,6 +516,7 @@ class HomeViewList extends StatelessWidget {
                   controller: SellersGridViewBuilderController(
                     subscriptionTypes: [1, 2],
                     withProducts: true,
+                    random: true,
                   ),
                   scrollDirection: Axis.horizontal,
                 ),

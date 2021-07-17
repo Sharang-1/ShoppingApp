@@ -37,7 +37,7 @@ dependencies:
   logger: 0.8.3
   fimber: 0.4.0
   location: ^2.5.0
-  google_maps_flutter: ^1.0.6
+  google_maps_flutter: 
   # google_maps_place_picker: ^1.0.1
   carousel_slider: 3.0.0
   intl_phone_number_input: ^0.4.6+2

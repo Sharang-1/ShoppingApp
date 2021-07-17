@@ -274,12 +274,27 @@ class _ProfileViewState extends State<ProfileView> {
                                           fontSize: 16,
                                         ),
                                         IconButton(
-                                          icon: Icon(Icons.edit),
+                                          icon: Column(
+                                            children: [
+                                              Icon(Icons.edit),
+                                              CustomText(
+                                                "Edit",
+                                                fontSize: 8,
+                                                letterSpacing: 0.4,
+                                              ),
+                                            ],
+                                          ),
                                           iconSize: 18,
                                           onPressed: () {
-                                            setState(() {
-                                              isEditable = true;
-                                            });
+                                            if (!isEditable) {
+                                              setState(() {
+                                                isEditable = true;
+                                              });
+                                            } else {
+                                              setState(() {
+                                                isEditable = false;
+                                              });
+                                            }
                                           },
                                         )
                                       ],

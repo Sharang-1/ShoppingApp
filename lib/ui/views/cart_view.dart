@@ -87,7 +87,13 @@ class _CartViewState extends State<CartView> {
             header: WaterDropHeader(
               waterDropColor: logoRed,
               refresh: Center(
-                child: CircularProgressIndicator(),
+                child: Center(
+                  child: Image.asset(
+                    "assets/images/loading_img.gif",
+                    height: 25,
+                    width: 25,
+                  ),
+                ),
               ),
               complete: Container(),
             ),
@@ -157,7 +163,7 @@ class _CartViewState extends State<CartView> {
                                       onDelete: (int index) async {
                                         final value = await onDelete(index);
                                         print("Delete product index: $index");
-                                        if (value != true) return;
+                                        if (!value) return;
                                         await controller
                                             .removeFromCartLocalStore(
                                                 dItem.productId.toString());
@@ -165,7 +171,8 @@ class _CartViewState extends State<CartView> {
                                             .decrementCartCount();
                                         try {
                                           await controller
-                                              .removeProductFromCartEvent(dItem?.product);
+                                              .removeProductFromCartEvent(
+                                                  dItem?.product);
                                         } catch (e) {}
                                       },
                                     );

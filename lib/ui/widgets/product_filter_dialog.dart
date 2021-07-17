@@ -187,39 +187,42 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
         bottomNavigationBar: FractionallySizedBox(
           widthFactor: 0.40,
           heightFactor: 0.08,
-          child: FloatingActionButton.extended(
-            backgroundColor: Colors.green[600],
-            // shape: RoundedRectangleBorder(
-            //     borderRadius: BorderRadius.circular(10),
-            //     side: BorderSide(color: Colors.black, width: 0.5)),
-            label: Text(
-              "Apply Filters",
-              style: TextStyle(color: Colors.white),
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 12.0),
+            child: FloatingActionButton.extended(
+              backgroundColor: Colors.green[600],
+              // shape: RoundedRectangleBorder(
+              //     borderRadius: BorderRadius.circular(10),
+              //     side: BorderSide(color: Colors.black, width: 0.5)),
+              label: Text(
+                "Apply Filters",
+                style: TextStyle(color: Colors.white),
+              ),
+              elevation: 0,
+              shape:
+                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              // icon: Icon(Icons.done),
+              icon: Icon(Icons.done),
+              onPressed: () {
+                setUpFilterObject();
+                print("Typing---------------------------------->>>>>>>>>>>>>>");
+                NavigationService.back<ProductFilter>(
+                  result: ProductFilter(
+                    fullText: fullText,
+                    categories: categories,
+                    subCategories:
+                        subCategoriesValues["All"] ? [] : subCategories,
+                    size: size,
+                    minPrice: minPrice,
+                    maxPrice: maxPrice,
+                    minDiscount: minDiscount,
+                    sortField: sortByRadioValue,
+                    isSortOrderDesc: sortOrderRadioValue == 'desc',
+                    existingQueryString: queryString,
+                  ),
+                );
+              },
             ),
-            elevation: 0,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            // icon: Icon(Icons.done),
-            icon: Icon(Icons.done),
-            onPressed: () {
-              setUpFilterObject();
-              print("Typing---------------------------------->>>>>>>>>>>>>>");
-              NavigationService.back<ProductFilter>(
-                result: ProductFilter(
-                  fullText: fullText,
-                  categories: categories,
-                  subCategories:
-                      subCategoriesValues["All"] ? [] : subCategories,
-                  size: size,
-                  minPrice: minPrice,
-                  maxPrice: maxPrice,
-                  minDiscount: minDiscount,
-                  sortField: sortByRadioValue,
-                  isSortOrderDesc: sortOrderRadioValue == 'desc',
-                  existingQueryString: queryString,
-                ),
-              );
-            },
           ),
         ),
         appBar: AppBar(

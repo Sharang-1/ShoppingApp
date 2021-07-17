@@ -631,7 +631,13 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                   header: WaterDropHeader(
                     waterDropColor: logoRed,
                     refresh: Center(
-                      child: CircularProgressIndicator(),
+                      child: Center(
+                        child: Image.asset(
+                          "assets/images/loading_img.gif",
+                          height: 25,
+                          width: 25,
+                        ),
+                      ),
                     ),
                     complete: Container(),
                   ),
@@ -1001,6 +1007,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                           FontWeight.normal,
                                                       fontSize: 14,
                                                       letterSpacing: 1.0,
+                                                      color: logoRed,
                                                     ),
                                                   ),
                                                 ),
@@ -1042,6 +1049,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                     // fontWeight: FontWeight.bold,
                                                     fontSize: 14,
                                                     letterSpacing: 1.0,
+                                                    color: logoRed,
                                                   ),
                                                 ),
                                                 verticalSpace(5),
@@ -1065,6 +1073,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                     //     FontWeight.bold,
                                                     fontSize: 14,
                                                     letterSpacing: 1.0,
+                                                    color: logoRed,
                                                   ),
                                                 ),
                                                 verticalSpaceSmall,
@@ -1365,9 +1374,9 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                           Curves.easeIn,
                                                       fit: BoxFit.cover,
                                                       placeholder: AssetImage(
-                                                          "assets/images/product_preloading.png"),
+                                                          "assets/icons/user.png"),
                                                       image: NetworkImage(
-                                                        "$DESIGNER_PROFILE_PHOTO_BASE_URL/${controller?.sellerDetail?.owner?.key}",
+                                                        "$DESIGNER_PROFILE_PHOTO_BASE_URL/${productData?.seller?.owner?.key}",
                                                         headers: {
                                                           "Authorization":
                                                               "Bearer ${locator<HomeController>()?.prefs?.getString(Authtoken) ?? ''}",
@@ -1379,7 +1388,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                         print(
                                                             "Image Error: $error $stackTrace");
                                                         return Image.asset(
-                                                          "assets/images/product_preloading.png",
+                                                          "assets/icons/user.png",
                                                           width: 70,
                                                           height: 70,
                                                           fit: BoxFit.cover,
