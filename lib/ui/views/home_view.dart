@@ -1,6 +1,7 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -20,7 +21,7 @@ class HomeView extends StatelessWidget {
 
   final HomeController controller = locator<HomeController>();
 
-  final GlobalKey searchBarKey = GlobalKey();
+  final GlobalKey searchKey = GlobalKey();
   final GlobalKey cartKey = GlobalKey();
   final GlobalKey logoKey = GlobalKey();
 
@@ -30,7 +31,7 @@ class HomeView extends StatelessWidget {
         initState: (state) {
           controller.onRefresh();
           controller.showTutorial(context,
-              searchBarKey: searchBarKey, logoKey: logoKey);
+              searchKey: searchKey, logoKey: logoKey);
         },
         builder: (controller) => Scaffold(
           drawerEdgeDragWidth: 0,
@@ -38,7 +39,49 @@ class HomeView extends StatelessWidget {
           backgroundColor: Colors.white,
           bottomNavigationBar: ConvexAppBar(
             style: TabStyle.fixedCircle,
-            items: controller.navigationItems,
+            items: [
+              TabItem(
+                title: '',
+                icon: Image.asset(
+                  "assets/images/nav_categories.png",
+                  color: newBackgroundColor,
+                ),
+              ),
+              TabItem(
+                title: '',
+                icon: Image.asset(
+                  "assets/images/nav_appointment.png",
+                  color: newBackgroundColor,
+                ),
+              ),
+              TabItem(
+                title: '',
+                icon: Padding(
+                  key: logoKey,
+                  padding: const EdgeInsets.all(4.0),
+                  child: SvgPicture.asset(
+                    "assets/svg/logo.svg",
+                    color: logoRed,
+                    height: 15,
+                    width: 15,
+                  ),
+                ),
+              ),
+              TabItem(
+                title: '',
+                icon: Image.asset(
+                  "assets/images/nav_orders.png",
+                  color: newBackgroundColor,
+                ),
+              ),
+              TabItem(
+                title: '',
+                icon: Image.asset(
+                  "assets/images/nav_map.png",
+                  color: newBackgroundColor,
+                ),
+              ),
+            ],
             backgroundColor: logoRed,
             activeColor: backgroundWhiteCreamColor,
             disableDefaultTabController: true,
@@ -106,7 +149,7 @@ class HomeView extends StatelessWidget {
                     ),
                     actions: <Widget>[
                       InkWell(
-                        key: searchBarKey,
+                        key: searchKey,
                         onTap: BaseController.search,
                         child: Container(
                           margin: EdgeInsets.only(right: 8.0),

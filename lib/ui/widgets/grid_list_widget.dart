@@ -272,7 +272,7 @@ class _PaginatedGridViewState<I> extends State<PaginatedGridView> {
   // }
 
   bool onNotification(ScrollNotification notification) {
-    if (notification is ScrollUpdateNotification) {
+    if (notification is ScrollUpdateNotification && _scrollController.hasClients) {
       if (_scrollController.position.maxScrollExtent >
               _scrollController.offset &&
           _scrollController.position.maxScrollExtent -

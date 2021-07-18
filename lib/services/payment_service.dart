@@ -45,7 +45,7 @@ class PaymentService {
         'currency': currency,
         'order_id': orderId,
         'receipt': receiptId,
-        'name': name,
+        'name': appInfo?.payment?.merchantName ?? name,
         'description': description,
         'prefill': {
           'contact': contactNo,
@@ -100,7 +100,7 @@ class PaymentService {
       try {
         _razorpay.open(options);
       } catch (e) {
-         print("RazorPay : ${e.toString()}");
+        print("RazorPay : ${e.toString()}");
         await NavigationService.off(
           PaymentFinishedScreenRoute,
           arguments: OrderError.PAYMENT_ERROR,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:launch_review/launch_review.dart';
 import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:version/version.dart';
 
 import '../constants/route_names.dart';
 import '../constants/server_urls.dart';
@@ -29,7 +30,8 @@ class StartUpController extends BaseController {
     super.onInit();
     final updateDetails = await _apiService.getAppUpdate();
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    String version = packageInfo.version;
+    Version currentVersion = Version.parse(packageInfo.version);
+    Version latestVersion = Version.parse(updateDetails.version);
 
     await Future.wait([
       locator<ErrorHandlingService>().init(),
@@ -42,14 +44,14 @@ class StartUpController extends BaseController {
 
     locator<LookupController>().setUpLookups(await _apiService.getLookups());
 
-    if (releaseMode && (updateDetails.version != version)) {
+    if (releaseMode && (latestVersion > currentVersion)) {
       await DialogService.showCustomDialog(
         AlertDialog(
           title: Text(
             "New Version Available!",
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
-          content: Text("Please, update app to new version to continue."),
+          content: Text("Please, Update App to New Version."),
           actions: [
             TextButton(
               child: Text("Update App"),
@@ -60,19 +62,21 @@ class StartUpController extends BaseController {
             )
           ],
         ),
-        barrierDismissible: false,
+        barrierDismissible:
+            !(updateDetails?.priority?.contains("High") ?? false),
       );
-    } else {
-      Future.delayed(
-        Duration(milliseconds: 1500),
-        () async {
-          var hasLoggedInUser = await _authenticationService.isUserLoggedIn();
-          var pref = await SharedPreferences.getInstance();
-          bool skipLogin = pref.getBool(SkipLogin) ?? false;
-          await NavigationService.off(
-              (hasLoggedInUser || skipLogin) ? HomeViewRoute : IntroPageRoute);
-        },
-      );
+      if (updateDetails?.priority?.contains("High") ?? false) return;
     }
+
+    Future.delayed(
+      Duration(milliseconds: 1500),
+      () async {
+        var hasLoggedInUser = await _authenticationService.isUserLoggedIn();
+        var pref = await SharedPreferences.getInstance();
+        bool skipLogin = pref.getBool(SkipLogin) ?? false;
+        await NavigationService.off(
+            (hasLoggedInUser || skipLogin) ? HomeViewRoute : IntroPageRoute);
+      },
+    );
   }
 }

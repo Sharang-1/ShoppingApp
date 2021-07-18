@@ -1,7 +1,5 @@
-import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -39,49 +37,6 @@ class HomeController extends BaseController {
   UniqueKey categoryKey = UniqueKey();
   UniqueKey promotionKey = UniqueKey();
   String cityName = "AHMEDABAD";
-
-  final List<TabItem> navigationItems = [
-    TabItem(
-      title: '',
-      icon: Image.asset(
-        "assets/images/nav_categories.png",
-        color: newBackgroundColor,
-      ),
-    ),
-    TabItem(
-      title: '',
-      icon: Image.asset(
-        "assets/images/nav_appointment.png",
-        color: newBackgroundColor,
-      ),
-    ),
-    TabItem(
-      title: '',
-      icon: Padding(
-        padding: const EdgeInsets.all(4.0),
-        child: SvgPicture.asset(
-          "assets/svg/logo.svg",
-          color: logoRed,
-          height: 15,
-          width: 15,
-        ),
-      ),
-    ),
-    TabItem(
-      title: '',
-      icon: Image.asset(
-        "assets/images/nav_orders.png",
-        color: newBackgroundColor,
-      ),
-    ),
-    TabItem(
-      title: '',
-      icon: Image.asset(
-        "assets/images/nav_map.png",
-        color: newBackgroundColor,
-      ),
-    ),
-  ];
 
   final RefreshController refreshController =
       RefreshController(initialRefresh: false);
@@ -357,15 +312,15 @@ class HomeController extends BaseController {
   }
 
   void showTutorial(BuildContext context,
-      {GlobalKey searchBarKey, GlobalKey logoKey}) async {
+      {GlobalKey searchKey, GlobalKey logoKey}) async {
     if (prefs == null) prefs = await SharedPreferences.getInstance();
     if (prefs?.getBool(ShouldShowHomeTutorial) ?? true) {
       TutorialCoachMark tutorialCoachMark;
       List<TargetFocus> targets = <TargetFocus>[
         TargetFocus(
           identify: "Search Target",
-          keyTarget: searchBarKey,
-          shape: ShapeLightFocus.RRect,
+          keyTarget: searchKey,
+          shape: ShapeLightFocus.Circle,
           contents: [
             TargetContent(
               align: ContentAlign.bottom,
@@ -399,16 +354,16 @@ class HomeController extends BaseController {
         ),
 
         TargetFocus(
-          identify: "SwipeUp Target",
+          identify: "Dzor Explore Target",
           keyTarget: logoKey,
           contents: [
             TargetContent(
-              align: ContentAlign.bottom,
+              align: ContentAlign.top,
               child: GestureDetector(
                 onTap: () => tutorialCoachMark.next(),
                 child: Container(
                   child: Column(
-                    mainAxisSize: MainAxisSize.max,
+                    mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
@@ -472,6 +427,7 @@ class HomeController extends BaseController {
         paddingFocus: 5,
         onClickOverlay: (targetFocus) => tutorialCoachMark.next(),
         onClickTarget: (targetFocus) => tutorialCoachMark.next(),
+        onSkip: () async => await prefs?.setBool(ShouldShowHomeTutorial, false),
         onFinish: () async =>
             await prefs?.setBool(ShouldShowHomeTutorial, false),
       )..show();

@@ -102,7 +102,6 @@ class _ProductIndiViewState extends State<ProductIndiView> {
   final DynamicLinkService _dynamicLinkService = locator<DynamicLinkService>();
   final ErrorHandlingService _errorHandlingService =
       locator<ErrorHandlingService>();
-  ScrollController _scrollController;
 
   UniqueKey key = UniqueKey();
   GlobalKey variationSelectionCardKey = GlobalKey();
@@ -125,6 +124,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
   String date;
   Key uniqueKey;
   Key photosKey;
+  Key knowDesignerKey;
   DateTime dateParse;
   DateTime newDate;
   String formattedDate;
@@ -496,11 +496,12 @@ class _ProductIndiViewState extends State<ProductIndiView> {
     //   "${BASE_URL}sellers/${data.account.key}/categories/${data.category.id}/sizechart",
     // );
     photosKey = GlobalKey();
+    knowDesignerKey = GlobalKey();
     uniqueKey = UniqueKey();
   }
 
   void showTutorial(BuildContext context,
-      {GlobalKey photosKey, GlobalKey cartKey}) {
+      {GlobalKey photosKey, GlobalKey knowDesignerKey, GlobalKey cartKey}) {
     SharedPreferences.getInstance().then((prefs) {
       if (prefs?.getBool(cartKey == null
               ? ShouldShowProductPageTutorial
@@ -529,10 +530,39 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                           ),
                         ),
                         Center(
-                          child: Image.asset(
-                            'assets/images/finger_tap.png',
-                            height: 150,
-                            width: 100,
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Image.asset(
+                              'assets/images/finger_tap.png',
+                              height: 180,
+                              width: 130,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          if (knowDesignerKey != null)
+            TargetFocus(
+              identify: "Know Your Designer",
+              keyTarget: knowDesignerKey,
+              shape: ShapeLightFocus.RRect,
+              contents: [
+                TargetContent(
+                  align: ContentAlign.top,
+                  child: Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          "Know Your Designer",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 18.0,
                           ),
                         ),
                       ],
@@ -545,6 +575,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
             TargetFocus(
               identify: "Cart Target",
               keyTarget: cartKey,
+              alignSkip: Alignment.bottomLeft,
               contents: [
                 TargetContent(
                   align: ContentAlign.bottom,
@@ -562,45 +593,55 @@ class _ProductIndiViewState extends State<ProductIndiView> {
               ],
             ),
         ];
-        tutorialCoachMark = TutorialCoachMark(
-          context,
-          targets: targets,
-          colorShadow: Colors.black45,
-          paddingFocus: 5,
-          onClickOverlay: (targetFocus) => tutorialCoachMark.next(),
-          onClickTarget: (targetFocus) => tutorialCoachMark.next(),
-          onFinish: () async => await prefs?.setBool(
-              cartKey == null
-                  ? ShouldShowProductPageTutorial
-                  : ShouldShowCartTutorial,
-              false),
-        )..show();
+        Future.delayed(Duration(milliseconds: 300), () {
+          tutorialCoachMark = TutorialCoachMark(
+            context,
+            targets: targets,
+            colorShadow: Colors.black45,
+            paddingFocus: 5,
+            onClickOverlay: (targetFocus) {
+              if (knowDesignerKey != null)
+                Scrollable.ensureVisible(
+                  knowDesignerKey.currentContext,
+                  alignment: 0.5,
+                );
+              Future.delayed(Duration(milliseconds: 100), () {
+                tutorialCoachMark.next();
+              });
+            },
+            onClickTarget: (targetFocus) {
+              if (knowDesignerKey != null)
+                Scrollable.ensureVisible(
+                  knowDesignerKey.currentContext,
+                  alignment: 0.5,
+                );
+              Future.delayed(Duration(milliseconds: 100), () {
+                tutorialCoachMark.next();
+              });
+            },
+            onSkip: () async => await prefs?.setBool(
+                cartKey == null
+                    ? ShouldShowProductPageTutorial
+                    : ShouldShowCartTutorial,
+                false),
+            onFinish: () async => await prefs?.setBool(
+                cartKey == null
+                    ? ShouldShowProductPageTutorial
+                    : ShouldShowCartTutorial,
+                false),
+          )..show();
+        });
       }
     });
   }
 
   @override
   void initState() {
-    _scrollController = ScrollController();
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels > Get.width) {
-        if (!showHeader)
-          setState(() {
-            showHeader = true;
-          });
-      } else {
-        if (showHeader)
-          setState(() {
-            showHeader = false;
-          });
-      }
-    });
     super.initState();
   }
 
   @override
   void dispose() {
-    _scrollController.dispose();
     super.dispose();
   }
 
@@ -613,7 +654,11 @@ class _ProductIndiViewState extends State<ProductIndiView> {
         )..init(),
         initState: (state) {
           setupProductDetails(widget?.data);
-          showTutorial(context, photosKey: photosKey);
+          showTutorial(
+            context,
+            photosKey: photosKey,
+            knowDesignerKey: knowDesignerKey,
+          );
         },
         builder: (controller) => Scaffold(
           backgroundColor: Colors.white,
@@ -652,7 +697,6 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                     refreshController.refreshCompleted();
                   },
                   child: SingleChildScrollView(
-                    controller: _scrollController,
                     physics: ScrollPhysics(),
                     child: Column(
                       children: [
@@ -1253,196 +1297,223 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                 ),
                               // if (available) sectionDivider(),
                               sectionDivider(),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                              Column(
+                                key: knowDesignerKey,
                                 children: [
-                                  Text(
-                                    "Know Your Designer".toUpperCase(),
-                                    style: TextStyle(
-                                      // fontWeight: FontWeight.bold,
-                                      letterSpacing: 1.0,
-                                      fontSize: 14,
-                                    ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "Know Your Designer".toUpperCase(),
+                                        style: TextStyle(
+                                          // fontWeight: FontWeight.bold,
+                                          letterSpacing: 1.0,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 20.0),
+                                        child: FutureBuilder<Reviews>(
+                                          future: locator<APIService>()
+                                              .getReviews(
+                                                  controller.sellerDetail?.key,
+                                                  isSellerReview: true),
+                                          builder: (context, snapshot) =>
+                                              ((snapshot.connectionState ==
+                                                          ConnectionState
+                                                              .done) &&
+                                                      ((snapshot
+                                                                  ?.data
+                                                                  ?.ratingAverage
+                                                                  ?.rating ??
+                                                              0) >
+                                                          0))
+                                                  ? FittedBox(
+                                                      fit: BoxFit.scaleDown,
+                                                      child: Container(
+                                                        padding: EdgeInsets
+                                                            .symmetric(
+                                                          vertical: 2,
+                                                          horizontal: 5,
+                                                        ),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          border: Border.all(
+                                                            color: Tools
+                                                                .getColorAccordingToRattings(
+                                                              snapshot
+                                                                  .data
+                                                                  .ratingAverage
+                                                                  .rating,
+                                                            ),
+                                                          ),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(5),
+                                                        ),
+                                                        child: Row(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
+                                                          children: <Widget>[
+                                                            CustomText(
+                                                              snapshot
+                                                                  .data
+                                                                  .ratingAverage
+                                                                  .rating
+                                                                  .toString(),
+                                                              color: Tools
+                                                                  .getColorAccordingToRattings(
+                                                                snapshot
+                                                                    .data
+                                                                    .ratingAverage
+                                                                    .rating,
+                                                              ),
+                                                              isBold: true,
+                                                              fontSize: 12,
+                                                            ),
+                                                            horizontalSpaceTiny,
+                                                            Icon(
+                                                              Icons.star,
+                                                              color: Tools
+                                                                  .getColorAccordingToRattings(
+                                                                snapshot
+                                                                    .data
+                                                                    .ratingAverage
+                                                                    .rating,
+                                                              ),
+                                                              size: 12,
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    )
+                                                  : Container(),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 20.0),
-                                    child: FutureBuilder<Reviews>(
-                                      future: locator<APIService>().getReviews(
-                                          controller.sellerDetail?.key,
-                                          isSellerReview: true),
-                                      builder: (context, snapshot) => ((snapshot
-                                                      .connectionState ==
-                                                  ConnectionState.done) &&
-                                              ((snapshot?.data?.ratingAverage
-                                                          ?.rating ??
-                                                      0) >
-                                                  0))
-                                          ? FittedBox(
-                                              fit: BoxFit.scaleDown,
-                                              child: Container(
-                                                padding: EdgeInsets.symmetric(
-                                                  vertical: 2,
-                                                  horizontal: 5,
-                                                ),
-                                                decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                    color: Tools
-                                                        .getColorAccordingToRattings(
-                                                      snapshot.data
-                                                          .ratingAverage.rating,
+                                  if (controller
+                                          ?.sellerDetail?.subscriptionTypeId !=
+                                      2)
+                                    verticalSpace(5),
+                                  GestureDetector(
+                                    onTap: () async =>
+                                        await goToSellerProfile(controller),
+                                    child: Card(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      elevation: 0,
+                                      child: Container(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Expanded(
+                                              child: Row(
+                                                children: [
+                                                  Container(
+                                                    decoration: BoxDecoration(
+                                                      color: Color.fromRGBO(
+                                                          255, 255, 255, 1),
+                                                      shape: BoxShape.circle,
+                                                      border: Border.all(
+                                                        color: Colors.black38,
+                                                        width: 0.5,
+                                                      ),
+                                                    ),
+                                                    child: ClipOval(
+                                                      child: FadeInImage(
+                                                          width: 70,
+                                                          height: 70,
+                                                          fadeInCurve:
+                                                              Curves.easeIn,
+                                                          fit: BoxFit.cover,
+                                                          placeholder: AssetImage(
+                                                              "assets/icons/user.png"),
+                                                          image: NetworkImage(
+                                                            "$DESIGNER_PROFILE_PHOTO_BASE_URL/${productData?.seller?.owner?.key}",
+                                                            headers: {
+                                                              "Authorization":
+                                                                  "Bearer ${locator<HomeController>()?.prefs?.getString(Authtoken) ?? ''}",
+                                                            },
+                                                          ),
+                                                          imageErrorBuilder:
+                                                              (context, error,
+                                                                  stackTrace) {
+                                                            print(
+                                                                "Image Error: $error $stackTrace");
+                                                            return Image.asset(
+                                                              "assets/icons/user.png",
+                                                              width: 70,
+                                                              height: 70,
+                                                              fit: BoxFit.cover,
+                                                            );
+                                                          }),
                                                     ),
                                                   ),
-                                                  borderRadius:
-                                                      BorderRadius.circular(5),
-                                                ),
-                                                child: Row(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  children: <Widget>[
-                                                    CustomText(
-                                                      snapshot.data
-                                                          .ratingAverage.rating
-                                                          .toString(),
-                                                      color: Tools
-                                                          .getColorAccordingToRattings(
-                                                        snapshot
-                                                            .data
-                                                            .ratingAverage
-                                                            .rating,
-                                                      ),
-                                                      isBold: true,
-                                                      fontSize: 12,
+                                                  horizontalSpaceSmall,
+                                                  Expanded(
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        CustomText(
+                                                          controller
+                                                                  ?.sellerDetail
+                                                                  ?.owner
+                                                                  ?.name ??
+                                                              "",
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontSize:
+                                                              titleFontSize,
+                                                          dotsAfterOverFlow:
+                                                              true,
+                                                        ),
+                                                        ReadMoreText(
+                                                          controller
+                                                                  ?.sellerDetail
+                                                                  ?.bio ??
+                                                              "",
+                                                          trimLines: 3,
+                                                          colorClickableText:
+                                                              logoRed,
+                                                          trimMode:
+                                                              TrimMode.Line,
+                                                          style: TextStyle(
+                                                            fontSize:
+                                                                subtitleFontSize -
+                                                                    2,
+                                                            color: Colors
+                                                                .grey[600],
+                                                          ),
+                                                        ),
+                                                      ],
                                                     ),
-                                                    horizontalSpaceTiny,
-                                                    Icon(
-                                                      Icons.star,
-                                                      color: Tools
-                                                          .getColorAccordingToRattings(
-                                                        snapshot
-                                                            .data
-                                                            .ratingAverage
-                                                            .rating,
-                                                      ),
-                                                      size: 12,
-                                                    )
-                                                  ],
-                                                ),
+                                                  ),
+                                                ],
                                               ),
-                                            )
-                                          : Container(),
+                                            ),
+                                            Icon(
+                                              Icons.navigate_next,
+                                              color: lightGrey,
+                                              size: 40,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ],
-                              ),
-                              if (controller
-                                      ?.sellerDetail?.subscriptionTypeId !=
-                                  2)
-                                verticalSpace(5),
-                              GestureDetector(
-                                onTap: () async =>
-                                    await goToSellerProfile(controller),
-                                child: Card(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  elevation: 0,
-                                  child: Container(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                          child: Row(
-                                            children: [
-                                              Container(
-                                                decoration: BoxDecoration(
-                                                  color: Color.fromRGBO(
-                                                      255, 255, 255, 1),
-                                                  shape: BoxShape.circle,
-                                                  border: Border.all(
-                                                    color: Colors.black38,
-                                                    width: 0.5,
-                                                  ),
-                                                ),
-                                                child: ClipOval(
-                                                  child: FadeInImage(
-                                                      width: 70,
-                                                      height: 70,
-                                                      fadeInCurve:
-                                                          Curves.easeIn,
-                                                      fit: BoxFit.cover,
-                                                      placeholder: AssetImage(
-                                                          "assets/icons/user.png"),
-                                                      image: NetworkImage(
-                                                        "$DESIGNER_PROFILE_PHOTO_BASE_URL/${productData?.seller?.owner?.key}",
-                                                        headers: {
-                                                          "Authorization":
-                                                              "Bearer ${locator<HomeController>()?.prefs?.getString(Authtoken) ?? ''}",
-                                                        },
-                                                      ),
-                                                      imageErrorBuilder:
-                                                          (context, error,
-                                                              stackTrace) {
-                                                        print(
-                                                            "Image Error: $error $stackTrace");
-                                                        return Image.asset(
-                                                          "assets/icons/user.png",
-                                                          width: 70,
-                                                          height: 70,
-                                                          fit: BoxFit.cover,
-                                                        );
-                                                      }),
-                                                ),
-                                              ),
-                                              horizontalSpaceSmall,
-                                              Expanded(
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    CustomText(
-                                                      controller?.sellerDetail
-                                                              ?.owner?.name ??
-                                                          "",
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      fontSize: titleFontSize,
-                                                      dotsAfterOverFlow: true,
-                                                    ),
-                                                    ReadMoreText(
-                                                      controller?.sellerDetail
-                                                              ?.bio ??
-                                                          "",
-                                                      trimLines: 3,
-                                                      colorClickableText:
-                                                          logoRed,
-                                                      trimMode: TrimMode.Line,
-                                                      style: TextStyle(
-                                                        fontSize:
-                                                            subtitleFontSize -
-                                                                2,
-                                                        color: Colors.grey[600],
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Icon(
-                                          Icons.navigate_next,
-                                          color: lightGrey,
-                                          size: 40,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
                               ),
                               sectionDivider(),
                               ReviewWidget(
