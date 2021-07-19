@@ -150,7 +150,7 @@ class _CartViewState extends State<CartView> {
                                   gridCount: 1,
                                   disablePagination: true,
                                   controller: CartGridViewBuilderController(),
-                                  childAspectRatio: 1.6,
+                                  childAspectRatio: 1.5,
                                   tileBuilder: (BuildContext context, data,
                                       index, onDelete, onUpdate) {
                                     Fimber.d("test");

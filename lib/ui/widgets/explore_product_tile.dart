@@ -415,7 +415,7 @@ class _ExploreProductTileUIState extends State<ExploreProductTileUI> {
                   ),
                 ),
                 child: HomeSlider(
-                  aspectRatio: 0.98,
+                  aspectRatio: 1,
                   imgList: photoUrls,
                   videoList: videoUrls,
                   fromExplore: true,
