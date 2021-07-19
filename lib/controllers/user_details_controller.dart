@@ -70,8 +70,7 @@ class UserDetailsController extends BaseController {
   Future updateUserPhoto() async {
     setBusy(true);
     File file;
-    final pickedFile =
-        await ImagePicker().getImage(source: ImageSource.gallery);
+    final pickedFile = await ImagePicker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       file = File(pickedFile.path);
       if (await _apiService.updateUserPic(file)) {

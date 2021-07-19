@@ -18,7 +18,6 @@ import 'services/location_service.dart';
 import 'services/navigation_service.dart';
 import 'services/push_notification_service.dart';
 import 'services/wishlist_service.dart';
-import 'utils/image_selector.dart';
 
 T locator<T>({String tag}) => Get.find<T>(tag: tag);
 
@@ -28,7 +27,7 @@ void setupLocator() {
   Get.lazyPut(() => APIService());
   Get.lazyPut(() => AuthenticationService());
   Get.lazyPut(() => PaymentService());
-  Get.lazyPut(() => ImageSelector());
+  // Get.lazyPut(() => ImageSelector());
   Get.lazyPut(() => LocationService());
   Get.lazyPut(() => PushNotificationService());
   Get.lazyPut(() => AddressService());
