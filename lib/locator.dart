@@ -1,9 +1,6 @@
-// Services
-import 'package:compound/controllers/cart_count_controller.dart';
-import 'package:compound/services/payment_service.dart';
-import 'package:compound/services/remote_config_service.dart';
 import 'package:get/get.dart';
 
+import 'controllers/cart_count_controller.dart';
 import 'controllers/home_controller.dart';
 import 'controllers/lookup_controller.dart';
 import 'controllers/wishlist_controller.dart';
@@ -16,7 +13,9 @@ import 'services/dynamic_link_service.dart';
 import 'services/error_handling_service.dart';
 import 'services/location_service.dart';
 import 'services/navigation_service.dart';
+import 'services/payment_service.dart';
 import 'services/push_notification_service.dart';
+import 'services/remote_config_service.dart';
 import 'services/wishlist_service.dart';
 
 T locator<T>({String tag}) => Get.find<T>(tag: tag);

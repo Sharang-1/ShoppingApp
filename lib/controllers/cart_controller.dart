@@ -1,15 +1,13 @@
-// import 'package:compound/constants/route_names.dart';
-import 'package:compound/constants/shared_pref.dart';
-// import 'package:compound/services/navigation_service.dart';
-import 'package:compound/controllers/base_controller.dart';
-import 'package:compound/locator.dart';
-import 'package:compound/models/calculatedPrice.dart';
-import 'package:compound/models/cart.dart';
-import 'package:compound/models/promoCode.dart';
-import 'package:compound/services/analytics_service.dart';
-import 'package:compound/services/api/api_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../constants/shared_pref.dart';
+import '../locator.dart';
+import '../models/calculatedPrice.dart';
+import '../models/cart.dart';
+import '../models/promoCode.dart';
+import '../services/analytics_service.dart';
+import '../services/api/api_service.dart';
+import 'base_controller.dart';
 import 'home_controller.dart';
 
 class CartController extends BaseController {

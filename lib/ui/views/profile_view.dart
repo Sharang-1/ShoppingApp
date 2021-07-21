@@ -205,7 +205,7 @@ class _ProfileViewState extends State<ProfileView> {
                                         height: 100,
                                         fadeInCurve: Curves.easeIn,
                                         placeholder:
-                                            AssetImage("assets/icons/user.png"),
+                                            AssetImage("assets/images/user.png"),
                                         image: NetworkImage(
                                             "$USER_PROFILE_PHOTO_BASE_URL/${controller?.mUserDetails?.key}?v=${controller.dateTimeString}",
                                             headers: {
@@ -217,7 +217,7 @@ class _ProfileViewState extends State<ProfileView> {
                                           print(
                                               "User Photo: $USER_PROFILE_PHOTO_BASE_URL/${controller?.mUserDetails?.photo?.name} $error $stackTrace");
                                           return Image.asset(
-                                            "assets/icons/user.png",
+                                            "assets/images/user.png",
                                             width: 100,
                                             height: 100,
                                             fit: BoxFit.cover,

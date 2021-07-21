@@ -20,7 +20,6 @@ import '../../services/api/api_service.dart';
 import '../../services/dynamic_link_service.dart';
 import '../../ui/widgets/custom_text.dart';
 import '../../ui/widgets/reviews.dart';
-import '../../ui/widgets/writeReview.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
@@ -79,7 +78,6 @@ class _ProductListViewState extends State<ProductListView> {
           // final textController = TextEditingController();
 
           UniqueKey reviewsKey = UniqueKey();
-          UniqueKey writeReviewKey = UniqueKey();
 
           return GetBuilder<ReviewsController>(
             init: ReviewsController(id: sellerKey, isSeller: true),
@@ -95,109 +93,11 @@ class _ProductListViewState extends State<ProductListView> {
                           key: reviewsKey,
                           id: sellerKey,
                           isSeller: true,
-                          expanded: true,
+                          onSubmit: () {
+                            reviewsKey = UniqueKey();
+                          },
                         ),
-
-                        FutureBuilder<bool>(
-                          key: writeReviewKey,
-                          future: locator<APIService>()
-                              .hasReviewed(sellerKey, isSeller: true),
-                          builder: (context, snapshot) =>
-                              ((snapshot.connectionState ==
-                                          ConnectionState.done) &&
-                                      !snapshot.data)
-                                  ? Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: WriteReviewWidget(
-                                        sellerKey,
-                                        isSeller: true,
-                                        fromProductList: true,
-                                        onSubmit: () {
-                                          reviewsKey = UniqueKey();
-                                          writeReviewKey = UniqueKey();
-                                        },
-                                      ),
-                                    )
-                                  : Container(),
-                        ),
-
-                        // Container(
-                        //   child: Card(
-                        //     elevation: 5,
-                        //     clipBehavior: Clip.antiAlias,
-                        //     shape: RoundedRectangleBorder(
-                        //       borderRadius: BorderRadius.circular(curve15),
-                        //     ),
-                        //     child: Container(
-                        //       height: 202,
-                        //       color: Colors.white,
-                        //       child: Padding(
-                        //         padding: const EdgeInsets.all(16.0),
-                        //         child: Column(
-                        //           children: <Widget>[
-                        //             Padding(
-                        //               padding: const EdgeInsets.only(
-                        //                   left: 8.0, right: 8.0),
-                        //               child: InputField(
-                        //                 controller: textController,
-                        //                 placeholder: 'Write a Review',
-                        //               ),
-                        //             ),
-                        //             RatingBar.builder(
-                        //               initialRating: 0,
-                        //               direction: Axis.horizontal,
-                        //               allowHalfRating: true,
-                        //               itemCount: 5,
-                        //               itemPadding:
-                        //                   EdgeInsets.symmetric(horizontal: 4.0),
-                        //               unratedColor: Colors.grey[400],
-                        //               itemBuilder: (context, _) => Icon(
-                        //                 Icons.star,
-                        //                 color: Colors.amber,
-                        //               ),
-                        //               onRatingUpdate: (rating) {
-                        //                 selectedRating = rating;
-                        //               },
-                        //             ),
-                        //             Padding(
-                        //               padding: const EdgeInsets.only(top: 16.0),
-                        //               child: Row(
-                        //                 mainAxisAlignment: MainAxisAlignment.center,
-                        //                 children: <Widget>[
-                        //                   new TextButton(
-                        //                     style: TextButton.styleFrom(
-                        //                       shape: RoundedRectangleBorder(
-                        //                         borderRadius:
-                        //                             BorderRadius.circular(30),
-                        //                       ),
-                        //                       backgroundColor: logoRed,
-                        //                     ),
-                        //                     child: new CustomText(
-                        //                       "Submit",
-                        //                       color: Colors.white,
-                        //                     ),
-                        //                     onPressed: () async {
-                        //                       await controller.writeReiew(
-                        //                         sellerKey,
-                        //                         selectedRating,
-                        //                         textController.text,
-                        //                         isSellerReview: true,
-                        //                       );
-                        //                       textController.text = "";
-                        //                     },
-                        //                   ),
-                        //                   SizedBox(
-                        //                     width: 15,
-                        //                   ),
-                        //                 ],
-                        //               ),
-                        //             )
-                        //           ],
-                        //         ),
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
+                        verticalSpaceSmall,
                       ],
                     ),
                   ),

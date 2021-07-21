@@ -23,11 +23,11 @@ class LoginView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              "Sign in with \nyour name & mobile number",
+              "Sign in with \nYour name & mobile number".capitalize,
               style: TextStyle(
                 fontSize: headingFontSizeStyle,
                 fontWeight: FontWeight.w600,
-                height: 1.3,
+                height: 1.2,
               ),
             ),
             verticalSpaceMedium,
@@ -90,6 +90,7 @@ class LoginView extends StatelessWidget {
                 CustomText("Age"),
                 verticalSpaceTiny,
                 SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: controller.ageLookup
@@ -146,8 +147,9 @@ class LoginView extends StatelessWidget {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Image.asset(
-                                      "assets/images/${e.id == 0 ? "male" : e.id == 1 ? "female" : "other"}.png",
-                                      package: 'gender_picker',
+                                      "assets/images/${e.id == 0 ? "man" : e.id == 1 ? "woman" : "other"}.png",
+                                      package:
+                                          e.id == 2 ? 'gender_picker' : null,
                                       height: 30,
                                       width: 30,
                                     ),
@@ -238,31 +240,31 @@ class LoginView extends StatelessWidget {
             child: Stack(
               children: [
                 SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 70, 16, 0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Center(
-                          child: Container(
-                            margin: EdgeInsets.only(top: 8.0),
-                            child: SvgPicture.asset(
-                              "assets/svg/logo.svg",
-                              color: logoRed,
-                              width: MediaQuery.of(context).size.width / 3,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(16, 70, 16, 0),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Center(
+                              child: Container(
+                                margin: EdgeInsets.only(top: 8.0),
+                                child: SvgPicture.asset(
+                                  "assets/svg/logo.svg",
+                                  color: logoRed,
+                                  width: MediaQuery.of(context).size.width / 3,
+                                ),
+                              ),
                             ),
-                          ),
+                            verticalSpaceMedium,
+                            inputFields(controller, context),
+                          ],
                         ),
-                        Container(
-                          height: MediaQuery.of(context).size.height -
-                              (MediaQuery.of(context).size.width / 3) -
-                              180,
-                          child: inputFields(controller, context),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
                 Positioned(

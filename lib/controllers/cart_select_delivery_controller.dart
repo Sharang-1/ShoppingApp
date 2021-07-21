@@ -1,9 +1,7 @@
-// import 'package:compound/constants/route_names.dart';
-// import 'package:compound/services/navigation_service.dart';
-import 'package:compound/controllers/base_controller.dart';
-import 'package:compound/locator.dart';
-import 'package:compound/models/user_details.dart';
-import 'package:compound/services/address_service.dart';
+import '../locator.dart';
+import '../models/user_details.dart';
+import '../services/address_service.dart';
+import 'base_controller.dart';
 
 class CartSelectDeliveryController extends BaseController {
   // final NavigationService _navigationService = locator<NavigationService>();

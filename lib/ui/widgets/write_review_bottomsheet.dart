@@ -1,26 +1,28 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import '../../locator.dart';
 import '../../services/api/api_service.dart';
+import '../../services/navigation_service.dart';
 import '../shared/app_colors.dart';
 import '../shared/ui_helpers.dart';
 import 'custom_text.dart';
 
-class WriteReviewWidget extends StatefulWidget {
+class WriteReviewBottomsheet extends StatefulWidget {
   final String id;
   final bool isSeller;
   final bool fromProductList;
   final Function onSubmit;
 
-  WriteReviewWidget(this.id,
+  WriteReviewBottomsheet(this.id,
       {this.isSeller = false, this.fromProductList = false, this.onSubmit});
 
   @override
-  _WriteReviewWidgetState createState() => _WriteReviewWidgetState();
+  _WriteReviewBottomsheetState createState() => _WriteReviewBottomsheetState();
 }
 
-class _WriteReviewWidgetState extends State<WriteReviewWidget> {
+class _WriteReviewBottomsheetState extends State<WriteReviewBottomsheet> {
   final textController = TextEditingController();
 
   final APIService _apiService = locator<APIService>();
@@ -30,57 +32,48 @@ class _WriteReviewWidgetState extends State<WriteReviewWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return !isFormVisible
-        ? Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              ElevatedButton(
-                  onPressed: () {
-                    toggleFormVisibility();
-                  },
-                  style: ElevatedButton.styleFrom(
-                    primary:
-                        widget.fromProductList ? textIconOrange : Colors.white,
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        side: BorderSide(width: 1.5, color: textIconOrange)),
-                  ),
-                  child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: Row(children: <Widget>[
-                        Icon(
-                          Icons.edit,
-                          color: widget.fromProductList
-                              ? backgroundWhiteCreamColor
-                              : textIconOrange,
-                          size: 16,
-                        ),
-                        horizontalSpaceSmall,
-                        CustomText(
-                          "Write Review",
-                          isBold: true,
-                          fontSize: 16,
-                          color: widget.fromProductList
-                              ? backgroundWhiteCreamColor
-                              : textIconOrange,
-                        )
-                      ]))),
-            ],
-          )
-        : (isBusyWritingReview
-            ? Image.asset(
-                "assets/images/loading_img.gif",
-                height: 50,
-                width: 50,
-              )
-            : Card(
-                elevation: 3,
-                clipBehavior: Clip.antiAlias,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+    return Container(
+      padding: EdgeInsets.only(top: 8.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CustomText(
+                  "Write a Review",
+                  fontSize: titleFontSize + 2,
+                  isBold: true,
                 ),
-                child: Container(
+                IconButton(
+                  tooltip: "Close",
+                  iconSize: 28,
+                  icon: Icon(CupertinoIcons.clear_circled_solid),
+                  color: Colors.grey[600],
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
+          ),
+          (isBusyWritingReview
+              ? Center(
+                  child: Image.asset(
+                    "assets/images/loading_img.gif",
+                    height: 50,
+                    width: 50,
+                  ),
+                )
+              : Container(
                   height: 200,
                   color: Colors.white,
                   child: Padding(
@@ -121,18 +114,18 @@ class _WriteReviewWidgetState extends State<WriteReviewWidget> {
                           Padding(
                             padding: const EdgeInsets.only(top: 16.0),
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
                                 new TextButton(
                                   style: TextButton.styleFrom(
                                     shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
+                                      borderRadius: BorderRadius.circular(5),
                                     ),
                                     backgroundColor: logoRed,
                                   ),
                                   child: new CustomText(
                                     "Submit",
-                                    fontSize: 12,
+                                    fontSize: titleFontSize,
                                     color: Colors.white,
                                   ),
                                   onPressed: () async {
@@ -141,27 +134,8 @@ class _WriteReviewWidgetState extends State<WriteReviewWidget> {
                                         isSellerReview: widget.isSeller);
                                     textController.text = "";
                                     if (widget.onSubmit != null)
-                                      widget.onSubmit();
-                                  },
-                                ),
-                                SizedBox(
-                                  width: 15,
-                                ),
-                                new TextButton(
-                                  child: new CustomText(
-                                    "Cancel",
-                                    fontSize: 12,
-                                    color: Colors.white,
-                                  ),
-                                  style: TextButton.styleFrom(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    backgroundColor: Colors.grey[400],
-                                  ),
-                                  onPressed: () {
-                                    toggleFormVisibility();
-                                    textController.text = "";
+                                      await widget.onSubmit();
+                                    NavigationService.back();
                                   },
                                 ),
                               ],
@@ -169,12 +143,10 @@ class _WriteReviewWidgetState extends State<WriteReviewWidget> {
                           )
                         ]),
                   ),
-                ),
-              ));
-  }
-
-  void toggleFormVisibility() {
-    setState(() => isFormVisible = !isFormVisible);
+                )),
+        ],
+      ),
+    );
   }
 
   Future writeReview(String key, double ratings, String description,
@@ -185,6 +157,5 @@ class _WriteReviewWidgetState extends State<WriteReviewWidget> {
         isSellerReview: isSellerReview);
 
     setState(() => isBusyWritingReview = false);
-    toggleFormVisibility();
   }
 }

@@ -1,6 +1,3 @@
-// import 'package:compound/ui/views/promotion_products_view.dart';
-import 'package:compound/ui/views/dzor_explore_view.dart';
-import 'package:compound/ui/views/order_error_view.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -14,6 +11,7 @@ import 'views/cart_view.dart';
 import 'views/categories_view.dart';
 import 'views/category_indi_view.dart';
 import 'views/dynamic_content_loading_view.dart';
+import 'views/dzor_explore_view.dart';
 import 'views/home_view.dart';
 import 'views/intro.dart';
 import 'views/loader.dart';
@@ -22,6 +20,7 @@ import 'views/map_view.dart';
 import 'views/myAppointments_view.dart';
 import 'views/myorders_details_view.dart';
 import 'views/myorders_view.dart';
+import 'views/order_error_view.dart';
 import 'views/order_placed_view.dart';
 import 'views/otp_verified_2_view.dart';
 import 'views/otp_verified_view.dart';
@@ -29,6 +28,7 @@ import 'views/productListView.dart';
 import 'views/product_individual_view.dart';
 import 'views/product_wishlist_view.dart';
 import 'views/profile_view.dart';
+import 'views/reviews_screen.dart';
 import 'views/search_view.dart';
 import 'views/seller_indi_view.dart';
 import 'views/settings_page_view.dart';
@@ -216,6 +216,13 @@ Route<dynamic> generateRoute(RouteSettings settings) {
           pageArguments: pageArguments,
           routeName: settings.name,
           viewToShow: DynamicContentLoadingView(data: pageArguments),
+          pageTransitionType: PageTransitionType.bottomToTop);
+
+    case ReviewScreenRoute:
+      return _getPageRoute(
+          pageArguments: pageArguments,
+          routeName: settings.name,
+          viewToShow: ReviewsScreen(reviews: pageArguments),
           pageTransitionType: PageTransitionType.bottomToTop);
 
     case BuyNowRoute:

@@ -148,7 +148,7 @@ class HomeController extends BaseController {
           accentColor: logoRed,
           onSubmitPressed: (int rating) async {
             print("onSubmitPressed: rating = $rating");
-            postReview(lastDeliveredProduct['id'], rating.toDouble());
+            await postReview(lastDeliveredProduct['id'], rating.toDouble());
           },
         ),
         barrierDismissible: true,

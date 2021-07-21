@@ -1,7 +1,5 @@
-// import 'package:fimber/fimber.dart';
 import 'dart:io';
 
-import 'package:compound/controllers/home_controller.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,6 +10,7 @@ import '../services/address_service.dart';
 import '../services/api/api_service.dart';
 import '../services/dialog_service.dart';
 import 'base_controller.dart';
+import 'home_controller.dart';
 import 'lookup_controller.dart';
 
 class UserDetailsController extends BaseController {
@@ -70,6 +69,7 @@ class UserDetailsController extends BaseController {
   Future updateUserPhoto() async {
     setBusy(true);
     File file;
+    //ignore: deprecated_member_use
     final pickedFile = await ImagePicker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       file = File(pickedFile.path);

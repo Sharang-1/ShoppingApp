@@ -35,11 +35,10 @@ import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
 import '../widgets/custom_text.dart';
-import '../widgets/newcarddesigns/seller_profile_slider.dart';
 import '../widgets/reviews.dart';
 import '../widgets/section_builder.dart';
 import '../widgets/sellerAppointmentBottomSheet.dart';
-import '../widgets/writeReview.dart';
+import '../widgets/seller_profile_slider.dart';
 
 class SellerIndi extends StatefulWidget {
   final Seller data;
@@ -52,7 +51,6 @@ class SellerIndi extends StatefulWidget {
 class _SellerIndiState extends State<SellerIndi> {
   final productKey = new UniqueKey();
   Key reviewKey = UniqueKey();
-  Key writeReviewKey = UniqueKey();
   bool showExploreSection = true;
 
   GlobalKey sellerAboutKey = GlobalKey();
@@ -714,7 +712,7 @@ class _SellerIndiState extends State<SellerIndi> {
                                     fadeInCurve: Curves.easeIn,
                                     fit: BoxFit.cover,
                                     placeholder:
-                                        AssetImage("assets/icons/user.png"),
+                                        AssetImage("assets/images/user.png"),
                                     image: NetworkImage(
                                         "$designerProfilePicUrl",
                                         headers: {
@@ -725,7 +723,7 @@ class _SellerIndiState extends State<SellerIndi> {
                                         (context, error, stackTrace) {
                                       print("Image Error: $error $stackTrace");
                                       return Image.asset(
-                                        "assets/icons/user.png",
+                                        "assets/images/user.png",
                                         width: 80,
                                         height: 80,
                                         fit: BoxFit.cover,
@@ -951,42 +949,15 @@ class _SellerIndiState extends State<SellerIndi> {
                     Container(
                       width: MediaQuery.of(context).size.width,
                       padding: EdgeInsets.symmetric(horizontal: 16),
-                      child: Column(
-                        children: [
-                          ReviewWidget(
-                            key: reviewKey,
-                            id: sellerDetails["key"],
-                            isSeller: true,
-                          ),
-                          verticalSpaceMedium,
-                          FutureBuilder<bool>(
-                            key: writeReviewKey,
-                            future: locator<APIService>()
-                                .hasReviewed(sellerData.key, isSeller: true),
-                            builder: (context, snapshot) {
-                              return ((snapshot.connectionState ==
-                                          ConnectionState.done) &&
-                                      !snapshot.data)
-                                  ? Column(
-                                      children: [
-                                        WriteReviewWidget(
-                                          sellerDetails["key"],
-                                          isSeller: true,
-                                          onSubmit: () {
-                                            setState(() {
-                                              reviewKey = UniqueKey();
-                                              writeReviewKey = UniqueKey();
-                                            });
-                                          },
-                                        ),
-                                        verticalSpace(15),
-                                      ],
-                                    )
-                                  : Container();
-                            },
-                          ),
-                        ],
-                      ),
+                      child: ReviewWidget(
+                          key: reviewKey,
+                          id: sellerDetails["key"],
+                          isSeller: true,
+                          onSubmit: () {
+                            setState(() {
+                              reviewKey = UniqueKey();
+                            });
+                          }),
                     ),
                     if (sellerData.subscriptionTypeId == 1 &&
                         showExploreSection)

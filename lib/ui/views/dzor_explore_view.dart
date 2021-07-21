@@ -1,4 +1,3 @@
-import 'package:compound/ui/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -14,6 +13,7 @@ import '../../services/analytics_service.dart';
 import '../shared/app_colors.dart';
 import '../shared/ui_helpers.dart';
 import '../widgets/cart_icon_badge.dart';
+import '../widgets/custom_text.dart';
 import '../widgets/section_builder.dart';
 
 class DzorExploreView extends StatefulWidget {

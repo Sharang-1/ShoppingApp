@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../controllers/dynamic_content_controller.dart';
-// import 'package:compound/ui/widgets/circular_progress_indicator.dart';
 
 class DynamicContentLoadingView extends StatelessWidget {
   final data;

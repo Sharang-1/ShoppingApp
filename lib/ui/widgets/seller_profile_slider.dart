@@ -2,12 +2,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
-import '../../../constants/server_urls.dart';
-import '../../../locator.dart';
-import '../../../models/sellerProfile.dart';
-import '../../../services/api/api_service.dart';
-import '../../shared/shared_styles.dart';
-import '../../views/gallery_view.dart';
+import '../../constants/server_urls.dart';
+import '../../locator.dart';
+import '../../models/sellerProfile.dart';
+import '../../services/api/api_service.dart';
+import '../shared/shared_styles.dart';
+import '../views/gallery_view.dart';
 
 class SellerProfilePhotos extends StatelessWidget {
   final String accountId;

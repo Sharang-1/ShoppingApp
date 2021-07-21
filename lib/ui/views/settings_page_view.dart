@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:compound/constants/shared_pref.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -10,6 +9,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../constants/route_names.dart';
 import '../../constants/server_urls.dart';
+import '../../constants/shared_pref.dart';
 import '../../controllers/base_controller.dart';
 import '../../controllers/home_controller.dart';
 import '../../controllers/user_details_controller.dart';
@@ -150,7 +150,7 @@ class SettingsView extends StatelessWidget {
                                           height: 50,
                                           fadeInCurve: Curves.easeIn,
                                           placeholder: AssetImage(
-                                              "assets/icons/user.png"),
+                                              "assets/images/user.png"),
                                           image: NetworkImage(
                                               "$USER_PROFILE_PHOTO_BASE_URL/${controller?.mUserDetails?.key}",
                                               headers: {
@@ -162,7 +162,7 @@ class SettingsView extends StatelessWidget {
                                             print(
                                                 "User Photo: $error $stackTrace");
                                             return Image.asset(
-                                              "assets/icons/user.png",
+                                              "assets/images/user.png",
                                               width: 50,
                                               height: 50,
                                               fit: BoxFit.cover,

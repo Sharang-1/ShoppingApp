@@ -1,10 +1,10 @@
-import 'package:compound/ui/shared/shared_styles.dart';
 import 'package:flutter/material.dart';
 
 import '../../controllers/grid_view_builder/products_grid_view_builder_controller.dart';
 import '../../models/grid_view_builder_filter_models/productFilter.dart';
 import '../../models/products.dart';
 import '../shared/app_colors.dart';
+import '../shared/shared_styles.dart';
 import 'grid_list_widget.dart';
 import 'product_tile_ui.dart';
 

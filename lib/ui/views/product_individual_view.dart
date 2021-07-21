@@ -1434,7 +1434,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                               Curves.easeIn,
                                                           fit: BoxFit.cover,
                                                           placeholder: AssetImage(
-                                                              "assets/icons/user.png"),
+                                                              "assets/images/user.png"),
                                                           image: NetworkImage(
                                                             "$DESIGNER_PROFILE_PHOTO_BASE_URL/${productData?.seller?.owner?.key}",
                                                             headers: {
@@ -1448,7 +1448,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                             print(
                                                                 "Image Error: $error $stackTrace");
                                                             return Image.asset(
-                                                              "assets/icons/user.png",
+                                                              "assets/images/user.png",
                                                               width: 70,
                                                               height: 70,
                                                               fit: BoxFit.cover,

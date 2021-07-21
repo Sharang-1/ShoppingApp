@@ -1,11 +1,7 @@
-// To parse this JSON data, do
-//
-//     final sellers = sellersFromJson(jsonString);
-
 import 'dart:convert';
 
-import 'package:compound/models/products.dart';
-import 'package:compound/models/sellerProfile.dart';
+import 'products.dart';
+import 'sellerProfile.dart';
 
 Sellers sellersFromJson(String str) => Sellers.fromJson(json.decode(str));
 

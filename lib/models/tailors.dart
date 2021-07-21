@@ -1,10 +1,6 @@
-// To parse this JSON data, do
-//
-//     final tailors = tailorsFromJson(jsonString);
-
 import 'dart:convert';
 
-import 'package:compound/models/sellers.dart';
+import 'sellers.dart';
 
 Tailors tailorsFromJson(String str) => Tailors.fromJson(json.decode(str));
 

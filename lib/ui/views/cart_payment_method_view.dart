@@ -1,16 +1,14 @@
-// import 'package:compound/ui/views/pay_through_card.dart';
-import 'package:compound/controllers/base_controller.dart';
-import 'package:compound/models/order_details.dart';
-import 'package:compound/services/dialog_service.dart';
-import 'package:compound/ui/widgets/order_details_bottomsheet.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../constants/route_names.dart';
+import '../../controllers/base_controller.dart';
 import '../../controllers/cart_payment_method_controller.dart';
 import '../../locator.dart';
 import '../../models/order.dart';
+import '../../models/order_details.dart';
 import '../../models/user_details.dart';
+import '../../services/dialog_service.dart';
 import '../../services/error_handling_service.dart';
 import '../../services/navigation_service.dart';
 import '../shared/app_colors.dart';
@@ -18,6 +16,7 @@ import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
 import '../widgets/custom_stepper.dart';
 import '../widgets/custom_text.dart';
+import '../widgets/order_details_bottomsheet.dart';
 
 class PaymentMethod extends StatefulWidget {
   final String finalTotal;
