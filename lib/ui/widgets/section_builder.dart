@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../constants/route_names.dart';
 import '../../controllers/base_controller.dart';
@@ -62,6 +63,7 @@ class SectionBuilder extends StatelessWidget {
   bool withScrollBar;
   Axis scrollDirection;
   Function onEmptyList;
+  bool isSmallDevice = Get.size.width < 375;
 
   SectionBuilder({
     @required this.context,
@@ -107,15 +109,18 @@ class SectionBuilder extends StatelessWidget {
                     ),
                     child: Scrollbar(
                       controller: ScrollController(),
-                      child: getGridListWidget(layoutType),
+                      child: getGridListWidget(
+                        layoutType,
+                        isSmallDevice: isSmallDevice,
+                      ),
                     ),
                   )
-                : getGridListWidget(layoutType),
+                : getGridListWidget(layoutType, isSmallDevice: isSmallDevice),
           ),
         ],
       );
 
-  Widget getGridListWidget(LayoutType type) {
+  Widget getGridListWidget(LayoutType type, {bool isSmallDevice = false}) {
     switch (type) {
       case LayoutType.PRODUCT_LAYOUT_1:
         return GridListWidget<Products, Product>(
@@ -124,7 +129,8 @@ class SectionBuilder extends StatelessWidget {
           filter: filter ?? ProductFilter(),
           gridCount: gridCount,
           controller: controller,
-          childAspectRatio: getChildAspectRatio(layoutType),
+          childAspectRatio:
+              getChildAspectRatio(layoutType, isSmallDevice: isSmallDevice),
           emptyListWidget: Container(),
           scrollDirection: scrollDirection,
           disablePagination: true,
@@ -278,7 +284,10 @@ class SectionBuilder extends StatelessWidget {
           context: context,
           filter: filter ?? SellerFilter(),
           gridCount: gridCount,
-          childAspectRatio: getChildAspectRatio(layoutType),
+          childAspectRatio: getChildAspectRatio(
+            layoutType,
+            isSmallDevice: isSmallDevice,
+          ),
           controller: controller,
           disablePagination: true,
           scrollDirection: scrollDirection,
@@ -294,7 +303,7 @@ class SectionBuilder extends StatelessWidget {
                     //   color: Colors.grey[300],
                     // )),
                     ),
-                child: DesignerTileUi(data: data),
+                child: DesignerTileUi(data: data, isSmallDevice: isSmallDevice),
               ),
             );
           },
@@ -468,7 +477,7 @@ class SectionBuilder extends StatelessWidget {
     }
   }
 
-  double getChildAspectRatio(LayoutType type) {
+  double getChildAspectRatio(LayoutType type, {bool isSmallDevice = false}) {
     switch (type) {
       case LayoutType.PRODUCT_LAYOUT_1:
       case LayoutType.PRODUCT_LAYOUT_2:

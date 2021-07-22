@@ -281,22 +281,24 @@ class SellerTileUi extends StatelessWidget {
 class DesignerTileUi extends StatelessWidget {
   final Seller data;
   final bool isID3;
+  final bool isSmallDevice;
 
   DesignerTileUi({
     Key key,
     @required this.data,
     this.isID3 = false,
+    this.isSmallDevice = false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(left: 5, bottom: 10, right: 5),
+      margin: EdgeInsets.only(left: 0, bottom: 10, right: 0),
       height: 200.0,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-          color: Colors.grey[200],
+        // borderRadius: BorderRadius.circular(10),
+        border: Border(
+          right: BorderSide(color: Colors.grey[200], style: BorderStyle.solid),
         ),
       ),
       width: MediaQuery.of(context).size.width - 40,

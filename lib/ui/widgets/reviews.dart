@@ -24,6 +24,7 @@ class ReviewWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) => GetBuilder<ReviewsController>(
         init: ReviewsController(id: id, isSeller: isSeller),
+        global: false,
         builder: (controller) => Column(
           children: [
             Row(
@@ -96,7 +97,7 @@ class ReviewWidget extends StatelessWidget {
               children: [
                 if (controller.busy)
                   LinearProgressIndicator(
-                    color: logoRed,
+                    // color: logoRed,
                     backgroundColor: Colors.white,
                   ),
                 if (!controller.busy)
