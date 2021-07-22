@@ -27,6 +27,7 @@ class _AddressInputPageState extends State<AddressInputPage> {
     return GetBuilder(
       init: AddressController(),
       builder: (controller) => Scaffold(
+        resizeToAvoidBottomInset: false,
         body: SafeArea(
           child: Stack(
             children: [
@@ -106,13 +107,14 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
   Widget build(BuildContext context) {
     return GetBuilder(
       init: AddressController(),
-      builder: (controller) => SafeArea(
-        child: ConstrainedBox(
-          constraints: BoxConstraints(maxHeight: Get.size.height * 0.8),
-          child: Padding(
-            padding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).viewInsets.bottom),
+      builder: (controller) => Container(
+        padding: EdgeInsets.only(top: 24.0),
+        child: SafeArea(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(maxHeight: Get.size.height * 0.8),
             child: Container(
+              // padding: EdgeInsets.only(
+              // bottom: MediaQuery.of(context).viewInsets.bottom),
               color: Colors.transparent,
               child: Padding(
                 padding: EdgeInsets.all(8.0),
@@ -252,7 +254,7 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
                                             ? null
                                             : () {
                                                 final userInputAddressString =
-                                                    "${_userInputedAddressString1Controller.text}, ${_userInputedAddressString2Controller.text}";
+                                                    "${_userInputedAddressString1Controller.text}, \n${_userInputedAddressString2Controller.text}";
                                                 final googleAddresString =
                                                     _googleAddressStringController
                                                         .text;

@@ -168,7 +168,7 @@ class _ProfileViewState extends State<ProfileView> {
             ),
             backgroundColor: Colors.white,
           ),
-          // resizeToAvoidBottomInset: false,
+          resizeToAvoidBottomInset: false,
           body: SafeArea(
             top: false,
             left: false,
@@ -279,8 +279,12 @@ class _ProfileViewState extends State<ProfileView> {
                                               Icon(Icons.edit),
                                               CustomText(
                                                 "Edit",
-                                                fontSize: 8,
-                                                letterSpacing: 0.4,
+                                                textStyle: TextStyle(
+                                                  decoration:
+                                                      TextDecoration.underline,
+                                                  fontSize: 8,
+                                                  letterSpacing: 0.4,
+                                                ),
                                               ),
                                             ],
                                           ),
