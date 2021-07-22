@@ -7,6 +7,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../controllers/appointments_controller.dart';
 import '../../models/Appointments.dart';
 import '../../services/dialog_service.dart';
+import '../../services/navigation_service.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
@@ -23,9 +24,6 @@ class myAppointments extends StatefulWidget {
 
 // ignore: camel_case_types
 class _myAppointmentsState extends State<myAppointments> {
-  final double headingFontSize = headingFontSizeStyle + 5;
-  final double headingSize = 20;
-  final double subHeadingSize = 18;
   final refreshController = RefreshController(initialRefresh: false);
   UniqueKey key = UniqueKey();
 
@@ -49,6 +47,19 @@ class _myAppointmentsState extends State<myAppointments> {
             iconTheme: IconThemeData(
               color: Colors.black,
             ),
+            actions: [
+              IconButton(
+                  onPressed: () async => await showModalBottomSheet(
+                        isScrollControlled: true,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(curve30))),
+                        clipBehavior: Clip.antiAlias,
+                        context: context,
+                        builder: (con) => HelpView(),
+                      ),
+                  icon: Icon(Icons.help)),
+            ],
           ),
           backgroundColor: newBackgroundColor,
           body: SafeArea(
@@ -84,39 +95,12 @@ class _myAppointmentsState extends State<myAppointments> {
               },
               child: SingleChildScrollView(
                   child: Padding(
-                padding: EdgeInsets.only(
-                    left: screenPadding,
-                    right: screenPadding,
-                    top: 10,
-                    bottom: 10),
+                padding: EdgeInsets.all(8.0),
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      verticalSpace(20),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          if (!controller.busy &&
-                              (controller?.data?.appointments?.length ?? 0) !=
-                                  0)
-                            Align(
-                              alignment: Alignment.topRight,
-                              child: GestureDetector(
-                                  onTap: () async => await showModalBottomSheet(
-                                        isScrollControlled: true,
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.vertical(
-                                                top: Radius.circular(curve30))),
-                                        clipBehavior: Clip.antiAlias,
-                                        context: context,
-                                        builder: (con) => HelpView(),
-                                      ),
-                                  child: Icon(Icons.help)),
-                            ),
-                        ],
-                      ),
-                      verticalSpace(20),
+                      verticalSpace(8),
                       if (controller.busy)
                         Image.asset(
                           "assets/images/loading_img.gif",
@@ -210,13 +194,13 @@ class _myAppointmentsState extends State<myAppointments> {
       children: <Widget>[
         Card(
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(curve15),
+              borderRadius: BorderRadius.circular(5),
             ),
             clipBehavior: Clip.antiAlias,
             elevation: 5,
             child: Container(
-                width: MediaQuery.of(context).size.width - 40,
-                padding: EdgeInsets.all(20),
+                width: MediaQuery.of(context).size.width,
+                padding: EdgeInsets.all(12),
                 child: Stack(
                   children: [
                     Column(
@@ -225,11 +209,11 @@ class _myAppointmentsState extends State<myAppointments> {
                       children: <Widget>[
                         verticalSpaceTiny,
                         CustomText(
-                          data.seller.name,
+                          data?.seller?.name ?? '',
                           dotsAfterOverFlow: true,
                           isTitle: true,
-                          isBold: true,
-                          fontSize: headingSize,
+                          fontWeight: FontWeight.w600,
+                          fontSize: headingFontSizeStyle,
                         ),
                         verticalSpaceTiny,
                         Row(
@@ -238,7 +222,7 @@ class _myAppointmentsState extends State<myAppointments> {
                               "BOOKING ID",
                               isBold: true,
                               color: logoRed,
-                              fontSize: subHeadingSize - 2,
+                              fontSize: headingFontSizeStyle - 2,
                             ),
                             horizontalSpaceSmall,
                             Expanded(
@@ -247,7 +231,7 @@ class _myAppointmentsState extends State<myAppointments> {
                               dotsAfterOverFlow: true,
                               isBold: true,
                               color: logoRed,
-                              fontSize: subHeadingSize - 2,
+                              fontSize: subtitleFontSize,
                             ))
                           ],
                         ),
@@ -265,7 +249,7 @@ class _myAppointmentsState extends State<myAppointments> {
                                           .toString(),
                                       isBold: true,
                                       color: Colors.grey[600],
-                                      fontSize: subHeadingSize,
+                                      fontSize: subtitleFontSize,
                                     ),
                                     verticalSpaceTiny,
                                     CustomText(
@@ -278,7 +262,7 @@ class _myAppointmentsState extends State<myAppointments> {
                                               .toString(),
                                       isBold: true,
                                       color: Colors.grey[600],
-                                      fontSize: subHeadingSize,
+                                      fontSize: subtitleFontSize,
                                     ),
                                   ]),
                             ),
@@ -287,7 +271,7 @@ class _myAppointmentsState extends State<myAppointments> {
                                   vertical: 4, horizontal: 8),
                               decoration: BoxDecoration(
                                   color: textIconOrange,
-                                  borderRadius: BorderRadius.circular(curve30)),
+                                  borderRadius: BorderRadius.circular(5)),
                               child: CustomText(
                                 (data.status is String)
                                     ? appointmentStatus[int.parse(data.status)]
@@ -305,15 +289,35 @@ class _myAppointmentsState extends State<myAppointments> {
                       Align(
                         alignment: Alignment.topRight,
                         child: InkWell(
-                          child: Icon(Icons.notifications_active),
+                          child: Icon(Icons.message),
                           onTap: () async =>
                               await DialogService.showCustomDialog(AlertDialog(
                             title: Center(
                                 child: Text(
                               "Message From Designer",
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: headingFontSizeStyle,
+                              ),
                             )),
-                            content: Text(data?.sellerMessage ?? ''),
+                            content: Container(
+                              decoration: BoxDecoration(
+                                border: Border(
+                                  top: BorderSide(
+                                    color: Colors.grey[200],
+                                    style: BorderStyle.solid,
+                                  ),
+                                ),
+                              ),
+                              padding: EdgeInsets.only(top: 8.0),
+                              child: Text(data?.sellerMessage ?? ''),
+                            ),
+                            actions: [
+                              TextButton(
+                                child: Text('OK'),
+                                onPressed: () => NavigationService.back(),
+                              )
+                            ],
                           )),
                         ),
                       ),
@@ -321,56 +325,65 @@ class _myAppointmentsState extends State<myAppointments> {
                 ))),
         verticalSpaceSmall,
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            ElevatedButton(
-                onPressed: () async => await MapUtils.openMap(
-                      data?.seller?.contact?.geoLocation?.latitude ?? 0,
-                      data?.seller?.contact?.geoLocation?.longitude ?? 0,
-                    ),
-                style: ElevatedButton.styleFrom(
-                  elevation: 5,
-                  primary: textIconOrange,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                ),
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                  child: Row(children: <Widget>[
-                    Icon(
-                      Icons.directions,
-                      color: Colors.white,
-                    ),
-                    horizontalSpaceTiny,
-                    Text(
-                      "Directions",
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
-                  ]),
-                )),
-            ((data.status < 2 || data.status == "1" || data.status == "0")
-                ? ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        elevation: 0,
-                        primary: backgroundWhiteCreamColor,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                            side: BorderSide(color: logoRed, width: 2))),
-                    onPressed: () {
-                      _showDialog(context, data, controller);
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      child: CustomText(
-                        "Cancel",
-                        fontSize: 16,
-                        isBold: true,
-                        color: logoRed,
+            Expanded(
+              child: ElevatedButton(
+                  onPressed: () async => await MapUtils.openMap(
+                        data?.seller?.contact?.geoLocation?.latitude ?? 0,
+                        data?.seller?.contact?.geoLocation?.longitude ?? 0,
                       ),
-                    ))
+                  style: ElevatedButton.styleFrom(
+                    elevation: 5,
+                    primary: textIconOrange,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(
+                            Icons.directions,
+                            color: Colors.white,
+                          ),
+                          horizontalSpaceTiny,
+                          Text(
+                            "Directions",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ]),
+                  )),
+            ),
+            ((data.status < 2 || data.status == "1" || data.status == "0")
+                ? Container(
+                    margin: EdgeInsets.only(left: 16.0),
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            elevation: 0,
+                            primary: backgroundWhiteCreamColor,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                side: BorderSide(color: logoRed, width: 2))),
+                        onPressed: () {
+                          _showDialog(context, data, controller);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: CustomText(
+                            "Cancel",
+                            fontSize: 16,
+                            isBold: true,
+                            color: logoRed,
+                          ),
+                        )),
+                  )
                 : SizedBox.shrink())
           ],
         ),

@@ -678,6 +678,36 @@ class APIService {
       Fimber.e(error);
     }
     return data;
+
+    // return Appointments(
+    //   appointments: <AppointmentData>[
+    //     AppointmentData(
+    //       id: 'abc',
+    //       userId: '35482331',
+    //       timeSlotStart: DateTime.now(),
+    //       timeSlotEnd: DateTime.now(),
+    //       status: 1,
+    //       customerMessage: 'Xyz',
+    //       sellerMessage: 'AbC',
+    //       seller: SellerData(
+    //         id: '35819009',
+    //         contact: appointmentModel.Contact(
+    //           address: "address",
+    //           city: "city",
+    //           state: "state",
+    //           pincode: 123456,
+    //           email: "email",
+    //           primaryNumber:
+    //               appointmentModel.AryNumber(code: '91', mobile: '123456789'),
+    //           secondaryNumber:
+    //               appointmentModel.AryNumber(code: '91', mobile: '123456789'),
+    //           geoLocation: appointmentModel.GeoLocation(
+    //               latitude: 12.12, longitude: 14.14),
+    //         ),
+    //       ),
+    //     ),
+    //   ],
+    // );
   }
 
   Future<String> cancelAppointment(String id, String msg) async {
