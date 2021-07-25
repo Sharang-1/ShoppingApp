@@ -43,7 +43,7 @@ class ErrorHandlingService {
               AlertDialog(
                 title: Text("No Internet Connection"),
                 content: Image.asset(
-                  'assets/images/no_internet.png',
+                  'assets/images/no_internet.jpg',
                   height: 300,
                   width: 300,
                 ),

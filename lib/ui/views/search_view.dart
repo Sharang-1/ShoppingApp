@@ -181,7 +181,10 @@ class _SearchViewState extends State<SearchView>
                               limit: _controller.showTopProducts.value ? 6 : 50,
                               randomize: _controller.showTopProducts.value,
                             ),
-                            emptyListWidget: EmptyListWidget(text: ""),
+                            emptyListWidget: EmptyListWidget(
+                                text:
+                                    "No Search Found for ‘${_controller.productFilter.value.fullText}’, \nPlease try again!",
+                                img: 'assets/images/no_search.jpg'),
                             childAspectRatio: 0.7,
                             tileBuilder: (BuildContext context, data, index,
                                     onUpdate, onDelete) =>
@@ -216,7 +219,10 @@ class _SearchViewState extends State<SearchView>
                             gridCount: 1,
                             controller: SellersGridViewBuilderController(
                                 random: _controller.showRandomSellers.value),
-                            emptyListWidget: EmptyListWidget(text: ""),
+                            emptyListWidget: EmptyListWidget(
+                                text:
+                                    "No Search Found for ‘${_controller.sellerFilter.value.name}’, \nPlease try again!",
+                                img: 'assets/images/no_search.jpg'),
                             disablePagination: true,
                             childAspectRatio: 3.50,
                             tileBuilder: (BuildContext context, data, index,

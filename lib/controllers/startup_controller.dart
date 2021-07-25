@@ -63,9 +63,9 @@ class StartUpController extends BaseController {
           ],
         ),
         barrierDismissible:
-            !(updateDetails?.priority?.contains("High") ?? false),
+            !(((updateDetails?.priority?.priority ?? 0) > 0) ?? false),
       );
-      if (updateDetails?.priority?.contains("High") ?? false) return;
+      if (((updateDetails?.priority?.priority ?? 0) > 0) ?? false) return;
     }
 
     Future.delayed(

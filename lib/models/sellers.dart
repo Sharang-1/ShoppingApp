@@ -135,9 +135,6 @@ final accountTypeValues = EnumValues({"SELLER": AccountType.SELLER});
 class Contact {
   Contact({
     this.geoLocation,
-    this.primaryNumber,
-    this.secondaryNumber,
-    this.email,
     this.address,
     this.city,
     this.pincode,
@@ -145,20 +142,12 @@ class Contact {
   });
 
   GeoLocation geoLocation;
-  AryNumber primaryNumber;
-  AryNumber secondaryNumber;
-  String email;
   String address, city, state, pincode;
 
   factory Contact.fromJson(Map<String, dynamic> json) => Contact(
         geoLocation: json["geoLocation"] == null
             ? null
             : GeoLocation.fromJson(json["geoLocation"]),
-        primaryNumber: AryNumber.fromJson(json["primaryNumber"]),
-        secondaryNumber: json["secondaryNumber"] == null
-            ? null
-            : AryNumber.fromJson(json["secondaryNumber"]),
-        email: json["email"],
         address: json["address"],
         city: json["city"],
         state: json["state"],
@@ -167,9 +156,6 @@ class Contact {
 
   Map<String, dynamic> toJson() => {
         "geoLocation": geoLocation?.toJson(),
-        "primaryNumber": primaryNumber?.toJson(),
-        "secondaryNumber": secondaryNumber?.toJson(),
-        "email": email,
         "address": address,
         "city": city,
         "state": state,
@@ -359,161 +345,3 @@ class EnumValues<T> {
     return reverseMap;
   }
 }
-
-// // To parse this JSON data, do
-// //
-// //     final sellers = sellersFromJson(jsonString);
-
-// import 'dart:convert';
-
-// Sellers sellersFromJson(String str) => Sellers.fromJson(json.decode(str));
-
-// String sellersToJson(Sellers data) => json.encode(data.toJson());
-
-// class Sellers {
-//   num records;
-//   num startIndex;
-//   num limit;
-//   List<Seller> items;
-
-//   Sellers({
-//     this.records,
-//     this.startIndex,
-//     this.limit,
-//     this.items,
-//   });
-
-//   factory Sellers.fromJson(Map<String, dynamic> json) => Sellers(
-//         records: json["records"],
-//         startIndex: json["startIndex"],
-//         limit: json["limit"],
-//         items:
-//             List<Seller>.from(json["sellers"].map((x) => Seller.fromJson(x))),
-//       );
-
-//   Map<String, dynamic> toJson() => {
-//         "records": records,
-//         "startIndex": startIndex,
-//         "limit": limit,
-//         "sellers": List<dynamic>.from(items.map((x) => x.toJson())),
-//       };
-// }
-
-// class Seller {
-//   String documentId;
-//   String key;
-//   String name;
-//   String bio;
-//   String works;
-
-//   String operations;
-//   Contact contact;
-//   String created;
-//   String accountType;
-//   String known;
-//   String designs;
-//   Seller(
-//       {this.documentId,
-//       this.key,
-//       this.name,
-//       this.bio,
-//       this.works,
-//       this.operations,
-//       this.contact,
-//       this.created,
-//       this.accountType,
-//       this.designs,
-//       this.known});
-
-//   factory Seller.fromJson(Map<String, dynamic> json) => Seller(
-//       documentId: json["documentId"],
-//       key: json["key"],
-//       name: json["name"],
-//       bio: json["bio"],
-//       works: json["works"] == null ? null : json["works"],
-//       operations: json["operations"] == null ? null : json["operations"],
-//       contact: Contact.fromJson(json["contact"]),
-//       created: json["created"],
-//       accountType: json["accountType"],
-//       designs: json["designs"],
-//       known: json["known"]);
-
-//   Map<String, dynamic> toJson() => {
-//         "documentId": documentId,
-//         "key": key,
-//         "name": name,
-//         "bio": bio,
-//         "works": works == null ? null : works,
-//         "operations": operations == null ? null : operations,
-//         "contact": contact.toJson(),
-//         "created": created,
-//         "accountType": accountType,
-//         "designs": designs,
-//         "known": known
-//       };
-// }
-
-// class Contact {
-//   GeoLocation geoLocation;
-//   PrimaryNumber primaryNumber;
-
-//   Contact({
-//     this.geoLocation,
-//     this.primaryNumber,
-//   });
-
-//   factory Contact.fromJson(Map<String, dynamic> json) => Contact(
-//         geoLocation: json["geoLocation"] != null
-//             ? GeoLocation.fromJson(json["geoLocation"])
-//             : null,
-//         primaryNumber: json["primaryNumber"] != null
-//             ? PrimaryNumber.fromJson(json["primaryNumber"])
-//             : null,
-//       );
-
-//   Map<String, dynamic> toJson() => {
-//         "geoLocation": geoLocation.toJson(),
-//         "primaryNumber": primaryNumber.toJson(),
-//       };
-// }
-
-// class GeoLocation {
-//   double latitude;
-//   double longitude;
-
-//   GeoLocation({
-//     this.latitude,
-//     this.longitude,
-//   });
-
-//   factory GeoLocation.fromJson(Map<String, dynamic> json) => GeoLocation(
-//         latitude: json["latitude"] != null ? json["latitude"].toDouble() : null,
-//         longitude:
-//             json["longitude"] != null ? json["longitude"].toDouble() : null,
-//       );
-
-//   Map<String, dynamic> toJson() => {
-//         "latitude": latitude,
-//         "longitude": longitude,
-//       };
-// }
-
-// class PrimaryNumber {
-//   String code;
-//   String mobile;
-
-//   PrimaryNumber({
-//     this.code,
-//     this.mobile,
-//   });
-
-//   factory PrimaryNumber.fromJson(Map<String, dynamic> json) => PrimaryNumber(
-//         code: json["code"],
-//         mobile: json["mobile"],
-//       );
-
-//   Map<String, dynamic> toJson() => {
-//         "code": code,
-//         "mobile": mobile,
-//       };
-// }

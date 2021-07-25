@@ -45,9 +45,9 @@ class _PromotionSliderState extends State<PromotionSlider> {
             boxShadow: [
               BoxShadow(
                 color: Colors.grey.withOpacity(0.5),
-                spreadRadius: 5,
-                blurRadius: 7,
-                offset: Offset(0, 3),
+                spreadRadius: 3,
+                blurRadius: 20,
+                offset: Offset(3, 3),
               ),
             ],
           ),

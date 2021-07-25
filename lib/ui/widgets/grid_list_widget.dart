@@ -272,7 +272,8 @@ class _PaginatedGridViewState<I> extends State<PaginatedGridView> {
   // }
 
   bool onNotification(ScrollNotification notification) {
-    if (notification is ScrollUpdateNotification && _scrollController.hasClients) {
+    if (notification is ScrollUpdateNotification &&
+        _scrollController.hasClients) {
       if (_scrollController.position.maxScrollExtent >
               _scrollController.offset &&
           _scrollController.position.maxScrollExtent -
@@ -297,34 +298,37 @@ class _PaginatedGridViewState<I> extends State<PaginatedGridView> {
 }
 
 class EmptyListWidget extends StatelessWidget {
-  final String text;
+  final String text, img;
   const EmptyListWidget({
     Key key,
     this.text = "Fill Me Up!",
+    this.img = "assets/images/empty_cart.png",
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Column(
-        children: <Widget>[
-          Text(
-            text,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Colors.grey[600],
-              fontSize: 20,
+      child: SizedBox(
+        height: Get.size.height * 0.7,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              text,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.grey[400],
+                fontSize: 16,
+              ),
+              textAlign: TextAlign.center,
             ),
-            textAlign: TextAlign.center,
-          ),
-          verticalSpaceSmall,
-          Expanded(
-            child: FittedBox(
+            verticalSpaceMedium,
+            FittedBox(
               fit: BoxFit.scaleDown,
-              child: Image.asset("assets/images/empty_cart.png"),
+              child: Image.asset(img),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

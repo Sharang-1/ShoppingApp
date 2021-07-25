@@ -395,7 +395,7 @@ class _ProductListViewState extends State<ProductListView> {
                           context: context,
                           filter: filter,
                           gridCount: 2,
-                          emptyListWidget: EmptyListWidget(text: ""),
+                          emptyListWidget: EmptyListWidget(text: "", img: 'assets/images/no_item.jpg'),
                           controller: ProductsGridViewBuilderController(
                             limit: (widget.queryString.isEmpty &&
                                     widget.subCategory.isEmpty)

@@ -377,20 +377,20 @@ class HomeController extends BaseController {
                       Padding(
                         padding: const EdgeInsets.only(top: 10.0),
                         child: Text(
-                          "Explore Creations",
+                          "Explore Best Listings on Dzor.",
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 300.0),
-                        child: Center(
-                          child: Image.asset(
-                            'assets/images/swipe_up.png',
-                            height: 250,
-                            width: 200,
-                          ),
-                        ),
-                      ),
+                      // Padding(
+                      //   padding: const EdgeInsets.only(top: 300.0),
+                      //   child: Center(
+                      //     child: Image.asset(
+                      //       'assets/images/swipe_up.png',
+                      //       height: 250,
+                      //       width: 200,
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),
