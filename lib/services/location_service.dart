@@ -23,7 +23,7 @@ class LocationService {
       if (granted == PermissionStatus.GRANTED) {
         location.onLocationChanged().listen((locationData) {
           if (locationData != null) {
-            currentLocation  = UserLocation(
+            currentLocation = UserLocation(
               latitude: locationData.latitude,
               longitude: locationData.longitude,
             );

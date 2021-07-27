@@ -1,7 +1,6 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:geocoder/geocoder.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
@@ -17,6 +16,7 @@ import '../services/location_service.dart';
 import '../services/navigation_service.dart';
 import '../ui/shared/app_colors.dart';
 import 'base_controller.dart';
+import 'home_controller.dart';
 
 class DzorMapController extends BaseController {
   final LocationService _locationService = locator<LocationService>();
@@ -34,7 +34,7 @@ class DzorMapController extends BaseController {
   dynamic currentClient;
   var currentBearing;
   UserLocation currentLocation;
-  String cityName = 'AHMEDABAD';
+  String cityName = locator<HomeController>().cityName;
 
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
   BitmapDescriptor iconS, iconT;
@@ -52,14 +52,14 @@ class DzorMapController extends BaseController {
 
   final List<TabItem> navigationItems = [
     TabItem(
-      title: '',
+      title: 'Categories',
       icon: Image.asset(
         "assets/images/nav_categories.png",
         color: newBackgroundColor,
       ),
     ),
     TabItem(
-      title: '',
+      title: 'Appointments',
       icon: Image.asset(
         "assets/images/nav_appointment.png",
         color: newBackgroundColor,
@@ -78,14 +78,14 @@ class DzorMapController extends BaseController {
       ),
     ),
     TabItem(
-      title: '',
+      title: 'Orders',
       icon: Image.asset(
         "assets/images/nav_orders.png",
         color: newBackgroundColor,
       ),
     ),
     TabItem(
-      title: '',
+      title: 'Maps',
       icon: Image.asset(
         "assets/images/nav_map.png",
         color: newBackgroundColor,
@@ -115,6 +115,12 @@ class DzorMapController extends BaseController {
     return false;
   }
 
+  void onCityNameTap() async {
+    await locator<HomeController>().onCityNameTap();
+    cityName = locator<HomeController>().cityName;
+    update();
+  }
+
   @override
   void onInit() async {
     super.onInit();
@@ -124,14 +130,6 @@ class DzorMapController extends BaseController {
     mapToggle = true;
     populateClients(sellerKey: sellerKey);
 
-    List<Address> addresses = await Geocoder.local.findAddressesFromCoordinates(
-      Coordinates(
-        currentLocation.latitude,
-        currentLocation.longitude,
-      ),
-    );
-
-    cityName = addresses[0].locality;
     update();
 
     ImageConfiguration configuration = ImageConfiguration(size: Size(1, 1));
@@ -140,7 +138,7 @@ class DzorMapController extends BaseController {
       'assets/images/pin.png',
     );
     iconS = await BitmapDescriptor.fromAssetImage(
-        configuration, 'assets/images/location.png');
+        configuration, 'assets/images/pin2.png');
 
     try {
       await _analyticsService.sendAnalyticsEvent(eventName: "map_opened");

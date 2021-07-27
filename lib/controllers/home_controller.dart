@@ -2,6 +2,7 @@ import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:get/get.dart';
+import 'package:location/location.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:rate_my_app/rate_my_app.dart';
 import 'package:rating_dialog/rating_dialog.dart';
@@ -36,7 +37,7 @@ class HomeController extends BaseController {
   UniqueKey sellerKey = UniqueKey();
   UniqueKey categoryKey = UniqueKey();
   UniqueKey promotionKey = UniqueKey();
-  String cityName = "AHMEDABAD";
+  String cityName = "Add Location";
 
   final RefreshController refreshController =
       RefreshController(initialRefresh: false);
@@ -226,6 +227,38 @@ class HomeController extends BaseController {
         break;
     }
     return false;
+  }
+
+  Future<void> onCityNameTap() async {
+    if (cityName == "Add Location") {
+      var location = locator<LocationService>().location;
+
+      PermissionStatus permissionStatus = await location.requestPermission();
+      if (permissionStatus == PermissionStatus.GRANTED) {
+        location.onLocationChanged().listen((locationData) {
+          if (cityName == "Add Location" && locationData != null) {
+            UserLocation currentLocation = UserLocation(
+              latitude: locationData.latitude,
+              longitude: locationData.longitude,
+            );
+
+            if (currentLocation != null) {
+              Geocoder.local
+                  .findAddressesFromCoordinates(
+                Coordinates(
+                  currentLocation.latitude,
+                  currentLocation.longitude,
+                ),
+              )
+                  .then((addresses) {
+                cityName = addresses[0].locality;
+                update();
+              });
+            }
+          }
+        });
+      }
+    }
   }
 
   Future<Map<String, String>> getLastDeliveredProduct() async {

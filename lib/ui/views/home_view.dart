@@ -14,6 +14,7 @@ import '../../services/navigation_service.dart';
 import '../../services/remote_config_service.dart';
 import '../shared/app_colors.dart';
 import '../widgets/cart_icon_badge.dart';
+import 'bottom_nav_style.dart';
 import 'home_view_list.dart';
 
 class HomeView extends StatelessWidget {
@@ -37,57 +38,60 @@ class HomeView extends StatelessWidget {
           drawerEdgeDragWidth: 0,
           primary: true,
           backgroundColor: Colors.white,
-          bottomNavigationBar: ConvexAppBar(
-            style: TabStyle.fixedCircle,
-            items: [
-              TabItem(
-                title: '',
-                icon: Image.asset(
-                  "assets/images/nav_categories.png",
-                  color: newBackgroundColor,
-                ),
-              ),
-              TabItem(
-                title: '',
-                icon: Image.asset(
-                  "assets/images/nav_appointment.png",
-                  color: newBackgroundColor,
-                ),
-              ),
-              TabItem(
-                title: '',
-                icon: Padding(
-                  key: logoKey,
-                  padding: const EdgeInsets.all(4.0),
-                  child: SvgPicture.asset(
-                    "assets/svg/logo.svg",
-                    color: logoRed,
-                    height: 15,
-                    width: 15,
+          bottomNavigationBar: StyleProvider(
+            style: BottomNavigationStyle(),
+            child: ConvexAppBar(
+              style: TabStyle.fixedCircle,
+              items: [
+                TabItem(
+                  title: 'Categories',
+                  icon: Image.asset(
+                    "assets/images/nav_categories.png",
+                    color: newBackgroundColor,
                   ),
                 ),
-              ),
-              TabItem(
-                title: '',
-                icon: Image.asset(
-                  "assets/images/nav_orders.png",
-                  color: newBackgroundColor,
+                TabItem(
+                  title: 'Appointments',
+                  icon: Image.asset(
+                    "assets/images/nav_appointment.png",
+                    color: newBackgroundColor,
+                  ),
                 ),
-              ),
-              TabItem(
-                title: '',
-                icon: Image.asset(
-                  "assets/images/nav_map.png",
-                  color: newBackgroundColor,
+                TabItem(
+                  title: '',
+                  icon: Padding(
+                    key: logoKey,
+                    padding: const EdgeInsets.all(4.0),
+                    child: SvgPicture.asset(
+                      "assets/svg/logo.svg",
+                      color: logoRed,
+                      height: 15,
+                      width: 15,
+                    ),
+                  ),
                 ),
-              ),
-            ],
-            backgroundColor: logoRed,
-            activeColor: backgroundWhiteCreamColor,
-            disableDefaultTabController: true,
-            initialActiveIndex: 2,
-            onTabNotify: controller.bottomNavigationOnTap,
-            elevation: 5,
+                TabItem(
+                  title: 'Orders',
+                  icon: Image.asset(
+                    "assets/images/nav_orders.png",
+                    color: newBackgroundColor,
+                  ),
+                ),
+                TabItem(
+                  title: 'Maps',
+                  icon: Image.asset(
+                    "assets/images/nav_map.png",
+                    color: newBackgroundColor,
+                  ),
+                ),
+              ],
+              backgroundColor: logoRed,
+              activeColor: backgroundWhiteCreamColor,
+              disableDefaultTabController: true,
+              initialActiveIndex: 2,
+              onTabNotify: controller.bottomNavigationOnTap,
+              elevation: 5,
+            ),
           ),
           body: SafeArea(
             top: true,
@@ -116,23 +120,26 @@ class HomeView extends StatelessWidget {
                     elevation: 0,
                     iconTheme: IconThemeData(color: Colors.grey.shade900),
                     backgroundColor: Colors.white,
-                    title: Column(
-                      children: [
-                        Text(
-                          "You Are In".toUpperCase(),
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.grey[400],
+                    title: InkWell(
+                      onTap: controller.onCityNameTap,
+                      child: Column(
+                        children: [
+                          Text(
+                            "You Are In".toUpperCase(),
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.grey[400],
+                            ),
                           ),
-                        ),
-                        Text(
-                          "${controller.cityName.capitalize}",
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: textIconBlue,
-                          ),
-                        )
-                      ],
+                          Text(
+                            "${controller.cityName.capitalize}",
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: textIconBlue,
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                     centerTitle: true,
                     leading: IconButton(

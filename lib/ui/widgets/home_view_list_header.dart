@@ -7,9 +7,14 @@ class HomeViewListHeader extends StatelessWidget {
   final String title;
   final String subTitle;
   final Function viewAll;
+  final EdgeInsets padding;
 
   HomeViewListHeader(
-      {Key key, @required this.title, this.subTitle, this.viewAll})
+      {Key key,
+      @required this.title,
+      this.subTitle,
+      this.viewAll,
+      this.padding})
       : super(key: key);
 
   @override
@@ -21,7 +26,7 @@ class HomeViewListHeader extends StatelessWidget {
         children: <Widget>[
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.only(left: 15.0),
+              padding: padding ?? const EdgeInsets.only(left: 15.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

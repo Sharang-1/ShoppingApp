@@ -19,6 +19,7 @@ import '../../services/api/api_service.dart';
 import '../shared/app_colors.dart';
 import '../shared/ui_helpers.dart';
 import '../widgets/cart_icon_badge.dart';
+import 'bottom_nav_style.dart';
 
 class MapView extends StatelessWidget {
   final CarouselController carouselController = CarouselController();
@@ -421,26 +422,27 @@ class MapView extends StatelessWidget {
             appBar: AppBar(
               backgroundColor: Colors.white,
               iconTheme: IconThemeData(color: appBarIconColor),
-              title: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "YOU ARE IN",
-                    style: TextStyle(
-                      color: Colors.grey[500],
-                      fontSize: 10,
-                      fontWeight: FontWeight.w400,
+              title: InkWell(
+                onTap: dzorMapController.onCityNameTap,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "You Are In".toUpperCase(),
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.grey[400],
+                      ),
                     ),
-                  ),
-                  Text(
-                    "${dzorMapController.cityName.capitalize}",
-                    style: TextStyle(
-                      color: textIconBlue,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
+                    Text(
+                      "${dzorMapController?.cityName?.capitalize ?? ''}",
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: textIconBlue,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               centerTitle: true,
               actions: [
@@ -459,15 +461,18 @@ class MapView extends StatelessWidget {
                 // )
               ],
             ),
-            bottomNavigationBar: ConvexAppBar(
-              style: TabStyle.fixedCircle,
-              items: dzorMapController.navigationItems,
-              backgroundColor: logoRed,
-              activeColor: backgroundWhiteCreamColor,
-              disableDefaultTabController: true,
-              initialActiveIndex: 2,
-              onTabNotify: dzorMapController.bottomNavigationOnTap,
-              elevation: 5,
+            bottomNavigationBar: StyleProvider(
+              style: BottomNavigationStyle(),
+              child: ConvexAppBar(
+                style: TabStyle.fixedCircle,
+                items: dzorMapController.navigationItems,
+                backgroundColor: logoRed,
+                activeColor: backgroundWhiteCreamColor,
+                disableDefaultTabController: true,
+                initialActiveIndex: 2,
+                onTabNotify: dzorMapController.bottomNavigationOnTap,
+                elevation: 5,
+              ),
             ),
             body: Stack(
               children: <Widget>[
