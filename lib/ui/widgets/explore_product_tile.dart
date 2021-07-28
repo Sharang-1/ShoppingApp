@@ -15,7 +15,6 @@ import '../../controllers/wishlist_controller.dart';
 import '../../locator.dart';
 import '../../models/products.dart';
 import '../../services/dynamic_link_service.dart';
-import '../../services/remote_config_service.dart';
 import '../../services/wishlist_service.dart';
 import '../../utils/stringUtils.dart';
 import '../shared/app_colors.dart';
@@ -29,6 +28,7 @@ class ExploreProductTileUI extends StatefulWidget {
   final int index;
   final EdgeInsets cardPadding;
   final Function() onAddToCartClicked;
+  final List<String> tags;
 
   const ExploreProductTileUI({
     Key key,
@@ -37,6 +37,7 @@ class ExploreProductTileUI extends StatefulWidget {
     @required this.index,
     this.cardPadding,
     this.onAddToCartClicked,
+    this.tags = const [],
   }) : super(key: key);
 
   @override
@@ -220,7 +221,7 @@ class _ExploreProductTileUIState extends State<ExploreProductTileUI> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              " ${capitalizeString(productName)}",
+                              " ${capitalizeString(productName.trim())}",
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 fontSize: titleFontSize,
@@ -232,7 +233,8 @@ class _ExploreProductTileUIState extends State<ExploreProductTileUI> {
                               scrollDirection: Axis.horizontal,
                               child: Row(
                                   children: <String>[
-                                "${locator<RemoteConfigService>().remoteConfig.getString(DZOR_EXPLORE_TAG_1_EN)}",
+                                ...widget.tags,
+                                // "${locator<RemoteConfigService>().remoteConfig.getString(DZOR_EXPLORE_TAG_1_EN)}",
                                 if ((widget.data?.stitchingType?.id ?? -1) == 2)
                                   "Unstitched",
                                 if (widget.data.whoMadeIt.id == 2)

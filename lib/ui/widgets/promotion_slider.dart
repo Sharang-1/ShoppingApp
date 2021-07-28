@@ -3,8 +3,11 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
+import '../../constants/route_names.dart';
 import '../../constants/server_urls.dart';
+import '../../models/productPageArg.dart';
 import '../../models/promotions.dart';
+import '../../services/navigation_service.dart';
 import '../shared/shared_styles.dart';
 import '../views/promotion_products_view.dart';
 
@@ -69,8 +72,18 @@ class _PromotionSliderState extends State<PromotionSlider> {
             items: widget.promotions.map((i) {
               return Builder(
                 builder: (BuildContext context) {
-                  return GestureDetector(
+                  return InkWell(
                     onTap: () {
+                      if (i.exclusive) {
+                        return NavigationService.to(
+                          ProductsListRoute,
+                          arguments: ProductPageArg(
+                            subCategory: 'Designer',
+                            queryString: "accountKey=${i.filter};",
+                            sellerPhoto: "$SELLER_PHOTO_BASE_URL/${i.filter}",
+                          ),
+                        );
+                      }
                       var promoTitle = i?.name;
                       List<String> productIds =
                           i?.products?.map((e) => e.toString())?.toList();

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -47,6 +48,7 @@ import '../widgets/section_builder.dart';
 import '../widgets/wishlist_icon.dart';
 import 'cart_view.dart';
 import 'gallery_view.dart';
+import 'help_view.dart';
 
 const weekday = [
   "Monday",
@@ -1266,6 +1268,13 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                 child: Row(
                                   children: [
                                     "#JustHere",
+                                    if (available &&
+                                        (totalQuantity != 0) &&
+                                        locator<HomeController>()
+                                                ?.cityName
+                                                ?.toLowerCase() ==
+                                            'ahmedabad')
+                                      "CODAvailable",
                                     if (available && (totalQuantity != 0))
                                       "In Stock",
                                     if (available && (totalQuantity == 0))
@@ -1430,46 +1439,80 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                           children: [
                                             Expanded(
                                               child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
                                                 children: [
-                                                  Container(
-                                                    decoration: BoxDecoration(
-                                                      color: Color.fromRGBO(
-                                                          255, 255, 255, 1),
-                                                      shape: BoxShape.circle,
-                                                      border: Border.all(
-                                                        color: Colors.black38,
-                                                        width: 0.5,
-                                                      ),
-                                                    ),
-                                                    child: ClipOval(
-                                                      child: FadeInImage(
-                                                          width: 70,
-                                                          height: 70,
-                                                          fadeInCurve:
-                                                              Curves.easeIn,
-                                                          fit: BoxFit.cover,
-                                                          placeholder: AssetImage(
-                                                              "assets/images/user.png"),
-                                                          image: NetworkImage(
-                                                            "$DESIGNER_PROFILE_PHOTO_BASE_URL/${productData?.seller?.owner?.key}",
-                                                            headers: {
-                                                              "Authorization":
-                                                                  "Bearer ${locator<HomeController>()?.prefs?.getString(Authtoken) ?? ''}",
-                                                            },
+                                                  Column(
+                                                    children: [
+                                                      Container(
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: Color.fromRGBO(
+                                                              255, 255, 255, 1),
+                                                          shape:
+                                                              BoxShape.circle,
+                                                          border: Border.all(
+                                                            color:
+                                                                Colors.black38,
+                                                            width: 0.5,
                                                           ),
-                                                          imageErrorBuilder:
-                                                              (context, error,
-                                                                  stackTrace) {
-                                                            print(
-                                                                "Image Error: $error $stackTrace");
-                                                            return Image.asset(
-                                                              "assets/images/user.png",
-                                                              width: 70,
-                                                              height: 70,
+                                                        ),
+                                                        child: ClipOval(
+                                                          child: FadeInImage(
+                                                              width: 50,
+                                                              height: 50,
+                                                              fadeInCurve:
+                                                                  Curves.easeIn,
                                                               fit: BoxFit.cover,
-                                                            );
-                                                          }),
-                                                    ),
+                                                              placeholder:
+                                                                  AssetImage(
+                                                                      "assets/images/user.png"),
+                                                              image:
+                                                                  NetworkImage(
+                                                                "$DESIGNER_PROFILE_PHOTO_BASE_URL/${productData?.seller?.owner?.key}",
+                                                                headers: {
+                                                                  "Authorization":
+                                                                      "Bearer ${locator<HomeController>()?.prefs?.getString(Authtoken) ?? ''}",
+                                                                },
+                                                              ),
+                                                              imageErrorBuilder:
+                                                                  (context,
+                                                                      error,
+                                                                      stackTrace) {
+                                                                print(
+                                                                    "Image Error: $error $stackTrace");
+                                                                return Image
+                                                                    .asset(
+                                                                  "assets/images/user.png",
+                                                                  width: 50,
+                                                                  height: 50,
+                                                                  fit: BoxFit
+                                                                      .cover,
+                                                                );
+                                                              }),
+                                                        ),
+                                                      ),
+                                                      verticalSpaceTiny,
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Icon(
+                                                            FontAwesomeIcons
+                                                                .mapMarkerAlt,
+                                                            color: logoRed,
+                                                            size: 10,
+                                                          ),
+                                                          CustomText(
+                                                              productData.seller
+                                                                  .contact.city,
+                                                              fontSize: 10,
+                                                              color:
+                                                                  textIconBlue),
+                                                        ],
+                                                      ),
+                                                    ],
                                                   ),
                                                   horizontalSpaceSmall,
                                                   Expanded(
@@ -1535,12 +1578,39 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                 id: productId,
                               ),
                               sectionDivider(),
-                              Text(
-                                "Item Details".toUpperCase(),
-                                style: TextStyle(
-                                    // fontWeight: FontWeight.bold,
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  CustomText(
+                                    "Item Details".toUpperCase(),
                                     fontSize: 14,
-                                    letterSpacing: 1.0),
+                                    letterSpacing: 1.0,
+                                  ),
+                                  InkWell(
+                                    onTap: () async =>
+                                        await showModalBottomSheet(
+                                      isScrollControlled: true,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.vertical(
+                                          top: Radius.circular(curve10),
+                                        ),
+                                      ),
+                                      clipBehavior: Clip.antiAlias,
+                                      context: context,
+                                      builder: (con) => HelpView(),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8.0),
+                                      child: CustomText(
+                                        "Returns & Refunds".toUpperCase(),
+                                        fontSize: 12,
+                                        color: logoRed,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                               verticalSpace(5),
                               Card(

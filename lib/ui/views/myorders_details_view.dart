@@ -638,7 +638,7 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                     const EdgeInsets.symmetric(vertical: 12),
                                 child: InkWell(
                                   child: Text(
-                                    "Help",
+                                    "Returns & Refunds",
                                     style: TextStyle(
                                         color: textIconOrange,
                                         fontWeight: FontWeight.bold),

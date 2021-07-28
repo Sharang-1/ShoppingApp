@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import '../../constants/route_names.dart';
 import '../../controllers/base_controller.dart';
 import '../../controllers/grid_view_builder/base_grid_view_builder_controller.dart';
+import '../../controllers/home_controller.dart';
+import '../../locator.dart';
 import '../../models/categorys.dart';
 import '../../models/grid_view_builder_filter_models/base_filter_model.dart';
 import '../../models/grid_view_builder_filter_models/categoryFilter.dart';
@@ -13,6 +15,7 @@ import '../../models/grid_view_builder_filter_models/sellerFilter.dart';
 import '../../models/productPageArg.dart';
 import '../../models/products.dart';
 import '../../models/sellers.dart';
+import '../../services/analytics_service.dart';
 import '../../services/navigation_service.dart';
 import '../shared/app_colors.dart';
 import '../shared/ui_helpers.dart';
@@ -243,12 +246,31 @@ class SectionBuilder extends StatelessWidget {
               (BuildContext context, productData, index, onUpdate, onDelete) {
             return ExploreProductTileUI(
               data: productData,
-              onClick: () => NavigationService.to(
-                ProductIndividualRoute,
-                arguments: productData,
-              ),
+              onClick: () async {
+                try {
+                  await locator<AnalyticsService>().sendAnalyticsEvent(
+                      eventName: "product_view_from_explore",
+                      parameters: <String, dynamic>{
+                        "product_id": productData?.key,
+                        "product_name": productData?.name,
+                        "category_id": productData?.category?.id,
+                        "category_name": productData?.category?.name,
+                        "user_id": locator<HomeController>()?.details?.key,
+                        "user_name": locator<HomeController>()?.details?.name,
+                      });
+                } catch (e) {}
+                await NavigationService.to(
+                  ProductIndividualRoute,
+                  arguments: productData,
+                );
+              },
               index: index,
               cardPadding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+              tags: <String>[
+                if (locator<HomeController>()?.cityName?.toLowerCase() ==
+                    'ahmedabad')
+                  'CODAvailable',
+              ],
             );
           },
         );
