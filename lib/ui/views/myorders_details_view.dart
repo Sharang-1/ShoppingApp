@@ -201,18 +201,26 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                                     MainAxisAlignment
                                                         .spaceBetween,
                                                 children: [
-                                                  CustomText(
-                                                    widget.mOrder.status.state,
-                                                    fontSize: titleFontSize,
-                                                    isBold: true,
-                                                    color: textIconBlue,
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(right: 8.0),
+                                                    child: CustomText(
+                                                      widget.mOrder.status.state,
+                                                      fontSize: subtitleFontSize,
+                                                      isBold: true,
+                                                      color: textIconBlue,
+                                                    ),
                                                   ),
-                                                  CustomText(
-                                                    '$rupeeUnicode${mOrder?.orderCost?.cost}',
-                                                    dotsAfterOverFlow: true,
-                                                    fontSize: titleFontSize,
-                                                    isBold: true,
-                                                    color: lightGreen,
+                                                  Expanded(
+                                                    child: FittedBox(
+                                                      fit: BoxFit.scaleDown,
+                                                      alignment: Alignment.centerRight,
+                                                      child: CustomText(
+                                                        '$rupeeUnicode${mOrder?.orderCost?.cost}',
+                                                        fontSize: titleFontSize,
+                                                        isBold: true,
+                                                        color: lightGreen,
+                                                      ),
+                                                    ),
                                                   ),
                                                 ],
                                               ),

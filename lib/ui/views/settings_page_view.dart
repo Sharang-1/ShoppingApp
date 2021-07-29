@@ -144,32 +144,50 @@ class SettingsView extends StatelessWidget {
                                 children: [
                                   Row(
                                     children: [
-                                      ClipOval(
-                                        child: FadeInImage(
-                                          width: 50,
-                                          height: 50,
-                                          fadeInCurve: Curves.easeIn,
-                                          placeholder: AssetImage(
-                                              "assets/images/user.png"),
-                                          image: NetworkImage(
-                                              "$USER_PROFILE_PHOTO_BASE_URL/${controller?.mUserDetails?.key}",
-                                              headers: {
-                                                "Authorization":
-                                                    "Bearer ${locator<HomeController>()?.prefs?.getString(Authtoken) ?? ''}",
-                                              }),
-                                          imageErrorBuilder:
-                                              (context, error, stackTrace) {
-                                            print(
-                                                "User Photo: $error $stackTrace");
-                                            return Image.asset(
-                                              "assets/images/user.png",
+                                      Stack(
+                                        children: [
+                                          ClipOval(
+                                            child: FadeInImage(
                                               width: 50,
                                               height: 50,
+                                              fadeInCurve: Curves.easeIn,
+                                              placeholder: AssetImage(
+                                                  "assets/images/user.png"),
+                                              image: NetworkImage(
+                                                  "$USER_PROFILE_PHOTO_BASE_URL/${controller?.mUserDetails?.key}",
+                                                  headers: {
+                                                    "Authorization":
+                                                        "Bearer ${locator<HomeController>()?.prefs?.getString(Authtoken) ?? ''}",
+                                                  }),
+                                              imageErrorBuilder:
+                                                  (context, error, stackTrace) {
+                                                print(
+                                                    "User Photo: $error $stackTrace");
+                                                return Image.asset(
+                                                  "assets/images/user.png",
+                                                  width: 50,
+                                                  height: 50,
+                                                  fit: BoxFit.cover,
+                                                );
+                                              },
                                               fit: BoxFit.cover,
-                                            );
-                                          },
-                                          fit: BoxFit.cover,
-                                        ),
+                                            ),
+                                          ),
+                                          if (!locator<HomeController>()
+                                              .isProfileComplete)
+                                            Positioned(
+                                              bottom: 0,
+                                              right: 0,
+                                              child: Container(
+                                                height: 12,
+                                                width: 12,
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: logoRed,
+                                                ),
+                                              ),
+                                            ),
+                                        ],
                                       ),
                                       SizedBox(width: 16.0),
                                       Column(

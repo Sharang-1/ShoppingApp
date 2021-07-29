@@ -184,9 +184,26 @@ class HomeView extends StatelessWidget {
                     backgroundColor: Colors.white,
                     pinned: true,
                     leading: IconButton(
-                      icon: Image.asset(
-                        "assets/images/profile_m.png",
-                        color: Colors.grey.shade900,
+                      icon: Stack(
+                        children: [
+                          Image.asset(
+                            "assets/images/profile_m.png",
+                            color: Colors.grey.shade900,
+                          ),
+                          if (!controller.isProfileComplete)
+                            Positioned(
+                              bottom: 4,
+                              right: 4,
+                              child: Container(
+                                height: 10,
+                                width: 10,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: logoRed,
+                                ),
+                              ),
+                            ),
+                        ],
                       ),
                       onPressed: () => NavigationService.to(SettingsRoute),
                     ),

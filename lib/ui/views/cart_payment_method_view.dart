@@ -136,8 +136,12 @@ class _PaymentMethodState extends State<PaymentMethod> {
                           buttonText: paymentMethodGrpValue == 2
                               ? "Proceed to Pay"
                               : "Place Order",
-                          onButtonPressed: () async =>
-                              await makePayment(controller),
+                          onButtonPressed: controller.busy
+                              ? null
+                              : () async {
+                                  NavigationService.back();
+                                  await makePayment(controller);
+                                },
                           isPromocodeApplied: widget.promoCode.isNotEmpty,
                         ),
                       );
@@ -172,7 +176,9 @@ class _PaymentMethodState extends State<PaymentMethod> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    onPressed: () async => await makePayment(controller),
+                    onPressed: controller.busy
+                        ? null
+                        : () async => await makePayment(controller),
                     child: Padding(
                       padding: const EdgeInsets.all(10),
                       child: Container(

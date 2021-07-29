@@ -53,6 +53,7 @@ class HomeController extends BaseController {
   RemoteConfig remoteConfig;
   SharedPreferences prefs;
   UserDetails details;
+  bool isProfileComplete = true;
   String name = "";
   List<Promotion> topPromotion;
   List<Promotion> bottomPromotion;
@@ -100,7 +101,16 @@ class HomeController extends BaseController {
     refreshController.refreshCompleted(resetFooterState: true);
     update();
 
+    await updateUserDetails();
+  }
+
+  Future<void> updateUserDetails() async {
     details = await _apiService.getUserData();
+    if ((details?.contact?.address?.isEmpty ?? true) ||
+        (details?.contact?.googleAddress?.isEmpty ?? true)) {
+      isProfileComplete = false;
+    }
+    update();
   }
 
   setup() async {
@@ -124,6 +134,9 @@ class HomeController extends BaseController {
     bottomPromotion = promotions
         .where((element) => element.position.toLowerCase() == "bottom")
         .toList();
+    
+    isLoggedIn = await _authService.isUserLoggedIn();
+
     update();
 
     final lastDeliveredProduct = await getLastDeliveredProduct();

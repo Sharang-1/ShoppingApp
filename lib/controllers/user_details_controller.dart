@@ -92,5 +92,6 @@ class UserDetailsController extends BaseController {
     prefs.setString(Name, mUserDetails.name);
     await _addressService.setUpAddress(mUserDetails.contact);
     update();
+    locator<HomeController>().updateUserDetails();
   }
 }

@@ -1,3 +1,13 @@
 {
-    "workbench.editor.enablePreview": false
+    "workbench.editor.enablePreview": false,
+    "cSpell.words": [
+        "Dupatta",
+        "appbar",
+        "crashlytics",
+        "geocoder",
+        "geolocator",
+        "homescreen",
+        "indi"
+    ],
+    "cSpell.enabled": false
 }
