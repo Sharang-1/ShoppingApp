@@ -1,4 +1,3 @@
-// import 'package:fimber/fimber_base.dart';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -11,6 +10,7 @@ import 'package:share/share.dart';
 import '../../constants/dynamic_links.dart';
 import '../../controllers/base_controller.dart';
 import '../../controllers/grid_view_builder/products_grid_view_builder_controller.dart';
+import '../../controllers/grid_view_builder/wishlist_grid_view_builder_controller.dart';
 import '../../controllers/reviews_controller.dart';
 import '../../locator.dart';
 import '../../models/grid_view_builder_filter_models/productFilter.dart';
@@ -31,12 +31,14 @@ class ProductListView extends StatefulWidget {
   final String queryString;
   final String subCategory;
   final String sellerPhoto;
+  final List<String> productList;
 
   ProductListView({
     Key key,
     @required this.queryString,
     @required this.subCategory,
     this.sellerPhoto,
+    this.productList = const [],
   }) : super(key: key);
 
   @override
@@ -117,6 +119,7 @@ class _ProductListViewState extends State<ProductListView> {
 
   @override
   Widget build(BuildContext context) {
+    print("Promotion Products: ${widget?.productList?.toString()}");
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -306,18 +309,19 @@ class _ProductListViewState extends State<ProductListView> {
                           ),
                         ),
                       ),
-                      verticalSpaceSmall,
-                      Text(
-                        widget.subCategory,
-                        overflow: TextOverflow.visible,
-                        maxLines: 2,
-                        softWrap: true,
-                        style: TextStyle(
-                          fontFamily: headingFont,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 18,
+                      if (widget.subCategory != 'Designer') verticalSpaceSmall,
+                      if (widget.subCategory != 'Designer')
+                        Text(
+                          widget.subCategory,
+                          overflow: TextOverflow.visible,
+                          maxLines: 2,
+                          softWrap: true,
+                          style: TextStyle(
+                            fontFamily: headingFont,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 18,
+                          ),
                         ),
-                      ),
                       verticalSpaceSmall,
                       FutureBuilder<Reviews>(
                         future: reviews == null
@@ -395,14 +399,19 @@ class _ProductListViewState extends State<ProductListView> {
                           context: context,
                           filter: filter,
                           gridCount: 2,
-                          emptyListWidget: EmptyListWidget(text: "", img: 'assets/images/no_item.jpg'),
-                          controller: ProductsGridViewBuilderController(
-                            limit: (widget.queryString.isEmpty &&
-                                    widget.subCategory.isEmpty)
-                                ? 50
-                                : 1000,
-                            randomize: showRandomProducts,
-                          ),
+                          emptyListWidget: EmptyListWidget(
+                              text: "", img: 'assets/images/no_item.jpg'),
+                          controller: (widget?.productList?.isEmpty ?? true)
+                              ? ProductsGridViewBuilderController(
+                                  limit: (widget.queryString.isEmpty &&
+                                          widget.subCategory.isEmpty)
+                                      ? 50
+                                      : 1000,
+                                  randomize: showRandomProducts,
+                                )
+                              : WishListGridViewBuilderController(
+                                  productIds: widget.productList,
+                                ),
                           childAspectRatio: 0.7,
                           tileBuilder: (BuildContext context, data, index,
                               onUpdate, onDelete) {

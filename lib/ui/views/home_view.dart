@@ -45,16 +45,22 @@ class HomeView extends StatelessWidget {
               items: [
                 TabItem(
                   title: 'Categories',
-                  icon: Image.asset(
-                    "assets/images/nav_categories.png",
-                    color: newBackgroundColor,
+                  icon: Padding(
+                    padding: const EdgeInsets.only(top: 4.0),
+                    child: Image.asset(
+                      "assets/images/nav_categories.png",
+                      color: newBackgroundColor,
+                    ),
                   ),
                 ),
                 TabItem(
                   title: 'Appointments',
-                  icon: Image.asset(
-                    "assets/images/nav_appointment.png",
-                    color: newBackgroundColor,
+                  icon: Padding(
+                    padding: const EdgeInsets.only(top: 4.0),
+                    child: Image.asset(
+                      "assets/images/nav_appointment.png",
+                      color: newBackgroundColor,
+                    ),
                   ),
                 ),
                 TabItem(
@@ -72,19 +78,26 @@ class HomeView extends StatelessWidget {
                 ),
                 TabItem(
                   title: 'Orders',
-                  icon: Image.asset(
-                    "assets/images/nav_orders.png",
-                    color: newBackgroundColor,
+                  icon: Padding(
+                    padding: const EdgeInsets.only(top: 4.0),
+                    child: Image.asset(
+                      "assets/images/nav_orders.png",
+                      color: newBackgroundColor,
+                    ),
                   ),
                 ),
                 TabItem(
                   title: 'Maps',
-                  icon: Image.asset(
-                    "assets/images/nav_map.png",
-                    color: newBackgroundColor,
+                  icon: Padding(
+                    padding: const EdgeInsets.only(top: 4.0),
+                    child: Image.asset(
+                      "assets/images/nav_map.png",
+                      color: newBackgroundColor,
+                    ),
                   ),
                 ),
               ],
+              // height: 60,
               backgroundColor: logoRed,
               activeColor: backgroundWhiteCreamColor,
               disableDefaultTabController: true,

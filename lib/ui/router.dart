@@ -133,6 +133,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
           queryString: (pageArguments as ProductPageArg)?.queryString,
           subCategory: (pageArguments as ProductPageArg)?.subCategory,
           sellerPhoto: (pageArguments as ProductPageArg)?.sellerPhoto,
+          productList: (pageArguments as ProductPageArg)?.productList,
         ),
         pageArguments: pageArguments,
         pageTransitionType: PageTransitionType.rightToLeft,

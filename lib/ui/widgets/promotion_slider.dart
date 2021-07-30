@@ -74,6 +74,13 @@ class _PromotionSliderState extends State<PromotionSlider> {
                 builder: (BuildContext context) {
                   return InkWell(
                     onTap: () {
+                      var promoTitle = i?.name;
+                      List<String> productIds =
+                          i?.products?.map((e) => e.toString())?.toList();
+                      print(productIds);
+                      print(
+                          "Demographics: ${i?.demographics?.map((e) => e.id)}");
+
                       if (i.exclusive) {
                         return NavigationService.to(
                           ProductsListRoute,
@@ -81,15 +88,11 @@ class _PromotionSliderState extends State<PromotionSlider> {
                             subCategory: 'Designer',
                             queryString: "accountKey=${i.filter};",
                             sellerPhoto: "$SELLER_PHOTO_BASE_URL/${i.filter}",
+                            productList: productIds,
                           ),
                         );
                       }
-                      var promoTitle = i?.name;
-                      List<String> productIds =
-                          i?.products?.map((e) => e.toString())?.toList();
-                      print(productIds);
-                      print(
-                          "Demographics: ${i?.demographics?.map((e) => e.id)}");
+
                       Navigator.push(
                         context,
                         new MaterialPageRoute(
@@ -116,7 +119,9 @@ class _PromotionSliderState extends State<PromotionSlider> {
                             cacheManager: defaultCacheManager,
                             fit: BoxFit.cover,
                             placeholder: (context, url) => Image.asset(
-                                "assets/images/promotion_preloading.png"),
+                              "assets/images/promotion_preloading.png",
+                              fit: BoxFit.cover,
+                            ),
                             imageUrl: "$PROMOTION_PHOTO_BASE_URL/${i.key}",
                             errorWidget: (context, url, error) =>
                                 new Icon(Icons.error),

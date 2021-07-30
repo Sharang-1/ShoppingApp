@@ -1288,22 +1288,44 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                     if (totalQuantity == 1)
                                       "One in Market Product",
                                     if (!available) "Unavailable",
+                                    "Returns & Refunds",
                                   ]
                                       .map(
-                                        (e) => Container(
-                                          margin: EdgeInsets.symmetric(
-                                            vertical: 4.0,
-                                            horizontal: 8.0,
-                                          ),
-                                          child: Text(
-                                            e,
-                                            style: TextStyle(
-                                                fontSize: 10.0,
-                                                color: e == "In Stock"
-                                                    ? lightGreen
-                                                    : e == "Out of Stock"
-                                                        ? logoRed
-                                                        : Colors.grey),
+                                        (e) => InkWell(
+                                          onTap: e.contains("Returns & Refunds")
+                                              ? () async =>
+                                                  await showModalBottomSheet(
+                                                    isScrollControlled: true,
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.vertical(
+                                                        top: Radius.circular(
+                                                            curve10),
+                                                      ),
+                                                    ),
+                                                    clipBehavior:
+                                                        Clip.antiAlias,
+                                                    context: context,
+                                                    builder: (con) =>
+                                                        HelpView(),
+                                                  )
+                                              : null,
+                                          child: Container(
+                                            margin: EdgeInsets.symmetric(
+                                              vertical: 4.0,
+                                              horizontal: 8.0,
+                                            ),
+                                            child: Text(
+                                              e,
+                                              style: TextStyle(
+                                                  fontSize: 10.0,
+                                                  color: e == "In Stock"
+                                                      ? lightGreen
+                                                      : e == "Out of Stock"
+                                                          ? logoRed
+                                                          : Colors.grey),
+                                            ),
                                           ),
                                         ),
                                       )
@@ -1587,29 +1609,29 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                     fontSize: 14,
                                     letterSpacing: 1.0,
                                   ),
-                                  InkWell(
-                                    onTap: () async =>
-                                        await showModalBottomSheet(
-                                      isScrollControlled: true,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.vertical(
-                                          top: Radius.circular(curve10),
-                                        ),
-                                      ),
-                                      clipBehavior: Clip.antiAlias,
-                                      context: context,
-                                      builder: (con) => HelpView(),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 8.0),
-                                      child: CustomText(
-                                        "Returns & Refunds".toUpperCase(),
-                                        fontSize: 12,
-                                        color: logoRed,
-                                      ),
-                                    ),
-                                  ),
+                                  // InkWell(
+                                  //   onTap: () async =>
+                                  //       await showModalBottomSheet(
+                                  //     isScrollControlled: true,
+                                  //     shape: RoundedRectangleBorder(
+                                  //       borderRadius: BorderRadius.vertical(
+                                  //         top: Radius.circular(curve10),
+                                  //       ),
+                                  //     ),
+                                  //     clipBehavior: Clip.antiAlias,
+                                  //     context: context,
+                                  //     builder: (con) => HelpView(),
+                                  //   ),
+                                  //   child: Padding(
+                                  //     padding: const EdgeInsets.symmetric(
+                                  //         horizontal: 8.0),
+                                  //     child: CustomText(
+                                  //       "Returns & Refunds".toUpperCase(),
+                                  //       fontSize: 12,
+                                  //       color: logoRed,
+                                  //     ),
+                                  //   ),
+                                  // ),
                                 ],
                               ),
                               verticalSpace(5),
