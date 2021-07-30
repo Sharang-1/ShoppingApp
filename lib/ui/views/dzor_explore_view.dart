@@ -7,6 +7,7 @@ import '../../controllers/base_controller.dart';
 import '../../controllers/cart_count_controller.dart';
 import '../../controllers/dzor_explore_controller.dart';
 import '../../controllers/grid_view_builder/products_grid_view_builder_controller.dart';
+import '../../controllers/grid_view_builder/sellers_grid_view_builder_controller.dart';
 import '../../controllers/home_controller.dart';
 import '../../locator.dart';
 import '../../services/analytics_service.dart';
@@ -15,6 +16,7 @@ import '../shared/ui_helpers.dart';
 import '../widgets/cart_icon_badge.dart';
 import '../widgets/custom_text.dart';
 import '../widgets/section_builder.dart';
+import 'home_view_list.dart';
 
 class DzorExploreView extends StatefulWidget {
   @override
@@ -140,6 +142,15 @@ class _DzorExploreViewState extends State<DzorExploreView> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
+                    SectionBuilder(
+                      context: context,
+                      header: SectionHeader(title: "Recommended Designers"),
+                      layoutType: LayoutType.EXPLORE_DESIGNER_LAYOUT,
+                      scrollDirection: Axis.horizontal,
+                      controller:
+                          SellersGridViewBuilderController(random: true),
+                    ),
+                    SectionDivider(),
                     SectionBuilder(
                       context: context,
                       layoutType: LayoutType.PRODUCT_LAYOUT_3,

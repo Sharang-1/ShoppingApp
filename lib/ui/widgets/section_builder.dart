@@ -20,6 +20,7 @@ import '../../services/navigation_service.dart';
 import '../shared/app_colors.dart';
 import '../shared/ui_helpers.dart';
 import 'categoryTileUI.dart';
+import 'explore_designer_tile.dart';
 import 'explore_product_tile.dart';
 import 'grid_list_widget.dart';
 import 'home_view_list_header.dart';
@@ -48,6 +49,9 @@ enum LayoutType {
   DESIGNER_ID_1_2_LAYOUT,
   DESIGNER_ID_3_LAYOUT,
   DESIGNER_ID_3_VERTICAL_LAYOUT,
+
+  //Explore
+  EXPLORE_DESIGNER_LAYOUT
 }
 
 // ignore: must_be_immutable
@@ -373,6 +377,29 @@ class SectionBuilder extends StatelessWidget {
           },
         );
 
+      case LayoutType.EXPLORE_DESIGNER_LAYOUT:
+        return GridListWidget<Sellers, Seller>(
+          key: UniqueKey(),
+          context: context,
+          filter: filter ?? SellerFilter(),
+          gridCount: gridCount,
+          childAspectRatio: getChildAspectRatio(
+            layoutType,
+            isSmallDevice: isSmallDevice,
+          ),
+          controller: controller,
+          disablePagination: true,
+          scrollDirection: scrollDirection,
+          emptyListWidget: Container(),
+          onEmptyList: onEmptyList,
+          tileBuilder: (BuildContext context, data, index, onDelete, onUpdate) {
+            return GestureDetector(
+              onTap: () => BaseController.goToSellerPage(data.key),
+              child: ExploreDesignerTileUI(data: data),
+            );
+          },
+        );
+
       case LayoutType.CATEGORY_LAYOUT_1:
       case LayoutType.CATEGORY_LAYOUT_2:
         return GridListWidget<Categorys, Category>(
@@ -479,6 +506,10 @@ class SectionBuilder extends StatelessWidget {
       case LayoutType.DESIGNER_ID_3_VERTICAL_LAYOUT:
         return null;
 
+      //Explore
+      case LayoutType.EXPLORE_DESIGNER_LAYOUT:
+        return 140;
+
       //Category
       case LayoutType.CATEGORY_LAYOUT_1:
         return 150;
@@ -524,6 +555,8 @@ class SectionBuilder extends StatelessWidget {
         return 1.2;
       case LayoutType.CATEGORY_LAYOUT_4:
         return 0.95;
+      case LayoutType.EXPLORE_DESIGNER_LAYOUT:
+        return 1;
 
       default:
         return 1.35;
