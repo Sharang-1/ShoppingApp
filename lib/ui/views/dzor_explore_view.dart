@@ -16,7 +16,6 @@ import '../shared/ui_helpers.dart';
 import '../widgets/cart_icon_badge.dart';
 import '../widgets/custom_text.dart';
 import '../widgets/section_builder.dart';
-import 'home_view_list.dart';
 
 class DzorExploreView extends StatefulWidget {
   @override
@@ -150,7 +149,8 @@ class _DzorExploreViewState extends State<DzorExploreView> {
                       controller:
                           SellersGridViewBuilderController(random: true),
                     ),
-                    SectionDivider(),
+                    // SectionDivider(),
+                    verticalSpaceSmall,
                     SectionBuilder(
                       context: context,
                       layoutType: LayoutType.PRODUCT_LAYOUT_3,

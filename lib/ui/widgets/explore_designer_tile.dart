@@ -66,6 +66,7 @@ class ExploreDesignerTileUI extends StatelessWidget {
                     data.establishmentType.name,
                     dotsAfterOverFlow: true,
                     fontSize: subtitleFontSize,
+                    color: Colors.grey[500],
                   ),
                 ),
               ],
