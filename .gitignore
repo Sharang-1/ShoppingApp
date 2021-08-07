@@ -43,3 +43,4 @@ lib/generated_plugin_registrant.dart
 /android/app/key.jks
 pubspec.lock
 .vscode/settings.json
+pubspec.lock

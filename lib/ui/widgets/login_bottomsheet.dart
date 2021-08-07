@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:pin_code_text_field/pin_code_text_field.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../constants/route_names.dart';
+import '../../constants/server_urls.dart';
 import '../../controllers/bottomsheet_login_controller.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
@@ -154,6 +156,23 @@ class LoginBottomsheet extends StatelessWidget {
                                 : null,
                             enabled: controller.otpSendButtonEnabled,
                           ),
+                           verticalSpaceTiny,
+                          InkWell(
+                            onTap: () async {
+                              const url = TERMS_AND_CONDITIONS_URL;
+                              if (await canLaunch(url)) {
+                                await launch(url);
+                              }
+                            },
+                            child: Text(
+                              "When you enter \"OTP\", You agree to our T&C",
+                              style: TextStyle(
+                                  color: Colors.grey,
+                                  decoration: TextDecoration.underline,
+                                  fontSize: subtitleFontSizeStyle - 3),
+                              textAlign: TextAlign.center,
+                            ),
+                          )
                           // TextButton(child: Text("Change Mobile umber"),)
                         ],
                       ),

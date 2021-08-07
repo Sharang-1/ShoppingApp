@@ -138,16 +138,16 @@ class _VerifyOTPViewState extends State<VerifyOTPView> {
           ),
           verticalSpaceSmall,
           InkWell(
-              onTap: () => controller.openTermsAndConditions(),
-              child: Text(
-                "When you enter \"OTP\", You agree to Dzor's terms and conditions",
-                style: TextStyle(
-                    color: Colors.grey,
-                    fontFamily: "Open Sans",
-                    decoration: TextDecoration.underline,
-                    fontSize: subtitleFontSizeStyle - 3),
-                textAlign: TextAlign.center,
-              ))
+            onTap: () => controller.openTermsAndConditions(),
+            child: Text(
+              "When you enter \"OTP\", You agree to Dzor's terms and conditions",
+              style: TextStyle(
+                  color: Colors.grey,
+                  decoration: TextDecoration.underline,
+                  fontSize: subtitleFontSizeStyle - 3),
+              textAlign: TextAlign.center,
+            ),
+          )
         ],
       )),
     );
