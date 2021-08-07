@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final appUpdate = appUpdateFromJson(jsonString);
-
 import 'dart:convert';
 
 AppUpdate appUpdateFromJson(String str) => AppUpdate.fromJson(json.decode(str));
@@ -28,9 +24,9 @@ class AppUpdate {
   factory AppUpdate.fromJson(Map<String, dynamic> json) => AppUpdate(
         lastUpdate: json["lastUpdate"],
         version: json["version"],
-        priority: json["priority"] == null
+        priority: json["releasePriority"] == null
             ? null
-            : Priority.fromJson(json["priority"]),
+            : Priority.fromJson(json["releasePriority"]),
         size: json["size"],
         features: json["features"],
         bugFixes: json["bugFixes"],
@@ -39,7 +35,7 @@ class AppUpdate {
   Map<String, dynamic> toJson() => {
         "lastUpdate": lastUpdate,
         "version": version,
-        "priority": priority.toJson(),
+        "releasePriority": priority.toJson(),
         "size": size,
         "features": features,
         "bugFixes": bugFixes,

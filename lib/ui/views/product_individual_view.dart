@@ -1268,17 +1268,17 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                 child: Row(
                                   children: [
                                     "#JustHere",
+                                    if (available && (totalQuantity != 0))
+                                      "✔️ In Stock",
+                                    if (available && (totalQuantity == 0))
+                                      "Out of Stock",
                                     if (available &&
                                         (totalQuantity != 0) &&
                                         locator<HomeController>()
                                                 ?.cityName
                                                 ?.toLowerCase() ==
                                             'ahmedabad')
-                                      "CODAvailable",
-                                    if (available && (totalQuantity != 0))
-                                      "In Stock",
-                                    if (available && (totalQuantity == 0))
-                                      "Out of Stock",
+                                      "💰 CODAvailable",
                                     if ((productData?.stitchingType?.id ??
                                             -1) ==
                                         2)
@@ -1320,7 +1320,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                               e,
                                               style: TextStyle(
                                                   fontSize: 10.0,
-                                                  color: e == "In Stock"
+                                                  color: e.contains("In Stock")
                                                       ? lightGreen
                                                       : e == "Out of Stock"
                                                           ? logoRed
@@ -1559,12 +1559,52 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                           dotsAfterOverFlow:
                                                               true,
                                                         ),
+                                                        if ((controller
+                                                                    ?.sellerDetail
+                                                                    ?.education !=
+                                                                null) ||
+                                                            (controller
+                                                                    ?.sellerDetail
+                                                                    ?.designation !=
+                                                                null))
+                                                          Row(
+                                                            children: [
+                                                              Expanded(
+                                                                child:
+                                                                    CustomText(
+                                                                  "${controller?.sellerDetail?.education ?? ''} ${controller?.sellerDetail?.designation ?? ''}",
+                                                                  fontSize:
+                                                                      subtitleFontSize,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                  color: Colors
+                                                                      .grey
+                                                                      .shade600,
+                                                                  dotsAfterOverFlow:
+                                                                      true,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
                                                         ReadMoreText(
                                                           controller
                                                                   ?.sellerDetail
-                                                                  ?.bio ??
-                                                              "",
-                                                          trimLines: 3,
+                                                                  ?.intro ??
+                                                              (controller
+                                                                      ?.sellerDetail
+                                                                      ?.bio ??
+                                                                  ""),
+                                                          trimLines: ((controller
+                                                                          ?.sellerDetail
+                                                                          ?.education ==
+                                                                      null) &&
+                                                                  (controller
+                                                                          ?.sellerDetail
+                                                                          ?.designation ==
+                                                                      null))
+                                                              ? 3
+                                                              : 2,
                                                           colorClickableText:
                                                               logoRed,
                                                           trimMode:

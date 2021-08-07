@@ -115,12 +115,12 @@ class MapView extends StatelessWidget {
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
-                              Text(
-                                "Speciality Text",
-                                style: TextStyle(
-                                    color: Colors.grey[500],
-                                    fontSize: subtitleFontSize),
-                              ),
+                              // Text(
+                              //   "Speciality Text",
+                              //   style: TextStyle(
+                              //       color: Colors.grey[500],
+                              //       fontSize: subtitleFontSize),
+                              // ),
                               Row(
                                 // mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 children: [
