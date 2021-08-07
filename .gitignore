@@ -23,6 +23,7 @@
 # Flutter/Dart/Pub related
 **/doc/api/
 .dart_tool/
+.dart_tool*/
 .flutter-plugins
 .flutter-plugins-dependencies
 .packages
@@ -44,3 +45,5 @@ lib/generated_plugin_registrant.dart
 pubspec.lock
 .vscode/settings.json
 pubspec.lock
+.flutter-plugins
+.flutter-plugins-dependencies
