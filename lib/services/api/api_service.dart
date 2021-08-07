@@ -79,13 +79,13 @@ class APIService {
           ),
         ),
         CustomLogInterceptor(),
-        if (kReleaseMode) PerformanceInterceptor()
+        if (releaseMode) PerformanceInterceptor()
       ]);
     appointmentClient
       ..interceptors.addAll([
         AppInterceptors(),
         CustomLogInterceptor(),
-        if (kReleaseMode) PerformanceInterceptor()
+        if (releaseMode) PerformanceInterceptor()
       ]);
   }
   Future apiWrapper(

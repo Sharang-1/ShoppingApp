@@ -2,11 +2,9 @@ import 'package:fimber/fimber.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 
 import '../constants/route_names.dart';
-import '../locator.dart';
 import 'navigation_service.dart';
 
 class DynamicLinkService {
-  NavigationService _navigationService = locator<NavigationService>();
 
   Future handleDynamicLink() async {
     FirebaseDynamicLinks.instance.onLink(
@@ -18,7 +16,7 @@ class DynamicLinkService {
           "contentType": segments[0],
           "id": segments[1],
         };
-        _navigationService.navigateTo(DynamicContentViewRoute, arguments: data);
+        NavigationService.to(DynamicContentViewRoute, arguments: data);
       }
     }, onError: (OnLinkErrorException e) {
       Fimber.e("Dynamic Link Failed : ${e.message}");
@@ -35,7 +33,7 @@ class DynamicLinkService {
         "contentType": segments[0],
         "id": segments[1],
       };
-      _navigationService.navigateTo(DynamicContentViewRoute, arguments: data);
+      NavigationService.to(DynamicContentViewRoute, arguments: data);
     }
   }
 

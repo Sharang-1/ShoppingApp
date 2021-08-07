@@ -163,3 +163,63 @@ class _PromotionSliderState extends State<PromotionSlider> {
     super.dispose();
   }
 }
+
+class BottomPromotion extends StatelessWidget {
+  const BottomPromotion({Key key, @required this.promotion}) : super(key: key);
+
+  final Promotion promotion;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: InkWell(
+        onTap: () {
+          var promoTitle = promotion?.name ?? '';
+          List<String> productIds =
+              promotion?.products?.map((e) => e.toString())?.toList();
+          print(productIds);
+          Navigator.push(
+            context,
+            new MaterialPageRoute(
+              builder: (context) => PromotionProduct(
+                promotionId: promotion?.key,
+                productIds: productIds ?? [],
+                promotionTitle: promoTitle,
+                demographicIds:
+                    promotion?.demographics?.map((e) => e?.id)?.toList(),
+              ),
+            ),
+          );
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 5,
+                blurRadius: 7,
+                offset: Offset(0, 3), // changes position of shadow
+              ),
+            ],
+          ),
+          child: SizedBox(
+            height: (MediaQuery.of(context).size.width) / 1.6,
+            width: MediaQuery.of(context).size.width,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(curve5),
+              child: CachedNetworkImage(
+                fit: BoxFit.cover,
+                placeholder: (context, url) => Image.asset(
+                  "assets/images/designer_preloading.png",
+                  fit: BoxFit.cover,
+                ),
+                imageUrl: "$PROMOTION_PHOTO_BASE_URL/${promotion?.key}",
+                errorWidget: (context, url, error) => new Icon(Icons.error),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

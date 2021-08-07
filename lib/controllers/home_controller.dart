@@ -105,12 +105,14 @@ class HomeController extends BaseController {
   }
 
   Future<void> updateUserDetails() async {
-    details = await _apiService.getUserData();
-    if ((details?.contact?.address?.isEmpty ?? true) ||
-        (details?.contact?.googleAddress?.isEmpty ?? true)) {
-      isProfileComplete = false;
+    if (isLoggedIn) {
+      details = await _apiService.getUserData();
+      if ((details?.contact?.address?.isEmpty ?? true) ||
+          (details?.contact?.googleAddress?.isEmpty ?? true)) {
+        isProfileComplete = false;
+      }
+      update();
     }
-    update();
   }
 
   setup() async {
@@ -134,7 +136,7 @@ class HomeController extends BaseController {
     bottomPromotion = promotions
         .where((element) => element.position.toLowerCase() == "bottom")
         .toList();
-    
+
     isLoggedIn = await _authService.isUserLoggedIn();
 
     update();

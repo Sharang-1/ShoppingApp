@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:share/share.dart';
 
@@ -56,19 +55,42 @@ class _PromotionProductState extends State<PromotionProduct> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: backgroundWhiteCreamColor,
-        centerTitle: true,
-        title: SvgPicture.asset(
-          "assets/svg/logo.svg",
-          color: logoRed,
-          height: 35,
-          width: 35,
+        backgroundColor: Colors.white,
+        title: Text(
+          widget.promotionTitle == null || widget.promotionTitle == ""
+              ? "Products"
+              : widget.promotionTitle,
+          style: TextStyle(
+            fontFamily: headingFont,
+            fontWeight: FontWeight.w700,
+            fontSize: 18,
+            color: Colors.black,
+          ),
         ),
+        actions: [
+          IconButton(
+            onPressed: () async {
+              await Share.share(
+                await _dynamicLinkService
+                    .createLink(promotionLink + widget.promotionId),
+                sharePositionOrigin: Rect.fromCenter(
+                  center: Offset(100, 100),
+                  width: 100,
+                  height: 100,
+                ),
+              );
+            },
+            icon: Icon(
+              Platform.isIOS ? CupertinoIcons.share : Icons.share,
+              size: 25,
+            ),
+          ),
+        ],
         iconTheme: IconThemeData(
           color: Colors.black,
         ),
       ),
-      backgroundColor: backgroundWhiteCreamColor,
+      backgroundColor: Colors.white,
       body: SafeArea(
         top: true,
         left: false,
@@ -98,93 +120,52 @@ class _PromotionProductState extends State<PromotionProduct> {
           },
           child: SingleChildScrollView(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 verticalSpace(20),
-                Row(
-                  children: [
-                    Expanded(
-                      flex: 8,
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                          left: screenPadding,
-                          right: screenPadding - 5,
-                          top: 10,
-                          bottom: 10,
-                        ),
-                        child: Text(
-                          widget.promotionTitle == null ||
-                                  widget.promotionTitle == ""
-                              ? "Products"
-                              : widget.promotionTitle,
-                          style: TextStyle(
-                              fontFamily: headingFont,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 30),
+                GridListWidget<Products, Product>(
+                  key: promotionProductKey,
+                  context: context,
+                  filter: ProductFilter(demographicIds: widget.demographicIds),
+                  gridCount: 2,
+                  disablePagination: true,
+                  controller: (widget?.demographicIds?.length ?? 0) == 0
+                      ? WishListGridViewBuilderController(
+                          productIds: widget.productIds)
+                      : ProductsGridViewBuilderController(),
+                  childAspectRatio: 0.7,
+                  emptyListWidget: EmptyListWidget(
+                    text: "",
+                  ),
+                  tileBuilder:
+                      (BuildContext context, data, index, onDelete, onUpdate) {
+                    final Product dProduct = data as Product;
+                    return Container(
+                      decoration: BoxDecoration(
+                        border: Border(
+                          right: BorderSide(
+                            color: Colors.grey[300],
+                          ),
+                          bottom: BorderSide(
+                            color: Colors.grey[300],
+                          ),
                         ),
                       ),
-                    ),
-                    Expanded(
-                      flex: 2,
-                      child: GestureDetector(
-                        onTap: () async {
-                          await Share.share(
-                            await _dynamicLinkService
-                                .createLink(promotionLink + widget.promotionId),
-                            sharePositionOrigin: Rect.fromCenter(
-                              center: Offset(100, 100),
-                              width: 100,
-                              height: 100,
+                      child: ProductTileUI(
+                        index: index,
+                        data: data,
+                        cardPadding: EdgeInsets.zero,
+                        onClick: () {
+                          BaseController.goToProductPage(dProduct).then(
+                            (value) => setState(
+                              () {
+                                promotionProductKey = UniqueKey();
+                              },
                             ),
                           );
                         },
-                        child: Icon(
-                          Platform.isIOS ? CupertinoIcons.share : Icons.share,
-                          size: 25,
-                        ),
                       ),
-                    ),
-                  ],
-                ),
-                verticalSpace(20),
-                FutureBuilder(
-                  future: Future.delayed(Duration(milliseconds: 500)),
-                  builder: (c, s) => s.connectionState == ConnectionState.done
-                      ? GridListWidget<Products, Product>(
-                          key: promotionProductKey,
-                          context: context,
-                          filter: ProductFilter(
-                              demographicIds: widget.demographicIds),
-                          gridCount: 2,
-                          disablePagination: true,
-                          controller: (widget?.demographicIds?.length ?? 0) == 0
-                              ? WishListGridViewBuilderController(
-                                  productIds: widget.productIds)
-                              : ProductsGridViewBuilderController(),
-                          childAspectRatio: 0.8,
-                          emptyListWidget: EmptyListWidget(
-                            text: "",
-                          ),
-                          tileBuilder: (BuildContext context, data, index,
-                              onDelete, onUpdate) {
-                            final Product dProduct = data as Product;
-                            return ProductTileUI(
-                              index: index,
-                              data: data,
-                              onClick: () {
-                                BaseController.goToProductPage(dProduct).then(
-                                  (value) => setState(
-                                    () {
-                                      promotionProductKey = UniqueKey();
-                                    },
-                                  ),
-                                );
-                              },
-                            );
-                          },
-                        )
-                      : Container(),
+                    );
+                  },
                 )
               ],
             ),

@@ -58,6 +58,7 @@ class ExploreDesignerTileUI extends StatelessWidget {
                     data.name,
                     dotsAfterOverFlow: true,
                     fontSize: titleFontSize,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
                 verticalSpace(2),

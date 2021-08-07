@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../../constants/route_names.dart';
-import '../../locator.dart';
 import '../../services/navigation_service.dart';
 
 // ignore: camel_case_types
@@ -16,9 +15,8 @@ class loader extends StatefulWidget {
 class _loaderState extends State<loader> with SingleTickerProviderStateMixin {
   void initState() {
     super.initState();
-    final NavigationService _navigationService = locator<NavigationService>();
     Future.delayed(const Duration(seconds: 1),
-        () => _navigationService.navigateAndRemoveUntil(HomeViewRoute));
+        () => NavigationService.offAll(HomeViewRoute));
   }
 
   @override

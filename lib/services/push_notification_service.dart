@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
 
 import '../constants/route_names.dart';
-import '../locator.dart';
 import 'navigation_service.dart';
 
 class PushNotificationData {
@@ -20,7 +19,6 @@ class PushNotificationData {
 
 class PushNotificationService {
   final FirebaseMessaging _fcm = FirebaseMessaging();
-  final NavigationService _navigationService = locator<NavigationService>();
   String fcmToken = '';
 
   Future initialise() async {
@@ -111,7 +109,7 @@ class PushNotificationService {
           "contentType": contentType,
           "id": id,
         };
-        _navigationService.navigateTo(DynamicContentViewRoute, arguments: data);
+        NavigationService.to(DynamicContentViewRoute, arguments: data);
       }
     } catch (e) {
       Fimber.e("Error");

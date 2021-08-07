@@ -50,6 +50,9 @@ class Seller {
     this.designs,
     this.works,
     this.operations,
+    this.intro,
+    this.designation,
+    this.education,
     this.contact,
     this.owner,
     this.timing,
@@ -72,6 +75,9 @@ class Seller {
   String designs;
   String works;
   String operations;
+  String intro;
+  String designation;
+  String education;
   Contact contact;
   Owner owner;
   Timing timing;
@@ -93,6 +99,9 @@ class Seller {
         designs: json["designs"] == null ? null : json["designs"],
         works: json["works"] == null ? null : json["works"],
         operations: json["operations"] == null ? null : json["operations"],
+        intro: json["intro"] == null ? null : json["intro"],
+        designation: json["designation"] == null ? null : json["designation"],
+        education: json["education"] == null ? null : json["education"],
         contact:
             json["contact"] == null ? null : Contact.fromJson(json["contact"]),
         owner: json["owner"] == null ? null : Owner.fromJson(json["owner"]),
@@ -118,6 +127,9 @@ class Seller {
         "designs": designs == null ? null : designs,
         "works": works == null ? null : works,
         "operations": operations == null ? null : operations,
+        "intro": intro == null ? null : intro,
+        "designation": designation == null ? null : designation,
+        "education": education == null ? null : education,
         "contact": contact?.toJson(),
         "timing": timing.toJson(),
         "establishmentTypeId": establishmentTypeId,

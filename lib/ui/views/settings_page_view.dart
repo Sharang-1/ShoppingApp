@@ -20,6 +20,7 @@ import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
 import '../widgets/bottom_tag.dart';
 import '../widgets/custom_text.dart';
+import '../widgets/profile_setup_indicator.dart';
 import 'help_view.dart';
 
 class SettingsView extends StatelessWidget {
@@ -176,15 +177,11 @@ class SettingsView extends StatelessWidget {
                                           if (!locator<HomeController>()
                                               .isProfileComplete)
                                             Positioned(
-                                              bottom: 0,
+                                              top: 0,
                                               right: 0,
-                                              child: Container(
-                                                height: 12,
-                                                width: 12,
-                                                decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  color: logoRed,
-                                                ),
+                                              child: ProfileSetupIndicator(
+                                                height: 14,
+                                                width: 14,
                                               ),
                                             ),
                                         ],

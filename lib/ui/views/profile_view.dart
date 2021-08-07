@@ -204,8 +204,8 @@ class _ProfileViewState extends State<ProfileView> {
                                         width: 100,
                                         height: 100,
                                         fadeInCurve: Curves.easeIn,
-                                        placeholder:
-                                            AssetImage("assets/images/user.png"),
+                                        placeholder: AssetImage(
+                                            "assets/images/user.png"),
                                         image: NetworkImage(
                                             "$USER_PROFILE_PHOTO_BASE_URL/${controller?.mUserDetails?.key}?v=${controller.dateTimeString}",
                                             headers: {
@@ -741,12 +741,12 @@ class _ProfileViewState extends State<ProfileView> {
                                                 MainAxisAlignment.center,
                                             children: [
                                               getSizeWidget(
-                                                initialValue: controller
-                                                        ?.mUserDetails
-                                                        ?.measure
-                                                        ?.shoulders
-                                                        .toString() ??
-                                                    '',
+                                                initialValue: (controller
+                                                            ?.mUserDetails
+                                                            ?.measure
+                                                            ?.shoulders ??
+                                                        '')
+                                                    .toString(),
                                                 hint: "*Shoulders",
                                                 onSaved: (text) {
                                                   controller.mUserDetails
@@ -757,12 +757,12 @@ class _ProfileViewState extends State<ProfileView> {
                                               verticalSpaceSmall,
                                               getSizeWidget(
                                                   hint: "*Chest",
-                                                  initialValue: controller
-                                                          ?.mUserDetails
-                                                          ?.measure
-                                                          ?.chest
-                                                          .toString() ??
-                                                      '',
+                                                  initialValue: (controller
+                                                              ?.mUserDetails
+                                                              ?.measure
+                                                              ?.chest ??
+                                                          '')
+                                                      .toString(),
                                                   onSaved: (text) {
                                                     controller.mUserDetails
                                                             .measure.chest =
@@ -771,12 +771,12 @@ class _ProfileViewState extends State<ProfileView> {
                                               verticalSpaceSmall,
                                               getSizeWidget(
                                                   hint: "*Waist",
-                                                  initialValue: controller
-                                                          ?.mUserDetails
-                                                          ?.measure
-                                                          ?.waist
-                                                          .toString() ??
-                                                      '',
+                                                  initialValue: (controller
+                                                              ?.mUserDetails
+                                                              ?.measure
+                                                              ?.waist ??
+                                                          '')
+                                                      .toString(),
                                                   onSaved: (text) {
                                                     controller.mUserDetails
                                                             .measure.waist =
@@ -785,12 +785,12 @@ class _ProfileViewState extends State<ProfileView> {
                                               verticalSpaceSmall,
                                               getSizeWidget(
                                                   hint: "*Hips",
-                                                  initialValue: controller
-                                                          ?.mUserDetails
-                                                          ?.measure
-                                                          ?.hips
-                                                          .toString() ??
-                                                      '',
+                                                  initialValue: (controller
+                                                              ?.mUserDetails
+                                                              ?.measure
+                                                              ?.hips ??
+                                                          '')
+                                                      .toString(),
                                                   onSaved: (text) {
                                                     controller
                                                         .mUserDetails
@@ -800,12 +800,12 @@ class _ProfileViewState extends State<ProfileView> {
                                               verticalSpaceSmall,
                                               getSizeWidget(
                                                   hint: "*Height",
-                                                  initialValue: controller
-                                                          ?.mUserDetails
-                                                          ?.measure
-                                                          ?.height
-                                                          .toString() ??
-                                                      '',
+                                                  initialValue: (controller
+                                                              ?.mUserDetails
+                                                              ?.measure
+                                                              ?.height ??
+                                                          '')
+                                                      .toString(),
                                                   onSaved: (text) {
                                                     controller.mUserDetails
                                                             .measure.height =
@@ -877,7 +877,11 @@ class _ProfileViewState extends State<ProfileView> {
               },
               onSaved: onSaved,
               decoration: InputDecoration(
-                hintText: hint,
+                // hintText: hint,
+                hintText: ' ',
+                hintStyle: TextStyle(
+                  fontSize: subtitleFontSize - 4,
+                ),
                 contentPadding: EdgeInsets.symmetric(
                   horizontal: 8.0,
                 ),

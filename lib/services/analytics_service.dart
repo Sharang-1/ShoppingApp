@@ -2,8 +2,9 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-// import 'package:firebase_performance/firebase_performance.dart';
 import 'package:flutter/foundation.dart';
+
+import '../constants/server_urls.dart';
 
 class AnalyticsService {
   final FirebaseAnalytics _analytics = FirebaseAnalytics();
@@ -33,7 +34,7 @@ class AnalyticsService {
 
   Future setup() async {
     await Firebase.initializeApp();
-    await _analytics.setAnalyticsCollectionEnabled(kReleaseMode);
+    await _analytics.setAnalyticsCollectionEnabled(releaseMode);
     await setupCrashlytics();
     await setupFirebasePerformance();
   }
@@ -43,7 +44,7 @@ class AnalyticsService {
   }
 
   Future setupCrashlytics() async {
-    await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(kReleaseMode);
+    await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(releaseMode);
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
     await FirebaseCrashlytics.instance.log("App started");
   }

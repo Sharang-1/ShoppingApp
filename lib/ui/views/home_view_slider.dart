@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 import '../shared/shared_styles.dart';
 import 'gallery_view.dart';
@@ -43,7 +44,7 @@ class _HomeSliderState extends State<HomeSlider> {
       videoControllers.add(VideoPlayerController.network(
         videoUrl,
       )
-        ..initialize()
+        // ..initialize()
         ..setVolume(0.0));
     });
     super.initState();
@@ -136,15 +137,23 @@ class _HomeSliderState extends State<HomeSlider> {
                       }).toList(),
                       if (videoControllers.isNotEmpty)
                         ...videoControllers
-                            .map((videoController) => FlickVideoPlayer(
-                                  flickVideoWithControls:
-                                      FlickVideoWithControls(
-                                    backgroundColor: Colors.white,
-                                    controls: FlickPortraitControls(),
-                                  ),
-                                  flickManager: FlickManager(
-                                    videoPlayerController: videoController,
-                                    autoPlay: false,
+                            .map((videoController) => VisibilityDetector(
+                                  key: Key("unique key"),
+                                  onVisibilityChanged: (VisibilityInfo info) {
+                                    if (info.visibleFraction == 0) {
+                                      videoController.pause();
+                                    }
+                                  },
+                                  child: FlickVideoPlayer(
+                                    flickVideoWithControls:
+                                        FlickVideoWithControls(
+                                      backgroundColor: Colors.white,
+                                      controls: FlickPortraitControls(),
+                                    ),
+                                    flickManager: FlickManager(
+                                      videoPlayerController: videoController,
+                                      autoPlay: false,
+                                    ),
                                   ),
                                 ))
                             .toList(),

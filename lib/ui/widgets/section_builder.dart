@@ -92,13 +92,13 @@ class SectionBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Column(
         children: [
-          if (header != null)
+          if (header != null && (header?.title?.isNotEmpty ?? false))
             HomeViewListHeader(
               title: header.title,
               subTitle: header.subTitle,
               viewAll: header.viewAll,
             ),
-          if (header != null) spacer,
+          if (header != null && (header?.title?.isNotEmpty ?? false)) spacer,
           SizedBox(
             height: getSize(layoutType),
             child: withScrollBar
@@ -354,19 +354,15 @@ class SectionBuilder extends StatelessWidget {
               onTap: () {},
               child: Container(
                 decoration: BoxDecoration(
-                    // border: Border(
-                    //   right: (scrollDirection == Axis.horizontal)
-                    //       ? BorderSide(
-                    //           color: Colors.grey[300],
-                    //         )
-                    //       : BorderSide.none,
-                    //   bottom: (scrollDirection == Axis.vertical)
-                    //       ? BorderSide(
-                    //           color: Colors.grey[300],
-                    //         )
-                    //       : BorderSide.none,
-                    // ),
-                    ),
+                  border: Border(
+                    bottom:
+                        (layoutType == LayoutType.DESIGNER_ID_3_VERTICAL_LAYOUT)
+                            ? BorderSide(
+                                color: Colors.grey[300],
+                              )
+                            : BorderSide.none,
+                  ),
+                ),
                 child: DesignerTileUi(
                   data: data,
                   isID3: ((layoutType == LayoutType.DESIGNER_ID_3_LAYOUT) ||

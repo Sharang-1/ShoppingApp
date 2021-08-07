@@ -743,9 +743,29 @@ class _SellerIndiState extends State<SellerIndi> {
                                       fontSize: titleFontSize,
                                       dotsAfterOverFlow: true,
                                     ),
+                                    if ((sellerData?.education != null) ||
+                                        (sellerData?.designation != null))
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: CustomText(
+                                              "${sellerData?.education ?? ''} ${sellerData?.designation ?? ''}",
+                                              fontSize: subtitleFontSize,
+                                              fontWeight: FontWeight.w400,
+                                              color: Colors.grey.shade600,
+                                              dotsAfterOverFlow: true,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ReadMoreText(
-                                      sellerDetails["Note from Seller"],
-                                      trimLines: 3,
+                                      sellerData?.intro ??
+                                          sellerDetails["Note from Seller"],
+                                      trimLines: ((sellerData?.education ==
+                                                  null) &&
+                                              (sellerData?.designation == null))
+                                          ? 3
+                                          : 2,
                                       colorClickableText: logoRed,
                                       trimMode: TrimMode.Line,
                                       style: TextStyle(
@@ -806,42 +826,6 @@ class _SellerIndiState extends State<SellerIndi> {
                                     ],
                                   ),
                                 ),
-                                //       InkWell(
-                                //         onTap: () async {
-                                //           var status =
-                                //               await Location().requestPermission();
-                                //           if (status == PermissionStatus.GRANTED) {
-                                //             _navigationService.navigateTo(
-                                //                 MapViewRoute,
-                                //                 arguments: sellerData?.key);
-                                //           }
-                                //           return;
-                                //         },
-                                //         child: Container(
-                                //           padding: EdgeInsets.symmetric(
-                                //               horizontal: 8.0, vertical: 4.0),
-                                //           decoration: BoxDecoration(
-                                //             border: Border.all(
-                                //               color: logoRed,
-                                //             ),
-                                //             borderRadius: BorderRadius.circular(5),
-                                //           ),
-                                //           child: Row(
-                                //             children: <Widget>[
-                                //               Icon(
-                                //                 Icons.directions,
-                                //                 color: logoRed,
-                                //               ),
-                                //               horizontalSpaceTiny,
-                                //               CustomText(
-                                //                 "Locate",
-                                //                 fontSize: subHeadFont,
-                                //                 color: logoRed,
-                                //               ),
-                                //             ],
-                                //           ),
-                                //         ),
-                                //       ),
                               ],
                             ),
                           ),

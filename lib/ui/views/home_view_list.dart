@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
-import '../../constants/server_urls.dart';
 import '../../controllers/base_controller.dart';
 import '../../controllers/grid_view_builder/categories_view_builder_controller.dart';
 import '../../controllers/grid_view_builder/products_grid_view_builder_controller.dart';
@@ -16,7 +15,6 @@ import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
 import '../widgets/promotion_slider.dart';
 import '../widgets/section_builder.dart';
-import 'promotion_products_view.dart';
 
 class HomeViewList extends StatelessWidget {
   final HomeController controller;
@@ -60,7 +58,8 @@ class HomeViewList extends StatelessWidget {
                     key: controller.promotionKey,
                     promotions: controller.topPromotion,
                   ),
-                verticalSpaceSmall,
+                if ((controller?.topPromotion?.length ?? 0) > 0)
+                  verticalSpaceSmall,
                 SectionBuilder(
                   key: categoryUniqueKey,
                   context: context,
@@ -69,9 +68,9 @@ class HomeViewList extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   header: SectionHeader(
                     title: controller.remoteConfig
-                        .getString(HOMESCREEN_CATEGORY_SECTION_1_TITLE_EN),
+                        .getString(HOMESCREEN_SECTION_1_TITLE_EN),
                     subTitle: controller.remoteConfig
-                        .getString(HOMESCREEN_CATEGORY_SECTION_1_SUBTITLE_EN),
+                        .getString(HOMESCREEN_SECTION_1_SUBTITLE_EN),
                     viewAll: () => BaseController.category(),
                   ),
                 ),
@@ -85,61 +84,17 @@ class HomeViewList extends StatelessWidget {
                     random: true,
                   ),
                   scrollDirection: Axis.horizontal,
-                ),
-                if ((controller?.bottomPromotion?.length ?? 0) > 0)
-                  SectionDivider(),
-                if ((controller?.bottomPromotion?.length ?? 0) > 0)
-                  GestureDetector(
-                    onTap: () {
-                      var promoTitle = controller.bottomPromotion[0]?.name;
-                      List<String> productIds = controller
-                          .bottomPromotion[0]?.products
-                          ?.map((e) => e.toString())
-                          ?.toList();
-                      print(productIds);
-                      Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                          builder: (context) => PromotionProduct(
-                            promotionId: controller.bottomPromotion[0]?.key,
-                            productIds: productIds ?? [],
-                            promotionTitle: promoTitle,
-                            demographicIds: controller
-                                .bottomPromotion[0]?.demographics
-                                ?.map((e) => e?.id)
-                                ?.toList(),
-                          ),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 5,
-                            blurRadius: 7,
-                            offset: Offset(0, 3), // changes position of shadow
-                          ),
-                        ],
-                      ),
-                      child: SizedBox(
-                        height: (MediaQuery.of(context).size.width) / 1.6,
-                        width: MediaQuery.of(context).size.width,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(curve15),
-                          child: Image(
-                            fit: BoxFit.cover,
-                            image: NetworkImage(
-                              controller.bottomPromotion[0]?.banner != null
-                                  ? "$PROMOTION_PHOTO_BASE_URL/${controller.bottomPromotion[0]?.key}"
-                                  : "https://templates.designwizard.com/663467c0-7840-11e7-81f8-bf6782823ae8.jpg",
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                  header: SectionHeader(
+                    title: controller.remoteConfig
+                        .getString(HOMESCREEN_SECTION_2_TITLE_EN),
+                    subTitle: controller.remoteConfig
+                        .getString(HOMESCREEN_SECTION_2_SUBTITLE_EN),
                   ),
+                ),
+                if ((controller?.bottomPromotion?.length ?? 0) > 0) ...[
+                  SectionDivider(),
+                  BottomPromotion(promotion: controller.bottomPromotion[0])
+                ],
                 SectionDivider(),
                 SectionBuilder(
                   context: context,
@@ -149,61 +104,17 @@ class HomeViewList extends StatelessWidget {
                     random: true,
                   ),
                   scrollDirection: Axis.horizontal,
-                ),
-                if ((controller?.bottomPromotion?.length ?? 0) > 1)
-                  SectionDivider(),
-                if ((controller?.bottomPromotion?.length ?? 0) > 1)
-                  GestureDetector(
-                    onTap: () {
-                      var promoTitle = controller.bottomPromotion[1]?.name;
-                      List<String> productIds = controller
-                          .bottomPromotion[1]?.products
-                          ?.map((e) => e.toString())
-                          ?.toList();
-                      print(productIds);
-                      Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                          builder: (context) => PromotionProduct(
-                            promotionId: controller.bottomPromotion[1]?.key,
-                            productIds: productIds ?? [],
-                            promotionTitle: promoTitle,
-                            demographicIds: controller
-                                .bottomPromotion[1]?.demographics
-                                ?.map((e) => e?.id)
-                                ?.toList(),
-                          ),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 5,
-                            blurRadius: 7,
-                            offset: Offset(0, 3), // changes position of shadow
-                          ),
-                        ],
-                      ),
-                      child: SizedBox(
-                        height: (MediaQuery.of(context).size.width) / 1.6,
-                        width: MediaQuery.of(context).size.width,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(curve15),
-                          child: Image(
-                            fit: BoxFit.cover,
-                            image: NetworkImage(
-                              controller.bottomPromotion[1]?.banner != null
-                                  ? "$PROMOTION_PHOTO_BASE_URL/${controller.bottomPromotion[1]?.key}"
-                                  : "https://templates.designwizard.com/663467c0-7840-11e7-81f8-bf6782823ae8.jpg",
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                  header: SectionHeader(
+                    title: controller.remoteConfig
+                        .getString(HOMESCREEN_SECTION_3_TITLE_EN),
+                    subTitle: controller.remoteConfig
+                        .getString(HOMESCREEN_SECTION_3_SUBTITLE_EN),
                   ),
+                ),
+                if ((controller?.bottomPromotion?.length ?? 0) > 1) ...[
+                  SectionDivider(),
+                  BottomPromotion(promotion: controller.bottomPromotion[1])
+                ],
                 SectionDivider(),
                 SectionBuilder(
                   context: context,
@@ -214,61 +125,17 @@ class HomeViewList extends StatelessWidget {
                     random: true,
                   ),
                   scrollDirection: Axis.horizontal,
-                ),
-                if ((controller?.bottomPromotion?.length ?? 0) > 2)
-                  SectionDivider(),
-                if ((controller?.bottomPromotion?.length ?? 0) > 2)
-                  GestureDetector(
-                    onTap: () {
-                      var promoTitle = controller.bottomPromotion[2]?.name;
-                      List<String> productIds = controller
-                          .bottomPromotion[2]?.products
-                          ?.map((e) => e.toString())
-                          ?.toList();
-                      print(productIds);
-                      Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                          builder: (context) => PromotionProduct(
-                            promotionId: controller.bottomPromotion[2]?.key,
-                            productIds: productIds ?? [],
-                            promotionTitle: promoTitle,
-                            demographicIds: controller
-                                .bottomPromotion[2]?.demographics
-                                ?.map((e) => e?.id)
-                                ?.toList(),
-                          ),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 5,
-                            blurRadius: 7,
-                            offset: Offset(0, 3), // changes position of shadow
-                          ),
-                        ],
-                      ),
-                      child: SizedBox(
-                        height: (MediaQuery.of(context).size.width) / 1.6,
-                        width: MediaQuery.of(context).size.width,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(curve15),
-                          child: Image(
-                            fit: BoxFit.cover,
-                            image: NetworkImage(
-                              controller.bottomPromotion[2]?.banner != null
-                                  ? "$PROMOTION_PHOTO_BASE_URL/${controller.bottomPromotion[2]?.key}"
-                                  : "https://templates.designwizard.com/663467c0-7840-11e7-81f8-bf6782823ae8.jpg",
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                  header: SectionHeader(
+                    title: controller.remoteConfig
+                        .getString(HOMESCREEN_SECTION_4_TITLE_EN),
+                    subTitle: controller.remoteConfig
+                        .getString(HOMESCREEN_SECTION_4_SUBTITLE_EN),
                   ),
+                ),
+                if ((controller?.bottomPromotion?.length ?? 0) > 2) ...[
+                  SectionDivider(),
+                  BottomPromotion(promotion: controller.bottomPromotion[2])
+                ],
                 SectionDivider(),
                 SectionBuilder(
                   context: context,
@@ -279,61 +146,17 @@ class HomeViewList extends StatelessWidget {
                     random: true,
                   ),
                   scrollDirection: Axis.horizontal,
-                ),
-                if ((controller?.bottomPromotion?.length ?? 0) > 3)
-                  SectionDivider(),
-                if ((controller?.bottomPromotion?.length ?? 0) > 3)
-                  GestureDetector(
-                    onTap: () {
-                      var promoTitle = controller.bottomPromotion[3]?.name;
-                      List<String> productIds = controller
-                          .bottomPromotion[3]?.products
-                          ?.map((e) => e.toString())
-                          ?.toList();
-                      print(productIds);
-                      Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                          builder: (context) => PromotionProduct(
-                            promotionId: controller.bottomPromotion[3]?.key,
-                            productIds: productIds ?? [],
-                            promotionTitle: promoTitle,
-                            demographicIds: controller
-                                .bottomPromotion[3]?.demographics
-                                ?.map((e) => e?.id)
-                                ?.toList(),
-                          ),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 5,
-                            blurRadius: 7,
-                            offset: Offset(0, 3), // changes position of shadow
-                          ),
-                        ],
-                      ),
-                      child: SizedBox(
-                        height: (MediaQuery.of(context).size.width) / 1.6,
-                        width: MediaQuery.of(context).size.width,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(curve15),
-                          child: Image(
-                            fit: BoxFit.cover,
-                            image: NetworkImage(
-                              controller.bottomPromotion[3]?.banner != null
-                                  ? "$PROMOTION_PHOTO_BASE_URL/${controller.bottomPromotion[3]?.key}"
-                                  : "https://templates.designwizard.com/663467c0-7840-11e7-81f8-bf6782823ae8.jpg",
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                  header: SectionHeader(
+                    title: controller.remoteConfig
+                        .getString(HOMESCREEN_SECTION_5_TITLE_EN),
+                    subTitle: controller.remoteConfig
+                        .getString(HOMESCREEN_SECTION_5_SUBTITLE_EN),
                   ),
+                ),
+                if ((controller?.bottomPromotion?.length ?? 0) > 3) ...[
+                  SectionDivider(),
+                  BottomPromotion(promotion: controller.bottomPromotion[3]),
+                ],
                 SectionDivider(),
                 SectionBuilder(
                   key: productUniqueKey ?? UniqueKey(),
@@ -359,16 +182,10 @@ class HomeViewList extends StatelessWidget {
                   ),
                   scrollDirection: Axis.horizontal,
                   header: SectionHeader(
-                    title: "Below ₹999",
-                    subTitle: controller?.remoteConfig?.getString(
-                            HOMESCREEN_PRODUCT_SECTION_1_SUBTITLE_EN) ??
-                        '',
-                    // viewAll: () => BaseController.goToProductListPage(
-                    //   ProductPageArg(
-                    //     queryString: 'category=1;',
-                    //     subCategory: '',
-                    //   ),
-                    // ),
+                    title: controller.remoteConfig
+                        .getString(HOMESCREEN_SECTION_6_TITLE_EN),
+                    subTitle: controller.remoteConfig
+                        .getString(HOMESCREEN_SECTION_6_SUBTITLE_EN),
                   ),
                 ),
                 SectionDivider(),
@@ -382,61 +199,17 @@ class HomeViewList extends StatelessWidget {
                     subscriptionType: 3,
                   ),
                   scrollDirection: Axis.horizontal,
-                ),
-                if ((controller?.bottomPromotion?.length ?? 0) > 4)
-                  SectionDivider(),
-                if ((controller?.bottomPromotion?.length ?? 0) > 4)
-                  GestureDetector(
-                    onTap: () {
-                      var promoTitle = controller.bottomPromotion[4]?.name;
-                      List<String> productIds = controller
-                          .bottomPromotion[4]?.products
-                          ?.map((e) => e.toString())
-                          ?.toList();
-                      print(productIds);
-                      Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                          builder: (context) => PromotionProduct(
-                            promotionId: controller.bottomPromotion[4]?.key,
-                            productIds: productIds ?? [],
-                            promotionTitle: promoTitle,
-                            demographicIds: controller
-                                .bottomPromotion[4]?.demographics
-                                ?.map((e) => e?.id)
-                                ?.toList(),
-                          ),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 5,
-                            blurRadius: 7,
-                            offset: Offset(0, 3), // changes position of shadow
-                          ),
-                        ],
-                      ),
-                      child: SizedBox(
-                        height: (MediaQuery.of(context).size.width) / 1.6,
-                        width: MediaQuery.of(context).size.width,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(curve15),
-                          child: Image(
-                            fit: BoxFit.cover,
-                            image: NetworkImage(
-                              controller.bottomPromotion[4]?.banner != null
-                                  ? "$PROMOTION_PHOTO_BASE_URL/${controller.bottomPromotion[4]?.key}"
-                                  : "https://templates.designwizard.com/663467c0-7840-11e7-81f8-bf6782823ae8.jpg",
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                   header: SectionHeader(
+                    title: controller.remoteConfig
+                        .getString(HOMESCREEN_SECTION_7_TITLE_EN),
+                    subTitle: controller.remoteConfig
+                        .getString(HOMESCREEN_SECTION_7_SUBTITLE_EN),
                   ),
+                ),
+                if ((controller?.bottomPromotion?.length ?? 0) > 4) ...[
+                  SectionDivider(),
+                  BottomPromotion(promotion: controller.bottomPromotion[4])
+                ],
                 SectionDivider(),
                 SectionBuilder(
                   key: productUniqueKey ?? UniqueKey(),
@@ -447,68 +220,16 @@ class HomeViewList extends StatelessWidget {
                       ProductsGridViewBuilderController(randomize: true),
                   scrollDirection: Axis.horizontal,
                   header: SectionHeader(
-                    title: controller?.remoteConfig?.getString(
-                            HOMESCREEN_PRODUCT_SECTION_3_TITLE_EN) ??
-                        '',
-                    subTitle: controller?.remoteConfig?.getString(
-                            HOMESCREEN_PRODUCT_SECTION_3_SUBTITLE_EN) ??
-                        '',
+                    title: controller.remoteConfig
+                        .getString(HOMESCREEN_SECTION_8_TITLE_EN),
+                    subTitle: controller.remoteConfig
+                        .getString(HOMESCREEN_SECTION_8_SUBTITLE_EN),
                   ),
                 ),
-                if ((controller?.bottomPromotion?.length ?? 0) > 5)
+                if ((controller?.bottomPromotion?.length ?? 0) > 5) ...[
                   SectionDivider(),
-                if ((controller?.bottomPromotion?.length ?? 0) > 5)
-                  GestureDetector(
-                    onTap: () {
-                      var promoTitle = controller.bottomPromotion[5]?.name;
-                      List<String> productIds = controller
-                          .bottomPromotion[5]?.products
-                          ?.map((e) => e.toString())
-                          ?.toList();
-                      print(productIds);
-                      Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                          builder: (context) => PromotionProduct(
-                            promotionId: controller.bottomPromotion[5]?.key,
-                            productIds: productIds ?? [],
-                            promotionTitle: promoTitle,
-                            demographicIds: controller
-                                .bottomPromotion[5]?.demographics
-                                ?.map((e) => e?.id)
-                                ?.toList(),
-                          ),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 5,
-                            blurRadius: 7,
-                            offset: Offset(0, 3), // changes position of shadow
-                          ),
-                        ],
-                      ),
-                      child: SizedBox(
-                        height: (MediaQuery.of(context).size.width) / 1.6,
-                        width: MediaQuery.of(context).size.width,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(curve15),
-                          child: Image(
-                            fit: BoxFit.cover,
-                            image: NetworkImage(
-                              controller.bottomPromotion[5]?.banner != null
-                                  ? "$PROMOTION_PHOTO_BASE_URL/${controller.bottomPromotion[5]?.key}"
-                                  : "https://templates.designwizard.com/663467c0-7840-11e7-81f8-bf6782823ae8.jpg",
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                  BottomPromotion(promotion: controller.bottomPromotion[5])
+                ],
                 SectionDivider(),
                 SectionBuilder(
                   context: context,
@@ -519,61 +240,17 @@ class HomeViewList extends StatelessWidget {
                     random: true,
                   ),
                   scrollDirection: Axis.horizontal,
-                ),
-                if ((controller?.bottomPromotion?.length ?? 0) > 6)
-                  SectionDivider(),
-                if ((controller?.bottomPromotion?.length ?? 0) > 6)
-                  GestureDetector(
-                    onTap: () {
-                      var promoTitle = controller.bottomPromotion[6]?.name;
-                      List<String> productIds = controller
-                          .bottomPromotion[6]?.products
-                          ?.map((e) => e.toString())
-                          ?.toList();
-                      print(productIds);
-                      Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                          builder: (context) => PromotionProduct(
-                            promotionId: controller.bottomPromotion[6]?.key,
-                            productIds: productIds ?? [],
-                            promotionTitle: promoTitle,
-                            demographicIds: controller
-                                .bottomPromotion[6]?.demographics
-                                ?.map((e) => e?.id)
-                                ?.toList(),
-                          ),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 5,
-                            blurRadius: 7,
-                            offset: Offset(0, 3), // changes position of shadow
-                          ),
-                        ],
-                      ),
-                      child: SizedBox(
-                        height: (MediaQuery.of(context).size.width) / 1.6,
-                        width: MediaQuery.of(context).size.width,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(curve15),
-                          child: Image(
-                            fit: BoxFit.cover,
-                            image: NetworkImage(
-                              controller.bottomPromotion[6]?.banner != null
-                                  ? "$PROMOTION_PHOTO_BASE_URL/${controller.bottomPromotion[6]?.key}"
-                                  : "https://templates.designwizard.com/663467c0-7840-11e7-81f8-bf6782823ae8.jpg",
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                   header: SectionHeader(
+                    title: controller.remoteConfig
+                        .getString(HOMESCREEN_SECTION_9_TITLE_EN),
+                    subTitle: controller.remoteConfig
+                        .getString(HOMESCREEN_SECTION_9_SUBTITLE_EN),
                   ),
+                ),
+                if ((controller?.bottomPromotion?.length ?? 0) > 6) ...[
+                  SectionDivider(),
+                  BottomPromotion(promotion: controller.bottomPromotion[6]),
+                ],
                 SectionDivider(),
                 SectionBuilder(
                   key: productUniqueKey ?? UniqueKey(),
@@ -583,12 +260,10 @@ class HomeViewList extends StatelessWidget {
                       randomize: true, limit: 10),
                   scrollDirection: Axis.horizontal,
                   header: SectionHeader(
-                    title: controller?.remoteConfig?.getString(
-                            HOMESCREEN_PRODUCT_SECTION_7_TITLE_EN) ??
-                        '',
-                    subTitle: controller?.remoteConfig?.getString(
-                            HOMESCREEN_PRODUCT_SECTION_7_SUBTITLE_EN) ??
-                        '',
+                    title: controller.remoteConfig
+                        .getString(HOMESCREEN_SECTION_10_TITLE_EN),
+                    subTitle: controller.remoteConfig
+                        .getString(HOMESCREEN_SECTION_10_SUBTITLE_EN),
                     viewAll: () {
                       BaseController.goToProductListPage(ProductPageArg(
                         queryString: '',
@@ -605,13 +280,12 @@ class HomeViewList extends StatelessWidget {
                   fromHome: true,
                   scrollDirection: Axis.vertical,
                   controller: SellersGridViewBuilderController(random: true),
-                  header: SectionHeader(
-                      title: controller?.remoteConfig?.getString(
-                              HOMESCREEN_DESIGNER_SECTION_4_TITLE_EN) ??
-                          '',
-                      subTitle: controller?.remoteConfig?.getString(
-                              HOMESCREEN_DESIGNER_SECTION_4_SUBTITLE_EN) ??
-                          ''),
+                   header: SectionHeader(
+                    title: controller.remoteConfig
+                        .getString(HOMESCREEN_SECTION_11_TITLE_EN),
+                    subTitle: controller.remoteConfig
+                        .getString(HOMESCREEN_SECTION_11_SUBTITLE_EN),
+                  ),
                 ),
                 verticalSpaceSmall,
                 Row(

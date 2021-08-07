@@ -4,7 +4,6 @@ import '../services/address_service.dart';
 import 'base_controller.dart';
 
 class CartSelectDeliveryController extends BaseController {
-  // final NavigationService _navigationService = locator<NavigationService>();
   final AddressService _addressService = locator<AddressService>();
 
   List<UserDetailsContact> addresses = [];

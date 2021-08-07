@@ -15,22 +15,19 @@ import 'base_controller.dart';
 
 class DynamicContentController extends BaseController {
   final APIService _apiService = locator<APIService>();
-  final AuthenticationService _authenticationService =
-      locator<AuthenticationService>();
-  final NavigationService _navigationService = locator<NavigationService>();
 
   Future<void> init(BuildContext context, {data}) async {
     print("Dynamic Content ViewModel Data : ${data.toString()}");
     print("Dynamic Content ViewModel Data : ${data["contentType"].toString()}");
     print("Dynamic Content ViewModel Data : ${data["id"].toString()}");
 
-    if (!(await _authenticationService.isUserLoggedIn())) {
-      await _navigationService.navigateAndRemoveUntil(LoginViewRoute);
-      return;
-    }
+    // if (!(await locator<AuthenticationService>().isUserLoggedIn())) {
+    //   await NavigationService.offAll(LoginViewRoute);
+    //   return;
+    // }
 
     if ((data == null)) {
-      await _navigationService.navigateAndRemoveUntil(HomeViewRoute);
+      await NavigationService.offAll(HomeViewRoute);
       return;
     }
 
@@ -40,10 +37,9 @@ class DynamicContentController extends BaseController {
         Product product =
             await _apiService.getProductById(productId: data["id"]);
         if (product == null) break;
-        await _navigationService.navigateTo(ProductIndividualRoute,
-            arguments: product);
+        await NavigationService.to(ProductIndividualRoute, arguments: product);
         await Future.delayed(Duration(milliseconds: 500));
-        await _navigationService.navigateAndRemoveUntil(HomeViewRoute);
+        await NavigationService.offAll(HomeViewRoute);
         return;
 
       case "sellers":
@@ -52,7 +48,7 @@ class DynamicContentController extends BaseController {
         Seller seller = await _apiService.getSellerByID(data["id"]);
         if (seller == null) break;
         if (seller.subscriptionTypeId == 2) {
-          await _navigationService.navigateTo(
+          await NavigationService.to(
             ProductsListRoute,
             arguments: ProductPageArg(
               subCategory: seller.name,
@@ -61,17 +57,20 @@ class DynamicContentController extends BaseController {
             ),
           );
         } else {
-          await _navigationService.navigateTo(SellerIndiViewRoute,
-              arguments: seller);
+          await NavigationService.to(SellerIndiViewRoute, arguments: seller);
         }
         await Future.delayed(Duration(milliseconds: 500));
-        await _navigationService.navigateAndRemoveUntil(HomeViewRoute);
+        await NavigationService.offAll(HomeViewRoute);
         return;
 
       case "orders":
-        await _navigationService.navigateTo(MyOrdersRoute);
+        if (!(await locator<AuthenticationService>().isUserLoggedIn())) {
+          await NavigationService.offAll(LoginViewRoute);
+          return;
+        }
+        await NavigationService.to(MyOrdersRoute);
         await Future.delayed(Duration(milliseconds: 500));
-        await _navigationService.navigateAndRemoveUntil(HomeViewRoute);
+        await NavigationService.offAll(HomeViewRoute);
         return;
 
       case "promotion":
@@ -93,13 +92,13 @@ class DynamicContentController extends BaseController {
           ),
         );
         await Future.delayed(Duration(milliseconds: 500));
-        await _navigationService.navigateAndRemoveUntil(HomeViewRoute);
+        await NavigationService.offAll(HomeViewRoute);
         return;
 
       default:
         break;
     }
-    await _navigationService.navigateAndRemoveUntil(HomeViewRoute);
+    await NavigationService.offAll(HomeViewRoute);
     return;
   }
 }

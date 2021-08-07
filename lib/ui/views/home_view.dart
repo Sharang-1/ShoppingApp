@@ -14,6 +14,7 @@ import '../../services/navigation_service.dart';
 import '../../services/remote_config_service.dart';
 import '../shared/app_colors.dart';
 import '../widgets/cart_icon_badge.dart';
+import '../widgets/profile_setup_indicator.dart';
 import 'bottom_nav_style.dart';
 import 'home_view_list.dart';
 
@@ -205,16 +206,9 @@ class HomeView extends StatelessWidget {
                           ),
                           if (!controller.isProfileComplete)
                             Positioned(
-                              bottom: 4,
+                              top: 4,
                               right: 4,
-                              child: Container(
-                                height: 10,
-                                width: 10,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: logoRed,
-                                ),
-                              ),
+                              child: ProfileSetupIndicator(),
                             ),
                         ],
                       ),
@@ -246,11 +240,14 @@ class HomeView extends StatelessWidget {
                         ),
                       ),
                     ],
-                    title: Text(
-                      "${controller.remoteConfig.getString(HOMESCREEN_APPBAR_TEXT)}",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 14,
+                    title: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        "${controller.remoteConfig.getString(HOMESCREEN_APPBAR_TEXT)}",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 14,
+                        ),
                       ),
                     ),
                     centerTitle: true,

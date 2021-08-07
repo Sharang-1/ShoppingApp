@@ -41,7 +41,7 @@ class MapView extends StatelessWidget {
     if ((distance / 1000) > 1) {
       return "${(distance / 1000).ceil().toString()} KM";
     } else {
-      return "${(distance / 1000).ceil().toString()} Meters";
+      return "${(distance).ceil().toString()} Meters";
     }
   }
 
@@ -388,9 +388,6 @@ class MapView extends StatelessWidget {
           } catch (e) {
             Fimber.e(e.toString());
           }
-          // notifyListeners();
-          // _navigationService.
-          // showBottomSheet(context: GlobalKey<ScaffoldState>(), builder: null)
         },
       );
       dzorMapController.markers[markerId] = marker;
