@@ -19,6 +19,7 @@ class SellersGridViewBuilderController
   final String removeId;
   final num subscriptionType;
   final List<num> subscriptionTypes;
+  final int limit;
 
   SellersGridViewBuilderController({
     this.profileOnly = false,
@@ -32,6 +33,7 @@ class SellersGridViewBuilderController
     this.subscriptionTypes,
     this.sellerWithNoProducts = true,
     this.topSellers = false,
+    this.limit = 10,
   });
 
   @override
@@ -43,7 +45,7 @@ class SellersGridViewBuilderController
   Future<Sellers> getData(
       {BaseFilterModel filterModel, int pageNumber, int pageSize = 10}) async {
     if ((subscriptionType != null) || (subscriptionTypes != null)) {
-      pageSize = 30;
+      pageSize = 100;
     }
 
     // String _queryString =
@@ -51,8 +53,9 @@ class SellersGridViewBuilderController
     //         filterModel.queryString;
 
     String _queryString =
-        "startIndex=${pageSize * (pageNumber - 1)};limit=$pageSize;" +
+        "startIndex=${pageSize * (pageNumber - 1)};limit=$pageSize;random=$random;" +
             filterModel.queryString;
+
     Sellers res = await _apiService.getSellers(queryString: _queryString);
     if (res == null) {
       res = await _apiService.getSellers(queryString: _queryString);
@@ -128,15 +131,25 @@ class SellersGridViewBuilderController
     if (this.withProducts) {
       List<Seller> sellers = [];
       await Future.forEach<Seller>(res.items, (e) async {
-        Products products = await _apiService.getProducts(queryString: "startIndex=0;limit=3;accountKey=${e.key};");
+        Products products = await _apiService.getProducts(
+            queryString: "startIndex=0;limit=3;accountKey=${e.key};");
         if (!((products?.items?.length ?? 0) < 3)) {
           e.products = products.items;
           sellers.add(e);
+          if (limit != null && sellers.length == limit) {
+            res.items = sellers;
+            return res;
+          }
         }
       });
       res.items = sellers;
+      if (limit != null && res.items.length > limit)
+        res.items = res.items.sublist(0, limit);
       return res;
     }
+
+    if (limit != null && res.items.length > limit)
+      res.items = res.items.sublist(0, limit);
 
     return res;
   }

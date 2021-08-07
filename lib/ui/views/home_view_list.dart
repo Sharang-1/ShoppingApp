@@ -82,6 +82,7 @@ class HomeViewList extends StatelessWidget {
                     subscriptionTypes: [1, 2],
                     withProducts: true,
                     random: true,
+                    limit: 12,
                   ),
                   scrollDirection: Axis.horizontal,
                   header: SectionHeader(
@@ -100,8 +101,9 @@ class HomeViewList extends StatelessWidget {
                   context: context,
                   layoutType: LayoutType.DESIGNER_ID_3_LAYOUT,
                   controller: SellersGridViewBuilderController(
-                    subscriptionType: 3,
+                    subscriptionTypes: [1, 3],
                     random: true,
+                    limit: 12,
                   ),
                   scrollDirection: Axis.horizontal,
                   header: SectionHeader(
@@ -123,6 +125,7 @@ class HomeViewList extends StatelessWidget {
                     subscriptionTypes: [2],
                     withProducts: true,
                     random: true,
+                    limit: 12,
                   ),
                   scrollDirection: Axis.horizontal,
                   header: SectionHeader(
@@ -144,6 +147,7 @@ class HomeViewList extends StatelessWidget {
                     subscriptionTypes: [1],
                     withProducts: true,
                     random: true,
+                    limit: 12,
                   ),
                   scrollDirection: Axis.horizontal,
                   header: SectionHeader(
@@ -197,9 +201,10 @@ class HomeViewList extends StatelessWidget {
                   controller: SellersGridViewBuilderController(
                     random: true,
                     subscriptionType: 3,
+                    limit: 12,
                   ),
                   scrollDirection: Axis.horizontal,
-                   header: SectionHeader(
+                  header: SectionHeader(
                     title: controller.remoteConfig
                         .getString(HOMESCREEN_SECTION_7_TITLE_EN),
                     subTitle: controller.remoteConfig
@@ -216,8 +221,10 @@ class HomeViewList extends StatelessWidget {
                   context: context,
                   layoutType: LayoutType.PRODUCT_LAYOUT_2,
                   filter: ProductFilter(minDiscount: 5),
-                  controller:
-                      ProductsGridViewBuilderController(randomize: true),
+                  controller: ProductsGridViewBuilderController(
+                    randomize: true,
+                    limit: 10,
+                  ),
                   scrollDirection: Axis.horizontal,
                   header: SectionHeader(
                     title: controller.remoteConfig
@@ -238,9 +245,10 @@ class HomeViewList extends StatelessWidget {
                     subscriptionTypes: [1, 2],
                     withProducts: true,
                     random: true,
+                    limit: 12,
                   ),
                   scrollDirection: Axis.horizontal,
-                   header: SectionHeader(
+                  header: SectionHeader(
                     title: controller.remoteConfig
                         .getString(HOMESCREEN_SECTION_9_TITLE_EN),
                     subTitle: controller.remoteConfig
@@ -257,7 +265,9 @@ class HomeViewList extends StatelessWidget {
                   context: context,
                   layoutType: LayoutType.PRODUCT_LAYOUT_2,
                   controller: ProductsGridViewBuilderController(
-                      randomize: true, limit: 10),
+                    randomize: true,
+                    limit: 10,
+                  ),
                   scrollDirection: Axis.horizontal,
                   header: SectionHeader(
                     title: controller.remoteConfig
@@ -280,7 +290,7 @@ class HomeViewList extends StatelessWidget {
                   fromHome: true,
                   scrollDirection: Axis.vertical,
                   controller: SellersGridViewBuilderController(random: true),
-                   header: SectionHeader(
+                  header: SectionHeader(
                     title: controller.remoteConfig
                         .getString(HOMESCREEN_SECTION_11_TITLE_EN),
                     subTitle: controller.remoteConfig

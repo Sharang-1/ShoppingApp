@@ -337,80 +337,84 @@ class DesignerTileUi extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Color.fromRGBO(255, 255, 255, 1),
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: Colors.black38,
-                              width: 0.5,
+                    Expanded(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Color.fromRGBO(255, 255, 255, 1),
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: Colors.black38,
+                                width: 0.5,
+                              ),
                             ),
-                          ),
-                          child: ClipOval(
-                            child: FadeInImage.assetNetwork(
-                              width: 48,
-                              height: 48,
-                              fadeInCurve: Curves.easeIn,
-                              fit: BoxFit.cover,
-                              placeholder:
-                                  "assets/images/product_preloading.png",
-                              image: data?.key != null
-                                  ? "$SELLER_PHOTO_BASE_URL/${data.key}"
-                                  : "assets/images/product_preloading.png",
-                              imageErrorBuilder: (context, error, stackTrace) =>
-                                  Image.asset(
-                                "assets/images/product_preloading.png",
+                            child: ClipOval(
+                              child: FadeInImage.assetNetwork(
                                 width: 48,
                                 height: 48,
+                                fadeInCurve: Curves.easeIn,
                                 fit: BoxFit.cover,
+                                placeholder:
+                                    "assets/images/product_preloading.png",
+                                image: data?.key != null
+                                    ? "$SELLER_PHOTO_BASE_URL/${data.key}"
+                                    : "assets/images/product_preloading.png",
+                                imageErrorBuilder: (context, error, stackTrace) =>
+                                    Image.asset(
+                                  "assets/images/product_preloading.png",
+                                  width: 48,
+                                  height: 48,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        horizontalSpaceSmall,
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            CustomText(
-                              data.name,
-                              dotsAfterOverFlow: true,
-                              isTitle: true,
-                              isBold: false,
-                              fontSize: 18,
-                            ),
-                            verticalSpaceTiny,
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                          horizontalSpaceSmall,
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Image.asset(
-                                  data?.establishmentType?.id == 1
-                                      ? 'assets/images/boutique.png'
-                                      : 'assets/images/shop.png',
-                                  color: Colors.black,
-                                  width: 18.0,
-                                  height: 18.0,
-                                ),
-                                horizontalSpaceTiny,
                                 CustomText(
-                                  data?.establishmentType?.name ??
-                                      accountTypeValues.reverse[
-                                          data?.accountType ??
-                                              AccountType.SELLER],
-                                  color: Colors.black,
-                                  isBold: false,
+                                  data.name,
                                   dotsAfterOverFlow: true,
-                                  fontSize: 10,
-                                  align: TextAlign.center,
+                                  isTitle: true,
+                                  isBold: false,
+                                  fontSize: 18,
+                                ),
+                                verticalSpaceTiny,
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Image.asset(
+                                      data?.establishmentType?.id == 1
+                                          ? 'assets/images/boutique.png'
+                                          : 'assets/images/shop.png',
+                                      color: Colors.black,
+                                      width: 18.0,
+                                      height: 18.0,
+                                    ),
+                                    horizontalSpaceTiny,
+                                    CustomText(
+                                      data?.establishmentType?.name ??
+                                          accountTypeValues.reverse[
+                                              data?.accountType ??
+                                                  AccountType.SELLER],
+                                      color: Colors.black,
+                                      isBold: false,
+                                      dotsAfterOverFlow: true,
+                                      fontSize: 10,
+                                      align: TextAlign.center,
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
-                          ],
-                        ),
-                      ],
+                          ),
+                        ],
+                      ),
                     ),
                     Column(
                       children: [
