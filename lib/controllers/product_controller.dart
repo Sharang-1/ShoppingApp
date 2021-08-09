@@ -7,7 +7,6 @@ import '../models/coupon.dart';
 import '../models/lookups.dart';
 import '../models/products.dart';
 import '../models/reviews.dart';
-import '../models/sellers.dart';
 import '../services/analytics_service.dart';
 import '../services/api/api_service.dart';
 import '../services/cart_local_store_service.dart';
@@ -25,7 +24,6 @@ class ProductController extends BaseController {
   final AnalyticsService _analyticsService = locator<AnalyticsService>();
   final WishListService _wishListService = locator<WishListService>();
 
-  Seller sellerDetail;
   Product productData;
   Reviews reviews;
 
@@ -46,7 +44,6 @@ class ProductController extends BaseController {
       productId: productId,
       withCoupons: true,
     );
-    sellerDetail = await _apiService.getSellerByID(sellerId);
     reviews = await _apiService.getReviews(productId, isSellerReview: false);
     update();
 
@@ -60,10 +57,6 @@ class ProductController extends BaseController {
           "user_id": locator<HomeController>()?.details?.key,
           "user_name": locator<HomeController>()?.details?.name,
         });
-  }
-
-  gotoSellerIndiView() async {
-    await BaseController.goToSellerPage(sellerDetail.key);
   }
 
   Future<List<Lookups>> getLookups() {

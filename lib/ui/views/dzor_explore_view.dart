@@ -43,6 +43,7 @@ class _DzorExploreViewState extends State<DzorExploreView> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<DzorExploreController>(
+      global: false,
       init: DzorExploreController(),
       builder: (controller) => Scaffold(
         appBar: AppBar(

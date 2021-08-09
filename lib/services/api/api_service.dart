@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:compound/controllers/home_controller.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_retry/dio_retry.dart';
 import 'package:fimber/fimber.dart';
@@ -136,7 +137,12 @@ class APIService {
     } catch (e, stacktrace) {
       Fimber.e("Api Service error", ex: e, stacktrace: stacktrace);
       if (e.toString() == "Unauthorized") {
-        BaseController.logout();
+        try{
+        await BaseController.logout();
+        await locator<HomeController>().updateIsLoggedIn();
+        }catch(e){
+          Fimber.e(e.toString());
+        }
       }
     }
   }

@@ -336,29 +336,29 @@ class _ExploreProductTileUIState extends State<ExploreProductTileUI> {
                       Expanded(
                         child: Container(
                           child: InkWell(
-                            onTap: (locator<HomeController>().isLoggedIn)
-                                ? () async {
-                                    if (locator<WishListController>()
-                                            .list
-                                            .indexOf(widget.data.key) !=
-                                        -1) {
-                                      removeFromWishList(widget.data.key);
-                                      setState(() {
-                                        isWishlistIconFilled = false;
-                                      });
-                                    } else {
-                                      addToWishList(widget.data.key);
-                                      setState(() {
-                                        isWishlistIconFilled = true;
-                                      });
-                                    }
-                                  }
-                                : () async {
-                                    await BaseController.showLoginPopup(
-                                      nextView: WishListRoute,
-                                      shouldNavigateToNextScreen: false,
-                                    );
-                                  },
+                            onTap: () async {
+                              if (locator<HomeController>().isLoggedIn) {
+                                if (locator<WishListController>()
+                                        .list
+                                        .indexOf(widget.data.key) !=
+                                    -1) {
+                                  removeFromWishList(widget.data.key);
+                                  setState(() {
+                                    isWishlistIconFilled = false;
+                                  });
+                                } else {
+                                  addToWishList(widget.data.key);
+                                  setState(() {
+                                    isWishlistIconFilled = true;
+                                  });
+                                }
+                              } else {
+                                await BaseController.showLoginPopup(
+                                  nextView: WishListRoute,
+                                  shouldNavigateToNextScreen: false,
+                                );
+                              }
+                            },
                             child: Text(
                               isWishlistIconFilled
                                   ? "Added to wishlist"

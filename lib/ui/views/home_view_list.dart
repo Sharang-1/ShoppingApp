@@ -82,7 +82,7 @@ class HomeViewList extends StatelessWidget {
                     subscriptionTypes: [1, 2],
                     withProducts: true,
                     random: true,
-                    limit: 12,
+                    limit: 7,
                   ),
                   scrollDirection: Axis.horizontal,
                   header: SectionHeader(
@@ -125,7 +125,7 @@ class HomeViewList extends StatelessWidget {
                     subscriptionTypes: [2],
                     withProducts: true,
                     random: true,
-                    limit: 12,
+                    limit: 7,
                   ),
                   scrollDirection: Axis.horizontal,
                   header: SectionHeader(
@@ -147,7 +147,7 @@ class HomeViewList extends StatelessWidget {
                     subscriptionTypes: [1],
                     withProducts: true,
                     random: true,
-                    limit: 12,
+                    limit: 7,
                   ),
                   scrollDirection: Axis.horizontal,
                   header: SectionHeader(
@@ -245,7 +245,7 @@ class HomeViewList extends StatelessWidget {
                     subscriptionTypes: [1, 2],
                     withProducts: true,
                     random: true,
-                    limit: 12,
+                    limit: 7,
                   ),
                   scrollDirection: Axis.horizontal,
                   header: SectionHeader(
@@ -282,6 +282,10 @@ class HomeViewList extends StatelessWidget {
                     },
                   ),
                 ),
+                if ((controller?.bottomPromotion?.length ?? 0) > 7) ...[
+                  SectionDivider(),
+                  BottomPromotion(promotion: controller.bottomPromotion[7]),
+                ],
                 SectionDivider(),
                 SectionBuilder(
                   key: sellerUniqueKey ?? UniqueKey(),

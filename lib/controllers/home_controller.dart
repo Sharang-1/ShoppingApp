@@ -60,24 +60,32 @@ class HomeController extends BaseController {
   bool isLoggedIn = false;
 
   void onRefresh() async {
-    setup();
-    await remoteConfig.fetch();
-    await remoteConfig.activateFetched();
+    try {
+      setup();
+      await remoteConfig.fetch();
+      await remoteConfig.activateFetched();
+    } catch (e) {
+      print(e.toString());
+    }
 
-    isLoggedIn = await _authService.isUserLoggedIn();
+    await updateIsLoggedIn();
 
-    UserLocation currentLocation =
-        await locator<LocationService>().getLocation();
+    try {
+      UserLocation currentLocation =
+          await locator<LocationService>().getLocation();
 
-    if (currentLocation != null) {
-      List<Address> addresses =
-          await Geocoder.local.findAddressesFromCoordinates(
-        Coordinates(
-          currentLocation.latitude,
-          currentLocation.longitude,
-        ),
-      );
-      cityName = addresses[0].locality;
+      if (currentLocation != null) {
+        List<Address> addresses =
+            await Geocoder.local.findAddressesFromCoordinates(
+          Coordinates(
+            currentLocation.latitude,
+            currentLocation.longitude,
+          ),
+        );
+        cityName = addresses[0].locality;
+      }
+    } catch (e) {
+      print(e.toString());
     }
 
     key = UniqueKey();
@@ -102,6 +110,10 @@ class HomeController extends BaseController {
     update();
 
     await updateUserDetails();
+  }
+
+  Future<void> updateIsLoggedIn() async {
+    isLoggedIn = await _authService.isUserLoggedIn();
   }
 
   Future<void> updateUserDetails() async {

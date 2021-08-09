@@ -6,6 +6,7 @@ import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../shared/shared_styles.dart';
+import '../widgets/custom_text.dart';
 import 'gallery_view.dart';
 
 class HomeSlider extends StatefulWidget {
@@ -127,7 +128,12 @@ class _HomeSliderState extends State<HomeSlider> {
                                       ),
                                     ),
                                     errorWidget: (context, url, error) =>
-                                        new Icon(Icons.error),
+                                        Center(
+                                      child: Image.asset(
+                                        "assets/images/product_preloading.png",
+                                        fit: BoxFit.contain,
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
@@ -189,7 +195,9 @@ class _HomeSliderState extends State<HomeSlider> {
                                       ),
                                     ),
                                     errorWidget: (context, url, error) =>
-                                        new Icon(Icons.error),
+                                        Center(
+                                      child: CustomText("No SizeChart"),
+                                    ),
                                   ),
                                 ),
                               ),

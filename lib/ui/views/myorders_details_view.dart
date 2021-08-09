@@ -202,10 +202,14 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                                         .spaceBetween,
                                                 children: [
                                                   Padding(
-                                                    padding: const EdgeInsets.only(right: 8.0),
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            right: 8.0),
                                                     child: CustomText(
-                                                      widget.mOrder.status.state,
-                                                      fontSize: subtitleFontSize,
+                                                      widget
+                                                          .mOrder.status.state,
+                                                      fontSize:
+                                                          subtitleFontSize,
                                                       isBold: true,
                                                       color: textIconBlue,
                                                     ),
@@ -213,7 +217,8 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                                   Expanded(
                                                     child: FittedBox(
                                                       fit: BoxFit.scaleDown,
-                                                      alignment: Alignment.centerRight,
+                                                      alignment:
+                                                          Alignment.centerRight,
                                                       child: CustomText(
                                                         '$rupeeUnicode${mOrder?.orderCost?.cost}',
                                                         fontSize: titleFontSize,
@@ -620,40 +625,44 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                 ),
                               ],
                             ),
-                            verticalSpace(50),
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                elevation: 0,
-                                primary: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    side: BorderSide(
-                                        color: textIconOrange, width: 2)),
-                              ),
-                              onPressed: () async => await showModalBottomSheet(
-                                isScrollControlled: true,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.vertical(
-                                    top: Radius.circular(curve10),
+                            if(!(<int>[9, 12].contains(mOrder?.status?.id ?? -1)))
+                            ...[
+                              verticalSpace(50),
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  elevation: 0,
+                                  primary: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      side: BorderSide(
+                                          color: textIconOrange, width: 2)),
+                                ),
+                                onPressed: () async =>
+                                    await showModalBottomSheet(
+                                  isScrollControlled: true,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.vertical(
+                                      top: Radius.circular(curve10),
+                                    ),
+                                  ),
+                                  clipBehavior: Clip.antiAlias,
+                                  context: context,
+                                  builder: (con) => HelpView(),
+                                ),
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 12),
+                                  child: InkWell(
+                                    child: Text(
+                                      "Returns & Refunds",
+                                      style: TextStyle(
+                                          color: textIconOrange,
+                                          fontWeight: FontWeight.bold),
+                                    ),
                                   ),
                                 ),
-                                clipBehavior: Clip.antiAlias,
-                                context: context,
-                                builder: (con) => HelpView(),
                               ),
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 12),
-                                child: InkWell(
-                                  child: Text(
-                                    "Returns & Refunds",
-                                    style: TextStyle(
-                                        color: textIconOrange,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                              ),
-                            ),
+                            ],
                             verticalSpace(20),
                           ],
                         ),

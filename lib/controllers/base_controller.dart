@@ -7,6 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:vibration/vibration.dart';
 
 import '../constants/route_names.dart';
+import '../constants/server_urls.dart';
 import '../constants/shared_pref.dart';
 import '../locator.dart';
 import '../models/productPageArg.dart';
@@ -41,11 +42,13 @@ class BaseController extends GetxController {
   Future<void> setCartList(List<String> list) =>
       _cartLocalStoreService.setCartList(list);
 
-  Future<int> addToCartLocalStore(String productId) async => locator<HomeController>().isLoggedIn ?
-      _cartLocalStoreService.addToCartLocalStore(productId) : await showLoginPopup(
-          nextView: CartViewRoute,
-          shouldNavigateToNextScreen: true,
-        );
+  Future<int> addToCartLocalStore(String productId) async =>
+      locator<HomeController>().isLoggedIn
+          ? _cartLocalStoreService.addToCartLocalStore(productId)
+          : await showLoginPopup(
+              nextView: CartViewRoute,
+              shouldNavigateToNextScreen: true,
+            );
 
   Future<void> removeFromCartLocalStore(String productId) =>
       _cartLocalStoreService.removeFromCartLocalStore(productId);
@@ -107,20 +110,45 @@ class BaseController extends GetxController {
   static Future<dynamic> goToSellerPage(String sellerId) async {
     Seller seller = await locator<APIService>().getSellerByID(sellerId);
     if (locator<HomeController>().isLoggedIn) {
-      return NavigationService.to(SellerIndiViewRoute, arguments: seller);
+      if (seller?.subscriptionTypeId == 2) {
+        return NavigationService.to(
+          ProductsListRoute,
+          arguments: ProductPageArg(
+            subCategory: seller?.name,
+            queryString: "accountKey=$sellerId;",
+            sellerPhoto: "$SELLER_PHOTO_BASE_URL/$sellerId",
+          ),
+        );
+      } else {
+        return NavigationService.to(SellerIndiViewRoute, arguments: seller);
+      }
     } else {
-      await showLoginPopup(
-        nextView: SellerIndiViewRoute,
-        shouldNavigateToNextScreen: true,
-        arguments: seller,
-      );
+      if (seller?.subscriptionTypeId == 2) {
+        await showLoginPopup(
+          nextView: ProductsListRoute,
+          shouldNavigateToNextScreen: true,
+          arguments: ProductPageArg(
+            subCategory: seller?.name,
+            queryString: "accountKey=$sellerId;",
+            sellerPhoto: "$SELLER_PHOTO_BASE_URL/$sellerId",
+          ),
+        );
+      } else {
+        await showLoginPopup(
+          nextView: SellerIndiViewRoute,
+          shouldNavigateToNextScreen: true,
+          arguments: seller,
+        );
+      }
     }
   }
 
-  static showLoginPopup(
-      {String nextView,
-      bool shouldNavigateToNextScreen,
-      dynamic arguments}) async {
+  static showLoginPopup({
+    String nextView,
+    bool shouldNavigateToNextScreen,
+    dynamic arguments,
+    Function cb,
+  }) async {
     await Get.bottomSheet(
       LoginBottomsheet(
         nextView: nextView,
@@ -129,6 +157,7 @@ class BaseController extends GetxController {
       ),
       isScrollControlled: true,
     );
+    if (cb != null) cb();
   }
 
   static showSizePopup() async {

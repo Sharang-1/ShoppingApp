@@ -45,7 +45,7 @@ class SellersGridViewBuilderController
   Future<Sellers> getData(
       {BaseFilterModel filterModel, int pageNumber, int pageSize = 10}) async {
     if ((subscriptionType != null) || (subscriptionTypes != null)) {
-      pageSize = 100;
+      pageSize = 30;
     }
 
     // String _queryString =
