@@ -19,26 +19,26 @@ class UserDetailsController extends BaseController {
   String dateTimeString = DateTime.now().millisecondsSinceEpoch.toString();
 
   final ageLookup = locator<LookupController>()
-      .lookups
-      .where((element) => element.sectionName.toLowerCase() == "user")
-      .first
-      .sections
-      .where(
+      ?.lookups
+      ?.where((element) => element.sectionName.toLowerCase() == "user")
+      ?.first
+      ?.sections
+      ?.where(
         (e) => e.option == 'age',
       )
-      .first
-      .values;
+      ?.first
+      ?.values;
 
   final genderLookup = locator<LookupController>()
-      .lookups
-      .where((element) => element.sectionName.toLowerCase() == "user")
-      .first
-      .sections
-      .where(
+      ?.lookups
+      ?.where((element) => element.sectionName.toLowerCase() == "user")
+      ?.first
+      ?.sections
+      ?.where(
         (e) => e.option == 'gender',
       )
-      .first
-      .values;
+      ?.first
+      ?.values;
 
   String token;
 

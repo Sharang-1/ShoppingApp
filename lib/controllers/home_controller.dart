@@ -29,6 +29,7 @@ import '../services/remote_config_service.dart';
 import '../services/wishlist_service.dart';
 import '../ui/shared/app_colors.dart';
 import 'base_controller.dart';
+import 'dynamic_content_controller.dart';
 
 class HomeController extends BaseController {
   final searchController = TextEditingController();
@@ -59,7 +60,7 @@ class HomeController extends BaseController {
   List<Promotion> bottomPromotion;
   bool isLoggedIn = false;
 
-  void onRefresh() async {
+  void onRefresh({context, args}) async {
     try {
       setup();
       await remoteConfig.fetch();
@@ -110,6 +111,17 @@ class HomeController extends BaseController {
     update();
 
     await updateUserDetails();
+
+    if (args != null) {
+      try {
+        var data = args['dynamicContent'];
+        if (data != null) {
+          await DynamicContentController.navigate(context, data);
+        }
+      } catch (e) {
+        print("Dynamic Link Error : $e");
+      }
+    }
   }
 
   Future<void> updateIsLoggedIn() async {

@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:compound/controllers/home_controller.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_retry/dio_retry.dart';
 import 'package:fimber/fimber.dart';
@@ -12,6 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../constants/server_urls.dart';
 import '../../constants/shared_pref.dart' as SharedPrefConstants;
 import '../../controllers/base_controller.dart';
+import '../../controllers/home_controller.dart';
 import '../../locator.dart';
 import '../../models/Appointments.dart';
 import '../../models/TimeSlots.dart';
@@ -136,12 +136,14 @@ class APIService {
       }
     } catch (e, stacktrace) {
       Fimber.e("Api Service error", ex: e, stacktrace: stacktrace);
-      if (e.toString() == "Unauthorized") {
-        try{
-        await BaseController.logout();
-        await locator<HomeController>().updateIsLoggedIn();
-        }catch(e){
-          Fimber.e(e.toString());
+      if (e.toString().contains("Unauthorized")) {
+        if (locator<HomeController>()?.isLoggedIn ?? false) {
+          try {
+            await BaseController.logout();
+            await locator<HomeController>().updateIsLoggedIn();
+          } catch (e) {
+            Fimber.e("Error while logging out: ${e.toString()}");
+          }
         }
       }
     }
@@ -442,8 +444,9 @@ class APIService {
   Future<PromoCode> applyPromocode(
       String productId, int qty, String code, String promotion) async {
     final quantity = qty >= 1 ? qty : 1;
+    code = code.trim();
     final promoCodeData = await apiWrapper(
-        "orders​/cost?productKey=$productId&quantity=$quantity&promocode=$code&&promotionId=$promotion",
+        "orders​/cost?productKey=$productId&quantity=$quantity&promocode=$code${(promotion?.isEmpty ?? true) ? "" : "&promotionId=$promotion"}",
         authenticated: true,
         options: Options(headers: {'excludeToken': false}));
     if (promoCodeData != null) {

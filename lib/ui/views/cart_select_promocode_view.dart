@@ -181,7 +181,7 @@ class _SelectPromocodeState extends State<SelectPromocode> {
                             padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                             child: TextField(
                               controller: _controller,
-                              textCapitalization: TextCapitalization.characters,
+                              // textCapitalization: TextCapitalization.characters,
                               decoration: const InputDecoration(
                                 hintText: 'Enter Coupon Code',
                                 hintStyle: TextStyle(
@@ -318,7 +318,7 @@ class _SelectPromocodeState extends State<SelectPromocode> {
     final res = await locator<APIService>().applyPromocode(
       widget.productId.toString(),
       widget.qty,
-      _controller.text.toLowerCase(),
+      _controller.text.trim(),
       "",
     );
     if (res != null) {

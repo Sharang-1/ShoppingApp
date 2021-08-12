@@ -38,8 +38,8 @@ class StartUpController extends BaseController {
       locator<PaymentService>().init(),
       locator<AnalyticsService>().setup(),
       locator<PushNotificationService>().initialise(),
-      locator<DynamicLinkService>().handleDynamicLink(),
       locator<RemoteConfigService>().init(),
+      locator<DynamicLinkService>().handleDynamicLink(),
     ]);
 
     locator<LookupController>().setUpLookups(await _apiService.getLookups());
@@ -75,7 +75,7 @@ class StartUpController extends BaseController {
         var pref = await SharedPreferences.getInstance();
         bool skipLogin = pref.getBool(SkipLogin) ?? false;
         await NavigationService.off(
-            (hasLoggedInUser || skipLogin) ? HomeViewRoute : IntroPageRoute);
+            (hasLoggedInUser || skipLogin) ? HomeViewRoute : IntroPageRoute, preventDuplicates: true);
       },
     );
   }

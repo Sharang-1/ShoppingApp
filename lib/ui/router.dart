@@ -72,7 +72,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case HomeViewRoute:
       return _getPageRoute(
         routeName: settings.name,
-        viewToShow: HomeView(),
+        viewToShow: HomeView(args: pageArguments,),
         pageArguments: pageArguments,
         pageTransitionType: transitionType,
       );

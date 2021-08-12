@@ -14,39 +14,37 @@ import '../ui/views/promotion_products_view.dart';
 import 'base_controller.dart';
 
 class DynamicContentController extends BaseController {
-  final APIService _apiService = locator<APIService>();
 
   Future<void> init(BuildContext context, {data}) async {
     print("Dynamic Content ViewModel Data : ${data.toString()}");
     print("Dynamic Content ViewModel Data : ${data["contentType"].toString()}");
     print("Dynamic Content ViewModel Data : ${data["id"].toString()}");
 
-    // if (!(await locator<AuthenticationService>().isUserLoggedIn())) {
-    //   await NavigationService.offAll(LoginViewRoute);
-    //   return;
-    // }
+    await wait(duration: Duration(milliseconds: 500));
 
-    if ((data == null)) {
-      await NavigationService.offAll(HomeViewRoute);
-      return;
-    }
+    await NavigationService.offAll(HomeViewRoute, arguments: {
+      "dynamicContent": data,
+    });
+  }
 
+  static Future<void> navigate(BuildContext context, data) async {
+    if (data == null) return;
     switch (data["contentType"]) {
       case "product":
-        if (data["id"] == null) break;
+        if (data["id"] == null) return;
         Product product =
-            await _apiService.getProductById(productId: data["id"]);
-        if (product == null) break;
+            await locator<APIService>().getProductById(productId: data["id"]);
+        if (product == null) return;
+        await wait();
         await NavigationService.to(ProductIndividualRoute, arguments: product);
-        await Future.delayed(Duration(milliseconds: 500));
-        await NavigationService.offAll(HomeViewRoute);
         return;
 
       case "sellers":
       case "seller":
-        if (data["id"] == null) break;
-        Seller seller = await _apiService.getSellerByID(data["id"]);
-        if (seller == null) break;
+        if (data["id"] == null) return;
+        Seller seller = await locator<APIService>().getSellerByID(data["id"]);
+        if (seller == null) return;
+        await wait();
         if (seller.subscriptionTypeId == 2) {
           await NavigationService.to(
             ProductsListRoute,
@@ -59,27 +57,22 @@ class DynamicContentController extends BaseController {
         } else {
           await NavigationService.to(SellerIndiViewRoute, arguments: seller);
         }
-        await Future.delayed(Duration(milliseconds: 500));
-        await NavigationService.offAll(HomeViewRoute);
         return;
 
       case "orders":
-        if (!(await locator<AuthenticationService>().isUserLoggedIn())) {
-          await NavigationService.offAll(LoginViewRoute);
-          return;
-        }
+        if (!(await locator<AuthenticationService>().isUserLoggedIn())) return;
+        await wait();
         await NavigationService.to(MyOrdersRoute);
-        await Future.delayed(Duration(milliseconds: 500));
-        await NavigationService.offAll(HomeViewRoute);
         return;
 
       case "promotion":
-        if (data["id"] == null) break;
-        Promotions promotions = await _apiService.getPromotions();
+        if (data["id"] == null) return;
+        Promotions promotions = await locator<APIService>().getPromotions();
         Promotion promotion = promotions.promotions
             .where((element) => element.key == data["id"])
             .toList()[0];
-        if (promotion == null) break;
+        if (promotion == null) return;
+        await wait();
         await Navigator.push(
           context,
           MaterialPageRoute(
@@ -91,14 +84,16 @@ class DynamicContentController extends BaseController {
             ),
           ),
         );
-        await Future.delayed(Duration(milliseconds: 500));
-        await NavigationService.offAll(HomeViewRoute);
         return;
 
       default:
-        break;
+        return;
     }
-    await NavigationService.offAll(HomeViewRoute);
+  }
+
+  static Future<void> wait(
+      {Duration duration = const Duration(milliseconds: 500)}) async {
+    await Future.delayed(duration);
     return;
   }
 }

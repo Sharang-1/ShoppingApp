@@ -19,10 +19,11 @@ import 'bottom_nav_style.dart';
 import 'home_view_list.dart';
 
 class HomeView extends StatelessWidget {
-  HomeView({Key key}) : super(key: key);
+  HomeView({Key key, this.args}) : super(key: key);
+
+  final args;
 
   final HomeController controller = locator<HomeController>();
-
   final GlobalKey searchKey = GlobalKey();
   final GlobalKey cartKey = GlobalKey();
   final GlobalKey logoKey = GlobalKey();
@@ -31,7 +32,7 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) => GetBuilder<HomeController>(
         init: controller,
         initState: (state) {
-          controller.onRefresh();
+          controller.onRefresh(context: context, args: args);
           controller.showTutorial(context,
               searchKey: searchKey, logoKey: logoKey);
         },

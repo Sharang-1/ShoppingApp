@@ -33,13 +33,17 @@ class NavigationService {
         arguments: arguments, id: id, preventDuplicates: preventDuplicates);
   }
 
-  static Future<T> off<T>(String page, {dynamic arguments, int id}) async =>
-      await Get.offNamed<T>(page, arguments: arguments, id: id);
+  static Future<T> off<T>(String page,
+          {dynamic arguments, int id, bool preventDuplicates = false}) async =>
+      await Get.offNamed<T>(page,
+          arguments: arguments, id: id, preventDuplicates: preventDuplicates);
 
-  static Future<T> offAll<T>(String page,
-          {bool Function(Route<dynamic>) predicate,
-          dynamic arguments,
-          int id}) async =>
+  static Future<T> offAll<T>(
+    String page, {
+    bool Function(Route<dynamic>) predicate,
+    dynamic arguments,
+    int id,
+  }) async =>
       await Get.offAllNamed<T>(page,
           predicate: predicate, arguments: arguments, id: id);
 

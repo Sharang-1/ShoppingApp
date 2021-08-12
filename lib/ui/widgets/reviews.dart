@@ -130,7 +130,7 @@ class ReviewWidget extends StatelessWidget {
                             ((controller?.reviews?.items ?? [])
                                 .where((e) =>
                                     e.userId ==
-                                    locator<HomeController>().details.key)
+                                    locator<HomeController>()?.details?.key)
                                 .toList()
                                 .isEmpty))
                           TextButton(
