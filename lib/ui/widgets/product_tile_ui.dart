@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -248,27 +249,30 @@ class _ProductTileUIState extends State<ProductTileUI> {
     return Stack(fit: StackFit.loose, children: <Widget>[
       Positioned.fill(
         child: FractionallySizedBox(
-            widthFactor: 1,
-            child: ClipRRect(
-                clipBehavior: Clip.antiAlias,
-                // borderRadius: BorderRadius.circular(5),
-                child: ColorFiltered(
-                    colorFilter: ColorFilter.mode(
-                        Colors.transparent.withOpacity(0.12),
-                        BlendMode.srcATop),
-                    child: FadeInImage.assetNetwork(
-                      fit: BoxFit.contain,
-                      fadeInCurve: Curves.easeIn,
-                      placeholder: 'assets/images/product_preloading.png',
-                      image: photoURL == null
-                          ? 'https://images.pexels.com/photos/157675/fashion-men-s-individuality-black-and-white-157675.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
-                          : '$PRODUCT_PHOTO_BASE_URL/${widget.data.key}/$photoURL-small.png',
-                      imageErrorBuilder: (context, error, stackTrace) =>
-                          Image.asset(
-                        "assets/images/product_preloading.png",
-                        fit: BoxFit.cover,
-                      ),
-                    )))),
+          widthFactor: 1,
+          child: ClipRRect(
+            clipBehavior: Clip.antiAlias,
+            // borderRadius: BorderRadius.circular(5),
+            child: ColorFiltered(
+              colorFilter: ColorFilter.mode(
+                  Colors.transparent.withOpacity(0.12), BlendMode.srcATop),
+              child: FadeInImage(
+                fit: BoxFit.contain,
+                fadeInCurve: Curves.easeIn,
+                placeholder: AssetImage('assets/images/product_preloading.png'),
+                image: CachedNetworkImageProvider(
+                  photoURL == null
+                      ? 'https://images.pexels.com/photos/157675/fashion-men-s-individuality-black-and-white-157675.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
+                      : '$PRODUCT_PHOTO_BASE_URL/${widget.data.key}/$photoURL-small.png',
+                ),
+                imageErrorBuilder: (context, error, stackTrace) => Image.asset(
+                  "assets/images/product_preloading.png",
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          ),
+        ),
       ),
       discount != 0.0
           ? Positioned(

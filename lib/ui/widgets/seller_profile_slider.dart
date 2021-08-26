@@ -67,8 +67,8 @@ class SellerProfilePhotos extends StatelessWidget {
                           borderRadius: BorderRadius.circular(curve15)),
                       width: MediaQuery.of(context).size.width,
                       child: CachedNetworkImage(
-                        maxHeightDiskCache: 200,
-                        maxWidthDiskCache: 200,
+                        // maxHeightDiskCache: 200,
+                        // maxWidthDiskCache: 200,
                         fit: BoxFit.cover,
                         placeholder: (context, url) =>
                             Center(child: CircularProgressIndicator()),

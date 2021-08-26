@@ -1,8 +1,11 @@
+import 'package:fimber/fimber.dart';
+
 import '../../locator.dart';
 import '../../models/grid_view_builder_filter_models/base_filter_model.dart';
 import '../../models/products.dart';
 import '../../models/sellers.dart';
 import '../../services/api/api_service.dart';
+import '../../services/cache_service.dart';
 import 'base_grid_view_builder_controller.dart';
 
 class SellersGridViewBuilderController
@@ -56,7 +59,12 @@ class SellersGridViewBuilderController
         "startIndex=${pageSize * (pageNumber - 1)};limit=$pageSize;random=$random;" +
             filterModel.queryString;
 
-    Sellers res = await _apiService.getSellers(queryString: _queryString);
+    Sellers res = Sellers(records: 1000, limit: 1000, startIndex: 0);
+
+    res.items = (filterModel?.queryString ?? '').isEmpty
+        ? await locator<CacheService>()?.getSellers()
+        : (await _apiService?.getSellers(queryString: _queryString))?.items;
+
     if (res == null) {
       res = await _apiService.getSellers(queryString: _queryString);
       if (res == null) throw "Could not load";

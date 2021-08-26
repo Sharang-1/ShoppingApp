@@ -62,6 +62,8 @@ class HomeController extends BaseController {
 
   void onRefresh({context, args}) async {
     try {
+      if (remoteConfig == null)
+        remoteConfig = _remoteConfigService?.remoteConfig;
       setup();
       await remoteConfig.fetch();
       await remoteConfig.activateFetched();
@@ -83,7 +85,8 @@ class HomeController extends BaseController {
             currentLocation.longitude,
           ),
         );
-        cityName = addresses[0].locality;
+        cityName = addresses[0]?.locality;
+        if (cityName?.contains("null") ?? true) cityName = "Add Location";
       }
     } catch (e) {
       print(e.toString());
@@ -291,6 +294,8 @@ class HomeController extends BaseController {
               )
                   .then((addresses) {
                 cityName = addresses[0].locality;
+                if (cityName?.contains("null") ?? true)
+                  cityName = "Add Location";
                 update();
               });
             }

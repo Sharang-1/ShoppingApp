@@ -52,7 +52,7 @@ class ProductController extends BaseController {
         parameters: <String, dynamic>{
           "product_id": productData?.key,
           "product_name": productData?.name,
-          "category_id": productData?.category?.id,
+          "category_id": productData?.category?.id?.toString(),
           "category_name": productData?.category?.name,
           "user_id": locator<HomeController>()?.details?.key,
           "user_name": locator<HomeController>()?.details?.name,
@@ -77,7 +77,7 @@ class ProductController extends BaseController {
           parameters: <String, dynamic>{
             "product_id": product?.key,
             "product_name": product?.name,
-            "category_id": product?.category?.id,
+            "category_id": product?.category?.id?.toString(),
             "category_name": product?.category?.name,
             "user_id": locator<HomeController>()?.details?.key,
             "user_name": locator<HomeController>()?.details?.name,
@@ -134,9 +134,9 @@ class ProductController extends BaseController {
         .sendAnalyticsEvent(eventName: "buy_now", parameters: <String, dynamic>{
       "product_id": product?.key,
       "product_name": product?.name,
-      "category_id": product?.category?.id,
+      "category_id": product?.category?.id?.toString(),
       "category_name": product?.category?.name,
-      "quantity": qty,
+      "quantity": qty?.toString(),
       "user_id": locator<HomeController>()?.details?.key,
       "user_name": locator<HomeController>()?.details?.name,
     });
@@ -180,7 +180,7 @@ class ProductController extends BaseController {
           parameters: <String, dynamic>{
             "product_id": productId,
             "product_name": productName,
-            "category_id": productData?.category?.id,
+            "category_id": productData?.category?.id?.toString(),
             "category_name": productData?.category?.name,
             "user_id": locator<HomeController>()?.details?.key,
             "user_name": locator<HomeController>()?.details?.name,

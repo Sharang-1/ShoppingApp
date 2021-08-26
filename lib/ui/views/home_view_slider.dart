@@ -116,8 +116,8 @@ class _HomeSliderState extends State<HomeSlider> {
                                           BorderRadius.circular(curve15)),
                                   width: MediaQuery.of(context).size.width,
                                   child: CachedNetworkImage(
-                                    maxHeightDiskCache: 200,
-                                    maxWidthDiskCache: 200,
+                                    // maxHeightDiskCache: 200,
+                                    // maxWidthDiskCache: 200,
                                     fit: BoxFit.contain,
                                     imageUrl: i,
                                     placeholder: (context, e) => Center(
@@ -183,8 +183,8 @@ class _HomeSliderState extends State<HomeSlider> {
                                           BorderRadius.circular(curve15)),
                                   width: MediaQuery.of(context).size.width,
                                   child: CachedNetworkImage(
-                                    maxHeightDiskCache: 200,
-                                    maxWidthDiskCache: 200,
+                                    // maxHeightDiskCache: 200,
+                                    // maxWidthDiskCache: 200,
                                     fit: BoxFit.contain,
                                     imageUrl: widget.sizeChartUrl,
                                     placeholder: (context, e) => Center(

@@ -147,7 +147,7 @@ class HomeView extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            "${controller.cityName.capitalize}",
+                            "${controller?.cityName?.capitalize ?? ''}",
                             style: TextStyle(
                               fontSize: 16,
                               color: textIconBlue,
@@ -244,7 +244,7 @@ class HomeView extends StatelessWidget {
                     title: FittedBox(
                       fit: BoxFit.scaleDown,
                       child: Text(
-                        "${controller.remoteConfig.getString(HOMESCREEN_APPBAR_TEXT)}",
+                        "${controller?.remoteConfig?.getString(HOMESCREEN_APPBAR_TEXT) ?? ''}",
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 14,

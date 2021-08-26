@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 import '../constants/route_names.dart';
+import '../controllers/home_controller.dart';
 import '../locator.dart';
 import '../models/app_info.dart';
 import '../ui/views/order_error_view.dart';
@@ -20,7 +21,8 @@ class PaymentService {
   }
 
   Future<String> getApiKey() async {
-    appInfo = await locator<APIService>().getAppInfo();
+    if (locator<HomeController>()?.isLoggedIn ?? true)
+      appInfo = await locator<APIService>().getAppInfo();
     if (appInfo != null) razorPayAPIKey = appInfo.payment.apiKey;
     return razorPayAPIKey;
   }

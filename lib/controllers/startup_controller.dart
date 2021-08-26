@@ -75,7 +75,8 @@ class StartUpController extends BaseController {
         var pref = await SharedPreferences.getInstance();
         bool skipLogin = pref.getBool(SkipLogin) ?? false;
         await NavigationService.off(
-            (hasLoggedInUser || skipLogin) ? HomeViewRoute : IntroPageRoute, preventDuplicates: true);
+            (hasLoggedInUser || skipLogin) ? HomeViewRoute : IntroPageRoute,
+            preventDuplicates: true);
       },
     );
   }

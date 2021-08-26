@@ -34,7 +34,7 @@ class CartController extends BaseController {
         parameters: <String, dynamic>{
           "product_id": product?.key,
           "product_name": product?.name,
-          "category_id": product?.category?.id,
+          "category_id": product?.category?.id?.toString(),
           "category_name": product?.category?.name,
           "user_id": locator<HomeController>()?.details?.key,
           "user_name": locator<HomeController>()?.details?.name,

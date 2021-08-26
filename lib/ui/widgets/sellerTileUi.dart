@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -351,18 +352,17 @@ class DesignerTileUi extends StatelessWidget {
                               ),
                             ),
                             child: ClipOval(
-                              child: FadeInImage.assetNetwork(
+                              child: FadeInImage(
                                 width: 48,
                                 height: 48,
                                 fadeInCurve: Curves.easeIn,
                                 fit: BoxFit.cover,
-                                placeholder:
-                                    "assets/images/product_preloading.png",
-                                image: data?.key != null
-                                    ? "$SELLER_PHOTO_BASE_URL/${data.key}"
-                                    : "assets/images/product_preloading.png",
-                                imageErrorBuilder: (context, error, stackTrace) =>
-                                    Image.asset(
+                                image: CachedNetworkImageProvider(
+                                    "$SELLER_PHOTO_BASE_URL/${data.key}"),
+                                placeholder: AssetImage(
+                                    "assets/images/product_preloading.png"),
+                                imageErrorBuilder:
+                                    (context, error, stackTrace) => Image.asset(
                                   "assets/images/product_preloading.png",
                                   width: 48,
                                   height: 48,
@@ -569,19 +569,20 @@ class DesignerTileUi extends StatelessWidget {
                                   children: [
                                     ClipRRect(
                                       borderRadius: BorderRadius.circular(5),
-                                      child: FadeInImage.assetNetwork(
+                                      child: FadeInImage(
                                         fit: BoxFit.cover,
                                         fadeInCurve: Curves.easeIn,
                                         height: 100,
                                         width: 100,
-                                        placeholder:
-                                            'assets/images/product_preloading.png',
-                                        image: (product?.photo?.photos
-                                                        ?.length ??
-                                                    0) ==
-                                                0
-                                            ? 'assets/images/product_preloading.png'
-                                            : '$PRODUCT_PHOTO_BASE_URL/${product.key}/${product?.photo?.photos?.first?.name}-small.png',
+                                        placeholder: AssetImage(
+                                            'assets/images/product_preloading.png'),
+                                        image: CachedNetworkImageProvider(
+                                          (product?.photo?.photos?.length ??
+                                                      0) ==
+                                                  0
+                                              ? 'assets/images/product_preloading.png'
+                                              : '$PRODUCT_PHOTO_BASE_URL/${product.key}/${product?.photo?.photos?.first?.name}-small.png',
+                                        ),
                                         imageErrorBuilder:
                                             (context, error, stackTrace) =>
                                                 Image.asset(

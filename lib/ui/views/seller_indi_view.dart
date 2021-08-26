@@ -125,9 +125,9 @@ class _SellerIndiState extends State<SellerIndi> {
           parameters: <String, dynamic>{
             "seller_id": widget?.data?.key,
             "seller_name": widget?.data?.name,
-            "subscription_id": widget?.data?.subscriptionType?.id,
+            "subscription_id": widget?.data?.subscriptionType?.id?.toString(),
             "subscription_name": widget?.data?.subscriptionType?.name,
-            "establishment_id": widget?.data?.establishmentType?.id,
+            "establishment_id": widget?.data?.establishmentType?.id?.toString(),
             "establishment_name": widget?.data?.establishmentType?.name,
             "user_id": locator<HomeController>()?.details?.key,
             "user_name": locator<HomeController>()?.details?.name,
@@ -412,11 +412,11 @@ class _SellerIndiState extends State<SellerIndi> {
                               "seller_id": sellerData?.key,
                               "seller_name": sellerData?.name,
                               "subscription_id":
-                                  widget?.data?.subscriptionType?.id,
+                                  widget?.data?.subscriptionType?.id?.toString(),
                               "subscription_name":
                                   widget?.data?.subscriptionType?.name,
                               "establishment_id":
-                                  widget?.data?.establishmentType?.id,
+                                  widget?.data?.establishmentType?.id?.toString(),
                               "establishment_name":
                                   widget?.data?.establishmentType?.name,
                               "user_id":

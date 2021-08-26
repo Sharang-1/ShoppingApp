@@ -257,7 +257,7 @@ class SectionBuilder extends StatelessWidget {
                       parameters: <String, dynamic>{
                         "product_id": productData?.key,
                         "product_name": productData?.name,
-                        "category_id": productData?.category?.id,
+                        "category_id": productData?.category?.id?.toString(),
                         "category_name": productData?.category?.name,
                         "user_id": locator<HomeController>()?.details?.key,
                         "user_name": locator<HomeController>()?.details?.name,
@@ -571,5 +571,29 @@ class CategoryLayout1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container();
+  }
+}
+
+class FutureSectionBuilder extends StatelessWidget {
+  final Widget child;
+  final Duration duration;
+  final Widget loadingWidget;
+
+  const FutureSectionBuilder({
+    Key key,
+    this.child,
+    this.duration = const Duration(seconds: 2),
+    this.loadingWidget,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: Future.delayed(duration),
+      builder: (context, snapshot) =>
+          snapshot.connectionState == ConnectionState.done
+              ? child
+              : loadingWidget ?? Container(),
+    );
   }
 }
