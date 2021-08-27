@@ -335,7 +335,6 @@ class SectionBuilder extends StatelessWidget {
           },
         );
 
-      case LayoutType.DESIGNER_ID_1_2_LAYOUT:
       case LayoutType.DESIGNER_ID_3_LAYOUT:
       case LayoutType.DESIGNER_ID_3_VERTICAL_LAYOUT:
         return GridListWidget<Sellers, Seller>(

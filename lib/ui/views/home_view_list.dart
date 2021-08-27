@@ -32,8 +32,8 @@ class HomeViewList extends StatelessWidget {
 
   final Map<String, Duration> sectionDelay = {
     "SECTION1": Duration(seconds: 0),
-    "SECTION2": Duration(seconds: 0),
-    "SECTION3": Duration(seconds: 2),
+    "SECTION2": Duration(seconds: 2),
+    "SECTION3": Duration(seconds: 3),
     "SECTION4": Duration(seconds: 6),
     "SECTION5": Duration(seconds: 8),
     "SECTION6": Duration(seconds: 3),

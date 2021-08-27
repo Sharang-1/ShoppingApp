@@ -106,14 +106,11 @@ class HomeController extends BaseController {
         .where((element) => element.position.toLowerCase() == "bottom")
         .toList();
 
-    print("Top Promotions : ${topPromotion.length}");
-    print("Bottom Promotions : ${bottomPromotion.length}");
+    await updateUserDetails();
+    update();
 
     await Future.delayed(Duration(milliseconds: 100));
     refreshController.refreshCompleted(resetFooterState: true);
-    update();
-
-    await updateUserDetails();
 
     if (args != null) {
       try {
@@ -138,7 +135,6 @@ class HomeController extends BaseController {
           (details?.contact?.googleAddress?.isEmpty ?? true)) {
         isProfileComplete = false;
       }
-      update();
     }
   }
 
@@ -155,18 +151,6 @@ class HomeController extends BaseController {
     super.onInit();
     remoteConfig = _remoteConfigService.remoteConfig;
     setup();
-
-    List<Promotion> promotions = await getPromotions();
-    topPromotion = promotions
-        .where((element) => element.position.toLowerCase() == "top")
-        .toList();
-    bottomPromotion = promotions
-        .where((element) => element.position.toLowerCase() == "bottom")
-        .toList();
-
-    isLoggedIn = await _authService.isUserLoggedIn();
-
-    update();
 
     final lastDeliveredProduct = await getLastDeliveredProduct();
     if (lastDeliveredProduct != null)
@@ -190,7 +174,6 @@ class HomeController extends BaseController {
               "Please reach us out and help us understand your concerns!",
           accentColor: logoRed,
           onSubmitPressed: (int rating) async {
-            print("onSubmitPressed: rating = $rating");
             await postReview(lastDeliveredProduct['id'], rating.toDouble());
           },
         ),
@@ -206,6 +189,7 @@ class HomeController extends BaseController {
       googlePlayIdentifier: 'in.dzor.dzor_app',
       appStoreIdentifier: '1562083632',
     );
+
     WidgetsBinding.instance.addPostFrameCallback(
       (_) async {
         await rateMyApp.init();
@@ -377,15 +361,7 @@ class HomeController extends BaseController {
 
   Future<List<Promotion>> getPromotions() async {
     final promotions = await _apiService.getPromotions();
-    print("list of promotions");
-    print(promotions.promotions.map((e) => e.name).join(";"));
     return promotions.promotions;
-  }
-
-  Future setName() async {
-    if (prefs == null) prefs = await SharedPreferences.getInstance();
-    name = prefs.getString(Name);
-    update();
   }
 
   void showTutorial(BuildContext context,

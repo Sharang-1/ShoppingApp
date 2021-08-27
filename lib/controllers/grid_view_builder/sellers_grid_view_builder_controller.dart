@@ -1,5 +1,3 @@
-import 'package:fimber/fimber.dart';
-
 import '../../locator.dart';
 import '../../models/grid_view_builder_filter_models/base_filter_model.dart';
 import '../../models/products.dart';
