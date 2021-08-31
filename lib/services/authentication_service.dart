@@ -43,7 +43,7 @@ class AuthenticationService {
   Future<bool> isUserLoggedIn() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.getString(Authtoken);
-    return (token != null) && (token.isNotEmpty);
+    return token != null && token.isNotEmpty;
   }
 
   // Unwanted APIs

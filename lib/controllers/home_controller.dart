@@ -152,6 +152,8 @@ class HomeController extends BaseController {
     remoteConfig = _remoteConfigService.remoteConfig;
     setup();
 
+    await updateIsLoggedIn();
+
     final lastDeliveredProduct = await getLastDeliveredProduct();
     if (lastDeliveredProduct != null)
       await DialogService.showCustomDialog(
@@ -484,6 +486,9 @@ class HomeController extends BaseController {
         onFinish: () async =>
             await prefs?.setBool(ShouldShowHomeTutorial, false),
       )..show();
+      try {
+        await prefs?.setBool(ShouldShowHomeTutorial, false);
+      } catch (e) {}
     }
   }
 }
