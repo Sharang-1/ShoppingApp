@@ -400,7 +400,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
           setState(() => {
                 selectedColor = color.color,
                 maxQty = color.quantity,
-                selectedQty = 0
+                selectedQty = (productData.category.id == 13) ? 0 : 1
               });
         },
       ));
@@ -1122,107 +1122,112 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                             ),
                                       selectedColor == ""
                                           ? Container()
-                                          : Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                elementDivider(),
-                                                Text(
-                                                  "Select ${(productData.category.id == 13) ? 'No. of Meters' : 'Qty'}"
-                                                      .toUpperCase(),
-                                                  style: TextStyle(
-                                                    // fontWeight:
-                                                    //     FontWeight.bold,
-                                                    fontSize: 14,
-                                                    letterSpacing: 1.0,
-                                                    color: logoRed,
-                                                  ),
-                                                ),
-                                                verticalSpaceSmall,
-                                                FittedBox(
-                                                  fit: BoxFit.scaleDown,
-                                                  child: Container(
-                                                    height: 30,
-                                                    decoration: BoxDecoration(
-                                                      border: Border.all(
-                                                        color: darkRedSmooth,
+                                          : (productData.category.id != 13)
+                                              ? Container()
+                                              : Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: <Widget>[
+                                                    elementDivider(),
+                                                    Text(
+                                                      "Select ${(productData.category.id == 13) ? 'No. of Meters' : 'Qty'}"
+                                                          .toUpperCase(),
+                                                      style: TextStyle(
+                                                        // fontWeight:
+                                                        //     FontWeight.bold,
+                                                        fontSize: 14,
+                                                        letterSpacing: 1.0,
+                                                        color: logoRed,
                                                       ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              5),
                                                     ),
-                                                    child: Row(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: <Widget>[
-                                                        IconButton(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .symmetric(
-                                                                  vertical:
-                                                                      4.0),
-                                                          color: selectedQty ==
-                                                                  0
-                                                              ? Colors.grey
-                                                              : darkRedSmooth,
-                                                          iconSize: 18,
-                                                          icon: Icon(
-                                                              Icons.remove),
-                                                          onPressed: () {
-                                                            if (selectedQty !=
-                                                                0) {
-                                                              setState(() {
-                                                                selectedQty =
-                                                                    selectedQty -
-                                                                        1;
-                                                              });
-                                                            }
-                                                          },
+                                                    verticalSpaceSmall,
+                                                    FittedBox(
+                                                      fit: BoxFit.scaleDown,
+                                                      child: Container(
+                                                        height: 30,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          border: Border.all(
+                                                            color:
+                                                                darkRedSmooth,
+                                                          ),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(5),
                                                         ),
-                                                        Text(
-                                                          selectedQty
-                                                              .toString(),
-                                                          style: TextStyle(
-                                                              color:
-                                                                  darkRedSmooth,
-                                                              fontSize: 12,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
+                                                        child: Row(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
+                                                          children: <Widget>[
+                                                            IconButton(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .symmetric(
+                                                                      vertical:
+                                                                          4.0),
+                                                              color: selectedQty ==
+                                                                      0
+                                                                  ? Colors.grey
+                                                                  : darkRedSmooth,
+                                                              iconSize: 18,
+                                                              icon: Icon(
+                                                                  Icons.remove),
+                                                              onPressed: () {
+                                                                if (selectedQty !=
+                                                                    0) {
+                                                                  setState(() {
+                                                                    selectedQty =
+                                                                        selectedQty -
+                                                                            1;
+                                                                  });
+                                                                }
+                                                              },
+                                                            ),
+                                                            Text(
+                                                              selectedQty
+                                                                  .toString(),
+                                                              style: TextStyle(
+                                                                  color:
+                                                                      darkRedSmooth,
+                                                                  fontSize: 12,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                            ),
+                                                            IconButton(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .symmetric(
+                                                                      vertical:
+                                                                          4.0),
+                                                              iconSize: 18,
+                                                              color: maxQty ==
+                                                                      selectedQty
+                                                                  ? Colors.grey
+                                                                  : darkRedSmooth,
+                                                              icon: Icon(
+                                                                  Icons.add),
+                                                              onPressed: () {
+                                                                print("maxQty" +
+                                                                    maxQty
+                                                                        .toString());
+                                                                if (maxQty !=
+                                                                    selectedQty) {
+                                                                  setState(() {
+                                                                    selectedQty =
+                                                                        selectedQty +
+                                                                            1;
+                                                                  });
+                                                                }
+                                                              },
+                                                            ),
+                                                          ],
                                                         ),
-                                                        IconButton(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .symmetric(
-                                                                  vertical:
-                                                                      4.0),
-                                                          iconSize: 18,
-                                                          color: maxQty ==
-                                                                  selectedQty
-                                                              ? Colors.grey
-                                                              : darkRedSmooth,
-                                                          icon: Icon(Icons.add),
-                                                          onPressed: () {
-                                                            print("maxQty" +
-                                                                maxQty
-                                                                    .toString());
-                                                            if (maxQty !=
-                                                                selectedQty) {
-                                                              setState(() {
-                                                                selectedQty =
-                                                                    selectedQty +
-                                                                        1;
-                                                              });
-                                                            }
-                                                          },
-                                                        ),
-                                                      ],
+                                                      ),
                                                     ),
-                                                  ),
+                                                  ],
                                                 ),
-                                              ],
-                                            ),
                                       verticalSpaceTiny,
                                       Padding(
                                         padding: EdgeInsets.only(top: 8.0),
@@ -1289,11 +1294,12 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                     if (totalQuantity == 1)
                                       "One in Market Product",
                                     if (!available) "Unavailable",
-                                    "Returns & Refunds",
+                                    "Easy Today Returns",
                                   ]
                                       .map(
                                         (e) => InkWell(
-                                          onTap: e.contains("Returns & Refunds")
+                                          onTap: e.contains(
+                                                  "Easy Today Returns")
                                               ? () async =>
                                                   await showModalBottomSheet(
                                                     isScrollControlled: true,
@@ -1320,7 +1326,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                             child: Text(
                                               e,
                                               style: TextStyle(
-                                                  fontSize: 10.0,
+                                                  fontSize: 12.0,
                                                   color: e.contains("In Stock")
                                                       ? lightGreen
                                                       : e == "Out of Stock"
