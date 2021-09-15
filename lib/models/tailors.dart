@@ -103,26 +103,6 @@ class Contact {
       };
 }
 
-// class GeoLocation {
-//     double latitude;
-//     double longitude;
-
-//     GeoLocation({
-//         this.latitude,
-//         this.longitude,
-//     });
-
-//     factory GeoLocation.fromJson(Map<String, dynamic> json) => GeoLocation(
-//         latitude: json["latitude"].toDouble(),
-//         longitude: json["longitude"] == null ? null : json["longitude"].toDouble(),
-//     );
-
-//     Map<String, dynamic> toJson() => {
-//         "latitude": latitude,
-//         "longitude": longitude == null ? null : longitude,
-//     };
-// }
-
 class PrimaryNumber {
   String code;
   String mobile;

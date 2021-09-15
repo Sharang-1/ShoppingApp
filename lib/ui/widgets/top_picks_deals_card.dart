@@ -18,7 +18,6 @@ class TopPicksAndDealsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // padding: EdgeInsets.only(bottom: 10),
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(curve15),
@@ -104,17 +103,16 @@ class TopPicksAndDealsCard extends StatelessWidget {
                       padding: EdgeInsets.symmetric(horizontal: 8),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        // mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
                           Expanded(
                             flex: 2,
                             child: CustomText(
-                                capitalizeString(data['name'] ?? ''),
-                                dotsAfterOverFlow: true,
-                                isTitle: true,
-                                isBold: true,
-                                color: Colors.grey[800],
-                                fontSize: subtitleFontSizeStyle - 2,
+                              capitalizeString(data['name'] ?? ''),
+                              dotsAfterOverFlow: true,
+                              isTitle: true,
+                              isBold: true,
+                              color: Colors.grey[800],
+                              fontSize: subtitleFontSizeStyle - 2,
                             ),
                           ),
                           Expanded(
@@ -164,23 +162,6 @@ class TopPicksAndDealsCard extends StatelessWidget {
                               ],
                             ),
                           ),
-                          // Expanded(
-                          //   flex:2,
-                          //   child: data["isDiscountAvailable"] != null &&
-                          //         data["isDiscountAvailable"] == "true"
-                          //     ? Column(
-                          //           children: <Widget>[
-                          //             Expanded(
-                          //                 child: CustomText(
-                          //                 "${data['discount'].toString()} % Discount",
-                          //                 fontSize: subtitleFontSizeStyle - 4,
-                          //                 isBold: true,
-                          //                 color: green,
-                          //               ),
-                          //             ),
-                          //           ],
-                          //         )
-                          //     : Container(),),
                         ],
                       ),
                     ),

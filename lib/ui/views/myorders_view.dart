@@ -1,3 +1,4 @@
+import 'package:compound/ui/widgets/shimmer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:grouped_list/grouped_list.dart';
@@ -97,31 +98,12 @@ class _MyOrdersViewState extends State<MyOrdersView> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //   crossAxisAlignment: CrossAxisAlignment.center,
-                      //   children: <Widget>[
-                      //     TextButton(
-                      //       child: CustomText(
-                      //         "Wishlist",
-                      //         fontFamily: headingFont,
-                      //         isBold: true,
-                      //         fontSize: subtitleFontSize,
-                      //         color: logoRed,
-                      //       ),
-                      //       onPressed: () {
-                      //         NavigationService.to(WishListRoute);
-                      //       },
-                      //     )
-                      //   ],
+                      if (controller.busy) ShimmerWidget(),
+                      // Image.asset(
+                      //   "assets/images/loading_img.gif",
+                      //   height: 50,
+                      //   width: 50,
                       // ),
-                      // verticalSpace(10),
-                      if (controller.busy)
-                        Image.asset(
-                          "assets/images/loading_img.gif",
-                          height: 50,
-                          width: 50,
-                        ),
                       if (!controller.busy && controller.mOrders != null)
                         GroupedListView(
                           shrinkWrap: true,
@@ -151,10 +133,6 @@ class _MyOrdersViewState extends State<MyOrdersView> {
                                 alignment: Alignment.centerLeft,
                                 fit: BoxFit.scaleDown,
                                 child: Container(
-                                  // decoration: BoxDecoration(
-                                  // color: logoRed,
-                                  // borderRadius: BorderRadius.circular(15),
-                                  // ),
                                   padding: EdgeInsets.all(8.0),
                                   child: Text(
                                     date,
@@ -190,15 +168,6 @@ class _MyOrdersViewState extends State<MyOrdersView> {
                                               const EdgeInsets.only(left: 16.0),
                                           child: Row(
                                             children: [
-                                              // Container(
-                                              //   child: Icon(
-                                              //     Icons.cloud_done,
-                                              //     color: Color(0xFF17a17f),
-                                              //   ),
-                                              // ),
-                                              // SizedBox(
-                                              //   width: 15.0,
-                                              // ),
                                               Column(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
@@ -340,12 +309,6 @@ class _MyOrdersViewState extends State<MyOrdersView> {
                                                   isBold: true,
                                                   color: textIconOrange,
                                                 ),
-                                                // CustomText(
-                                                //   order.status.state,
-                                                //   fontSize: subtitleFontSize,
-                                                //   isBold: true,
-                                                //   color: Colors.grey,
-                                                // ),
                                               ],
                                             )),
                                             IconButton(

@@ -49,10 +49,6 @@ class SellersGridViewBuilderController
       pageSize = 30;
     }
 
-    // String _queryString =
-    //     "startIndex=${pageSize * (pageNumber - 1)};limit=${this.random ? 1000 : pageSize};" +
-    //         filterModel.queryString;
-
     String _queryString =
         "startIndex=${pageSize * (pageNumber - 1)};limit=$pageSize;random=$random;" +
             filterModel.queryString;
@@ -119,20 +115,6 @@ class SellersGridViewBuilderController
       if (res.items.length > pageSize && sellerWithNoProducts)
         res.items = res.items.sublist(0, pageSize);
     }
-
-    // if (!sellerWithNoProducts) {
-    // List<Seller> sellers = [];
-    // await Future.wait([
-    //   Future.forEach(res.items, (s) async {
-    //     if (sellers.length <= 10) {
-    //       bool hasProducts = await _apiService.hasProducts(sellerKey: s.key);
-    //       if (hasProducts) sellers.add(s);
-    //     }
-    //   }),
-    // ]);
-    // res.items = sellers;
-    // return res;
-    // }
 
     if (this.withProducts) {
       List<Seller> sellers = [];

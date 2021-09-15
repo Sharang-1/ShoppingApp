@@ -74,7 +74,6 @@ class _ProductTileUIState extends State<ProductTileUI> {
         ? const EdgeInsets.fromLTRB(screenPadding, 0, 0, 10)
         : const EdgeInsets.fromLTRB(0, 0, screenPadding, 10);
     paddingCard = widget.cardPadding == null ? paddingCard : widget.cardPadding;
-    // final BlousePadding sellerName=widget.data.whoMadeIt;
 
     final photo = widget.data.photo ?? null;
     final photos = photo != null ? photo.photos ?? null : null;
@@ -91,18 +90,6 @@ class _ProductTileUIState extends State<ProductTileUI> {
                 deliveryCharges)
             .round() ??
         0;
-    // final double productOldPrice = widget.data.oldPrice ?? 0.0;
-    // final productRatingObj = widget.data.rating ?? null;
-    // final productRatingValue =
-    //     productRatingObj != null ? productRatingObj.rate : 0.0;
-
-    // double tagSize = isTablet ? 14.0 : 10.0;
-
-    // List<String> tags = [
-    //   "Coats",
-    //   "Trending",
-    //   "211",
-    // ];
 
     return GestureDetector(
       onTap: widget.onClick,
@@ -192,7 +179,6 @@ class _ProductTileUIState extends State<ProductTileUI> {
                                   ),
                                 )
                         ],
-                        // )
                       ),
                       Text(
                         "By ${widget?.data?.seller?.name.toString() ?? 'No Name'}",
@@ -252,7 +238,6 @@ class _ProductTileUIState extends State<ProductTileUI> {
           widthFactor: 1,
           child: ClipRRect(
             clipBehavior: Clip.antiAlias,
-            // borderRadius: BorderRadius.circular(5),
             child: ColorFiltered(
               colorFilter: ColorFilter.mode(
                   Colors.transparent.withOpacity(0.12), BlendMode.srcATop),
@@ -296,9 +281,6 @@ class _ProductTileUIState extends State<ProductTileUI> {
                 ),
               ))
           : Container()
-    ]
-        // )
-
-        );
+    ]);
   }
 }

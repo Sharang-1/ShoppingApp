@@ -171,10 +171,6 @@ class SizeBottomsheet extends StatelessWidget {
                 controller: controller,
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
-                  // hintText: hint,
-                  // hintStyle: TextStyle(
-                  //   fontSize: 8.0,
-                  // ),
                   border: OutlineInputBorder(),
                   contentPadding: EdgeInsets.symmetric(horizontal: 4.0),
                 ),

@@ -111,18 +111,4 @@ class PaymentService {
       }
     }
   }
-
-  // _handlePaymentSuccess(PaymentSuccessResponse response) async {
-  // print("OrderId: " + response.orderId);
-  // print("Payment Id: " + response.paymentId);
-  // print("Signature: " + response.signature);
-  // }
-
-  // _handlePaymentError(PaymentFailureResponse response) {
-  //   print("RazorPay Error: " + response.message);
-  // }
-
-  // _handleExternalWallet(ExternalWalletResponse response) {
-  //   print("RazorPay External Wallet: " + response.walletName);
-  // }
 }

@@ -79,7 +79,6 @@ class SettingsView extends StatelessWidget {
 
   final AppBar appbar = AppBar(
     elevation: 0,
-    // centerTitle: true,
     title: Text(
       "Settings",
       style: TextStyle(
@@ -88,7 +87,6 @@ class SettingsView extends StatelessWidget {
         fontSize: 18,
         color: Colors.black,
       ),
-      // textAlign: TextAlign.center,
     ),
     iconTheme: IconThemeData(
       color: appBarIconColor,

@@ -297,7 +297,6 @@ class DesignerTileUi extends StatelessWidget {
       margin: EdgeInsets.only(left: 0, bottom: 10, right: 0),
       height: 200.0,
       decoration: BoxDecoration(
-        // borderRadius: BorderRadius.circular(10),
         border: Border(
           right: BorderSide(color: Colors.grey[200], style: BorderStyle.solid),
         ),
@@ -321,7 +320,6 @@ class DesignerTileUi extends StatelessWidget {
             await BaseController.showLoginPopup(
               nextView: SellerIndiViewRoute,
               shouldNavigateToNextScreen: false,
-              // arguments: data,
             );
           }
         },

@@ -1,11 +1,14 @@
 import 'package:fimber/fimber_base.dart';
 
 import '../locator.dart';
+import '../models/reviews.dart';
 import '../models/sellers.dart';
 import 'api/api_service.dart';
 
 class CacheService {
   List<Seller> sellers = [];
+  Map<String, Reviews> productReviews = {};
+  Map<String, Reviews> sellerReviews = {};
   bool busy = false;
 
   Future<List<Seller>> getSellers() async {
@@ -26,5 +29,16 @@ class CacheService {
       Fimber.i("Cache Designers: ${sellers?.length}");
     }
     return sellers;
+  }
+
+  void addReviews(String id, Reviews r, {isSeller = false}) {
+    (isSeller ? sellerReviews : productReviews).addAll({
+      id: r,
+    });
+  }
+
+  Reviews getReviews(String id, {isSeller = false}) {
+    var r = (isSeller ? sellerReviews : productReviews)[id];
+    return r;
   }
 }

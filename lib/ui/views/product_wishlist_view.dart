@@ -36,7 +36,6 @@ class _WishListState extends State<WishList> {
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.white,
-          // centerTitle: true,
           title: FittedBox(
             alignment: Alignment.centerLeft,
             fit: BoxFit.scaleDown,

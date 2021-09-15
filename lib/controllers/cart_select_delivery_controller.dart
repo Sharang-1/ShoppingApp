@@ -16,7 +16,6 @@ class CartSelectDeliveryController extends BaseController {
   }
 
   Future<void> addAddress(UserDetailsContact address) async {
-    print("ViewModel: addAddress");
     final res = await _addressService.addAddresses(address);
     print("res : " + res.toString());
     if (res == true) {

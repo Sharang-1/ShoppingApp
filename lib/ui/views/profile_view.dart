@@ -5,9 +5,9 @@ import 'package:page_transition/page_transition.dart';
 
 import '../../constants/server_urls.dart';
 import '../../controllers/user_details_controller.dart';
-import '../../google_maps_place_picker/google_maps_place_picker.dart';
 import '../../locator.dart';
 import '../../models/user_details.dart';
+import '../../packages/google_maps_place_picker/google_maps_place_picker.dart';
 import '../../services/dialog_service.dart';
 import '../../services/navigation_service.dart';
 import '../shared/app_colors.dart';
@@ -187,8 +187,6 @@ class _ProfileViewState extends State<ProfileView> {
                       child: Form(
                         key: _formKey,
                         child: Container(
-                          // padding: EdgeInsets.only(
-                          //     left: 20, right: 20, top: 10, bottom: 10),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
@@ -349,7 +347,6 @@ class _ProfileViewState extends State<ProfileView> {
                                                   ? OutlineInputBorder()
                                                   : InputBorder.none,
                                             ),
-                                            // autofocus: true,
                                             maxLines: 1,
                                           ),
                                         ),
@@ -390,62 +387,11 @@ class _ProfileViewState extends State<ProfileView> {
                                               border: InputBorder.none,
                                             ),
                                             enabled: false,
-                                            // autofocus: true,
                                             maxLines: 1,
                                           ),
                                         ),
                                       ],
                                     ),
-                                    // Row(
-                                    //   children: <Widget>[
-                                    //     Expanded(
-                                    //       flex: 3,
-                                    //       child: CustomText(
-                                    //         "Email Address",
-                                    //         fontSize: titleFontSizeStyle,
-                                    //         color: Colors.black,
-                                    //       ),
-                                    //     ),
-                                    //     Expanded(
-                                    //       flex: 7,
-                                    //       child: TextFormField(
-                                    //         focusNode: emailFocusNode,
-                                    //         style: TextStyle(
-                                    //           fontSize: subtitleFontSizeStyle,
-                                    //           fontWeight: FontWeight.w500,
-                                    //           color: Colors.grey[800],
-                                    //         ),
-                                    //         readOnly: !isEditable,
-                                    //         initialValue: controller
-                                    //                 .mUserDetails?.email ??
-                                    //             '',
-                                    //         validator: (text) => text.isEmpty
-                                    //             ? null
-                                    //             : GetUtils.isEmail(text)
-                                    //                 ? null
-                                    //                 : "Please Enter Valid Email Address",
-                                    //         onChanged: (value) {
-                                    //           setState(() {
-                                    //             isButtonActive = true;
-                                    //           });
-                                    //           _formKey.currentState.validate();
-                                    //         },
-                                    //         onSaved: (text) {
-                                    //           controller.mUserDetails.email =
-                                    //               text;
-                                    //         },
-                                    //         decoration: const InputDecoration(
-                                    //           contentPadding:
-                                    //               EdgeInsets.symmetric(
-                                    //                   vertical: 10),
-                                    //           border: InputBorder.none,
-                                    //         ),
-                                    //         autofocus: true,
-                                    //         maxLines: 1,
-                                    //       ),
-                                    //     ),
-                                    //   ],
-                                    // ),
                                     Row(
                                       children: <Widget>[
                                         Expanded(
@@ -568,9 +514,6 @@ class _ProfileViewState extends State<ProfileView> {
                                       ],
                                     ),
                                     verticalSpaceSmall,
-                                    // if (controller
-                                    //         .mUserDetails.contact.address !=
-                                    //     "")
                                     Row(
                                       children: [
                                         Expanded(
@@ -597,11 +540,6 @@ class _ProfileViewState extends State<ProfileView> {
                                                       ),
                                                     );
                                                     if (pickedPlace != null) {
-                                                      // pickedPlace = (PickResult) pickedPlace;
-                                                      // print(pickedPlace);
-                                                      // controller.mUserDetails.contact
-                                                      //     .address = pickedPlace;
-
                                                       UserDetailsContact
                                                           userAdd =
                                                           await showModalBottomSheet(
@@ -877,7 +815,6 @@ class _ProfileViewState extends State<ProfileView> {
               },
               onSaved: onSaved,
               decoration: InputDecoration(
-                // hintText: hint,
                 hintText: ' ',
                 hintStyle: TextStyle(
                   fontSize: subtitleFontSize - 4,

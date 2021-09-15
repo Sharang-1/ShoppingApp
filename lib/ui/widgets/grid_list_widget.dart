@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import '../../controllers/grid_view_builder/base_grid_view_builder_controller.dart';
 import '../../models/grid_view_builder_filter_models/base_filter_model.dart';
 import '../shared/ui_helpers.dart';
+import 'shimmer_widget.dart';
 
 // Type and Enum declarations
 enum LoadMoreStatus { LOADING, STABLE }
@@ -141,13 +142,14 @@ class _CustomGridViewFutureBuilderState<P, I>
         switch (snapshots.connectionState) {
           case ConnectionState.waiting:
             return widget.loadingWidget == null
-                ? Center(
-                    child: Image.asset(
-                      "assets/images/loading_img.gif",
-                      height: 50,
-                      width: 50,
-                    ),
-                  )
+                ? ShimmerWidget()
+                // Center(
+                //     child: Image.asset(
+                //       "assets/images/loading_img.gif",
+                //       height: 50,
+                //       width: 50,
+                //     ),
+                //   )
                 : widget.loadingWidget;
           case ConnectionState.done:
             print("snapshots.data");
@@ -265,11 +267,6 @@ class _PaginatedGridViewState<I> extends State<PaginatedGridView> {
     }
     return false;
   }
-
-  // Future<bool> onDelete(int index) async {
-  //   final item = items[index];
-  //   return await widget.viewModel.deleteData(item);
-  // }
 
   bool onNotification(ScrollNotification notification) {
     if (notification is ScrollUpdateNotification &&

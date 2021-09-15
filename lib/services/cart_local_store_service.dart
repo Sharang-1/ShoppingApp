@@ -2,10 +2,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constants/shared_pref.dart';
 
-
-// This service only sets cart counts for shared preference only.
-// It doese not manages current state of cart count.
-// For that purpose use CartCountSetup (inherited widget)
 class CartLocalStoreService {
   CartLocalStoreService() {
     setUpCartList();
@@ -41,9 +37,9 @@ class CartLocalStoreService {
     print("CartLocalStoreService Service : addToCartLocalStore");
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final list = prefs.getStringList(CartItemList);
-    if(list != null) {
+    if (list != null) {
       final isProductAlreadyExists = list.indexOf(productId) != -1;
-      if(isProductAlreadyExists) {
+      if (isProductAlreadyExists) {
         return -1;
       }
       list.add(productId);
@@ -59,7 +55,7 @@ class CartLocalStoreService {
     print("CartLocalStoreService Service : removeFromCartLocalStore");
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final list = prefs.getStringList(CartItemList);
-    if(list != null && list != []) {
+    if (list != null && list != []) {
       list.remove(productId);
       prefs.setStringList(CartItemList, list);
     } else {

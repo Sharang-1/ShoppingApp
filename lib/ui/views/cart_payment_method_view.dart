@@ -229,27 +229,6 @@ class _PaymentMethodState extends State<PaymentMethod> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
-                              // Row(
-                              //   children: <Widget>[
-                              //     CustomText(
-                              //       "Payment",
-                              //       fontSize: headingFontSizeStyle + 5,
-                              //       fontFamily: headingFont,
-                              //       fontWeight: FontWeight.w700,
-                              //     ),
-                              //     horizontalSpaceSmall,
-                              //     Icon(Icons.lock_outline),
-                              //   ],
-                              // ),
-                              // verticalSpaceSmall,
-                              // CustomText(
-                              //   rupeeUnicode +
-                              //       widget.finalTotal.replaceAll(rupeeUnicode, ""),
-                              //   fontSize: titleFontSizeStyle + 4,
-                              //   color: darkRedSmooth,
-                              //   isBold: true,
-                              // ),
-                              // verticalSpaceSmall,
                               verticalSpace(10),
                               const CutomStepper(
                                 step: 3,
@@ -305,9 +284,6 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                               value: key,
                                               groupValue: paymentMethodGrpValue,
                                               onChanged: (val) {
-                                                // setState(() {
-                                                //   paymentMethodRadioValue = val;
-                                                // });
                                                 print(val);
                                               },
                                             ),
@@ -335,7 +311,6 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                                 ],
                                               ),
                                             ),
-                                            // Spacer(),
                                             iconpaymentMethodMap[key],
                                             horizontalSpaceTiny,
                                           ],

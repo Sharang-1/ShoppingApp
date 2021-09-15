@@ -51,7 +51,6 @@ class SellerProfilePhotos extends StatelessWidget {
           options: CarouselOptions(
             autoPlay: false,
             pauseAutoPlayOnTouch: true,
-            // pauseAutoPlayOnTouch: Duration(seconds: 10),
             aspectRatio: 1,
             enableInfiniteScroll: false,
             viewportFraction: 1.0,

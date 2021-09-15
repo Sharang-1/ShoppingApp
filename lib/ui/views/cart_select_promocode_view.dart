@@ -108,7 +108,6 @@ class _SelectPromocodeState extends State<SelectPromocode> {
                       "${BaseController.formatPrice(num.parse(widget.finalTotal.replaceAll("₹", "")))}",
                       fontSize: 12,
                       isBold: true,
-                      // color: lightGreen,
                     ),
                     CustomText(
                       "View Details",
@@ -181,7 +180,6 @@ class _SelectPromocodeState extends State<SelectPromocode> {
                             padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                             child: TextField(
                               controller: _controller,
-                              // textCapitalization: TextCapitalization.characters,
                               decoration: const InputDecoration(
                                 hintText: 'Enter Coupon Code',
                                 hintStyle: TextStyle(
@@ -202,8 +200,6 @@ class _SelectPromocodeState extends State<SelectPromocode> {
                             primary: Colors.white,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30),
-                              // side: BorderSide(
-                              //     color: Colors.black, width: 0.5)
                             ),
                           ),
                           onPressed: applyPromoCode,
@@ -322,15 +318,6 @@ class _SelectPromocodeState extends State<SelectPromocode> {
       "",
     );
     if (res != null) {
-      // setState(() {
-      //   shippingCharges = res.deliveryCharges.cost.toString();
-      //   finalTotal = res.cost.toString();
-      //   promoCode = res.promocodeDiscount.promocode;
-      //   promoCodeDiscount = res.promocodeDiscount.cost.toString();
-      //   promoCodeId = res.promocodeDiscount.promocodeId;
-      //   isPromoCodeApplied = true;
-      // });
-
       _controller.text = "";
 
       OrderDetails orderDetails = widget.orderDetails;

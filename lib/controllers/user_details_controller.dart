@@ -55,14 +55,6 @@ class UserDetailsController extends BaseController {
     if (result != null) {
       mUserDetails = result;
     }
-
-    // SharedPreferences prefs = await SharedPreferences.getInstance();
-    // prefs.setString(Name, mUserDetails.name);
-    // prefs.setString(PhoneNo, mUserDetails.contact.phone.mobile);
-    // Fimber.e(mUserDetails.firstName);
-    // Fimber.e(mUserDetails.contact.phone.mobile);
-
-    // _addressService.setUpAddress(mUserDetails.contact);
     update();
   }
 

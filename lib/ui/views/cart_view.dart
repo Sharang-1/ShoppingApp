@@ -1,3 +1,4 @@
+import '../../controllers/base_controller.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -52,30 +53,32 @@ class _CartViewState extends State<CartView> {
               color: Colors.black,
             ),
           ),
-          // leading: BackButton(
-          //   onPressed: () async {
-          //     if (isPromocodeApplied)
-          //       DialogService.showCustomDialog(AlertDialog(
-          //         content: Text("Do you really want to leave cart ?"),
-          //         actions: [
-          //           ElevatedButton(
-          //             onPressed: () {},
-          //             child: Text("Yes"),
-          //           ),
-          //           ElevatedButton(
-          //             onPressed: () {},
-          //             child: Text("No"),
-          //           )
-          //         ],
-          //       ));
-          //     await NavigationService.offAll(HomeViewRoute);
-          //   },
-          // ),
           iconTheme: IconThemeData(
             color: Colors.black,
           ),
         ),
         backgroundColor: Colors.white,
+        bottomNavigationBar: Container(
+          // color: Colors.grey[200],
+          padding: EdgeInsets.symmetric(
+            horizontal: 8,
+          ),
+          child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: lightGreen,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+              ),
+              onPressed: () async => await BaseController.showSizePopup(),
+              child: CustomText(
+                "Add Your Measurements",
+                align: TextAlign.center,
+                color: Colors.white,
+                isBold: true,
+                fontSize: 14,
+              )),
+        ),
         body: SafeArea(
           top: true,
           left: false,

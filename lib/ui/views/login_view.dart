@@ -66,7 +66,6 @@ class LoginView extends StatelessWidget {
               textFieldController: phoneNoController,
               isEnabled: true,
               selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
-              // autoValidate: true,
               formatInput: true,
             ),
             verticalSpaceTiny,

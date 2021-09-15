@@ -143,7 +143,6 @@ class HomeController extends BaseController {
         .setCartCount(await setUpCartListAndGetCount());
     locator<WishListController>()
         .setUpWishList(await _wishListService.getWishList());
-    // locator<LookupController>().setUpLookups(await _apiService.getLookups());
   }
 
   @override
@@ -205,8 +204,8 @@ class HomeController extends BaseController {
             (launches % 2 == 0) &&
             (launches % 5 == 0)) {
           await rateMyApp.showRateDialog(
-            Get.context, title: 'Dzor',
-            // message: '',
+            Get.context,
+            title: 'Dzor',
             onDismissed: () async {
               await prefs.setBool('rateMyApp_doNotOpenAgain', true);
             },
@@ -223,10 +222,10 @@ class HomeController extends BaseController {
         break;
       case 1:
         if (isLoggedIn)
-          NavigationService.to(MyAppointmentViewRoute);
+          NavigationService.to(MyOrdersRoute);
         else
           BaseController.showLoginPopup(
-            nextView: MyAppointmentViewRoute,
+            nextView: MyOrdersRoute,
             shouldNavigateToNextScreen: true,
           );
         break;
@@ -235,10 +234,10 @@ class HomeController extends BaseController {
         break;
       case 3:
         if (isLoggedIn)
-          NavigationService.to(MyOrdersRoute);
+          NavigationService.to(MyAppointmentViewRoute);
         else
           BaseController.showLoginPopup(
-            nextView: MyOrdersRoute,
+            nextView: MyAppointmentViewRoute,
             shouldNavigateToNextScreen: true,
           );
         break;
@@ -407,7 +406,6 @@ class HomeController extends BaseController {
             ),
           ],
         ),
-
         TargetFocus(
           identify: "Dzor Explore Target",
           keyTarget: logoKey,
@@ -436,16 +434,6 @@ class HomeController extends BaseController {
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
-                      // Padding(
-                      //   padding: const EdgeInsets.only(top: 300.0),
-                      //   child: Center(
-                      //     child: Image.asset(
-                      //       'assets/images/swipe_up.png',
-                      //       height: 250,
-                      //       width: 200,
-                      //     ),
-                      //   ),
-                      // ),
                     ],
                   ),
                 ),
@@ -453,27 +441,6 @@ class HomeController extends BaseController {
             ),
           ],
         ),
-
-        //Cart Target
-
-        // TargetFocus(
-        //   identify: "Cart Target",
-        //   keyTarget: cartKey,
-        //   contents: [
-        //     TargetContent(
-        //       align: ContentAlign.bottom,
-        //       child: Container(
-        //         child: Text(
-        //           "Cart",
-        //           style: TextStyle(
-        //               fontWeight: FontWeight.bold,
-        //               color: Colors.white,
-        //               fontSize: 20.0),
-        //         ),
-        //       ),
-        //     ),
-        // ],
-        // ),
       ];
       tutorialCoachMark = TutorialCoachMark(
         context,

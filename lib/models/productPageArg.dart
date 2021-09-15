@@ -1,14 +1,19 @@
 class ProductPageArg {
+  final String title;
   final String queryString;
   final String subCategory;
   final String sellerPhoto;
-  final List<String> productList;
+
+  final String promotionKey;
+  final List<int> demographicIds;
 
   ProductPageArg({
+    this.title,
     this.queryString,
     this.subCategory,
     this.sellerPhoto,
-    this.productList,
+    this.promotionKey,
+    this.demographicIds,
   });
 }
 

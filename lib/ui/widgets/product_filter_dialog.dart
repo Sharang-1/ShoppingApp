@@ -36,17 +36,6 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
   String sortOrderRadioValue = 'asc';
   String queryString = '';
 
-  // Map<String, int> categoriesRadioMap = {
-  //   'Men': 2,
-  //   'Women': 1,
-  //   'Both': -1,
-  // };
-
-  // Map<String, String> sortByRadioMap = {
-  //   'Arrival Date': 'modified',
-  //   'Price': 'price',
-  // };
-
   Map<String, String> sortOrderRadioMap = {
     'Low To High': 'asc',
     'High To Low': 'desc',
@@ -55,59 +44,6 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
   Map<String, bool> subCategoriesValues = {};
   Map<String, int> subCategoriesAPIValue = {};
   Map<int, String> subCategoriesAPIIntToValue = {};
-
-  // Map<String, bool> subCategoriesValues = {
-  //   'All': false,
-  //   'Dresses': false,
-  //   'Kurtas': false,
-  //   'Gowns': false,
-  //   'Chaniya Cholies': false,
-  //   'Suit Sets': false,
-  //   'Indo-Western': false,
-  //   'Blouses': false,
-  //   'Dupattas': false,
-  //   'Fabric Bags': false,
-  //   'Traditional…/Ethnic wear footwear': false,
-  //   'Home Made Jewellery': false,
-  //   'Saree': false,
-  //   'Cloth Materials': false,
-  //   'Lenghas': false
-  // };
-
-  // Map<String, int> subCategoriesAPIValue = {
-  //   'All': -1,
-  //   'Kurtas': 1,
-  //   'Dresses': 2,
-  //   'Gowns': 3,
-  //   'Chaniya Cholies': 4,
-  //   'Suit Sets': 5,
-  //   'Indo-Western': 6,
-  //   'Blouses': 7,
-  //   'Dupattas': 8,
-  //   'Fabric Bags': 9,
-  //   'Traditional…/Ethnic wear footwear': 10,
-  //   'Home Made Jewellery': 11,
-  //   'Saree': 12,
-  //   'Cloth Materials': 13,
-  //   'Lenghas': 14
-  // };
-  // Map<int, String> subCategoriesAPIIntToValue = {
-  //   -1: 'All',
-  //   1: 'Kurtas',
-  //   2: 'Dresses',
-  //   3: 'Gowns',
-  //   4: 'Chaniya Cholies',
-  //   5: 'Suit Sets',
-  //   6: 'Indo-Western',
-  //   7: 'Blouses',
-  //   8: 'Dupattas',
-  //   9: 'Fabric Bags',
-  //   10: 'Traditional…/Ethnic wear footwear',
-  //   11: 'Home Made Jewellery',
-  //   12: 'Saree',
-  //   13: 'Cloth Materials',
-  //   14: 'Lenghas'
-  // };
 
   final _formKey = GlobalKey();
 
@@ -191,17 +127,13 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
             padding: const EdgeInsets.only(bottom: 12.0),
             child: FloatingActionButton.extended(
               backgroundColor: Colors.green[600],
-              // shape: RoundedRectangleBorder(
-              //     borderRadius: BorderRadius.circular(10),
-              //     side: BorderSide(color: Colors.black, width: 0.5)),
               label: Text(
                 "Apply Filters",
                 style: TextStyle(color: Colors.white),
               ),
               elevation: 0,
-              shape:
-                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-              // icon: Icon(Icons.done),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
               icon: Icon(Icons.done),
               onPressed: () {
                 setUpFilterObject();
@@ -279,45 +211,6 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   verticalSpaceSmall,
-                  // Text('Categories', style: titleTextStyle),
-                  // verticalSpaceTiny,
-                  // Wrap(
-                  //   spacing: 5,
-                  //   children: categoriesRadioMap.keys.map((String sKey) {
-                  //     return ChoiceChip(
-                  //       label: Text(sKey),
-                  //       labelStyle: TextStyle(color: Colors.black),
-                  //       backgroundColor: Colors.white,
-                  //       selectedColor: Colors.grey.withOpacity(0.5),
-                  //       shape: RoundedRectangleBorder(
-                  //           borderRadius: BorderRadius.circular(8),
-                  //           side: BorderSide(
-                  //               width: 0.5,
-                  //               color:
-                  //                   // categoriesRadioValue ==
-                  //                   //         categoriesRadioMap[sKey]
-                  //                   //     ? Colors.amber
-                  //                   // :
-                  //                   Colors.black)),
-                  //       selected:
-                  //           (categoriesRadioValue == categoriesRadioMap[sKey]),
-                  //       onSelected: (val) {
-                  //         setState(() {
-                  //           categoriesRadioValue =
-                  //               val ? categoriesRadioMap[sKey] : null;
-                  //         });
-                  //         // print(sKey +
-                  //         //     "value:" +
-                  //         //     val.toString() +
-                  //         //     categoriesRadioValue.toString() +
-                  //         //     (categoriesRadioValue == categoriesRadioMap[sKey])
-                  //         //         .toString());
-                  //       },
-                  //     );
-                  //   }).toList(),
-                  // ),
-                  // spaceDividerExtraThin,
-                  // verticalSpaceSmall,
                   if (widget.showCategories)
                     Text('Categories', style: titleTextStyle),
                   if (widget.showCategories) verticalSpaceTiny,
@@ -382,11 +275,8 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
                     min: 0,
                     max: 50000,
                     divisions: 100,
-
                     inactiveColor: Colors.grey.withOpacity(0.38),
                     activeColor: darkRedSmooth,
-                    // labels:
-                    //     RangeLabels(minPrice.toString(), maxPrice.toString()),
                     values:
                         RangeValues(minPrice.toDouble(), maxPrice.toDouble()),
                     onChanged: (val) {
@@ -407,8 +297,6 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
                       )),
                   Row(
                     children: <Widget>[
-                      // horizontalSpaceTiny,
-                      // // Text("0"),
                       horizontalSpaceTiny,
                       Expanded(
                         child: Slider(
@@ -432,41 +320,6 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
                   verticalSpaceSmall,
                   Text('Sort By Price', style: titleTextStyle),
                   verticalSpaceTiny,
-                  // Wrap(
-                  //   spacing: 5,
-                  //   children: sortByRadioMap.keys.map((String sKey) {
-                  //     return ChoiceChip(
-                  //       backgroundColor: Colors.white,
-                  //       shape: RoundedRectangleBorder(
-                  //           borderRadius: BorderRadius.circular(15),
-                  //           side: BorderSide(
-                  //             color: sortByRadioValue == sortByRadioMap[sKey]
-                  //                 ? green
-                  //                 : Colors.grey,
-                  //             width: 0.5,
-                  //           )),
-                  //       labelStyle: TextStyle(
-                  //           fontSize: 14,
-                  //           fontWeight: sortByRadioValue == sortByRadioMap[sKey]
-                  //               ? FontWeight.w600
-                  //               : FontWeight.normal,
-                  //           color: sortByRadioValue == sortByRadioMap[sKey]
-                  //               ? green
-                  //               : Colors.grey),
-                  //       selectedColor: Colors.white,
-                  //       selected: sortByRadioValue == sortByRadioMap[sKey],
-                  //       onSelected: (val) {
-                  //         setState(() => sortByRadioValue =
-                  //             val ? sortByRadioMap[sKey] : null);
-                  //         // print(sortByRadioMap[sKey] + val.toString() + sKey);
-                  //       },
-                  //       label: Text(sKey),
-                  //     );
-                  //   }).toList(),
-                  // ),
-                  // spaceDividerExtraThin,
-                  // verticalSpaceSmall,
-                  // Text('Sort Order', style: titleTextStyle),
                   verticalSpaceTiny,
                   Wrap(
                     spacing: 5,
@@ -504,7 +357,6 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
                       );
                     }).toList(),
                   ),
-                  // spaceDividerExtraThin,
                   verticalSpaceMedium
                 ],
               ),
@@ -514,18 +366,6 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
   }
 
   void setUpFilterObject() {
-    /*
-    final String fullText;
-    final String categories;
-    final List<String> subCategories;
-    final List<String> size;
-    final int minPrice;
-    final int maxPrice;
-    final int minDiscount;
-    final String sortField;
-    final bool isSortOrderDesc;
-    */
-
     setState(() {
       categories = categoriesRadioValue.toString();
 
@@ -535,7 +375,6 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
         // If all values are selected then no need to filter.
         subCategories = [];
       } else {
-        Fimber.d("Test ////////////////////////////");
         // Check if all values are false or not.
         bool isAllFalse = true;
         Fimber.d(subCategoriesValues.values.toString());
@@ -567,10 +406,3 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
     });
   }
 }
-
-/// Search Functionalities.
-// / create product tile ui
-// / check and debug filters for products
-// / create sellers' grid view
-// / create sellers' tile ui
-// / search sellers's by name

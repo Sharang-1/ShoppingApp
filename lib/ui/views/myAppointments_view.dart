@@ -13,17 +13,16 @@ import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
 import '../widgets/custom_text.dart';
 import '../widgets/grid_list_widget.dart';
+import '../widgets/shimmer_widget.dart';
 import 'help_view.dart';
 import 'seller_indi_view.dart';
 
-// ignore: camel_case_types
-class myAppointments extends StatefulWidget {
+class MyAppointments extends StatefulWidget {
   @override
-  _myAppointmentsState createState() => _myAppointmentsState();
+  _MyAppointmentsState createState() => _MyAppointmentsState();
 }
 
-// ignore: camel_case_types
-class _myAppointmentsState extends State<myAppointments> {
+class _MyAppointmentsState extends State<MyAppointments> {
   final refreshController = RefreshController(initialRefresh: false);
   UniqueKey key = UniqueKey();
 
@@ -34,7 +33,6 @@ class _myAppointmentsState extends State<myAppointments> {
           appBar: AppBar(
             elevation: 0,
             backgroundColor: Colors.white,
-            // centerTitle: true,
             title: Text(
               "My Appointments",
               style: TextStyle(
@@ -101,12 +99,12 @@ class _myAppointmentsState extends State<myAppointments> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       verticalSpace(8),
-                      if (controller.busy)
-                        Image.asset(
-                          "assets/images/loading_img.gif",
-                          height: 50,
-                          width: 50,
-                        ),
+                      if (controller.busy) ShimmerWidget(),
+                      // Image.asset(
+                      //   "assets/images/loading_img.gif",
+                      //   height: 50,
+                      //   width: 50,
+                      // ),
                       if (!controller.busy &&
                           (controller?.data?.appointments?.length ?? 0) == 0)
                         Padding(
@@ -120,8 +118,6 @@ class _myAppointmentsState extends State<myAppointments> {
               )),
             ),
           ),
-          // ),
-          // )
         ),
       );
 

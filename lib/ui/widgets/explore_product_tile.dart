@@ -234,7 +234,6 @@ class _ExploreProductTileUIState extends State<ExploreProductTileUI> {
                               child: Row(
                                   children: <String>[
                                 ...widget.tags,
-                                // "${locator<RemoteConfigService>().remoteConfig.getString(DZOR_EXPLORE_TAG_1_EN)}",
                                 if ((widget.data?.stitchingType?.id ?? -1) == 2)
                                   "Unstitched",
                                 if (widget.data.whoMadeIt.id == 2)

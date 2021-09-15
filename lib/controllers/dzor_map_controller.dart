@@ -62,11 +62,11 @@ class DzorMapController extends BaseController {
       ),
     ),
     TabItem(
-      title: 'Appointments',
+      title: 'Orders',
       icon: Padding(
         padding: const EdgeInsets.only(top: 4.0),
         child: Image.asset(
-          "assets/images/nav_appointment.png",
+          "assets/images/nav_orders.png",
           color: newBackgroundColor,
         ),
       ),
@@ -84,11 +84,11 @@ class DzorMapController extends BaseController {
       ),
     ),
     TabItem(
-      title: 'Orders',
+      title: 'Appointments',
       icon: Padding(
         padding: const EdgeInsets.only(top: 4.0),
         child: Image.asset(
-          "assets/images/nav_orders.png",
+          "assets/images/nav_appointment.png",
           color: newBackgroundColor,
         ),
       ),
@@ -111,13 +111,13 @@ class DzorMapController extends BaseController {
         NavigationService.to(CategoriesRoute);
         break;
       case 1:
-        NavigationService.to(MyAppointmentViewRoute);
+        NavigationService.to(MyOrdersRoute);
         break;
       case 2:
         NavigationService.to(DzorExploreViewRoute);
         break;
       case 3:
-        NavigationService.to(MyOrdersRoute);
+        NavigationService.to(MyAppointmentViewRoute);
         break;
       case 4:
         break;

@@ -97,7 +97,6 @@ class ReviewWidget extends StatelessWidget {
               children: [
                 if (controller.busy)
                   LinearProgressIndicator(
-                    // color: logoRed,
                     backgroundColor: Colors.white,
                   ),
                 if (!controller.busy)

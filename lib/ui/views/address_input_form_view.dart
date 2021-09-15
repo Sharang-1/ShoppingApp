@@ -5,9 +5,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../../controllers/address_controller.dart';
-import '../../google_maps_place_picker/google_maps_place_picker.dart';
 import '../../locator.dart';
 import '../../models/user_details.dart';
+import '../../packages/google_maps_place_picker/google_maps_place_picker.dart';
 import '../../services/location_service.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
@@ -113,8 +113,6 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
           child: ConstrainedBox(
             constraints: BoxConstraints(maxHeight: Get.size.height * 0.8),
             child: Container(
-              // padding: EdgeInsets.only(
-              // bottom: MediaQuery.of(context).viewInsets.bottom),
               color: Colors.transparent,
               child: Padding(
                 padding: EdgeInsets.all(8.0),
@@ -238,8 +236,6 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
                                       primary: lightGreen,
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(10),
-                                        // side: BorderSide(
-                                        //     color: Colors.black, width: 0.5)
                                       ),
                                     ),
                                     onPressed:
@@ -324,163 +320,6 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
                           ),
                         ),
                       ),
-                      // Row(
-                      //   crossAxisAlignment: CrossAxisAlignment.center,
-                      //   children: <Widget>[
-                      //     Flexible(
-                      //       fit: FlexFit.tight,
-                      //       child: TextFormField(
-                      //         style: TextStyle(
-                      //           fontSize: 17,
-                      //         ),
-                      //         controller: _googleAddressStringController,
-                      //         validator: (text) {
-                      //           if (text.isEmpty || text.trim().length == 0)
-                      //             return "Please enter Proper Address";
-                      //           return null;
-                      //         },
-                      //         decoration: const InputDecoration(
-                      //           labelText: 'Your Location',
-                      //           isDense: true,
-                      //         ),
-                      //         autofocus: false,
-                      //         enabled: false,
-                      //         maxLines: 2,
-                      //       ),
-                      //     ),
-                      //   ],
-                      // ),
-                      // verticalSpaceMedium,
-                      // Row(
-                      //   crossAxisAlignment: CrossAxisAlignment.center,
-                      //   children: <Widget>[
-                      //     Expanded(
-                      //       child: TextFormField(
-                      //         controller: _userInputedAddressStringController,
-                      //         maxLines: 2,
-                      //         validator: (text) {
-                      //           if (text.isEmpty || text.trim().length == 0)
-                      //             return "Please enter Proper Address";
-                      //           return null;
-                      //         },
-                      //         onChanged: (text) {
-                      //           setState(() {
-                      //             _userInputedAddressStringController.text;
-                      //           });
-                      //         },
-                      //         decoration: const InputDecoration(
-                      //           labelText: 'House Number , Society Name ....',
-                      //           isDense: true,
-                      //         ),
-                      //         autofocus: false,
-                      //         enabled: true,
-                      //         style: TextStyle(
-                      //           fontSize: 17,
-                      //         ),
-                      //       ),
-                      //     ),
-                      //   ],
-                      // ),
-                      // verticalSpaceMedium,
-                      // Row(
-                      //   crossAxisAlignment: CrossAxisAlignment.center,
-                      //   children: <Widget>[
-                      //     Expanded(
-                      //       child: TextFormField(
-                      //         controller: _pinCodeController,
-                      //         maxLines: 1,
-                      //         inputFormatters: <TextInputFormatter>[
-                      //           FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
-                      //         ],
-                      //         style: TextStyle(
-                      //           fontSize: 17,
-                      //         ),
-                      //         validator: (text) {
-                      //           if (text.isEmpty ||
-                      //               text.trim().length == 0 ||
-                      //               text.trim().length != 7)
-                      //             return "Please enter Proper Pincode";
-                      //           return null;
-                      //         },
-                      //         decoration: const InputDecoration(
-                      //           labelText: 'Pincode',
-                      //           isDense: true,
-                      //         ),
-                      //         autofocus: false,
-                      //         enabled: false,
-                      //       ),
-                      //     ),
-                      //   ],
-                      // ),
-                      // verticalSpaceLarge,
-                      // Align(
-                      //   alignment: Alignment.bottomCenter,
-                      //   child: SizedBox(
-                      //     width: double.infinity,
-                      //     child: ElevatedButton(
-                      //       style: ElevatedButton.styleFrom(
-                      //         elevation: 5,
-                      //         primary: green,
-                      //         shape: RoundedRectangleBorder(
-                      //           borderRadius: BorderRadius.circular(30),
-                      //           // side: BorderSide(
-                      //           //     color: Colors.black, width: 0.5)
-                      //         ),
-                      //       ),
-                      //       onPressed: _userInputedAddressStringController.text
-                      //               .trim()
-                      //               .isEmpty
-                      //           ? null
-                      //           : () {
-                      //               final userInputAddressString =
-                      //                   _userInputedAddressStringController.text;
-                      //               final googleAddresString =
-                      //                   _googleAddressStringController.text;
-                      //               final pinCode =
-                      //                   int.tryParse(_pinCodeController.text);
-
-                      //               if (pinCode == null) {
-                      //                 return;
-                      //               }
-
-                      //               if (userInputAddressString.isEmpty ||
-                      //                   userInputAddressString.trim().length == 0 ||
-                      //                   googleAddresString.isEmpty ||
-                      //                   googleAddresString.trim().length == 0) {
-                      //                 return;
-                      //               }
-
-                      //               final String gujState = "Gujarat".toUpperCase();
-                      //               final int stateIndex = widget
-                      //                   .pickedPlace.addressComponents
-                      //                   .indexWhere((element) =>
-                      //                       element.longName.toUpperCase() ==
-                      //                       gujState);
-                      //               String pickedCity;
-                      //               if (stateIndex != -1)
-                      //                 pickedCity = widget.pickedPlace
-                      //                     .addressComponents[stateIndex - 1].longName;
-
-                      //               Navigator.of(context).pop<UserDetailsContact>(
-                      //                   new UserDetailsContact(
-                      //                 address: userInputAddressString,
-                      //                 googleAddress: googleAddresString,
-                      //                 pincode: pinCode,
-                      //                 city: pickedCity,
-                      //                 state: gujState,
-                      //               ));
-                      //             },
-                      //       child: Padding(
-                      //         padding: const EdgeInsets.symmetric(vertical: 12),
-                      //         child: CustomText(
-                      //           "Save & Proceed ",
-                      //           isBold: true,
-                      //           color: Colors.white,
-                      //         ),
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
                     ],
                   ),
                 ),

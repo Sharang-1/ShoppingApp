@@ -11,6 +11,7 @@ import '../../controllers/grid_view_builder/sellers_grid_view_builder_controller
 import '../../controllers/home_controller.dart';
 import '../../locator.dart';
 import '../../services/analytics_service.dart';
+import '../../services/navigation_service.dart';
 import '../shared/app_colors.dart';
 import '../shared/ui_helpers.dart';
 import '../widgets/cart_icon_badge.dart';
@@ -49,6 +50,11 @@ class _DzorExploreViewState extends State<DzorExploreView> {
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.white,
+          leading: IconButton(
+            icon: Icon(Icons.expand_more),
+            iconSize: 40,
+            onPressed: () => NavigationService.back(),
+          ),
           actions: <Widget>[
             IconButton(
               icon: Image.asset(
@@ -150,7 +156,6 @@ class _DzorExploreViewState extends State<DzorExploreView> {
                       controller:
                           SellersGridViewBuilderController(random: true),
                     ),
-                    // SectionDivider(),
                     verticalSpaceSmall,
                     SectionBuilder(
                       context: context,

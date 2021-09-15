@@ -28,7 +28,6 @@ void setupLocator() {
   Get.lazyPut(() => AuthenticationService());
   Get.lazyPut(() => PaymentService());
   Get.lazyPut(() => CacheService());
-  // Get.lazyPut(() => ImageSelector());
   Get.lazyPut(() => LocationService());
   Get.lazyPut(() => PushNotificationService());
   Get.lazyPut(() => AddressService());

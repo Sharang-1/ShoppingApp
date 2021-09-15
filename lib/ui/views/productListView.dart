@@ -10,7 +10,6 @@ import 'package:share/share.dart';
 import '../../constants/dynamic_links.dart';
 import '../../controllers/base_controller.dart';
 import '../../controllers/grid_view_builder/products_grid_view_builder_controller.dart';
-import '../../controllers/grid_view_builder/wishlist_grid_view_builder_controller.dart';
 import '../../controllers/reviews_controller.dart';
 import '../../locator.dart';
 import '../../models/grid_view_builder_filter_models/productFilter.dart';
@@ -31,14 +30,19 @@ class ProductListView extends StatefulWidget {
   final String queryString;
   final String subCategory;
   final String sellerPhoto;
-  final List<String> productList;
+
+  final String title;
+  final String promotionKey;
+  final List<int> demographicIds;
 
   ProductListView({
     Key key,
     @required this.queryString,
     @required this.subCategory,
+    this.title,
     this.sellerPhoto,
-    this.productList = const [],
+    this.promotionKey,
+    this.demographicIds,
   }) : super(key: key);
 
   @override
@@ -47,7 +51,7 @@ class ProductListView extends StatefulWidget {
 
 class _ProductListViewState extends State<ProductListView> {
   ProductFilter filter;
-  String sellerKey;
+  String sellerKey = '';
   Reviews reviews;
   bool showRandomProducts = true;
   UniqueKey key = UniqueKey();
@@ -76,9 +80,6 @@ class _ProductListViewState extends State<ProductListView> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         context: context,
         builder: (context) {
-          // double selectedRating;
-          // final textController = TextEditingController();
-
           UniqueKey reviewsKey = UniqueKey();
 
           return GetBuilder<ReviewsController>(
@@ -112,25 +113,33 @@ class _ProductListViewState extends State<ProductListView> {
 
   @override
   void initState() {
-    filter = ProductFilter(existingQueryString: widget.queryString);
-    sellerKey = widget?.queryString?.split('=')?.last?.replaceAll(';', '');
+    var queryString = widget?.queryString ?? '';
+    if (queryString?.isEmpty ?? true) {
+      if (widget?.demographicIds?.isNotEmpty ?? false)
+        queryString += widget?.demographicIds
+                ?.map((int value) => "demographic=$value;")
+                ?.join("") ??
+            '';
+      else if (widget?.promotionKey?.isNotEmpty ?? false)
+        queryString += "promotionKey=${widget?.promotionKey};";
+    }
+    filter = ProductFilter(existingQueryString: queryString);
+    if (widget?.queryString?.contains("accountKey") ?? false)
+      sellerKey = widget?.queryString?.split('=')?.last?.replaceAll(';', '');
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    print("Promotion Products: ${widget?.productList?.toString()}");
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
-        centerTitle: true,
-        // title: SvgPicture.asset(
-        //   "assets/svg/logo.svg",
-        //   color: logoRed,
-        //   height: 35,
-        //   width: 35,
-        // ),
+        // centerTitle: true,
+        title: CustomText(
+          widget?.title ?? '',
+          dotsAfterOverFlow: true,
+        ),
         actions: [
           IconButton(
             icon:
@@ -164,11 +173,15 @@ class _ProductListViewState extends State<ProductListView> {
               }
             },
           ),
-          if (!(widget.queryString.isEmpty && widget.subCategory.isEmpty))
+          if ((widget?.promotionKey?.isNotEmpty ?? false) ||
+              (!(widget.queryString.isEmpty && widget.subCategory.isEmpty)))
             InkWell(
               onTap: () async {
+                String link = (widget?.promotionKey?.isNotEmpty ?? false)
+                    ? (promotionLink + widget.promotionKey)
+                    : (sellerLink + sellerKey);
                 await Share.share(
-                  await _dynamicLinkService.createLink(sellerLink + sellerKey),
+                  await _dynamicLinkService.createLink(link),
                   sharePositionOrigin: Rect.fromCenter(
                     center: Offset(100, 100),
                     width: 100,
@@ -196,7 +209,6 @@ class _ProductListViewState extends State<ProductListView> {
                 style: TextStyle(
                   color: Colors.white,
                   letterSpacing: 1.2,
-                  // fontWeight: FontWeight.bold,
                 ),
               ),
               shape: RoundedRectangleBorder(
@@ -237,12 +249,10 @@ class _ProductListViewState extends State<ProductListView> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                if (widget.queryString.isNotEmpty ||
-                    widget.subCategory.isNotEmpty)
-                  verticalSpace(20),
-                if ((widget.queryString.isNotEmpty ||
+                if ((widget.queryString.contains("accountKey") ||
                         widget.subCategory.isNotEmpty) &&
-                    widget.sellerPhoto == null)
+                    widget.sellerPhoto == null) ...[
+                  verticalSpace(20),
                   Padding(
                     padding: const EdgeInsets.only(right: 5.0),
                     child: Row(
@@ -275,6 +285,7 @@ class _ProductListViewState extends State<ProductListView> {
                       ],
                     ),
                   ),
+                ],
                 if (widget.sellerPhoto != null)
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -374,12 +385,6 @@ class _ProductListViewState extends State<ProductListView> {
                                             isBold: true,
                                             fontSize: 15,
                                           ),
-                                          // horizontalSpaceTiny,
-                                          // Icon(
-                                          //   Icons.star,
-                                          //   color: Colors.white,
-                                          //   size: 15,
-                                          // )
                                         ],
                                       ),
                                     ),
@@ -401,17 +406,16 @@ class _ProductListViewState extends State<ProductListView> {
                           gridCount: 2,
                           emptyListWidget: EmptyListWidget(
                               text: "", img: 'assets/images/no_item.jpg'),
-                          controller: (widget?.productList?.isEmpty ?? true)
-                              ? ProductsGridViewBuilderController(
-                                  limit: (widget.queryString.isEmpty &&
-                                          widget.subCategory.isEmpty)
-                                      ? 50
-                                      : 1000,
-                                  randomize: showRandomProducts,
-                                )
-                              : WishListGridViewBuilderController(
-                                  productIds: widget.productList,
-                                ),
+                          controller: ProductsGridViewBuilderController(
+                            limit: (widget?.promotionKey?.isEmpty ?? true)
+                                ? 50
+                                : 500,
+                            // (widget.queryString.isEmpty &&
+                            //         widget.subCategory.isEmpty)
+                            //     ? 50
+                            //     : 1000,
+                            randomize: showRandomProducts,
+                          ),
                           childAspectRatio: 0.7,
                           tileBuilder: (BuildContext context, data, index,
                               onUpdate, onDelete) {

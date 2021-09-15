@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:compound/services/cache_service.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_retry/dio_retry.dart';
 import 'package:fimber/fimber.dart';
@@ -184,11 +185,18 @@ class APIService {
   }
 
   Future<Reviews> getReviews(String key, {bool isSellerReview = false}) async {
+    var cacheReviews =
+        locator<CacheService>().getReviews(key, isSeller: isSellerReview);
+    if (cacheReviews != null) return cacheReviews;
     String query =
         isSellerReview ? "sellers/$key/reviews" : "products/$key/reviews";
     var mReviewsData = await apiWrapper(query);
     if (mReviewsData != null) {
       Reviews mReviews = Reviews.fromJson(mReviewsData);
+      try {
+        locator<CacheService>()
+            .addReviews(key, mReviews, isSeller: isSellerReview);
+      } finally {}
       return mReviews;
     }
     return null;
@@ -687,36 +695,6 @@ class APIService {
       Fimber.e(error);
     }
     return data;
-
-    // return Appointments(
-    //   appointments: <AppointmentData>[
-    //     AppointmentData(
-    //       id: 'abc',
-    //       userId: '35482331',
-    //       timeSlotStart: DateTime.now(),
-    //       timeSlotEnd: DateTime.now(),
-    //       status: 1,
-    //       customerMessage: 'Xyz',
-    //       sellerMessage: 'AbC',
-    //       seller: SellerData(
-    //         id: '35819009',
-    //         contact: appointmentModel.Contact(
-    //           address: "address",
-    //           city: "city",
-    //           state: "state",
-    //           pincode: 123456,
-    //           email: "email",
-    //           primaryNumber:
-    //               appointmentModel.AryNumber(code: '91', mobile: '123456789'),
-    //           secondaryNumber:
-    //               appointmentModel.AryNumber(code: '91', mobile: '123456789'),
-    //           geoLocation: appointmentModel.GeoLocation(
-    //               latitude: 12.12, longitude: 14.14),
-    //         ),
-    //       ),
-    //     ),
-    //   ],
-    // );
   }
 
   Future<String> cancelAppointment(String id, String msg) async {
@@ -760,37 +738,4 @@ class APIService {
     if (res.data != null) return AppUpdate.fromJson(res.data);
     return null;
   }
-
-  // List<PaymentOption> mPaymentOptions;
-  // Future getPaymentOptions() async {
-
-  //   setBusy(true);
-  //   final result = await _APIService.getPaymentOptions();
-  //   setBusy(false);
-  //   if (result != null) {
-  //     mPaymentOptions = result;
-  //   }
-  //   notifyListeners();
-  // }
 }
-
-// Future<T> mApiWrapper<T extends genericModel>() async {
-//   var data = await apiWrapper("products");
-//   if (data != null) {
-//     T products = T.fromJson(data);
-//     Fimber.d("products : " + products.items.map((o) => o.name).toString());
-//     return products;
-//   }
-//   return products;
-// }
-
-// Use regex of API Class Name
-//Future<ApiClassName> getApiClassName() async {
-//   var mApiClassNameData = await apiWrapper("ApiClassName");
-//   if (mApiClassNameData != null) {
-//     ApiClassName mApiClassName = ApiClassName.fromJson(mApiClassNameData);
-//     Fimber.d("mApiClassNameData : " + mApiClassNameData.items.map((o) => o.name).toString());
-//     return mApiClassNameData;
-//   }
-//   return null;
-// }

@@ -15,6 +15,7 @@ import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
 import '../widgets/promotion_slider.dart';
 import '../widgets/section_builder.dart';
+import '../widgets/shimmer_widget.dart';
 
 class HomeViewList extends StatelessWidget {
   final HomeController controller;
@@ -31,7 +32,7 @@ class HomeViewList extends StatelessWidget {
       : super(key: key);
 
   final Map<String, Duration> sectionDelay = {
-    "SECTION1": Duration(seconds: 2),
+    "SECTION1": Duration(seconds: 0),
     "SECTION2": Duration(seconds: 3),
     "SECTION3": Duration(seconds: 4),
     "SECTION4": Duration(seconds: 5),
@@ -59,13 +60,14 @@ class HomeViewList extends StatelessWidget {
                 if ((controller?.topPromotion?.length ?? 0) == 0)
                   Container(
                     height: 200,
-                    child: Center(
-                      child: Image.asset(
-                        "assets/images/loading_img.gif",
-                        height: 50,
-                        width: 50,
-                      ),
-                    ),
+                    child: ShimmerWidget(),
+                    // Center(
+                    //   child: Image.asset(
+                    //     "assets/images/loading_img.gif",
+                    //     height: 50,
+                    //     width: 50,
+                    //   ),
+                    // ),
                   ),
                 if ((controller?.topPromotion?.length ?? 0) > 0) ...[
                   PromotionSlider(
@@ -80,36 +82,7 @@ class HomeViewList extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SectionBuilder(
-                        context: context,
-                        layoutType: LayoutType.DESIGNER_ID_1_2_LAYOUT,
-                        controller: SellersGridViewBuilderController(
-                          subscriptionTypes: [1, 2],
-                          withProducts: true,
-                          random: true,
-                          limit: 7,
-                        ),
-                        scrollDirection: Axis.horizontal,
-                        header: SectionHeader(
-                          title: controller?.remoteConfig
-                              ?.getString(HOMESCREEN_SECTION_1_TITLE_EN),
-                          subTitle: controller?.remoteConfig
-                              ?.getString(HOMESCREEN_SECTION_1_SUBTITLE_EN),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                if ((controller?.bottomPromotion?.length ?? 0) > 0) ...[
-                  SectionDivider(),
-                  BottomPromotion(promotion: controller.bottomPromotion[0])
-                ],
-                FutureSectionBuilder(
-                  duration: sectionDelay['SECTION2'],
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SectionDivider(),
+                      // SectionDivider(),
                       SectionBuilder(
                         key: productUniqueKey ?? UniqueKey(),
                         context: context,
@@ -135,49 +108,26 @@ class HomeViewList extends StatelessWidget {
                         scrollDirection: Axis.horizontal,
                         header: SectionHeader(
                           title: controller?.remoteConfig
-                              ?.getString(HOMESCREEN_SECTION_2_TITLE_EN),
+                              ?.getString(HOMESCREEN_SECTION_1_TITLE_EN),
                           subTitle: controller?.remoteConfig
-                              ?.getString(HOMESCREEN_SECTION_2_SUBTITLE_EN),
+                              ?.getString(HOMESCREEN_SECTION_1_SUBTITLE_EN),
+                          viewAll: () {
+                            BaseController.goToProductListPage(ProductPageArg(
+                              queryString: 'maxPrice=750;',
+                              subCategory: '',
+                            ));
+                          },
                         ),
                       ),
                     ],
                   ),
                 ),
-                if ((controller?.bottomPromotion?.length ?? 0) > 1) ...[
+                if ((controller?.bottomPromotion?.length ?? 0) > 0) ...[
                   SectionDivider(),
-                  BottomPromotion(promotion: controller.bottomPromotion[1])
+                  BottomPromotion(promotion: controller.bottomPromotion[0])
                 ],
                 FutureSectionBuilder(
-                  duration: sectionDelay['SECTION3'],
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SectionDivider(),
-                      SectionBuilder(
-                        context: context,
-                        layoutType: LayoutType.DESIGNER_ID_3_LAYOUT,
-                        controller: SellersGridViewBuilderController(
-                          subscriptionTypes: [1, 3],
-                          random: true,
-                          limit: 12,
-                        ),
-                        scrollDirection: Axis.horizontal,
-                        header: SectionHeader(
-                          title: controller?.remoteConfig
-                              ?.getString(HOMESCREEN_SECTION_3_TITLE_EN),
-                          subTitle: controller?.remoteConfig
-                              ?.getString(HOMESCREEN_SECTION_3_SUBTITLE_EN),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                if ((controller?.bottomPromotion?.length ?? 0) > 2) ...[
-                  SectionDivider(),
-                  BottomPromotion(promotion: controller.bottomPromotion[2])
-                ],
-                FutureSectionBuilder(
-                  duration: sectionDelay['SECTION4'],
+                  duration: sectionDelay['SECTION2'],
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -194,6 +144,70 @@ class HomeViewList extends StatelessWidget {
                         scrollDirection: Axis.horizontal,
                         header: SectionHeader(
                           title: controller?.remoteConfig
+                              ?.getString(HOMESCREEN_SECTION_2_TITLE_EN),
+                          subTitle: controller?.remoteConfig
+                              ?.getString(HOMESCREEN_SECTION_2_SUBTITLE_EN),
+                          viewAll: () {
+                            BaseController.goToProductListPage(ProductPageArg(
+                              queryString: 'minDiscount=5;',
+                              subCategory: '',
+                            ));
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                FutureSectionBuilder(
+                  duration: sectionDelay['SECTION3'],
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SectionDivider(),
+                      SectionBuilder(
+                        context: context,
+                        layoutType: LayoutType.DESIGNER_ID_1_2_LAYOUT,
+                        controller: SellersGridViewBuilderController(
+                          subscriptionTypes: [1, 2],
+                          withProducts: true,
+                          random: true,
+                          limit: 7,
+                        ),
+                        scrollDirection: Axis.horizontal,
+                        header: SectionHeader(
+                          title: controller?.remoteConfig
+                              ?.getString(HOMESCREEN_SECTION_3_TITLE_EN),
+                          subTitle: controller?.remoteConfig
+                              ?.getString(HOMESCREEN_SECTION_3_SUBTITLE_EN),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                if ((controller?.bottomPromotion?.length ?? 0) > 1) ...[
+                  SectionDivider(),
+                  BottomPromotion(promotion: controller.bottomPromotion[1])
+                ],
+                FutureSectionBuilder(
+                  duration: sectionDelay['SECTION4'],
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SectionDivider(),
+                      SectionBuilder(
+                        key: sellerUniqueKey ?? UniqueKey(),
+                        context: context,
+                        layoutType: LayoutType.DESIGNER_ID_3_LAYOUT,
+                        fromHome: true,
+                        controller: SellersGridViewBuilderController(
+                          random: true,
+                          subscriptionType: 3,
+                          boutiquesOnly: true,
+                          limit: 12,
+                        ),
+                        scrollDirection: Axis.horizontal,
+                        header: SectionHeader(
+                          title: controller?.remoteConfig
                               ?.getString(HOMESCREEN_SECTION_4_TITLE_EN),
                           subTitle: controller?.remoteConfig
                               ?.getString(HOMESCREEN_SECTION_4_SUBTITLE_EN),
@@ -202,8 +216,37 @@ class HomeViewList extends StatelessWidget {
                     ],
                   ),
                 ),
+                if ((controller?.bottomPromotion?.length ?? 0) > 2) ...[
+                  SectionDivider(),
+                  BottomPromotion(promotion: controller.bottomPromotion[2])
+                ],
                 FutureSectionBuilder(
                   duration: sectionDelay['SECTION5'],
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SectionDivider(),
+                      SectionBuilder(
+                        context: context,
+                        layoutType: LayoutType.DESIGNER_ID_3_LAYOUT,
+                        controller: SellersGridViewBuilderController(
+                          subscriptionTypes: [1, 3],
+                          random: true,
+                          limit: 12,
+                        ),
+                        scrollDirection: Axis.horizontal,
+                        header: SectionHeader(
+                          title: controller?.remoteConfig
+                              ?.getString(HOMESCREEN_SECTION_5_TITLE_EN),
+                          subTitle: controller?.remoteConfig
+                              ?.getString(HOMESCREEN_SECTION_5_SUBTITLE_EN),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                FutureSectionBuilder(
+                  duration: sectionDelay['SECTION6'],
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -220,9 +263,9 @@ class HomeViewList extends StatelessWidget {
                         scrollDirection: Axis.horizontal,
                         header: SectionHeader(
                           title: controller?.remoteConfig
-                              ?.getString(HOMESCREEN_SECTION_5_TITLE_EN),
+                              ?.getString(HOMESCREEN_SECTION_6_TITLE_EN),
                           subTitle: controller?.remoteConfig
-                              ?.getString(HOMESCREEN_SECTION_5_SUBTITLE_EN),
+                              ?.getString(HOMESCREEN_SECTION_6_SUBTITLE_EN),
                         ),
                       ),
                     ],
@@ -232,32 +275,6 @@ class HomeViewList extends StatelessWidget {
                   SectionDivider(),
                   BottomPromotion(promotion: controller.bottomPromotion[3]),
                 ],
-                FutureSectionBuilder(
-                  duration: sectionDelay['SECTION6'],
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SectionDivider(),
-                      SectionBuilder(
-                        context: context,
-                        layoutType: LayoutType.DESIGNER_ID_1_2_LAYOUT,
-                        controller: SellersGridViewBuilderController(
-                          subscriptionTypes: [1],
-                          withProducts: true,
-                          random: true,
-                          limit: 7,
-                        ),
-                        scrollDirection: Axis.horizontal,
-                        header: SectionHeader(
-                          title: controller?.remoteConfig
-                              ?.getString(HOMESCREEN_SECTION_6_TITLE_EN),
-                          subTitle: controller?.remoteConfig
-                              ?.getString(HOMESCREEN_SECTION_6_SUBTITLE_EN),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
                 FutureSectionBuilder(
                   duration: sectionDelay['SECTION7'],
                   child: Column(
@@ -292,15 +309,13 @@ class HomeViewList extends StatelessWidget {
                     children: [
                       SectionDivider(),
                       SectionBuilder(
-                        key: sellerUniqueKey ?? UniqueKey(),
                         context: context,
-                        layoutType: LayoutType.DESIGNER_ID_3_LAYOUT,
-                        fromHome: true,
+                        layoutType: LayoutType.DESIGNER_ID_1_2_LAYOUT,
                         controller: SellersGridViewBuilderController(
+                          subscriptionTypes: [1],
+                          withProducts: true,
                           random: true,
-                          subscriptionType: 3,
-                          boutiquesOnly: true,
-                          limit: 12,
+                          limit: 7,
                         ),
                         scrollDirection: Axis.horizontal,
                         header: SectionHeader(
@@ -475,7 +490,6 @@ class HomeViewList extends StatelessWidget {
                                         style: TextStyle(
                                           color: Colors.grey[800],
                                           fontWeight: FontWeight.bold,
-                                          // fontSize: 25,
                                         ),
                                       ),
                                     ),

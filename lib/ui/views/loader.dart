@@ -5,14 +5,12 @@ import 'package:flutter/material.dart';
 import '../../constants/route_names.dart';
 import '../../services/navigation_service.dart';
 
-// ignore: camel_case_types
-class loader extends StatefulWidget {
+class Loader extends StatefulWidget {
   @override
-  _loaderState createState() => _loaderState();
+  _LoaderState createState() => _LoaderState();
 }
 
-// ignore: camel_case_types
-class _loaderState extends State<loader> with SingleTickerProviderStateMixin {
+class _LoaderState extends State<Loader> with SingleTickerProviderStateMixin {
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 1),
@@ -26,7 +24,7 @@ class _loaderState extends State<loader> with SingleTickerProviderStateMixin {
       body: Center(
         child: Container(
           child: FittedBox(
-            child: Image.asset("assets/images/loading.gif", height: 900),
+            child: Image.asset("assets/images/new_loading.gif"),
             fit: BoxFit.cover,
           ),
         ),

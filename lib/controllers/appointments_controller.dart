@@ -12,9 +12,6 @@ import '../services/api/api_service.dart';
 import '../services/dialog_service.dart';
 import '../services/navigation_service.dart';
 import 'base_controller.dart';
-// import 'package:get/get.dart';
-// import 'package:google_maps_place_picker/google_maps_place_picker.dart';
-// import 'package:intl/intl.dart';
 
 class AppointmentsController extends BaseController {
   final APIService _apiService = locator<APIService>();
@@ -66,8 +63,7 @@ class AppointmentsController extends BaseController {
       await DialogService.showConfirmationDialog(
         title: "Hey there!",
         description: "Please add your address before booking an appointment.",
-        onConfirm: () async =>
-            await NavigationService.to(ProfileViewRoute),
+        onConfirm: () async => await NavigationService.to(ProfileViewRoute),
       );
 
       NavigationService.back();
@@ -121,8 +117,7 @@ class AppointmentsController extends BaseController {
       "Sat": 6,
       "Sun": 7,
     };
-    DateTime now = new DateTime.now()
-        .toUtc(); //.add(Duration(days: weekDayMap[selectedWeekDay]));
+    DateTime now = new DateTime.now().toUtc();
 
     var dayDiff = weekDayMap[selectedWeekDay] - now.weekday;
     if (dayDiff < 0) {

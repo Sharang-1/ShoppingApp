@@ -83,30 +83,6 @@ class _CategoriesViewState extends State<CategoriesView> {
                         gridCount: 3,
                       ),
                     )
-                  // ? GridListWidget<Categorys, Category>(
-                  //     key: categoriesGridKey,
-                  //     context: context,
-                  //     filter: categoryFilter,
-                  //     gridCount: 2,
-                  //     childAspectRatio: 2,
-                  //     controller: CategoriesGridViewBuilderController(),
-                  //     disablePagination: true,
-                  //     tileBuilder: (BuildContext context, data, index, onDelete,
-                  //         onUpdate) {
-                  //       return GestureDetector(
-                  //         onTap: () => CategoriesController.showProducts(
-                  //           data.filter,
-                  //           data.name,
-                  //         ),
-                  //         child: Padding(
-                  //           padding: const EdgeInsets.fromLTRB(4, 4, 0, 0),
-                  //           child: CategoryTileUI(
-                  //             data: data,
-                  //           ),
-                  //         ),
-                  //       );
-                  //     },
-                  //   )
                   : Container(),
             ),
           ),

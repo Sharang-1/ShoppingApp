@@ -119,12 +119,12 @@ class SearchController extends BaseController {
     if (!searchFilterRegex.value.hasMatch(searchKey)) return;
 
     if (currentTabIndex.value == 0) {
-      // Product Search Here
+      // Product Search
       productGridKey.value = UniqueKey();
       productFilter.value = ProductFilter(fullText: searchKey);
       if (showTopProducts.value) showTopProducts.value = false;
     } else {
-      // Seller Search Here
+      // Seller Search
       sellerGridKey.value = UniqueKey();
       sellerFilter.value = SellerFilter(name: searchKey);
       if (showRandomSellers.value) showRandomSellers.value = false;

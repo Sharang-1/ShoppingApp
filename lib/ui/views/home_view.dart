@@ -56,11 +56,11 @@ class HomeView extends StatelessWidget {
                   ),
                 ),
                 TabItem(
-                  title: 'Appointments',
+                  title: 'Orders',
                   icon: Padding(
                     padding: const EdgeInsets.only(top: 4.0),
                     child: Image.asset(
-                      "assets/images/nav_appointment.png",
+                      "assets/images/nav_orders.png",
                       color: newBackgroundColor,
                     ),
                   ),
@@ -79,11 +79,11 @@ class HomeView extends StatelessWidget {
                   ),
                 ),
                 TabItem(
-                  title: 'Orders',
+                  title: 'Appointments',
                   icon: Padding(
                     padding: const EdgeInsets.only(top: 4.0),
                     child: Image.asset(
-                      "assets/images/nav_orders.png",
+                      "assets/images/nav_appointment.png",
                       color: newBackgroundColor,
                     ),
                   ),
@@ -99,7 +99,6 @@ class HomeView extends StatelessWidget {
                   ),
                 ),
               ],
-              // height: 60,
               backgroundColor: logoRed,
               activeColor: backgroundWhiteCreamColor,
               disableDefaultTabController: true,

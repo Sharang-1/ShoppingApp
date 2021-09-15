@@ -47,23 +47,6 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                 color: Colors.black,
               ),
             ),
-            // actions: [
-            //   TextButton(
-            //     child: Padding(
-            //       padding: const EdgeInsets.only(right: 8.0),
-            //       child: CustomText(
-            //         "Wishlist",
-            //         fontFamily: headingFont,
-            //         isBold: true,
-            //         fontSize: subtitleFontSize,
-            //         color: logoRed,
-            //       ),
-            //     ),
-            //     onPressed: () {
-            //       NavigationService.to(WishListRoute);
-            //     },
-            //   )
-            // ],
             iconTheme: IconThemeData(color: appBarIconColor),
           ),
           backgroundColor: Colors.white,
@@ -130,8 +113,6 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                         borderRadius:
                                             BorderRadius.circular(curve15)),
                                     child: Container(
-                                      // padding: EdgeInsets.only(
-                                      //     left: 15, top: 15, bottom: 15, right: 15),
                                       child: Row(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
@@ -439,25 +420,6 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                     ),
                                   ],
                                 ),
-                                // verticalSpaceSmall,
-                                // Row(
-                                //   mainAxisAlignment:
-                                //       MainAxisAlignment.spaceBetween,
-                                //   children: <Widget>[
-                                //     CustomText(
-                                //       "Convenience Charges",
-                                //       fontSize: subtitleFontSize - 1,
-                                //       color: Colors.grey,
-                                //       isBold: true,
-                                //     ),
-                                //     CustomText(
-                                //       '${mOrder?.orderCost?.convenienceCharges?.rate}%',
-                                //       color: Colors.grey[600],
-                                //       fontSize: subtitleFontSize - 1,
-                                //       isBold: true,
-                                //     ),
-                                //   ],
-                                // ),
                                 if ((mOrder?.orderCost?.productDiscount?.cost ??
                                         0) !=
                                     0)
@@ -625,8 +587,8 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                 ),
                               ],
                             ),
-                            if(!(<int>[9, 12].contains(mOrder?.status?.id ?? -1)))
-                            ...[
+                            if (!(<int>[9, 12]
+                                .contains(mOrder?.status?.id ?? -1))) ...[
                               verticalSpace(50),
                               ElevatedButton(
                                 style: ElevatedButton.styleFrom(
@@ -670,7 +632,6 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                       childCount: 1,
                     ),
                   ),
-                  //
                 ],
               ),
             ),
@@ -678,54 +639,3 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
         ),
       );
 }
-
-/*
-
-***************** GridListView for cart *****************************
-
-    viewModel: CartViewModel(),
-      onModelReady: (model) => model.init(),
-      builder: (context, model, child) => Scaffold(
-        appBar: AppBar(
-          title: Text("Cart"),
-        ),
-        backgroundColor: Colors.white,
-        body: SafeArea(
-          top: false,
-          left: false,
-          right: false,
-          child: GridListWidget<Cart, Item>(
-            // key: key,
-            context: context,
-            filter: filter,
-            gridCount: 1,
-            disablePagination: true,
-            viewModel: CartGridViewBuilderViewModel(),
-            childAspectRatio: 3,
-            tileBuilder: (BuildContext context, data, index) {
-              Fimber.d("test");
-              print((data as Item).toJson());
-              final Item dItem = data as Item;
-              return Card(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text("ID : " + dItem.productId.toString()),
-                    Text("Name : " + dItem.product.name),
-                    Text("Price : " + dItem.product.price.toString()),
-                    Text("Qty : " + dItem.quantity.toString()),
-                    ElevatedButton(
-                      onPressed: () {},
-                      child: Text("Remove Item"),
-                    )
-                  ],
-                ),
-              );
-            },
-          ),
-        ),
-      ),
-    );
-
-*/

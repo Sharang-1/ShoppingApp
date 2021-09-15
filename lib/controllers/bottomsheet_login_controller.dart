@@ -137,7 +137,6 @@ class BottomsheetLoginController extends BaseController {
   }
 
   //OTP verification screen
-
   Future<void> resendOTP() async {
     // resend otp here.
     setBusy(true);

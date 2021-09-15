@@ -14,11 +14,10 @@ import '../ui/views/promotion_products_view.dart';
 import 'base_controller.dart';
 
 class DynamicContentController extends BaseController {
-
   Future<void> init(BuildContext context, {data}) async {
-    print("Dynamic Content ViewModel Data : ${data.toString()}");
-    print("Dynamic Content ViewModel Data : ${data["contentType"].toString()}");
-    print("Dynamic Content ViewModel Data : ${data["id"].toString()}");
+    print("Dynamic Content Data : ${data.toString()}");
+    print("Dynamic Content Data : ${data["contentType"].toString()}");
+    print("Dynamic Content Data : ${data["id"].toString()}");
 
     await wait(duration: Duration(milliseconds: 500));
 

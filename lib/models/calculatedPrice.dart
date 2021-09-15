@@ -1,51 +1,55 @@
-// To parse this JSON data, do
-//
-//     final calculatedPrice = calculatedPriceFromJson(jsonString);
-
 import 'dart:convert';
 
-CalculatedPrice calculatedPriceFromJson(String str) => CalculatedPrice.fromJson(json.decode(str));
+CalculatedPrice calculatedPriceFromJson(String str) =>
+    CalculatedPrice.fromJson(json.decode(str));
 
-String calculatedPriceToJson(CalculatedPrice data) => json.encode(data.toJson());
+String calculatedPriceToJson(CalculatedPrice data) =>
+    json.encode(data.toJson());
 
 class CalculatedPrice {
-    CalculatedPrice({
-        // this.productId,
-        this.productPrice,
-        this.quantity,
-        this.convenienceCharges,
-        this.cost,
-        this.costToSeller,
-        this.deliveryCharges,
-        this.gstCharges,
-        this.note,
-        this.productDiscount,
-    });
+  CalculatedPrice({
+    this.productPrice,
+    this.quantity,
+    this.convenienceCharges,
+    this.cost,
+    this.costToSeller,
+    this.deliveryCharges,
+    this.gstCharges,
+    this.note,
+    this.productDiscount,
+  });
 
-    // String productId;
-    num productPrice;
-    num quantity;
-    num costToSeller;
-    CostAndRate productDiscount;
-    CostAndRate convenienceCharges;
-    CostAndRate gstCharges;
-    Delivery deliveryCharges;
-    num cost;
-    String note;
+  num productPrice;
+  num quantity;
+  num costToSeller;
+  CostAndRate productDiscount;
+  CostAndRate convenienceCharges;
+  CostAndRate gstCharges;
+  Delivery deliveryCharges;
+  num cost;
+  String note;
 
-    factory CalculatedPrice.fromJson(Map<String, dynamic> json) => CalculatedPrice(
-        productPrice: json["productPrice"],
-        quantity: json["quantity"],
-        productDiscount: json['productDiscount'] == null ? null : CostAndRate.fromJson(json['productDiscount']),
-        convenienceCharges: json['convenienceCharges'] == null ? null : CostAndRate.fromJson(json['convenienceCharges']),
-        gstCharges: json['gstCharges'] == null ? null : CostAndRate.fromJson(json['gstCharges']),
-        deliveryCharges: json['deliveryCharges'] == null ? null : Delivery.fromJson(json['deliveryCharges']),
-        cost: json['cost'],
-        costToSeller:json["costForSeller"],
-        note: json['note']
-    );
+  factory CalculatedPrice.fromJson(Map<String, dynamic> json) =>
+      CalculatedPrice(
+          productPrice: json["productPrice"],
+          quantity: json["quantity"],
+          productDiscount: json['productDiscount'] == null
+              ? null
+              : CostAndRate.fromJson(json['productDiscount']),
+          convenienceCharges: json['convenienceCharges'] == null
+              ? null
+              : CostAndRate.fromJson(json['convenienceCharges']),
+          gstCharges: json['gstCharges'] == null
+              ? null
+              : CostAndRate.fromJson(json['gstCharges']),
+          deliveryCharges: json['deliveryCharges'] == null
+              ? null
+              : Delivery.fromJson(json['deliveryCharges']),
+          cost: json['cost'],
+          costToSeller: json["costForSeller"],
+          note: json['note']);
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "productPrice": productPrice,
         "quantity": quantity,
         "productDiscount": productDiscount,
@@ -55,7 +59,7 @@ class CalculatedPrice {
         "cost": cost,
         "costToSeller": costToSeller,
         "note": note,
-    };
+      };
 }
 
 class CostAndRate {

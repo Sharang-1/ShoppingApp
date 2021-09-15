@@ -29,24 +29,6 @@ class BottomTag extends StatelessWidget {
             child: childWidget),
         Column(
           children: <Widget>[
-            // Stack(
-            //   children: <Widget>[
-            //     Container(
-            //       height: 50,
-            //       color: newBackgroundColor,
-            //     ),
-            //     Container(
-            //       height: 50,
-            //       decoration: BoxDecoration(
-            //         color: newBackgroundColor,
-            //         borderRadius: BorderRadius.only(
-            //           bottomLeft: Radius.circular(30),
-            //           bottomRight: Radius.circular(30),
-            //         ),
-            //       ),
-            //     ),
-            //   ],
-            // ),
             Container(
               color: Colors.white,
               height: 80,

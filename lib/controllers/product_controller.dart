@@ -40,10 +40,7 @@ class ProductController extends BaseController {
   void init() async {
     isWishlistIconFilled =
         locator<WishListController>().list.indexOf(productId) != -1;
-    productData = await _apiService.getProductById(
-      productId: productId,
-      withCoupons: true,
-    );
+    productData = await refreshProduct(productId);
     reviews = await _apiService.getReviews(productId, isSellerReview: false);
     update();
 

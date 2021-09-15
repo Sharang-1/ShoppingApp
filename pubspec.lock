@@ -286,6 +286,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.0.0"
+  flutter_intro:
+    dependency: "direct main"
+    description:
+      name: flutter_intro
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.3.1"
   flutter_keyboard_visibility:
     dependency: transitive
     description:
@@ -828,6 +835,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.0.2+3"
+  shimmer:
+    dependency: "direct main"
+    description:
+      name: shimmer
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.0.0"
   sign_in_with_apple:
     dependency: "direct main"
     description:

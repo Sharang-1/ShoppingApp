@@ -411,12 +411,14 @@ class _SellerIndiState extends State<SellerIndi> {
                             parameters: <String, dynamic>{
                               "seller_id": sellerData?.key,
                               "seller_name": sellerData?.name,
-                              "subscription_id":
-                                  widget?.data?.subscriptionType?.id?.toString(),
+                              "subscription_id": widget
+                                  ?.data?.subscriptionType?.id
+                                  ?.toString(),
                               "subscription_name":
                                   widget?.data?.subscriptionType?.name,
-                              "establishment_id":
-                                  widget?.data?.establishmentType?.id?.toString(),
+                              "establishment_id": widget
+                                  ?.data?.establishmentType?.id
+                                  ?.toString(),
                               "establishment_name":
                                   widget?.data?.establishmentType?.name,
                               "user_id":
@@ -606,7 +608,6 @@ class _SellerIndiState extends State<SellerIndi> {
                                         textStyle: TextStyle(
                                           fontSize: headFont + 2,
                                           fontFamily: headingFont,
-                                          // letterSpacing: 1.2,
                                           fontWeight: FontWeight.w600,
                                         ),
                                         dotsAfterOverFlow: true,
@@ -646,7 +647,6 @@ class _SellerIndiState extends State<SellerIndi> {
                                       fontWeight: FontWeight.w500,
                                       fontFamily: headingFont,
                                       dotsAfterOverFlow: true,
-                                      // isBold: true,
                                       color: textIconBlue,
                                     ),
                                   ],
@@ -657,35 +657,6 @@ class _SellerIndiState extends State<SellerIndi> {
                         ],
                       ),
                     ),
-                    // DefaultTabController(
-                    //   length: 4,
-                    //   child: TabBar(
-                    //     labelStyle: TextStyle(fontWeight: FontWeight.w700),
-                    //     indicatorSize: TabBarIndicatorSize.label,
-                    //     labelColor: logoRed,
-                    //     unselectedLabelColor: Color(0xff5f6368),
-                    //     isScrollable: true,
-                    //     indicator: MD2Indicator(
-                    //       indicatorHeight: 3,
-                    //       indicatorColor: logoRed,
-                    //       indicatorSize: MD2IndicatorSize.normal,
-                    //     ),
-                    //     tabs: <Widget>[
-                    //       Tab(
-                    //         text: "OverView",
-                    //       ),
-                    //       Tab(
-                    //         text: "Designer's Details",
-                    //       ),
-                    //       Tab(
-                    //         text: "Reviews",
-                    //       ),
-                    //       Tab(
-                    //         text: "Collections",
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
                     sectionDivider(),
                     Container(
                       width: MediaQuery.of(context).size.width,
@@ -738,7 +709,6 @@ class _SellerIndiState extends State<SellerIndi> {
                                   children: [
                                     CustomText(
                                       sellerDetails['Owner Name'],
-                                      // isBold: true,
                                       fontWeight: FontWeight.w500,
                                       fontSize: titleFontSize,
                                       dotsAfterOverFlow: true,
@@ -965,7 +935,6 @@ class _SellerIndiState extends State<SellerIndi> {
                                         .toUpperCase(),
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
-                                      // fontWeight: FontWeight.bold,
                                       fontSize: titleFontSizeStyle,
                                       letterSpacing: 1.2,
                                     ),
@@ -980,7 +949,6 @@ class _SellerIndiState extends State<SellerIndi> {
                                   'View All',
                                   style: TextStyle(
                                     fontSize: subtitleFontSize - 2,
-                                    // fontWeight: FontWeight.bold,
                                     color: textIconBlue,
                                   ),
                                 ),
@@ -1041,7 +1009,6 @@ class _SellerIndiState extends State<SellerIndi> {
                                   letterSpacing: 1.2,
                                   color: Colors.grey[800],
                                   fontSize: titleFontSize,
-                                  // fontWeight: FontWeight.w700,
                                 ),
                               ),
                             ),
@@ -1080,11 +1047,6 @@ class _SellerIndiState extends State<SellerIndi> {
         context: context,
         builder: (context) {
           return FractionallySizedBox(
-              // heightFactor: MediaQuery.of(context).size.height > 600
-              //     ? MediaQuery.of(context).size.height > 800
-              //         ? 0.650
-              //         : 0.7
-              //     : 0.8,
               heightFactor: 0.8,
               child: SellerBottomSheetView(
                 sellerData: sellerData,

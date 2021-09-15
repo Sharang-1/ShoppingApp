@@ -51,7 +51,6 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.white,
-          // centerTitle: true,
           title: FittedBox(
             alignment: Alignment.centerLeft,
             fit: BoxFit.scaleDown,
@@ -177,7 +176,6 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
                     childCount: 1,
                   ),
                 ),
-                //
               ],
             ),
           ),

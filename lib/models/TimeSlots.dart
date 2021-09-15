@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final timeSlots = timeSlotsFromJson(jsonString);
-
 import 'dart:convert';
 
 TimeSlots timeSlotsFromJson(String str) => TimeSlots.fromJson(json.decode(str));

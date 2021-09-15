@@ -3,7 +3,7 @@ import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -49,17 +49,10 @@ class MapView extends StatelessWidget {
       DzorMapController dzorMapController, context, Seller client, int index) {
     List<String> tempSplitName = client.name.split(" ");
     String shortName = tempSplitName[0].substring(0, 1);
-    // String shortName = tempSplitName.length > 1 &&
-    //         tempSplitName[tempSplitName.length - 1].length > 1
-    //     ? tempSplitName[0].substring(0, 1) +
-    //         tempSplitName[tempSplitName.length - 1].substring(0, 1)
-    //     : tempSplitName[0].substring(0, 2);
     print(client.operations ?? "No data");
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: InkWell(
-        // onTap: () => onCardTap(
-        //     dzorMapController: dzorMapController, index: index, client: client),
         onTap: () => BaseController.goToSellerPage(client.key),
         child: Card(
           clipBehavior: Clip.antiAlias,
@@ -69,8 +62,6 @@ class MapView extends StatelessWidget {
           elevation: 0,
           child: Container(
             padding: EdgeInsets.all(8.0),
-            // width: MediaQuery.of(context).size.width * 0.6,
-            // height: MediaQuery.of(context).size.width * 0.6,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5.0),
               color: Colors.white,
@@ -115,27 +106,35 @@ class MapView extends StatelessWidget {
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
-                              // Text(
-                              //   "Speciality Text",
-                              //   style: TextStyle(
-                              //       color: Colors.grey[500],
-                              //       fontSize: subtitleFontSize),
-                              // ),
                               Row(
-                                // mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 children: [
-                                  Text(
-                                    formatUnit(Geolocator.distanceBetween(
-                                      dzorMapController
-                                          .currentLocation.latitude,
-                                      dzorMapController
-                                          .currentLocation.longitude,
-                                      client.contact.geoLocation.latitude,
-                                      client.contact.geoLocation.longitude,
-                                    )),
-                                    style: TextStyle(
-                                      fontSize: subtitleFontSize - 2,
-                                      color: Colors.grey[500],
+                                  FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    child: Row(
+                                      children: [
+                                        Icon(
+                                          FontAwesomeIcons.mapMarkerAlt,
+                                          color: logoRed,
+                                          size: subtitleFontSize - 2,
+                                        ),
+                                        horizontalSpaceTiny,
+                                        Text(
+                                          // formatUnit(Geolocator.distanceBetween(
+                                          //   dzorMapController
+                                          //       .currentLocation.latitude,
+                                          //   dzorMapController
+                                          //       .currentLocation.longitude,
+                                          //   client.contact.geoLocation.latitude,
+                                          //   client
+                                          //       .contact.geoLocation.longitude,
+                                          // )),
+                                          "${client?.contact?.city ?? ''}",
+                                          style: TextStyle(
+                                            fontSize: subtitleFontSize - 2,
+                                            color: Colors.grey[500],
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                   horizontalSpaceSmall,
@@ -159,105 +158,11 @@ class MapView extends StatelessWidget {
                                       }),
                                 ],
                               ),
-                              // verticalSpace(12),
-                              // Expanded(
-                              //   child: Text(
-                              //     dzorMapController
-                              //         .getStringWithBullet(client.works),
-                              //     style: TextStyle(
-                              //       fontSize: subtitleFontSize,
-                              //       color: lightGrey,
-                              //     ),
-                              //     overflow: TextOverflow.ellipsis,
-                              //     maxLines: 1,
-                              //   ),
-                              // ),
-                              // verticalSpace(5),
-                              // Expanded(
-                              //   child: Text(
-                              //     dzorMapController
-                              //         .getStringWithBullet(client.operations),
-                              //     style: TextStyle(
-                              //       fontSize: subtitleFontSize,
-                              //       color: lightGrey,
-                              //     ),
-                              //     overflow: TextOverflow.ellipsis,
-                              //     maxLines: 1,
-                              //   ),
-                              // ),
                             ],
                           ),
                         ),
                       ),
                     ]),
-
-                    // Row(children: <Widget>[
-                    //   Padding(
-                    //       padding: EdgeInsets.only(left: 10),
-                    //       child: Text(
-                    //         ratings.toString(),
-                    //         style: TextStyle(
-                    //             color: Colors.black,
-                    //             fontSize: ratingCountFontSize,
-                    //             fontWeight: FontWeight.w600),
-                    //       )),
-                    //   SizedBox(
-                    //     width: 10,
-                    //   ),
-                    //   RatingBarIndicator(
-                    //     rating: ratings,
-                    //     itemCount: 5,
-                    //     itemSize: ratingCountFontSize,
-                    //     direction: Axis.horizontal,
-                    //     itemBuilder: (context, _) => Icon(
-                    //       Icons.star,
-                    //       color: Colors.amber,
-                    //     ),
-                    //   ),
-                    // ]),
-                    // Row(
-                    //     crossAxisAlignment: CrossAxisAlignment.center,
-                    //     children: <Widget>[
-                    //       Expanded(
-                    //         child: Row(
-                    //           children: <Widget>[
-                    //             Chip(
-                    //                 elevation: 2,
-                    //                 backgroundColor: Colors.blueGrey,
-                    //                 label: Text(
-                    //                   tags[0],
-                    //                   style: TextStyle(
-                    //                       fontSize: tagSize,
-                    //                       color: Colors.white,
-                    //                       fontWeight: FontWeight.bold),
-                    //                 )),
-                    //             SizedBox(width: 10),
-                    //             Chip(
-                    //                 elevation: 2,
-                    //                 backgroundColor: Colors.blueGrey,
-                    //                 label: Text(
-                    //                   tags[1],
-                    //                   style: TextStyle(
-                    //                       fontSize: tagSize,
-                    //                       color: Colors.white,
-                    //                       fontWeight: FontWeight.bold),
-                    //                 )),
-                    //           ],
-                    //         ),
-                    //       ),
-                    //       CircleAvatar(
-                    //           radius: 22,
-                    //           backgroundColor: Colors.white,
-                    //           child: IconButton(
-                    //               onPressed: () {
-                    //                 print("object");
-                    //                 launch("tel://${client.contact}");
-                    //               },
-                    //               icon: Icon(
-                    //                 Icons.phone,
-                    //                 color: Colors.black,
-                    //               ))),
-                    //     ])
                   ],
                 ),
               ),
@@ -380,7 +285,6 @@ class MapView extends StatelessWidget {
         draggable: false,
         infoWindow: InfoWindow(title: client.name),
         onTap: () {
-          // showBottomSheet = true;
           dzorMapController.currentClient = client;
           try {
             if ((showSailors && isSeller) || (!showSailors && !isSeller))
@@ -452,10 +356,6 @@ class MapView extends StatelessWidget {
                     onPressed: () => BaseController.cart(),
                   ),
                 ),
-                // IconButton(
-                //   icon: Icon(Icons.search),
-                //   onPressed: () {},
-                // )
               ],
             ),
             bottomNavigationBar: StyleProvider(
@@ -493,9 +393,6 @@ class MapView extends StatelessWidget {
                   mapToolbarEnabled: true,
                   zoomControlsEnabled: false,
                 ),
-                // Positioned(child: SearchWidget(
-                //   dataList: List.generate(dzorMapController.clients.length, (i) => Text(dzorMapController.clients[i].name)),
-                // )),
                 Positioned(
                   bottom: 20.0,
                   child: dzorMapController.clientsToggle
@@ -542,7 +439,6 @@ class MapView extends StatelessWidget {
                                                     color: Colors.grey[500],
                                                   ),
                                                 ),
-                                                // horizontalSpaceTiny,
                                                 InkWell(
                                                   onTap:
                                                       dzorMapController.zoomOut,
@@ -656,72 +552,6 @@ class MapView extends StatelessWidget {
                         )
                       : Container(height: 1.0, width: 1.0),
                 ),
-                // Positioned(
-                //   top: 0,
-                //   left: 0,
-                //   child: GestureDetector(
-                //     onTap: () => Navigator.pop(context),
-                //     child: Padding(
-                //       padding: const EdgeInsets.only(top: 8.0),
-                //       child: Icon(
-                //         Icons.navigate_before_rounded,
-                //         size: 50,
-                //       ),
-                //     ),
-                //   ),
-                // ),
-                // Positioned(
-                //   top: 0,
-                //   right: 0,
-                //   child: Padding(
-                //     padding: const EdgeInsets.only(top: 16.0, right: 16.0),
-                //     child: InkWell(
-                //       onTap: () => dzorMapController.onLocationIconClicked(),
-                //       child: Container(
-                //         padding: EdgeInsets.all(8.0),
-                //         decoration: BoxDecoration(),
-                //         child: Icon(
-                //           Icons.gps_fixed_rounded,
-                //           size: 30,
-                //         ),
-                //       ),
-                //     ),
-                //   ),
-                // ),
-                // model.resetToggle
-                //     ? Positioned(
-                //         top: MediaQuery.of(context).size.height -
-                //             (MediaQuery.of(context).size.height - 50.0),
-                //         right: 15.0,
-                //         child: FloatingActionButton(
-                //           onPressed: model.resetCamera,
-                //           mini: true,
-                //           backgroundColor: Colors.red,
-                //           child: Icon(Icons.refresh),
-                //         ))
-                //     : Container(),
-                // model.resetToggle
-                //     ? Positioned(
-                //         top: MediaQuery.of(context).size.height -
-                //             (MediaQuery.of(context).size.height - 50.0),
-                //         right: 60.0,
-                //         child: FloatingActionButton(
-                //             onPressed: model.addBearing,
-                //             mini: true,
-                //             backgroundColor: Colors.green,
-                //             child: Icon(Icons.rotate_left)))
-                //     : Container(),
-                // model.resetToggle
-                //     ? Positioned(
-                //         top: MediaQuery.of(context).size.height -
-                //             (MediaQuery.of(context).size.height - 50.0),
-                //         right: 110.0,
-                //         child: FloatingActionButton(
-                //             onPressed: model.removeBearing,
-                //             mini: true,
-                //             backgroundColor: Colors.blue,
-                //             child: Icon(Icons.rotate_right)))
-                //     : Container(),
                 if (dzorMapController.showBottomSheet)
                   Container(
                     color: Colors.red,

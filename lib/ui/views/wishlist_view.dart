@@ -268,7 +268,6 @@ class _WishlistViewState extends State<WishlistView>
                             screenPadding, 0, screenPadding, 5),
                         padding: EdgeInsets.all(2),
                         decoration: BoxDecoration(
-                          // color: Colors.grey[200],
                           color: backgroundBlueGreyColor,
                           borderRadius: BorderRadius.circular(curve30),
                         ),
@@ -321,28 +320,6 @@ class _WishlistViewState extends State<WishlistView>
           )),
     );
   }
-
-  // _searchBarOnChange(value) {
-  //   _debouncer.run(() {
-  //     if (currentTabIndex == 0) {
-  //       setState(() {
-  //         productSearchHistoryList = finalProductHistoryList
-  //             .where((String value) =>
-  //                 _searchController.text == "" ||
-  //                 value.contains(_searchController.text.toLowerCase()))
-  //             .toList();
-  //       });
-  //     } else {
-  //       setState(() {
-  //         sellerSearchHistoryList = finalSellerHistoryList
-  //             .where((String value) =>
-  //                 _searchController.text == "" ||
-  //                 value.contains(_searchController.text.toLowerCase()))
-  //             .toList();
-  //       });
-  //     }
-  //   });
-  // }
 
   Future<void> _updateRecentSharedPrefs() async {
     if (currentTabIndex == 0) {
@@ -418,118 +395,3 @@ class _WishlistViewState extends State<WishlistView>
     });
   }
 }
-
-// We have not used InputField widget b'coz of the style of Widget
-// class _SearchBarTextField extends StatelessWidget {
-//   const _SearchBarTextField({
-//     Key key,
-//     @required this.searchController,
-//     @required this.focusNode,
-//     @required this.searchAction,
-//     this.autofocus = false,
-//     this.onTap,
-//     this.onChanged,
-//   }) : super(key: key);
-
-//   final Function searchAction;
-//   final TextEditingController searchController;
-//   final FocusNode focusNode;
-//   final bool autofocus;
-//   final Function onTap;
-//   final Function onChanged;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       height: 40,
-//       padding: EdgeInsets.symmetric(horizontal: 10),
-//       decoration: BoxDecoration(
-//         // color: Colors.grey[200],
-//         color: backgroundBlueGreyColor,
-//         borderRadius: BorderRadius.circular(30),
-//       ),
-//       child: Row(children: <Widget>[
-//         IconButton(
-//           icon: Icon(Icons.search),
-//           color: appBarIconColor,
-//           onPressed: () => searchAction(searchController.text.trim()),
-//         ),
-//         Expanded(
-//           child: TextField(
-//             autofocus: autofocus,
-//             focusNode: focusNode,
-//             controller: searchController,
-//             style: TextStyle(
-//               color: Colors.black,
-//             ),
-//             onTap: onTap,
-//             onChanged: onChanged,
-//             decoration: InputDecoration(
-//               border: InputBorder.none,
-//               hintText: "Search Products or Sellers",
-//               hintStyle: TextStyle(
-//                 color: Colors.grey,
-//               ),
-//             ),
-//           ),
-//         ),
-//       ]),
-//     );
-//   }
-// }
-
-/*-----------------------------------------------------
-isTyping  | isSearched  | ResultScreen / Action
-----------+-------------+----------------------------
-false     | false       | Search History
-----------+-------------+----------------------------
-true      | false       | Search History with Filters
-----------+-------------+----------------------------
-false     | true        | Results
-----------+-------------+----------------------------
-true      | true        | Search History
-----------+-------------+----------------------------
-
-
-// Opacity(
-//   child: GridListWidget<Products, Product>(
-//     context: context,
-//     filter: productFilter,
-//     gridCount: 2,
-//     viewModel: ProductsGridViewBuilderViewModel(),
-//     tileBuilder: (BuildContext context, data) {
-//       return Card(
-//         child: Center(
-//           child: Text("product"),
-//         ),
-//       );
-//     },
-//   ),
-//   opacity: _tabController.index == 0 ? 1 : 0,
-// ),
-// Opacity(
-//   child: SellerGridListWidget(context: context),
-//   opacity: _tabController.index == 1 ? 1 : 0,
-// ),
-// TabBarView(
-//   controller: _tabController,
-//   physics: NeverScrollableScrollPhysics(),
-//   children: [
-//     GridListWidget<Products, Product>(
-//       context: context,
-//       filter: productFilter,
-//       gridCount: 2,
-//       viewModel: ProductsGridViewBuilderViewModel(),
-//       tileBuilder: (BuildContext context, data) {
-//         return Card(
-//           child: Center(
-//             child: Text("product"),
-//           ),
-//         );
-//       },
-//     ),
-//     SellerGridListWidget(context: context),
-//   ],
-// ),
-
-*/

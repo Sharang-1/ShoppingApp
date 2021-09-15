@@ -9,7 +9,7 @@ import '../../models/productPageArg.dart';
 import '../../models/promotions.dart';
 import '../../services/navigation_service.dart';
 import '../shared/shared_styles.dart';
-import '../views/promotion_products_view.dart';
+import 'shimmer_widget.dart';
 
 class PromotionSlider extends StatefulWidget {
   final List<Promotion> promotions;
@@ -74,37 +74,46 @@ class _PromotionSliderState extends State<PromotionSlider> {
                 builder: (BuildContext context) {
                   return InkWell(
                     onTap: () {
-                      var promoTitle = i?.name;
+                      // var promoTitle = i?.name;
                       List<String> productIds =
                           i?.products?.map((e) => e.toString())?.toList();
-                      print(productIds);
-                      print(
-                          "Demographics: ${i?.demographics?.map((e) => e.id)}");
 
                       if (i.exclusive) {
                         return NavigationService.to(
                           ProductsListRoute,
                           arguments: ProductPageArg(
+                            promotionKey: i?.key,
                             subCategory: 'Designer',
                             queryString: "accountKey=${i.filter};",
                             sellerPhoto: "$SELLER_PHOTO_BASE_URL/${i.filter}",
-                            productList: productIds,
                           ),
                         );
                       }
 
-                      Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                          builder: (context) => PromotionProduct(
-                            promotionId: i?.key,
-                            productIds: productIds ?? [],
-                            promotionTitle: promoTitle,
+                      return NavigationService.to(
+                        ProductsListRoute,
+                        arguments: ProductPageArg(
+                            title: i?.name ?? '',
+                            queryString: "",
+                            subCategory: "",
+                            promotionKey: i?.key,
                             demographicIds:
-                                i?.demographics?.map((e) => e?.id)?.toList(),
-                          ),
-                        ),
+                                i?.demographics?.map((e) => e?.id)?.toList() ??
+                                    []),
                       );
+
+                      // Navigator.push(
+                      //   context,
+                      //   new MaterialPageRoute(
+                      //     builder: (context) => PromotionProduct(
+                      //       promotionId: i?.key,
+                      //       productIds: productIds ?? [],
+                      //       promotionTitle: promoTitle,
+                      //       demographicIds:
+                      //           i?.demographics?.map((e) => e?.id)?.toList(),
+                      //     ),
+                      //   ),
+                      // );
                     },
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 8.0),
@@ -118,13 +127,14 @@ class _PromotionSliderState extends State<PromotionSlider> {
                           child: CachedNetworkImage(
                             cacheManager: defaultCacheManager,
                             fit: BoxFit.cover,
-                            placeholder: (context, url) => Image.asset(
-                              "assets/images/promotion_preloading.png",
-                              fit: BoxFit.cover,
-                            ),
+                            placeholder: (context, url) => ShimmerWidget(),
+                            // Image.asset(
+                            //   "assets/images/promotion_preloading.png",
+                            //   fit: BoxFit.cover,
+                            // ),
                             imageUrl: "$PROMOTION_PHOTO_BASE_URL/${i.key}",
                             errorWidget: (context, url, error) =>
-                                new Icon(Icons.error),
+                                ShimmerWidget(),
                           ),
                         ),
                       ),
@@ -159,7 +169,6 @@ class _PromotionSliderState extends State<PromotionSlider> {
 
   @override
   void dispose() async {
-    // defaultCacheManager.emptyCache();
     super.dispose();
   }
 }
@@ -173,23 +182,36 @@ class BottomPromotion extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: InkWell(
-        onTap: () {
-          var promoTitle = promotion?.name ?? '';
-          List<String> productIds =
-              promotion?.products?.map((e) => e.toString())?.toList();
-          print(productIds);
-          Navigator.push(
-            context,
-            new MaterialPageRoute(
-              builder: (context) => PromotionProduct(
-                promotionId: promotion?.key,
-                productIds: productIds ?? [],
-                promotionTitle: promoTitle,
+        onTap: () async {
+          await NavigationService.to(
+            ProductsListRoute,
+            arguments: ProductPageArg(
+                title: promotion?.name ?? '',
+                queryString: "",
+                subCategory: "",
+                promotionKey: promotion?.key,
                 demographicIds:
-                    promotion?.demographics?.map((e) => e?.id)?.toList(),
-              ),
-            ),
+                    promotion?.demographics?.map((e) => e?.id)?.toList() ?? []),
           );
+
+          // String promoTitle = promotion?.name ?? '';
+          // List<String> productIds =
+          //     promotion?.products?.map((e) => e.toString())?.toList() ?? [];
+          // List<int> demographicIds =
+          //     promotion?.demographics?.map((e) => e?.id)?.toList() ?? [];
+
+          // Navigator.push(
+          //   context,
+          //   new MaterialPageRoute(
+          //     builder: (context) => PromotionProduct(
+          //       promotionId: promotion?.key,
+          //       productIds: productIds ?? [],
+          //       promotionTitle: promoTitle,
+          //       demographicIds:
+          //           promotion?.demographics?.map((e) => e?.id)?.toList(),
+          //     ),
+          //   ),
+          // );
         },
         child: Container(
           decoration: BoxDecoration(
@@ -209,12 +231,13 @@ class BottomPromotion extends StatelessWidget {
               borderRadius: BorderRadius.circular(curve5),
               child: CachedNetworkImage(
                 fit: BoxFit.cover,
-                placeholder: (context, url) => Image.asset(
-                  "assets/images/designer_preloading.png",
-                  fit: BoxFit.cover,
-                ),
+                placeholder: (context, url) => ShimmerWidget(),
+                // Image.asset(
+                //   "assets/images/designer_preloading.png",
+                //   fit: BoxFit.cover,
+                // ),
                 imageUrl: "$PROMOTION_PHOTO_BASE_URL/${promotion?.key}",
-                errorWidget: (context, url, error) => new Icon(Icons.error),
+                errorWidget: (context, url, error) => ShimmerWidget(),
               ),
             ),
           ),

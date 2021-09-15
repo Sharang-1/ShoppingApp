@@ -6,7 +6,7 @@ import 'package:page_transition/page_transition.dart';
 
 import '../../controllers/base_controller.dart';
 import '../../controllers/cart_select_delivery_controller.dart';
-import '../../google_maps_place_picker/google_maps_place_picker.dart';
+import '../../packages/google_maps_place_picker/google_maps_place_picker.dart';
 import '../../locator.dart';
 import '../../models/order_details.dart';
 import '../../models/user_details.dart';
@@ -239,11 +239,6 @@ class _SelectAddressState extends State<SelectAddress> {
                                         value: address,
                                         groupValue: addressGrpValue,
                                         onChanged: (val) {
-                                          // setState(() {
-                                          //   addressGrpValue =
-                                          //       addressRadioValue = val;
-                                          //   disabledPayment = false;
-                                          // });
                                           print(val);
                                         },
                                       ),
@@ -266,19 +261,6 @@ class _SelectAddressState extends State<SelectAddress> {
                                               color: Colors.grey,
                                               fontSize: 14,
                                             ),
-                                            // verticalSpaceTiny_0,
-                                            // CustomText(
-                                            //   "My Location: ",
-                                            //   color: Colors.grey[700],
-                                            //   fontSize: 14,
-                                            //   isBold: true,
-                                            // ),
-                                            // verticalSpaceTiny_0,
-                                            // CustomText(
-                                            //   "${address.googleAddress}",
-                                            //   color: Colors.grey,
-                                            //   fontSize: 14,
-                                            // ),
                                           ],
                                         ),
                                       ),
@@ -300,8 +282,6 @@ class _SelectAddressState extends State<SelectAddress> {
                           primary: darkRedSmooth,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
-                            // side: BorderSide(
-                            //     color: Colors.black, width: 0.5)
                           ),
                         ),
                         onPressed: () async {
@@ -384,11 +364,6 @@ class _SelectAddressState extends State<SelectAddress> {
       );
     } else {
       DialogService.showNotDeliveringDialog(msg: serviceAvailability.message);
-      // Get.snackbar(
-      //   "Service Not Available",
-      //   serviceAvailability.message,
-      //   snackPosition: SnackPosition.BOTTOM,
-      // );
     }
   }
 }

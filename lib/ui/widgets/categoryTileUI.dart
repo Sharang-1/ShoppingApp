@@ -16,9 +16,7 @@ class CategoryTileUI extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String name = data.name ?? "";
-    // String photoName = data.banner != null ? data.banner.name : "";
     bool isTablet = Tools.checkIfTablet(MediaQuery.of(context));
-    // String bannerURL = '$CATEGORY_PHOTO_BASE_URL/${data.id}/$photoName';
 
     double titleFontSize = isTablet ? 28.0 : 20.0;
 
@@ -81,7 +79,6 @@ class NewCategoryTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String name = data.name ?? "";
-    // double titleFontSize = fromCategory ? 12.0 : 10.0;
     double titleFontSize = 10.0;
 
     return Column(

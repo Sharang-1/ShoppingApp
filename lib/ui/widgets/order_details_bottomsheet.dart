@@ -46,7 +46,6 @@ class OrderDetailsBottomsheet extends StatelessWidget {
 
   static const orderSummaryDetails1 = [
     "Product Name",
-    // "Seller",
     "Qty",
     "Size",
     "Color",
@@ -292,8 +291,6 @@ class OrderDetailsBottomsheet extends StatelessWidget {
                             primary: lightGreen,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
-                              // side: BorderSide(
-                              //     color: Colors.black, width: 0.5)
                             ),
                           ),
                           onPressed: () => proceedToOrder(

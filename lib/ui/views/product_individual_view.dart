@@ -45,6 +45,7 @@ import '../widgets/home_view_list_header.dart';
 import '../widgets/product_description_table.dart';
 import '../widgets/reviews.dart';
 import '../widgets/section_builder.dart';
+import '../widgets/shimmer_widget.dart';
 import '../widgets/wishlist_icon.dart';
 import 'cart_view.dart';
 import 'gallery_view.dart';
@@ -105,6 +106,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
   final DynamicLinkService _dynamicLinkService = locator<DynamicLinkService>();
   final ErrorHandlingService _errorHandlingService =
       locator<ErrorHandlingService>();
+  ProductController productController;
 
   UniqueKey key = UniqueKey();
   GlobalKey variationSelectionCardKey = GlobalKey();
@@ -152,13 +154,14 @@ class _ProductIndiViewState extends State<ProductIndiView> {
           scrollDirection: Axis.horizontal,
           initialIndex: 0,
           showImageLabel: false,
-          loadingBuilder: (context, e) => Center(
-            child: Image.asset(
-              "assets/images/loading_img.gif",
-              height: 50,
-              width: 50,
-            ),
-          ),
+          loadingBuilder: (context, e) => ShimmerWidget(),
+          // Center(
+          //   child: Image.asset(
+          //     "assets/images/loading_img.gif",
+          //     height: 50,
+          //     width: 50,
+          //   ),
+          // ),
           backgroundDecoration: BoxDecoration(color: Colors.white),
           appbarColor: Colors.white,
         ),
@@ -224,7 +227,6 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                     color: Colors.grey[500],
                   ),
                 ),
-                // onTap: () async => await goToSellerProfile(controller),
               ),
             ],
           ),
@@ -232,14 +234,6 @@ class _ProductIndiViewState extends State<ProductIndiView> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // if (isClothMeterial)
-            //   Text(
-            //     'Price per Meter',
-            //     style: TextStyle(
-            //       fontSize: subtitleFontSizeStyle - 3,
-            //       color: Colors.black54,
-            //     ),
-            //   ),
             Row(
               children: <Widget>[
                 Column(
@@ -275,7 +269,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                           )
                         else
                           Text(
-                            "Unavailable",
+                            "Sold Out",
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
@@ -304,7 +298,6 @@ class _ProductIndiViewState extends State<ProductIndiView> {
   List<Widget> choiceChips(variations) {
     List<Widget> allChips = [];
     List<String> sizes = [];
-    // List jsonParsed = json.decode(variations.toString());
     for (int i = 0; i < variations.length; i++) {
       if (!sizes.contains(variations[i].size) &&
           (variations[i].quantity != 0)) {
@@ -346,9 +339,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
   }
 
   Wrap allSizes(variations) {
-    // print("check this "+variations[0].size);
     if (variations[0].size == "N/A") {
-      // print("cond true");
       selectedSize = "N/A";
       selectedIndex = 0;
       return Wrap(
@@ -411,11 +402,6 @@ class _ProductIndiViewState extends State<ProductIndiView> {
     );
   }
 
-  // Color _colorFromHex(String hexColor) {
-  //   final hexCode = hexColor.replaceAll('#', '');
-  //   return Color(int.parse('FF$hexCode', radix: 16));
-  // }
-
   Widget allTags(tags) {
     var alltags = "";
     for (var item in tags) {
@@ -431,30 +417,6 @@ class _ProductIndiViewState extends State<ProductIndiView> {
   Widget paddingWidget(Widget item) {
     return Padding(child: item, padding: EdgeInsets.fromLTRB(0, 10, 0, 0));
   }
-
-  // FittedBox stockWidget({int totalQuantity, bool available}) {
-  //   String text = (totalQuantity == 0)
-  //       ? "Sold Out! \nYou can check back in few days!"
-  //       : (available)
-  //           ? (totalQuantity == 2)
-  //               ? "Only 2 left"
-  //               : (totalQuantity == 1)
-  //                   ? "One in Market Product"
-  //                   : "In Stock"
-  //           : "The product is unavailable right now, check back in few days";
-
-  //   return FittedBox(
-  //     alignment: Alignment.centerLeft,
-  //     fit: BoxFit.scaleDown,
-  //     child: Text(
-  //       text,
-  //       style: TextStyle(
-  //           fontSize: titleFontSizeStyle - 2,
-  //           color: (available) ? green : logoRed,
-  //           fontWeight: FontWeight.w600),
-  //     ),
-  //   );
-  // }
 
   int calculateSavedCost(Cost cost) {
     double actualCost =
@@ -478,10 +440,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
         dateParse.year,
         dateParse.month,
         dateParse.day +
-            (data?.shipment?.days == null
-                ? 0
-                // ignore: null_aware_before_operator
-                : data?.shipment?.days + 1));
+            (data?.shipment?.days == null ? 0 : data.shipment.days + 1));
     dateParse = DateTime.parse(newDate.toString());
     formattedDate =
         "${weekday[dateParse.weekday - 1]} , ${dateParse.day} ${month[dateParse.month - 1]}";
@@ -495,9 +454,6 @@ class _ProductIndiViewState extends State<ProductIndiView> {
     imageURLs = (data?.photo?.photos ?? <PhotoElement>[])
         .map((e) => '$PRODUCT_PHOTO_BASE_URL/$productId/${e.name}')
         .toList();
-    // imageURLs.add(
-    //   "${BASE_URL}sellers/${data.account.key}/categories/${data.category.id}/sizechart",
-    // );
     photosKey = GlobalKey();
     knowDesignerKey = GlobalKey();
     uniqueKey = UniqueKey();
@@ -640,6 +596,11 @@ class _ProductIndiViewState extends State<ProductIndiView> {
 
   @override
   void initState() {
+    productController = ProductController(
+      widget.data?.account?.key,
+      productId: widget?.data?.key,
+      productName: widget?.data?.name,
+    )..init();
     super.initState();
   }
 
@@ -651,11 +612,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
   @override
   Widget build(BuildContext context) => GetBuilder<ProductController>(
         global: false,
-        init: ProductController(
-          widget.data?.account?.key,
-          productId: widget?.data?.key,
-          productName: widget?.data?.name,
-        )..init(),
+        init: productController,
         initState: (state) {
           setupProductDetails(widget?.data);
           showTutorial(
@@ -1018,7 +975,6 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                           ],
                                                         ),
                                                       ),
-                                                      // isScrollControlled: true,
                                                     );
                                                   },
                                                   child: Container(
@@ -1108,7 +1064,6 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                 Text(
                                                   "Select Color".toUpperCase(),
                                                   style: TextStyle(
-                                                    // fontWeight: FontWeight.bold,
                                                     fontSize: 14,
                                                     letterSpacing: 1.0,
                                                     color: logoRed,
@@ -1133,8 +1088,6 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                       "Select ${(productData.category.id == 13) ? 'No. of Meters' : 'Qty'}"
                                                           .toUpperCase(),
                                                       style: TextStyle(
-                                                        // fontWeight:
-                                                        //     FontWeight.bold,
                                                         fontSize: 14,
                                                         letterSpacing: 1.0,
                                                         color: logoRed,
@@ -1273,6 +1226,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                 scrollDirection: Axis.horizontal,
                                 child: Row(
                                   children: [
+                                    "📦 Easy 2 Days Returns",
                                     "#JustHere",
                                     if (available && (totalQuantity != 0))
                                       "✔️ In Stock",
@@ -1293,8 +1247,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                       "Hand-Crafted",
                                     if (totalQuantity == 1)
                                       "One in Market Product",
-                                    if (!available) "Unavailable",
-                                    "Easy Today Returns",
+                                    if (!available) "Sold Out",
                                   ]
                                       .map(
                                         (e) => InkWell(
@@ -1345,10 +1298,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                   "Delivery By : $shipment",
                                   style: TextStyle(
                                     fontSize: 12,
-                                    color: Colors.grey,
                                   ),
                                 ),
-                              // if (available) sectionDivider(),
                               sectionDivider(),
                               Column(
                                 key: knowDesignerKey,
@@ -1360,7 +1311,6 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                       Text(
                                         "Know Your Designer".toUpperCase(),
                                         style: TextStyle(
-                                          // fontWeight: FontWeight.bold,
                                           letterSpacing: 1.0,
                                           fontSize: 14,
                                         ),
@@ -1553,15 +1503,20 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                               .center,
                                                       children: [
                                                         CustomText(
-                                                          productData
-                                                                  ?.seller
-                                                                  ?.owner
-                                                                  ?.name ??
-                                                              "",
+                                                          "${productData?.seller?.owner?.name ?? ""}",
                                                           fontWeight:
                                                               FontWeight.w500,
                                                           fontSize:
                                                               titleFontSize,
+                                                          dotsAfterOverFlow:
+                                                              true,
+                                                        ),
+                                                        CustomText(
+                                                          "(${productData?.seller?.name ?? ''})",
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontSize:
+                                                              subtitleFontSize,
                                                           dotsAfterOverFlow:
                                                               true,
                                                         ),
@@ -1606,8 +1561,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                                           ?.seller
                                                                           ?.designation ==
                                                                       null))
-                                                              ? 3
-                                                              : 2,
+                                                              ? 2
+                                                              : 1,
                                                           colorClickableText:
                                                               logoRed,
                                                           trimMode:
@@ -1652,29 +1607,6 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                     fontSize: 14,
                                     letterSpacing: 1.0,
                                   ),
-                                  // InkWell(
-                                  //   onTap: () async =>
-                                  //       await showModalBottomSheet(
-                                  //     isScrollControlled: true,
-                                  //     shape: RoundedRectangleBorder(
-                                  //       borderRadius: BorderRadius.vertical(
-                                  //         top: Radius.circular(curve10),
-                                  //       ),
-                                  //     ),
-                                  //     clipBehavior: Clip.antiAlias,
-                                  //     context: context,
-                                  //     builder: (con) => HelpView(),
-                                  //   ),
-                                  //   child: Padding(
-                                  //     padding: const EdgeInsets.symmetric(
-                                  //         horizontal: 8.0),
-                                  //     child: CustomText(
-                                  //       "Returns & Refunds".toUpperCase(),
-                                  //       fontSize: 12,
-                                  //       color: logoRed,
-                                  //     ),
-                                  //   ),
-                                  // ),
                                 ],
                               ),
                               verticalSpace(5),
@@ -1731,7 +1663,6 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                               Text(
                                 "Recommended Products".toUpperCase(),
                                 style: TextStyle(
-                                  // fontWeight: FontWeight.bold,
                                   fontSize: 14,
                                   letterSpacing: 1.0,
                                 ),
@@ -1755,7 +1686,6 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                 Text(
                                   "More From Designer".toUpperCase(),
                                   style: TextStyle(
-                                    // fontWeight: FontWeight.bold,
                                     fontSize: 14,
                                     letterSpacing: 1.0,
                                   ),
@@ -2013,7 +1943,6 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                   horizontal: 4.0,
                                 ),
                                 decoration: BoxDecoration(
-                                  // border: Border.all(color: lightGreen),
                                   color: widget.fromCart
                                       ? lightGreen
                                       : Colors.white,
@@ -2037,7 +1966,6 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                             Container(
                               width: MediaQuery.of(context).size.width * 0.20,
                               margin: EdgeInsets.symmetric(horizontal: 4.0),
-                              // color: Colors.white,
                               child: Column(
                                 children: [
                                   InkWell(

@@ -209,13 +209,6 @@ class ProductDescriptionTable extends StatelessWidget {
                     "Made",
                     getNameFromLookupId(
                         productSection, "made", product?.made?.id)),
-              // divider,
-              // if (product?.whoMadeIt != null && product?.whoMadeIt?.id != -1)
-              //   getProductDetailsRow(
-              //       "Who Made It",
-              //       getNameFromLookupId(
-              //           productSection, "whoMadeIt", product?.whoMadeIt?.id)),
-              // divider,
               if ((product?.hangings != null) && (product?.category?.id == 7))
                 getProductDetailsRow(
                   "Hangings",

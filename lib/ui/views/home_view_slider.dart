@@ -7,6 +7,7 @@ import 'package:visibility_detector/visibility_detector.dart';
 
 import '../shared/shared_styles.dart';
 import '../widgets/custom_text.dart';
+import '../widgets/shimmer_widget.dart';
 import 'gallery_view.dart';
 
 class HomeSlider extends StatefulWidget {
@@ -44,9 +45,7 @@ class _HomeSliderState extends State<HomeSlider> {
     widget.videoList.forEach((videoUrl) {
       videoControllers.add(VideoPlayerController.network(
         videoUrl,
-      )
-        // ..initialize()
-        ..setVolume(0.0));
+      )..setVolume(0.0));
     });
     super.initState();
   }
@@ -120,20 +119,23 @@ class _HomeSliderState extends State<HomeSlider> {
                                     // maxWidthDiskCache: 200,
                                     fit: BoxFit.contain,
                                     imageUrl: i,
-                                    placeholder: (context, e) => Center(
-                                      child: Image.asset(
-                                        "assets/images/loading_img.gif",
-                                        height: 50,
-                                        width: 50,
-                                      ),
-                                    ),
+                                    placeholder: (context, e) =>
+                                        ShimmerWidget(),
+                                    //  Center(
+                                    //   child: Image.asset(
+                                    //     "assets/images/loading_img.gif",
+                                    //     height: 50,
+                                    //     width: 50,
+                                    //   ),
+                                    // ),
                                     errorWidget: (context, url, error) =>
-                                        Center(
-                                      child: Image.asset(
-                                        "assets/images/product_preloading.png",
-                                        fit: BoxFit.contain,
-                                      ),
-                                    ),
+                                        ShimmerWidget(),
+                                    //     Center(
+                                    //   child: Image.asset(
+                                    //     "assets/images/product_preloading.png",
+                                    //     fit: BoxFit.contain,
+                                    //   ),
+                                    // ),
                                   ),
                                 ),
                               ),
@@ -187,13 +189,15 @@ class _HomeSliderState extends State<HomeSlider> {
                                     // maxWidthDiskCache: 200,
                                     fit: BoxFit.contain,
                                     imageUrl: widget.sizeChartUrl,
-                                    placeholder: (context, e) => Center(
-                                      child: Image.asset(
-                                        "assets/images/loading_img.gif",
-                                        height: 50,
-                                        width: 50,
-                                      ),
-                                    ),
+                                    placeholder: (context, e) =>
+                                        ShimmerWidget(),
+                                    // Center(
+                                    //   child: Image.asset(
+                                    //     "assets/images/loading_img.gif",
+                                    //     height: 50,
+                                    //     width: 50,
+                                    //   ),
+                                    // ),
                                     errorWidget: (context, url, error) =>
                                         Center(
                                       child: CustomText("No SizeChart"),
@@ -338,13 +342,14 @@ class _HomeSliderState extends State<HomeSlider> {
           ],
           initialIndex: index,
           scrollDirection: Axis.horizontal,
-          loadingBuilder: (context, e) => Center(
-            child: Image.asset(
-              "assets/images/loading_img.gif",
-              height: 50,
-              width: 50,
-            ),
-          ),
+          loadingBuilder: (context, e) => ShimmerWidget(),
+          // Center(
+          //   child: Image.asset(
+          //     "assets/images/loading_img.gif",
+          //     height: 50,
+          //     width: 50,
+          //   ),
+          // ),
           backgroundDecoration: BoxDecoration(color: Colors.white),
         ),
       ),

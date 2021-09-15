@@ -30,6 +30,8 @@ class BaseController extends GetxController {
   User get currentUser => _authenticationService.currentUser;
   bool _busy = false;
   bool get busy => _busy;
+
+  // Should be changed after backend support
   static const num deliveryCharge = 35.40;
   num get deliveryCharges => deliveryCharge;
 
@@ -54,7 +56,6 @@ class BaseController extends GetxController {
       _cartLocalStoreService.removeFromCartLocalStore(productId);
 
   //static methods
-
   static Future<void> logout() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.remove(Authtoken);
@@ -82,7 +83,7 @@ class BaseController extends GetxController {
           intensities: intensities,
           amplitude: amplitude);
 
-  // Goto Pages
+  // Goto Screens
   static Future<void> search() async =>
       await NavigationService.to(SearchViewRoute);
   static Future<dynamic> cart() async => locator<HomeController>().isLoggedIn

@@ -26,7 +26,6 @@ class OrdersController extends BaseController {
   static Future orderPlaced(context) async {
     Future.delayed(Duration(milliseconds: 2500), () async {
       Order o = (await locator<APIService>().getAllOrders()).orders.first;
-      // await NavigationService.offAll()
       await Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(

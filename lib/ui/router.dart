@@ -64,7 +64,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case LoaderRoute:
       return _getPageRoute(
         routeName: settings.name,
-        viewToShow: loader(),
+        viewToShow: Loader(),
         pageArguments: pageArguments,
         pageTransitionType: transitionType,
       );
@@ -72,7 +72,9 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case HomeViewRoute:
       return _getPageRoute(
         routeName: settings.name,
-        viewToShow: HomeView(args: pageArguments,),
+        viewToShow: HomeView(
+          args: pageArguments,
+        ),
         pageArguments: pageArguments,
         pageTransitionType: transitionType,
       );
@@ -130,10 +132,12 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return _getPageRoute(
         routeName: settings.name,
         viewToShow: ProductListView(
+          title: (pageArguments as ProductPageArg)?.title,
           queryString: (pageArguments as ProductPageArg)?.queryString,
           subCategory: (pageArguments as ProductPageArg)?.subCategory,
           sellerPhoto: (pageArguments as ProductPageArg)?.sellerPhoto,
-          productList: (pageArguments as ProductPageArg)?.productList,
+          promotionKey: (pageArguments as ProductPageArg)?.promotionKey,
+          demographicIds: (pageArguments as ProductPageArg)?.demographicIds,
         ),
         pageArguments: pageArguments,
         pageTransitionType: PageTransitionType.rightToLeft,
@@ -247,7 +251,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return _getPageRoute(
           pageArguments: pageArguments,
           routeName: settings.name,
-          viewToShow: myAppointments(),
+          viewToShow: MyAppointments(),
           pageTransitionType: PageTransitionType.rightToLeft);
 
     case ProfileViewRoute:

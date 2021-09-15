@@ -183,40 +183,32 @@ class UserPhoto {
 class Age {
   Age({
     this.id,
-    // this.name,
   });
 
   int id;
-  // String name;
 
   factory Age.fromJson(Map<String, dynamic> json) => Age(
         id: json["id"],
-        // name: json["name"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        // "name": name,
       };
 }
 
 class Gender {
   Gender({
     this.id,
-    // this.name,
   });
 
   int id;
-  // String name;
 
   factory Gender.fromJson(Map<String, dynamic> json) => Gender(
         id: json["id"],
-        // name: json["name"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        // "name": name,
       };
 }
 

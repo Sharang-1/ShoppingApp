@@ -6,21 +6,6 @@ import '../constants/shared_pref.dart';
 import '../models/user_details.dart';
 
 class AddressService {
-  AddressService() {
-    // setUpAddress(null);
-  }
-
-  // Future<void> setUpAddresses() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   final list = prefs.getStringList(AddressList);
-
-  //   if (list == null) {
-  //     prefs.setStringList(AddressList, [
-  //       // "103 /, First Floor, Royal Bldg, Janjikar Street, Masjid Bunder (w), Mumbai, Maharashtra-400003"
-  //     ]);
-  //   }
-  // }
-
   Future<void> setUpAddress(UserDetailsContact address) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final List<String> addArr = [];

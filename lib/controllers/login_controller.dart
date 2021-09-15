@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../constants/route_names.dart';
 import '../constants/shared_pref.dart';
 import '../locator.dart';
+import '../services/analytics_service.dart';
 import '../services/authentication_service.dart';
 import '../services/navigation_service.dart';
 import 'base_controller.dart';
@@ -92,6 +93,12 @@ class LoginController extends BaseController {
   }
 
   skipLogin() async {
+    try {
+      await locator<AnalyticsService>()
+          .sendAnalyticsEvent(eventName: "skip_login");
+    } catch (e) {
+      Fimber.e(e.toString());
+    }
     var pref = await SharedPreferences.getInstance();
     await pref.setBool(SkipLogin, true);
     await NavigationService.offAll(HomeViewRoute);

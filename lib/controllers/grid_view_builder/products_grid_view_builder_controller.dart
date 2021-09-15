@@ -38,10 +38,6 @@ class ProductsGridViewBuilderController
         "startIndex=${pageSize * (pageNumber - 1)};limit=$pageSize;random=$randomize;" +
             filterModel.queryString;
 
-    // String _queryString =
-    //     "startIndex=${pageSize * (pageNumber - 1)};limit=${this.randomize ? 500 : pageSize};" +
-    //         filterModel.queryString;
-
     Products res = await _apiService.getProducts(queryString: _queryString);
 
     if (res == null) {
@@ -73,12 +69,11 @@ class ProductsGridViewBuilderController
       res.items = res.items.take(6).toList();
     }
 
-    // if (this.randomize) {
-    //   res.items.shuffle();
-    //   if (res.items.length > pageSize)
-    //     res.items = res.items.sublist(0, pageSize);
-    // }
-
+    if (this.randomize) {
+      res.items.shuffle();
+      if (res.items.length > pageSize)
+        res.items = res.items.sublist(0, pageSize);
+    }
     if (this.limit != null) {
       res.items = res.items.take(limit).toList();
     }

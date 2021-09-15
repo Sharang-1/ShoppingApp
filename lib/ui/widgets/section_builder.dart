@@ -110,7 +110,6 @@ class SectionBuilder extends StatelessWidget {
                         trackBorderColor:
                             MaterialStateProperty.all(Colors.grey[500]),
                         isAlwaysShown: true,
-                        // interactive: true,
                         showTrackOnHover: true,
                       ),
                     ),
@@ -150,20 +149,6 @@ class SectionBuilder extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.only(bottom: 8.0),
                 child: Container(
-                  decoration: BoxDecoration(
-                      // border: Border(
-                      //   right: (scrollDirection == Axis.horizontal)
-                      //       ? BorderSide(
-                      //           color: Colors.grey[300],
-                      //         )
-                      //       : BorderSide.none,
-                      //   bottom: (scrollDirection == Axis.vertical)
-                      //       ? BorderSide(
-                      //           color: Colors.grey[300],
-                      //         )
-                      //       : BorderSide.none,
-                      // ),
-                      ),
                   child: TopPicksAndDealsCard(
                     data: {
                       "key": product?.key ?? "Test",
@@ -207,20 +192,6 @@ class SectionBuilder extends StatelessWidget {
           tileBuilder:
               (BuildContext context, productData, index, onUpdate, onDelete) {
             return Container(
-              decoration: BoxDecoration(
-                  // border: Border(
-                  //   right: (scrollDirection == Axis.horizontal)
-                  //       ? BorderSide(
-                  //           color: Colors.grey[300],
-                  //         )
-                  //       : BorderSide.none,
-                  //   bottom: (scrollDirection == Axis.vertical)
-                  //       ? BorderSide(
-                  //           color: Colors.grey[300],
-                  //         )
-                  //       : BorderSide.none,
-                  // ),
-                  ),
               child: ProductTileUI(
                 data: productData,
                 onClick: () => NavigationService.to(
@@ -323,12 +294,6 @@ class SectionBuilder extends StatelessWidget {
             return GestureDetector(
               onTap: () {},
               child: Container(
-                decoration: BoxDecoration(
-                    // border: Border(
-                    //     right: BorderSide(
-                    //   color: Colors.grey[300],
-                    // )),
-                    ),
                 child: DesignerTileUi(data: data, isSmallDevice: isSmallDevice),
               ),
             );

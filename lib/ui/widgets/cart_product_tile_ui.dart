@@ -66,7 +66,6 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
     discountedPrice = price - (price * discount / 100);
 
     orderDetails = widget.orderDetails;
-    // updateDetails();
 
     super.initState();
   }
@@ -113,11 +112,7 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      // onTap: widget.proceedToOrder,
       child: Card(
-        // shape: RoundedRectangleBorder(
-        //   borderRadius: BorderRadius.circular(10),
-        // ),
         clipBehavior: Clip.antiAlias,
         elevation: 0,
         child: Column(

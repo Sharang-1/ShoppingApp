@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import '../google_maps_place_picker/google_maps_place_picker.dart';
+import '../packages/google_maps_place_picker/google_maps_place_picker.dart';
 import 'base_controller.dart';
 
 class AddressController extends BaseController {

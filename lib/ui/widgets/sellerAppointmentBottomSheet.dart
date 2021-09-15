@@ -198,9 +198,6 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                                           color: textIconOrange,
                                                           shape: BoxShape
                                                               .rectangle,
-                                                          // border: Border.all(
-
-                                                          //     width: 0.7, color: Colors.grey),
                                                           borderRadius:
                                                               BorderRadius
                                                                   .circular(
@@ -250,20 +247,6 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                                             width: (MediaQuery.of(context).size.width - 60 - ((MediaQuery.of(context).size.width - 60) / 4) - 10) / 3,
                                                             child: ChoiceChip(
                                                                 backgroundColor: Colors.white,
-                                                                // selectedShadowColor: Colors.white,
-                                                                // shape: RoundedRectangleBorder(
-                                                                //     borderRadius: BorderRadius.circular(
-                                                                //         curve15),
-                                                                //     side: BorderSide(
-                                                                //         color: selectedWeekDay ==
-                                                                //                 weekDayMap[index]
-                                                                //             ? darkRedSmooth
-                                                                //             : Colors.grey,
-                                                                //         width: 0.5,
-                                                                //         style: selectedWeekDay ==
-                                                                //                 weekDayMap[index]
-                                                                //             ? BorderStyle.solid
-                                                                //             : BorderStyle.none)),
                                                                 labelStyle: TextStyle(fontSize: subtitleFontSizeStyle - 3, fontWeight: controller.selectedWeekDay == timeSlot.day ? FontWeight.w600 : FontWeight.normal, color: controller.selectedWeekDay == timeSlot.day ? darkRedSmooth : Colors.grey),
                                                                 selectedColor: Colors.white,
                                                                 label: Column(
@@ -275,8 +258,6 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                                                           .center,
                                                                   children: <
                                                                       Widget>[
-                                                                    // Text(timeSlot.day
-                                                                    //     .toString()),
                                                                     CircleAvatar(
                                                                       radius:
                                                                           25,
@@ -293,16 +274,6 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                                                                 ? Colors.white
                                                                                 : Colors.grey,
                                                                           ),
-                                                                          // CustomText(
-                                                                          //   "18",
-                                                                          //   color: model.selectedWeekDay ==
-                                                                          //               timeSlot
-                                                                          //                   .day
-                                                                          //           ? Colors
-                                                                          //               .white
-                                                                          //           : Colors
-                                                                          //               .black,
-                                                                          // )
                                                                         ],
                                                                       ),
                                                                       backgroundColor: controller.selectedWeekDay ==
@@ -327,12 +298,6 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                               )),
                                         ],
                                       ),
-                                      // verticalSpace(10),
-                                      // CustomText(
-                                      //   "* appointment can be booked within 3 days from today",
-                                      //   fontSize: 12,
-                                      //   color: Colors.grey[400],
-                                      // ),
                                       verticalSpaceMedium,
                                       Align(
                                         alignment: Alignment.centerLeft,
@@ -432,7 +397,6 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                                                         val
                                                                             ? time
                                                                             : null;
-                                                                    // selectedIndex = index;
                                                                   });
                                                                 })))
                                                         .toList(),
@@ -450,7 +414,6 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                         ),
                                       ),
                                       verticalSpaceTiny,
-
                                       DropdownButton(
                                         hint: Text("Select Your Message"),
                                         value: _taskMsg == "" ? null : _taskMsg,
@@ -504,8 +467,6 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                 primary: logoRed,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(30),
-                                  // side: BorderSide(
-                                  //     color: Colors.black, width: 0.5)
                                 ),
                               ),
                               onPressed: _taskMsg == ""

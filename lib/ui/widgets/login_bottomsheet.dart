@@ -97,7 +97,6 @@ class LoginBottomsheet extends StatelessWidget {
                             textFieldController: controller.phoneNoController,
                             isEnabled: true,
                             selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
-                            // autoValidate: true,
                             formatInput: true,
                           ),
                           FittedBox(
@@ -127,7 +126,6 @@ class LoginBottomsheet extends StatelessWidget {
                             pinBoxColor: Colors.white,
                             maxLength: 4,
                             onTextChanged: controller.validateOtp,
-                            // onDone: (text) => controller.verifyOTP(otp: text),
                             wrapAlignment: WrapAlignment.center,
                             pinBoxDecoration: ProvidedPinBoxDecoration
                                 .defaultPinBoxDecoration,
@@ -156,7 +154,7 @@ class LoginBottomsheet extends StatelessWidget {
                                 : null,
                             enabled: controller.otpSendButtonEnabled,
                           ),
-                           verticalSpaceTiny,
+                          verticalSpaceTiny,
                           InkWell(
                             onTap: () async {
                               const url = TERMS_AND_CONDITIONS_URL;
@@ -173,7 +171,6 @@ class LoginBottomsheet extends StatelessWidget {
                               textAlign: TextAlign.center,
                             ),
                           )
-                          // TextButton(child: Text("Change Mobile umber"),)
                         ],
                       ),
                 verticalSpaceSmall,

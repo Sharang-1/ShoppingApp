@@ -43,7 +43,7 @@ class ProductFilter implements BaseFilterModel {
         _queryString = _queryString.replaceFirst(
             RegExp("freeText(.*?);"), "freeText=$fullText;");
     }
-    // if (categories != null) _queryString += "categories=$categories;";
+
     if (accountKey != null) {
       if (!_queryString.contains("accountKey"))
         _queryString += "accountKey=$accountKey;";
@@ -134,14 +134,3 @@ class ProductFilter implements BaseFilterModel {
   @override
   String get queryString => _queryString;
 }
-
-/// Library Name: Filter based GridView Builder
-///
-/// - GridViewBuilder (UI)
-/// - GridViewBuilder_View_Model
-///   - For network request
-///   - For parsing response and converting in ResponseModel
-/// - FilterModel   - getQueryString
-/// - ResponseModel - fromJSON, toJSON
-/// - TileDataModel - fromJSON, toJSON
-/// -

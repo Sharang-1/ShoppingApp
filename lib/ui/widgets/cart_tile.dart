@@ -49,8 +49,6 @@ class _CartTileState extends State<CartTile> {
     item = widget.item;
     quantity = item.quantity >= 1 ? item.quantity : 1;
     item.quantity = item.quantity >= 1 ? item.quantity : 1;
-
-    // finalTotal = (discountedPrice * item.quantity).toString();
     setUpOrderDetails();
     setUpProductPrices();
     super.initState();
@@ -156,7 +154,6 @@ class _CartTileState extends State<CartTile> {
             increaseQty: increseQty,
             decreaseQty: decreaseQty,
             orderDetails: orderDetails,
-            // deliveryStatus: proceedToOrder,
           ),
         ),
         verticalSpaceTiny,
@@ -188,7 +185,6 @@ class _CartTileState extends State<CartTile> {
                       "Apply Coupon",
                       style: TextStyle(
                         color: logoRed,
-                        // fontWeight: FontWeight.bold,
                         fontSize: 12,
                       ),
                     ),

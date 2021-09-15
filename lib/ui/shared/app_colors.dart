@@ -23,6 +23,9 @@ Color backgroundWhiteCreamColor = _colorFromHex("#f5f0e5");
 Color backgroundBlueGreyColor = _colorFromHex("#d6d9dD");
 Color newBackgroundColor = Color.fromRGBO(255, 255, 255, 0.95);
 
+Color shimmerBaseColor = Colors.grey[300];
+Color shimmerHighlightColor = Colors.grey[100];
+
 Color _colorFromHex(String hexColor) {
   final hexCode = hexColor.replaceAll('#', '');
   return Color(int.parse('FF$hexCode', radix: 16));
