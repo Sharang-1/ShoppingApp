@@ -55,5 +55,17 @@ const String HOMESCREEN_SECTION_11_TITLE_EN = 'homescreen_section_11_title_en';
 const String HOMESCREEN_SECTION_11_SUBTITLE_EN =
     'homescreen_section_11_subtitle_en';
 
+const String HOMESCREEN_SECTION_12_TITLE_EN = 'homescreen_section_12_title_en';
+const String HOMESCREEN_SECTION_12_SUBTITLE_EN =
+    'homescreen_section_12_subtitle_en';
+
+const String HOMESCREEN_SECTION_13_TITLE_EN = 'homescreen_section_13_title_en';
+const String HOMESCREEN_SECTION_13_SUBTITLE_EN =
+    'homescreen_section_13_subtitle_en';
+
+const String HOMESCREEN_SECTION_14_TITLE_EN = 'homescreen_section_14_title_en';
+const String HOMESCREEN_SECTION_14_SUBTITLE_EN =
+    'homescreen_section_14_subtitle_en';
+
 //Dzor HomePage Appbar text
 const String HOMESCREEN_APPBAR_TEXT = "homescreen_appbar_text";

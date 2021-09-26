@@ -8,6 +8,7 @@ import '../../controllers/reviews_controller.dart';
 import '../../locator.dart';
 import '../../models/reviews.dart';
 import '../../services/navigation_service.dart';
+import '../../utils/lang/translation_keys.dart';
 import '../../utils/tools.dart';
 import '../shared/app_colors.dart';
 import '../shared/ui_helpers.dart';
@@ -32,8 +33,9 @@ class ReviewWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  (isSeller ? "Ratings & Reviews" : "Item Ratings & Reviews")
-                      .toUpperCase(),
+                  isSeller
+                      ? DESIGNER_SCREEN_REVIEWS.tr
+                      : PRODUCTSCREEN_VIEW_REVIEWS.tr,
                   style: TextStyle(
                     fontSize: 14,
                     letterSpacing: 1.0,
@@ -104,7 +106,7 @@ class ReviewWidget extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.all(8.0),
                       child: CustomText(
-                        "No Reviews Yet",
+                        NO_REVIEWS.tr,
                         fontSize: subtitleFontSize - 2,
                       ),
                     ),
@@ -155,7 +157,7 @@ class ReviewWidget extends StatelessWidget {
                                 ),
                                 horizontalSpaceTiny,
                                 Text(
-                                  "Write Review",
+                                  WRITE_REVIEW.tr,
                                 ),
                               ],
                             ),
@@ -165,7 +167,7 @@ class ReviewWidget extends StatelessWidget {
                             onTap: () => NavigationService.to(ReviewScreenRoute,
                                 arguments: controller?.reviews),
                             child: CustomText(
-                              "View All",
+                              VIEW_ALL.tr,
                               color: textIconBlue,
                               fontSize: subtitleFontSize,
                             ),
@@ -205,8 +207,8 @@ Widget reviewCard(Review r) => Container(
                     CustomText(
                       (r.userId != null && (r?.reviewer?.length ?? 0) > 0)
                           ? r?.reviewer?.first?.name?.capitalize ??
-                              "Unknown User"
-                          : "Unknown User",
+                              UNKNOWN_USER.tr
+                          : UNKNOWN_USER.tr,
                       fontSize: subtitleFontSize,
                       isBold: true,
                     ),
@@ -214,7 +216,7 @@ Widget reviewCard(Review r) => Container(
                     CustomText(
                       (r?.description ?? '').isNotEmpty
                           ? r.description
-                          : "No Description",
+                          : NO_DESCRIPTION.tr,
                       align: TextAlign.justify,
                       fontSize: subtitleFontSize - 2,
                     ),

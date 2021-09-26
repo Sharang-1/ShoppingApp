@@ -26,6 +26,7 @@ import 'grid_list_widget.dart';
 import 'home_view_list_header.dart';
 import 'product_tile_ui.dart';
 import 'sellerTileUi.dart';
+import 'shimmer/shimmer_widget.dart';
 import 'top_picks_deals_card.dart';
 
 enum LayoutType {
@@ -141,6 +142,7 @@ class SectionBuilder extends StatelessWidget {
           scrollDirection: scrollDirection,
           disablePagination: true,
           onEmptyList: onEmptyList,
+          loadingWidget: ShimmerWidget(type: type),
           tileBuilder:
               (BuildContext context, productData, index, onUpdate, onDelete) {
             var product = productData as Product;
@@ -189,6 +191,11 @@ class SectionBuilder extends StatelessWidget {
           scrollDirection: scrollDirection,
           disablePagination: true,
           onEmptyList: onEmptyList,
+          loadingWidget: ShimmerWidget(
+            type: type,
+            scrollDirection: scrollDirection,
+            childAspectRatio: getChildAspectRatio(layoutType),
+          ),
           tileBuilder:
               (BuildContext context, productData, index, onUpdate, onDelete) {
             return Container(
@@ -290,6 +297,11 @@ class SectionBuilder extends StatelessWidget {
           scrollDirection: scrollDirection,
           emptyListWidget: Container(),
           onEmptyList: onEmptyList,
+          loadingWidget: ShimmerWidget(
+            type: type,
+            scrollDirection: scrollDirection,
+            childAspectRatio: getChildAspectRatio(layoutType),
+          ),
           tileBuilder: (BuildContext context, data, index, onDelete, onUpdate) {
             return GestureDetector(
               onTap: () {},
@@ -313,6 +325,11 @@ class SectionBuilder extends StatelessWidget {
           scrollDirection: scrollDirection,
           emptyListWidget: Container(),
           onEmptyList: onEmptyList,
+          loadingWidget: ShimmerWidget(
+            type: type,
+            scrollDirection: scrollDirection,
+            childAspectRatio: getChildAspectRatio(layoutType),
+          ),
           tileBuilder: (BuildContext context, data, index, onDelete, onUpdate) {
             return GestureDetector(
               onTap: () {},

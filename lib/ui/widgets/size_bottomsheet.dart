@@ -14,6 +14,7 @@ class SizeBottomsheet extends StatelessWidget {
       init: BottomsheetSizeController()..init(),
       builder: (controller) {
         return SafeArea(
+          bottom: false,
           child: ConstrainedBox(
             constraints: BoxConstraints(maxHeight: Get.size.height * 0.8),
             child: Container(

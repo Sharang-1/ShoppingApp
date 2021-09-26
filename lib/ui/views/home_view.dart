@@ -12,27 +12,36 @@ import '../../controllers/home_controller.dart';
 import '../../locator.dart';
 import '../../services/navigation_service.dart';
 import '../../services/remote_config_service.dart';
+import '../../utils/lang/translation_keys.dart';
 import '../shared/app_colors.dart';
 import '../widgets/cart_icon_badge.dart';
 import '../widgets/profile_setup_indicator.dart';
 import 'bottom_nav_style.dart';
 import 'home_view_list.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   HomeView({Key key, this.args}) : super(key: key);
 
   final args;
 
+  @override
+  _HomeViewState createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
   final HomeController controller = locator<HomeController>();
+
   final GlobalKey searchKey = GlobalKey();
+
   final GlobalKey cartKey = GlobalKey();
+
   final GlobalKey logoKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) => GetBuilder<HomeController>(
         init: controller,
         initState: (state) {
-          controller.onRefresh(context: context, args: args);
+          controller.onRefresh(context: context, args: widget.args);
           controller.showTutorial(context,
               searchKey: searchKey, logoKey: logoKey);
         },
@@ -46,7 +55,7 @@ class HomeView extends StatelessWidget {
               style: TabStyle.fixedCircle,
               items: [
                 TabItem(
-                  title: 'Categories',
+                  title: NAVBAR_CATEGORIES.tr,
                   icon: Padding(
                     padding: const EdgeInsets.only(top: 4.0),
                     child: Image.asset(
@@ -56,7 +65,7 @@ class HomeView extends StatelessWidget {
                   ),
                 ),
                 TabItem(
-                  title: 'Orders',
+                  title: NAVBAR_ORDERS.tr,
                   icon: Padding(
                     padding: const EdgeInsets.only(top: 4.0),
                     child: Image.asset(
@@ -79,7 +88,7 @@ class HomeView extends StatelessWidget {
                   ),
                 ),
                 TabItem(
-                  title: 'Appointments',
+                  title: NAVBAR_APPOINTMENTS.tr,
                   icon: Padding(
                     padding: const EdgeInsets.only(top: 4.0),
                     child: Image.asset(
@@ -89,7 +98,7 @@ class HomeView extends StatelessWidget {
                   ),
                 ),
                 TabItem(
-                  title: 'Maps',
+                  title: NAVBAR_MAPS.tr,
                   icon: Padding(
                     padding: const EdgeInsets.only(top: 4.0),
                     child: Image.asset(
@@ -139,7 +148,7 @@ class HomeView extends StatelessWidget {
                       child: Column(
                         children: [
                           Text(
-                            "You Are In".toUpperCase(),
+                            HOMESCREEN_LOCATION.tr,
                             style: TextStyle(
                               fontSize: 12,
                               color: Colors.grey[400],

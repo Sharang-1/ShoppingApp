@@ -13,7 +13,7 @@ import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
 import '../widgets/custom_text.dart';
 import '../widgets/grid_list_widget.dart';
-import '../widgets/shimmer_widget.dart';
+import '../widgets/shimmer/shimmer_widget.dart';
 import 'help_view.dart';
 import 'seller_indi_view.dart';
 

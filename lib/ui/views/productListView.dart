@@ -19,12 +19,15 @@ import '../../services/api/api_service.dart';
 import '../../services/dynamic_link_service.dart';
 import '../../ui/widgets/custom_text.dart';
 import '../../ui/widgets/reviews.dart';
+import '../../utils/lang/translation_keys.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
 import '../widgets/grid_list_widget.dart';
 import '../widgets/product_filter_dialog.dart';
 import '../widgets/product_tile_ui.dart';
+import '../widgets/section_builder.dart';
+import '../widgets/shimmer/shimmer_widget.dart';
 
 class ProductListView extends StatefulWidget {
   final String queryString;
@@ -120,12 +123,18 @@ class _ProductListViewState extends State<ProductListView> {
                 ?.map((int value) => "demographic=$value;")
                 ?.join("") ??
             '';
-      else if (widget?.promotionKey?.isNotEmpty ?? false)
-        queryString += "promotionKey=${widget?.promotionKey};";
+      else if (widget?.promotionKey?.isNotEmpty ?? false) {
+        queryString +=
+            "promotionKey=${widget?.promotionKey};sortField=price;sortOrder=asc;";
+        showRandomProducts = false;
+      }
     }
     filter = ProductFilter(existingQueryString: queryString);
     if (widget?.queryString?.contains("accountKey") ?? false)
       sellerKey = widget?.queryString?.split('=')?.last?.replaceAll(';', '');
+
+    if (widget?.queryString?.contains("sortField") ?? false)
+      showRandomProducts = false;
     super.initState();
   }
 
@@ -205,7 +214,7 @@ class _ProductListViewState extends State<ProductListView> {
       floatingActionButton: (widget.sellerPhoto != null)
           ? FloatingActionButton.extended(
               label: Text(
-                'Reviews'.toUpperCase(),
+                REVIEWS.tr,
                 style: TextStyle(
                   color: Colors.white,
                   letterSpacing: 1.2,
@@ -417,6 +426,15 @@ class _ProductListViewState extends State<ProductListView> {
                             randomize: showRandomProducts,
                           ),
                           childAspectRatio: 0.7,
+                          loadingWidget: SizedBox(
+                            height: Get.size.height,
+                            child: ShimmerWidget(
+                              type: LayoutType.PRODUCT_LAYOUT_2,
+                              scrollDirection: Axis.vertical,
+                              gridCount: 2,
+                              childAspectRatio: 0.7,
+                            ),
+                          ),
                           tileBuilder: (BuildContext context, data, index,
                               onUpdate, onDelete) {
                             return Container(

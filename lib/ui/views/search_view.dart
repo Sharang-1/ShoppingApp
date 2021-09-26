@@ -16,7 +16,9 @@ import '../widgets/cart_icon_badge.dart';
 import '../widgets/grid_list_widget.dart';
 import '../widgets/product_filter_dialog.dart';
 import '../widgets/product_tile_ui.dart';
+import '../widgets/section_builder.dart';
 import '../widgets/sellerTileUi.dart';
+import '../widgets/shimmer/shimmer_widget.dart';
 
 class SearchView extends StatefulWidget {
   SearchView({Key key, this.showSellers = false}) : super(key: key);
@@ -185,6 +187,15 @@ class _SearchViewState extends State<SearchView>
                                     "No Search Found for ‘${_controller.productFilter.value.fullText}’, \nPlease try again!",
                                 img: 'assets/images/no_search.jpg'),
                             childAspectRatio: 0.7,
+                            loadingWidget: SizedBox(
+                              height: Get.size.height,
+                              child: ShimmerWidget(
+                                type: LayoutType.PRODUCT_LAYOUT_2,
+                                gridCount: 2,
+                                scrollDirection: Axis.vertical,
+                                childAspectRatio: 0.7,
+                              ),
+                            ),
                             tileBuilder: (BuildContext context, data, index,
                                     onUpdate, onDelete) =>
                                 Container(
@@ -224,6 +235,14 @@ class _SearchViewState extends State<SearchView>
                                 img: 'assets/images/no_search.jpg'),
                             disablePagination: true,
                             childAspectRatio: 3.50,
+                            loadingWidget: SizedBox(
+                              height: Get.size.height,
+                              child: ShimmerWidget(
+                                type: LayoutType.DESIGNER_ID_3_LAYOUT,
+                                scrollDirection: Axis.vertical,
+                                childAspectRatio: 3.50,
+                              ),
+                            ),
                             tileBuilder: (BuildContext context, data, index,
                                     onUpdate, onDelete) =>
                                 Container(

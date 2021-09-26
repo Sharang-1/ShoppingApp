@@ -10,6 +10,7 @@ import '../../models/user_details.dart';
 import '../../packages/google_maps_place_picker/google_maps_place_picker.dart';
 import '../../services/dialog_service.dart';
 import '../../services/navigation_service.dart';
+import '../../utils/lang/translation_keys.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
@@ -61,7 +62,7 @@ class _ProfileViewState extends State<ProfileView> {
               content: Padding(
                 padding: EdgeInsets.only(top: 12.0),
                 child: Text(
-                  "Are you sure you don't want to make a change?",
+                  SETTINGS_PROFILE_ALERT.tr,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
@@ -77,14 +78,14 @@ class _ProfileViewState extends State<ProfileView> {
                     ),
                     backgroundColor: logoRed,
                   ),
-                  child: CustomText("Yes", color: Colors.white),
+                  child: CustomText(YES.tr, color: Colors.white),
                   onPressed: () {
                     Navigator.pop(context, true);
                   },
                 ),
                 new TextButton(
                   child: CustomText(
-                    "No",
+                    NO.tr,
                     color: Colors.white,
                   ),
                   style: TextButton.styleFrom(
@@ -143,7 +144,7 @@ class _ProfileViewState extends State<ProfileView> {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 15),
                       child: CustomText(
-                        "Save",
+                        SAVE.tr,
                         fontSize: titleFontSizeStyle,
                         isBold: true,
                         color: Colors.white,
@@ -155,7 +156,7 @@ class _ProfileViewState extends State<ProfileView> {
           appBar: AppBar(
             elevation: 0,
             title: Text(
-              "Profile",
+              SETTINGS_PROFILE.tr,
               style: TextStyle(
                 fontFamily: headingFont,
                 fontWeight: FontWeight.w700,
@@ -268,7 +269,7 @@ class _ProfileViewState extends State<ProfileView> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         CustomText(
-                                          "Personal Details".toUpperCase(),
+                                          SETTINGS_PERSONAL_DETAILS.tr,
                                           fontSize: 16,
                                         ),
                                         IconButton(
@@ -276,7 +277,7 @@ class _ProfileViewState extends State<ProfileView> {
                                             children: [
                                               Icon(Icons.edit),
                                               CustomText(
-                                                "Edit",
+                                                SETTINGS_EDIT.tr,
                                                 textStyle: TextStyle(
                                                   decoration:
                                                       TextDecoration.underline,
@@ -306,7 +307,7 @@ class _ProfileViewState extends State<ProfileView> {
                                         Expanded(
                                           flex: 3,
                                           child: CustomText(
-                                            "Name",
+                                            SETTINGS_NAME.tr,
                                             fontSize: titleFontSizeStyle,
                                             color: Colors.black,
                                           ),
@@ -325,7 +326,8 @@ class _ProfileViewState extends State<ProfileView> {
                                             validator: (text) {
                                               if (text.isEmpty ||
                                                   text.trim().length == 0)
-                                                return "Add your Name";
+                                                return SETTINGS_ADD_YOUR_NAME
+                                                    .tr;
                                               return null;
                                             },
                                             onChanged: (value) {
@@ -357,7 +359,7 @@ class _ProfileViewState extends State<ProfileView> {
                                         Expanded(
                                           flex: 3,
                                           child: CustomText(
-                                            "Mobile No",
+                                            SETTINGS_MOBILE.tr,
                                             fontSize: titleFontSizeStyle,
                                             color: Colors.black,
                                           ),
@@ -397,7 +399,7 @@ class _ProfileViewState extends State<ProfileView> {
                                         Expanded(
                                           flex: 3,
                                           child: CustomText(
-                                            "Age",
+                                            SETTINGS_AGE.tr,
                                             fontSize: titleFontSizeStyle,
                                             color: Colors.black,
                                           ),
@@ -457,7 +459,7 @@ class _ProfileViewState extends State<ProfileView> {
                                         Expanded(
                                           flex: 3,
                                           child: CustomText(
-                                            "Gender",
+                                            SETTINGS_GENDER.tr,
                                             fontSize: titleFontSizeStyle,
                                             color: Colors.black,
                                           ),
@@ -519,7 +521,7 @@ class _ProfileViewState extends State<ProfileView> {
                                         Expanded(
                                           flex: 3,
                                           child: CustomText(
-                                            "Address",
+                                            SETTINGS_ADDRESS.tr,
                                             color: Colors.black,
                                             fontSize: titleFontSizeStyle,
                                           ),
@@ -623,7 +625,8 @@ class _ProfileViewState extends State<ProfileView> {
                                                                 subtitleFontSizeStyle,
                                                           )
                                                         : CustomText(
-                                                            "Add Address",
+                                                            SETTINGS_ADD_ADDRESS
+                                                                .tr,
                                                             color: logoRed,
                                                             fontWeight:
                                                                 FontWeight.w600,
@@ -650,7 +653,7 @@ class _ProfileViewState extends State<ProfileView> {
                                                             0) >
                                                         0))
                                                   CustomText(
-                                                    "Change",
+                                                    SETTINGS_CHANGE.tr,
                                                     color: logoRed,
                                                     fontSize: subtitleFontSize,
                                                   ),
@@ -662,7 +665,7 @@ class _ProfileViewState extends State<ProfileView> {
                                     ),
                                     verticalSpaceLarge,
                                     CustomText(
-                                      "My Measurements".toUpperCase(),
+                                      MY_MEASUREMENTS.tr,
                                       fontSize: 16,
                                     ),
                                     SizedBox(
@@ -806,7 +809,7 @@ class _ProfileViewState extends State<ProfileView> {
               validator: (text) => (GetUtils.isNum(text)) &&
                       (num.parse(text) > 0 && num.parse(text) < 100)
                   ? null
-                  : "Please Enter Valid Size",
+                  : ENTER_VALID_SIZE.tr,
               onChanged: (value) {
                 setState(() {
                   isButtonActive = true;

@@ -1,10 +1,10 @@
-import '../../controllers/base_controller.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../../controllers/base_controller.dart';
 import '../../controllers/cart_controller.dart';
 import '../../controllers/cart_count_controller.dart';
 import '../../controllers/grid_view_builder/cart_grid_view_builder_controller.dart';
@@ -60,8 +60,10 @@ class _CartViewState extends State<CartView> {
         backgroundColor: Colors.white,
         bottomNavigationBar: Container(
           // color: Colors.grey[200],
-          padding: EdgeInsets.symmetric(
-            horizontal: 8,
+          padding: EdgeInsets.only(
+            left: 8,
+            right: 8,
+            bottom: MediaQuery.of(context).padding.bottom,
           ),
           child: ElevatedButton(
               style: ElevatedButton.styleFrom(
@@ -207,7 +209,7 @@ class _CartViewState extends State<CartView> {
                                                   showModalBottomSheet(
                                                     context: context,
                                                     builder: (context) =>
-                                                        SizedBox(
+                                                        Container(
                                                       height:
                                                           MediaQuery.of(context)
                                                                   .size

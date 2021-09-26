@@ -23,6 +23,7 @@ import '../services/api/api_service.dart';
 import '../services/authentication_service.dart';
 import '../services/cart_local_store_service.dart';
 import '../services/dialog_service.dart';
+import '../services/localization_service.dart';
 import '../services/location_service.dart';
 import '../services/navigation_service.dart';
 import '../services/remote_config_service.dart';
@@ -32,33 +33,26 @@ import 'base_controller.dart';
 import 'dynamic_content_controller.dart';
 
 class HomeController extends BaseController {
-  final searchController = TextEditingController();
-  UniqueKey key = UniqueKey();
-  UniqueKey productKey = UniqueKey();
-  UniqueKey sellerKey = UniqueKey();
-  UniqueKey categoryKey = UniqueKey();
-  UniqueKey promotionKey = UniqueKey();
-  String cityName = "Add Location";
-
   final RefreshController refreshController =
       RefreshController(initialRefresh: false);
 
-  final CartLocalStoreService _cartLocalStoreService =
-      locator<CartLocalStoreService>();
-  final WishListService _wishListService = locator<WishListService>();
-  final APIService _apiService = locator<APIService>();
-  final AuthenticationService _authService = locator<AuthenticationService>();
-  final RemoteConfigService _remoteConfigService =
-      locator<RemoteConfigService>();
+  final _cartLocalStoreService = locator<CartLocalStoreService>();
+  final _wishListService = locator<WishListService>();
+  final _apiService = locator<APIService>();
+  final _authService = locator<AuthenticationService>();
+  final _remoteConfigService = locator<RemoteConfigService>();
 
+  final searchController = TextEditingController();
+  UniqueKey key, productKey, sellerKey, categoryKey, promotionKey;
+  String cityName = "Add Location";
+  String name = "";
   RemoteConfig remoteConfig;
   SharedPreferences prefs;
   UserDetails details;
+  List<Promotion> topPromotion, bottomPromotion;
   bool isProfileComplete = true;
-  String name = "";
-  List<Promotion> topPromotion;
-  List<Promotion> bottomPromotion;
   bool isLoggedIn = false;
+  String currentLanguage;
 
   void onRefresh({context, args}) async {
     try {
@@ -143,11 +137,22 @@ class HomeController extends BaseController {
         .setCartCount(await setUpCartListAndGetCount());
     locator<WishListController>()
         .setUpWishList(await _wishListService.getWishList());
+    if (prefs == null) prefs = await SharedPreferences.getInstance();
+    currentLanguage = prefs?.getString(CurrentLanguage);
+    currentLanguage =
+        currentLanguage?.isEmpty ?? true ? 'English' : currentLanguage;
   }
 
   @override
   void onInit() async {
     super.onInit();
+
+    key = UniqueKey();
+    productKey = UniqueKey();
+    sellerKey = UniqueKey();
+    categoryKey = UniqueKey();
+    promotionKey = UniqueKey();
+
     remoteConfig = _remoteConfigService.remoteConfig;
     setup();
 
@@ -364,6 +369,15 @@ class HomeController extends BaseController {
     final promotions = await _apiService.getPromotions();
     return promotions.promotions;
   }
+
+  Future changeLocale(String lang) async {
+    LocalizationService.changeLocale(lang);
+    if (prefs == null) prefs = await SharedPreferences.getInstance();
+    await prefs.setString(CurrentLanguage, lang);
+    currentLanguage = lang;
+  }
+
+  String getCurrentLang() => currentLanguage;
 
   void showTutorial(BuildContext context,
       {GlobalKey searchKey, GlobalKey logoKey}) async {

@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import '../../controllers/grid_view_builder/base_grid_view_builder_controller.dart';
 import '../../models/grid_view_builder_filter_models/base_filter_model.dart';
 import '../shared/ui_helpers.dart';
-import 'shimmer_widget.dart';
+import 'shimmer/shimmer_widget.dart';
 
 // Type and Enum declarations
 enum LoadMoreStatus { LOADING, STABLE }
@@ -152,7 +152,6 @@ class _CustomGridViewFutureBuilderState<P, I>
                 //   )
                 : widget.loadingWidget;
           case ConnectionState.done:
-            print("snapshots.data");
             print(snapshots.data);
             return PaginatedGridView<P, I>(
               data: snapshots.data,

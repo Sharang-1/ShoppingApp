@@ -1,4 +1,3 @@
-import 'package:compound/ui/widgets/shimmer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:grouped_list/grouped_list.dart';
@@ -15,6 +14,7 @@ import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
 import '../widgets/custom_text.dart';
 import '../widgets/grid_list_widget.dart';
+import '../widgets/shimmer/shimmer_widget.dart';
 import 'myorders_details_view.dart';
 
 class MyOrdersView extends StatefulWidget {

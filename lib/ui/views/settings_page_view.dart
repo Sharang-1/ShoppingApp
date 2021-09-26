@@ -15,6 +15,7 @@ import '../../controllers/home_controller.dart';
 import '../../controllers/user_details_controller.dart';
 import '../../locator.dart';
 import '../../services/navigation_service.dart';
+import '../../utils/lang/translation_keys.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
@@ -23,81 +24,126 @@ import '../widgets/custom_text.dart';
 import '../widgets/profile_setup_indicator.dart';
 import 'help_view.dart';
 
-class SettingsView extends StatelessWidget {
+class SettingsView extends StatefulWidget {
   SettingsView({Key key}) : super(key: key);
 
-  final Map<int, String> sections = {
-    1: "Connect With Us",
-    2: "Leave a Review",
-    3: "About Us"
-  };
+  @override
+  _SettingsViewState createState() => _SettingsViewState();
+}
 
-  final Map<int, String> settingNameMap = {
-    1: "Rate The App",
-    2: "Send Feedback",
-    3: "Customer Support",
-    4: "Terms & Conditions",
-    5: "Share with friends",
-    6: "About Dzor",
-  };
+class _SettingsViewState extends State<SettingsView> {
+  String selectedLang;
+  Map<int, String> sections;
+  Map<int, String> settingNameMap;
+  Map<int, IconData> settingIconMap;
+  Map<int, void Function()> settingOnTapMap;
+  Map<int, List<int>> sectionsSettingsMap;
+  AppBar appbar;
 
-  final Map<int, IconData> settingIconMap = {
-    1: FontAwesomeIcons.solidStar,
-    2: FontAwesomeIcons.bookOpen,
-    3: FontAwesomeIcons.phoneVolume,
-    4: FontAwesomeIcons.solidNewspaper,
-    5: Platform.isIOS ? CupertinoIcons.share : Icons.share,
-    6: FontAwesomeIcons.infoCircle,
-  };
+  @override
+  void initState() {
+    selectedLang = locator<HomeController>().getCurrentLang();
 
-  final Map<int, void Function()> settingOnTapMap = {
-    1: () => OpenAppstore.launch(
-        androidAppId: "in.dzor.dzor_app", iOSAppId: "1562083632"),
-    2: () => OpenAppstore.launch(
-        androidAppId: "in.dzor.dzor_app", iOSAppId: "1562083632"),
-    3: () => Get.bottomSheet(
-          HelpView(),
-          backgroundColor: Colors.white,
-          isScrollControlled: true,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(
-              top: Radius.circular(curve10),
-            ),
+    setupSettings();
+
+    appbar = AppBar(
+        elevation: 0,
+        title: Text(
+          SETTINGS_APPBAR_TITLE.tr,
+          style: TextStyle(
+            fontFamily: headingFont,
+            fontWeight: FontWeight.w700,
+            fontSize: 18,
+            color: Colors.black,
           ),
-          clipBehavior: Clip.antiAlias,
         ),
-    4: () => BaseController.launchURL(TERMS_AND_CONDITIONS_URL),
-    5: BaseController.shareApp,
-    6: () => launch("https://dzor.page.link/76UZ"),
-  };
+        iconTheme: IconThemeData(
+          color: appBarIconColor,
+        ),
+        backgroundColor: Colors.white,
+        actions: [
+          // DropdownButton(
+          //     icon: Icon(Icons.arrow_drop_down),
+          //     value: selectedLang,
+          //     elevation: 0,
+          //     items: LocalizationService.langs
+          //         .map(
+          //           (e) => DropdownMenuItem(
+          //             value: e,
+          //             child: Text(e),
+          //           ),
+          //         )
+          //         .toList(),
+          //     onChanged: (e) async {
+          //       await locator<HomeController>().changeLocale(e);
+          //       setState(() {
+          //         selectedLang = e;
+          //         setupSettings();
+          //       });
+          //     }),
+        ]);
 
-  final Map<int, List<int>> sectionsSettingsMap = {
-    1: [2, 3, 5],
-    2: [1],
-    3: [4, 6]
-  };
+    super.initState();
+  }
 
-  final AppBar appbar = AppBar(
-    elevation: 0,
-    title: Text(
-      "Settings",
-      style: TextStyle(
-        fontFamily: headingFont,
-        fontWeight: FontWeight.w700,
-        fontSize: 18,
-        color: Colors.black,
-      ),
-    ),
-    iconTheme: IconThemeData(
-      color: appBarIconColor,
-    ),
-    backgroundColor: Colors.white,
-  );
+  void setupSettings() {
+    sections = {
+      1: SETTINGS_CONNECT_WITH_US.tr,
+      2: SETTINGS_LEAVE_REVIEW.tr,
+      3: SETTINGS_ABOUT_DZOR.tr,
+    };
+
+    settingNameMap = {
+      1: SETTINGS_RATE_APP.tr,
+      2: SETTINGS_SEND_FEEDBACK.tr,
+      3: SETTINGS_CUSTOMER_SUPPORT.tr,
+      4: SETTINGS_TERMS_AND_CONDITIONS.tr,
+      5: SETTINGS_SHARE_WITH_FRIENDS.tr,
+      6: SETTINGS_ABOUT_DZOR.tr,
+    };
+
+    settingIconMap = {
+      1: FontAwesomeIcons.solidStar,
+      2: FontAwesomeIcons.bookOpen,
+      3: FontAwesomeIcons.phoneVolume,
+      4: FontAwesomeIcons.solidNewspaper,
+      5: Platform.isIOS ? CupertinoIcons.share : Icons.share,
+      6: FontAwesomeIcons.infoCircle,
+    };
+
+    settingOnTapMap = {
+      1: () => OpenAppstore.launch(
+          androidAppId: "in.dzor.dzor_app", iOSAppId: "1562083632"),
+      2: () => OpenAppstore.launch(
+          androidAppId: "in.dzor.dzor_app", iOSAppId: "1562083632"),
+      3: () => Get.bottomSheet(
+            HelpView(),
+            backgroundColor: Colors.white,
+            isScrollControlled: true,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(curve10),
+              ),
+            ),
+            clipBehavior: Clip.antiAlias,
+          ),
+      4: () => BaseController.launchURL(TERMS_AND_CONDITIONS_URL),
+      5: BaseController.shareApp,
+      6: () => launch("https://dzor.page.link/76UZ"),
+    };
+
+    sectionsSettingsMap = {
+      1: [2, 3, 5],
+      2: [1],
+      3: [4, 6]
+    };
+  }
 
   @override
   Widget build(BuildContext context) => GetBuilder<UserDetailsController>(
         init: UserDetailsController()..getUserDetails(),
         builder: (controller) {
+          print("Yash: $selectedLang");
           return Scaffold(
             backgroundColor: newBackgroundColor,
             appBar: appbar,
@@ -152,12 +198,17 @@ class SettingsView extends StatelessWidget {
                                               fadeInCurve: Curves.easeIn,
                                               placeholder: AssetImage(
                                                   "assets/images/user.png"),
-                                              image: NetworkImage(
-                                                  "$USER_PROFILE_PHOTO_BASE_URL/${controller?.mUserDetails?.key}",
-                                                  headers: {
-                                                    "Authorization":
-                                                        "Bearer ${locator<HomeController>()?.prefs?.getString(Authtoken) ?? ''}",
-                                                  }),
+                                              image: (locator<HomeController>()
+                                                          ?.isLoggedIn ??
+                                                      false)
+                                                  ? NetworkImage(
+                                                      "$USER_PROFILE_PHOTO_BASE_URL/${controller?.mUserDetails?.key}",
+                                                      headers: {
+                                                          "Authorization":
+                                                              "Bearer ${locator<HomeController>()?.prefs?.getString(Authtoken) ?? ''}",
+                                                        })
+                                                  : AssetImage(
+                                                      "assets/images/user.png"),
                                               imageErrorBuilder:
                                                   (context, error, stackTrace) {
                                                 print(
@@ -214,7 +265,7 @@ class SettingsView extends StatelessWidget {
                                               ]
                                             : [
                                                 CustomText(
-                                                  'Login',
+                                                  SETTINGS_LOG_IN.tr,
                                                   isTitle: true,
                                                   fontSize: 16,
                                                   isBold: true,
@@ -252,15 +303,11 @@ class SettingsView extends StatelessWidget {
                                 0) !=
                             0)
                           Padding(
-                            padding: EdgeInsets.symmetric(
-                              vertical: 8.0,
-                              horizontal: 8.0,
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                            padding: EdgeInsets.all(8.0),
+                            child: Row(
                               children: [
                                 CustomText(
-                                  "My City: ${controller?.mUserDetails?.contact?.city}",
+                                  "${SETTINGS_MY_CITY.tr}: ${controller?.mUserDetails?.contact?.city}",
                                   isBold: true,
                                   fontSize: 14,
                                 ),
@@ -271,7 +318,7 @@ class SettingsView extends StatelessWidget {
                           color: Colors.grey[400],
                         ),
                         SettingsCard(
-                          name: "My Orders",
+                          name: "${SETTINGS_MY_ORDER.tr}",
                           color: Colors.black87,
                           iconColor: Colors.black54,
                           onTap: () async =>
@@ -284,7 +331,7 @@ class SettingsView extends StatelessWidget {
                           icon: FontAwesomeIcons.pollH,
                         ),
                         SettingsCard(
-                          name: "My Appointments",
+                          name: "${SETTINGS_MY_APPOINTMENT.tr}",
                           color: Colors.black87,
                           iconColor: Colors.black54,
                           onTap: () async =>
@@ -348,7 +395,7 @@ class SettingsView extends StatelessWidget {
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 30.0),
                                       child: CustomText(
-                                        "Logout",
+                                        SETTINGS_LOG_OUT.tr,
                                         color: logoRed,
                                         fontSize: 14,
                                         isBold: true,

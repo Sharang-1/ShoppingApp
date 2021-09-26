@@ -7,7 +7,7 @@ import 'package:visibility_detector/visibility_detector.dart';
 
 import '../shared/shared_styles.dart';
 import '../widgets/custom_text.dart';
-import '../widgets/shimmer_widget.dart';
+import '../widgets/shimmer/shimmer_widget.dart';
 import 'gallery_view.dart';
 
 class HomeSlider extends StatefulWidget {

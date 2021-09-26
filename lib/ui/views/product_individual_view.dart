@@ -33,6 +33,7 @@ import '../../services/dialog_service.dart';
 import '../../services/dynamic_link_service.dart';
 import '../../services/error_handling_service.dart';
 import '../../services/navigation_service.dart';
+import '../../utils/lang/translation_keys.dart';
 import '../../utils/stringUtils.dart';
 import '../../utils/tools.dart';
 import '../shared/app_colors.dart';
@@ -45,7 +46,7 @@ import '../widgets/home_view_list_header.dart';
 import '../widgets/product_description_table.dart';
 import '../widgets/reviews.dart';
 import '../widgets/section_builder.dart';
-import '../widgets/shimmer_widget.dart';
+import '../widgets/shimmer/shimmer_widget.dart';
 import '../widgets/wishlist_icon.dart';
 import 'cart_view.dart';
 import 'gallery_view.dart';
@@ -90,6 +91,13 @@ const Map<int, String> workOnMap = {
   10: "Borders",
   11: "Buttas throughout the Saree",
   12: "Borders and Buttas throughout the Saree",
+};
+
+Map<String, Color> tagColors = {
+  PRODUCTSCREEN_ASSURED.tr: Colors.blueAccent,
+  PRODUCTSCREEN_RETURNS.tr: Colors.grey[700],
+  PRODUCTSCREEN_IN_STOCK.tr: lightGreen,
+  PRODUCTSCREEN_SOLD_OUT.tr: logoRed,
 };
 
 class ProductIndiView extends StatefulWidget {
@@ -142,457 +150,6 @@ class _ProductIndiViewState extends State<ProductIndiView> {
   bool showHeader = false;
 
   GlobalKey cartKey = GlobalKey();
-
-  _showDialog(context, sellerId, cid) {
-    return Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => GalleryPhotoViewWrapper(
-          galleryItems: [
-            "${BASE_URL}sellers/$sellerId/categories/$cid/sizechart"
-          ],
-          scrollDirection: Axis.horizontal,
-          initialIndex: 0,
-          showImageLabel: false,
-          loadingBuilder: (context, e) => ShimmerWidget(),
-          // Center(
-          //   child: Image.asset(
-          //     "assets/images/loading_img.gif",
-          //     height: 50,
-          //     width: 50,
-          //   ),
-          // ),
-          backgroundDecoration: BoxDecoration(color: Colors.white),
-          appbarColor: Colors.white,
-        ),
-      ),
-    );
-  }
-
-  Future<void> goToSellerProfile(controller) async {
-    if (locator<HomeController>().isLoggedIn) {
-      if (productData?.seller?.subscriptionTypeId == 2) {
-        await NavigationService.to(
-          ProductsListRoute,
-          arguments: ProductPageArg(
-            subCategory: productData?.seller?.name,
-            queryString: "accountKey=${productData?.seller?.key};",
-            sellerPhoto: "$SELLER_PHOTO_BASE_URL/${productData?.seller?.key}",
-          ),
-        );
-      } else {
-        await NavigationService.to(SellerIndiViewRoute,
-            arguments: productData?.seller);
-      }
-    } else {
-      await BaseController.showLoginPopup(
-        nextView: SellerIndiViewRoute,
-        shouldNavigateToNextScreen: false,
-      );
-    }
-  }
-
-  Widget productPriceInfo({
-    productName,
-    designerName,
-    productPrice,
-    actualPrice,
-    bool showPrice = true,
-    bool isClothMeterial = false,
-  }) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              FittedBox(
-                alignment: Alignment.centerLeft,
-                fit: BoxFit.scaleDown,
-                child: Text(
-                  capitalizeString(productName.toString()),
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontFamily: headingFont,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              GestureDetector(
-                child: Text(
-                  "By " + designerName,
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey[500],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: <Widget>[
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Row(
-                      children: [
-                        if (productDiscount != 0.0 && showPrice)
-                          Padding(
-                            padding: const EdgeInsets.only(right: 8.0),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: <Widget>[
-                                Text(
-                                  '${BaseController.formatPrice(actualPrice)}',
-                                  style: TextStyle(
-                                    fontSize: 8,
-                                    color: Colors.grey[500],
-                                    decoration: TextDecoration.lineThrough,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        if (available)
-                          Text(
-                            '${showPrice ? BaseController.formatPrice(productPrice) : ' - '}',
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: lightGreen,
-                            ),
-                          )
-                        else
-                          Text(
-                            "Sold Out",
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: logoRed,
-                            ),
-                          ),
-                      ],
-                    ),
-                    if (available)
-                      Text(
-                        "(Inclusive of taxes and charges)",
-                        style: TextStyle(
-                          fontSize: 8,
-                        ),
-                      ),
-                  ],
-                ),
-              ],
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  List<Widget> choiceChips(variations) {
-    List<Widget> allChips = [];
-    List<String> sizes = [];
-    for (int i = 0; i < variations.length; i++) {
-      if (!sizes.contains(variations[i].size) &&
-          (variations[i].quantity != 0)) {
-        allChips.add(ChoiceChip(
-          backgroundColor: Colors.white,
-          selectedShadowColor: Colors.white,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5),
-              side: BorderSide(
-                color: selectedSize == variations[i].size
-                    ? darkRedSmooth
-                    : Colors.grey,
-                width: 0.5,
-              )),
-          labelStyle: TextStyle(
-            fontSize: 12,
-            fontWeight: selectedSize == variations[i].size
-                ? FontWeight.w600
-                : FontWeight.normal,
-            color: selectedSize == variations[i].size
-                ? darkRedSmooth
-                : Colors.grey,
-          ),
-          selectedColor: Colors.white,
-          label: Text(variations[i].size),
-          selected: selectedSize == variations[i].size,
-          onSelected: (val) {
-            setState(() => {
-                  selectedSize = variations[i].size,
-                  selectedIndex = i,
-                  selectedQty = 0
-                });
-          },
-        ));
-        sizes.add(variations[i].size);
-      }
-    }
-    return allChips;
-  }
-
-  Wrap allSizes(variations) {
-    if (variations[0].size == "N/A") {
-      selectedSize = "N/A";
-      selectedIndex = 0;
-      return Wrap(
-        spacing: 8,
-        children: [],
-      );
-    } else {
-      return Wrap(
-        spacing: 8,
-        children: choiceChips(variations),
-      );
-    }
-  }
-
-  Wrap allColors(colors) {
-    List<Widget> allColorChips = [];
-    var uniqueColor = new Map();
-    for (var color in colors) {
-      print("check this" +
-          (uniqueColor.containsKey(color.color)).toString() +
-          color.color);
-      if (selectedSize != color.size) {
-        continue;
-      }
-      if (!uniqueColor.containsKey(color.color)) {
-        uniqueColor[color.color] = true;
-      } else {
-        continue;
-      }
-      allColorChips.add(ChoiceChip(
-        backgroundColor: Colors.white,
-        selectedShadowColor: Colors.white,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(5),
-            side: BorderSide(
-              color: selectedColor == color ? darkRedSmooth : Colors.grey,
-              width: 0.5,
-            )),
-        labelStyle: TextStyle(
-            fontSize: 12,
-            fontWeight: selectedColor == color.color
-                ? FontWeight.w600
-                : FontWeight.normal,
-            color: selectedColor == color.color ? darkRedSmooth : Colors.grey),
-        selectedColor: Colors.white,
-        label: Text(color.color),
-        selected: selectedColor == color.color,
-        onSelected: (val) {
-          setState(() => {
-                selectedColor = color.color,
-                maxQty = color.quantity,
-                selectedQty = (productData.category.id == 13) ? 0 : 1
-              });
-        },
-      ));
-    }
-    return Wrap(
-      spacing: 8,
-      children: allColorChips,
-    );
-  }
-
-  Widget allTags(tags) {
-    var alltags = "";
-    for (var item in tags) {
-      alltags += "#" + item + "  ";
-    }
-    return Text(
-      alltags,
-      textAlign: TextAlign.justify,
-      style: TextStyle(fontSize: 18),
-    );
-  }
-
-  Widget paddingWidget(Widget item) {
-    return Padding(child: item, padding: EdgeInsets.fromLTRB(0, 10, 0, 0));
-  }
-
-  int calculateSavedCost(Cost cost) {
-    double actualCost =
-        (cost.cost + cost.convenienceCharges.cost + cost.gstCharges.cost);
-    return (actualCost - cost.costToCustomer).round();
-  }
-
-  void setupProductDetails(Product data) {
-    productData = data;
-    productName = data?.name ?? "Test Product";
-    productId = data?.key;
-    productDiscount = data?.cost?.productDiscount?.rate ?? 0.0;
-    productPrice = (data.cost.costToCustomer + deliveryCharges).round() ?? 0.0;
-    saved = calculateSavedCost(data?.cost);
-    variations = data?.variations ?? null;
-
-    date = DateTime.now().toString();
-    uniqueKey = UniqueKey();
-    dateParse = DateTime.parse(date);
-    newDate = new DateTime(
-        dateParse.year,
-        dateParse.month,
-        dateParse.day +
-            (data?.shipment?.days == null ? 0 : data.shipment.days + 1));
-    dateParse = DateTime.parse(newDate.toString());
-    formattedDate =
-        "${weekday[dateParse.weekday - 1]} , ${dateParse.day} ${month[dateParse.month - 1]}";
-    shipment = data?.shipment?.days == null ? "Not Availabel" : formattedDate;
-    totalQuantity = 0;
-    variations.forEach((variation) {
-      totalQuantity += variation.quantity.toInt();
-    });
-    available = (totalQuantity == 0) ? false : (data?.available ?? false);
-
-    imageURLs = (data?.photo?.photos ?? <PhotoElement>[])
-        .map((e) => '$PRODUCT_PHOTO_BASE_URL/$productId/${e.name}')
-        .toList();
-    photosKey = GlobalKey();
-    knowDesignerKey = GlobalKey();
-    uniqueKey = UniqueKey();
-  }
-
-  void showTutorial(BuildContext context,
-      {GlobalKey photosKey, GlobalKey knowDesignerKey, GlobalKey cartKey}) {
-    SharedPreferences.getInstance().then((prefs) {
-      if (prefs?.getBool(cartKey == null
-              ? ShouldShowProductPageTutorial
-              : ShouldShowCartTutorial) ??
-          true) {
-        TutorialCoachMark tutorialCoachMark;
-        List<TargetFocus> targets = <TargetFocus>[
-          if (photosKey != null)
-            TargetFocus(
-              identify: "Photos",
-              keyTarget: photosKey,
-              shape: ShapeLightFocus.RRect,
-              contents: [
-                TargetContent(
-                  align: ContentAlign.bottom,
-                  child: Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          "Tap on Image to zoom it.",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                            fontSize: 18.0,
-                          ),
-                        ),
-                        Center(
-                          child: FittedBox(
-                            fit: BoxFit.scaleDown,
-                            child: Image.asset(
-                              'assets/images/finger_tap.png',
-                              height: 180,
-                              width: 130,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          if (knowDesignerKey != null)
-            TargetFocus(
-              identify: "Know Your Designer",
-              keyTarget: knowDesignerKey,
-              shape: ShapeLightFocus.RRect,
-              contents: [
-                TargetContent(
-                  align: ContentAlign.top,
-                  child: Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          "Know Your Designer",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                            fontSize: 18.0,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          if (cartKey != null)
-            TargetFocus(
-              identify: "Cart Target",
-              keyTarget: cartKey,
-              alignSkip: Alignment.bottomLeft,
-              contents: [
-                TargetContent(
-                  align: ContentAlign.bottom,
-                  child: Container(
-                    child: Text(
-                      "Tap on Bag to view Items.",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        fontSize: 18.0,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-        ];
-        Future.delayed(Duration(milliseconds: 300), () {
-          tutorialCoachMark = TutorialCoachMark(
-            context,
-            targets: targets,
-            colorShadow: Colors.black45,
-            paddingFocus: 5,
-            onClickOverlay: (targetFocus) {
-              if (knowDesignerKey != null)
-                Scrollable.ensureVisible(
-                  knowDesignerKey.currentContext,
-                  alignment: 0.5,
-                );
-              Future.delayed(Duration(milliseconds: 100), () {
-                tutorialCoachMark.next();
-              });
-            },
-            onClickTarget: (targetFocus) {
-              if (knowDesignerKey != null)
-                Scrollable.ensureVisible(
-                  knowDesignerKey.currentContext,
-                  alignment: 0.5,
-                );
-              Future.delayed(Duration(milliseconds: 100), () {
-                tutorialCoachMark.next();
-              });
-            },
-            onSkip: () async => await prefs?.setBool(
-                cartKey == null
-                    ? ShouldShowProductPageTutorial
-                    : ShouldShowCartTutorial,
-                false),
-            onFinish: () async => await prefs?.setBool(
-                cartKey == null
-                    ? ShouldShowProductPageTutorial
-                    : ShouldShowCartTutorial,
-                false),
-          )..show();
-        });
-      }
-    });
-  }
 
   @override
   void initState() {
@@ -790,12 +347,97 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                 isClothMeterial:
                                     (productData.category.id == 13),
                               ),
+                              elementDivider(),
+                              SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Row(
+                                  children: [
+                                    PRODUCTSCREEN_ASSURED.tr,
+                                    if (available &&
+                                        (totalQuantity != 0) &&
+                                        locator<HomeController>()
+                                                ?.cityName
+                                                ?.toLowerCase() ==
+                                            'ahmedabad')
+                                      PRODUCTSCREEN_COD.tr,
+                                    PRODUCTSCREEN_RETURNS.tr,
+                                    if (available && (totalQuantity != 0))
+                                      PRODUCTSCREEN_IN_STOCK.tr,
+                                    if ((available && (totalQuantity == 0)) ||
+                                        !available)
+                                      PRODUCTSCREEN_SOLD_OUT.tr,
+                                    PRODUCTSCREEN_JUST_HERE.tr,
+                                    if ((productData?.stitchingType?.id ??
+                                            -1) ==
+                                        2)
+                                      PRODUCTSCREEN_UNSTITCHED.tr,
+                                    if (productData.whoMadeIt.id == 2)
+                                      PRODUCTSCREEN_HANDCRAFTED.tr,
+                                    if (totalQuantity == 1)
+                                      PRODUCTSCREEN_ONE_IN_MARKET.tr,
+                                  ]
+                                      .map(
+                                        (e) => InkWell(
+                                          onTap: e.contains(
+                                                  PRODUCTSCREEN_RETURNS.tr)
+                                              ? () async =>
+                                                  await showModalBottomSheet(
+                                                    isScrollControlled: true,
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.vertical(
+                                                        top: Radius.circular(
+                                                            curve10),
+                                                      ),
+                                                    ),
+                                                    clipBehavior:
+                                                        Clip.antiAlias,
+                                                    context: context,
+                                                    builder: (con) =>
+                                                        HelpView(),
+                                                  )
+                                              : null,
+                                          child: Container(
+                                            margin: EdgeInsets.symmetric(
+                                              vertical: 4.0,
+                                              horizontal: 8.0,
+                                            ),
+                                            child: Row(
+                                              children: [
+                                                if (e.contains(
+                                                    PRODUCTSCREEN_ASSURED
+                                                        .tr)) ...[
+                                                  Image.asset(
+                                                    "assets/images/assured.png",
+                                                    color: Colors.blueAccent,
+                                                    height: 16,
+                                                    width: 16,
+                                                  ),
+                                                  horizontalSpaceTiny,
+                                                ],
+                                                Text(
+                                                  e,
+                                                  style: TextStyle(
+                                                    fontSize: 12.0,
+                                                    color: tagColors[e] ??
+                                                        Colors.grey,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                      .toList(),
+                                ),
+                              ),
                               if ((controller?.productData?.coupons?.length ??
                                       0) >
                                   0) ...[
                                 sectionDivider(),
                                 HomeViewListHeader(
-                                  title: "Available Coupons",
+                                  title: PRODUCTSCREEN_AVAILABLE_COUPONS.tr,
                                   padding: EdgeInsets.zero,
                                 ),
                                 verticalSpaceTiny,
@@ -991,12 +633,22 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                           BorderRadius.circular(
                                                               5),
                                                     ),
-                                                    child: Text(
-                                                      e.name,
-                                                      style: TextStyle(
-                                                        fontSize: 10.0,
-                                                        color: logoRed,
-                                                      ),
+                                                    child: Row(
+                                                      children: [
+                                                        Image.asset(
+                                                          'assets/images/coupon.png',
+                                                          height: 16,
+                                                          width: 16,
+                                                        ),
+                                                        horizontalSpaceTiny,
+                                                        Text(
+                                                          e.name,
+                                                          style: TextStyle(
+                                                            fontSize: 10.0,
+                                                            color: logoRed,
+                                                          ),
+                                                        ),
+                                                      ],
                                                     ),
                                                   ),
                                                 ),
@@ -1019,7 +671,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                               children: <Widget>[
                                                 Expanded(
                                                   child: Text(
-                                                    "Select Size".toUpperCase(),
+                                                    PRODUCTSCREEN_SELECT_SIZE
+                                                        .tr,
                                                     style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.normal,
@@ -1040,7 +693,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                             1);
                                                   },
                                                   child: Text(
-                                                    "size chart",
+                                                    PRODUCTSCREEN_SIZE_CHART.tr,
                                                     style: TextStyle(
                                                       decoration: TextDecoration
                                                           .underline,
@@ -1062,7 +715,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                     ? verticalSpace(0)
                                                     : elementDivider(),
                                                 Text(
-                                                  "Select Color".toUpperCase(),
+                                                  PRODUCTSCREEN_SELECT_COLOR.tr,
                                                   style: TextStyle(
                                                     fontSize: 14,
                                                     letterSpacing: 1.0,
@@ -1189,7 +842,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              "*Please select size, color, quantity carefully by referring to the size chart.",
+                                              PRODUCTSCREEN_SELECTION_GUIDE.tr,
                                               style: TextStyle(
                                                 color: Colors.grey,
                                                 fontSize:
@@ -1221,81 +874,10 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                     ],
                                   ),
                                 ),
-                              elementDivider(),
-                              SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: Row(
-                                  children: [
-                                    "📦 Easy 2 Days Returns",
-                                    "#JustHere",
-                                    if (available && (totalQuantity != 0))
-                                      "✔️ In Stock",
-                                    if (available && (totalQuantity == 0))
-                                      "Out of Stock",
-                                    if (available &&
-                                        (totalQuantity != 0) &&
-                                        locator<HomeController>()
-                                                ?.cityName
-                                                ?.toLowerCase() ==
-                                            'ahmedabad')
-                                      "💰 CODAvailable",
-                                    if ((productData?.stitchingType?.id ??
-                                            -1) ==
-                                        2)
-                                      "Unstitched",
-                                    if (productData.whoMadeIt.id == 2)
-                                      "Hand-Crafted",
-                                    if (totalQuantity == 1)
-                                      "One in Market Product",
-                                    if (!available) "Sold Out",
-                                  ]
-                                      .map(
-                                        (e) => InkWell(
-                                          onTap: e.contains(
-                                                  "Easy Today Returns")
-                                              ? () async =>
-                                                  await showModalBottomSheet(
-                                                    isScrollControlled: true,
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.vertical(
-                                                        top: Radius.circular(
-                                                            curve10),
-                                                      ),
-                                                    ),
-                                                    clipBehavior:
-                                                        Clip.antiAlias,
-                                                    context: context,
-                                                    builder: (con) =>
-                                                        HelpView(),
-                                                  )
-                                              : null,
-                                          child: Container(
-                                            margin: EdgeInsets.symmetric(
-                                              vertical: 4.0,
-                                              horizontal: 8.0,
-                                            ),
-                                            child: Text(
-                                              e,
-                                              style: TextStyle(
-                                                  fontSize: 12.0,
-                                                  color: e.contains("In Stock")
-                                                      ? lightGreen
-                                                      : e == "Out of Stock"
-                                                          ? logoRed
-                                                          : Colors.grey),
-                                            ),
-                                          ),
-                                        ),
-                                      )
-                                      .toList(),
-                                ),
-                              ),
                               if (available) sectionDivider(),
                               if (available)
                                 Text(
-                                  "Delivery By : $shipment",
+                                  "${PRODUCTSCREEN_DELIVERY_BY.tr} : $shipment",
                                   style: TextStyle(
                                     fontSize: 12,
                                   ),
@@ -1309,7 +891,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        "Know Your Designer".toUpperCase(),
+                                        PRODUCTSCREEN_KNOW_YOUR_DESIGNER.tr,
                                         style: TextStyle(
                                           letterSpacing: 1.0,
                                           fontSize: 14,
@@ -1603,7 +1185,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   CustomText(
-                                    "Item Details".toUpperCase(),
+                                    PRODUCTSCREEN_ITEM_DETAILS.tr,
                                     fontSize: 14,
                                     letterSpacing: 1.0,
                                   ),
@@ -1661,7 +1243,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                               ),
                               sectionDivider(),
                               Text(
-                                "Recommended Products".toUpperCase(),
+                                PRODUCTSCREEN_RECOMMENDED_PRODUCTS.tr,
                                 style: TextStyle(
                                   fontSize: 14,
                                   letterSpacing: 1.0,
@@ -1684,7 +1266,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                               if (showMoreFromDesigner) sectionDivider(),
                               if (showMoreFromDesigner)
                                 Text(
-                                  "More From Designer".toUpperCase(),
+                                  PRODUCTSCREEN_MORE_FROM_DESIGNER.tr,
                                   style: TextStyle(
                                     fontSize: 14,
                                     letterSpacing: 1.0,
@@ -1778,7 +1360,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                           title: FittedBox(
                                             fit: BoxFit.scaleDown,
                                             child: Text(
-                                                'Please select size, color & quantity'),
+                                                PRODUCTSCREEN_SELECT_SIZE_COLOR_QTY
+                                                    .tr),
                                           ),
                                           actions: [
                                             TextButton(
@@ -1859,7 +1442,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                   ),
                                   child: Center(
                                     child: Text(
-                                      "BUY NOW",
+                                      PRODUCTSCREEN_BUY_NOW.tr,
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold,
@@ -1881,7 +1464,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                         title: FittedBox(
                                           fit: BoxFit.scaleDown,
                                           child: Text(
-                                              'Please select size, color & quantity'),
+                                              PRODUCTSCREEN_SELECT_SIZE_COLOR_QTY
+                                                  .tr),
                                         ),
                                         actions: [
                                           TextButton(
@@ -1950,7 +1534,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                 ),
                                 child: Center(
                                   child: Text(
-                                    "ADD TO BAG",
+                                    PRODUCTSCREEN_ADD_TO_BAG.tr,
                                     style: TextStyle(
                                       color: widget.fromCart
                                           ? Colors.white
@@ -1987,7 +1571,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                     ),
                                   ),
                                   Text(
-                                    "View Bag",
+                                    PRODUCTSCREEN_VIEW_BAG.tr,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       fontSize: 8,
@@ -2023,6 +1607,458 @@ class _ProductIndiViewState extends State<ProductIndiView> {
           ),
         ),
       );
+
+  _showDialog(context, sellerId, cid) {
+    return Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => GalleryPhotoViewWrapper(
+          galleryItems: [
+            "${BASE_URL}sellers/$sellerId/categories/$cid/sizechart"
+          ],
+          scrollDirection: Axis.horizontal,
+          initialIndex: 0,
+          showImageLabel: false,
+          isSizeChart: true,
+          loadingBuilder: (context, e) => ShimmerWidget(),
+          // Center(
+          //   child: Image.asset(
+          //     "assets/images/loading_img.gif",
+          //     height: 50,
+          //     width: 50,
+          //   ),
+          // ),
+          backgroundDecoration: BoxDecoration(color: Colors.white),
+          appbarColor: Colors.white,
+        ),
+      ),
+    );
+  }
+
+  Future<void> goToSellerProfile(controller) async {
+    if (locator<HomeController>().isLoggedIn) {
+      if (productData?.seller?.subscriptionTypeId == 2) {
+        await NavigationService.to(
+          ProductsListRoute,
+          arguments: ProductPageArg(
+            subCategory: productData?.seller?.name,
+            queryString: "accountKey=${productData?.seller?.key};",
+            sellerPhoto: "$SELLER_PHOTO_BASE_URL/${productData?.seller?.key}",
+          ),
+        );
+      } else {
+        await NavigationService.to(SellerIndiViewRoute,
+            arguments: productData?.seller);
+      }
+    } else {
+      await BaseController.showLoginPopup(
+        nextView: SellerIndiViewRoute,
+        shouldNavigateToNextScreen: false,
+      );
+    }
+  }
+
+  Widget productPriceInfo({
+    productName,
+    designerName,
+    productPrice,
+    actualPrice,
+    bool showPrice = true,
+    bool isClothMeterial = false,
+  }) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              FittedBox(
+                alignment: Alignment.centerLeft,
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  capitalizeString(productName.toString()),
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontFamily: headingFont,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              GestureDetector(
+                child: Text(
+                  "By " + designerName,
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.grey[500],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: <Widget>[
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Row(
+                      children: [
+                        if (productDiscount != 0.0 && showPrice)
+                          Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: <Widget>[
+                                Text(
+                                  '${BaseController.formatPrice(actualPrice)}',
+                                  style: TextStyle(
+                                    fontSize: 8,
+                                    color: Colors.grey[500],
+                                    decoration: TextDecoration.lineThrough,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        if (available)
+                          Text(
+                            '${showPrice ? BaseController.formatPrice(productPrice) : ' - '}',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: lightGreen,
+                            ),
+                          )
+                        else
+                          Text(
+                            PRODUCTSCREEN_SOLD_OUT.tr,
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: logoRed,
+                            ),
+                          ),
+                      ],
+                    ),
+                    if (available)
+                      Text(
+                        "(${PRODUCTSCREEN_TAXES_AND_CHARGES.tr})",
+                        style: TextStyle(
+                          fontSize: 8,
+                        ),
+                      ),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  List<Widget> choiceChips(variations) {
+    List<Widget> allChips = [];
+    List<String> sizes = [];
+    for (int i = 0; i < variations.length; i++) {
+      if (!sizes.contains(variations[i].size) &&
+          (variations[i].quantity != 0)) {
+        allChips.add(ChoiceChip(
+          backgroundColor: Colors.white,
+          selectedShadowColor: Colors.white,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
+              side: BorderSide(
+                color: selectedSize == variations[i].size
+                    ? darkRedSmooth
+                    : Colors.black,
+                width: 0.5,
+              )),
+          labelStyle: TextStyle(
+            fontSize: 12,
+            fontWeight: selectedSize == variations[i].size
+                ? FontWeight.w600
+                : FontWeight.normal,
+            color: selectedSize == variations[i].size
+                ? darkRedSmooth
+                : Colors.black,
+          ),
+          selectedColor: Colors.white,
+          label: Text(variations[i].size),
+          selected: selectedSize == variations[i].size,
+          onSelected: (val) {
+            setState(() => {
+                  selectedSize = variations[i].size,
+                  selectedIndex = i,
+                  selectedQty = 0
+                });
+          },
+        ));
+        sizes.add(variations[i].size);
+      }
+    }
+    return allChips;
+  }
+
+  Wrap allSizes(variations) {
+    if (variations[0].size == "N/A") {
+      selectedSize = "N/A";
+      selectedIndex = 0;
+      return Wrap(
+        spacing: 8,
+        children: [],
+      );
+    } else {
+      return Wrap(
+        spacing: 8,
+        children: choiceChips(variations),
+      );
+    }
+  }
+
+  Wrap allColors(colors) {
+    List<Widget> allColorChips = [];
+    var uniqueColor = new Map();
+    for (var color in colors) {
+      print("check this" +
+          (uniqueColor.containsKey(color.color)).toString() +
+          color.color);
+      if (selectedSize != color.size) {
+        continue;
+      }
+      if (!uniqueColor.containsKey(color.color)) {
+        uniqueColor[color.color] = true;
+      } else {
+        continue;
+      }
+      allColorChips.add(ChoiceChip(
+        backgroundColor: Colors.white,
+        selectedShadowColor: Colors.white,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5),
+            side: BorderSide(
+              color: selectedColor == color ? darkRedSmooth : Colors.black,
+              width: 0.5,
+            )),
+        labelStyle: TextStyle(
+            fontSize: 12,
+            fontWeight: selectedColor == color.color
+                ? FontWeight.w600
+                : FontWeight.normal,
+            color: selectedColor == color.color ? darkRedSmooth : Colors.black),
+        selectedColor: Colors.white,
+        label: Text(color.color),
+        selected: selectedColor == color.color,
+        onSelected: (val) {
+          setState(() => {
+                selectedColor = color.color,
+                maxQty = color.quantity,
+                selectedQty = (productData.category.id == 13) ? 0 : 1
+              });
+        },
+      ));
+    }
+    return Wrap(
+      spacing: 8,
+      children: allColorChips,
+    );
+  }
+
+  Widget allTags(tags) {
+    var alltags = "";
+    for (var item in tags) {
+      alltags += "#" + item + "  ";
+    }
+    return Text(
+      alltags,
+      textAlign: TextAlign.justify,
+      style: TextStyle(fontSize: 18),
+    );
+  }
+
+  Widget paddingWidget(Widget item) {
+    return Padding(child: item, padding: EdgeInsets.fromLTRB(0, 10, 0, 0));
+  }
+
+  int calculateSavedCost(Cost cost) {
+    double actualCost =
+        (cost.cost + cost.convenienceCharges.cost + cost.gstCharges.cost);
+    return (actualCost - cost.costToCustomer).round();
+  }
+
+  void setupProductDetails(Product data) {
+    productData = data;
+    productName = data?.name ?? "Test Product";
+    productId = data?.key;
+    productDiscount = data?.cost?.productDiscount?.rate ?? 0.0;
+    productPrice = (data.cost.costToCustomer + deliveryCharges).round() ?? 0.0;
+    saved = calculateSavedCost(data?.cost);
+    variations = data?.variations ?? null;
+
+    date = DateTime.now().toString();
+    uniqueKey = UniqueKey();
+    dateParse = DateTime.parse(date);
+    newDate = new DateTime(
+        dateParse.year,
+        dateParse.month,
+        dateParse.day +
+            (data?.shipment?.days == null ? 0 : data.shipment.days + 1));
+    dateParse = DateTime.parse(newDate.toString());
+    formattedDate =
+        "${weekday[dateParse.weekday - 1]} , ${dateParse.day} ${month[dateParse.month - 1]}";
+    shipment = data?.shipment?.days == null ? "Not Available" : formattedDate;
+    totalQuantity = 0;
+    variations.forEach((variation) {
+      totalQuantity += variation.quantity.toInt();
+    });
+    available = (totalQuantity == 0) ? false : (data?.available ?? false);
+
+    imageURLs = (data?.photo?.photos ?? <PhotoElement>[])
+        .map((e) => '$PRODUCT_PHOTO_BASE_URL/$productId/${e.name}')
+        .toList();
+    photosKey = GlobalKey();
+    knowDesignerKey = GlobalKey();
+    uniqueKey = UniqueKey();
+  }
+
+  void showTutorial(BuildContext context,
+      {GlobalKey photosKey, GlobalKey knowDesignerKey, GlobalKey cartKey}) {
+    SharedPreferences.getInstance().then((prefs) {
+      if (prefs?.getBool(cartKey == null
+              ? ShouldShowProductPageTutorial
+              : ShouldShowCartTutorial) ??
+          true) {
+        TutorialCoachMark tutorialCoachMark;
+        List<TargetFocus> targets = <TargetFocus>[
+          if (photosKey != null)
+            TargetFocus(
+              identify: "Photos",
+              keyTarget: photosKey,
+              shape: ShapeLightFocus.RRect,
+              contents: [
+                TargetContent(
+                  align: ContentAlign.bottom,
+                  child: Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          "Tap on Image to zoom it.",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 18.0,
+                          ),
+                        ),
+                        Center(
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Image.asset(
+                              'assets/images/finger_tap.png',
+                              height: 180,
+                              width: 130,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          if (knowDesignerKey != null)
+            TargetFocus(
+              identify: "Know Your Designer",
+              keyTarget: knowDesignerKey,
+              shape: ShapeLightFocus.RRect,
+              contents: [
+                TargetContent(
+                  align: ContentAlign.top,
+                  child: Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          "Know Your Designer",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 18.0,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          if (cartKey != null)
+            TargetFocus(
+              identify: "Cart Target",
+              keyTarget: cartKey,
+              alignSkip: Alignment.bottomLeft,
+              contents: [
+                TargetContent(
+                  align: ContentAlign.bottom,
+                  child: Container(
+                    child: Text(
+                      "Tap on Bag to view Items.",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        fontSize: 18.0,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+        ];
+        Future.delayed(Duration(milliseconds: 300), () {
+          tutorialCoachMark = TutorialCoachMark(
+            context,
+            targets: targets,
+            colorShadow: Colors.black45,
+            paddingFocus: 5,
+            onClickOverlay: (targetFocus) {
+              if (knowDesignerKey != null)
+                Scrollable.ensureVisible(
+                  knowDesignerKey.currentContext,
+                  alignment: 0.5,
+                );
+              Future.delayed(Duration(milliseconds: 100), () {
+                tutorialCoachMark.next();
+              });
+            },
+            onClickTarget: (targetFocus) {
+              if (knowDesignerKey != null)
+                Scrollable.ensureVisible(
+                  knowDesignerKey.currentContext,
+                  alignment: 0.5,
+                );
+              Future.delayed(Duration(milliseconds: 100), () {
+                tutorialCoachMark.next();
+              });
+            },
+            onSkip: () async => await prefs?.setBool(
+                cartKey == null
+                    ? ShouldShowProductPageTutorial
+                    : ShouldShowCartTutorial,
+                false),
+            onFinish: () async => await prefs?.setBool(
+                cartKey == null
+                    ? ShouldShowProductPageTutorial
+                    : ShouldShowCartTutorial,
+                false),
+          )..show();
+        });
+      }
+    });
+  }
 
   Widget sectionDivider() {
     return Padding(

@@ -30,6 +30,7 @@ import '../../services/analytics_service.dart';
 import '../../services/api/api_service.dart';
 import '../../services/dynamic_link_service.dart';
 import '../../services/navigation_service.dart';
+import '../../utils/lang/translation_keys.dart';
 import '../../utils/tools.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
@@ -56,20 +57,20 @@ class _SellerIndiState extends State<SellerIndi> {
   GlobalKey sellerAboutKey = GlobalKey();
   GlobalKey appointmentBtnKey = GlobalKey();
 
-  var allDetials = [
-    "Speciality",
-    "Designs & Creates",
-    "Services offered",
-    "Works Offered",
-    "Type",
+  var allDetails = [
+    DESIGNER_SCREEN_SPECIALITY.tr,
+    DESIGNER_SCREEN_DESIGNES_CREATES.tr,
+    DESIGNER_SCREEN_SERVICES_OFFERED.tr,
+    DESIGNER_SCREEN_WORK_OFFERED.tr,
+    DESIGNER_SCREEN_TYPE.tr
   ];
 
   Map<String, String> icons = {
-    "Works Offered": "assets/svg/dressmaker.svg",
-    "Services offered": "assets/svg/crease.svg",
-    "Designs & Creates": "assets/svg/fabric.svg",
-    "Type": "assets/svg/online.svg",
-    "Speciality": "assets/svg/tumblr_badge.svg",
+    DESIGNER_SCREEN_SPECIALITY.tr: "assets/svg/tumblr_badge.svg",
+    DESIGNER_SCREEN_DESIGNES_CREATES.tr: "assets/svg/fabric.svg",
+    DESIGNER_SCREEN_SERVICES_OFFERED.tr: "assets/svg/crease.svg",
+    DESIGNER_SCREEN_WORK_OFFERED.tr: "assets/svg/dressmaker.svg",
+    DESIGNER_SCREEN_TYPE.tr: "assets/svg/online.svg",
   };
 
   final double headFont = 16;
@@ -146,23 +147,25 @@ class _SellerIndiState extends State<SellerIndi> {
   void setupSellerDetails(Seller data) {
     sellerData = data;
     sellerDetails = {
-      "key": data.key,
-      "name": data.name,
-      "type": data?.establishmentType?.name?.toString(),
-      "rattings": data.ratingAverage?.rating?.toString() ?? "",
-      "lat": data?.contact?.geoLocation?.latitude?.toString(),
-      "lon": data?.contact?.geoLocation?.longitude?.toString(),
-      "appointment": "false",
-      "Address": data?.contact?.address,
-      "City": data?.contact?.city,
-      "Speciality": data.known,
-      "Designs & Creates": data.designs,
-      "Services offered": data.operations,
-      "Works Offered": data.works,
-      "Type": data?.establishmentType?.name ??
+      DESIGNER_DETAILS_KEY.tr: data.key,
+      DESIGNER_DETAILS_NAME.tr: data.name,
+      DESIGNER_DETAILS_TYPE.tr: data?.establishmentType?.name?.toString(),
+      DESIGNER_DETAILS_RATTINGS.tr:
+          data.ratingAverage?.rating?.toString() ?? "",
+      DESIGNER_DETAILS_LAT.tr: data?.contact?.geoLocation?.latitude?.toString(),
+      DESIGNER_DETAILS_LON.tr:
+          data?.contact?.geoLocation?.longitude?.toString(),
+      DESIGNER_DETAILS_APPOINTMENT.tr: "false",
+      DESIGNER_DETAILS_ADDRESS.tr: data?.contact?.address,
+      DESIGNER_DETAILS_CITY.tr: data?.contact?.city,
+      DESIGNER_SCREEN_SPECIALITY.tr: data.known,
+      DESIGNER_SCREEN_DESIGNES_CREATES.tr: data.designs,
+      DESIGNER_SCREEN_SERVICES_OFFERED.tr: data.operations,
+      DESIGNER_SCREEN_WORK_OFFERED.tr: data.works,
+      DESIGNER_SCREEN_TYPE.tr: data?.establishmentType?.name ??
           accountTypeValues.reverse[data?.accountType ?? AccountType.SELLER],
-      "Note from Seller": data.bio,
-      "Owner Name": data.owner.name,
+      DESIGNER_DETAILS_NOTE_FROM_DESIGNER.tr: data.bio,
+      DESIGNER_DETAILS_OWNER_NAME.tr: data.owner.name,
     };
   }
 
@@ -197,7 +200,7 @@ class _SellerIndiState extends State<SellerIndi> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          "Book Appointment",
+                          DESIGNER_DETAILS_BOOK_APPOINTMENT.tr,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
@@ -261,9 +264,11 @@ class _SellerIndiState extends State<SellerIndi> {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         elevation: 0,
-                        primary: sellerDetails["appointment"] != "true"
-                            ? lightGreen
-                            : textIconOrange,
+                        primary:
+                            sellerDetails[DESIGNER_DETAILS_APPOINTMENT.tr] !=
+                                    "true"
+                                ? lightGreen
+                                : textIconOrange,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5),
                         ),
@@ -271,13 +276,15 @@ class _SellerIndiState extends State<SellerIndi> {
                       onPressed: () {
                         BaseController.vibrate(duration: 50);
                         _showBottomSheet(context, sellerDetails);
-                        if (sellerDetails["appointment"] != "true") {}
+                        if (sellerDetails[DESIGNER_DETAILS_APPOINTMENT.tr] !=
+                            "true") {}
                       },
                       child: Container(
                         padding: const EdgeInsets.symmetric(vertical: 12),
-                        child: sellerDetails["appointment"] != "true"
+                        child: sellerDetails[DESIGNER_DETAILS_APPOINTMENT.tr] !=
+                                "true"
                             ? CustomText(
-                                "Book Appointment",
+                                DESIGNER_DETAILS_BOOK_APPOINTMENT.tr,
                                 align: TextAlign.center,
                                 color: Colors.white,
                                 isBold: true,
@@ -287,7 +294,7 @@ class _SellerIndiState extends State<SellerIndi> {
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
                                   CustomText(
-                                    "Your Appointment is Booked",
+                                    DESIGNER_DETAILS_APPOINTMENT_BOOKED.tr,
                                     align: TextAlign.center,
                                     color: Colors.white,
                                     isBold: true,
@@ -318,15 +325,16 @@ class _SellerIndiState extends State<SellerIndi> {
                       ),
                       onPressed: () async => await BaseController
                           .goToProductListPage(ProductPageArg(
-                              subCategory: sellerDetails['name'],
+                              subCategory:
+                                  sellerDetails[DESIGNER_DETAILS_NAME.tr],
                               queryString:
-                                  "accountKey=${sellerDetails['key']};",
+                                  "accountKey=${sellerDetails[DESIGNER_DETAILS_KEY.tr]};",
                               sellerPhoto:
-                                  "$SELLER_PHOTO_BASE_URL/${sellerDetails['key']}")),
+                                  "$SELLER_PHOTO_BASE_URL/${sellerDetails[DESIGNER_DETAILS_KEY.tr]}")),
                       child: Container(
                         padding: const EdgeInsets.symmetric(vertical: 12),
                         child: CustomText(
-                          "Explore Collection",
+                          DESIGNER_EXPLORE_COLLECTION.tr,
                           align: TextAlign.center,
                           color: Colors.black,
                           isBold: true,
@@ -439,7 +447,7 @@ class _SellerIndiState extends State<SellerIndi> {
               iconTheme: IconThemeData(color: appBarIconColor),
               flexibleSpace: FlexibleSpaceBar(
                 background: SellerProfilePhotos(
-                  accountId: sellerDetails["key"],
+                  accountId: sellerDetails[DESIGNER_DETAILS_KEY.tr],
                 ),
               ),
             ),
@@ -458,7 +466,7 @@ class _SellerIndiState extends State<SellerIndi> {
                         children: [
                           FutureBuilder<Reviews>(
                             future: locator<APIService>().getReviews(
-                                sellerDetails["key"],
+                                sellerDetails[DESIGNER_DETAILS_KEY.tr],
                                 isSellerReview: true),
                             builder: (context, snapshot) => ((snapshot
                                             .connectionState ==
@@ -531,7 +539,8 @@ class _SellerIndiState extends State<SellerIndi> {
                                           fit: BoxFit.scaleDown,
                                           alignment: Alignment.centerLeft,
                                           child: Text(
-                                            sellerDetails["City"],
+                                            sellerDetails[
+                                                DESIGNER_DETAILS_CITY.tr],
                                             overflow: TextOverflow.ellipsis,
                                             textAlign: TextAlign.end,
                                             style: TextStyle(
@@ -560,8 +569,8 @@ class _SellerIndiState extends State<SellerIndi> {
                                       horizontalSpaceTiny,
                                       Text(
                                         isOpenNow(_timing)
-                                            ? "Open Now"
-                                            : "Closed Now",
+                                            ? DESIGNER_OPEN_NOW.tr
+                                            : DESIGNER_CLOSED_NOW.tr,
                                         style: TextStyle(
                                           color: Colors.grey[500],
                                           fontWeight: FontWeight.w400,
@@ -604,7 +613,7 @@ class _SellerIndiState extends State<SellerIndi> {
                                   children: [
                                     Expanded(
                                       child: CustomText(
-                                        sellerDetails["name"],
+                                        sellerDetails[DESIGNER_DETAILS_NAME.tr],
                                         textStyle: TextStyle(
                                           fontSize: headFont + 2,
                                           fontFamily: headingFont,
@@ -642,7 +651,7 @@ class _SellerIndiState extends State<SellerIndi> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     CustomText(
-                                      sellerDetails["type"],
+                                      sellerDetails[DESIGNER_DETAILS_TYPE.tr],
                                       fontSize: subHeadFont,
                                       fontWeight: FontWeight.w500,
                                       fontFamily: headingFont,
@@ -665,7 +674,7 @@ class _SellerIndiState extends State<SellerIndi> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           CustomText(
-                            "Know The Designer".toUpperCase(),
+                            DESIGNER_SCREEN_KNOW_THE_DESIGNER.tr,
                             textStyle: TextStyle(
                               fontSize: subHeadFont,
                               letterSpacing: 1.2,
@@ -708,7 +717,8 @@ class _SellerIndiState extends State<SellerIndi> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     CustomText(
-                                      sellerDetails['Owner Name'],
+                                      sellerDetails[
+                                          DESIGNER_DETAILS_OWNER_NAME.tr],
                                       fontWeight: FontWeight.w500,
                                       fontSize: titleFontSize,
                                       dotsAfterOverFlow: true,
@@ -730,7 +740,9 @@ class _SellerIndiState extends State<SellerIndi> {
                                       ),
                                     ReadMoreText(
                                       sellerData?.intro ??
-                                          sellerDetails["Note from Seller"],
+                                          sellerDetails[
+                                              DESIGNER_DETAILS_NOTE_FROM_DESIGNER
+                                                  .tr],
                                       trimLines: ((sellerData?.education ==
                                                   null) &&
                                               (sellerData?.designation == null))
@@ -750,14 +762,14 @@ class _SellerIndiState extends State<SellerIndi> {
                           ),
                           elementDivider(),
                           CustomText(
-                            "Location".toUpperCase(),
+                            DESIGNER_SCREEN_LOCATION.tr,
                             fontSize: subHeadFont,
                             letterSpacing: 1.2,
                             color: Colors.black,
                           ),
                           verticalSpaceSmall,
                           CustomText(
-                            sellerDetails["Address"],
+                            sellerDetails[DESIGNER_DETAILS_ADDRESS.tr],
                             fontSize: subtitleFontSize,
                             color: Colors.grey,
                           ),
@@ -765,8 +777,10 @@ class _SellerIndiState extends State<SellerIndi> {
                           InkWell(
                             onTap: () {
                               MapUtils.openMap(
-                                  double.parse(sellerDetails["lat"]),
-                                  double.parse(sellerDetails["lon"]));
+                                  double.parse(
+                                      sellerDetails[DESIGNER_DETAILS_LAT.tr]),
+                                  double.parse(
+                                      sellerDetails[DESIGNER_DETAILS_LON.tr]));
                             },
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -789,7 +803,7 @@ class _SellerIndiState extends State<SellerIndi> {
                                       ),
                                       horizontalSpaceTiny,
                                       CustomText(
-                                        "Direction",
+                                        DESIGNER_SCREEN_DIRECTION.tr,
                                         fontSize: subHeadFont,
                                         color: logoRed,
                                       ),
@@ -810,7 +824,7 @@ class _SellerIndiState extends State<SellerIndi> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           CustomText(
-                            "Designer Details".toUpperCase(),
+                            DESIGNER_DETAILS.tr,
                             fontSize: headFont - 2,
                             fontFamily: headingFont,
                             letterSpacing: 1.2,
@@ -829,13 +843,13 @@ class _SellerIndiState extends State<SellerIndi> {
                               ),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: allDetials.map(
+                                children: allDetails.map(
                                   (String key) {
                                     return Row(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
-                                        key == "Speciality"
+                                        key == DESIGNER_SCREEN_SPECIALITY.tr
                                             ? SvgPicture.asset(
                                                 icons[key],
                                                 height: 30,
@@ -864,12 +878,13 @@ class _SellerIndiState extends State<SellerIndi> {
                                               ),
                                               verticalSpaceSmall,
                                               CustomText(
-                                                sellerDetails[key],
+                                                sellerDetails[
+                                                    DESIGNER_DETAILS_KEY.tr],
                                                 fontSize: subtitleFontSize,
                                                 color: Colors.grey[700],
                                                 align: TextAlign.left,
                                               ),
-                                              key == "Type"
+                                              key == DESIGNER_SCREEN_TYPE.tr
                                                   ? Container()
                                                   : Container(
                                                       padding:
@@ -905,7 +920,7 @@ class _SellerIndiState extends State<SellerIndi> {
                       padding: EdgeInsets.symmetric(horizontal: 16),
                       child: ReviewWidget(
                           key: reviewKey,
-                          id: sellerDetails["key"],
+                          id: sellerDetails[DESIGNER_DETAILS_KEY.tr],
                           isSeller: true,
                           onSubmit: () {
                             setState(() {
@@ -931,7 +946,8 @@ class _SellerIndiState extends State<SellerIndi> {
                                   fit: BoxFit.scaleDown,
                                   alignment: Alignment.centerLeft,
                                   child: Text(
-                                    "Explore Designer's Collection"
+                                    DESIGNER_SCREEN_EXPLORE_DESIGNER_COLLECTION
+                                        .tr
                                         .toUpperCase(),
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
@@ -1004,7 +1020,7 @@ class _SellerIndiState extends State<SellerIndi> {
                             child: Padding(
                               padding: const EdgeInsets.only(left: 0.0),
                               child: Text(
-                                'Similar Designers'.toUpperCase(),
+                                DESIGNER_SCREEN_SIMILAR_DESIGNERS.tr,
                                 style: TextStyle(
                                   letterSpacing: 1.2,
                                   color: Colors.grey[800],

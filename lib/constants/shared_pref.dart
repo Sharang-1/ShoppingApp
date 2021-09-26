@@ -8,9 +8,13 @@ const String ProductSearchHistoryList = "ProductSearchHistoryList";
 const String SellerSearchHistoryList = "SellerSearchHistoryList";
 const String SkipLogin = "SkipLogin";
 
-//Tutorial Related
+// Tutorial Related
 const String ShouldShowHomeTutorial = "ShouldShowHomeTutorial";
 const String ShouldShowProductPageTutorial = "ShouldShowProductPageTutorial";
 const String ShouldShowCartTutorial = "ShouldShowCartTutorial";
-const String ShouldShowDesignerProfileTutorial = "ShouldShowDesignerProfileTutorial";
+const String ShouldShowDesignerProfileTutorial =
+    "ShouldShowDesignerProfileTutorial";
 const String ShouldShowMapTutorial = "ShouldShowMapTutorial";
+
+// Localization
+const String CurrentLanguage = "CurrentLanguage";

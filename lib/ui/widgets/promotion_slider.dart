@@ -9,7 +9,7 @@ import '../../models/productPageArg.dart';
 import '../../models/promotions.dart';
 import '../../services/navigation_service.dart';
 import '../shared/shared_styles.dart';
-import 'shimmer_widget.dart';
+import 'shimmer/shimmer_widget.dart';
 
 class PromotionSlider extends StatefulWidget {
   final List<Promotion> promotions;
@@ -75,8 +75,8 @@ class _PromotionSliderState extends State<PromotionSlider> {
                   return InkWell(
                     onTap: () {
                       // var promoTitle = i?.name;
-                      List<String> productIds =
-                          i?.products?.map((e) => e.toString())?.toList();
+                      // List<String> productIds =
+                      //     i?.products?.map((e) => e.toString())?.toList();
 
                       if (i.exclusive) {
                         return NavigationService.to(
@@ -84,7 +84,8 @@ class _PromotionSliderState extends State<PromotionSlider> {
                           arguments: ProductPageArg(
                             promotionKey: i?.key,
                             subCategory: 'Designer',
-                            queryString: "accountKey=${i.filter};",
+                            queryString:
+                                "accountKey=${i.filter};sortField=price;sortOrder=asc;",
                             sellerPhoto: "$SELLER_PHOTO_BASE_URL/${i.filter}",
                           ),
                         );

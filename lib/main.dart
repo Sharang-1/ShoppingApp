@@ -6,14 +6,18 @@ import 'package:overlay_support/overlay_support.dart';
 
 import 'locator.dart';
 import 'logger.dart';
+import 'services/localization_service.dart';
 import 'ui/router.dart';
 import 'ui/shared/app_colors.dart';
 import 'ui/views/startup_view.dart';
 
-void main() {
+void main() async {
   setup();
+  // SharedPreferences prefs = await SharedPreferences.getInstance();
+  // String lang = prefs?.getString(CurrentLanguage);
   runApp(
     OverlaySupport(
+      // child: MyApp(lang: lang),
       child: MyApp(),
     ),
   );
@@ -47,6 +51,8 @@ class CustomScrollOverlayBehaviour extends ScrollBehavior {
 }
 
 class MyApp extends StatelessWidget {
+  final String lang;
+  MyApp({this.lang});
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
@@ -72,6 +78,10 @@ class MyApp extends StatelessWidget {
       ),
       home: StartUpView(),
       onGenerateRoute: generateRoute,
+      locale: LocalizationService.getLocaleFromLanguage(
+          (lang?.isEmpty ?? true) ? LocalizationService.langs[0] : lang),
+      fallbackLocale: LocalizationService.fallbackLocale,
+      translations: LocalizationService(),
     );
   }
 }
