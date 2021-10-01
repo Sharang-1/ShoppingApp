@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -477,10 +478,12 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                                 Row(
                                                                   children: [
                                                                     Image.asset(
-                                                                      'assets/images/coupon.png',
+                                                                      'assets/images/discount_tag.png',
                                                                       height:
-                                                                          20,
-                                                                      width: 20,
+                                                                          22,
+                                                                      width: 22,
+                                                                      fit: BoxFit
+                                                                          .cover,
                                                                     ),
                                                                     horizontalSpaceSmall,
                                                                     Text(
@@ -621,34 +624,37 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                   },
                                                   child: Container(
                                                     margin: EdgeInsets.all(8.0),
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                            vertical: 4.0,
-                                                            horizontal: 8.0),
-                                                    decoration: BoxDecoration(
-                                                      border: Border.all(
-                                                        color: logoRed,
+                                                    child: DottedBorder(
+                                                      color: logoRed,
+                                                      borderType:
+                                                          BorderType.RRect,
+                                                      radius:
+                                                          Radius.circular(5),
+                                                      child: Padding(
+                                                        padding: EdgeInsets
+                                                            .symmetric(
+                                                          vertical: 4.0,
+                                                          horizontal: 8.0,
+                                                        ),
+                                                        child: Row(
+                                                          children: [
+                                                            Image.asset(
+                                                              'assets/images/discount_tag.png',
+                                                              height: 16,
+                                                              width: 16,
+                                                              fit: BoxFit.cover,
+                                                            ),
+                                                            horizontalSpaceTiny,
+                                                            Text(
+                                                              e.name,
+                                                              style: TextStyle(
+                                                                fontSize: 10.0,
+                                                                color: logoRed,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
                                                       ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              5),
-                                                    ),
-                                                    child: Row(
-                                                      children: [
-                                                        Image.asset(
-                                                          'assets/images/coupon.png',
-                                                          height: 16,
-                                                          width: 16,
-                                                        ),
-                                                        horizontalSpaceTiny,
-                                                        Text(
-                                                          e.name,
-                                                          style: TextStyle(
-                                                            fontSize: 10.0,
-                                                            color: logoRed,
-                                                          ),
-                                                        ),
-                                                      ],
                                                     ),
                                                   ),
                                                 ),

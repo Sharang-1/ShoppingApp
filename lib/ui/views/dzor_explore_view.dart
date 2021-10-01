@@ -12,6 +12,7 @@ import '../../controllers/home_controller.dart';
 import '../../locator.dart';
 import '../../services/analytics_service.dart';
 import '../../services/navigation_service.dart';
+import '../../utils/lang/translation_keys.dart';
 import '../shared/app_colors.dart';
 import '../shared/ui_helpers.dart';
 import '../widgets/cart_icon_badge.dart';
@@ -150,7 +151,7 @@ class _DzorExploreViewState extends State<DzorExploreView> {
                   children: [
                     SectionBuilder(
                       context: context,
-                      header: SectionHeader(title: "Recommended Designers"),
+                      header: SectionHeader(title: RECOMMENDED_DESIGNERS.tr),
                       layoutType: LayoutType.EXPLORE_DESIGNER_LAYOUT,
                       scrollDirection: Axis.horizontal,
                       controller:

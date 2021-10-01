@@ -1,3 +1,4 @@
+import 'package:compound/utils/lang/translation_keys.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -75,9 +76,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
     WidgetsBinding.instance.addPostFrameCallback(
       (_) async {
         await DialogService.showDialog(
-          title: 'Check Size, Color and Quantity',
-          description:
-              'Designers on Dzor work hard to create garments and items for you. Please make sure you’re making an informed buying decision so that we don’t have to return or cancel the order.',
+          title: CART_ALERT_DIALOG_TITLE.tr,
+          description: CART_ALERT_DIALOG_DESCRIPTION.tr,
         );
       },
     );
@@ -93,7 +93,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
           elevation: 0,
           backgroundColor: Colors.white,
           title: Text(
-            "Payment",
+            PAYMENT.tr,
             style: TextStyle(
               fontFamily: headingFont,
               fontWeight: FontWeight.w700,
@@ -134,8 +134,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
                         builder: (context) => OrderDetailsBottomsheet(
                           orderDetails: widget.orderDetails,
                           buttonText: paymentMethodGrpValue == 2
-                              ? "Proceed to Pay"
-                              : "Place Order",
+                              ? PROCEED_TO_PAY.tr
+                              : PLACE_ORDER.tr,
                           onButtonPressed: controller.busy
                               ? null
                               : () async {
@@ -157,7 +157,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                         isBold: true,
                       ),
                       CustomText(
-                        "View Details",
+                        VIEW_DETAILS.tr,
                         textStyle: TextStyle(
                           fontSize: 12,
                           decoration: TextDecoration.underline,
@@ -185,8 +185,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
                         alignment: Alignment.center,
                         child: Text(
                           paymentMethodGrpValue == 2
-                              ? "Proceed to Pay"
-                              : "Place Order",
+                              ? PROCEED_TO_PAY.tr
+                              : PLACE_ORDER.tr,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,

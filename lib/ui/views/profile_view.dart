@@ -625,8 +625,7 @@ class _ProfileViewState extends State<ProfileView> {
                                                                 subtitleFontSizeStyle,
                                                           )
                                                         : CustomText(
-                                                            SETTINGS_ADD_ADDRESS
-                                                                .tr,
+                                                            ADD_ADDRESS.tr,
                                                             color: logoRed,
                                                             fontWeight:
                                                                 FontWeight.w600,

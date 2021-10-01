@@ -1,3 +1,4 @@
+import 'package:compound/utils/lang/translation_keys.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -5,6 +6,7 @@ import '../../controllers/grid_view_builder/categories_view_builder_controller.d
 import '../../models/grid_view_builder_filter_models/categoryFilter.dart';
 import '../shared/app_colors.dart';
 import '../widgets/section_builder.dart';
+import 'package:get/get.dart';
 
 class CategoriesView extends StatefulWidget {
   CategoriesView({Key key}) : super(key: key);
@@ -28,7 +30,7 @@ class _CategoriesViewState extends State<CategoriesView> {
           alignment: Alignment.centerLeft,
           fit: BoxFit.scaleDown,
           child: Text(
-            "Categories",
+            NAVBAR_CATEGORIES.tr,
             style: TextStyle(
               color: Colors.black,
               fontSize: 18,

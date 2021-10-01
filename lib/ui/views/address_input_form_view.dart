@@ -9,6 +9,7 @@ import '../../locator.dart';
 import '../../models/user_details.dart';
 import '../../packages/google_maps_place_picker/google_maps_place_picker.dart';
 import '../../services/location_service.dart';
+import '../../utils/lang/translation_keys.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
@@ -126,7 +127,7 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
                         child: Padding(
                           padding: const EdgeInsets.only(left: 8.0),
                           child: Text(
-                            "Add Address",
+                            ADD_ADDRESS.tr,
                             style: TextStyle(
                                 fontFamily: headingFont,
                                 fontWeight: FontWeight.w700,
@@ -155,16 +156,16 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
                                 controller: _googleAddressStringController,
                                 validator: (text) {
                                   if (text.isEmpty || text.trim().length == 0)
-                                    return "Please enter Proper Address";
+                                    return ENTER_PROPER_ADDRESS.tr;
                                   return null;
                                 },
                                 decoration: InputDecoration(
-                                  labelText: 'Your Location',
+                                  labelText: YOUR_LOCATION.tr,
                                   isDense: true,
                                   suffixIcon: InkWell(
                                     onTap: changeAddress,
                                     child: Text(
-                                      "CHANGE",
+                                      CHANGE.tr,
                                       style: TextStyle(
                                         fontSize: 10,
                                         color: logoRed,
@@ -183,7 +184,7 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
                                 maxLength: 30,
                                 validator: (text) {
                                   if (text.isEmpty || text.trim().length == 0)
-                                    return "Please enter Proper Address";
+                                    return ENTER_PROPER_ADDRESS.tr;
                                   return null;
                                 },
                                 onChanged: (text) {
@@ -192,7 +193,7 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
                                   });
                                 },
                                 decoration: InputDecoration(
-                                  labelText: 'House Name, House Number ....',
+                                  labelText: HOUSE_NAME_LABEL.tr,
                                   isDense: true,
                                 ),
                                 autofocus: false,
@@ -207,7 +208,7 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
                                 maxLength: 50,
                                 validator: (text) {
                                   if (text.isEmpty || text.trim().length == 0)
-                                    return "Please enter Proper Address";
+                                    return ENTER_PROPER_ADDRESS.tr;
                                   return null;
                                 },
                                 onChanged: (text) {
@@ -215,8 +216,8 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
                                     _userInputedAddressString2Controller.text;
                                   });
                                 },
-                                decoration: const InputDecoration(
-                                  labelText: 'Landmark , Society Name ....',
+                                decoration: InputDecoration(
+                                  labelText: LANDMARK_LABEL.tr,
                                   isDense: true,
                                 ),
                                 autofocus: false,
@@ -308,7 +309,7 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 12),
                                       child: CustomText(
-                                        "Save & Proceed ",
+                                        SAVE_AND_PROCEED.tr,
                                         isBold: true,
                                         color: Colors.white,
                                       ),

@@ -12,11 +12,25 @@ const Map<String, String> enUS = {
   NAVBAR_APPOINTMENTS: "Appointments",
   NAVBAR_MAPS: "Maps",
 
+  // LoginScreen
+  LOGIN_PHONE_NO_VALIDATION_MSG:
+      "Please enter valid phone number of 10 digits only",
+  LOGIN_NAME_VALIDATION_MSG: "Please enter valid name",
+  LOGIN_OTP_VALIDATION_MSG: "Please enter valid otp of 4 digits only",
+  LOGIN_INVALID_DETAILS_TITLE: 'Invalid Details',
+  LOGIN_INVALID_DETAILS_DESCRIPTION: 'Enter Valid Name or Mobile Number !!!',
+  LOGIN_INVALID_OTP_TITLE: 'Invalid OTP',
+  LOGIN_INVALID_OTP_DESCRIPTION: 'Enter Valid OTP !!!',
+  LOGIN_INCORRECT_OTP_TITLE: 'Incorrect OTP',
+  LOGIN_INCORRECT_OTP_DESCRIPTION:
+      'The OTP, you have entered is incorrect. Please try again.',
+
   // Product Screen
+  PRODUCTS: "Products",
   PRODUCTSCREEN_TAXES_AND_CHARGES: "Inclusive of taxes and charges",
   PRODUCTSCREEN_IN_STOCK: "✔️ In Stock",
   PRODUCTSCREEN_SOLD_OUT: "Sold Out",
-  PRODUCTSCREEN_ASSURED: "Assured",
+  PRODUCTSCREEN_ASSURED: "Quality Assured",
   PRODUCTSCREEN_COD: "💰 COD Available",
   PRODUCTSCREEN_RETURNS: "📦 Easy 2 Days Returns",
   PRODUCTSCREEN_JUST_HERE: "#JustHere",
@@ -39,14 +53,23 @@ const Map<String, String> enUS = {
   PRODUCTSCREEN_ADD_TO_BAG: "ADD TO BAG",
   PRODUCTSCREEN_VIEW_BAG: "View Bag",
   PRODUCTSCREEN_VIEW_REVIEWS: "ITEM RATINGS & REVIEWS",
+  PRODUCTSCREEN_ADDED_TO_BAG_TITLE: "Added to Bag",
+  PRODUCTSCREEN_ADDED_TO_BAG_DESCRIPTION:
+      "The item has been added to your Bag.",
+  PRODUCTSCREEN_ADD_TO_WISHLIST: 'Add to Your wishlist',
+  PRODUCTSCREEN_ADDED_TO_WISHLIST: 'Added to Your wishlist',
   NO_REVIEWS: "No Reviews Yet",
   WRITE_REVIEW: "Write Review",
   VIEW_ALL: "View All",
   NO_DESCRIPTION: "No Description",
   UNKNOWN_USER: "Unknown User",
   REVIEWS: "REVIEWS",
+  SERVICE_NOT_AVAILABLE_TITLE: "Service is not available",
+  SERVICE_NOT_AVAILABLE_DESCRIPTION:
+      "We do not provide service to your location as of now.",
 
   //DesignerScreen
+  DESIGNERS: "Designers",
   DESIGNER_SCREEN_SPECIALITY: "Speciality",
   DESIGNER_SCREEN_DESIGNES_CREATES: "Designs & Creates",
   DESIGNER_SCREEN_SERVICES_OFFERED: "Services offered",
@@ -75,6 +98,8 @@ const Map<String, String> enUS = {
   DESIGNER_SCREEN_EXPLORE_DESIGNER_COLLECTION: "EXPLORE DESIGNER'S COLLECTION",
   DESIGNER_SCREEN_SIMILAR_DESIGNERS: 'SIMILAR DESIGNERS',
   DESIGNER_SCREEN_REVIEWS: 'RATINGS & REVIEWS',
+  RECOMMENDED_DESIGNERS: "RECOMMENDED DESIGNERS",
+  ORDER_DETAILS: "Order Details",
 
   //Settings Screen
   SETTINGS_APPBAR_TITLE: "Settings",
@@ -102,12 +127,62 @@ const Map<String, String> enUS = {
   SETTINGS_AGE: "Age",
   SETTINGS_GENDER: "Gender",
   SETTINGS_ADDRESS: "Address",
-  SETTINGS_ADD_ADDRESS: "Add Address",
   SETTINGS_CHANGE: "Change",
   MY_MEASUREMENTS: "MY MEASUREMENTS",
   ENTER_VALID_SIZE: "Please Enter Valid Size",
 
+  // Bottomsheet
+  ADD_ADDRESS: "Add Address",
+  ENTER_PROPER_ADDRESS: "Please enter Proper Address",
+  YOUR_LOCATION: 'Your Location',
+  CHANGE: "CHANGE",
+  HOUSE_NAME_LABEL: 'House Name, House Number ....',
+  LANDMARK_LABEL: 'Landmark , Society Name ....',
+  SAVE_AND_PROCEED: "Save & Proceed ",
+
+  // DIALOGS
+  CART_ALERT_DIALOG_TITLE: 'Check Size, Color and Quantity',
+  CART_ALERT_DIALOG_DESCRIPTION:
+      'Designers on Dzor work hard to create garments and items for you. Please make sure you’re making an informed buying decision so that we don’t have to return or cancel the order.',
+
+  PAYMENT: "Payment",
+  PROCEED_TO_PAY: "Proceed to Pay",
+  PROCEED_TO_ORDER: "Proceed to Order",
+  PLACE_ORDER: "Place Order",
+  VIEW_DETAILS: "View Details",
+  MAKE_PAYMENT: "Make Payment",
+  MY_ADDRESSES: "My Addresses",
+  MY_ADDRESS: "My Address: ",
+  SELECT_ADDRESS: "Select Address",
+  APPLY_COUPON: "Apply Coupon",
+  SELECT_COUPON: "Select Coupon",
+  ENTER_COUPON: 'Enter Coupon Code',
+  COUPONS_FOR_YOU: "Coupons For You !",
+  COUPON_APPLIED: "Coupon Applied Successfully!",
+  INVALID_COUPON: "Invalid Coupon",
+  BAG: "Bag",
+  MY_BAG: "My Bag",
+  ADD_MEASUREMENTS: "Add Your Measurements",
+  ITEMS_IN_BAG: "Items in Bag",
+  MEASUREMENT_GUIDE: "Measurement Guide",
+  MY_APPOINTMENTS: "My Appointments",
+  CANCEL_APPOINTMENT: 'Cancel Appointment',
+  CANCELLATION_REASON: 'Reason for Cancellation ?',
+  WISHLIST: "Wishlist",
+  SHOP_NOW: "Shop Now !",
+  PAIR_IT_WITH: "PAIR IT WITH",
+
+  USEFUL_LINKS: "Useful Links!",
+  RETURN_POLICY: "Return Policy",
+  EMAIL_US: "Email Us!",
+  CALL_US: "Call Us!",
+  CHAT_WITH_US: "Chat With Us",
+
   YES: "Yes",
   NO: "No",
   SAVE: "Save",
+  OK: "Ok",
+  CANCEL: "Cancel",
+  APPLY: "Apply",
+  SUBMIT: "Submit",
 };

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../ui/widgets/custom_dialog.dart';
+import '../utils/lang/translation_keys.dart';
 
 class DialogService {
   /// Shows a simple dialog
@@ -63,10 +64,9 @@ class DialogService {
 
   static void showNotDeliveringDialog({String msg}) {
     showDialog(
-      title: "Service is not available",
-      description:
-          msg ?? "We do not provide service to your location as of now.",
-      buttonTitle: "Ok",
+      title: SERVICE_NOT_AVAILABLE_TITLE.tr,
+      description: msg ?? SERVICE_NOT_AVAILABLE_DESCRIPTION.tr,
+      buttonTitle: OK.tr,
     );
   }
 

@@ -1,5 +1,6 @@
 import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/state_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -11,6 +12,7 @@ import '../../models/grid_view_builder_filter_models/productFilter.dart';
 import '../../models/grid_view_builder_filter_models/sellerFilter.dart';
 import '../../models/products.dart';
 import '../../models/sellers.dart';
+import '../../utils/lang/translation_keys.dart';
 import '../shared/app_colors.dart';
 import '../shared/debouncer.dart';
 import '../shared/shared_styles.dart';
@@ -253,7 +255,7 @@ class _WishlistViewState extends State<WishlistView>
                     title: Padding(
                       padding: const EdgeInsets.only(left: 5),
                       child: Text(
-                        "Wishlist",
+                        WISHLIST.tr,
                         style: TextStyle(
                             fontFamily: headingFont,
                             fontWeight: FontWeight.w700,
@@ -286,7 +288,7 @@ class _WishlistViewState extends State<WishlistView>
                               height: 30,
                               child: Tab(
                                 child: Text(
-                                  "Products",
+                                  PRODUCTS.tr,
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -297,7 +299,7 @@ class _WishlistViewState extends State<WishlistView>
                               height: 30,
                               child: Tab(
                                   child: Text(
-                                "Sellers",
+                                DESIGNERS.tr,
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                 ),

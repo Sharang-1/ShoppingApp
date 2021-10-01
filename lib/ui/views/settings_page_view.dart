@@ -14,6 +14,7 @@ import '../../controllers/base_controller.dart';
 import '../../controllers/home_controller.dart';
 import '../../controllers/user_details_controller.dart';
 import '../../locator.dart';
+import '../../services/localization_service.dart';
 import '../../services/navigation_service.dart';
 import '../../utils/lang/translation_keys.dart';
 import '../shared/app_colors.dart';
@@ -62,25 +63,25 @@ class _SettingsViewState extends State<SettingsView> {
         ),
         backgroundColor: Colors.white,
         actions: [
-          // DropdownButton(
-          //     icon: Icon(Icons.arrow_drop_down),
-          //     value: selectedLang,
-          //     elevation: 0,
-          //     items: LocalizationService.langs
-          //         .map(
-          //           (e) => DropdownMenuItem(
-          //             value: e,
-          //             child: Text(e),
-          //           ),
-          //         )
-          //         .toList(),
-          //     onChanged: (e) async {
-          //       await locator<HomeController>().changeLocale(e);
-          //       setState(() {
-          //         selectedLang = e;
-          //         setupSettings();
-          //       });
-          //     }),
+          DropdownButton(
+              icon: Icon(Icons.arrow_drop_down),
+              value: selectedLang,
+              elevation: 0,
+              items: LocalizationService.langs
+                  .map(
+                    (e) => DropdownMenuItem(
+                      value: e,
+                      child: Text(e),
+                    ),
+                  )
+                  .toList(),
+              onChanged: (e) async {
+                await locator<HomeController>().changeLocale(e);
+                setState(() {
+                  selectedLang = e;
+                  setupSettings();
+                });
+              }),
         ]);
 
     super.initState();
@@ -143,7 +144,6 @@ class _SettingsViewState extends State<SettingsView> {
   Widget build(BuildContext context) => GetBuilder<UserDetailsController>(
         init: UserDetailsController()..getUserDetails(),
         builder: (controller) {
-          print("Yash: $selectedLang");
           return Scaffold(
             backgroundColor: newBackgroundColor,
             appBar: appbar,

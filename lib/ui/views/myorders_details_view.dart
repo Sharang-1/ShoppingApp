@@ -6,6 +6,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../constants/server_urls.dart';
 import '../../controllers/cart_controller.dart';
 import '../../models/orders.dart';
+import '../../utils/lang/translation_keys.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
@@ -39,7 +40,7 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
             elevation: 0,
             backgroundColor: Colors.white,
             title: Text(
-              "Order Details",
+              ORDER_DETAILS.tr,
               style: TextStyle(
                 fontFamily: headingFont,
                 fontWeight: FontWeight.w700,

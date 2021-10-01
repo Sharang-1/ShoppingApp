@@ -16,6 +16,7 @@ import '../../models/reviews.dart';
 import '../../models/sellers.dart';
 import '../../models/tailors.dart';
 import '../../services/api/api_service.dart';
+import '../../utils/lang/translation_keys.dart';
 import '../shared/app_colors.dart';
 import '../shared/ui_helpers.dart';
 import '../widgets/cart_icon_badge.dart';
@@ -329,7 +330,7 @@ class MapView extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "You Are In".toUpperCase(),
+                      HOMESCREEN_LOCATION.tr,
                       style: TextStyle(
                         fontSize: 12,
                         color: Colors.grey[400],

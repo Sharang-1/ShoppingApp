@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../constants/server_urls.dart';
+import '../../utils/lang/translation_keys.dart';
 import '../shared/ui_helpers.dart';
 import '../widgets/link_widget.dart';
 
@@ -21,17 +23,17 @@ class HelpView extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Text("Useful Links!",
+                  Text(USEFUL_LINKS.tr,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                       )),
-                  LinkWidget(name: "Return Policy", data: RETURN_POLICY_URL),
+                  LinkWidget(name: RETURN_POLICY.tr, data: RETURN_POLICY_URL),
                   LinkWidget(
-                      name: "Terms and conditions",
+                      name: SETTINGS_TERMS_AND_CONDITIONS.tr,
                       data: TERMS_AND_CONDITIONS_URL),
                   verticalSpaceMedium,
-                  Text("Email Us!",
+                  Text(EMAIL_US.tr,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
@@ -41,7 +43,7 @@ class HelpView extends StatelessWidget {
                       linkType: LinkType.email,
                       data: 'mailto' + SUPPORT_EMAIL),
                   verticalSpaceMedium,
-                  Text("Call Us!",
+                  Text(CALL_US.tr,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
@@ -115,7 +117,7 @@ class HelpView extends StatelessWidget {
                             ),
                             horizontalSpaceSmall,
                             Text(
-                              "Chat With Us ",
+                              CHAT_WITH_US.tr,
                               style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,

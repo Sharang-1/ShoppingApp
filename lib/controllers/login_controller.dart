@@ -1,6 +1,7 @@
 import 'package:fimber/fimber_base.dart';
 import 'package:flutter/foundation.dart';
 import 'package:gender_picker/source/enums.dart';
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constants/route_names.dart';
@@ -9,6 +10,7 @@ import '../locator.dart';
 import '../services/analytics_service.dart';
 import '../services/authentication_service.dart';
 import '../services/navigation_service.dart';
+import '../utils/lang/translation_keys.dart';
 import 'base_controller.dart';
 import 'lookup_controller.dart';
 
@@ -46,8 +48,7 @@ class LoginController extends BaseController {
   void validatePhoneNo(String textFieldValue) {
     bool isValid = RegExp(r'^\d{10}$').hasMatch(textFieldValue);
     if (!isValid) {
-      phoneNoValidationMessage =
-          "Please enter valid phone number of 10 digits only";
+      phoneNoValidationMessage = LOGIN_PHONE_NO_VALIDATION_MSG.tr;
     } else {
       phoneNoValidationMessage = "";
     }
@@ -58,7 +59,7 @@ class LoginController extends BaseController {
     bool isValid = RegExp(r'^[A-Za-z\s]{1,}[\.]{0,1}[A-Za-z\s]{0,}$')
         .hasMatch(textFieldValue);
     if (!isValid) {
-      nameValidationMessage = "Please enter valid name";
+      nameValidationMessage = LOGIN_NAME_VALIDATION_MSG.tr;
     } else {
       nameValidationMessage = "";
     }

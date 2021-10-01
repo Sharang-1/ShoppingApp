@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../../controllers/base_controller.dart';
@@ -6,6 +7,7 @@ import '../../locator.dart';
 import '../../models/coupon.dart';
 import '../../models/order_details.dart';
 import '../../services/api/api_service.dart';
+import '../../utils/lang/translation_keys.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
@@ -55,7 +57,7 @@ class _SelectPromocodeState extends State<SelectPromocode> {
         elevation: 0,
         backgroundColor: Colors.white,
         title: Text(
-          "Select Coupon",
+          SELECT_COUPON.tr,
           style: TextStyle(
             fontFamily: headingFont,
             fontWeight: FontWeight.w700,
@@ -94,7 +96,7 @@ class _SelectPromocodeState extends State<SelectPromocode> {
                     context: context,
                     builder: (context) => OrderDetailsBottomsheet(
                       orderDetails: widget.orderDetails,
-                      buttonText: "Select Address",
+                      buttonText: SELECT_ADDRESS.tr,
                       onButtonPressed: selectAddress,
                       isPromocodeApplied: false,
                     ),
@@ -110,7 +112,7 @@ class _SelectPromocodeState extends State<SelectPromocode> {
                       isBold: true,
                     ),
                     CustomText(
-                      "View Details",
+                      VIEW_DETAILS.tr,
                       textStyle: TextStyle(
                         fontSize: 12,
                         decoration: TextDecoration.underline,
@@ -136,7 +138,7 @@ class _SelectPromocodeState extends State<SelectPromocode> {
                       horizontal: 10,
                     ),
                     child: Text(
-                      "Select Address",
+                      SELECT_ADDRESS.tr,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
@@ -180,8 +182,8 @@ class _SelectPromocodeState extends State<SelectPromocode> {
                             padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                             child: TextField(
                               controller: _controller,
-                              decoration: const InputDecoration(
-                                hintText: 'Enter Coupon Code',
+                              decoration: InputDecoration(
+                                hintText: ENTER_COUPON.tr,
                                 hintStyle: TextStyle(
                                   fontSize: 14,
                                 ),
@@ -204,7 +206,7 @@ class _SelectPromocodeState extends State<SelectPromocode> {
                           ),
                           onPressed: applyPromoCode,
                           child: Text(
-                            "Apply",
+                            APPLY.tr,
                             style: TextStyle(
                                 color: darkRedSmooth,
                                 fontWeight: FontWeight.bold),
@@ -227,7 +229,7 @@ class _SelectPromocodeState extends State<SelectPromocode> {
                         ),
                         horizontalSpaceSmall,
                         Text(
-                          "Coupons For You !",
+                          COUPONS_FOR_YOU.tr,
                           style: TextStyle(
                             fontFamily: headingFont,
                             fontWeight: FontWeight.w700,
@@ -326,7 +328,7 @@ class _SelectPromocodeState extends State<SelectPromocode> {
           '$rupeeUnicode${res.promocodeDiscount.cost}';
 
       ScaffoldMessenger.of(context).showSnackBar(
-        new SnackBar(content: Text("Coupon Applied Successfully!")),
+        new SnackBar(content: Text(COUPON_APPLIED.tr)),
       );
 
       await Navigator.push(
@@ -352,7 +354,7 @@ class _SelectPromocodeState extends State<SelectPromocode> {
       });
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Invalid Coupon")),
+        SnackBar(content: Text(INVALID_COUPON.tr)),
       );
     }
   }

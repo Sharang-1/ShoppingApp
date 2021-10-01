@@ -1,3 +1,4 @@
+import 'package:compound/utils/lang/translation_keys.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -34,7 +35,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
             elevation: 0,
             backgroundColor: Colors.white,
             title: Text(
-              "My Appointments",
+              MY_APPOINTMENTS.tr,
               style: TextStyle(
                 fontFamily: headingFont,
                 fontWeight: FontWeight.w700,
@@ -130,7 +131,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
       AlertDialog(
         title: Center(
           child: Text(
-            'Cancel Appointment',
+            CANCEL_APPOINTMENT.tr,
             style: TextStyle(
               fontWeight: FontWeight.bold,
             ),
@@ -146,7 +147,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                   controller: msgTextController,
                   autofocus: true,
                   decoration: InputDecoration(
-                    hintText: 'Reason for Cancellation ?',
+                    hintText: CANCELLATION_REASON.tr,
                     errorText: _errorText,
                   ),
                 ),
@@ -156,7 +157,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
         }),
         actions: <Widget>[
           TextButton(
-              child: const Text('OK'),
+              child: Text(OK.tr),
               onPressed: () async {
                 if (msgTextController.text.trim().length <= 10)
                   return _stateSetter(() {
@@ -310,7 +311,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                             ),
                             actions: [
                               TextButton(
-                                child: Text('OK'),
+                                child: Text(OK.tr),
                                 onPressed: () => NavigationService.back(),
                               )
                             ],
@@ -348,11 +349,12 @@ class _MyAppointmentsState extends State<MyAppointments> {
                           ),
                           horizontalSpaceTiny,
                           Text(
-                            "Directions",
+                            DESIGNER_SCREEN_DIRECTION.tr,
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ]),
                   )),
@@ -373,7 +375,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           child: CustomText(
-                            "Cancel",
+                            CANCEL.tr,
                             fontSize: 16,
                             isBold: true,
                             color: logoRed,

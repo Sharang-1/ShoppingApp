@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:fimber/fimber_base.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constants/shared_pref.dart';
@@ -13,6 +14,7 @@ import '../services/authentication_service.dart';
 import '../services/dialog_service.dart';
 import '../services/navigation_service.dart';
 import '../services/payment_service.dart';
+import '../utils/lang/translation_keys.dart';
 import 'base_controller.dart';
 import 'home_controller.dart';
 
@@ -38,8 +40,7 @@ class BottomsheetLoginController extends BaseController {
   void validatePhoneNo(String textFieldValue) {
     bool isValid = RegExp(r'^\d{10}$').hasMatch(textFieldValue);
     if (!isValid) {
-      phoneNoValidationMessage =
-          "Please enter valid phone number of 10 digits only";
+      phoneNoValidationMessage = LOGIN_PHONE_NO_VALIDATION_MSG.tr;
     } else {
       phoneNoValidationMessage = "";
     }
@@ -50,7 +51,7 @@ class BottomsheetLoginController extends BaseController {
     bool isValid = RegExp(r'^[A-Za-z\s]{1,}[\.]{0,1}[A-Za-z\s]{0,}$')
         .hasMatch(textFieldValue);
     if (!isValid) {
-      nameValidationMessage = "Please enter valid name";
+      nameValidationMessage = LOGIN_NAME_VALIDATION_MSG.tr;
     } else {
       nameValidationMessage = "";
     }
@@ -60,7 +61,7 @@ class BottomsheetLoginController extends BaseController {
   void validateOtp(String textFieldValue) {
     bool isValid = RegExp(r'^\d{4}$').hasMatch(textFieldValue);
     if (!isValid) {
-      otpValidationMessage = "Please enter valid otp of 4 digits only";
+      otpValidationMessage = LOGIN_OTP_VALIDATION_MSG.tr;
     } else {
       otpValidationMessage = "";
     }
@@ -71,8 +72,8 @@ class BottomsheetLoginController extends BaseController {
     if (nameController.text.isEmpty ||
         phoneNoController.text.trim().replaceAll(" ", "").length < 10) {
       await DialogService.showDialog(
-        title: 'Invalid Details',
-        description: 'Enter Valid Name or Mobile Number !!!',
+        title: LOGIN_INVALID_DETAILS_TITLE.tr,
+        description: LOGIN_INVALID_DETAILS_DESCRIPTION.tr,
       );
       return;
     }
@@ -94,8 +95,8 @@ class BottomsheetLoginController extends BaseController {
       {String nextScreen, bool shouldNavigateToNextScreen = false}) async {
     if (otpController.text.length < 4) {
       await DialogService.showDialog(
-        title: 'Invalid OTP',
-        description: 'Enter Valid OTP !!!',
+        title: LOGIN_INVALID_OTP_TITLE.tr,
+        description: LOGIN_INVALID_OTP_DESCRIPTION.tr,
       );
       return;
     }
@@ -129,9 +130,8 @@ class BottomsheetLoginController extends BaseController {
       }
     } else {
       await DialogService.showDialog(
-        title: 'Incorrect OTP',
-        description:
-            'The OTP, you have entered is incorrect. Please try again.',
+        title: LOGIN_INCORRECT_OTP_TITLE.tr,
+        description: LOGIN_INCORRECT_OTP_DESCRIPTION.tr,
       );
     }
   }

@@ -13,6 +13,7 @@ import '../services/cart_local_store_service.dart';
 import '../services/dialog_service.dart';
 import '../services/navigation_service.dart';
 import '../services/wishlist_service.dart';
+import '../utils/lang/translation_keys.dart';
 import 'base_controller.dart';
 import 'home_controller.dart';
 import 'wishlist_controller.dart';
@@ -93,8 +94,8 @@ class ProductController extends BaseController {
         }
         if (showDialog) {
           await DialogService.showDialog(
-            title: "Added to Bag",
-            description: "The item has been added to your Bag.",
+            title: PRODUCTSCREEN_ADDED_TO_BAG_TITLE.tr,
+            description: PRODUCTSCREEN_ADDED_TO_BAG_DESCRIPTION.tr,
           );
           await BaseController.showSizePopup();
         }
@@ -106,8 +107,8 @@ class ProductController extends BaseController {
         }
         if (showDialog) {
           await DialogService.showDialog(
-            title: "Added to Bag",
-            description: "The item has been added to your Bag.",
+            title: PRODUCTSCREEN_ADDED_TO_BAG_TITLE.tr,
+            description: PRODUCTSCREEN_ADDED_TO_BAG_DESCRIPTION.tr,
           );
           await BaseController.showSizePopup();
         }
@@ -162,7 +163,7 @@ class ProductController extends BaseController {
       isWishlistIconFilled = true;
       update();
       Get.snackbar(
-        'Added to Your wishlist',
+        PRODUCTSCREEN_ADDED_TO_WISHLIST.tr,
         '',
         snackPosition: SnackPosition.BOTTOM,
       );

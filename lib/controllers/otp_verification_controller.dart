@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -17,6 +18,7 @@ import '../services/api/api_service.dart';
 import '../services/authentication_service.dart';
 import '../services/dialog_service.dart';
 import '../services/navigation_service.dart';
+import '../utils/lang/translation_keys.dart';
 import 'base_controller.dart';
 
 class OtpVerificationController extends BaseController {
@@ -112,7 +114,7 @@ class OtpVerificationController extends BaseController {
   void validateOtp(String textFieldValue) {
     bool isValid = RegExp(r'^\d{4}$').hasMatch(textFieldValue);
     if (!isValid) {
-      otpValidationMessage = "Please enter valid otp of 4 digits only";
+      otpValidationMessage = LOGIN_OTP_VALIDATION_MSG.tr;
     } else {
       otpValidationMessage = "";
     }
@@ -146,9 +148,8 @@ class OtpVerificationController extends BaseController {
       NavigationService.off(OtpVerifiedRoute);
     } else {
       await DialogService.showDialog(
-        title: 'Incorrect OTP',
-        description:
-            'The OTP, you have entered is incorrect. Please try again.',
+        title: LOGIN_INCORRECT_OTP_TITLE.tr,
+        description: LOGIN_INCORRECT_OTP_DESCRIPTION.tr,
       );
     }
   }

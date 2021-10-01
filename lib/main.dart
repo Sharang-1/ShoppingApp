@@ -3,7 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:overlay_support/overlay_support.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import 'constants/shared_pref.dart';
 import 'locator.dart';
 import 'logger.dart';
 import 'services/localization_service.dart';
@@ -13,12 +15,11 @@ import 'ui/views/startup_view.dart';
 
 void main() async {
   setup();
-  // SharedPreferences prefs = await SharedPreferences.getInstance();
-  // String lang = prefs?.getString(CurrentLanguage);
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String lang = prefs?.getString(CurrentLanguage);
   runApp(
     OverlaySupport(
-      // child: MyApp(lang: lang),
-      child: MyApp(),
+      child: MyApp(lang: lang),
     ),
   );
 }

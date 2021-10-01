@@ -1,5 +1,3 @@
-import 'package:fimber/fimber_base.dart';
-
 import '../locator.dart';
 import '../models/reviews.dart';
 import '../models/sellers.dart';
@@ -26,7 +24,6 @@ class CacheService {
                 ?.items;
       }
       busy = false;
-      Fimber.i("Cache Designers: ${sellers?.length}");
     }
     return sellers;
   }

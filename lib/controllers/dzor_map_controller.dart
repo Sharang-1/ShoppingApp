@@ -1,9 +1,11 @@
+import 'package:compound/utils/lang/translation_keys.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
+import 'package:get/get.dart';
 
 import '../constants/route_names.dart';
 import '../constants/shared_pref.dart';
@@ -52,7 +54,7 @@ class DzorMapController extends BaseController {
 
   final List<TabItem> navigationItems = [
     TabItem(
-      title: 'Categories',
+      title: NAVBAR_CATEGORIES.tr,
       icon: Padding(
         padding: const EdgeInsets.only(top: 4.0),
         child: Image.asset(
@@ -62,7 +64,7 @@ class DzorMapController extends BaseController {
       ),
     ),
     TabItem(
-      title: 'Orders',
+      title: NAVBAR_ORDERS.tr,
       icon: Padding(
         padding: const EdgeInsets.only(top: 4.0),
         child: Image.asset(
@@ -84,7 +86,7 @@ class DzorMapController extends BaseController {
       ),
     ),
     TabItem(
-      title: 'Appointments',
+      title: NAVBAR_APPOINTMENTS.tr,
       icon: Padding(
         padding: const EdgeInsets.only(top: 4.0),
         child: Image.asset(
@@ -94,7 +96,7 @@ class DzorMapController extends BaseController {
       ),
     ),
     TabItem(
-      title: 'Maps',
+      title: NAVBAR_MAPS.tr,
       icon: Padding(
         padding: const EdgeInsets.only(top: 4.0),
         child: Image.asset(

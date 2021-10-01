@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
+import '../../utils/lang/translation_keys.dart';
 import '../shared/shared_styles.dart';
 
 class SellerStatus extends StatelessWidget {
@@ -22,16 +24,15 @@ class SellerStatus extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              isOpen ? "Open Now" : "Closed Now",
+              isOpen ? DESIGNER_OPEN_NOW.tr : DESIGNER_CLOSED_NOW.tr,
               style: TextStyle(
                   color: isOpen ? Colors.green : Colors.red,
                   fontWeight: FontWeight.bold),
             ),
             Text(
               time,
-              style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold),
+              style:
+                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
             )
           ],
         ),

@@ -16,6 +16,7 @@ import '../../locator.dart';
 import '../../models/products.dart';
 import '../../services/dynamic_link_service.dart';
 import '../../services/wishlist_service.dart';
+import '../../utils/lang/translation_keys.dart';
 import '../../utils/stringUtils.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
@@ -314,7 +315,7 @@ class _ExploreProductTileUIState extends State<ExploreProductTileUI> {
                           child: InkWell(
                             onTap: widget.onClick,
                             child: Text(
-                              "Shop Now !",
+                              SHOP_NOW.tr,
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Colors.white,
@@ -360,8 +361,8 @@ class _ExploreProductTileUIState extends State<ExploreProductTileUI> {
                             },
                             child: Text(
                               isWishlistIconFilled
-                                  ? "Added to wishlist"
-                                  : "Add to wishlist",
+                                  ? PRODUCTSCREEN_ADDED_TO_WISHLIST.tr
+                                  : PRODUCTSCREEN_ADD_TO_WISHLIST.tr,
                               style: TextStyle(
                                 fontSize: 14,
                                 color: logoRed,

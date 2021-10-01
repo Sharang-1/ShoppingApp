@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:get/get.dart';
 
 import '../../locator.dart';
 import '../../services/api/api_service.dart';
 import '../../services/navigation_service.dart';
+import '../../utils/lang/translation_keys.dart';
 import '../shared/app_colors.dart';
 import '../shared/ui_helpers.dart';
 import 'custom_text.dart';
@@ -49,7 +51,7 @@ class _WriteReviewBottomsheetState extends State<WriteReviewBottomsheet> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CustomText(
-                  "Write a Review",
+                  WRITE_REVIEW.tr,
                   fontSize: titleFontSize + 2,
                   isBold: true,
                 ),
@@ -87,7 +89,7 @@ class _WriteReviewBottomsheetState extends State<WriteReviewBottomsheet> {
                             child: TextField(
                               controller: textController,
                               decoration: InputDecoration(
-                                hintText: 'Write a Review',
+                                hintText: WRITE_REVIEW.tr,
                                 hintStyle: TextStyle(fontSize: 14),
                                 border: OutlineInputBorder(),
                                 contentPadding:
@@ -124,7 +126,7 @@ class _WriteReviewBottomsheetState extends State<WriteReviewBottomsheet> {
                                     backgroundColor: logoRed,
                                   ),
                                   child: new CustomText(
-                                    "Submit",
+                                    SUBMIT.tr,
                                     fontSize: titleFontSize,
                                     color: Colors.white,
                                   ),

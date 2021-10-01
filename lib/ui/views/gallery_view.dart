@@ -1,10 +1,12 @@
-import 'package:compound/ui/views/home_view_list.dart';
-import 'package:compound/ui/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 
+import '../../utils/lang/translation_keys.dart';
 import '../shared/app_colors.dart';
+import '../widgets/custom_text.dart';
+import 'home_view_list.dart';
 
 class GalleryPhotoViewWrapper extends StatefulWidget {
   GalleryPhotoViewWrapper({
@@ -109,7 +111,7 @@ class _GalleryPhotoViewWrapperState extends State<GalleryPhotoViewWrapper> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CustomText(
-                        "Measurement Guide",
+                        MEASUREMENT_GUIDE.tr,
                         fontWeight: FontWeight.w400,
                       ),
                       Expanded(

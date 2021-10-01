@@ -1,3 +1,4 @@
+import 'package:compound/utils/lang/translation_keys.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -144,7 +145,7 @@ class _SearchViewState extends State<SearchView>
                             height: 30,
                             child: Tab(
                               child: Text(
-                                "Products",
+                                PRODUCTS.tr,
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -155,7 +156,7 @@ class _SearchViewState extends State<SearchView>
                             height: 30,
                             child: Tab(
                               child: Text(
-                                "Designers",
+                                DESIGNERS.tr,
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                 ),

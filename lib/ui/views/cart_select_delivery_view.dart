@@ -6,12 +6,13 @@ import 'package:page_transition/page_transition.dart';
 
 import '../../controllers/base_controller.dart';
 import '../../controllers/cart_select_delivery_controller.dart';
-import '../../packages/google_maps_place_picker/google_maps_place_picker.dart';
 import '../../locator.dart';
 import '../../models/order_details.dart';
 import '../../models/user_details.dart';
+import '../../packages/google_maps_place_picker/google_maps_place_picker.dart';
 import '../../services/api/api_service.dart';
 import '../../services/dialog_service.dart';
+import '../../utils/lang/translation_keys.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
@@ -64,7 +65,7 @@ class _SelectAddressState extends State<SelectAddress> {
           elevation: 0,
           backgroundColor: Colors.white,
           title: Text(
-            "Select Address",
+            SELECT_ADDRESS.tr,
             style: TextStyle(
               fontFamily: headingFont,
               fontWeight: FontWeight.w700,
@@ -103,7 +104,7 @@ class _SelectAddressState extends State<SelectAddress> {
                       context: context,
                       builder: (context) => OrderDetailsBottomsheet(
                         orderDetails: widget.orderDetails,
-                        buttonText: "Make Payment",
+                        buttonText: MAKE_PAYMENT.tr,
                         buttonIcon: FontAwesomeIcons.lock,
                         onButtonPressed: disabledPayment
                             ? null
@@ -122,7 +123,7 @@ class _SelectAddressState extends State<SelectAddress> {
                         isBold: true,
                       ),
                       CustomText(
-                        "View Details",
+                        VIEW_DETAILS.tr,
                         textStyle: TextStyle(
                           fontSize: 12,
                           decoration: TextDecoration.underline,
@@ -156,7 +157,7 @@ class _SelectAddressState extends State<SelectAddress> {
                             ),
                             horizontalSpaceSmall,
                             CustomText(
-                              "Make Payment",
+                              MAKE_PAYMENT.tr,
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
                               fontSize: 16,
@@ -189,7 +190,7 @@ class _SelectAddressState extends State<SelectAddress> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: Text(
-                        "My Addresses",
+                        MY_ADDRESSES.tr,
                         style: TextStyle(
                             fontFamily: headingFont,
                             fontWeight: FontWeight.w700,
@@ -250,7 +251,7 @@ class _SelectAddressState extends State<SelectAddress> {
                                               MainAxisAlignment.center,
                                           children: <Widget>[
                                             CustomText(
-                                              "My Address: ",
+                                              MY_ADDRESS.tr,
                                               color: Colors.grey[700],
                                               fontSize: 14,
                                               isBold: true,
@@ -319,7 +320,7 @@ class _SelectAddressState extends State<SelectAddress> {
                             Padding(
                               padding: const EdgeInsets.symmetric(vertical: 15),
                               child: CustomText(
-                                "Add Address",
+                                ADD_ADDRESS.tr,
                                 isBold: true,
                                 color: Colors.white,
                               ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../../controllers/base_controller.dart';
@@ -7,6 +8,7 @@ import '../../models/cart.dart';
 import '../../models/order_details.dart';
 import '../../services/api/api_service.dart';
 import '../../services/dialog_service.dart';
+import '../../utils/lang/translation_keys.dart';
 import '../shared/app_colors.dart';
 import '../shared/ui_helpers.dart';
 import '../views/cart_select_delivery_view.dart';
@@ -182,7 +184,7 @@ class _CartTileState extends State<CartTile> {
                     ),
                     horizontalSpaceSmall,
                     Text(
-                      "Apply Coupon",
+                      APPLY_COUPON.tr,
                       style: TextStyle(
                         color: logoRed,
                         fontSize: 12,
@@ -206,7 +208,7 @@ class _CartTileState extends State<CartTile> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: Text(
-                    "Proceed to Order ",
+                    PROCEED_TO_ORDER.tr,
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,

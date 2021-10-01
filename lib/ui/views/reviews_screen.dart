@@ -1,8 +1,10 @@
+import 'package:compound/utils/lang/translation_keys.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/reviews.dart';
 import '../shared/shared_styles.dart';
 import '../widgets/reviews.dart';
+import 'package:get/get.dart';
 
 class ReviewsScreen extends StatelessWidget {
   final Reviews reviews;
@@ -15,7 +17,7 @@ class ReviewsScreen extends StatelessWidget {
         elevation: 0,
         backgroundColor: Colors.white,
         title: Text(
-          "Ratings & Reviews",
+          DESIGNER_SCREEN_REVIEWS.tr,
           style: TextStyle(
             fontFamily: headingFont,
             fontWeight: FontWeight.w700,

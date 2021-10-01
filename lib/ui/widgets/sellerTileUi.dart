@@ -1,8 +1,10 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import '../../utils/lang/translation_keys.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 
 import '../../constants/route_names.dart';
 import '../../constants/server_urls.dart';
@@ -540,7 +542,7 @@ class DesignerTileUi extends StatelessWidget {
                                     "$SELLER_PHOTO_BASE_URL/${data.key}",
                               ),
                             ),
-                            child: CustomText("View All",
+                            child: CustomText(VIEW_ALL.tr,
                                 textStyle: TextStyle(
                                   fontSize: 10,
                                   color: textIconBlue,

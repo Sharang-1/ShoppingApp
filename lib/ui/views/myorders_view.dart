@@ -1,3 +1,4 @@
+import 'package:compound/utils/lang/translation_keys.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:grouped_list/grouped_list.dart';
@@ -38,7 +39,7 @@ class _MyOrdersViewState extends State<MyOrdersView> {
             elevation: 0,
             backgroundColor: Colors.white,
             title: Text(
-              "My Orders",
+              SETTINGS_MY_ORDER.tr,
               style: TextStyle(
                 fontFamily: headingFont,
                 fontWeight: FontWeight.w700,

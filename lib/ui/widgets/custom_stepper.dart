@@ -1,7 +1,9 @@
+import 'package:compound/utils/lang/translation_keys.dart';
 import 'package:flutter/material.dart';
 
 import '../shared/app_colors.dart';
 import '../shared/ui_helpers.dart';
+import 'package:get/get.dart';
 
 class CutomStepper extends StatelessWidget {
   final int step;
@@ -70,7 +72,7 @@ class CutomStepper extends StatelessWidget {
             Positioned(
               left: 0,
               child: Text(
-                "Bag",
+                BAG.tr,
                 style: TextStyle(
                   fontSize: step == 1 ? 16 : 14,
                   fontWeight: step == 1 ? FontWeight.bold : FontWeight.normal,
@@ -80,7 +82,7 @@ class CutomStepper extends StatelessWidget {
             ),
             Center(
               child: Text(
-                "Address",
+                DESIGNER_DETAILS_ADDRESS.tr,
                 style: TextStyle(
                   fontSize: step == 2 ? 16 : 14,
                   fontWeight: step == 2 ? FontWeight.bold : FontWeight.normal,
@@ -91,7 +93,7 @@ class CutomStepper extends StatelessWidget {
             Positioned(
               right: 0,
               child: Text(
-                "Payment",
+                PAYMENT.tr,
                 style: TextStyle(
                   fontSize: step == 3 ? 16 : 14,
                   fontWeight: step == 3 ? FontWeight.bold : FontWeight.normal,

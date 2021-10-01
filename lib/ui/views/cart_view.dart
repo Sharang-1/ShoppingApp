@@ -1,3 +1,4 @@
+import 'package:compound/utils/lang/translation_keys.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +46,7 @@ class _CartViewState extends State<CartView> {
           elevation: 0,
           backgroundColor: Colors.white,
           title: Text(
-            "My Bag",
+            MY_BAG.tr,
             style: TextStyle(
               fontFamily: headingFont,
               fontWeight: FontWeight.w700,
@@ -74,7 +75,7 @@ class _CartViewState extends State<CartView> {
               ),
               onPressed: () async => await BaseController.showSizePopup(),
               child: CustomText(
-                "Add Your Measurements",
+                ADD_MEASUREMENTS.tr,
                 align: TextAlign.center,
                 color: Colors.white,
                 isBold: true,
@@ -132,7 +133,7 @@ class _CartViewState extends State<CartView> {
                     Obx(
                       () => locator<CartCountController>().count.value > 0
                           ? CustomText(
-                              "Items in Bag: ${locator<CartCountController>().count.value}",
+                              "${ITEMS_IN_BAG.tr}: ${locator<CartCountController>().count.value}",
                               isBold: true,
                             )
                           : Container(),
