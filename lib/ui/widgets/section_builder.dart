@@ -157,13 +157,9 @@ class SectionBuilder extends StatelessWidget {
                       "name": product?.name ?? "Test",
                       "actualCost": (product.cost.cost +
                               product.cost.convenienceCharges.cost +
-                              product.cost.gstCharges.cost +
-                              BaseController.deliveryCharge)
+                              product.cost.gstCharges.cost)
                           .round(),
-                      "price": (product.cost.costToCustomer +
-                                  BaseController.deliveryCharge)
-                              .round() ??
-                          0,
+                      "price": product?.cost?.costToCustomer?.round() ?? 0,
                       "discount": product?.cost?.productDiscount?.rate ?? 0,
                       "photo": product?.photo?.photos?.first?.name,
                       "sellerName": product?.seller?.name ?? "",

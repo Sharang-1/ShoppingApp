@@ -1,9 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-//TODO: Change
-const bool releaseMode = kReleaseMode || true;
-// const bool releaseMode = kReleaseMode && false;
-// const bool releaseMode = kReleaseMode;
+const bool releaseMode = kReleaseMode;
 
 const String BASE_URL =
     releaseMode ? "https://dzor.in/api/" : "https://dev.dzor.in/api/";

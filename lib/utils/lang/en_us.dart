@@ -27,7 +27,7 @@ const Map<String, String> enUS = {
 
   // Product Screen
   PRODUCTS: "Products",
-  PRODUCTSCREEN_TAXES_AND_CHARGES: "Inclusive of taxes and charges",
+  PRODUCTSCREEN_TAXES_AND_CHARGES: "Inclusive of taxes",
   PRODUCTSCREEN_IN_STOCK: "✔️ In Stock",
   PRODUCTSCREEN_SOLD_OUT: "Sold Out",
   PRODUCTSCREEN_ASSURED: "Quality Assured",

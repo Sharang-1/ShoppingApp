@@ -326,6 +326,7 @@ class _SelectPromocodeState extends State<SelectPromocode> {
       orderDetails.promocode = res.promocodeDiscount.promocode;
       orderDetails.promocodeDiscount =
           '$rupeeUnicode${res.promocodeDiscount.cost}';
+      orderDetails.total = res.cost.toStringAsFixed(2);
 
       ScaffoldMessenger.of(context).showSnackBar(
         new SnackBar(content: Text(COUPON_APPLIED.tr)),

@@ -36,8 +36,7 @@ class _CartTileState extends State<CartTile> {
   final _controller = new TextEditingController();
 
   bool isPromoCodeApplied = false;
-  String finalTotal = "-";
-  String shippingCharges = "-";
+  String finalTotal = "0";
   String deliveryStatus = "";
   String promoCode = "";
   String promoCodeId = "";
@@ -51,8 +50,8 @@ class _CartTileState extends State<CartTile> {
     item = widget.item;
     quantity = item.quantity >= 1 ? item.quantity : 1;
     item.quantity = item.quantity >= 1 ? item.quantity : 1;
+    finalTotal = (item.product.cost.costToCustomer * item.quantity).toString();
     setUpOrderDetails();
-    setUpProductPrices();
     super.initState();
   }
 
@@ -63,27 +62,12 @@ class _CartTileState extends State<CartTile> {
   }
 
   void setUpProductPrices() async {
-    final res = await _apiService.calculateProductPrice(
-        item.productId.toString(), quantity);
-    if (res != null) {
-      setState(() {
-        finalTotal = calculateTotalCost(
-            item.product.cost, item.quantity, res.deliveryCharges.cost);
-        shippingCharges = res.deliveryCharges.cost.toString();
-      });
-    }
+    setState(() {
+      finalTotal =
+          (item.product.cost.costToCustomer * quantity).toStringAsFixed(2);
+    });
     orderDetails.total = rupeeUnicode + finalTotal;
-    orderDetails.deliveryCharges = rupeeUnicode + shippingCharges;
   }
-
-  String calculateTotalCost(Cost cost, num quantity, num deliveryCharges) =>
-      (((cost.cost -
-                      (cost?.productDiscount?.cost ?? 0) +
-                      (cost?.convenienceCharges?.cost ?? 0) +
-                      (cost?.gstCharges?.cost ?? 0)) *
-                  quantity) +
-              deliveryCharges)
-          .toStringAsFixed(2);
 
   void setUpOrderDetails() {
     orderDetails = OrderDetails(
@@ -112,12 +96,12 @@ class _CartTileState extends State<CartTile> {
           '${widget?.item?.product?.cost?.convenienceCharges?.rate} %',
       gst:
           '$rupeeUnicode${((widget?.item?.quantity ?? 1) * (widget?.item?.product?.cost?.gstCharges?.cost ?? 0))?.toStringAsFixed(2)} (${widget?.item?.product?.cost?.gstCharges?.rate}%)',
-      deliveryCharges: rupeeUnicode + shippingCharges,
+      deliveryCharges: "-",
       actualPrice:
-          "$rupeeUnicode ${((widget?.item?.quantity ?? 1) * ((widget?.item?.product?.cost?.cost ?? 0) + (widget?.item?.product?.cost?.gstCharges?.cost ?? 0)) + (widget?.item?.product?.cost?.convenienceCharges?.cost) + BaseController.deliveryCharge).toStringAsFixed(2)}",
+          "$rupeeUnicode ${((widget?.item?.quantity ?? 1) * ((widget?.item?.product?.cost?.cost ?? 0) + (widget?.item?.product?.cost?.gstCharges?.cost ?? 0)) + (widget?.item?.product?.cost?.convenienceCharges?.cost)).toStringAsFixed(2)}",
       saved:
           // ignore: deprecated_member_use
-          "$rupeeUnicode ${(((widget?.item?.quantity ?? 1) * ((widget?.item?.product?.cost?.cost ?? 0) + (widget?.item?.product?.cost?.gstCharges?.cost ?? 0)) + (widget?.item?.product?.cost?.convenienceCharges?.cost) + BaseController.deliveryCharge) - (double.parse(finalTotal, (s) => 0) ?? 0)).toStringAsFixed(2)}",
+          "$rupeeUnicode ${(((widget?.item?.quantity ?? 1) * ((widget?.item?.product?.cost?.cost ?? 0) + (widget?.item?.product?.cost?.gstCharges?.cost ?? 0)) + (widget?.item?.product?.cost?.convenienceCharges?.cost)) - (double.parse(finalTotal, (s) => 0) ?? 0)).toStringAsFixed(0)}",
       total: rupeeUnicode + finalTotal,
     );
   }
@@ -147,7 +131,6 @@ class _CartTileState extends State<CartTile> {
           child: CartProductTileUI(
             item: item,
             finalTotal: finalTotal,
-            shippingCharges: shippingCharges,
             promoCode: promoCode,
             onRemove: onCartItemDelete,
             promoCodeDiscount: promoCodeDiscount,

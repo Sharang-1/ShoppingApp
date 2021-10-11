@@ -11,6 +11,8 @@ class RemoteConfigService {
 }
 
 // HomeScreen
+const String TOP_PROMOTION_TITLE_EN = 'top_promotion_title_en';
+
 const String HOMESCREEN_SECTION_1_TITLE_EN = 'homescreen_section_1_title_en';
 const String HOMESCREEN_SECTION_1_SUBTITLE_EN =
     'homescreen_section_1_subtitle_en';

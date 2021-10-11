@@ -31,10 +31,6 @@ class BaseController extends GetxController {
   bool _busy = false;
   bool get busy => _busy;
 
-  // Should be changed after backend support
-  static const num deliveryCharge = 35.40;
-  num get deliveryCharges => deliveryCharge;
-
   void setBusy(bool value) {
     _busy = value;
     update();

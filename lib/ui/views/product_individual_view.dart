@@ -128,7 +128,6 @@ class _ProductIndiViewState extends State<ProductIndiView> {
   bool disabledAddToCartBtn = false;
   Product productData;
   bool showMoreFromDesigner = true;
-  num deliveryCharges = 35.4;
   String productName;
   String productId;
   double productDiscount;
@@ -341,8 +340,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                 actualPrice: (productData.cost.cost +
                                         productData
                                             .cost.convenienceCharges.cost +
-                                        productData.cost.gstCharges.cost +
-                                        deliveryCharges)
+                                        productData.cost.gstCharges.cost)
                                     .round(),
                                 showPrice: (available),
                                 isClothMeterial:
@@ -1901,7 +1899,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
     productName = data?.name ?? "Test Product";
     productId = data?.key;
     productDiscount = data?.cost?.productDiscount?.rate ?? 0.0;
-    productPrice = (data.cost.costToCustomer + deliveryCharges).round() ?? 0.0;
+    productPrice = (data.cost.costToCustomer).round() ?? 0.0;
     saved = calculateSavedCost(data?.cost);
     variations = data?.variations ?? null;
 

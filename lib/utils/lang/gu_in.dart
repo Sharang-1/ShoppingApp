@@ -1,9 +1,10 @@
 import 'translation_keys.dart';
+import 'en_us.dart';
 
 // Gujarati Translations
-const Map<String, String> guIN = {
+Map<String, String> guIN = {
   //HomeScreen
-  HOMESCREEN_LOCATION: "YOU ARE IN",
+  HOMESCREEN_LOCATION: enUS[HOMESCREEN_LOCATION],
   HOMESCREEN_SEARCH_DESIGNERS: "ડિજાઇનર ને શોધો.",
 
   //Bottom NavBar
@@ -25,21 +26,21 @@ const Map<String, String> guIN = {
 
   // Product Screen
   PRODUCTS: "પ્રોડક્ટસ",
-  PRODUCTSCREEN_TAXES_AND_CHARGES: "Inclusive of taxes and charges",
-  PRODUCTSCREEN_IN_STOCK: "✔️ In Stock",
-  PRODUCTSCREEN_SOLD_OUT: "Sold Out",
-  PRODUCTSCREEN_ASSURED: "Quality Assured",
-  PRODUCTSCREEN_COD: "💰 COD Available",
-  PRODUCTSCREEN_RETURNS: "📦 Easy 2 Days Returns",
-  PRODUCTSCREEN_JUST_HERE: "#JustHere",
-  PRODUCTSCREEN_UNSTITCHED: "Unstitched",
-  PRODUCTSCREEN_HANDCRAFTED: "Hand-Crafted",
-  PRODUCTSCREEN_ONE_IN_MARKET: "One in Market Product",
+  PRODUCTSCREEN_TAXES_AND_CHARGES: enUS[PRODUCTSCREEN_TAXES_AND_CHARGES],
+  PRODUCTSCREEN_IN_STOCK: enUS[PRODUCTSCREEN_IN_STOCK],
+  PRODUCTSCREEN_SOLD_OUT: enUS[PRODUCTSCREEN_SOLD_OUT],
+  PRODUCTSCREEN_ASSURED: enUS[PRODUCTSCREEN_ASSURED],
+  PRODUCTSCREEN_COD: enUS[PRODUCTSCREEN_COD],
+  PRODUCTSCREEN_RETURNS: enUS[PRODUCTSCREEN_RETURNS],
+  PRODUCTSCREEN_JUST_HERE: enUS[PRODUCTSCREEN_JUST_HERE],
+  PRODUCTSCREEN_UNSTITCHED: enUS[PRODUCTSCREEN_UNSTITCHED],
+  PRODUCTSCREEN_HANDCRAFTED: enUS[PRODUCTSCREEN_HANDCRAFTED],
+  PRODUCTSCREEN_ONE_IN_MARKET: enUS[PRODUCTSCREEN_ONE_IN_MARKET],
   PRODUCTSCREEN_AVAILABLE_COUPONS: "અવેલેબલ કુપન્સ",
   PRODUCTSCREEN_SELECT_SIZE: "સાઇઝ સિલેક્ટ કરો",
   PRODUCTSCREEN_SIZE_CHART: "સાઇઝ ચાર્ટ",
   PRODUCTSCREEN_SELECT_COLOR: "કલર સિલેક્ટ કરો",
-  PRODUCTSCREEN_DELIVERY_BY: "Delivery By",
+  PRODUCTSCREEN_DELIVERY_BY: enUS[PRODUCTSCREEN_DELIVERY_BY],
   PRODUCTSCREEN_KNOW_YOUR_DESIGNER: "ડિજાઇનર ને જાણો",
   PRODUCTSCREEN_ITEM_DETAILS: "ડિસ્ક્રિપ્શન",
   PRODUCTSCREEN_RECOMMENDED_PRODUCTS: "રેકમેંડેડ પ્રોડક્ટસ",
@@ -60,20 +61,20 @@ const Map<String, String> guIN = {
       'પ્રોડક્ટ ને તમારી વિશલિસ્ટ માં નાખી દેવામાં આવ્યું છે.',
   NO_REVIEWS: "કોઈ રિવ્યૂ નથી.",
   WRITE_REVIEW: "રિવ્યૂ આપો",
-  VIEW_ALL: "View All",
-  NO_DESCRIPTION: "No Description",
-  UNKNOWN_USER: "Unknown User",
+  VIEW_ALL: enUS[VIEW_ALL],
+  NO_DESCRIPTION: enUS[NO_DESCRIPTION],
+  UNKNOWN_USER: enUS[UNKNOWN_USER],
   REVIEWS: "રિવ્યૂસ",
   SERVICE_NOT_AVAILABLE_TITLE: "સર્વિસ અવેલેબલ નથી",
   SERVICE_NOT_AVAILABLE_DESCRIPTION: "તમારી લોકેશન પર સર્વિસ અવેલેબલ નથી.",
 
   //DesignerScreen
   DESIGNERS: "ડિજાઇનર્સ",
-  DESIGNER_SCREEN_SPECIALITY: "Speciality",
-  DESIGNER_SCREEN_DESIGNES_CREATES: "Designs & Creates",
-  DESIGNER_SCREEN_SERVICES_OFFERED: "Services offered",
-  DESIGNER_SCREEN_WORK_OFFERED: "Works Offered",
-  DESIGNER_SCREEN_TYPE: "Type",
+  DESIGNER_SCREEN_SPECIALITY: enUS[DESIGNER_SCREEN_SPECIALITY],
+  DESIGNER_SCREEN_DESIGNES_CREATES: enUS[DESIGNER_SCREEN_DESIGNES_CREATES],
+  DESIGNER_SCREEN_SERVICES_OFFERED: enUS[DESIGNER_SCREEN_SERVICES_OFFERED],
+  DESIGNER_SCREEN_WORK_OFFERED: enUS[DESIGNER_SCREEN_WORK_OFFERED],
+  DESIGNER_SCREEN_TYPE: enUS[DESIGNER_SCREEN_TYPE],
   DESIGNER_DETAILS: "ડિજાઇનર ની ડિટેલ્સ",
   DESIGNER_DETAILS_KEY: "key",
   DESIGNER_DETAILS_NAME: "name",
@@ -140,9 +141,8 @@ const Map<String, String> guIN = {
   SAVE_AND_PROCEED: "સવે કરો",
 
   // DIALOGS
-  CART_ALERT_DIALOG_TITLE: 'Check Size, Color and Quantity',
-  CART_ALERT_DIALOG_DESCRIPTION:
-      'Designers on Dzor work hard to create garments and items for you. Please make sure you’re making an informed buying decision so that we don’t have to return or cancel the order.',
+  CART_ALERT_DIALOG_TITLE: enUS[CART_ALERT_DIALOG_TITLE],
+  CART_ALERT_DIALOG_DESCRIPTION: enUS[CART_ALERT_DIALOG_DESCRIPTION],
 
   PAYMENT: "પેમેંટ",
   PROCEED_TO_PAY: "પેમેંટ કરો",

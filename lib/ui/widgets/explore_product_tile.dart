@@ -90,14 +90,11 @@ class _ExploreProductTileUIState extends State<ExploreProductTileUI> {
     final String productName = widget?.data?.name ?? "No name";
     final double productDiscount =
         widget?.data?.cost?.productDiscount?.rate ?? 0.0;
-    final num deliveryCharges = 35.40;
-    final int productPrice =
-        (widget.data.cost.costToCustomer + deliveryCharges).round() ?? 0;
+    final int productPrice = widget?.data?.cost?.costToCustomer?.round() ?? 0;
     final int actualCost = (widget.data.cost.cost +
                 widget.data.cost.convenienceCharges.cost +
-                widget.data.cost.gstCharges.cost +
-                deliveryCharges)
-            .round() ??
+                widget.data.cost?.gstCharges?.cost)
+            ?.round() ??
         0;
     final List<String> videos =
         widget?.data?.video?.videos?.map((e) => e.name)?.toList() ?? [];

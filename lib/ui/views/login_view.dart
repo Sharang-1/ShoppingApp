@@ -272,7 +272,7 @@ class LoginView extends StatelessWidget {
                   child: TextButton(
                     onPressed: controller.skipLogin,
                     child: CustomText(
-                      "Skip for Now >>",
+                      "Continue as Guest >>",
                       color: logoRed,
                       isBold: true,
                       fontSize: titleFontSize,

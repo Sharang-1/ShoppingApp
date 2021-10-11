@@ -1,3 +1,4 @@
+import '../widgets/home_view_list_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -79,6 +80,10 @@ class _HomeViewListState extends State<HomeViewList> {
                     // ),
                   ),
                 if ((controller?.topPromotion?.length ?? 0) > 0) ...[
+                  HomeViewListHeader(
+                      title: controller?.remoteConfig
+                          ?.getString(TOP_PROMOTION_TITLE_EN)),
+                  verticalSpaceTiny,
                   PromotionSlider(
                     aspectRatio: 4.0,
                     key: controller.promotionKey,

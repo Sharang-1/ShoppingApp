@@ -2,9 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constants/shared_pref.dart';
 import '../locator.dart';
-import '../models/calculatedPrice.dart';
 import '../models/cart.dart';
-import '../models/promoCode.dart';
 import '../services/analytics_service.dart';
 import '../services/api/api_service.dart';
 import 'base_controller.dart';
@@ -54,16 +52,5 @@ class CartController extends BaseController {
   void hidePairItWith() {
     showPairItWith = false;
     update();
-  }
-
-  static Future<PromoCode> applyPromocode(
-      String productId, int qty, String code, String promotion) async {
-    return await locator<APIService>()
-        .applyPromocode(productId, qty, code, promotion);
-  }
-
-  static Future<CalculatedPrice> calculateProductPrice(
-      String productId, int qty) async {
-    return await locator<APIService>().calculateProductPrice(productId, qty);
   }
 }

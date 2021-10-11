@@ -1,9 +1,10 @@
 import 'translation_keys.dart';
+import 'en_us.dart';
 
 // Hindi Translations
-const Map<String, String> hiIN = {
+Map<String, String> hiIN = {
   //HomeScreen
-  HOMESCREEN_LOCATION: "YOU ARE IN",
+  HOMESCREEN_LOCATION: enUS[HOMESCREEN_LOCATION],
   HOMESCREEN_SEARCH_DESIGNERS: "डिज़ाइनर्स सर्च करे",
 
   //Bottom NavBar
@@ -25,21 +26,21 @@ const Map<String, String> hiIN = {
 
   // Product Screen
   PRODUCTS: "प्रोडक्ट्स",
-  PRODUCTSCREEN_TAXES_AND_CHARGES: "Inclusive of taxes and charges",
-  PRODUCTSCREEN_IN_STOCK: "✔️ In Stock",
-  PRODUCTSCREEN_SOLD_OUT: "Sold Out",
-  PRODUCTSCREEN_ASSURED: "Quality Assured",
-  PRODUCTSCREEN_COD: "💰 COD Available",
-  PRODUCTSCREEN_RETURNS: "📦 Easy 2 Days Returns",
-  PRODUCTSCREEN_JUST_HERE: "#JustHere",
-  PRODUCTSCREEN_UNSTITCHED: "Unstitched",
-  PRODUCTSCREEN_HANDCRAFTED: "Hand-Crafted",
-  PRODUCTSCREEN_ONE_IN_MARKET: "One in Market Product",
+  PRODUCTSCREEN_TAXES_AND_CHARGES: enUS[PRODUCTSCREEN_TAXES_AND_CHARGES],
+  PRODUCTSCREEN_IN_STOCK: enUS[PRODUCTSCREEN_IN_STOCK],
+  PRODUCTSCREEN_SOLD_OUT: enUS[PRODUCTSCREEN_SOLD_OUT],
+  PRODUCTSCREEN_ASSURED: enUS[PRODUCTSCREEN_ASSURED],
+  PRODUCTSCREEN_COD: enUS[PRODUCTSCREEN_COD],
+  PRODUCTSCREEN_RETURNS: enUS[PRODUCTSCREEN_RETURNS],
+  PRODUCTSCREEN_JUST_HERE: enUS[PRODUCTSCREEN_JUST_HERE],
+  PRODUCTSCREEN_UNSTITCHED: enUS[PRODUCTSCREEN_UNSTITCHED],
+  PRODUCTSCREEN_HANDCRAFTED: enUS[PRODUCTSCREEN_HANDCRAFTED],
+  PRODUCTSCREEN_ONE_IN_MARKET: enUS[PRODUCTSCREEN_ONE_IN_MARKET],
   PRODUCTSCREEN_AVAILABLE_COUPONS: "अवेलेबल कूपन्स",
   PRODUCTSCREEN_SELECT_SIZE: "साइज सिलेक्ट करे",
   PRODUCTSCREEN_SIZE_CHART: "साइज चार्ट",
   PRODUCTSCREEN_SELECT_COLOR: "कलर सिलेक्ट करे",
-  PRODUCTSCREEN_DELIVERY_BY: "Delivery By",
+  PRODUCTSCREEN_DELIVERY_BY: enUS[PRODUCTSCREEN_DELIVERY_BY],
   PRODUCTSCREEN_KNOW_YOUR_DESIGNER: "डिज़ाइनर को जाने",
   PRODUCTSCREEN_ITEM_DETAILS: "डिस्क्रिप्शन",
   PRODUCTSCREEN_RECOMMENDED_PRODUCTS: "रेकमेंडेड प्रोडक्ट्स",
@@ -60,9 +61,9 @@ const Map<String, String> hiIN = {
       'प्रोडक्ट को आपकी विशलिस्ट में दाल दिया गया है',
   NO_REVIEWS: "कोई रिव्यू नहीं है",
   WRITE_REVIEW: "रिव्यू दीजिये",
-  VIEW_ALL: "View All",
-  NO_DESCRIPTION: "No Description",
-  UNKNOWN_USER: "Unknown User",
+  VIEW_ALL: enUS[VIEW_ALL],
+  NO_DESCRIPTION: enUS[NO_DESCRIPTION],
+  UNKNOWN_USER: enUS[UNKNOWN_USER],
   REVIEWS: "रिव्युस",
   SERVICE_NOT_AVAILABLE_TITLE: "सर्विस अवेलेबल नहीं है",
   SERVICE_NOT_AVAILABLE_DESCRIPTION:
@@ -70,11 +71,11 @@ const Map<String, String> hiIN = {
 
   //DesignerScreen
   DESIGNERS: "डिज़ाइनर्स",
-  DESIGNER_SCREEN_SPECIALITY: "Speciality",
-  DESIGNER_SCREEN_DESIGNES_CREATES: "Designs & Creates",
-  DESIGNER_SCREEN_SERVICES_OFFERED: "Services offered",
-  DESIGNER_SCREEN_WORK_OFFERED: "Works Offered",
-  DESIGNER_SCREEN_TYPE: "Type",
+  DESIGNER_SCREEN_SPECIALITY: enUS[DESIGNER_SCREEN_SPECIALITY],
+  DESIGNER_SCREEN_DESIGNES_CREATES: enUS[DESIGNER_SCREEN_DESIGNES_CREATES],
+  DESIGNER_SCREEN_SERVICES_OFFERED: enUS[DESIGNER_SCREEN_SERVICES_OFFERED],
+  DESIGNER_SCREEN_WORK_OFFERED: enUS[DESIGNER_SCREEN_WORK_OFFERED],
+  DESIGNER_SCREEN_TYPE: enUS[DESIGNER_SCREEN_TYPE],
   DESIGNER_DETAILS: "डिज़ाइनर की डिटेल्स",
   DESIGNER_DETAILS_KEY: "key",
   DESIGNER_DETAILS_NAME: "name",
@@ -141,9 +142,8 @@ const Map<String, String> hiIN = {
   SAVE_AND_PROCEED: "सेव करे",
 
   // DIALOGS
-  CART_ALERT_DIALOG_TITLE: 'Check Size, Color and Quantity',
-  CART_ALERT_DIALOG_DESCRIPTION:
-      'Designers on Dzor work hard to create garments and items for you. Please make sure you’re making an informed buying decision so that we don’t have to return or cancel the order.',
+  CART_ALERT_DIALOG_TITLE: enUS[CART_ALERT_DIALOG_TITLE],
+  CART_ALERT_DIALOG_DESCRIPTION: enUS[CART_ALERT_DIALOG_DESCRIPTION],
 
   PAYMENT: " पेमेंट",
   PROCEED_TO_PAY: "पेमेंट करे",

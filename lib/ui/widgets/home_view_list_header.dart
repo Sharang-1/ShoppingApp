@@ -41,7 +41,7 @@ class HomeViewListHeader extends StatelessWidget {
                               color: Colors.grey[800],
                               letterSpacing: 1.0,
                               fontSize: titleFontSizeStyle,
-                              fontWeight: FontWeight.w400,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
                         ),

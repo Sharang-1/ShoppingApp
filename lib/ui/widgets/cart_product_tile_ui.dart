@@ -3,11 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../constants/server_urls.dart';
-import '../../controllers/base_controller.dart';
-import '../../locator.dart';
 import '../../models/cart.dart';
 import '../../models/order_details.dart';
-import '../../services/api/api_service.dart';
 import '../../utils/stringUtils.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
@@ -19,7 +16,6 @@ class CartProductTileUI extends StatefulWidget {
   final Item item;
   final bool isPromoCodeApplied;
   final String finalTotal;
-  final String shippingCharges;
   final String promoCode;
   final String promoCodeDiscount;
   final Function({int qty, String total}) proceedToOrder;
@@ -33,7 +29,6 @@ class CartProductTileUI extends StatefulWidget {
     @required this.item,
     this.isPromoCodeApplied = true,
     this.finalTotal = "",
-    this.shippingCharges = "",
     this.promoCode = "",
     this.promoCodeDiscount = "",
     this.increaseQty,
@@ -99,12 +94,12 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
           '${widget?.item?.product?.cost?.convenienceCharges?.rate} %',
       gst:
           '$rupeeUnicode${(((qty ?? widget?.item?.quantity) ?? 1) * (widget?.item?.product?.cost?.gstCharges?.cost ?? 0))?.toStringAsFixed(2)} (${widget?.item?.product?.cost?.gstCharges?.rate}%)',
-      deliveryCharges: rupeeUnicode + widget.shippingCharges,
+      deliveryCharges: "-",
       actualPrice:
-          "$rupeeUnicode ${(((qty ?? widget?.item?.quantity) ?? 1) * ((widget?.item?.product?.cost?.cost ?? 0) + (widget?.item?.product?.cost?.gstCharges?.cost ?? 0)) + (widget?.item?.product?.cost?.convenienceCharges?.cost) + BaseController.deliveryCharge).toStringAsFixed(2)}",
+          "$rupeeUnicode ${(((qty ?? widget?.item?.quantity) ?? 1) * ((widget?.item?.product?.cost?.cost ?? 0) + (widget?.item?.product?.cost?.gstCharges?.cost ?? 0)) + (widget?.item?.product?.cost?.convenienceCharges?.cost)).toStringAsFixed(2)}",
       saved:
           // ignore: deprecated_member_use
-          "$rupeeUnicode ${((((qty ?? widget?.item?.quantity) ?? 1) * ((widget?.item?.product?.cost?.cost ?? 0) + (widget?.item?.product?.cost?.gstCharges?.cost ?? 0)) + (widget?.item?.product?.cost?.convenienceCharges?.cost) + BaseController.deliveryCharge) - (double.parse(widget.finalTotal, (s) => 0) ?? 0)).toStringAsFixed(2)}",
+          "$rupeeUnicode ${((((qty ?? widget?.item?.quantity) ?? 1) * ((widget?.item?.product?.cost?.cost ?? 0) + (widget?.item?.product?.cost?.gstCharges?.cost ?? 0)) + (widget?.item?.product?.cost?.convenienceCharges?.cost)) - (double.parse(widget.finalTotal, (s) => 0) ?? 0)).toStringAsFixed(2)}",
       total: qty == null ? rupeeUnicode + widget.finalTotal : '-',
     );
   }
@@ -326,26 +321,11 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
   }
 
   void setUpProductPrices(int qty) async {
-    final res = await locator<APIService>()
-        .calculateProductPrice(widget.item.productId.toString(), qty);
-    if (res != null) {
-      setState(() {
-        orderDetails.total = rupeeUnicode +
-            calculateTotalCost(
-                widget.item.product.cost, qty, res.deliveryCharges.cost);
-        orderDetails.deliveryCharges = res.deliveryCharges.cost.toString();
-      });
-    }
+    setState(() {
+      orderDetails.total = rupeeUnicode +
+          (widget.item.product.cost.costToCustomer * qty).toStringAsFixed(2);
+    });
   }
-
-  String calculateTotalCost(Cost cost, num quantity, num deliveryCharges) =>
-      (((cost.cost -
-                      (cost?.productDiscount?.cost ?? 0) +
-                      (cost?.convenienceCharges?.cost ?? 0) +
-                      (cost?.gstCharges?.cost ?? 0)) *
-                  quantity) +
-              deliveryCharges)
-          .toStringAsFixed(2);
 
   void onTap() {
     setState(() {

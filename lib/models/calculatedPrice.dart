@@ -12,7 +12,6 @@ class CalculatedPrice {
     this.quantity,
     this.convenienceCharges,
     this.cost,
-    this.costToSeller,
     this.deliveryCharges,
     this.gstCharges,
     this.note,
@@ -21,7 +20,6 @@ class CalculatedPrice {
 
   num productPrice;
   num quantity;
-  num costToSeller;
   CostAndRate productDiscount;
   CostAndRate convenienceCharges;
   CostAndRate gstCharges;
@@ -31,23 +29,23 @@ class CalculatedPrice {
 
   factory CalculatedPrice.fromJson(Map<String, dynamic> json) =>
       CalculatedPrice(
-          productPrice: json["productPrice"],
-          quantity: json["quantity"],
-          productDiscount: json['productDiscount'] == null
-              ? null
-              : CostAndRate.fromJson(json['productDiscount']),
-          convenienceCharges: json['convenienceCharges'] == null
-              ? null
-              : CostAndRate.fromJson(json['convenienceCharges']),
-          gstCharges: json['gstCharges'] == null
-              ? null
-              : CostAndRate.fromJson(json['gstCharges']),
-          deliveryCharges: json['deliveryCharges'] == null
-              ? null
-              : Delivery.fromJson(json['deliveryCharges']),
-          cost: json['cost'],
-          costToSeller: json["costForSeller"],
-          note: json['note']);
+        productPrice: json["productPrice"],
+        quantity: json["quantity"],
+        productDiscount: json['productDiscount'] == null
+            ? null
+            : CostAndRate.fromJson(json['productDiscount']),
+        convenienceCharges: json['convenienceCharges'] == null
+            ? null
+            : CostAndRate.fromJson(json['convenienceCharges']),
+        gstCharges: json['gstCharges'] == null
+            ? null
+            : CostAndRate.fromJson(json['gstCharges']),
+        deliveryCharges: json['deliveryCharges'] == null
+            ? null
+            : Delivery.fromJson(json['deliveryCharges']),
+        cost: json['cost'],
+        note: json['note'],
+      );
 
   Map<String, dynamic> toJson() => {
         "productPrice": productPrice,
@@ -57,7 +55,6 @@ class CalculatedPrice {
         "gstCharges": gstCharges,
         "deliveryCharges": deliveryCharges,
         "cost": cost,
-        "costToSeller": costToSeller,
         "note": note,
       };
 }
@@ -80,37 +77,21 @@ class CostAndRate {
 }
 
 class Delivery {
-  final num id;
-  final String name;
-  final num days;
   final num cost;
-  final num rate;
   final String note;
 
   Delivery({
     this.cost,
-    this.days,
-    this.id,
-    this.name,
     this.note,
-    this.rate,
   });
 
   factory Delivery.fromJson(Map<String, dynamic> json) => Delivery(
-        id: json['id'],
-        name: json['name'],
-        days: json['days'],
         cost: json["cost"],
-        rate: json["rate"],
         note: json['note'],
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "days": days.toString(),
         "cost": cost.toString(),
-        "rate": rate.toString(),
         "note": note,
       };
 }

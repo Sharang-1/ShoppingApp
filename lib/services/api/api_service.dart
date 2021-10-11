@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:compound/services/cache_service.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_retry/dio_retry.dart';
 import 'package:fimber/fimber.dart';
@@ -35,6 +34,7 @@ import '../../models/sellers.dart';
 import '../../models/service_availability.dart';
 import '../../models/tailors.dart';
 import '../../models/user_details.dart';
+import '../cache_service.dart';
 import '../dialog_service.dart';
 import '../error_handling_service.dart';
 import 'AppInterceptor.dart';
@@ -430,10 +430,11 @@ class APIService {
   }
 
   Future<CalculatedPrice> calculateProductPrice(
-      String productId, int qty) async {
+      String productId, int qty, String pincode,
+      {String promocode}) async {
     final quantity = qty >= 1 ? qty : 1;
     final calculatedPriceData = await apiWrapper(
-        "orders​/cost?productKey=$productId&quantity=$quantity",
+        "orders​/cost?productKey=$productId&quantity=$quantity&pincode=$pincode&${(promocode?.isNotEmpty ?? false) ? "promocode=$promocode" : ""}",
         authenticated: true,
         options: Options(headers: {'excludeToken': false}));
     if (calculatedPriceData != null) {

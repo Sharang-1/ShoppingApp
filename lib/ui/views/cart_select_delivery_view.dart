@@ -7,6 +7,7 @@ import 'package:page_transition/page_transition.dart';
 import '../../controllers/base_controller.dart';
 import '../../controllers/cart_select_delivery_controller.dart';
 import '../../locator.dart';
+import '../../models/calculatedPrice.dart';
 import '../../models/order_details.dart';
 import '../../models/user_details.dart';
 import '../../packages/google_maps_place_picker/google_maps_place_picker.dart';
@@ -54,6 +55,14 @@ class _SelectAddressState extends State<SelectAddress> {
   UserDetailsContact addressRadioValue;
   UserDetailsContact addressGrpValue;
   bool disabledPayment = true;
+  String deliveryCharges;
+  OrderDetails orderDetails;
+
+  @override
+  void initState() {
+    orderDetails = widget.orderDetails;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +112,7 @@ class _SelectAddressState extends State<SelectAddress> {
                       isScrollControlled: true,
                       context: context,
                       builder: (context) => OrderDetailsBottomsheet(
-                        orderDetails: widget.orderDetails,
+                        orderDetails: orderDetails,
                         buttonText: MAKE_PAYMENT.tr,
                         buttonIcon: FontAwesomeIcons.lock,
                         onButtonPressed: disabledPayment
@@ -118,7 +127,7 @@ class _SelectAddressState extends State<SelectAddress> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       CustomText(
-                        "${BaseController.formatPrice(num.parse(widget.finalTotal.replaceAll("₹", "")))}",
+                        "${BaseController.formatPrice(num.parse(orderDetails.total.replaceAll("₹", "")))}",
                         fontSize: 12,
                         isBold: true,
                       ),
@@ -207,12 +216,27 @@ class _SelectAddressState extends State<SelectAddress> {
                       children: List<Widget>.of(
                         controller.addresses.map(
                           (UserDetailsContact address) => GestureDetector(
-                            onTap: () => setState(
-                              () {
-                                addressGrpValue = addressRadioValue = address;
-                                disabledPayment = false;
-                              },
-                            ),
+                            onTap: () async {
+                              setState(
+                                () {
+                                  addressGrpValue = addressRadioValue = address;
+                                  disabledPayment = false;
+                                },
+                              );
+
+                              final calculatedPrice = await calculatePrice();
+                              if (calculatedPrice != null) {
+                                deliveryCharges = calculatedPrice
+                                    ?.deliveryCharges?.cost
+                                    ?.toStringAsFixed(2);
+                                setState(() {
+                                  orderDetails.deliveryCharges =
+                                      rupeeUnicode + deliveryCharges;
+                                  orderDetails.total =
+                                      "$rupeeUnicode${calculatedPrice?.cost?.toStringAsFixed(2)}";
+                                });
+                              }
+                            },
                             child: Container(
                               margin:
                                   EdgeInsets.only(bottom: spaceBetweenCards),
@@ -244,24 +268,40 @@ class _SelectAddressState extends State<SelectAddress> {
                                         },
                                       ),
                                       Expanded(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: <Widget>[
-                                            CustomText(
-                                              MY_ADDRESS.tr,
-                                              color: Colors.grey[700],
-                                              fontSize: 14,
-                                              isBold: true,
+                                        child: Stack(
+                                          children: [
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: <Widget>[
+                                                CustomText(
+                                                  MY_ADDRESS.tr,
+                                                  color: Colors.grey[700],
+                                                  fontSize: 14,
+                                                  isBold: true,
+                                                ),
+                                                verticalSpaceTiny_0,
+                                                CustomText(
+                                                  "${address.address}",
+                                                  color: Colors.grey,
+                                                  fontSize: 14,
+                                                ),
+                                              ],
                                             ),
-                                            verticalSpaceTiny_0,
-                                            CustomText(
-                                              "${address.address}",
-                                              color: Colors.grey,
-                                              fontSize: 14,
-                                            ),
+                                            if (deliveryCharges != null &&
+                                                addressGrpValue == address)
+                                              Positioned(
+                                                top: 0,
+                                                right: 0,
+                                                child: CustomText(
+                                                  deliveryCharges == "0.00"
+                                                      ? "Free Delivery"
+                                                      : "+ ₹$deliveryCharges",
+                                                  fontSize: subtitleFontSize,
+                                                ),
+                                              ),
                                           ],
                                         ),
                                       ),
@@ -337,6 +377,14 @@ class _SelectAddressState extends State<SelectAddress> {
     );
   }
 
+  Future<CalculatedPrice> calculatePrice() =>
+      locator<APIService>().calculateProductPrice(
+        widget.productId,
+        widget.qty,
+        addressRadioValue.pincode.toString(),
+        promocode: widget.promoCode,
+      );
+
   Future<void> makePayment(controller) async {
     final serviceAvailability = await locator<APIService>().checkPincode(
         productId: widget.productId,
@@ -358,8 +406,8 @@ class _SelectAddressState extends State<SelectAddress> {
               promoCodeId: widget.promoCodeId,
               qty: widget.qty,
               size: widget.size,
-              finalTotal: widget.finalTotal,
-              orderDetails: widget.orderDetails,
+              finalTotal: orderDetails.total,
+              orderDetails: orderDetails,
             ),
             type: PageTransitionType.rightToLeft),
       );

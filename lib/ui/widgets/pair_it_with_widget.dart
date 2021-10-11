@@ -12,7 +12,6 @@ import 'product_tile_ui.dart';
 
 class PairItWithWidget extends StatelessWidget {
   final Key productUniqueKey;
-  final num deliveryCharges = 35.40;
   final List<String> exceptProductIDs;
   final Function(Product product) onProductClicked;
   final Function onEmpty;

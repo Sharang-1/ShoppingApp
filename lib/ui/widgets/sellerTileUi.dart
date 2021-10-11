@@ -631,7 +631,7 @@ class DesignerTileUi extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     CustomText(
-                                      "${BaseController.formatPrice((product.cost.costToCustomer + BaseController.deliveryCharge).round())}",
+                                      "${BaseController.formatPrice((product.cost.costToCustomer).round())}",
                                       fontSize: 12,
                                       color: ((product?.cost?.productDiscount
                                                       ?.rate ??
@@ -649,7 +649,7 @@ class DesignerTileUi extends StatelessWidget {
                                             0.0) !=
                                         0.0)
                                       Text(
-                                        "${BaseController.formatPrice((product.cost.cost + product.cost.convenienceCharges.cost + product.cost.gstCharges.cost + BaseController.deliveryCharge).round())}",
+                                        "${BaseController.formatPrice((product.cost.cost + product.cost.convenienceCharges.cost + product.cost.gstCharges.cost).round())}",
                                         style: TextStyle(
                                           decoration:
                                               TextDecoration.lineThrough,

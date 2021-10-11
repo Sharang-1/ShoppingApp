@@ -10,6 +10,7 @@ import '../../controllers/wishlist_controller.dart';
 import '../../locator.dart';
 import '../../models/products.dart';
 import '../../services/wishlist_service.dart';
+import '../../utils/lang/translation_keys.dart';
 import '../../utils/stringUtils.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
@@ -81,13 +82,10 @@ class _ProductTileUIState extends State<ProductTileUI> {
     final String productName = widget?.data?.name ?? "No name";
     final double productDiscount =
         widget?.data?.cost?.productDiscount?.rate ?? 0.0;
-    final num deliveryCharges = 35.40;
-    final int productPrice =
-        (widget.data.cost.costToCustomer + deliveryCharges).round() ?? 0;
+    final int productPrice = widget?.data?.cost?.costToCustomer?.round() ?? 0;
     final int actualCost = (widget.data.cost.cost +
                 widget.data.cost.convenienceCharges.cost +
-                widget.data.cost.gstCharges.cost +
-                deliveryCharges)
+                widget.data.cost.gstCharges.cost)
             .round() ??
         0;
 
@@ -116,6 +114,7 @@ class _ProductTileUIState extends State<ProductTileUI> {
                   photoURL,
                   productDiscount,
                   priceFontSize,
+                  handcrafted: (widget?.data?.whoMadeIt?.id == 2),
                 ),
               ),
               Expanded(
@@ -231,56 +230,87 @@ class _ProductTileUIState extends State<ProductTileUI> {
     );
   }
 
-  Widget _imageStackview(photoURL, discount, priceFontSize) {
-    return Stack(fit: StackFit.loose, children: <Widget>[
-      Positioned.fill(
-        child: FractionallySizedBox(
-          widthFactor: 1,
-          child: ClipRRect(
-            clipBehavior: Clip.antiAlias,
-            child: ColorFiltered(
-              colorFilter: ColorFilter.mode(
-                  Colors.transparent.withOpacity(0.12), BlendMode.srcATop),
-              child: FadeInImage(
-                fit: BoxFit.contain,
-                fadeInCurve: Curves.easeIn,
-                placeholder: AssetImage('assets/images/product_preloading.png'),
-                image: CachedNetworkImageProvider(
-                  photoURL == null
-                      ? 'https://images.pexels.com/photos/157675/fashion-men-s-individuality-black-and-white-157675.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
-                      : '$PRODUCT_PHOTO_BASE_URL/${widget.data.key}/$photoURL-small.png',
-                ),
-                imageErrorBuilder: (context, error, stackTrace) => Image.asset(
-                  "assets/images/product_preloading.png",
-                  fit: BoxFit.cover,
+  Widget _imageStackview(photoURL, discount, priceFontSize,
+      {bool handcrafted = false}) {
+    return Stack(
+      fit: StackFit.loose,
+      children: <Widget>[
+        Positioned.fill(
+          child: FractionallySizedBox(
+            widthFactor: 1,
+            child: ClipRRect(
+              clipBehavior: Clip.antiAlias,
+              child: ColorFiltered(
+                colorFilter: ColorFilter.mode(
+                    Colors.transparent.withOpacity(0.12), BlendMode.srcATop),
+                child: FadeInImage(
+                  fit: BoxFit.contain,
+                  fadeInCurve: Curves.easeIn,
+                  placeholder:
+                      AssetImage('assets/images/product_preloading.png'),
+                  image: CachedNetworkImageProvider(
+                    photoURL == null
+                        ? 'https://images.pexels.com/photos/157675/fashion-men-s-individuality-black-and-white-157675.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
+                        : '$PRODUCT_PHOTO_BASE_URL/${widget.data.key}/$photoURL-small.png',
+                  ),
+                  imageErrorBuilder: (context, error, stackTrace) =>
+                      Image.asset(
+                    "assets/images/product_preloading.png",
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ),
           ),
         ),
-      ),
-      discount != 0.0
-          ? Positioned(
-              top: 0,
-              right: 0,
-              child: Container(
-                decoration: BoxDecoration(
-                    color: logoRed,
-                    borderRadius:
-                        BorderRadius.only(bottomLeft: Radius.circular(10))),
-                width: 40,
-                height: 20,
-                child: Center(
-                  child: Text(
-                    discount.round().toString() + "%",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: priceFontSize - 4),
+        discount != 0.0
+            ? Positioned(
+                top: 0,
+                right: 0,
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: logoRed,
+                      borderRadius:
+                          BorderRadius.only(bottomLeft: Radius.circular(10))),
+                  width: 40,
+                  height: 20,
+                  child: Center(
+                    child: Text(
+                      discount.round().toString() + "%",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: priceFontSize - 4),
+                    ),
+                  ),
+                ))
+            : Container(),
+        if (handcrafted)
+          Positioned(
+            bottom: 0,
+            left: 0,
+            child: Container(
+              height: 14,
+              padding: EdgeInsets.symmetric(horizontal: 8.0),
+              decoration: BoxDecoration(
+                color: Color.fromRGBO(251, 233, 209, 1),
+                borderRadius: BorderRadius.circular(
+                  curve30,
+                ),
+              ),
+              child: Center(
+                child: Text(
+                  PRODUCTSCREEN_HANDCRAFTED.tr,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: priceFontSize - 4,
                   ),
                 ),
-              ))
-          : Container()
-    ]);
+              ),
+            ),
+          )
+      ],
+    );
   }
 }
