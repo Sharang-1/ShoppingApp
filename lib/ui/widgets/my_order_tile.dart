@@ -32,7 +32,7 @@ class MyOrdersTile extends StatefulWidget {
 
 class MyordersTileState extends State<MyOrdersTile> {
   Widget build(BuildContext context) {
-    List<Widget> MyOrderShimmerEffect() =>
+    List<Widget> myOrderShimmerEffect() =>
         List<Widget>.generate(5, (index) => MyOrdersShimmer());
     return SingleChildScrollView(
       child: Padding(
@@ -42,7 +42,7 @@ class MyordersTileState extends State<MyOrdersTile> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             if (widget.controller.busy)
-              Column(children: MyOrderShimmerEffect()),
+              Column(children: myOrderShimmerEffect()),
             //widget.loader,
             // Image.asset(
             //   "assets/images/loading_img.gif",
