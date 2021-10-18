@@ -1355,6 +1355,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                             if (!widget.fromCart)
                               GestureDetector(
                                 onTap: () async {
+                                  print("buy now clicked");
                                   if (locator<HomeController>().isLoggedIn) {
                                     if (selectedQty == 0 ||
                                         selectedColor == "" ||

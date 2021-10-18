@@ -1,3 +1,9 @@
+import 'package:compound/controllers/cart_count_controller.dart';
+import 'package:compound/controllers/grid_view_builder/cart_grid_view_builder_controller.dart';
+import 'package:compound/models/cart.dart' show Cart, Item;
+import 'package:compound/models/grid_view_builder_filter_models/cartFilter.dart';
+import 'package:compound/ui/widgets/cart_tile.dart';
+import 'package:fimber/fimber_base.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -52,7 +58,13 @@ enum LayoutType {
   DESIGNER_ID_3_VERTICAL_LAYOUT,
 
   //Explore
-  EXPLORE_DESIGNER_LAYOUT
+  EXPLORE_DESIGNER_LAYOUT,
+
+  //Cart Layout
+  VIEW_CART_LAYOUT,
+
+  //My Orders Layout
+  MY_ORDERS_LAYOUT,
 }
 
 // ignore: must_be_immutable
@@ -71,7 +83,11 @@ class SectionBuilder extends StatelessWidget {
   bool withScrollBar;
   Axis scrollDirection;
   Function onEmptyList;
+  Widget Function(BuildContext, dynamic, int, Future<bool> Function(int),
+      Future<bool> Function(int, dynamic)) tileBuilder;
   bool isSmallDevice = Get.size.width < 375;
+  String productId;
+  List<String> exceptProductIDs = [];
 
   SectionBuilder({
     @required this.context,
@@ -88,6 +104,7 @@ class SectionBuilder extends StatelessWidget {
     this.fromHome = false,
     this.withScrollBar = true,
     this.onEmptyList,
+    this.tileBuilder,
   }) : super(key: key);
 
   @override
@@ -207,6 +224,44 @@ class SectionBuilder extends StatelessWidget {
             );
           },
         );
+
+      case LayoutType.VIEW_CART_LAYOUT:
+        return GridListWidget<Cart, Item>(
+            context: context,
+            filter: CartFilter(),
+            gridCount: gridCount,
+            disablePagination: true,
+            controller: controller,
+            childAspectRatio: getChildAspectRatio(layoutType),
+            loadingWidget: ShimmerWidget(
+              type: type,
+              scrollDirection: scrollDirection,
+              childAspectRatio: getChildAspectRatio(layoutType),
+            ),
+            tileBuilder: tileBuilder
+            //  (BuildContext context, data, index, onDelete, onUpdate) {
+            //   Fimber.d("test");
+            //   print((data as Item).toJson());
+            //   final Item dItem = data as Item;
+            //   exceptProductIDs.add(dItem.product.key);
+
+            //   return CartTile(
+            //     index: index,
+            //     item: dItem,
+            //     onDelete: (int index) async {
+            //       final value = await onDelete(index);
+            //       print("Delete product index: $index");
+            //       if (!value) return;
+            //       await controller
+            //           .removeFromCartLocalStore(dItem.productId.toString());
+            //       locator<CartCountController>().decrementCartCount();
+            //       // try {
+            //       //   await controller.removeProductFromCartEvent(dItem?.product);
+            //       // } catch (e) {}
+            //     },
+            //   );
+            // },
+            );
 
       case LayoutType.PRODUCT_LAYOUT_3:
         return GridListWidget<Products, Product>(
@@ -490,6 +545,10 @@ class SectionBuilder extends StatelessWidget {
         return 200;
       case LayoutType.CATEGORY_LAYOUT_3:
         return 100;
+      case LayoutType.VIEW_CART_LAYOUT:
+        return 260;
+      case LayoutType.MY_ORDERS_LAYOUT:
+        return 260;
       case LayoutType.CATEGORY_LAYOUT_4:
         return null;
 
@@ -510,6 +569,10 @@ class SectionBuilder extends StatelessWidget {
         return 1.35;
       case LayoutType.PRODUCT_LAYOUT_3:
         return 0.68;
+      case LayoutType.VIEW_CART_LAYOUT:
+        return 0.95;
+      case LayoutType.MY_ORDERS_LAYOUT:
+        return 1.00;
       case LayoutType.DESIGNER_LAYOUT_1:
         return 0.60;
       case LayoutType.DESIGNER_LAYOUT_2:

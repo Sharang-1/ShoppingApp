@@ -1,3 +1,4 @@
+import 'package:compound/ui/widgets/section_builder.dart';
 import 'package:compound/utils/lang/translation_keys.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/cupertino.dart';
@@ -33,6 +34,8 @@ class CartView extends StatefulWidget {
 class _CartViewState extends State<CartView> {
   CartFilter filter;
   UniqueKey key = UniqueKey();
+  Key uniqueKey;
+
   final refreshController = RefreshController(initialRefresh: false);
   bool isPromocodeApplied = false;
   List<String> exceptProductIDs = [];
@@ -149,20 +152,21 @@ class _CartViewState extends State<CartView> {
                               ConnectionState.done
                           ? Column(
                               children: [
-                                GridListWidget<Cart, Item>(
+                                SectionBuilder(
+                                  key: uniqueKey ?? UniqueKey(),
                                   context: context,
                                   filter:
                                       CartFilter(productId: widget.productId),
-                                  gridCount: 1,
-                                  disablePagination: true,
+                                  layoutType: LayoutType.VIEW_CART_LAYOUT,
                                   controller: CartGridViewBuilderController(),
-                                  childAspectRatio: 1.5,
+                                  scrollDirection: Axis.horizontal,
                                   tileBuilder: (BuildContext context, data,
                                       index, onDelete, onUpdate) {
                                     Fimber.d("test");
                                     print((data as Item).toJson());
                                     final Item dItem = data as Item;
                                     exceptProductIDs.add(dItem.product.key);
+
                                     return CartTile(
                                       index: index,
                                       item: dItem,
@@ -179,11 +183,48 @@ class _CartViewState extends State<CartView> {
                                           await controller
                                               .removeProductFromCartEvent(
                                                   dItem?.product);
-                                        } catch (e) {}
+                                        } catch (e) {
+                                          print(e);
+                                        }
                                       },
                                     );
                                   },
                                 ),
+                                // GridListWidget<Cart, Item>(
+                                //   context: context,
+                                //   filter:
+                                //       CartFilter(productId: widget.productId),
+                                //   gridCount: 1,
+                                //   disablePagination: true,
+                                //   controller: CartGridViewBuilderController(),
+                                //   childAspectRatio: 1.5,
+                                //   tileBuilder: (BuildContext context, data,
+                                //       index, onDelete, onUpdate) {
+                                //     Fimber.d("test");
+                                //     print((data as Item).toJson());
+                                //     final Item dItem = data as Item;
+                                //     exceptProductIDs.add(dItem.product.key);
+                                //     return CartTile(
+                                //       index: index,
+                                //       item: dItem,
+                                //       onDelete: (int index) async {
+                                //         final value = await onDelete(index);
+                                //         print("Delete product index: $index");
+                                //         if (!value) return;
+                                //         await controller
+                                //             .removeFromCartLocalStore(
+                                //                 dItem.productId.toString());
+                                //         locator<CartCountController>()
+                                //             .decrementCartCount();
+                                //         try {
+                                //           await controller
+                                //               .removeProductFromCartEvent(
+                                //                   dItem?.product);
+                                //         } catch (e) {}
+                                //       },
+                                //     );
+                                //   },
+                                // ),
                                 FutureBuilder<bool>(
                                   initialData: false,
                                   future: controller.hasProducts(),

@@ -1,5 +1,7 @@
 import 'package:compound/ui/widgets/shimmer/designer_shimmer.dart';
 import 'package:compound/ui/widgets/shimmer/explore_product_shimmer.dart';
+import 'package:compound/ui/widgets/shimmer/my_orders_shimmer.dart';
+import 'package:compound/ui/widgets/shimmer/view_cart_shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -52,6 +54,10 @@ class ShimmerWidget extends StatelessWidget {
         return List.generate(8, (index) => ExploreProductShimmer());
       case LayoutType.DESIGNER_ID_1_2_LAYOUT:
         return List.generate(3, (index) => DesignerShimmer());
+      case LayoutType.VIEW_CART_LAYOUT:
+        return List.generate(1, (index) => ViewCartShimmer());
+      case LayoutType.MY_ORDERS_LAYOUT:
+        return List.generate(4, (index) => MyOrdersShimmer());
       case LayoutType.DESIGNER_ID_3_LAYOUT:
         return List.generate(
             8,
