@@ -73,14 +73,14 @@ class _PaymentMethodState extends State<PaymentMethod> {
     print("color " + widget.color);
     print("qty" + widget.qty.toString());
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback(
-      (_) async {
-        await DialogService.showDialog(
-          title: CART_ALERT_DIALOG_TITLE.tr,
-          description: CART_ALERT_DIALOG_DESCRIPTION.tr,
-        );
-      },
-    );
+    // WidgetsBinding.instance.addPostFrameCallback(
+    //   (_) async {
+    //     await DialogService.showDialog(
+    //       title: CART_ALERT_DIALOG_TITLE.tr,
+    //       description: CART_ALERT_DIALOG_DESCRIPTION.tr,
+    //     );
+    //   },
+    // );
   }
 
   @override

@@ -313,7 +313,8 @@ class APIService {
   }
 
   Future<Sellers> getSellers({String queryString = ""}) async {
-    var sellersData = await apiWrapper("sellers;$queryString;active=true");
+    var sellersData =
+        await apiWrapper("sellers;$queryString;active=true;approved=true");
     if (sellersData != null) {
       Sellers sellers = Sellers.fromJson(sellersData);
       Fimber.d("Sellers : " + sellers.items.map((o) => o.name).toString());
@@ -486,6 +487,14 @@ class APIService {
     return serviceAvailability;
   }
 
+  pinFinder(addr) {
+    var pin;
+    final val1 = addr.split(RegExp(r'[^0-9]'));
+    for (var i in val1) if (i.length == 6) pin = int.parse(i);
+
+    return pin;
+  }
+
   Future<OrderModule.Order> createOrder(
     String billingAddress,
     String productId,
@@ -497,12 +506,13 @@ class APIService {
     int paymentOptionId,
   ) async {
     final quantity = qty >= 1 ? qty : 1;
-
+    int pincode = pinFinder(billingAddress);
     final orderData = await apiWrapper(
       "orders​/?context=productDetails",
       authenticated: true,
       options: Options(headers: {'excludeToken': false}, method: "POST"),
       data: {
+        "billingPincode": pincode,
         "billingAddress": billingAddress,
         "productId": productId,
         if (promoCode.isNotEmpty) "promocode": promoCode,
@@ -518,7 +528,8 @@ class APIService {
         }
       },
     );
-
+    print(" $pincode pincode1");
+    print("------------$billingAddress-----------------xyz--");
     if (orderData != null) {
       try {
         Queue queue = Queue.fromJson(orderData);
@@ -536,7 +547,7 @@ class APIService {
         OrderModule.Order order = OrderModule.Order.fromJson(await apiWrapper(
             "orders/${queue.orderId};product=true",
             authenticated: true));
-        Fimber.d("Order : " + order.key);
+        Fimber.d("Order1 : " + order.key);
         return order;
       } catch (err) {
         Fimber.e(err.toString());
