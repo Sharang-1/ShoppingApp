@@ -487,26 +487,25 @@ class APIService {
     return serviceAvailability;
   }
 
-  pinFinder(addr) {
-    var pin;
-    final val1 = addr.split(RegExp(r'[^0-9]'));
-    for (var i in val1) if (i.length == 6) pin = int.parse(i);
+  // pinFinder(addr) {
+  //   var pin;
+  //   final val1 = addr.split(RegExp(r'[^0-9]'));
+  //   for (var i in val1) if (i.length == 6) pin = int.parse(i);
 
-    return pin;
-  }
+  //   return pin;
+  // }
 
   Future<OrderModule.Order> createOrder(
-    String billingAddress,
-    String productId,
-    String promoCode,
-    String promoCodeId,
-    String size,
-    String color,
-    int qty,
-    int paymentOptionId,
-  ) async {
+      String billingAddress,
+      String productId,
+      String promoCode,
+      String promoCodeId,
+      String size,
+      String color,
+      int qty,
+      int paymentOptionId,
+      int pincode) async {
     final quantity = qty >= 1 ? qty : 1;
-    int pincode = pinFinder(billingAddress);
     final orderData = await apiWrapper(
       "orders​/?context=productDetails",
       authenticated: true,

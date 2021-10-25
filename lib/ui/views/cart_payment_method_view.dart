@@ -334,17 +334,17 @@ class _PaymentMethodState extends State<PaymentMethod> {
 
   Future<void> makePayment(controller) async {
     final Order res = await controller.createOrder(
-      widget.billingAddress.address +
-          '\n' +
-          widget.billingAddress.googleAddress,
-      widget.productId,
-      widget.promoCode,
-      widget.promoCodeId,
-      widget.size,
-      widget.color,
-      widget.qty,
-      paymentMethodRadioValue,
-    );
+        widget.billingAddress.address +
+            '\n' +
+            widget.billingAddress.googleAddress,
+        widget.productId,
+        widget.promoCode,
+        widget.promoCodeId,
+        widget.size,
+        widget.color,
+        widget.qty,
+        paymentMethodRadioValue,
+        widget.billingAddress.pincode);
 
     if (res != null) {
       NavigationService.off(PaymentFinishedScreenRoute);

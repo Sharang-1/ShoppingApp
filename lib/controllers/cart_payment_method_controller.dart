@@ -39,18 +39,18 @@ class CartPaymentMethodController extends BaseController {
   }
 
   Future<Order> createOrder(
-    String billingAddress,
-    String productId,
-    String promoCode,
-    String promoCodeId,
-    String size,
-    String color,
-    int qty,
-    int paymentOptionId,
-  ) async {
+      String billingAddress,
+      String productId,
+      String promoCode,
+      String promoCodeId,
+      String size,
+      String color,
+      int qty,
+      int paymentOptionId,
+      int pincode) async {
     setBusy(true);
     final order = await _apiService.createOrder(billingAddress, productId,
-        promoCode, promoCodeId, size, color, qty, paymentOptionId);
+        promoCode, promoCodeId, size, color, qty, paymentOptionId, pincode);
     if (order != null) {
       if (order.payment.option.id != 2) {
         setBusy(false);

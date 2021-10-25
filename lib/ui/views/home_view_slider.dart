@@ -78,9 +78,9 @@ class _HomeSliderState extends State<HomeSlider> {
           child: Stack(
             children: [
               ClipRRect(
-                borderRadius: widget.fromExplore
-                    ? BorderRadius.zero
-                    : BorderRadius.circular(20.0),
+                // borderRadius: widget.fromExplore
+                //     ? BorderRadius.zero
+                //     : BorderRadius.circular(20.0),
                 child: CarouselSlider(
                     options: CarouselOptions(
                       autoPlay: false,
@@ -110,9 +110,9 @@ class _HomeSliderState extends State<HomeSlider> {
                               child: Hero(
                                 tag: 'productPhotos',
                                 child: Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius:
-                                          BorderRadius.circular(curve15)),
+                                  // decoration: BoxDecoration(
+                                  //     borderRadius:
+                                  //         BorderRadius.circular(curve15)),
                                   width: MediaQuery.of(context).size.width,
                                   child: CachedNetworkImage(
                                     // maxHeightDiskCache: 200,
@@ -180,9 +180,9 @@ class _HomeSliderState extends State<HomeSlider> {
                               child: Hero(
                                 tag: 'productPhotos',
                                 child: Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius:
-                                          BorderRadius.circular(curve15)),
+                                  // decoration: BoxDecoration(
+                                  //     borderRadius:
+                                  //         BorderRadius.circular(curve15)),
                                   width: MediaQuery.of(context).size.width,
                                   child: CachedNetworkImage(
                                     // maxHeightDiskCache: 200,
