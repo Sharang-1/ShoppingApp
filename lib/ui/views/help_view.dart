@@ -49,13 +49,13 @@ class HelpView extends StatelessWidget {
                         fontSize: 16,
                       )),
                   LinkWidget(
-                      name: "8511465948",
+                      name: "+91 9106832414",
                       linkType: LinkType.contactNo,
-                      data: "8511465948"),
+                      data: "+91 9106832414"),
                   LinkWidget(
-                      name: "9724518539",
+                      name: "+91 9724518539",
                       linkType: LinkType.contactNo,
-                      data: "9724518539"),
+                      data: "+91 9724518539"),
                   verticalSpaceMedium,
                   Text(
                     "We accept calls made between 10am and 6pm - Monday to Saturday.",

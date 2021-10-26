@@ -235,7 +235,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                               ),
                               verticalSpace(20),
                               CustomText(
-                                "  Pay On Delivery Via",
+                                "  Payment Method",
                                 fontSize: titleFontSizeStyle,
                                 fontWeight: FontWeight.bold,
                               ),

@@ -257,7 +257,9 @@ class OrderDetailsBottomsheet extends StatelessWidget {
                                                               " ")) -
                                                       double.parse(
                                                         orderDetails
-                                                            .promocodeDiscount,
+                                                            .promocodeDiscount
+                                                            .replaceAll(
+                                                                "₹", ""),
                                                       ))
                                                   .toStringAsFixed(2),
                                           fontSize: subtitleFontSize,
