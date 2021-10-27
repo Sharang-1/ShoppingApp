@@ -366,7 +366,7 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                       MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     CustomText(
-                                      "Payment On Delivery Via",
+                                      "Payment Method",
                                       fontSize: subtitleFontSize - 1,
                                       color: Colors.grey,
                                       isBold: true,

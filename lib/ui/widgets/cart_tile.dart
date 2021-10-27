@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -44,7 +45,6 @@ class _CartTileState extends State<CartTile> {
   int quantity = 0;
   Item item;
   OrderDetails orderDetails;
-
   @override
   void initState() {
     item = widget.item;

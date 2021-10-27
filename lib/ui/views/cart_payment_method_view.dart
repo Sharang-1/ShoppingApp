@@ -85,6 +85,13 @@ class _PaymentMethodState extends State<PaymentMethod> {
 
   @override
   Widget build(BuildContext context) {
+    if (!<String>["AHMEDABAD"]
+        .contains(widget.billingAddress.city.toUpperCase())) {
+      setState(() {
+        paymentMethodRadioValue = 2;
+        paymentMethodGrpValue = 2;
+      });
+    }
     return GetBuilder<CartPaymentMethodController>(
       init: CartPaymentMethodController(city: widget.billingAddress.city),
       builder: (controller) => Scaffold(

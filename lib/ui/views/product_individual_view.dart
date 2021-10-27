@@ -1846,7 +1846,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5),
             side: BorderSide(
-              color: selectedColor == color ? darkRedSmooth : Colors.black,
+              color:
+                  selectedColor == color.color ? darkRedSmooth : Colors.black,
               width: 0.5,
             )),
         labelStyle: TextStyle(
