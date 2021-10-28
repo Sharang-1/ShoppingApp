@@ -236,7 +236,7 @@ class SectionBuilder extends StatelessWidget {
             loadingWidget: ShimmerWidget(
               type: type,
               scrollDirection: scrollDirection,
-              childAspectRatio: getChildAspectRatio(layoutType),
+              //childAspectRatio: getChildAspectRatio(layoutType),
             ),
             tileBuilder: tileBuilder
             //  (BuildContext context, data, index, onDelete, onUpdate) {
@@ -546,7 +546,7 @@ class SectionBuilder extends StatelessWidget {
       case LayoutType.CATEGORY_LAYOUT_3:
         return 100;
       case LayoutType.VIEW_CART_LAYOUT:
-        return 370;
+        return Get.size.height * 0.6;
       case LayoutType.MY_ORDERS_LAYOUT:
         return 260;
       case LayoutType.CATEGORY_LAYOUT_4:
@@ -570,7 +570,7 @@ class SectionBuilder extends StatelessWidget {
       case LayoutType.PRODUCT_LAYOUT_3:
         return 0.68;
       case LayoutType.VIEW_CART_LAYOUT:
-        return 0.95;
+        return 1.30;
       case LayoutType.MY_ORDERS_LAYOUT:
         return 1.00;
       case LayoutType.DESIGNER_LAYOUT_1:
