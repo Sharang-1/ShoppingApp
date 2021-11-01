@@ -30,6 +30,10 @@ class CartPaymentMethodController extends BaseController {
         2: "Pay Online",
       },
     );
+    print("city122: $city");
+    if (city == null) {
+      paymentOptions.remove(1);
+    }
     if (!<String>["AHMEDABAD"].contains(city.toUpperCase())) {
       paymentOptions.remove(1);
     }

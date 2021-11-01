@@ -48,8 +48,8 @@ class PaymentMethod extends StatefulWidget {
 }
 
 class _PaymentMethodState extends State<PaymentMethod> {
-  int paymentMethodRadioValue = 1;
-  int paymentMethodGrpValue = 1;
+  int paymentMethodRadioValue = 2;
+  int paymentMethodGrpValue = 2;
   final ErrorHandlingService _errorHandlingService =
       locator<ErrorHandlingService>();
 
@@ -85,8 +85,9 @@ class _PaymentMethodState extends State<PaymentMethod> {
 
   @override
   Widget build(BuildContext context) {
-    if (!<String>["AHMEDABAD"]
-        .contains(widget.billingAddress.city.toUpperCase())) {
+    if (widget.billingAddress.city != null &&
+        !<String>["AHMEDABAD"]
+            .contains(widget.billingAddress.city.toUpperCase())) {
       setState(() {
         paymentMethodRadioValue = 2;
         paymentMethodGrpValue = 2;

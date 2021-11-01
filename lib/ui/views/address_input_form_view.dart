@@ -286,12 +286,23 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
                                                             .toUpperCase() ==
                                                         gujState);
                                                 String pickedCity;
-                                                if (stateIndex != -1)
-                                                  pickedCity = widget
-                                                      .pickedPlace
-                                                      .addressComponents[
-                                                          stateIndex - 1]
-                                                      .longName;
+                                                widget.pickedPlace
+                                                    .addressComponents
+                                                    .forEach((e) {
+                                                  e.types[0] ==
+                                                          "administrative_area_level_2"
+                                                      ? pickedCity = e.longName
+                                                      : "city";
+                                                });
+
+                                                print(
+                                                    "pickedCity12 : $pickedCity");
+                                                // if (stateIndex != -1)
+                                                //   pickedCity = widget
+                                                //       .pickedPlace
+                                                //       .addressComponents[
+                                                //           stateIndex - 1]
+                                                //       .longName;
 
                                                 Navigator.of(context)
                                                     .pop<UserDetailsContact>(

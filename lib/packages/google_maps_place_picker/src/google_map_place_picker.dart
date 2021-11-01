@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:convert';
 
+import 'package:fimber/fimber_base.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -313,6 +315,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
           return Container();
         } else {
           if (selectedPlaceWidgetBuilder == null) {
+            //  print("daata: ${json.encode(data.item1.addressComponents)}");
             return _defaultPlaceWidgetBuilder(context, data.item1, data.item2);
           } else {
             return Builder(
