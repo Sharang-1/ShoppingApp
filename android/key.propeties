@@ -1,0 +1,4 @@
+storePassword=anushil@123
+keyPassword=anushil@123
+keyAlias=anushil
+storeFile=/home/l-112/key.jks

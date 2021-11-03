@@ -18,6 +18,7 @@ const String APPOINTMENT_URL = releaseMode
 
 const String RETURN_POLICY_URL = "https://dzor.in/#/return-policy";
 const String CONTACT_US_URL = "https://dzor.in/#/contact-us";
-const String TERMS_AND_CONDITIONS_URL = "https://dzor.in/#/terms-of-use";
+const String TERMS_AND_CONDITIONS_URL =
+    "https://dzor.in/main/terms-of-use.html";
 const String PARTNER_WITH_US_URL = "https://dzor.in/#/contact-us";
 const String SUPPORT_EMAIL = "support@dzor.in";
