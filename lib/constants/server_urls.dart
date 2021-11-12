@@ -16,8 +16,8 @@ const String APPOINTMENT_URL = releaseMode
     ? "https://appointment.dzor.in/api/appointments/"
     : "https://appointment.dev.dzor.in/api/appointments/";
 
-const String RETURN_POLICY_URL = "https://dzor.in/#/return-policy";
-const String CONTACT_US_URL = "https://dzor.in/#/contact-us";
+const String RETURN_POLICY_URL = "https://dzor.in/main/return-policy.html";
+const String CONTACT_US_URL = "https://dzor.in/main/contact-us.html";
 const String TERMS_AND_CONDITIONS_URL =
     "https://dzor.in/main/terms-of-use.html";
 const String PARTNER_WITH_US_URL = "https://dzor.in/#/contact-us";

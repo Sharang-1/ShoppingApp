@@ -878,8 +878,7 @@ class _SellerIndiState extends State<SellerIndi> {
                                               ),
                                               verticalSpaceSmall,
                                               CustomText(
-                                                sellerDetails[
-                                                    DESIGNER_DETAILS_KEY.tr],
+                                                sellerDetails[key],
                                                 fontSize: subtitleFontSize,
                                                 color: Colors.grey[700],
                                                 align: TextAlign.left,

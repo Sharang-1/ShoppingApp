@@ -130,7 +130,7 @@ class _SettingsViewState extends State<SettingsView> {
           ),
       4: () => BaseController.launchURL(TERMS_AND_CONDITIONS_URL),
       5: BaseController.shareApp,
-      6: () => launch("https://dzor.page.link/76UZ"),
+      6: () => launch("https://dzor.in/main/about-us.html"),
     };
 
     sectionsSettingsMap = {
