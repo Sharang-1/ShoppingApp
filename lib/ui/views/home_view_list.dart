@@ -92,28 +92,21 @@ class _HomeViewListState extends State<HomeViewList> {
                   verticalSpaceSmall,
                 ],
                 FutureSectionBuilder(
-                  duration: sectionDelay['SECTION1'],
+                  duration: sectionDelay['SECTION4'],
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // SectionDivider(),
+                      SectionDivider(),
                       SectionBuilder(
                         key: widget.productUniqueKey ?? UniqueKey(),
                         context: context,
                         layoutType: LayoutType.PRODUCT_LAYOUT_2,
                         filter: ProductFilter(
                           subCategories: [
-                            '1',
-                            '2',
-                            '3',
-                            '4',
-                            '5',
-                            '6',
-                            '7',
-                            '8',
-                            '12'
+                            '9',
+                            '11',
+                            '15',
                           ],
-                          maxPrice: 750,
                         ),
                         controller: ProductsGridViewBuilderController(
                           randomize: true,
@@ -122,12 +115,13 @@ class _HomeViewListState extends State<HomeViewList> {
                         scrollDirection: Axis.horizontal,
                         header: SectionHeader(
                           title: controller?.remoteConfig
-                              ?.getString(HOMESCREEN_SECTION_1_TITLE_EN),
+                              ?.getString(HOMESCREEN_SECTION_4_TITLE_EN),
                           subTitle: controller?.remoteConfig
-                              ?.getString(HOMESCREEN_SECTION_1_SUBTITLE_EN),
+                              ?.getString(HOMESCREEN_SECTION_4_SUBTITLE_EN),
                           viewAll: () {
                             BaseController.goToProductListPage(ProductPageArg(
-                              queryString: 'maxPrice=750;',
+                              queryString:
+                                  'category=9;category=11;category=15;',
                               subCategory: '',
                             ));
                           },
@@ -199,21 +193,28 @@ class _HomeViewListState extends State<HomeViewList> {
                   ),
                 ),
                 FutureSectionBuilder(
-                  duration: sectionDelay['SECTION4'],
+                  duration: sectionDelay['SECTION1'],
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SectionDivider(),
+                      // SectionDivider(),
                       SectionBuilder(
                         key: widget.productUniqueKey ?? UniqueKey(),
                         context: context,
                         layoutType: LayoutType.PRODUCT_LAYOUT_2,
                         filter: ProductFilter(
                           subCategories: [
-                            '9',
-                            '11',
-                            '15',
+                            '1',
+                            '2',
+                            '3',
+                            '4',
+                            '5',
+                            '6',
+                            '7',
+                            '8',
+                            '12'
                           ],
+                          maxPrice: 750,
                         ),
                         controller: ProductsGridViewBuilderController(
                           randomize: true,
@@ -222,13 +223,12 @@ class _HomeViewListState extends State<HomeViewList> {
                         scrollDirection: Axis.horizontal,
                         header: SectionHeader(
                           title: controller?.remoteConfig
-                              ?.getString(HOMESCREEN_SECTION_4_TITLE_EN),
+                              ?.getString(HOMESCREEN_SECTION_1_TITLE_EN),
                           subTitle: controller?.remoteConfig
-                              ?.getString(HOMESCREEN_SECTION_4_SUBTITLE_EN),
+                              ?.getString(HOMESCREEN_SECTION_1_SUBTITLE_EN),
                           viewAll: () {
                             BaseController.goToProductListPage(ProductPageArg(
-                              queryString:
-                                  'category=9;category=11;category=15;',
+                              queryString: 'maxPrice=750;',
                               subCategory: '',
                             ));
                           },
