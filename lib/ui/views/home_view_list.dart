@@ -92,11 +92,11 @@ class _HomeViewListState extends State<HomeViewList> {
                   verticalSpaceSmall,
                 ],
                 FutureSectionBuilder(
-                  duration: sectionDelay['SECTION4'],
+                  duration: sectionDelay['SECTION1'],
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SectionDivider(),
+                      // SectionDivider(),
                       SectionBuilder(
                         key: widget.productUniqueKey ?? UniqueKey(),
                         context: context,
@@ -192,8 +192,9 @@ class _HomeViewListState extends State<HomeViewList> {
                     ],
                   ),
                 ),
+                SectionDivider(),
                 FutureSectionBuilder(
-                  duration: sectionDelay['SECTION1'],
+                  duration: sectionDelay['SECTION4'],
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

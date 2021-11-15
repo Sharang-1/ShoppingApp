@@ -86,11 +86,14 @@ class _SellerIndiState extends State<SellerIndi> {
 
   String getTime(int time) {
     String meridien = "AM";
+    print("time132  $time");
     if ((time ~/ 12).isOdd) {
       time = (time % 12);
       meridien = "PM";
+      print("time1321  $time");
     }
     time = (time == 0) ? 12 : time;
+    print("time1322  $time");
     return "${time.toString()} ${meridien.toString()}";
   }
 
