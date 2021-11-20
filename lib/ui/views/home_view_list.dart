@@ -204,17 +204,17 @@ class _HomeViewListState extends State<HomeViewList> {
                         context: context,
                         layoutType: LayoutType.PRODUCT_LAYOUT_2,
                         filter: ProductFilter(
-                          subCategories: [
-                            '1',
-                            '2',
-                            '3',
-                            '4',
-                            '5',
-                            '6',
-                            '7',
-                            '8',
-                            '12'
-                          ],
+                          // subCategories: [
+                          //   '1',
+                          //   '2',
+                          //   '3',
+                          //   '4',
+                          //   '5',
+                          //   '6',
+                          //   '7',
+                          //   '8',
+                          //   '12'
+                          // ],
                           maxPrice: 750,
                         ),
                         controller: ProductsGridViewBuilderController(
