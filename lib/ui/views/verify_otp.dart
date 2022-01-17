@@ -13,7 +13,7 @@ import '../widgets/text_link.dart';
 class VerifyOTPView extends StatefulWidget {
   final int genderId;
   final int ageId;
-  const VerifyOTPView({this.ageId, this.genderId});
+  const VerifyOTPView({required this.ageId, required this.genderId});
   @override
   _VerifyOTPViewState createState() => _VerifyOTPViewState();
 }
@@ -111,7 +111,7 @@ class _VerifyOTPViewState extends State<VerifyOTPView> {
             controller: controller.otpController,
             hideCharacter: false,
             hasTextBorderColor: Colors.black45,
-            defaultBorderColor: Colors.grey[300],
+            defaultBorderColor: Colors.grey[300]!,
             pinBoxColor: Colors.white,
             maxLength: 4,
             onTextChanged: controller.validateOtp,

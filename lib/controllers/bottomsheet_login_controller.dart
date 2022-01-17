@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:fimber/fimber_base.dart';
+// import 'package:fimber/fimber_base.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -33,7 +33,7 @@ class BottomsheetLoginController extends BaseController {
   String otpValidationMessage = "";
   bool isOTPScreen = false;
 
-  Timer _timer;
+  late Timer _timer;
   bool otpSendButtonEnabled = false;
   int timerCountDownSeconds = 30;
 
@@ -82,7 +82,8 @@ class BottomsheetLoginController extends BaseController {
         phoneNo: phoneNoController.text.trim().replaceAll(" ", ""),
         name: (nameController.text).trim(),
         resend: false);
-    Fimber.d("---> login " + result.toString());
+
+    // Fimber.d("---> login " + result.toString());
     setBusy(false);
     if (result != null) {
       isOTPScreen = true;
@@ -92,7 +93,8 @@ class BottomsheetLoginController extends BaseController {
   }
 
   Future verifyOTP(
-      {String nextScreen, bool shouldNavigateToNextScreen = false}) async {
+      {required String nextScreen,
+      bool shouldNavigateToNextScreen = false}) async {
     if (otpController.text.length < 4) {
       await DialogService.showDialog(
         title: LOGIN_INVALID_OTP_TITLE.tr,
@@ -112,13 +114,13 @@ class BottomsheetLoginController extends BaseController {
       prefs.setString(Authtoken, result["token"]);
 
       var mUserDetails = await locator<APIService>().getUserData();
-      mUserDetails.name = prefs.getString(Name);
-      await locator<AddressService>().setUpAddress(mUserDetails.contact);
+      mUserDetails!.name = prefs.getString(Name);
+      await locator<AddressService>().setUpAddress(mUserDetails.contact!);
       await locator<APIService>().updateUserData(mUserDetails);
 
       try {
         await locator<AnalyticsService>()
-            .sendAnalyticsEvent(eventName: "bottomsheet_login");
+            .sendAnalyticsEvent(eventName: "bottomsheet_login", parameters: {});
       } catch (e) {}
 
       await locator<PaymentService>().getApiKey();

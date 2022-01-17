@@ -30,27 +30,27 @@ class UserDetails {
     this.mobileLogin,
   });
 
-  String key;
-  String name;
-  String description;
-  bool enabled;
-  String created;
-  String modified;
-  String firstName;
-  String lastName;
-  Age age;
-  Gender gender;
-  Measure measure;
-  String email;
-  String size;
-  UserDetailsContact contact;
-  UserPhoto photo;
-  bool appUser;
-  String login;
-  bool facebookUser;
-  bool mobileUser;
-  bool facebookLogin;
-  bool mobileLogin;
+  String? key;
+  String? name;
+  String? description;
+  bool? enabled;
+  String? created;
+  String? modified;
+  String? firstName;
+  String? lastName;
+  Age? age;
+  Gender? gender;
+  Measure? measure;
+  String? email;
+  String? size;
+  UserDetailsContact? contact;
+  UserPhoto? photo;
+  bool? appUser;
+  String? login;
+  bool? facebookUser;
+  bool? mobileUser;
+  bool? facebookLogin;
+  bool? mobileLogin;
 
   factory UserDetails.fromJson(Map<String, dynamic> json) => UserDetails(
         key: json["key"],
@@ -86,13 +86,13 @@ class UserDetails {
         "modified": modified,
         "firstName": firstName,
         "lastName": lastName,
-        "age": age == null ? null : age.toJson(),
-        "gender": gender == null ? null : gender.toJson(),
-        "measure": measure == null ? null : measure.toJson(),
+        "age": age == null ? null : age!.toJson(),
+        "gender": gender == null ? null : gender!.toJson(),
+        "measure": measure == null ? null : measure!.toJson(),
         "email": email,
         "size": size,
-        "contact": contact.toJson(),
-        "photo": photo == null ? null : photo.toJson(),
+        "contact": contact!.toJson(),
+        "photo": photo == null ? null : photo!.toJson(),
         "appUser": appUser,
         "login": login,
         "facebookUser": facebookUser,
@@ -112,12 +112,12 @@ class UserDetailsContact {
     this.state,
   });
 
-  String address = "";
-  String city = "";
-  String googleAddress = "";
-  Phone phone;
-  int pincode;
-  String state = "";
+  String? address = "";
+  String? city = "";
+  String? googleAddress = "";
+  Phone? phone;
+  int? pincode;
+  String? state = "";
 
   factory UserDetailsContact.fromJson(Map<String, dynamic> json) =>
       UserDetailsContact(
@@ -146,8 +146,8 @@ class Phone {
     this.mobile,
   });
 
-  String code;
-  String mobile;
+  String? code;
+  String? mobile;
 
   factory Phone.fromJson(Map<String, dynamic> json) => Phone(
         code: json["code"],
@@ -166,8 +166,8 @@ class UserPhoto {
     this.originalName,
   });
 
-  String name;
-  String originalName;
+  String? name;
+  String? originalName;
 
   factory UserPhoto.fromJson(Map<String, dynamic> json) => UserPhoto(
         name: json["name"],
@@ -182,7 +182,7 @@ class UserPhoto {
 
 class Age {
   Age({
-    this.id,
+    required this.id,
   });
 
   int id;
@@ -198,7 +198,7 @@ class Age {
 
 class Gender {
   Gender({
-    this.id,
+    required this.id,
   });
 
   int id;
@@ -215,11 +215,11 @@ class Gender {
 class Measure {
   Measure({this.shoulders, this.chest, this.waist, this.hips, this.height});
 
-  num shoulders;
-  num chest;
-  num waist;
-  num hips;
-  num height;
+  num? shoulders;
+  num? chest;
+  num? waist;
+  num? hips;
+  num? height;
 
   factory Measure.fromJson(Map<String, dynamic> json) => Measure(
         shoulders: json["shoulders"] == null ? null : json["shoulders"],

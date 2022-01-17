@@ -19,11 +19,11 @@ class AddressService {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<UserDetailsContact> addresses = [];
     var addPreds = prefs.getStringList(AddressList);
-    addresses = addPreds
+    addresses = addPreds!
         .map((e) => UserDetailsContact.fromJson(jsonDecode(e)))
         .toList();
     addresses =
-        addresses.where((address) => address.address.isNotEmpty).toList();
+        addresses.where((address) => address.address!.isNotEmpty).toList();
     return addresses;
   }
 
@@ -32,7 +32,7 @@ class AddressService {
     final list = prefs.getStringList(AddressList);
     print(list);
     var address = jsonEncode(userAddress.toJson());
-    print("Index of : " + list.indexOf(address).toString());
+    print("Index of : " + list!.indexOf(address).toString());
     if (list.indexOf(address) == -1) {
       list.add(address);
       print(list);
@@ -45,6 +45,6 @@ class AddressService {
   Future<bool> removeAddresses(UserDetailsContact address) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final list = prefs.getStringList(AddressList);
-    return list.remove(jsonEncode(address.toJson()));
+    return list!.remove(jsonEncode(address.toJson()));
   }
 }

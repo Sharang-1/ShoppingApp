@@ -6,7 +6,7 @@ String timeSlotsToJson(TimeSlots data) => json.encode(data.toJson());
 
 class TimeSlots {
   TimeSlots({
-    this.timeSlot,
+    required this.timeSlot,
   });
 
   List<TimeSlot> timeSlot;
@@ -23,8 +23,8 @@ class TimeSlots {
 
 class TimeSlot {
   TimeSlot({
-    this.day,
-    this.time,
+    required this.day,
+    required this.time,
   });
 
   String day;

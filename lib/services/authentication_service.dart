@@ -10,13 +10,13 @@ import 'push_notification_service.dart';
 class AuthenticationService {
   final APIService _apiService = locator<APIService>();
 
-  User _currentUser;
+  late User _currentUser;
   User get currentUser => _currentUser;
 
   Future<dynamic> loginWithPhoneNo({
-    @required phoneNo,
-    @required resend,
-    @required name,
+    required phoneNo,
+    required resend,
+    required name,
   }) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString(PhoneNo, phoneNo);
@@ -27,10 +27,10 @@ class AuthenticationService {
   }
 
   Future<dynamic> verifyOTP({
-    @required otp,
+    required otp,
   }) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String phoneNo = prefs.getString(PhoneNo);
+    String phoneNo = prefs.getString(PhoneNo) ?? "";
     return _apiService.verifyOTP(
       phoneNo: phoneNo,
       otp: otp,

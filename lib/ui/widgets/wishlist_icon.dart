@@ -6,12 +6,22 @@ import '../shared/app_colors.dart';
 class WishListIcon extends StatelessWidget {
   final double width;
   final double height;
-  final bool filled ; 
+  final bool filled;
 
-  const WishListIcon({Key key,@required this.width,@required this.height,@required this.filled}) : super(key: key);
+  const WishListIcon(
+      {Key? key,
+      required this.width,
+      required this.height,
+      required this.filled})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return SvgPicture.asset("assets/svg/wishlist.svg",color: filled ? logoRed : Colors.grey,height: height,width: width,);
+    return SvgPicture.asset(
+      "assets/svg/wishlist.svg",
+      color: filled ? logoRed : Colors.grey,
+      height: height,
+      width: width,
+    );
   }
 }

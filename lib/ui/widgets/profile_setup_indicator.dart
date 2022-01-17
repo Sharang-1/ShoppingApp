@@ -4,7 +4,7 @@ import '../shared/app_colors.dart';
 
 class ProfileSetupIndicator extends StatelessWidget {
   ProfileSetupIndicator({
-    Key key,
+    Key? key,
     this.width = 12,
     this.height = 12,
   }) : super(key: key);

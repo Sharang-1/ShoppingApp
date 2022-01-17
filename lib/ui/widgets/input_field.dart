@@ -11,27 +11,27 @@ class InputField extends StatefulWidget {
   final bool password;
   final bool isReadOnly;
   final String placeholder;
-  final String validationMessage;
-  final Function enterPressed;
+  final String? validationMessage;
+  final Function? enterPressed;
   final bool smallVersion;
   final bool fromBottomsheet;
   final FocusNode fieldFocusNode;
-  final FocusNode nextFocusNode;
+  final FocusNode? nextFocusNode;
   final TextInputAction textInputAction;
-  final String additionalNote;
+  final String? additionalNote;
   final Function(String) onChanged;
-  final TextInputFormatter formatter;
+  final TextInput? formatter;
   final bool autoFocus;
-  final double fontSize;
+  final double? fontSize;
 
   InputField({
-    @required this.controller,
-    @required this.placeholder,
+    required this.controller,
+    required this.placeholder,
     this.enterPressed,
-    this.fieldFocusNode,
+    required this.fieldFocusNode,
     this.nextFocusNode,
     this.additionalNote,
-    this.onChanged,
+    required this.onChanged,
     this.formatter,
     this.validationMessage,
     this.textInputAction = TextInputAction.next,
@@ -49,9 +49,9 @@ class InputField extends StatefulWidget {
 }
 
 class _InputFieldState extends State<InputField> {
-  bool isPassword;
-  double fieldHeight;
-  double fontSize;
+  late bool isPassword;
+  late double fieldHeight;
+  late double fontSize;
 
   @override
   void initState() {
@@ -59,7 +59,7 @@ class _InputFieldState extends State<InputField> {
     fieldHeight = (widget.smallVersion || widget.fromBottomsheet) ? 40 : 55;
 
     fontSize = (widget.fontSize != null)
-        ? widget.fontSize
+        ? widget.fontSize!
         : widget.fromBottomsheet
             ? titleFontSizeStyle
             : widget.smallVersion
@@ -87,18 +87,19 @@ class _InputFieldState extends State<InputField> {
                   focusNode: widget.fieldFocusNode,
                   textInputAction: widget.textInputAction,
                   onChanged: widget.onChanged,
-                  inputFormatters:
-                      widget.formatter != null ? [widget.formatter] : null,
+                  inputFormatters: widget.formatter != null
+                      ? [widget.formatter as TextInputFormatter]
+                      : null,
                   onEditingComplete: () {
                     if (widget.enterPressed != null) {
                       FocusScope.of(context).requestFocus(FocusNode());
-                      widget.enterPressed();
+                      widget.enterPressed!();
                     }
                   },
                   onFieldSubmitted: (value) {
                     widget.fieldFocusNode.unfocus();
                     if (widget.nextFocusNode != null) {
-                      widget.nextFocusNode.requestFocus();
+                      widget.nextFocusNode!.requestFocus();
                     }
                   },
                   obscureText: isPassword,
@@ -135,11 +136,16 @@ class _InputFieldState extends State<InputField> {
         ),
         if (widget.validationMessage != null)
           NoteText(
-            widget.validationMessage,
+            widget.validationMessage ?? "",
             color: Colors.red,
+            textAlign: TextAlign.left,
           ),
         if (widget.additionalNote != null) verticalSpace(5),
-        if (widget.additionalNote != null) NoteText(widget.additionalNote),
+        if (widget.additionalNote != null)
+          NoteText(
+            widget.additionalNote ?? "",
+            textAlign: TextAlign.left,
+          ),
         verticalSpaceSmall
       ],
     );

@@ -4,9 +4,10 @@ import 'package:percent_indicator/percent_indicator.dart';
 import '../shared/app_colors.dart';
 
 class CircularProgressIndicatorWidget extends StatefulWidget {
-  final bool fromCart ;
+  final bool fromCart;
 
-  const CircularProgressIndicatorWidget({Key key, this.fromCart}) : super(key: key);
+  const CircularProgressIndicatorWidget({Key? key, this.fromCart = false})
+      : super(key: key);
   @override
   _CircularProgressIndicatorWidgetState createState() =>
       _CircularProgressIndicatorWidgetState();
@@ -15,8 +16,8 @@ class CircularProgressIndicatorWidget extends StatefulWidget {
 class _CircularProgressIndicatorWidgetState
     extends State<CircularProgressIndicatorWidget>
     with SingleTickerProviderStateMixin {
-  Animation _animation;
-  AnimationController _animationController;
+  late Animation _animation;
+  late AnimationController _animationController;
 
   @override
   void initState() {
@@ -30,16 +31,16 @@ class _CircularProgressIndicatorWidgetState
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(animation: _animation,
-    builder: (context, child) {
-                return CircularPercentIndicator(
-              radius: ((MediaQuery.of(context).size.width / 2.5) + 40),
-              lineWidth: 5.0,
-              backgroundColor: Colors.transparent,
-              percent: _animation.value,
-              progressColor: widget.fromCart ? green  : lightBlue,
-            );
-              }
-    );
+    return AnimatedBuilder(
+        animation: _animation,
+        builder: (context, child) {
+          return CircularPercentIndicator(
+            radius: ((MediaQuery.of(context).size.width / 2.5) + 40),
+            lineWidth: 5.0,
+            backgroundColor: Colors.transparent,
+            percent: _animation.value,
+            progressColor: widget.fromCart ? green : lightBlue,
+          );
+        });
   }
 }

@@ -10,8 +10,8 @@ import '../utils/lang/translation_keys.dart';
 class DialogService {
   /// Shows a simple dialog
   static Future showDialog({
-    String title,
-    String description,
+    String title = "",
+    String description = "",
     String buttonTitle = 'Ok',
   }) =>
       Get.dialog(
@@ -23,21 +23,21 @@ class DialogService {
       );
 
   /// Shows a custom dialog
-  static Future<T> showCustomDialog<T>(Widget widget,
+  static Future<dynamic> showCustomDialog<T>(Widget widget,
           {bool barrierDismissible = true,
-          Color barrierColor,
+          Color? barrierColor,
           bool useSafeArea = true,
           bool useRootNavigator = true,
-          Object arguments,
-          Duration transitionDuration,
-          Curve transitionCurve,
-          String name,
-          RouteSettings routeSettings}) =>
+          Object? arguments,
+          Duration? transitionDuration,
+          Curve? transitionCurve,
+          String? name,
+          RouteSettings? routeSettings}) =>
       Get.dialog(widget,
           barrierDismissible: barrierDismissible,
           barrierColor: barrierColor,
           useSafeArea: useSafeArea,
-          useRootNavigator: useRootNavigator,
+          // useRootNavigator: useRootNavigator,
           arguments: arguments,
           transitionDuration: transitionDuration,
           transitionCurve: transitionCurve,
@@ -46,23 +46,23 @@ class DialogService {
 
   /// Shows a confirmation dialog
   static Future showConfirmationDialog({
-    String title,
-    String description,
+    String title = "",
+    String description = "",
     String confirmationTitle = 'Ok',
     String cancelTitle = 'Cancel',
-    @required Function onConfirm,
-    Function onCancel,
+    required Function onConfirm,
+    required Function onCancel,
   }) =>
       Get.dialog(CustomDialog(
         title: title,
         description: description,
         confirmationTitle: confirmationTitle,
         cancelTitle: cancelTitle,
-        onConfirm: onConfirm,
-        onCancel: onCancel,
+        onConfirm: onConfirm(),
+        onCancel: onCancel(),
       ));
 
-  static void showNotDeliveringDialog({String msg}) {
+  static void showNotDeliveringDialog({String? msg}) {
     showDialog(
       title: SERVICE_NOT_AVAILABLE_TITLE.tr,
       description: msg ?? SERVICE_NOT_AVAILABLE_DESCRIPTION.tr,
@@ -71,6 +71,8 @@ class DialogService {
   }
 
   static void popDialog() {
-    if (Get.isDialogOpen) Get.back();
+    if (Get.isDialogOpen ?? false) {
+      Get.back();
+    }
   }
 }

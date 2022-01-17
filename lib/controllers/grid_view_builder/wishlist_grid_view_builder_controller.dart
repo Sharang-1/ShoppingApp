@@ -7,28 +7,30 @@ import 'base_grid_view_builder_controller.dart';
 
 class WishListGridViewBuilderController
     extends BaseGridViewBuilderController<Products, Product> {
-  final List<String> productIds;
+  final List<String>? productIds;
   final APIService _apiService = locator<APIService>();
   final WishListService _wishListService = locator<WishListService>();
 
   WishListGridViewBuilderController({this.productIds});
 
   @override
-  Future init() {
+  Future init() async {
     return null;
   }
 
   @override
   Future<Products> getData(
-      {BaseFilterModel filterModel, int pageNumber, int pageSize = 10}) async {
-    List<String> list =
+      {required BaseFilterModel filterModel,
+      required int pageNumber,
+      int pageSize = 10}) async {
+    List<String>? list =
         this.productIds ?? await _wishListService.getWishList();
-    Products res = await _apiService.getWishlistProducts(list: list);
+    Products? res = await _apiService.getWishlistProducts(list: list);
     if (res == null) {
       res = await _apiService.getWishlistProducts(list: list);
       if (res == null) throw "Could not load";
     }
-    res.items = res.items.where((p) => (p.enabled && p.available)).toList();
+    res.items = res.items!.where((p) => (p.enabled! && p.available!)).toList();
     return res;
   }
 }

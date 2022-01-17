@@ -9,20 +9,22 @@ class CartGridViewBuilderController
   final APIService _apiService = locator<APIService>();
 
   @override
-  Future init() {
-    return null;
+  Future<void> init() async {
+    return;
   }
 
   @override
   Future<Cart> getData(
-      {BaseFilterModel filterModel, int pageNumber, int pageSize = 10}) async {
+      {required BaseFilterModel filterModel,
+      required int pageNumber,
+      int pageSize = 10}) async {
     String _queryString =
         "startIndex=${pageSize * (pageNumber - 1)};limit=$pageSize;";
-    Cart res = await _apiService.getCart(queryString: _queryString);
+    Cart? res = await _apiService.getCart(queryString: _queryString);
     if (filterModel.queryString != "") {
       print("Cart Query String ======== " + filterModel.queryString);
-      var items = res.items;
-      var filteredItems = items
+      var items = res!.items;
+      var filteredItems = items!
           .where((element) =>
               element.productId.toString() == filterModel.queryString)
           .toList();
@@ -40,7 +42,7 @@ class CartGridViewBuilderController
   @override
   Future<bool> deleteData(Item item) async {
     print("Delete ID::::::::::::: " + item.productId.toString());
-    final res = await _apiService.removeFromCart(item.productId);
+    final res = await _apiService.removeFromCart(item.productId as int? ?? 0);
     if (res != null) {
       return true;
     }

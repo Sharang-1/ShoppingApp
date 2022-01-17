@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:open_appstore/open_appstore.dart';
+import 'package:store_redirect/store_redirect.dart';
+// import 'package:open_appstore/open_appstore.dart';
 
 import '../../constants/server_urls.dart';
 import '../../controllers/base_controller.dart';
@@ -12,7 +13,7 @@ import '../widgets/bottom_tag.dart';
 import '../widgets/custom_text.dart';
 
 class SettingsView extends StatelessWidget {
-  SettingsView({Key key}) : super(key: key);
+  SettingsView({Key? key}) : super(key: key);
 
   final Map<int, String> sections = {
     1: "Connect With Us",
@@ -35,10 +36,14 @@ class SettingsView extends StatelessWidget {
   };
 
   final Map<int, void Function()> settingOnTapMap = {
-    1: () => OpenAppstore.launch(
+    1: () => StoreRedirect.redirect(
         androidAppId: "in.dzor.dzor_app", iOSAppId: "1562083632"),
-    2: () => OpenAppstore.launch(
+    2: () => StoreRedirect.redirect(
         androidAppId: "in.dzor.dzor_app", iOSAppId: "1562083632"),
+    // 1: () => OpenAppstore.launch(
+    //     androidAppId: "in.dzor.dzor_app", iOSAppId: "1562083632"),
+    // 2: () => OpenAppstore.launch(
+    //     androidAppId: "in.dzor.dzor_app", iOSAppId: "1562083632"),
     3: () => BaseController.launchURL(CONTACT_US_URL),
     4: () => BaseController.launchURL(TERMS_AND_CONDITIONS_URL),
   };
@@ -111,13 +116,14 @@ class SettingsView extends StatelessWidget {
                             children: sections.keys
                                 .map(
                                   (int key) => SectionCard(
-                                    name: sections[key],
-                                    settingsCards: sectionsSettingsMap[key]
+                                    name: sections[key] ?? "",
+                                    settingsCards: sectionsSettingsMap[key]!
                                         .map(
                                           (int key) => SettingsCard(
-                                            name: settingNameMap[key],
-                                            onTap: settingOnTapMap[key],
-                                            icon: settingIconMap[key],
+                                            name: settingNameMap[key] ?? "",
+                                            onTap:
+                                                settingOnTapMap[key] ?? () {},
+                                            icon: settingIconMap[key]!,
                                           ),
                                         )
                                         .toList(),
@@ -165,7 +171,7 @@ class SectionCard extends StatelessWidget {
   final String name;
   final List<SettingsCard> settingsCards;
 
-  SectionCard({this.name, this.settingsCards});
+  SectionCard({required this.name, required this.settingsCards});
 
   @override
   Widget build(BuildContext context) {
@@ -194,14 +200,14 @@ class SettingsCard extends StatelessWidget {
   final void Function() onTap;
 
   const SettingsCard(
-      {@required this.name, @required this.onTap, @required this.icon});
+      {required this.name, required this.onTap, required this.icon});
 
   @override
   Widget build(BuildContext context) => Container(
         decoration: BoxDecoration(
           border: Border(
             bottom: BorderSide(
-              color: Colors.grey[400],
+              color: Colors.grey[400]!,
             ),
           ),
         ),
@@ -211,7 +217,7 @@ class SettingsCard extends StatelessWidget {
             name,
             isBold: true,
             fontSize: subtitleFontSizeStyle,
-            color: Colors.grey[500],
+            color: Colors.grey[500]!,
           ),
           trailing: Icon(
             Icons.navigate_next_sharp,

@@ -7,8 +7,8 @@ class CartIconWithBadge extends StatelessWidget {
   final int count;
 
   const CartIconWithBadge({
-    Key key,
-    @required this.iconColor,
+    Key? key,
+    required this.iconColor,
     this.count = 0,
   }) : super(key: key);
 

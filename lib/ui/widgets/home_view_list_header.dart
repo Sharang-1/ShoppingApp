@@ -5,13 +5,13 @@ import '../shared/shared_styles.dart';
 
 class HomeViewListHeader extends StatelessWidget {
   final String title;
-  final String subTitle;
-  final Function viewAll;
-  final EdgeInsets padding;
+  final String? subTitle;
+  final Function? viewAll;
+  final EdgeInsets? padding;
 
   HomeViewListHeader(
-      {Key key,
-      @required this.title,
+      {Key? key,
+      required this.title,
       this.subTitle,
       this.viewAll,
       this.padding})
@@ -19,7 +19,7 @@ class HomeViewListHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return (title?.isNotEmpty ?? false)
+    return (title.isNotEmpty)
         ? Container(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -47,9 +47,9 @@ class HomeViewListHeader extends StatelessWidget {
                         ),
                         // if (subTitle != null && subTitle.isNotEmpty)
                         //   verticalSpaceTiny,
-                        if (subTitle != null && subTitle.isNotEmpty)
+                        if (subTitle != null && subTitle!.isNotEmpty)
                           Text(
-                            subTitle,
+                            subTitle!,
                             maxLines: 3,
                             style: TextStyle(
                               color: Colors.grey[600],
@@ -81,7 +81,7 @@ class HomeViewListHeader extends StatelessWidget {
                             ),
                           ),
                         ),
-                        onTap: viewAll,
+                        onTap: viewAll!(),
                       ),
               ],
             ),

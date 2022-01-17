@@ -6,7 +6,7 @@ import '../../shared/shared_styles.dart';
 import '../../shared/ui_helpers.dart';
 
 class MyOrdersShimmer extends StatelessWidget {
-  const MyOrdersShimmer({Key key}) : super(key: key);
+  const MyOrdersShimmer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -1,7 +1,7 @@
 import 'base_filter_model.dart';
 
 class WishListFilter implements BaseFilterModel {
-  String _queryString;
+  late String _queryString;
 
   WishListFilter() {
     _queryString = "";

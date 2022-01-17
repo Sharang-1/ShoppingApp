@@ -1,7 +1,7 @@
 import 'base_filter_model.dart';
 
 class CategoryFilter implements BaseFilterModel {
-  String _queryString;
+  late String _queryString;
 
   CategoryFilter() {
     _queryString = "";

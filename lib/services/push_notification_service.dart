@@ -9,29 +9,39 @@ import '../constants/route_names.dart';
 import 'navigation_service.dart';
 
 class PushNotificationData {
-  String type; //order details or promotion
-  String pageName;
+  String? type; //order details or promotion
+  String? pageName;
 
-  String id;
-  String title;
-  String description; //order => updated status, order => changed deliveryDate
+  String? id;
+  String? title;
+  String? description; //order => updated status, order => changed deliveryDate
 }
 
 class PushNotificationService {
-  final FirebaseMessaging _fcm = FirebaseMessaging();
+  final FirebaseMessaging _fcm = FirebaseMessaging.instance;
   String fcmToken = '';
 
   Future initialise() async {
-    _fcm.requestNotificationPermissions(
-      IosNotificationSettings(
-        alert: true,
-        badge: true,
-      ),
+    // _fcm.requestNotificationPermissions(
+    //   IosNotificationSettings(
+    //     alert: true,
+    //     badge: true,
+    //   ),
+    // );
+
+    NotificationSettings settings = await _fcm.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
     );
 
-    _fcm.configure();
+    // _fcm.configure();
 
-    fcmToken = await _fcm.getToken();
+    fcmToken = (await _fcm.getToken()) ?? "";
     Fimber.i("FCM Token : $fcmToken");
 
     _fcm.onTokenRefresh.listen((newToken) {
@@ -39,58 +49,58 @@ class PushNotificationService {
       Fimber.i("FCM Token : $fcmToken");
     });
 
-    _fcm.configure(
-      // Called when the app is in the foreground and we receive a push notification
-      onMessage: (Map<String, dynamic> message) async {
-        print('onMessage: $message');
-        try {
-          String title = Platform.isIOS
-              ? message['aps']['alert']['title']
-              : message['notification']['title'];
-          String body = Platform.isIOS
-              ? message['aps']['alert']['body']
-              : message['notification']['body'];
-          showSimpleNotification(
-            GestureDetector(
-              child: Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                    ),
-                    Text(
-                      body,
-                    ),
-                  ],
-                ),
-              ),
-              onTap: () => _serialiseAndNavigate(message),
-            ),
-            duration: Duration(seconds: 3),
-            background: Colors.white,
-            foreground: Colors.black,
-            position: NotificationPosition.top,
-          );
-        } catch (e) {
-          print(e.toString());
-        }
-      },
-      // Called when the app has been closed comlpetely and it's opened
-      // from the push notification.
-      onLaunch: (Map<String, dynamic> message) async {
-        print('onLaunch: $message');
-        _serialiseAndNavigate(message);
-      },
-      // Called when the app is in the background and it's opened
-      // from the push notification.
-      onResume: (Map<String, dynamic> message) async {
-        print('onResume: $message');
-        _serialiseAndNavigate(message);
-      },
+    // _fcm.configure(
+    //   // Called when the app is in the foreground and we receive a push notification
+    //   onMessage: (Map<String, dynamic> message) async {
+    //     print('onMessage: $message');
+    //     try {
+    //       String title = Platform.isIOS
+    //           ? message['aps']['alert']['title']
+    //           : message['notification']['title'];
+    //       String body = Platform.isIOS
+    //           ? message['aps']['alert']['body']
+    //           : message['notification']['body'];
+    //       showSimpleNotification(
+    //         GestureDetector(
+    //           child: Container(
+    //             child: Column(
+    //               crossAxisAlignment: CrossAxisAlignment.start,
+    //               children: [
+    //                 Text(
+    //                   title,
+    //                 ),
+    //                 Text(
+    //                   body,
+    //                 ),
+    //               ],
+    //             ),
+    //           ),
+    //           onTap: () => _serialiseAndNavigate(message),
+    //         ),
+    //         duration: Duration(seconds: 3),
+    //         background: Colors.white,
+    //         foreground: Colors.black,
+    //         position: NotificationPosition.top,
+    //       );
+    //     } catch (e) {
+    //       print(e.toString());
+    //     }
+    //   },
+    //   // Called when the app has been closed comlpetely and it's opened
+    //   // from the push notification.
+    //   onLaunch: (Map<String, dynamic> message) async {
+    //     print('onLaunch: $message');
+    //     _serialiseAndNavigate(message);
+    //   },
+    //   // Called when the app is in the background and it's opened
+    //   // from the push notification.
+    //   onResume: (Map<String, dynamic> message) async {
+    //     print('onResume: $message');
+    //     _serialiseAndNavigate(message);
+    //   },
 
-      onBackgroundMessage: backgroundMessageHandler,
-    );
+    //   onBackgroundMessage: backgroundMessageHandler,
+    // );
   }
 
   static Future backgroundMessageHandler(Map<String, dynamic> message) async {

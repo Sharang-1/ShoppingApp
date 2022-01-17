@@ -13,7 +13,7 @@ class ProductFilterDialog extends StatefulWidget {
   final ProductFilter oldFilter;
   final bool showCategories;
   const ProductFilterDialog(
-      {Key key, this.oldFilter, this.showCategories = true})
+      {Key? key, required this.oldFilter, this.showCategories = true})
       : super(key: key);
 
   @override
@@ -21,15 +21,15 @@ class ProductFilterDialog extends StatefulWidget {
 }
 
 class _ProductFilterDialogState extends State<ProductFilterDialog> {
-  String fullText;
-  String categories;
-  List<String> subCategories;
-  List<String> size;
-  int minPrice;
-  int maxPrice;
-  int minDiscount;
-  String sortField; // modified / price
-  bool isSortOrderDesc; // asc / desc
+  late String fullText;
+  late String categories;
+  late List<String> subCategories;
+  late List<String> size;
+  late int minPrice;
+  late int maxPrice;
+  late int minDiscount;
+  late String sortField; // modified / price
+  late bool isSortOrderDesc; // asc / desc
 
   int categoriesRadioValue = -1;
   String sortByRadioValue = 'price';
@@ -52,34 +52,34 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
     locator<LookupController>()
         .lookups
         .singleWhere((e) => e.sectionName == "Product")
-        .sections
+        .sections!
         .firstWhere((e) => e.option == "categories")
-        .values
+        .values!
         .forEach((e) {
       if (e.id == -1) {
-        subCategoriesAPIValue.addAll({"All": e.id});
-        subCategoriesAPIIntToValue.addAll({e.id: "All"});
+        subCategoriesAPIValue.addAll({"All": e.id!});
+        subCategoriesAPIIntToValue.addAll({e.id!: "All"});
         subCategoriesValues.addAll({"All": false});
         return;
       }
-      subCategoriesAPIValue.addAll({e.name: e.id});
-      subCategoriesAPIIntToValue.addAll({e.id: e.name});
-      subCategoriesValues.addAll({e.name: false});
+      subCategoriesAPIValue.addAll({e.name!: e.id!});
+      subCategoriesAPIIntToValue.addAll({e.id!: e.name!});
+      subCategoriesValues.addAll({e.name!: false});
     });
 
-    if (widget?.oldFilter?.categories != null) {
-      if (widget?.oldFilter?.categories == "1")
+    if (widget.oldFilter.categories != null) {
+      if (widget.oldFilter.categories == "1")
         categoriesRadioValue = 1;
-      else if (widget?.oldFilter?.categories == "2") categoriesRadioValue = 2;
+      else if (widget.oldFilter.categories == "2") categoriesRadioValue = 2;
     }
 
-    if (widget?.oldFilter?.subCategories != null) {
+    if (widget.oldFilter.subCategories != null) {
       print(">>>>>>>>> subCategories <<<<<<<<<<<<<<<<<<<<<<<");
-      print(widget?.oldFilter?.subCategories);
-      widget?.oldFilter?.subCategories?.forEach((v) {
+      print(widget.oldFilter.subCategories);
+      widget.oldFilter.subCategories?.forEach((v) {
         print(">>>>>>>>> subCategories - value <<<<<<<<<<<<<<<<<<<<<<<");
         print(v);
-        String sKey = subCategoriesAPIIntToValue[int.parse(v)];
+        String sKey = subCategoriesAPIIntToValue[int.parse(v)] ?? "";
         print(">>>>>>>>> subCategories - key <<<<<<<<<<<<<<<<<<<<<<<");
         print(sKey);
         subCategoriesValues[sKey] = true;
@@ -93,17 +93,17 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
       }
     }
 
-    fullText = widget.oldFilter?.fullText ?? "";
-    categories = widget.oldFilter?.categories;
-    subCategories = widget.oldFilter?.subCategories;
-    size = widget.oldFilter?.size;
-    minPrice = widget.oldFilter?.minPrice ?? 0;
-    maxPrice = widget.oldFilter?.maxPrice ?? 50000;
-    minDiscount = widget.oldFilter?.minDiscount ?? 0;
-    sortByRadioValue = sortField = widget.oldFilter?.sortField;
-    isSortOrderDesc = widget.oldFilter?.isSortOrderDesc;
+    fullText = widget.oldFilter.fullText ?? "";
+    categories = widget.oldFilter.categories ?? "";
+    subCategories = widget.oldFilter.subCategories ?? [];
+    size = widget.oldFilter.size ?? [];
+    minPrice = widget.oldFilter.minPrice ?? 0;
+    maxPrice = widget.oldFilter.maxPrice ?? 50000;
+    minDiscount = widget.oldFilter.minDiscount ?? 0;
+    sortByRadioValue = sortField = widget.oldFilter.sortField ?? "";
+    isSortOrderDesc = widget.oldFilter.isSortOrderDesc ?? false;
     sortOrderRadioValue = isSortOrderDesc == true ? 'desc' : 'asc';
-    queryString = widget?.oldFilter?.queryString ?? '';
+    queryString = widget.oldFilter.queryString;
 
     super.initState();
   }
@@ -116,7 +116,7 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
     );
 
     print("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDd ");
-    print(widget.oldFilter?.subCategories);
+    print(widget.oldFilter.subCategories);
 
     return Scaffold(
         backgroundColor: Colors.grey[50],
@@ -143,7 +143,7 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
                     fullText: fullText,
                     categories: categories,
                     subCategories:
-                        subCategoriesValues["All"] ? [] : subCategories,
+                        subCategoriesValues["All"] != null ? [] : subCategories,
                     size: size,
                     minPrice: minPrice,
                     maxPrice: maxPrice,
@@ -226,21 +226,22 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(5),
                                 side: BorderSide(
-                                  color: subCategoriesValues[sKey]
+                                  color: subCategoriesValues[sKey] !=
+                                          NullThrownError()
                                       ? green
                                       : Colors.grey,
                                   width: 0.5,
                                 )),
                             labelStyle: TextStyle(
                                 fontSize: 14,
-                                fontWeight: subCategoriesValues[sKey]
+                                fontWeight: subCategoriesValues[sKey] != null
                                     ? FontWeight.w600
                                     : FontWeight.normal,
-                                color: subCategoriesValues[sKey]
+                                color: subCategoriesValues[sKey] != null
                                     ? green
                                     : Colors.grey),
                             label: Text(sKey),
-                            selected: subCategoriesValues[sKey],
+                            selected: subCategoriesValues[sKey]!,
                             onSelected: (val) {
                               if (sKey != "All") {
                                 setState(() {
@@ -352,7 +353,7 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
                             sortOrderRadioValue == sortOrderRadioMap[sKey],
                         onSelected: (val) {
                           setState(() => sortOrderRadioValue =
-                              val ? sortOrderRadioMap[sKey] : null);
+                              val ? sortOrderRadioMap[sKey] ?? "" : "");
                         },
                       );
                     }).toList(),
@@ -388,12 +389,12 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
         Fimber.d(isAllFalse.toString());
         if (isAllFalse) {
           // If no values are selected then no need to filter.
-          subCategories = null;
+          subCategories = [];
         } else {
           // Get all true keys.
           subCategories = subCategoriesValues.keys
               .toList()
-              .where((sKey) => subCategoriesValues[sKey])
+              .where((sKey) => subCategoriesValues[sKey] ?? false)
               .map((fKey) => subCategoriesAPIValue[fKey].toString())
               .toList();
 
@@ -402,7 +403,7 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
         }
       }
 
-      size = null;
+      size = [];
     });
   }
 }

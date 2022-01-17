@@ -16,10 +16,10 @@ import '../widgets/product_filter_dialog.dart';
 import '../widgets/product_tile_ui.dart';
 
 class CategoryIndiView extends StatefulWidget {
-  final String queryString;
-  final String subCategory;
+  final String? queryString;
+  final String? subCategory;
 
-  const CategoryIndiView({Key key, this.queryString, this.subCategory})
+  const CategoryIndiView({Key? key, this.queryString, this.subCategory})
       : super(key: key);
 
   @override
@@ -27,14 +27,14 @@ class CategoryIndiView extends StatefulWidget {
 }
 
 class _CategoryIndiViewState extends State<CategoryIndiView> {
-  ProductFilter filter;
+  late ProductFilter filter;
   bool showRandomProducts = true;
   UniqueKey key = UniqueKey();
   final refreshController = RefreshController(initialRefresh: false);
 
   @override
   void initState() {
-    filter = ProductFilter(existingQueryString: widget.queryString + ";");
+    filter = ProductFilter(existingQueryString: widget.queryString! + ";");
     super.initState();
   }
 
@@ -45,8 +45,7 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder(
-      init: CategoriesController()
-        ..init(subCategory: widget?.subCategory ?? ''),
+      init: CategoriesController()..init(subCategory: widget.subCategory ?? ''),
       builder: (controller) => Scaffold(
         appBar: AppBar(
           elevation: 0,
@@ -55,7 +54,7 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
             alignment: Alignment.centerLeft,
             fit: BoxFit.scaleDown,
             child: Text(
-              widget.subCategory,
+              widget.subCategory ?? "",
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 18,
@@ -150,6 +149,7 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
                                   context: context,
                                   filter: filter,
                                   gridCount: 2,
+                                  onEmptyList: () {},
                                   emptyListWidget: EmptyListWidget(
                                       text:
                                           "We're out of all ${widget.subCategory}.\nCheck Back Later!"),
@@ -159,7 +159,7 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
                                   ),
                                   childAspectRatio: 0.7,
                                   tileBuilder: (BuildContext context, data,
-                                      index, onUpdate, onDelete) {
+                                      index, onDelete) {
                                     return ProductTileUI(
                                       data: data,
                                       cardPadding: EdgeInsets.zero,

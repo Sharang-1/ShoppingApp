@@ -96,7 +96,7 @@ const Map<int, String> workOnMap = {
 
 Map<String, Color> tagColors = {
   PRODUCTSCREEN_ASSURED.tr: Colors.blueAccent,
-  PRODUCTSCREEN_RETURNS.tr: Colors.grey[700],
+  PRODUCTSCREEN_RETURNS.tr: Colors.grey[700]!,
   PRODUCTSCREEN_IN_STOCK.tr: lightGreen,
   PRODUCTSCREEN_SOLD_OUT.tr: logoRed,
 };
@@ -104,7 +104,7 @@ Map<String, Color> tagColors = {
 class ProductIndiView extends StatefulWidget {
   final Product data;
   final bool fromCart;
-  const ProductIndiView({Key key, @required this.data, this.fromCart = false})
+  const ProductIndiView({Key? key, required this.data, this.fromCart = false})
       : super(key: key);
   @override
   _ProductIndiViewState createState() => _ProductIndiViewState();
@@ -115,7 +115,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
   final DynamicLinkService _dynamicLinkService = locator<DynamicLinkService>();
   final ErrorHandlingService _errorHandlingService =
       locator<ErrorHandlingService>();
-  ProductController productController;
+  late ProductController productController;
 
   UniqueKey key = UniqueKey();
   GlobalKey variationSelectionCardKey = GlobalKey();
@@ -126,25 +126,25 @@ class _ProductIndiViewState extends State<ProductIndiView> {
   String selectedSize = "";
   String selectedColor = "";
   bool disabledAddToCartBtn = false;
-  Product productData;
+  Product? productData;
   bool showMoreFromDesigner = true;
-  String productName;
-  String productId;
-  double productDiscount;
-  int productPrice;
-  int saved;
-  List<Variation> variations;
-  String date;
-  Key uniqueKey;
-  Key photosKey;
-  Key knowDesignerKey;
-  DateTime dateParse;
-  DateTime newDate;
-  String formattedDate;
-  String shipment;
-  int totalQuantity;
-  bool available;
-  List<String> imageURLs;
+  String? productName;
+  String? productId;
+  double? productDiscount;
+  int? productPrice;
+  int? saved;
+  List<Variation>? variations;
+  String? date;
+  Key? uniqueKey;
+  Key? photosKey;
+  Key? knowDesignerKey;
+  DateTime? dateParse;
+  DateTime? newDate;
+  String? formattedDate;
+  String? shipment;
+  int? totalQuantity;
+  bool? available;
+  List<String>? imageURLs;
   double height = 100;
 
   bool showHeader = false;
@@ -154,9 +154,9 @@ class _ProductIndiViewState extends State<ProductIndiView> {
   @override
   void initState() {
     productController = ProductController(
-      widget.data?.account?.key,
-      productId: widget?.data?.key,
-      productName: widget?.data?.name,
+      widget.data.account?.key,
+      productId: widget.data.key!,
+      productName: widget.data.name!,
     )..init();
     super.initState();
   }
@@ -171,11 +171,11 @@ class _ProductIndiViewState extends State<ProductIndiView> {
         global: false,
         init: productController,
         initState: (state) {
-          setupProductDetails(widget?.data);
+          setupProductDetails(widget.data);
           showTutorial(
             context,
-            photosKey: photosKey,
-            knowDesignerKey: knowDesignerKey,
+            photosKey: photosKey as GlobalKey,
+            knowDesignerKey: knowDesignerKey as GlobalKey,
           );
         },
         builder: (controller) => Scaffold(
@@ -206,11 +206,13 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                   ),
                   controller: refreshController,
                   onRefresh: () async {
-                    Product product =
-                        await controller.refreshProduct(productData.key);
-                    setState(() {
-                      setupProductDetails(product);
-                    });
+                    Product? product =
+                        await controller.refreshProduct(productData!.key!);
+                    if (product != null) {
+                      setState(() {
+                        setupProductDetails(product);
+                      });
+                    }
                     await Future.delayed(Duration(milliseconds: 100));
                     refreshController.refreshCompleted();
                   },
@@ -222,13 +224,13 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                           children: <Widget>[
                             HomeSlider(
                               key: photosKey,
-                              imgList: imageURLs,
+                              imgList: imageURLs ?? [],
                               sizeChartUrl:
-                                  "${BASE_URL}sellers/${productData.account.key}/categories/${productData.category.id}/sizechart",
+                                  "${BASE_URL}sellers/${productData!.account!.key}/categories/${productData!.category!.id}/sizechart",
                               videoList: productData?.video?.videos
-                                      ?.map((e) =>
-                                          "${BASE_URL}products/${productData.key}/videos/${e.name}")
-                                      ?.toList() ??
+                                      .map((e) =>
+                                          "${BASE_URL}products/${productData!.key}/videos/${e.name}")
+                                      .toList() ??
                                   [],
                               aspectRatio: 1,
                               fromProduct: true,
@@ -247,7 +249,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                     height: 40,
                                     child: Center(
                                       child: Text(
-                                        productData.discount
+                                        productData!.discount!
                                                 .round()
                                                 .toString() +
                                             "%",
@@ -278,10 +280,12 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                       height: 20,
                                       child: InkWell(
                                         onTap: () async =>
-                                            locator<HomeController>().isLoggedIn
+                                            locator<HomeController>()
+                                                        .isLoggedIn ??
+                                                    false
                                                 ? controller
                                                     .onWishlistBtnClicked(
-                                                        productId)
+                                                        productId!)
                                                 : await BaseController
                                                     .showLoginPopup(
                                                     nextView: WishListRoute,
@@ -304,12 +308,13 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                         onTap: () async {
                                           await Share.share(
                                             await _dynamicLinkService
-                                                .createLink(
-                                                    productLink + productId),
+                                                    .createLink(productLink +
+                                                        productId!) ??
+                                                "",
                                           );
                                           await controller.shareProductEvent(
-                                              productId: productId,
-                                              productName: productName);
+                                              productId: productId!,
+                                              productName: productName!);
                                         },
                                         child: Icon(
                                           Platform.isIOS
@@ -334,17 +339,17 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               productPriceInfo(
-                                productName: productData.name,
-                                designerName: productData.seller.name,
+                                productName: productData!.name,
+                                designerName: productData!.seller!.name,
                                 productPrice: productPrice,
-                                actualPrice: (productData.cost.cost +
-                                        productData
-                                            .cost.convenienceCharges.cost +
-                                        productData.cost.gstCharges.cost)
+                                actualPrice: (productData!.cost!.cost +
+                                        productData!
+                                            .cost!.convenienceCharges!.cost! +
+                                        productData!.cost!.gstCharges!.cost!)
                                     .round(),
-                                showPrice: (available),
+                                showPrice: (available!),
                                 isClothMeterial:
-                                    (productData.category.id == 13),
+                                    (productData!.category!.id == 13),
                               ),
                               elementDivider(),
                               SingleChildScrollView(
@@ -352,25 +357,25 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                 child: Row(
                                   children: [
                                     PRODUCTSCREEN_ASSURED.tr,
-                                    if (available &&
+                                    if (available! &&
                                         (totalQuantity != 0) &&
                                         locator<HomeController>()
-                                                ?.cityName
-                                                ?.toLowerCase() ==
+                                                .cityName
+                                                .toLowerCase() ==
                                             'ahmedabad')
                                       PRODUCTSCREEN_COD.tr,
                                     PRODUCTSCREEN_RETURNS.tr,
-                                    if (available && (totalQuantity != 0))
+                                    if (available! && (totalQuantity != 0))
                                       PRODUCTSCREEN_IN_STOCK.tr,
-                                    if ((available && (totalQuantity == 0)) ||
-                                        !available)
+                                    if ((available! && (totalQuantity == 0)) ||
+                                        !available!)
                                       PRODUCTSCREEN_SOLD_OUT.tr,
                                     PRODUCTSCREEN_JUST_HERE.tr,
                                     if ((productData?.stitchingType?.id ??
                                             -1) ==
                                         2)
                                       PRODUCTSCREEN_UNSTITCHED.tr,
-                                    if (productData.whoMadeIt.id == 2)
+                                    if (productData!.whoMadeIt!.id == 2)
                                       PRODUCTSCREEN_HANDCRAFTED.tr,
                                     if (totalQuantity == 1)
                                       PRODUCTSCREEN_ONE_IN_MARKET.tr,
@@ -431,7 +436,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                       .toList(),
                                 ),
                               ),
-                              if ((controller?.productData?.coupons?.length ??
+                              if ((controller.productData?.coupons?.length ??
                                       0) >
                                   0) ...[
                                 sectionDivider(),
@@ -443,7 +448,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                 SingleChildScrollView(
                                   scrollDirection: Axis.horizontal,
                                   child: Row(
-                                      children: controller?.productData?.coupons
+                                      children: controller.productData?.coupons
                                               ?.map(
                                                 (e) => InkWell(
                                                   onTap: () async {
@@ -542,7 +547,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                                         8.0,
                                                                   ),
                                                                   child: Text(
-                                                                    e.code
+                                                                    e.code!
                                                                         .toUpperCase(),
                                                                     style:
                                                                         TextStyle(
@@ -610,7 +615,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                             ),
                                                             verticalSpaceTiny,
                                                             Text(
-                                                              "Use Code ${e.code.toUpperCase()} and get FLAT Rs.${e.discount} off on order above Rs.${e.minimumOrderValue}.",
+                                                              "Use Code ${e.code!.toUpperCase()} and get FLAT Rs.${e.discount} off on order above Rs.${e.minimumOrderValue}.",
                                                               style: TextStyle(
                                                                 fontSize: 12,
                                                               ),
@@ -644,7 +649,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                             ),
                                                             horizontalSpaceTiny,
                                                             Text(
-                                                              e.name,
+                                                              e.name ?? "",
                                                               style: TextStyle(
                                                                 fontSize: 10.0,
                                                                 color: logoRed,
@@ -657,12 +662,12 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                   ),
                                                 ),
                                               )
-                                              ?.toList() ??
+                                              .toList() ??
                                           []),
                                 ),
                               ],
                               sectionDivider(),
-                              if (available)
+                              if (available!)
                                 Container(
                                   width: MediaQuery.of(context).size.width,
                                   child: Column(
@@ -734,7 +739,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                             ),
                                       selectedColor == ""
                                           ? Container()
-                                          : (productData.category.id != 13)
+                                          : (productData!.category!.id != 13)
                                               ? Container()
                                               : Column(
                                                   crossAxisAlignment:
@@ -742,7 +747,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                   children: <Widget>[
                                                     elementDivider(),
                                                     Text(
-                                                      "Select ${(productData.category.id == 13) ? 'No. of Meters' : 'Qty'}"
+                                                      "Select ${(productData!.category!.id == 13) ? 'No. of Meters' : 'Qty'}"
                                                           .toUpperCase(),
                                                       style: TextStyle(
                                                         fontSize: 14,
@@ -878,8 +883,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                     ],
                                   ),
                                 ),
-                              if (available) sectionDivider(),
-                              if (available)
+                              if (available!) sectionDivider(),
+                              if (available!)
                                 Text(
                                   "${PRODUCTSCREEN_DELIVERY_BY.tr} : $shipment",
                                   style: TextStyle(
@@ -904,17 +909,17 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                       Padding(
                                         padding:
                                             const EdgeInsets.only(right: 20.0),
-                                        child: FutureBuilder<Reviews>(
+                                        child: FutureBuilder<Reviews?>(
                                           future: locator<APIService>()
                                               .getReviews(
-                                                  productData?.seller?.key,
+                                                  productData!.seller!.key!,
                                                   isSellerReview: true),
                                           builder: (context, snapshot) =>
                                               ((snapshot.connectionState ==
                                                           ConnectionState
                                                               .done) &&
                                                       ((snapshot
-                                                                  ?.data
+                                                                  .data
                                                                   ?.ratingAverage
                                                                   ?.rating ??
                                                               0) >
@@ -933,9 +938,9 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                             color: Tools
                                                                 .getColorAccordingToRattings(
                                                               snapshot
-                                                                  .data
-                                                                  .ratingAverage
-                                                                  .rating,
+                                                                  .data!
+                                                                  .ratingAverage!
+                                                                  .rating!,
                                                             ),
                                                           ),
                                                           borderRadius:
@@ -949,16 +954,16 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                           children: <Widget>[
                                                             CustomText(
                                                               snapshot
-                                                                  .data
-                                                                  .ratingAverage
-                                                                  .rating
+                                                                  .data!
+                                                                  .ratingAverage!
+                                                                  .rating!
                                                                   .toString(),
                                                               color: Tools
                                                                   .getColorAccordingToRattings(
                                                                 snapshot
-                                                                    .data
-                                                                    .ratingAverage
-                                                                    .rating,
+                                                                    .data!
+                                                                    .ratingAverage!
+                                                                    .rating!,
                                                               ),
                                                               isBold: true,
                                                               fontSize: 12,
@@ -969,9 +974,9 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                               color: Tools
                                                                   .getColorAccordingToRattings(
                                                                 snapshot
-                                                                    .data
-                                                                    .ratingAverage
-                                                                    .rating,
+                                                                    .data!
+                                                                    .ratingAverage!
+                                                                    .rating!,
                                                               ),
                                                               size: 12,
                                                             )
@@ -1036,7 +1041,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                                 "$DESIGNER_PROFILE_PHOTO_BASE_URL/${productData?.seller?.owner?.key}",
                                                                 headers: {
                                                                   "Authorization":
-                                                                      "Bearer ${locator<HomeController>()?.prefs?.getString(Authtoken) ?? ''}",
+                                                                      "Bearer ${locator<HomeController>().prefs?.getString(Authtoken) ?? ''}",
                                                                 },
                                                               ),
                                                               imageErrorBuilder:
@@ -1069,8 +1074,10 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                             size: 10,
                                                           ),
                                                           CustomText(
-                                                              productData.seller
-                                                                  .contact.city,
+                                                              productData!
+                                                                  .seller!
+                                                                  .contact!
+                                                                  .city!,
                                                               fontSize: 10,
                                                               color:
                                                                   textIconBlue),
@@ -1181,6 +1188,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                               ),
                               sectionDivider(),
                               ReviewWidget(
+                                onSubmit: () {},
                                 id: productId,
                               ),
                               sectionDivider(),
@@ -1237,7 +1245,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                           color: Colors.grey.withOpacity(0.5),
                                           height: 1),
                                       ProductDescriptionTable(
-                                        product: productData,
+                                        product: productData!,
                                         controller: controller,
                                         workOnMap: workOnMap,
                                       ),
@@ -1257,6 +1265,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                               SectionBuilder(
                                 key: uniqueKey ?? UniqueKey(),
                                 context: context,
+                                onEmptyList: () {},
                                 filter: ProductFilter(
                                     existingQueryString:
                                         "subCategory=${productData?.category?.id ?? -1};"),
@@ -1327,7 +1336,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                         ),
                       ),
                       actions: [
-                        if (available)
+                        if (available!)
                           Padding(
                             padding: const EdgeInsets.only(right: 8.0),
                             child: Center(
@@ -1338,7 +1347,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                     ),
                   ),
                 ),
-                if (available)
+                if (available!)
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: Container(
@@ -1356,7 +1365,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                               GestureDetector(
                                 onTap: () async {
                                   print("buy now clicked");
-                                  if (locator<HomeController>().isLoggedIn) {
+                                  if (locator<HomeController>().isLoggedIn ??
+                                      false) {
                                     if (selectedQty == 0 ||
                                         selectedColor == "" ||
                                         selectedSize == "") {
@@ -1375,7 +1385,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                   await Scrollable
                                                       .ensureVisible(
                                                     variationSelectionCardKey
-                                                        .currentContext,
+                                                        .currentContext!,
                                                     alignment: 0.50,
                                                   );
                                                 },
@@ -1385,7 +1395,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                       );
                                     } else {
                                       var res = await controller.buyNow(
-                                          productData,
+                                          productData!,
                                           selectedQty,
                                           selectedSize,
                                           selectedColor);
@@ -1414,7 +1424,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                           context,
                                           PageTransition(
                                             child: CartView(
-                                              productId: productData?.key,
+                                              productId: productData!.key!,
                                             ),
                                             type:
                                                 PageTransitionType.rightToLeft,
@@ -1459,7 +1469,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                               ),
                             GestureDetector(
                               onTap: () async {
-                                if (locator<HomeController>().isLoggedIn) {
+                                if (locator<HomeController>().isLoggedIn ??
+                                    false) {
                                   if (disabledAddToCartBtn ||
                                       selectedQty == 0 ||
                                       selectedColor == "" ||
@@ -1478,7 +1489,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                 DialogService.popDialog();
                                                 await Scrollable.ensureVisible(
                                                   variationSelectionCardKey
-                                                      .currentContext,
+                                                      .currentContext!,
                                                   alignment: 0.50,
                                                 );
                                               },
@@ -1492,7 +1503,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                     });
 
                                     var res = await controller.addToCart(
-                                        productData,
+                                        productData!,
                                         selectedQty,
                                         selectedSize,
                                         selectedColor,
@@ -1560,7 +1571,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                   InkWell(
                                     key: cartKey,
                                     onTap: () async => locator<HomeController>()
-                                            .isLoggedIn
+                                                .isLoggedIn ??
+                                            false
                                         ? await BaseController.cart()
                                         : await BaseController.showLoginPopup(
                                             nextView: CartViewRoute,
@@ -1641,7 +1653,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
   }
 
   Future<void> goToSellerProfile(controller) async {
-    if (locator<HomeController>().isLoggedIn) {
+    if (locator<HomeController>().isLoggedIn ?? false) {
       if (productData?.seller?.subscriptionTypeId == 2) {
         await NavigationService.to(
           ProductsListRoute,
@@ -1729,7 +1741,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                               ],
                             ),
                           ),
-                        if (available)
+                        if (available!)
                           Text(
                             '${showPrice ? BaseController.formatPrice(productPrice) : ' - '}',
                             style: TextStyle(
@@ -1749,7 +1761,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                           ),
                       ],
                     ),
-                    if (available)
+                    if (available!)
                       Text(
                         "(${PRODUCTSCREEN_TAXES_AND_CHARGES.tr})",
                         style: TextStyle(
@@ -1863,7 +1875,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
           setState(() => {
                 selectedColor = color.color,
                 maxQty = color.quantity,
-                selectedQty = (productData.category.id == 13) ? 0 : 1
+                selectedQty = (productData!.category!.id == 13) ? 0 : 1
               });
         },
       ));
@@ -1891,39 +1903,40 @@ class _ProductIndiViewState extends State<ProductIndiView> {
   }
 
   int calculateSavedCost(Cost cost) {
-    double actualCost =
-        (cost.cost + cost.convenienceCharges.cost + cost.gstCharges.cost);
+    num actualCost =
+        (cost.cost + cost.convenienceCharges!.cost! + cost.gstCharges!.cost!);
     return (actualCost - cost.costToCustomer).round();
   }
 
   void setupProductDetails(Product data) {
     productData = data;
-    productName = data?.name ?? "Test Product";
-    productId = data?.key;
-    productDiscount = data?.cost?.productDiscount?.rate ?? 0.0;
-    productPrice = (data.cost.costToCustomer).round() ?? 0.0;
-    saved = calculateSavedCost(data?.cost);
-    variations = data?.variations ?? null;
+    productName = data.name ?? "Test Product";
+    productId = data.key;
+    productDiscount = data.cost?.productDiscount?.rate as double? ?? 0.0;
+    productPrice = (data.cost!.costToCustomer).round();
+    saved = calculateSavedCost(data.cost!);
+    variations = data.variations ?? null;
 
     date = DateTime.now().toString();
     uniqueKey = UniqueKey();
-    dateParse = DateTime.parse(date);
+    dateParse = DateTime.parse(date!);
     newDate = new DateTime(
-        dateParse.year,
-        dateParse.month,
-        dateParse.day +
-            (data?.shipment?.days == null ? 0 : data.shipment.days + 1));
+        dateParse!.year,
+        dateParse!.month,
+        dateParse!.day +
+                (data.shipment?.days == null ? 0 : data.shipment!.days! + 1)
+            as int);
     dateParse = DateTime.parse(newDate.toString());
     formattedDate =
-        "${weekday[dateParse.weekday - 1]} , ${dateParse.day} ${month[dateParse.month - 1]}";
-    shipment = data?.shipment?.days == null ? "Not Available" : formattedDate;
+        "${weekday[dateParse!.weekday - 1]} , ${dateParse!.day} ${month[dateParse!.month - 1]}";
+    shipment = data.shipment?.days == null ? "Not Available" : formattedDate;
     totalQuantity = 0;
-    variations.forEach((variation) {
-      totalQuantity += variation.quantity.toInt();
+    variations!.forEach((variation) {
+      totalQuantity = totalQuantity! + variation.quantity!.toInt();
     });
-    available = (totalQuantity == 0) ? false : (data?.available ?? false);
+    available = (totalQuantity == 0) ? false : (data.available ?? false);
 
-    imageURLs = (data?.photo?.photos ?? <PhotoElement>[])
+    imageURLs = (data.photo?.photos ?? <PhotoElement>[])
         .map((e) => '$PRODUCT_PHOTO_BASE_URL/$productId/${e.name}')
         .toList();
     photosKey = GlobalKey();
@@ -1932,13 +1945,13 @@ class _ProductIndiViewState extends State<ProductIndiView> {
   }
 
   void showTutorial(BuildContext context,
-      {GlobalKey photosKey, GlobalKey knowDesignerKey, GlobalKey cartKey}) {
+      {GlobalKey? photosKey, GlobalKey? knowDesignerKey, GlobalKey? cartKey}) {
     SharedPreferences.getInstance().then((prefs) {
-      if (prefs?.getBool(cartKey == null
+      if (prefs.getBool(cartKey == null
               ? ShouldShowProductPageTutorial
               : ShouldShowCartTutorial) ??
           true) {
-        TutorialCoachMark tutorialCoachMark;
+        late TutorialCoachMark tutorialCoachMark;
         List<TargetFocus> targets = <TargetFocus>[
           if (photosKey != null)
             TargetFocus(
@@ -2033,7 +2046,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
             onClickOverlay: (targetFocus) {
               if (knowDesignerKey != null)
                 Scrollable.ensureVisible(
-                  knowDesignerKey.currentContext,
+                  knowDesignerKey.currentContext!,
                   alignment: 0.5,
                 );
               Future.delayed(Duration(milliseconds: 100), () {
@@ -2043,19 +2056,19 @@ class _ProductIndiViewState extends State<ProductIndiView> {
             onClickTarget: (targetFocus) {
               if (knowDesignerKey != null)
                 Scrollable.ensureVisible(
-                  knowDesignerKey.currentContext,
+                  knowDesignerKey.currentContext!,
                   alignment: 0.5,
                 );
               Future.delayed(Duration(milliseconds: 100), () {
                 tutorialCoachMark.next();
               });
             },
-            onSkip: () async => await prefs?.setBool(
+            onSkip: () async => await prefs.setBool(
                 cartKey == null
                     ? ShouldShowProductPageTutorial
                     : ShouldShowCartTutorial,
                 false),
-            onFinish: () async => await prefs?.setBool(
+            onFinish: () async => await prefs.setBool(
                 cartKey == null
                     ? ShouldShowProductPageTutorial
                     : ShouldShowCartTutorial,

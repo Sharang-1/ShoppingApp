@@ -71,8 +71,16 @@ class IntroPage extends StatelessWidget {
         onSkipPress: this.onSkipPress,
         colorDot: Colors.black,
         colorActiveDot: Color.fromARGB(255, 235, 105, 105),
-        colorDoneBtn: Color.fromARGB(255, 235, 105, 105),
-        colorSkipBtn: Color.fromARGB(255, 235, 105, 105));
+        doneButtonStyle: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all<Color>(
+              Color.fromARGB(255, 235, 105, 105)),
+        ),
+        skipButtonStyle: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all<Color>(
+              Color.fromARGB(255, 235, 105, 105)),
+        ));
+    // colorDoneBtn: Color.fromARGB(255, 235, 105, 105),
+    // colorSkipBtn: Color.fromARGB(255, 235, 105, 105));
   }
 
   void onDonePress() => NavigationService.to(LoginViewRoute);

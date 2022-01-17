@@ -1,32 +1,24 @@
-import 'package:compound/ui/views/myorders_details_view.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-
-import 'package:flutter/material.dart';
-import 'package:compound/ui/widgets/section_builder.dart';
-import 'package:compound/ui/widgets/shimmer/my_orders_shimmer.dart';
-import 'package:compound/utils/lang/translation_keys.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import '../../constants/route_names.dart';
 import '../../constants/server_urls.dart';
-import '../../controllers/orders_controller.dart';
 import '../../models/orders.dart';
-import '../../services/navigation_service.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
+import '../views/myorders_details_view.dart';
 import '../widgets/custom_text.dart';
 import '../widgets/grid_list_widget.dart';
 import '../widgets/shimmer/shimmer_widget.dart';
+import 'shimmer/my_orders_shimmer.dart';
 
 class MyOrdersTile extends StatefulWidget {
-  MyOrdersTile({this.controller, this.loader});
-  dynamic controller;
-  ShimmerWidget loader;
+  const MyOrdersTile({this.controller, this.loader});
+  final dynamic controller;
+  final ShimmerWidget? loader;
   MyordersTileState createState() => MyordersTileState();
 }
 
@@ -54,7 +46,7 @@ class MyordersTileState extends State<MyOrdersTile> {
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 elements: widget.controller.mOrders.orders,
-                groupBy: (Order o) => o.created.substring(0, 10),
+                groupBy: (Order o) => o.created!.substring(0, 10),
                 groupComparator: (String a, String b) {
                   DateTime aDateTime = DateTime.parse(
                       "${a.substring(6, 10)}${a.substring(3, 5)}${a.substring(0, 2)}");
@@ -68,7 +60,7 @@ class MyordersTileState extends State<MyOrdersTile> {
                   return Container(
                     decoration: BoxDecoration(
                       border: Border(
-                        top: BorderSide(color: Colors.grey[400]),
+                        top: BorderSide(color: Colors.grey[400]!),
                       ),
                     ),
                     padding:
@@ -114,10 +106,10 @@ class MyordersTileState extends State<MyOrdersTile> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          order.status.state,
+                                          order.status!.state ?? "",
                                           style: TextStyle(
                                             color: (<int>[0, 1, 2, 3, 4, 5, 7]
-                                                    .contains(order.status.id))
+                                                    .contains(order.status!.id))
                                                 ? Color(0xFF17a17f)
                                                 : logoRed,
                                             fontWeight: FontWeight.bold,
@@ -131,9 +123,9 @@ class MyordersTileState extends State<MyOrdersTile> {
                                             3,
                                             4,
                                             5,
-                                          ].contains(order.status.id))
+                                          ].contains(order.status!.id))
                                               ? 'on ${order.created}'
-                                              : (order.status.id == 7)
+                                              : (order.status!.id == 7)
                                                   ? 'on ${order.deliveryDate}'
                                                   : "",
                                           style: TextStyle(
@@ -161,7 +153,7 @@ class MyordersTileState extends State<MyOrdersTile> {
                                         placeholder:
                                             "assets/images/product_preloading.png",
                                         image:
-                                            "$PRODUCT_PHOTO_BASE_URL/${order.product.key}/${order?.product?.photo?.photos?.first?.name ?? 'photo'}-small.png",
+                                            "$PRODUCT_PHOTO_BASE_URL/${order.product!.key}/${order.product?.photo?.photos?.first.name ?? 'photo'}-small.png",
                                         imageErrorBuilder:
                                             (context, error, stackTrace) =>
                                                 Image.asset(
@@ -183,9 +175,10 @@ class MyordersTileState extends State<MyOrdersTile> {
                                         CrossAxisAlignment.start,
                                     children: <Widget>[
                                       CustomText(
-                                        order.product.name.capitalizeFirst,
+                                        order.product!.name!.capitalizeFirst ??
+                                            "",
                                         isBold: true,
-                                        color: Colors.grey[800],
+                                        color: Colors.grey[800]!,
                                         dotsAfterOverFlow: true,
                                         fontSize: titleFontSize + 4,
                                       ),
@@ -198,14 +191,14 @@ class MyordersTileState extends State<MyOrdersTile> {
                                               fontSize: subtitleFontSize),
                                           horizontalSpaceSmall,
                                           CustomText(
-                                              order.orderCost.quantity
+                                              (order.orderCost!.quantity ?? 0)
                                                   .toString(),
                                               dotsAfterOverFlow: true,
                                               color: Colors.grey,
                                               fontSize: subtitleFontSize),
                                         ],
                                       ),
-                                      if (order.variation.size != 'N/A')
+                                      if (order.variation!.size != 'N/A')
                                         Row(
                                           children: [
                                             CustomText("Size: ",
@@ -213,7 +206,8 @@ class MyordersTileState extends State<MyOrdersTile> {
                                                 color: Colors.black54,
                                                 fontSize: subtitleFontSize),
                                             horizontalSpaceSmall,
-                                            CustomText(order.variation.size,
+                                            CustomText(
+                                                order.variation!.size ?? "",
                                                 dotsAfterOverFlow: true,
                                                 color: Colors.grey,
                                                 fontSize: subtitleFontSize),
@@ -222,7 +216,7 @@ class MyordersTileState extends State<MyOrdersTile> {
                                       verticalSpaceTiny,
                                       CustomText(
                                         rupeeUnicode +
-                                            order.orderCost.cost.toString(),
+                                            order.orderCost!.cost.toString(),
                                         dotsAfterOverFlow: true,
                                         fontSize: titleFontSize,
                                         isBold: true,

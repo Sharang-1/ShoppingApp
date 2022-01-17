@@ -14,8 +14,8 @@ class OtpVerifiedView2 extends StatefulWidget {
 
 class _TextFadeState extends State<OtpVerifiedView2>
     with SingleTickerProviderStateMixin {
-  Animation _animation;
-  AnimationController _animationController;
+  late Animation _animation;
+  late AnimationController _animationController;
   double _position = -1;
   String name = '';
 
@@ -36,7 +36,7 @@ class _TextFadeState extends State<OtpVerifiedView2>
       future: locator<APIService>().updateUserName(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          name = snapshot.data;
+          name = snapshot.data ?? "";
         }
         Future.delayed(
           Duration(milliseconds: 2000),
@@ -75,7 +75,7 @@ class _TextFadeState extends State<OtpVerifiedView2>
                         _position *
                         (1 - _animation.value)),
                 child: AnimatedOpacity(
-                  duration: _animationController.duration,
+                  duration: _animationController.duration!,
                   opacity: _animation.value,
                   curve: Curves.ease,
                   child: child,

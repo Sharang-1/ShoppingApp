@@ -4,7 +4,11 @@ class User {
   final String email;
   final String userRole;
 
-  User({this.id, this.fullName, this.email, this.userRole});
+  User(
+      {required this.id,
+      required this.fullName,
+      required this.email,
+      required this.userRole});
 
   User.fromData(Map<String, dynamic> data)
       : id = data['id'],

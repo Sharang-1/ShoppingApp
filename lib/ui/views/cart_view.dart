@@ -19,22 +19,21 @@ import '../shared/ui_helpers.dart';
 import '../widgets/cart_tile.dart';
 import '../widgets/custom_stepper.dart';
 import '../widgets/custom_text.dart';
-import '../widgets/grid_list_widget.dart';
 import '../widgets/pair_it_with_widget.dart';
 import 'product_individual_view.dart';
 
 class CartView extends StatefulWidget {
   final String productId;
-  CartView({Key key, this.productId = ""}) : super(key: key);
+  CartView({Key? key, this.productId = ""}) : super(key: key);
 
   @override
   _CartViewState createState() => _CartViewState();
 }
 
 class _CartViewState extends State<CartView> {
-  CartFilter filter;
+  CartFilter? filter;
   UniqueKey key = UniqueKey();
-  Key uniqueKey;
+  Key? uniqueKey;
 
   final refreshController = RefreshController(initialRefresh: false);
   bool isPromocodeApplied = false;
@@ -159,13 +158,15 @@ class _CartViewState extends State<CartView> {
                                       CartFilter(productId: widget.productId),
                                   layoutType: LayoutType.VIEW_CART_LAYOUT,
                                   controller: CartGridViewBuilderController(),
+                                  onEmptyList: () {},
                                   scrollDirection: Axis.horizontal,
                                   tileBuilder: (BuildContext context, data,
                                       index, onDelete, onUpdate) {
                                     Fimber.d("test");
                                     print((data as Item).toJson());
                                     final Item dItem = data as Item;
-                                    exceptProductIDs.add(dItem.product.key);
+                                    exceptProductIDs
+                                        .add(dItem.product!.key ?? "");
 
                                     return CartTile(
                                       index: index,
@@ -182,7 +183,7 @@ class _CartViewState extends State<CartView> {
                                         try {
                                           await controller
                                               .removeProductFromCartEvent(
-                                                  dItem?.product);
+                                                  dItem.product!);
                                         } catch (e) {
                                           print(e);
                                         }

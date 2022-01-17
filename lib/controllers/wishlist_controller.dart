@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'base_controller.dart';
 
 class WishListController extends BaseController {
-  WishListController({Key key, @required this.list}) : assert(List != null);
+  WishListController({Key? key, required this.list}) : assert(List != null);
 
   List<String> list = [];
 

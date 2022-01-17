@@ -8,10 +8,10 @@ class BottomTag extends StatelessWidget {
   final double appBarHeight;
   final double statusBarHeight;
   const BottomTag(
-      {Key key,
-      @required this.childWidget,
-      @required this.appBarHeight,
-      @required this.statusBarHeight})
+      {Key? key,
+      required this.childWidget,
+      required this.appBarHeight,
+      required this.statusBarHeight})
       : super(key: key);
 
   @override

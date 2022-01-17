@@ -4,7 +4,12 @@ import 'package:url_launcher/url_launcher.dart';
 import '../shared/ui_helpers.dart';
 
 class LinkWidget extends StatelessWidget {
-  LinkWidget({Key key, this.name, this.linkType = LinkType.webLink, this.data}) : super(key: key);
+  LinkWidget(
+      {Key? key,
+      required this.name,
+      this.linkType = LinkType.webLink,
+      required this.data})
+      : super(key: key);
 
   final LinkType linkType;
   final String name, data;
@@ -12,15 +17,14 @@ class LinkWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(bottom : 4.0),
+      padding: EdgeInsets.only(bottom: 4.0),
       child: GestureDetector(
         onTap: () async {
-          if(linkType == LinkType.webLink)
-            return await launch(data);
-          else if(linkType == LinkType.email)
-            return await launch("mailto:$data");
-          else if(linkType == LinkType.contactNo)
-            return await launch("tel://$data");
+          if (linkType == LinkType.webLink)
+            await launch(data);
+          else if (linkType == LinkType.email)
+            await launch("mailto:$data");
+          else if (linkType == LinkType.contactNo) await launch("tel://$data");
         },
         child: Text(
           name,
@@ -31,4 +35,4 @@ class LinkWidget extends StatelessWidget {
   }
 }
 
-enum LinkType {webLink, contactNo, email}
+enum LinkType { webLink, contactNo, email }

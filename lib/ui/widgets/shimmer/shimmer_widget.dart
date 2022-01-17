@@ -10,7 +10,7 @@ import '../section_builder.dart';
 import 'product_shimmer.dart';
 
 class ShimmerWidget extends StatelessWidget {
-  final LayoutType type;
+  final LayoutType? type;
   final Axis scrollDirection;
   final double childAspectRatio;
   final int gridCount;
@@ -25,7 +25,7 @@ class ShimmerWidget extends StatelessWidget {
   );
 
   ShimmerWidget({
-    Key key,
+    Key? key,
     this.type,
     this.scrollDirection = Axis.horizontal,
     this.childAspectRatio = 1.0,

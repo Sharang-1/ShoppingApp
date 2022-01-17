@@ -9,7 +9,7 @@ import '../services/navigation_service.dart';
 import 'base_controller.dart';
 
 class BottomsheetSizeController extends BaseController {
-  final UserDetails userDetails;
+  final UserDetails? userDetails;
 
   BottomsheetSizeController({this.userDetails});
 
@@ -26,18 +26,18 @@ class BottomsheetSizeController extends BaseController {
   final size5Focus = FocusNode();
 
   init() async {
-    UserDetails _userDetails = await locator<APIService>().getUserData();
-    Measure _measure = _userDetails?.measure;
+    UserDetails? _userDetails = await locator<APIService>().getUserData();
+    Measure _measure = _userDetails!.measure!;
     if (_measure != null) {
-      if (_measure?.shoulders != null)
+      if (_measure.shoulders != null)
         size1Controller.text = _measure.shoulders.toString();
-      if (_measure?.chest != null)
+      if (_measure.chest != null)
         size2Controller.text = _measure.chest.toString();
-      if (_measure?.waist != null)
+      if (_measure.waist != null)
         size3Controller.text = _measure.waist.toString();
-      if (_measure?.hips != null)
+      if (_measure.hips != null)
         size4Controller.text = _measure.hips.toString();
-      if (_measure?.height != null)
+      if (_measure.height != null)
         size5Controller.text = _measure.height.toString();
     }
   }

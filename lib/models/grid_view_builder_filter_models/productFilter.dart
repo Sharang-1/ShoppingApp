@@ -1,18 +1,18 @@
 import 'base_filter_model.dart';
 
 class ProductFilter implements BaseFilterModel {
-  final String fullText;
-  final String accountKey;
-  final String categories;
-  final List<int> demographicIds;
-  final List<String> subCategories;
-  final List<String> size;
-  final int minPrice;
-  final int maxPrice;
-  final int minDiscount;
-  final String sortField;
-  final bool isSortOrderDesc;
-  final bool explore;
+  final String? fullText;
+  final String? accountKey;
+  final String? categories;
+  final List<int>? demographicIds;
+  final List<String>? subCategories;
+  final List<String>? size;
+  final int? minPrice;
+  final int? maxPrice;
+  final int? minDiscount;
+  final String? sortField;
+  final bool? isSortOrderDesc;
+  final bool? explore;
   final String existingQueryString;
 
   String _queryString = "";
@@ -54,31 +54,31 @@ class ProductFilter implements BaseFilterModel {
     if (subCategories != null) {
       if (!_queryString.contains("category"))
         _queryString +=
-            subCategories.map((String value) => "category=$value;").join("");
+            subCategories!.map((String value) => "category=$value;").join("");
       else {
         _queryString = _queryString.replaceAll(RegExp("category(.*?);"), "");
         _queryString +=
-            subCategories.map((String value) => "category=$value;").join("");
+            subCategories!.map((String value) => "category=$value;").join("");
       }
     }
 
     if ((demographicIds?.length ?? 0) > 0) {
       if (!_queryString.contains("demographic"))
         _queryString +=
-            demographicIds.map((int value) => "demographic=$value;").join("");
+            demographicIds!.map((int value) => "demographic=$value;").join("");
       else {
         _queryString = _queryString.replaceAll(RegExp("demographic(.*?);"), "");
         _queryString +=
-            demographicIds.map((int value) => "demographic=$value;").join("");
+            demographicIds!.map((int value) => "demographic=$value;").join("");
       }
     }
 
     if (size != null) {
       if (!_queryString.contains("size"))
-        _queryString += size.map((String value) => "size=$size;").join("");
+        _queryString += size!.map((String value) => "size=$size;").join("");
       else {
         _queryString = _queryString.replaceAll(RegExp("size(.*?);"), "");
-        _queryString += size.map((String value) => "size=$size;").join("");
+        _queryString += size!.map((String value) => "size=$size;").join("");
       }
     }
     if (minPrice != null) {
@@ -121,10 +121,10 @@ class ProductFilter implements BaseFilterModel {
     if (isSortOrderDesc != null) {
       if (!_queryString.contains("sortOrder"))
         _queryString +=
-            "sortField=price;sortOrder=${isSortOrderDesc ? 'desc' : 'asc'};";
+            "sortField=price;sortOrder=${isSortOrderDesc ?? false ? 'desc' : 'asc'};";
       else
         _queryString = _queryString.replaceFirst(RegExp("sortOrder(.*?);"),
-            "sortOrder=${isSortOrderDesc ? 'desc' : 'asc'};");
+            "sortOrder=${isSortOrderDesc ?? false ? 'desc' : 'asc'};");
     }
 
     print("query string for product filter");

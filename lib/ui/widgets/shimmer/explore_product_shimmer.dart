@@ -6,7 +6,7 @@ import '../../shared/app_colors.dart';
 import '../../shared/ui_helpers.dart';
 
 class ExploreProductShimmer extends StatelessWidget {
-  const ExploreProductShimmer({Key key}) : super(key: key);
+  const ExploreProductShimmer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class ExploreProductShimmer extends StatelessWidget {
       padding: EdgeInsets.only(top: 8.0),
       decoration: BoxDecoration(
           border:
-              Border(bottom: BorderSide(width: 5.0, color: Colors.grey[300]))),
+              Border(bottom: BorderSide(width: 5.0, color: Colors.grey[300]!))),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[

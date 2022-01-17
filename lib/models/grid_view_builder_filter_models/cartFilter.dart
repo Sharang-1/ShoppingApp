@@ -1,13 +1,13 @@
 import 'base_filter_model.dart';
 
 class CartFilter implements BaseFilterModel {
-  String _queryString;
-  final productId;
+  late String _queryString;
+  final String? productId;
 
   CartFilter({this.productId = ""}) {
     print("Cart Filter for product id " + productId.toString());
     _queryString = "";
-    if(productId != null) {
+    if (productId != null) {
       _queryString += productId.toString();
     }
   }

@@ -7,10 +7,10 @@ Tailors tailorsFromJson(String str) => Tailors.fromJson(json.decode(str));
 String tailorsToJson(Tailors data) => json.encode(data.toJson());
 
 class Tailors {
-  int records;
-  int startIndex;
-  int limit;
-  List<Tailor> items;
+  int? records;
+  int? startIndex;
+  int? limit;
+  List<Tailor>? items;
 
   Tailors({
     this.records,
@@ -31,17 +31,17 @@ class Tailors {
         "records": records,
         "startIndex": startIndex,
         "limit": limit,
-        "tailors": List<dynamic>.from(items.map((x) => x.toJson())),
+        "tailors": List<dynamic>.from(items!.map((x) => x.toJson())),
       };
 }
 
 class Tailor {
-  String key;
-  String name;
-  bool enabled;
-  String created;
-  String modified;
-  Contact contact;
+  String? key;
+  String? name;
+  bool? enabled;
+  String? created;
+  String? modified;
+  Contact? contact;
 
   Tailor({
     this.key,
@@ -67,15 +67,15 @@ class Tailor {
         "enabled": enabled,
         "created": created,
         "modified": modified,
-        "contact": contact.toJson(),
+        "contact": contact!.toJson(),
       };
 }
 
 class Contact {
-  String address;
-  String email;
-  PrimaryNumber primaryNumber;
-  GeoLocation geoLocation;
+  String? address;
+  String? email;
+  PrimaryNumber? primaryNumber;
+  GeoLocation? geoLocation;
 
   Contact({
     this.address,
@@ -98,14 +98,14 @@ class Contact {
   Map<String, dynamic> toJson() => {
         "address": address == null ? null : address,
         "email": email == null ? null : email,
-        "primaryNumber": primaryNumber == null ? null : primaryNumber.toJson(),
-        "geoLocation": geoLocation == null ? null : geoLocation.toJson(),
+        "primaryNumber": primaryNumber == null ? null : primaryNumber!.toJson(),
+        "geoLocation": geoLocation == null ? null : geoLocation!.toJson(),
       };
 }
 
 class PrimaryNumber {
-  String code;
-  String mobile;
+  String? code;
+  String? mobile;
 
   PrimaryNumber({
     this.code,

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -22,10 +21,10 @@ class CartTile extends StatefulWidget {
   final int index;
 
   const CartTile({
-    Key key,
-    this.item,
-    this.onDelete,
-    this.index,
+    Key? key,
+    required this.item,
+    required this.onDelete,
+    required this.index,
   }) : super(key: key);
 
   @override
@@ -43,14 +42,15 @@ class _CartTileState extends State<CartTile> {
   String promoCodeId = "";
   String promoCodeDiscount = "0";
   int quantity = 0;
-  Item item;
-  OrderDetails orderDetails;
+  late Item item;
+  late OrderDetails orderDetails;
   @override
   void initState() {
     item = widget.item;
-    quantity = item.quantity >= 1 ? item.quantity : 1;
-    item.quantity = item.quantity >= 1 ? item.quantity : 1;
-    finalTotal = (item.product.cost.costToCustomer * item.quantity).toString();
+    quantity = item.quantity! >= 1 ? item.quantity as int : 1;
+    item.quantity = item.quantity! >= 1 ? item.quantity : 1;
+    finalTotal =
+        (item.product!.cost!.costToCustomer! * item.quantity!).toString();
     setUpOrderDetails();
     super.initState();
   }
@@ -64,14 +64,14 @@ class _CartTileState extends State<CartTile> {
   void setUpProductPrices() async {
     setState(() {
       finalTotal =
-          (item.product.cost.costToCustomer * quantity).toStringAsFixed(2);
+          (item.product!.cost!.costToCustomer! * quantity).toStringAsFixed(2);
     });
     orderDetails.total = rupeeUnicode + finalTotal;
   }
 
   void setUpOrderDetails() {
     orderDetails = OrderDetails(
-      productName: widget.item.product.name,
+      productName: widget.item.product!.name,
       qty: widget.item.quantity.toString(),
       size: widget.item.size != null && widget.item.size != ""
           ? (widget.item.size == 'N/A' ? '-' : widget.item.size)
@@ -82,33 +82,32 @@ class _CartTileState extends State<CartTile> {
       promocode: promoCode,
       promocodeDiscount: '$rupeeUnicode$promoCodeDiscount',
       price: rupeeUnicode +
-          (widget.item.quantity * widget.item.product.cost.cost).toString(),
-      discount: "${widget.item.product.discount.toString()} %",
+          (widget.item.quantity! * widget.item.product!.cost!.cost!).toString(),
+      discount: "${widget.item.product!.discount.toString()} %",
       discountedPrice: rupeeUnicode +
-          (((widget.item.product.price -
-                          (widget.item.product.price *
-                              widget.item.product.discount /
-                              100)) *
-                      (widget.item.quantity)) ??
-                  0)
-              .toString(),
+          (((widget.item.product!.price! -
+                      (widget.item.product!.price! *
+                          widget.item.product!.discount! /
+                          100)) *
+                  (widget.item.quantity ?? 0))
+              .toString()),
       convenienceCharges:
-          '${widget?.item?.product?.cost?.convenienceCharges?.rate} %',
+          '${widget.item.product?.cost?.convenienceCharges?.rate} %',
       gst:
-          '$rupeeUnicode${((widget?.item?.quantity ?? 1) * (widget?.item?.product?.cost?.gstCharges?.cost ?? 0))?.toStringAsFixed(2)} (${widget?.item?.product?.cost?.gstCharges?.rate}%)',
+          '$rupeeUnicode${((widget.item.quantity ?? 1) * (widget.item.product?.cost?.gstCharges?.cost ?? 0)).toStringAsFixed(2)} (${widget.item.product?.cost?.gstCharges?.rate}%)',
       deliveryCharges: "-",
       actualPrice:
-          "$rupeeUnicode ${((widget?.item?.quantity ?? 1) * ((widget?.item?.product?.cost?.cost ?? 0) + (widget?.item?.product?.cost?.gstCharges?.cost ?? 0)) + (widget?.item?.product?.cost?.convenienceCharges?.cost)).toStringAsFixed(2)}",
+          "$rupeeUnicode ${((widget.item.quantity ?? 1) * ((widget.item.product?.cost?.cost ?? 0) + (widget.item.product?.cost?.gstCharges?.cost ?? 0)) + (widget.item.product?.cost?.convenienceCharges?.cost ?? 0)).toStringAsFixed(2)}",
       saved:
           // ignore: deprecated_member_use
-          "$rupeeUnicode ${(((widget?.item?.quantity ?? 1) * ((widget?.item?.product?.cost?.cost ?? 0) + (widget?.item?.product?.cost?.gstCharges?.cost ?? 0)) + (widget?.item?.product?.cost?.convenienceCharges?.cost)) - (double.parse(finalTotal, (s) => 0) ?? 0)).toStringAsFixed(0)}",
+          "$rupeeUnicode ${(((widget.item.quantity ?? 1) * ((widget.item.product?.cost?.cost ?? 0) + (widget.item.product?.cost?.gstCharges?.cost ?? 0)) + (widget.item.product?.cost?.convenienceCharges?.cost ?? 0)) - (double.parse(finalTotal, (s) => 0))).toStringAsFixed(0)}",
       total: rupeeUnicode + finalTotal,
     );
   }
 
   void increseQty() {
     setState(() {
-      item.quantity++;
+      item.quantity = item.quantity! + 1;
       quantity++;
       setUpProductPrices();
     });
@@ -116,7 +115,7 @@ class _CartTileState extends State<CartTile> {
 
   void decreaseQty() {
     setState(() {
-      item.quantity--;
+      item.quantity = item.quantity! - 1;
       quantity--;
       setUpProductPrices();
     });
@@ -210,11 +209,11 @@ class _CartTileState extends State<CartTile> {
     );
   }
 
-  void proceedToOrder({int qty, String total}) async {
+  void proceedToOrder({int? qty, String? total}) async {
     BaseController.vibrate(duration: 50);
     final product =
         await _apiService.getProductById(productId: item.productId.toString());
-    if (product.available && product.enabled)
+    if ((product!.available ?? false) && (product.enabled ?? false))
       Navigator.push(
         context,
         PageTransition(
@@ -222,8 +221,8 @@ class _CartTileState extends State<CartTile> {
             productId: item.productId.toString(),
             promoCode: promoCode,
             promoCodeId: promoCodeId,
-            size: item.size,
-            color: item.color,
+            size: item.size ?? "",
+            color: item.color ?? "",
             qty: qty ?? quantity,
             finalTotal: total ?? finalTotal,
             orderDetails: orderDetails,
@@ -243,11 +242,11 @@ class _CartTileState extends State<CartTile> {
       ));
   }
 
-  void applyCoupon({int qty, String total}) async {
+  void applyCoupon({int? qty, String? total}) async {
     BaseController.vibrate(duration: 50);
     final product = await _apiService.getProductById(
         productId: item.productId.toString(), withCoupons: true);
-    if (product.available && product.enabled)
+    if ((product?.available ?? false) && (product!.enabled ?? false))
       Navigator.push(
         context,
         PageTransition(
@@ -255,10 +254,10 @@ class _CartTileState extends State<CartTile> {
             productId: item.productId.toString(),
             promoCode: promoCode,
             promoCodeId: promoCodeId,
-            availableCoupons: product.coupons,
-            size: item.size,
-            color: item.color,
-            qty: qty ?? item.quantity,
+            availableCoupons: product.coupons ?? [],
+            size: item.size ?? "",
+            color: item.color ?? "",
+            qty: (qty ?? item.quantity) as int,
             finalTotal: total ?? finalTotal,
             orderDetails: orderDetails,
           ),

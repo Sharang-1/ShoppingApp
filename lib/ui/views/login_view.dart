@@ -23,7 +23,7 @@ class LoginView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              "Sign in with \nYour name & mobile number".capitalize,
+              "Sign in with \nYour name & mobile number".capitalize!,
               style: TextStyle(
                 fontSize: headingFontSizeStyle,
                 fontWeight: FontWeight.w600,
@@ -65,7 +65,8 @@ class LoginView extends StatelessWidget {
               errorMessage: controller.phoneNoValidationMessage,
               textFieldController: phoneNoController,
               isEnabled: true,
-              selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
+              onInputChanged: (value) {},
+              // selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
               formatInput: true,
             ),
             verticalSpaceTiny,
@@ -92,17 +93,17 @@ class LoginView extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: controller.ageLookup
+                    children: controller.ageLookup!
                         .map(
                           (e) => InkWell(
-                            onTap: () => controller.onAgeChanged(e.id),
+                            onTap: () => controller.onAgeChanged(e.id!),
                             child: Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 border: Border.all(
                                     color: e.id == controller.selectedAgeId
                                         ? logoRed
-                                        : Colors.grey[500]),
+                                        : Colors.grey[500]!),
                               ),
                               padding: EdgeInsets.symmetric(
                                 vertical: 4.0,
@@ -110,12 +111,12 @@ class LoginView extends StatelessWidget {
                               ),
                               margin: EdgeInsets.only(right: 8.0),
                               child: CustomText(
-                                e.name,
+                                e.name ?? "",
                                 fontSize: subtitleFontSize,
                                 isBold: e.id == controller.selectedAgeId,
                                 color: e.id == controller.selectedAgeId
                                     ? logoRed
-                                    : Colors.grey[500],
+                                    : Colors.grey[500]!,
                               ),
                             ),
                           ),
@@ -129,10 +130,10 @@ class LoginView extends StatelessWidget {
             SingleChildScrollView(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: controller.genderLookup
+                children: controller.genderLookup!
                     .map(
                       (e) => InkWell(
-                        onTap: () => controller.onGenderIdChanged(e.id),
+                        onTap: () => controller.onGenderIdChanged(e.id!),
                         child: e.id == 3
                             ? Container()
                             : Container(
@@ -154,13 +155,13 @@ class LoginView extends StatelessWidget {
                                     ),
                                     verticalSpaceSmall,
                                     CustomText(
-                                      e.name,
+                                      e.name ?? "",
                                       fontSize: subtitleFontSize,
                                       isBold:
                                           e.id == controller.selectedGenderId,
                                       color: e.id == controller.selectedGenderId
                                           ? logoRed
-                                          : Colors.grey[500],
+                                          : Colors.grey[500]!,
                                     ),
                                   ],
                                 ),

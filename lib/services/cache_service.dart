@@ -4,12 +4,12 @@ import '../models/sellers.dart';
 import 'api/api_service.dart';
 
 class CacheService {
-  List<Seller> sellers = [];
+  List<Seller>? sellers = [];
   Map<String, Reviews> productReviews = {};
   Map<String, Reviews> sellerReviews = {};
   bool busy = false;
 
-  Future<List<Seller>> getSellers() async {
+  Future<List<Seller>?> getSellers() async {
     while (busy) {
       await Future.delayed(Duration(milliseconds: 500));
     }
@@ -17,11 +17,11 @@ class CacheService {
       busy = true;
       sellers =
           (await locator<APIService>().getSellers(queryString: "limit=1000;"))
-              ?.items;
+              .items;
       if ((sellers ?? []).isEmpty) {
         sellers =
             (await locator<APIService>().getSellers(queryString: "limit=1000;"))
-                ?.items;
+                .items;
       }
       busy = false;
     }
@@ -34,7 +34,7 @@ class CacheService {
     });
   }
 
-  Reviews getReviews(String id, {isSeller = false}) {
+  Reviews? getReviews(String id, {isSeller = false}) {
     var r = (isSeller ? sellerReviews : productReviews)[id];
     return r;
   }

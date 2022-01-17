@@ -9,10 +9,13 @@ import '../push_notification_service.dart';
 
 class AppInterceptors extends Interceptor {
   @override
-  Future onRequest(RequestOptions options) async {
+  Future onRequest(
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.get(Authtoken);
-    String device = locator<PushNotificationService>()?.fcmToken;
+    String device = locator<PushNotificationService>().fcmToken;
     options.headers.addAll({
       "Authorization": "Bearer $token",
       "Device": "$device",

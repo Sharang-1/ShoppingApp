@@ -19,18 +19,18 @@ class PromoCode {
     this.cost,
   });
 
-  final num productPrice;
-  final num quantity;
-  final CostAndRate convenienceCharges;
-  final PromocodeDiscount promocodeDiscount;
-  final CostAndRate gstCharges;
-  final Delivery deliveryCharges;
-  final num costForSeller;
-  final num cost;
-  final String note;
+  final num? productPrice;
+  final num? quantity;
+  final CostAndRate? convenienceCharges;
+  final PromocodeDiscount? promocodeDiscount;
+  final CostAndRate? gstCharges;
+  final Delivery? deliveryCharges;
+  final num? costForSeller;
+  final num? cost;
+  final String? note;
 
   factory PromoCode.fromJson(Map<String, dynamic> json) {
-    if (json == null) return null;
+    // if (json == null) return null;
     return PromoCode(
       productPrice: json["productPrice"],
       quantity: json["quantity"],
@@ -68,9 +68,9 @@ class PromoCode {
 class PromocodeDiscount {
   PromocodeDiscount({this.cost, this.promocode, this.promocodeId});
 
-  final String promocodeId;
-  final String promocode;
-  final num cost;
+  final String? promocodeId;
+  final String? promocode;
+  final num? cost;
 
   factory PromocodeDiscount.fromJson(Map<String, dynamic> json) =>
       PromocodeDiscount(

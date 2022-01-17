@@ -23,14 +23,14 @@ import 'base_controller.dart';
 
 class OtpVerificationController extends BaseController {
   final otpController = TextEditingController();
-  Timer _timer;
+  late Timer _timer;
   final oneSec = const Duration(seconds: 1);
   bool otpSendButtonEnabled = false;
   int timerCountDownSeconds = 30;
   int ageId;
   int genderId;
 
-  OtpVerificationController({this.ageId, this.genderId});
+  OtpVerificationController({required this.ageId, required this.genderId});
 
   final AuthenticationService _authenticationService =
       locator<AuthenticationService>();
@@ -48,8 +48,8 @@ class OtpVerificationController extends BaseController {
   void onInit() async {
     super.onInit();
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    phoneNo = prefs.getString(PhoneNo);
-    name = prefs.getString(Name);
+    phoneNo = prefs.getString(PhoneNo)!;
+    name = prefs.getString(Name)!;
     updateTimer();
   }
 
@@ -108,6 +108,7 @@ class OtpVerificationController extends BaseController {
     NavigationService.to(LoginViewRoute,
         arguments: CustomRouteArgument(
           type: PageTransitionType.fade,
+          arguments: () {},
         ));
   }
 
@@ -122,7 +123,7 @@ class OtpVerificationController extends BaseController {
   }
 
   Future verifyOTP({
-    @required String otp,
+    required String otp,
   }) async {
     setBusy(true);
 
@@ -135,14 +136,15 @@ class OtpVerificationController extends BaseController {
       prefs.setString(Authtoken, result["token"]);
 
       var mUserDetails = await _apiService.getUserData();
-      mUserDetails.name = prefs.getString(Name);
+      mUserDetails!.name = prefs.getString(Name);
       mUserDetails.age = Age(id: ageId);
       mUserDetails.gender = Gender(id: genderId);
-      await _addressService.setUpAddress(mUserDetails.contact);
+      await _addressService.setUpAddress(mUserDetails.contact!);
       await _apiService.updateUserData(mUserDetails);
 
       try {
-        await _analyticsService.sendAnalyticsEvent(eventName: "login");
+        await _analyticsService
+            .sendAnalyticsEvent(eventName: "login", parameters: {});
       } catch (e) {}
 
       NavigationService.off(OtpVerifiedRoute);

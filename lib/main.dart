@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -16,7 +17,10 @@ import 'ui/views/startup_view.dart';
 void main() async {
   setup();
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  String lang = prefs?.getString(CurrentLanguage);
+  String lang =
+      prefs.getString(CurrentLanguage) ?? LocalizationService.langs[0];
+  await Firebase.initializeApp();
+
   runApp(
     OverlaySupport(
       child: MyApp(lang: lang),
@@ -37,7 +41,8 @@ void setup() async {
   //precache
   await Future.wait([
     precachePicture(
-      ExactAssetPicture(SvgPicture.svgStringDecoder, "assets/svg/logo.svg"),
+      ExactAssetPicture(
+          SvgPicture.svgStringDecoderBuilder, "assets/svg/logo.svg"),
       null,
     ),
   ]);
@@ -53,7 +58,7 @@ class CustomScrollOverlayBehaviour extends ScrollBehavior {
 
 class MyApp extends StatelessWidget {
   final String lang;
-  MyApp({this.lang});
+  MyApp({required this.lang});
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
@@ -68,7 +73,7 @@ class MyApp extends StatelessWidget {
       navigatorObservers: [],
       builder: (context, child) => ScrollConfiguration(
         behavior: CustomScrollOverlayBehaviour(),
-        child: child,
+        child: child!,
       ),
       theme: ThemeData(
         primaryColor: primaryColor,
@@ -80,7 +85,7 @@ class MyApp extends StatelessWidget {
       home: StartUpView(),
       onGenerateRoute: generateRoute,
       locale: LocalizationService.getLocaleFromLanguage(
-          (lang?.isEmpty ?? true) ? LocalizationService.langs[0] : lang),
+          (lang.isEmpty) ? LocalizationService.langs[0] : lang),
       fallbackLocale: LocalizationService.fallbackLocale,
       translations: LocalizationService(),
     );

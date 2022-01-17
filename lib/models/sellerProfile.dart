@@ -14,11 +14,11 @@ class SellerProfile {
     this.accountId,
   });
 
-  String key;
-  String created;
-  String modified;
-  List<Photo> photos;
-  String accountId;
+  String? key;
+  String? created;
+  String? modified;
+  List<Photo>? photos;
+  String? accountId;
 
   factory SellerProfile.fromMap(Map<String, dynamic> json) => SellerProfile(
         key: json["key"],
@@ -32,7 +32,7 @@ class SellerProfile {
         "key": key,
         "created": created,
         "modified": modified,
-        "photos": List<dynamic>.from(photos.map((x) => x.toMap())),
+        "photos": List<dynamic>.from(photos!.map((x) => x.toMap())),
         "accountId": accountId,
       };
 }
@@ -43,8 +43,8 @@ class Photo {
     this.originalName,
   });
 
-  String name;
-  String originalName;
+  String? name;
+  String? originalName;
 
   factory Photo.fromMap(Map<String, dynamic> json) => Photo(
         name: json["name"],

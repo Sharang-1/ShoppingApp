@@ -15,7 +15,7 @@ class WriteReviewBottomsheet extends StatefulWidget {
   final String id;
   final bool isSeller;
   final bool fromProductList;
-  final Function onSubmit;
+  final Function? onSubmit;
 
   WriteReviewBottomsheet(this.id,
       {this.isSeller = false, this.fromProductList = false, this.onSubmit});
@@ -136,7 +136,7 @@ class _WriteReviewBottomsheetState extends State<WriteReviewBottomsheet> {
                                         isSellerReview: widget.isSeller);
                                     textController.text = "";
                                     if (widget.onSubmit != null)
-                                      await widget.onSubmit();
+                                      await widget.onSubmit!();
                                     NavigationService.back();
                                   },
                                 ),

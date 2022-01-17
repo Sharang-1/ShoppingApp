@@ -18,7 +18,7 @@ class WishListService {
 
   Future<List<String>> getWishList() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getStringList(wishList);
+    return prefs.getStringList(wishList) ?? [];
   }
 
   Future<bool> addWishList(String id) async {
@@ -26,7 +26,7 @@ class WishListService {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final list = prefs.getStringList(wishList);
     print(list);
-    print("Index of : " + list.indexOf(id).toString());
+    print("Index of : " + list!.indexOf(id).toString());
     if (list.indexOf(id) == -1) {
       list.add(id);
       print(list);
@@ -39,7 +39,7 @@ class WishListService {
   Future<bool> removeWishList(String id) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final list = prefs.getStringList(wishList);
-    final res = list.remove(id);
+    final res = list!.remove(id);
     prefs.setStringList(wishList, list);
     return res;
   }
@@ -47,7 +47,7 @@ class WishListService {
   Future<bool> isProductInWishList(String id) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final list = prefs.getStringList(wishList);
-    if (list.indexOf(id) == -1) {
+    if (list!.indexOf(id) == -1) {
       return false;
     }
     return true;

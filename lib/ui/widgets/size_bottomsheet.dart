@@ -11,7 +11,7 @@ class SizeBottomsheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<BottomsheetSizeController>(
-      init: BottomsheetSizeController()..init(),
+      init: BottomsheetSizeController(userDetails: null)..init(),
       builder: (controller) {
         return SafeArea(
           bottom: false,
@@ -152,9 +152,9 @@ class SizeBottomsheet extends StatelessWidget {
   }
 
   getSizeWidget(
-          {@required FocusNode focusNode,
-          @required TextEditingController controller,
-          @required String hint}) =>
+          {required FocusNode focusNode,
+          required TextEditingController controller,
+          required String hint}) =>
       SizedBox(
         width: 120,
         child: Row(
@@ -163,7 +163,7 @@ class SizeBottomsheet extends StatelessWidget {
               child: CustomText(
                 hint,
                 fontSize: 10,
-                color: Colors.grey[500],
+                color: Colors.grey[500]!,
               ),
             ),
             Expanded(

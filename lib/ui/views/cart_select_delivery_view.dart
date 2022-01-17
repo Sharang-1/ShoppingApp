@@ -35,15 +35,15 @@ class SelectAddress extends StatefulWidget {
   final bool isPromocodeApplied;
 
   const SelectAddress({
-    Key key,
-    @required this.productId,
-    @required this.promoCode,
-    @required this.promoCodeId,
-    @required this.size,
-    @required this.color,
-    @required this.qty,
-    @required this.finalTotal,
-    @required this.orderDetails,
+    Key? key,
+    required this.productId,
+    required this.promoCode,
+    required this.promoCodeId,
+    required this.size,
+    required this.color,
+    required this.qty,
+    required this.finalTotal,
+    required this.orderDetails,
     this.isPromocodeApplied = false,
   }) : super(key: key);
 
@@ -52,11 +52,11 @@ class SelectAddress extends StatefulWidget {
 }
 
 class _SelectAddressState extends State<SelectAddress> {
-  UserDetailsContact addressRadioValue;
-  UserDetailsContact addressGrpValue;
+  UserDetailsContact addressRadioValue = UserDetailsContact();
+  UserDetailsContact addressGrpValue = UserDetailsContact();
   bool disabledPayment = true;
-  String deliveryCharges;
-  OrderDetails orderDetails;
+  String? deliveryCharges = "";
+  late OrderDetails orderDetails;
 
   @override
   void initState() {
@@ -116,7 +116,7 @@ class _SelectAddressState extends State<SelectAddress> {
                         buttonText: MAKE_PAYMENT.tr,
                         buttonIcon: FontAwesomeIcons.lock,
                         onButtonPressed: disabledPayment
-                            ? null
+                            ? () {}
                             : () async => await makePayment(controller),
                         isPromocodeApplied: widget.isPromocodeApplied,
                       ),
@@ -127,7 +127,7 @@ class _SelectAddressState extends State<SelectAddress> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       CustomText(
-                        "${BaseController.formatPrice(num.parse(orderDetails.total.replaceAll("₹", "")))}",
+                        "${BaseController.formatPrice(num.parse(orderDetails.total!.replaceAll("₹", "")))}",
                         fontSize: 12,
                         isBold: true,
                       ),
@@ -227,13 +227,13 @@ class _SelectAddressState extends State<SelectAddress> {
                               final calculatedPrice = await calculatePrice();
                               if (calculatedPrice != null) {
                                 deliveryCharges = calculatedPrice
-                                    ?.deliveryCharges?.cost
+                                    .deliveryCharges?.cost
                                     ?.toStringAsFixed(2);
                                 setState(() {
                                   orderDetails.deliveryCharges =
-                                      rupeeUnicode + deliveryCharges;
+                                      rupeeUnicode + deliveryCharges!;
                                   orderDetails.total =
-                                      "$rupeeUnicode${calculatedPrice?.cost?.toStringAsFixed(2)}";
+                                      "$rupeeUnicode${calculatedPrice.cost?.toStringAsFixed(2)}";
                                 });
                               }
                             },
@@ -243,7 +243,7 @@ class _SelectAddressState extends State<SelectAddress> {
                               decoration: BoxDecoration(
                                 border: Border(
                                   bottom: BorderSide(
-                                    color: Colors.grey[200],
+                                    color: Colors.grey[200]!,
                                   ),
                                 ),
                               ),
@@ -278,7 +278,7 @@ class _SelectAddressState extends State<SelectAddress> {
                                               children: <Widget>[
                                                 CustomText(
                                                   MY_ADDRESS.tr,
-                                                  color: Colors.grey[700],
+                                                  color: Colors.grey[700]!,
                                                   fontSize: 14,
                                                   isBold: true,
                                                 ),
@@ -377,7 +377,7 @@ class _SelectAddressState extends State<SelectAddress> {
     );
   }
 
-  Future<CalculatedPrice> calculatePrice() =>
+  Future<CalculatedPrice?> calculatePrice() =>
       locator<APIService>().calculateProductPrice(
         widget.productId,
         widget.qty,
@@ -392,7 +392,7 @@ class _SelectAddressState extends State<SelectAddress> {
 
     if (serviceAvailability == null) return;
 
-    if (serviceAvailability.serviceAvailable) {
+    if (serviceAvailability.serviceAvailable ?? false) {
       Navigator.push(
         context,
         PageTransition(
@@ -406,13 +406,14 @@ class _SelectAddressState extends State<SelectAddress> {
               promoCodeId: widget.promoCodeId,
               qty: widget.qty,
               size: widget.size,
-              finalTotal: orderDetails.total,
+              finalTotal: orderDetails.total ?? "",
               orderDetails: orderDetails,
             ),
             type: PageTransitionType.rightToLeft),
       );
     } else {
-      DialogService.showNotDeliveringDialog(msg: serviceAvailability.message);
+      DialogService.showNotDeliveringDialog(
+          msg: serviceAvailability.message ?? "");
     }
   }
 }

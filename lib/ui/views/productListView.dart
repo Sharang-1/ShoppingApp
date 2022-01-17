@@ -32,16 +32,16 @@ import '../widgets/shimmer/shimmer_widget.dart';
 class ProductListView extends StatefulWidget {
   final String queryString;
   final String subCategory;
-  final String sellerPhoto;
+  final String? sellerPhoto;
 
-  final String title;
-  final String promotionKey;
-  final List<int> demographicIds;
+  final String? title;
+  final String? promotionKey;
+  final List<int>? demographicIds;
 
   ProductListView({
-    Key key,
-    @required this.queryString,
-    @required this.subCategory,
+    Key? key,
+    required this.queryString,
+    required this.subCategory,
     this.title,
     this.sellerPhoto,
     this.promotionKey,
@@ -53,9 +53,9 @@ class ProductListView extends StatefulWidget {
 }
 
 class _ProductListViewState extends State<ProductListView> {
-  ProductFilter filter;
+  ProductFilter? filter;
   String sellerKey = '';
-  Reviews reviews;
+  Reviews? reviews;
   bool showRandomProducts = true;
   UniqueKey key = UniqueKey();
   final refreshController = RefreshController(initialRefresh: false);
@@ -116,25 +116,24 @@ class _ProductListViewState extends State<ProductListView> {
 
   @override
   void initState() {
-    var queryString = widget?.queryString ?? '';
-    if (queryString?.isEmpty ?? true) {
-      if (widget?.demographicIds?.isNotEmpty ?? false)
-        queryString += widget?.demographicIds
+    var queryString = widget.queryString;
+    if (queryString.isEmpty) {
+      if (widget.demographicIds?.isNotEmpty ?? false)
+        queryString += widget.demographicIds
                 ?.map((int value) => "demographic=$value;")
-                ?.join("") ??
+                .join("") ??
             '';
-      else if (widget?.promotionKey?.isNotEmpty ?? false) {
+      else if (widget.promotionKey?.isNotEmpty ?? false) {
         queryString +=
-            "promotionKey=${widget?.promotionKey};sortField=price;sortOrder=asc;";
+            "promotionKey=${widget.promotionKey};sortField=price;sortOrder=asc;";
         showRandomProducts = false;
       }
     }
     filter = ProductFilter(existingQueryString: queryString);
-    if (widget?.queryString?.contains("accountKey") ?? false)
-      sellerKey = widget?.queryString?.split('=')?.last?.replaceAll(';', '');
+    if (widget.queryString.contains("accountKey"))
+      sellerKey = widget.queryString.split('=').last.replaceAll(';', '');
 
-    if (widget?.queryString?.contains("sortField") ?? false)
-      showRandomProducts = false;
+    if (widget.queryString.contains("sortField")) showRandomProducts = false;
     super.initState();
   }
 
@@ -146,7 +145,7 @@ class _ProductListViewState extends State<ProductListView> {
         backgroundColor: Colors.white,
         // centerTitle: true,
         title: CustomText(
-          widget?.title ?? '',
+          widget.title ?? '',
           dotsAfterOverFlow: true,
         ),
         actions: [
@@ -168,7 +167,7 @@ class _ProductListViewState extends State<ProductListView> {
                   return FractionallySizedBox(
                       heightFactor: 0.75,
                       child: ProductFilterDialog(
-                        oldFilter: filter,
+                        oldFilter: filter!,
                       ));
                 },
               );
@@ -182,15 +181,15 @@ class _ProductListViewState extends State<ProductListView> {
               }
             },
           ),
-          if ((widget?.promotionKey?.isNotEmpty ?? false) ||
+          if ((widget.promotionKey?.isNotEmpty ?? false) ||
               (!(widget.queryString.isEmpty && widget.subCategory.isEmpty)))
             InkWell(
               onTap: () async {
-                String link = (widget?.promotionKey?.isNotEmpty ?? false)
-                    ? (promotionLink + widget.promotionKey)
+                String link = (widget.promotionKey?.isNotEmpty ?? false)
+                    ? (promotionLink + widget.promotionKey!)
                     : (sellerLink + sellerKey);
                 await Share.share(
-                  await _dynamicLinkService.createLink(link),
+                  await _dynamicLinkService.createLink(link) ?? "",
                   sharePositionOrigin: Rect.fromCenter(
                     center: Offset(100, 100),
                     width: 100,
@@ -309,7 +308,7 @@ class _ProductListViewState extends State<ProductListView> {
                             height: 80,
                             fadeInCurve: Curves.easeIn,
                             placeholder: "assets/images/product_preloading.png",
-                            image: widget.sellerPhoto,
+                            image: widget.sellerPhoto!,
                             imageErrorBuilder: (context, error, stackTrace) =>
                                 Image.asset(
                               "assets/images/product_preloading.png",
@@ -343,7 +342,7 @@ class _ProductListViewState extends State<ProductListView> {
                           ),
                         ),
                       verticalSpaceSmall,
-                      FutureBuilder<Reviews>(
+                      FutureBuilder<Reviews?>(
                         future: reviews == null
                             ? locator<APIService>().getReviews(
                                 sellerKey,
@@ -357,8 +356,7 @@ class _ProductListViewState extends State<ProductListView> {
 
                           return ((snapshot.connectionState ==
                                       ConnectionState.done) &&
-                                  ((snapshot?.data?.ratingAverage?.rating ??
-                                          0) >
+                                  ((snapshot.data?.ratingAverage?.rating ?? 0) >
                                       0))
                               ? InkWell(
                                   onTap: showReviewBottomsheet,
@@ -376,7 +374,8 @@ class _ProductListViewState extends State<ProductListView> {
                                         ),
                                         border: Border.all(
                                           color: getColorAccordingToRattings(
-                                            snapshot.data.ratingAverage.rating,
+                                            snapshot
+                                                .data!.ratingAverage!.rating!,
                                           ),
                                         ),
                                       ),
@@ -385,11 +384,12 @@ class _ProductListViewState extends State<ProductListView> {
                                             CrossAxisAlignment.center,
                                         children: <Widget>[
                                           CustomText(
-                                            snapshot.data.ratingAverage.rating
+                                            snapshot
+                                                .data!.ratingAverage!.rating!
                                                 .toStringAsFixed(1),
                                             color: getColorAccordingToRattings(
                                               snapshot
-                                                  .data.ratingAverage.rating,
+                                                  .data!.ratingAverage!.rating!,
                                             ),
                                             isBold: true,
                                             fontSize: 15,
@@ -411,12 +411,13 @@ class _ProductListViewState extends State<ProductListView> {
                       ? GridListWidget<Products, Product>(
                           key: key,
                           context: context,
+                          onEmptyList: () {},
                           filter: filter,
                           gridCount: 2,
                           emptyListWidget: EmptyListWidget(
                               text: "", img: 'assets/images/no_item.jpg'),
                           controller: ProductsGridViewBuilderController(
-                            limit: (widget?.promotionKey?.isEmpty ?? true)
+                            limit: (widget.promotionKey?.isEmpty ?? true)
                                 ? 50
                                 : 500,
                             // (widget.queryString.isEmpty &&
@@ -435,16 +436,16 @@ class _ProductListViewState extends State<ProductListView> {
                               childAspectRatio: 0.7,
                             ),
                           ),
-                          tileBuilder: (BuildContext context, data, index,
-                              onUpdate, onDelete) {
+                          tileBuilder:
+                              (BuildContext context, data, index, onUpdate) {
                             return Container(
                               decoration: BoxDecoration(
                                 border: Border(
                                   right: BorderSide(
-                                    color: Colors.grey[300],
+                                    color: Colors.grey[300]!,
                                   ),
                                   bottom: BorderSide(
-                                    color: Colors.grey[300],
+                                    color: Colors.grey[300]!,
                                   ),
                                 ),
                               ),

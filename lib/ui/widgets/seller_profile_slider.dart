@@ -14,8 +14,8 @@ class SellerProfilePhotos extends StatelessWidget {
   final APIService _apiService = locator<APIService>();
 
   SellerProfilePhotos({
-    Key key,
-    @required this.accountId,
+    Key? key,
+    required this.accountId,
   }) : super(key: key);
 
   @override
@@ -25,8 +25,8 @@ class SellerProfilePhotos extends StatelessWidget {
       builder: (c, AsyncSnapshot<SellerProfile> s) {
         if (s.connectionState != ConnectionState.done ||
             s.data == null ||
-            s.data.photos == null ||
-            s.data.photos.length == 0) {
+            s.data!.photos == null ||
+            s.data!.photos!.length == 0) {
           return FadeInImage.assetNetwork(
             fadeInCurve: Curves.easeIn,
             placeholder: "assets/images/product_preloading.png",
@@ -39,7 +39,7 @@ class SellerProfilePhotos extends StatelessWidget {
           );
         }
 
-        var images = s.data.photos
+        var images = s.data!.photos!
             .map((e) =>
                 "$SELLER_PROFILE_PHOTO_BASE_URL/$accountId/profile/${e.name}")
             .toList();

@@ -6,7 +6,7 @@ import '../../shared/shared_styles.dart';
 import '../../shared/ui_helpers.dart';
 
 class ViewCartShimmer extends StatelessWidget {
-  const ViewCartShimmer({Key key}) : super(key: key);
+  const ViewCartShimmer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -27,7 +27,7 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
   final orderStatuses = [0, 1, 2, 3, 4, 5, 7];
   UniqueKey key = UniqueKey();
   final refreshController = RefreshController(initialRefresh: false);
-  Order mOrder;
+  late Order mOrder;
 
   @override
   Widget build(BuildContext context) => GetBuilder(
@@ -99,7 +99,7 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                           children: <Widget>[
                             verticalSpace(10),
                             CustomText(
-                              "Order ID: " + mOrder.key,
+                              "Order ID: " + mOrder.key!,
                               fontSize: titleFontSize,
                               isTitle: true,
                               color: logoRed,
@@ -129,7 +129,7 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                                 placeholder:
                                                     "assets/images/product_preloading.png",
                                                 image:
-                                                    "$PRODUCT_PHOTO_BASE_URL/${mOrder.product.key}/${mOrder.product.photo.photos.first.name}-small.png",
+                                                    "$PRODUCT_PHOTO_BASE_URL/${mOrder.product!.key}/${mOrder.product!.photo!.photos!.first.name}-small.png",
                                                 imageErrorBuilder: (context,
                                                         error, stackTrace) =>
                                                     Image.asset(
@@ -148,33 +148,33 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                                 CrossAxisAlignment.start,
                                             children: <Widget>[
                                               CustomText(
-                                                widget.mOrder.product.name,
+                                                widget.mOrder.product!.name!,
                                                 isBold: true,
-                                                color: Colors.grey[800],
+                                                color: Colors.grey[800]!,
                                                 dotsAfterOverFlow: true,
                                                 fontSize: titleFontSize + 2,
                                               ),
                                               CustomText(
-                                                "Qty: ${widget.mOrder.orderCost.quantity}",
-                                                color: Colors.grey[800],
+                                                "Qty: ${widget.mOrder.orderCost!.quantity}",
+                                                color: Colors.grey[800]!,
                                                 dotsAfterOverFlow: true,
                                                 fontSize: titleFontSize,
                                               ),
                                               if (widget
-                                                      .mOrder.variation.size !=
+                                                      .mOrder.variation!.size !=
                                                   null)
                                                 CustomText(
-                                                  "Size: ${widget.mOrder.variation.size}",
-                                                  color: Colors.grey[800],
+                                                  "Size: ${widget.mOrder.variation!.size}",
+                                                  color: Colors.grey[800]!,
                                                   dotsAfterOverFlow: true,
                                                   fontSize: titleFontSize,
                                                 ),
-                                              if (widget
-                                                      .mOrder.variation.color !=
+                                              if (widget.mOrder.variation!
+                                                      .color !=
                                                   null)
                                                 CustomText(
-                                                  "Color: ${widget.mOrder.variation.color}",
-                                                  color: Colors.grey[800],
+                                                  "Color: ${widget.mOrder.variation!.color}",
+                                                  color: Colors.grey[800]!,
                                                   dotsAfterOverFlow: true,
                                                   fontSize: titleFontSize,
                                                 ),
@@ -188,8 +188,8 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                                         const EdgeInsets.only(
                                                             right: 8.0),
                                                     child: CustomText(
-                                                      widget
-                                                          .mOrder.status.state,
+                                                      widget.mOrder.status!
+                                                          .state!,
                                                       fontSize:
                                                           subtitleFontSize,
                                                       isBold: true,
@@ -202,7 +202,7 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                                       alignment:
                                                           Alignment.centerRight,
                                                       child: CustomText(
-                                                        '$rupeeUnicode${mOrder?.orderCost?.cost}',
+                                                        '$rupeeUnicode${mOrder.orderCost?.cost}',
                                                         fontSize: titleFontSize,
                                                         isBold: true,
                                                         color: lightGreen,
@@ -232,7 +232,7 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                       isBold: true,
                                     ),
                                     CustomText(
-                                      mOrder.status.state,
+                                      mOrder.status!.state!,
                                       fontSize: headingFontSizeStyle,
                                       isTitle: true,
                                       isBold: true,
@@ -241,16 +241,20 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                 ),
                                 verticalSpace(15),
                                 if (!([6, 8, 9, 10, 11, 12]
-                                    .contains(mOrder?.status?.id ?? -1)))
+                                    .contains(mOrder.status?.id ?? -1)))
                                   Padding(
                                     padding: EdgeInsets.only(left: 5, right: 5),
                                     child: LinearPercentIndicator(
                                       lineHeight: 15.0,
                                       percent: (orderStatuses.contains(
-                                                  mOrder?.status?.id ?? -1)
+                                                  mOrder.status?.id ?? -1)
                                               ? ((orderStatuses.indexOf(
-                                                            widget.mOrder.status
-                                                                .id,
+                                                            widget
+                                                                        .mOrder
+                                                                        .status!
+                                                                        .id
+                                                                    as int? ??
+                                                                0,
                                                           ) +
                                                           1) *
                                                       100) /
@@ -264,10 +268,10 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                     ),
                                   ),
                                 if (!([6, 8, 9, 10, 11, 12]
-                                    .contains(mOrder?.status?.id ?? -1)))
+                                    .contains(mOrder.status?.id ?? -1)))
                                   verticalSpace(15),
                                 if (!([6, 8, 9, 10, 11, 12]
-                                    .contains(mOrder?.status?.id ?? -1)))
+                                    .contains(mOrder.status?.id ?? -1)))
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -279,10 +283,10 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                         color: Colors.grey,
                                       ),
                                       CustomText(
-                                        mOrder.deliveryDate.substring(0, 10),
+                                        mOrder.deliveryDate!.substring(0, 10),
                                         fontSize: subtitleFontSize - 1,
                                         isBold: true,
-                                        color: Colors.grey[600],
+                                        color: Colors.grey[600]!,
                                       ),
                                     ],
                                   ),
@@ -310,8 +314,8 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                       isBold: true,
                                     ),
                                     CustomText(
-                                      controller.userName,
-                                      color: Colors.grey[600],
+                                      (controller as CartController).userName,
+                                      color: Colors.grey[600]!,
                                       fontSize: subtitleFontSize - 1,
                                       isBold: true,
                                     ),
@@ -339,7 +343,7 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                           CustomText(
                                             mOrder.billingAddress ?? "",
                                             align: TextAlign.end,
-                                            color: Colors.grey[600],
+                                            color: Colors.grey[600]!,
                                             fontSize: subtitleFontSize - 1,
                                             isBold: true,
                                           ),
@@ -372,8 +376,8 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                       isBold: true,
                                     ),
                                     CustomText(
-                                      mOrder.payment.option.name,
-                                      color: Colors.grey[600],
+                                      mOrder.payment!.option!.name ?? "",
+                                      color: Colors.grey[600]!,
                                       fontSize: subtitleFontSize - 1,
                                       isBold: true,
                                     ),
@@ -395,8 +399,8 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                       isBold: true,
                                     ),
                                     CustomText(
-                                      '$rupeeUnicode${(mOrder.product.price + (mOrder.orderCost.convenienceCharges.cost / (mOrder?.orderCost?.quantity ?? 1)))?.toStringAsFixed(2)}',
-                                      color: Colors.grey[600],
+                                      '$rupeeUnicode${(mOrder.product!.price! + (mOrder.orderCost!.convenienceCharges!.cost! / (mOrder.orderCost?.quantity ?? 1))).toStringAsFixed(2)}',
+                                      color: Colors.grey[600]!,
                                       fontSize: subtitleFontSize - 1,
                                       isBold: true,
                                     ),
@@ -414,18 +418,18 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                       isBold: true,
                                     ),
                                     CustomText(
-                                      '${mOrder?.orderCost?.quantity}',
-                                      color: Colors.grey[600],
+                                      '${mOrder.orderCost?.quantity}',
+                                      color: Colors.grey[600]!,
                                       fontSize: subtitleFontSize - 1,
                                       isBold: true,
                                     ),
                                   ],
                                 ),
-                                if ((mOrder?.orderCost?.productDiscount?.cost ??
+                                if ((mOrder.orderCost?.productDiscount?.cost ??
                                         0) !=
                                     0)
                                   verticalSpaceSmall,
-                                if ((mOrder?.orderCost?.productDiscount?.cost ??
+                                if ((mOrder.orderCost?.productDiscount?.cost ??
                                         0) !=
                                     0)
                                   Row(
@@ -439,19 +443,19 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                         isBold: true,
                                       ),
                                       CustomText(
-                                        '$rupeeUnicode${mOrder?.orderCost?.productDiscount?.cost?.toStringAsFixed(2)}',
+                                        '$rupeeUnicode${mOrder.orderCost?.productDiscount?.cost?.toStringAsFixed(2)}',
                                         color: green,
                                         fontSize: subtitleFontSize - 1,
                                         isBold: true,
                                       ),
                                     ],
                                   ),
-                                if ((mOrder?.orderCost?.promocodeDiscount
+                                if ((mOrder.orderCost?.promocodeDiscount
                                             ?.cost ??
                                         0) !=
                                     0)
                                   verticalSpaceSmall,
-                                if ((mOrder?.orderCost?.promocodeDiscount
+                                if ((mOrder.orderCost?.promocodeDiscount
                                             ?.cost ??
                                         0) !=
                                     0)
@@ -466,7 +470,7 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                         isBold: true,
                                       ),
                                       CustomText(
-                                        '$rupeeUnicode${mOrder?.orderCost?.promocodeDiscount?.cost?.toStringAsFixed(2)}',
+                                        '$rupeeUnicode${mOrder.orderCost?.promocodeDiscount?.cost?.toStringAsFixed(2)}',
                                         color: green,
                                         fontSize: subtitleFontSize - 1,
                                         isBold: true,
@@ -489,8 +493,8 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                       isBold: true,
                                     ),
                                     CustomText(
-                                      '$rupeeUnicode${((mOrder.product.price * (mOrder?.orderCost?.quantity ?? 1)) - (mOrder?.orderCost?.productDiscount?.cost ?? 0) - (mOrder?.orderCost?.promocodeDiscount?.cost ?? 0) + (mOrder?.orderCost?.convenienceCharges?.cost ?? 0)).toStringAsFixed(2)}',
-                                      color: Colors.grey[600],
+                                      '$rupeeUnicode${((mOrder.product!.price! * (mOrder.orderCost?.quantity ?? 1)) - (mOrder.orderCost?.productDiscount?.cost ?? 0) - (mOrder.orderCost?.promocodeDiscount?.cost ?? 0) + (mOrder.orderCost?.convenienceCharges?.cost ?? 0)).toStringAsFixed(2)}',
+                                      color: Colors.grey[600]!,
                                       fontSize: subtitleFontSize - 1,
                                       isBold: true,
                                     ),
@@ -508,7 +512,7 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                       color: Colors.grey,
                                     ),
                                     CustomText(
-                                      '$rupeeUnicode${mOrder?.orderCost?.gstCharges?.cost?.toStringAsFixed(2)}',
+                                      '$rupeeUnicode${mOrder.orderCost?.gstCharges?.cost?.toStringAsFixed(2)}',
                                       color: green,
                                       fontSize: subtitleFontSize - 1,
                                       isBold: true,
@@ -527,11 +531,10 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                       color: Colors.grey,
                                     ),
                                     CustomText(
-                                      mOrder?.orderCost?.deliveryCharges
-                                                  ?.cost ==
+                                      mOrder.orderCost?.deliveryCharges?.cost ==
                                               0
                                           ? "Free Delivery"
-                                          : '$rupeeUnicode${mOrder?.orderCost?.deliveryCharges?.cost?.toStringAsFixed(2)}',
+                                          : '$rupeeUnicode${mOrder.orderCost?.deliveryCharges?.cost?.toStringAsFixed(2)}',
                                       color: green,
                                       fontSize: subtitleFontSize - 1,
                                       isBold: true,
@@ -554,7 +557,7 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                       color: Colors.grey,
                                     ),
                                     CustomText(
-                                      '$rupeeUnicode${mOrder?.orderCost?.cost}',
+                                      '$rupeeUnicode${mOrder.orderCost?.cost}',
                                       color: textIconOrange,
                                       fontSize: subtitleFontSize + 2,
                                       isBold: true,
@@ -576,7 +579,7 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                     ),
                                     Expanded(
                                       child: CustomText(
-                                        mOrder?.status?.state ?? '-',
+                                        mOrder.status?.state ?? '-',
                                         align: TextAlign.end,
                                         color: textIconOrange,
                                         fontSize: subtitleFontSize + 2,
@@ -589,7 +592,7 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                               ],
                             ),
                             if (!(<int>[9, 12]
-                                .contains(mOrder?.status?.id ?? -1))) ...[
+                                .contains(mOrder.status?.id ?? -1))) ...[
                               verticalSpace(50),
                               ElevatedButton(
                                 style: ElevatedButton.styleFrom(

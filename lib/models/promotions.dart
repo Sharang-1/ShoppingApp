@@ -6,10 +6,10 @@ Promotions promotionsFromJson(String str) =>
 String promotionsToJson(Promotions data) => json.encode(data.toJson());
 
 class Promotions {
-  num records;
-  num startIndex;
-  num limit;
-  List<Promotion> promotions;
+  num? records;
+  num? startIndex;
+  num? limit;
+  List<Promotion>? promotions;
 
   Promotions({
     this.records,
@@ -30,26 +30,26 @@ class Promotions {
         "records": records,
         "startIndex": startIndex,
         "limit": limit,
-        "promotions": List<dynamic>.from(promotions.map((x) => x.toJson())),
+        "promotions": List<dynamic>.from(promotions!.map((x) => x.toJson())),
       };
 }
 
 class Promotion {
-  String key;
-  String name;
-  bool enabled;
-  String created;
-  String modified;
-  String startDate;
-  String endDate;
-  num discount;
-  bool exclusive;
-  String position;
-  Banner banner;
-  List<num> products;
-  String filter;
-  num time;
-  List<Demographic> demographics;
+  String? key;
+  String? name;
+  bool? enabled;
+  String? created;
+  String? modified;
+  String? startDate;
+  String? endDate;
+  num? discount;
+  bool? exclusive;
+  String? position;
+  Banner? banner;
+  List<num>? products;
+  String? filter;
+  num? time;
+  List<Demographic>? demographics;
 
   Promotion({
     this.key,
@@ -103,21 +103,21 @@ class Promotion {
         "discount": discount == null ? null : discount,
         "exclusive": exclusive == null ? null : exclusive,
         "position": position == null ? null : position,
-        "banner": banner == null ? null : banner.toJson(),
+        "banner": banner == null ? null : banner!.toJson(),
         "products": products == null
             ? null
-            : List<dynamic>.from(products.map((x) => x)),
+            : List<dynamic>.from(products!.map((x) => x)),
         "demographics": demographics == null
             ? null
-            : List<dynamic>.from(demographics.map((x) => x.toJson())),
+            : List<dynamic>.from(demographics!.map((x) => x.toJson())),
         "filter": filter == null ? null : filter,
         "time": time == null ? null : time,
       };
 }
 
 class Banner {
-  String name;
-  String originalName;
+  String? name;
+  String? originalName;
 
   Banner({
     this.name,
@@ -136,8 +136,8 @@ class Banner {
 }
 
 class Demographic {
-  int id;
-  String name;
+  int? id;
+  String? name;
 
   Demographic({
     this.id,

@@ -2,14 +2,14 @@ import 'package:flutter/foundation.dart';
 
 class Post {
   final String title;
-  final String imageUrl;
+  final String? imageUrl;
   final String userId;
-  final String documentId;
-  final String imageFileName;
+  final String? documentId;
+  final String? imageFileName;
 
   Post({
-    @required this.userId,
-    @required this.title,
+    required this.userId,
+    required this.title,
     this.documentId,
     this.imageUrl,
     this.imageFileName,
@@ -24,7 +24,7 @@ class Post {
     };
   }
 
-  static Post fromMap(Map<String, dynamic> map, String documentId) {
+  static Post? fromMap(Map<String, dynamic> map, String documentId) {
     if (map == null) return null;
 
     return Post(

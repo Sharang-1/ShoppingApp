@@ -13,8 +13,8 @@ class PaymentOption {
     this.name,
   });
 
-  int id;
-  String name;
+  int? id;
+  String? name;
 
   factory PaymentOption.fromJson(Map<String, dynamic> json) => PaymentOption(
         id: json["id"],

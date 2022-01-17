@@ -3,85 +3,83 @@ description: A new Flutter project.
 version: 2.1.1+20
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
+  flutter: 2.0.5
 
 dependencies:
+  async: ^2.8.2
+  auto_size_text: ^3.0.0
+  cached_network_image: ^3.2.0
+  carousel_slider: 4.0.0
+  connectivity_plus: ^1.1.0
+  convex_bottom_bar: ^3.0.0
+  cupertino_icons: ^1.0.4
+  custom_radio_grouped_button: ^2.1.1
+  dio: ^4.0.4
+  dotted_border: ^2.0.0+2
+  fimber: 0.6.4
+  firebase_analytics: ^9.0.3
+  firebase_core: ^1.10.5
+  firebase_crashlytics: ^2.4.3
+  firebase_dynamic_links: ^3.0.2
+  firebase_messaging: ^11.2.3
+  firebase_performance: ^0.8.0+2
+  firebase_remote_config: ^1.0.2
+  flick_video_player: ^0.3.1
   flutter:
     sdk: flutter
-  cupertino_icons:
-  firebase_messaging: ^7.0.3
-  firebase_analytics:
-  firebase_core:
-  firebase_dynamic_links: ^0.6.3
-  firebase_crashlytics:
-  firebase_performance:
-  firebase_remote_config:
-
-  page_transition: ^2.0.2
-  http:
-  async:
-  provider:
-  image_picker:
-  cached_network_image:
-  flutter_cache_manager:
-  google_tag_manager: ^0.0.3
-  dio: 3.0.9
-  http_parser:
-  shared_preferences: 0.5.12+4
-  logger: 0.8.3
-  fimber: 0.4.0
-  location: ^2.5.0
-  google_maps_flutter:
-  carousel_slider: 3.0.0
-  intl_phone_number_input: ^0.4.6+2
-  pin_code_text_field: ^1.2.1
-  url_launcher: ^5.4.2
-  percent_indicator: "^2.1.1"
-  flutter_svg: ^0.22.0
-  flutter_rating_bar: ^3.0.1+1
-  sliver_fab: 1.0.0
-  international_phone_input: 1.0.4
-  intl:
-  pull_to_refresh: 1.6.4
-  photo_view: 0.10.2
-  get: 3.22.2
-  package_info: 0.4.3+2
-  intro_slider: 2.3.3
-  share: 0.6.5+4
-  rate_my_app: 0.7.2
-  rating_dialog: ^1.0.0
-  geolocator: ^6.0.0+4
-  permission_handler: ^5.0.1+1
-  google_api_headers: ">=0.1.0 <1.0.0"
-  google_maps_webservice: ^0.0.19
-  tuple: ^1.0.3
-  overlay_support: ^1.0.5
-  font_awesome_flutter: 8.11.0
-  data_connection_checker: ^0.3.4
-  sign_in_with_apple: ^2.5.4
-  grouped_list: ^4.0.0
-  launch_review: ^3.0.1
-  flutter_credit_card: ^2.0.0
-  dio_retry: ^0.1.9-beta
-  vibration: ^1.7.3
-  tutorial_coach_mark: ^1.0.0
-  razorpay_flutter: ^1.2.5
-  open_appstore: ^1.0.2
-  search_widget: ^1.0.2
-  auto_size_text: ^2.1.0
-  convex_bottom_bar: ^3.0.0
-  readmore: ^2.1.0
-  gender_picker: ^1.1.0
-  geocoder: ^0.2.1
-  md2_tab_indicator: ^1.0.2
-  video_player: ^2.1.6
-  flick_video_player: ^0.3.1
-  custom_radio_grouped_button: ^1.0.6+1
-  version: ^2.0.0
-  visibility_detector: ^0.2.0
-  shimmer: ^2.0.0
+  flutter_cache_manager: ^3.3.0
+  flutter_credit_card: ^3.0.1
   flutter_intro: ^2.3.1
-  dotted_border: ^2.0.0+1
+  flutter_keyboard_visibility: ^5.1.0
+  flutter_rating_bar: ^4.0.0
+  flutter_svg: ^1.0.0
+  font_awesome_flutter: ^9.2.0
+  gender_picker: ^1.1.0
+  geocoding: ^2.0.2
+  geolocator: ^8.0.0
+  get: ^4.5.1
+  google_api_headers: ^1.1.1
+  google_maps_flutter: ^2.1.1
+  google_maps_webservice: 0.0.20-nullsafety.5
+  google_tag_manager: ^0.1.0
+  grouped_list: ^4.1.0
+  http: ^0.13.4
+  http_parser: ^4.0.0
+  image_picker: ^0.8.4+4
+  intl: null
+  intl_phone_number_input: ^0.7.0+2
+  intro_slider: ^3.0.2
+  launch_review: ^3.0.1
+  libphonenumber: ^2.0.2
+  location: ^4.3.0
+  logger: ^1.1.0
+  md2_tab_indicator: ^1.0.2
+  overlay_support: ^1.2.1
+  package_info: ^2.0.2
+  page_transition: ^2.0.2
+  percent_indicator: ^3.4.0
+  permission_handler: ^8.3.0
+  photo_view: 0.13.0
+  pin_code_text_field: ^1.8.0
+  provider: ^5.0.0
+  pull_to_refresh: 2.0.0
+  rate_my_app: ^1.1.1+1
+  rating_dialog: ^2.0.3
+  razorpay_flutter: ^1.2.7
+  readmore: ^2.1.0
+  share: ^2.0.4
+  shared_preferences: ^2.0.11
+  shimmer: ^2.0.0
+  sign_in_with_apple: ^3.3.0
+  store_redirect: ^2.0.0
+  tuple: ^2.0.0
+  tutorial_coach_mark: ^1.2.0
+  url_launcher: ^6.0.17
+  version: ^2.0.0
+  vibration: ^1.7.4-nullsafety.0
+  video_player: ^2.2.7
+  visibility_detector: ^0.2.2
 
 dev_dependencies:
   flutter_test:

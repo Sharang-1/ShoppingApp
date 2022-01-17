@@ -4,8 +4,6 @@ import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
-
-import '../shared/shared_styles.dart';
 import '../widgets/custom_text.dart';
 import '../widgets/shimmer/shimmer_widget.dart';
 import 'gallery_view.dart';
@@ -20,8 +18,8 @@ class HomeSlider extends StatefulWidget {
   final bool fromProduct;
 
   const HomeSlider({
-    Key key,
-    this.imgList,
+    Key? key,
+    required this.imgList,
     this.videoList = const [],
     this.sizeChartUrl = '',
     this.aspectRatio = 1.6,
@@ -210,9 +208,7 @@ class _HomeSliderState extends State<HomeSlider> {
                         ),
                     ]),
               ),
-              if (((widget?.imgList?.length ?? 0) +
-                          (widget?.videoList?.length ?? 0)) >
-                      1 &&
+              if (((widget.imgList.length) + (widget.videoList.length)) > 1 &&
                   (widget.fromExplore))
                 Positioned(
                   bottom: 0,
@@ -236,7 +232,7 @@ class _HomeSliderState extends State<HomeSlider> {
                           ),
                         );
                       }).toList(),
-                      if ((widget?.videoList?.length ?? 0) > 0)
+                      if ((widget.videoList.length) > 0)
                         ...widget.videoList
                             .map(
                               (e) => Container(
@@ -266,8 +262,8 @@ class _HomeSliderState extends State<HomeSlider> {
             ],
           ),
         ),
-        if (((widget?.imgList?.length ?? 0) +
-                    (widget?.videoList?.length ?? 0) +
+        if (((widget.imgList.length) +
+                    (widget.videoList.length) +
                     (widget.sizeChartUrl == null ? 0 : 1)) >
                 1 &&
             !(widget.fromExplore))
@@ -288,7 +284,7 @@ class _HomeSliderState extends State<HomeSlider> {
                   ),
                 );
               }).toList(),
-              if ((widget?.videoList?.length ?? 0) > 0)
+              if ((widget.videoList.length) > 0)
                 ...widget.videoList
                     .map(
                       (e) => Container(

@@ -19,7 +19,7 @@ import 'services/push_notification_service.dart';
 import 'services/remote_config_service.dart';
 import 'services/wishlist_service.dart';
 
-T locator<T>({String tag}) => Get.find<T>(tag: tag);
+T locator<T>({String? tag}) => Get.find<T>(tag: tag);
 
 void setupLocator() {
   Get.lazyPut(() => AnalyticsService());

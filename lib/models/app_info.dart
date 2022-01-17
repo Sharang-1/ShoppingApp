@@ -12,10 +12,10 @@ class AppInfo {
     this.pollWaitTime,
   });
 
-  String lastUpdate;
-  String version;
-  Payment payment;
-  int pollWaitTime;
+  String? lastUpdate;
+  String? version;
+  Payment? payment;
+  int? pollWaitTime;
 
   factory AppInfo.fromJson(Map<String, dynamic> json) => AppInfo(
         lastUpdate: json["lastUpdate"],
@@ -27,7 +27,7 @@ class AppInfo {
   Map<String, dynamic> toJson() => {
         "lastUpdate": lastUpdate,
         "version": version,
-        "payment": payment.toJson(),
+        "payment": payment?.toJson(),
         "pollWaitTime": pollWaitTime,
       };
 }
@@ -39,9 +39,9 @@ class Payment {
     this.email,
   });
 
-  String apiKey;
-  String merchantName;
-  String email;
+  String? apiKey;
+  String? merchantName;
+  String? email;
 
   factory Payment.fromJson(Map<String, dynamic> json) => Payment(
         apiKey: json["apiKey"],

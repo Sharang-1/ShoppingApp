@@ -9,7 +9,7 @@ import '../widgets/section_builder.dart';
 import 'package:get/get.dart';
 
 class CategoriesView extends StatefulWidget {
-  CategoriesView({Key key}) : super(key: key);
+  CategoriesView({Key? key}) : super(key: key);
 
   @override
   _CategoriesViewState createState() => _CategoriesViewState();
@@ -79,6 +79,7 @@ class _CategoriesViewState extends State<CategoriesView> {
                         key: categoriesGridKey,
                         context: context,
                         layoutType: LayoutType.CATEGORY_LAYOUT_4,
+                        onEmptyList: () {},
                         controller: CategoriesGridViewBuilderController(),
                         filter: categoryFilter,
                         scrollDirection: Axis.vertical,

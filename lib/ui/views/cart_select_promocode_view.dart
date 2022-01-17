@@ -28,16 +28,16 @@ class SelectPromocode extends StatefulWidget {
   final OrderDetails orderDetails;
 
   const SelectPromocode({
-    Key key,
-    @required this.productId,
-    @required this.availableCoupons,
-    @required this.promoCode,
-    @required this.promoCodeId,
-    @required this.size,
-    @required this.color,
-    @required this.qty,
-    @required this.finalTotal,
-    @required this.orderDetails,
+    Key? key,
+    required this.productId,
+    required this.availableCoupons,
+    required this.promoCode,
+    required this.promoCodeId,
+    required this.size,
+    required this.color,
+    required this.qty,
+    required this.finalTotal,
+    required this.orderDetails,
   }) : super(key: key);
 
   @override
@@ -45,8 +45,8 @@ class SelectPromocode extends StatefulWidget {
 }
 
 class _SelectPromocodeState extends State<SelectPromocode> {
-  String couponRadioValue;
-  String couponGrpValue;
+  String? couponRadioValue = "";
+  String? couponGrpValue = "";
   final _controller = new TextEditingController();
 
   @override
@@ -251,8 +251,8 @@ class _SelectPromocodeState extends State<SelectPromocode> {
                         (Coupon c) => GestureDetector(
                           onTap: () => setState(
                             () {
-                              couponGrpValue = couponRadioValue = c.code;
-                              _controller.text = c.code;
+                              couponGrpValue = couponRadioValue = c.code!;
+                              _controller.text = c.code!;
                               applyPromoCode();
                             },
                           ),
@@ -260,7 +260,7 @@ class _SelectPromocodeState extends State<SelectPromocode> {
                             decoration: BoxDecoration(
                               border: Border(
                                 bottom: BorderSide(
-                                  color: Colors.grey[200],
+                                  color: Colors.grey[200]!,
                                 ),
                               ),
                             ),
@@ -268,12 +268,13 @@ class _SelectPromocodeState extends State<SelectPromocode> {
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
-                                Radio(
-                                  value: c.code,
+                                Radio<String>(
+                                  value: c.code ?? "",
                                   groupValue: couponGrpValue,
                                   onChanged: (val) {
                                     setState(() {
-                                      couponGrpValue = couponRadioValue = val;
+                                      couponGrpValue =
+                                          couponRadioValue = val as String;
                                       _controller.text = val;
                                       applyPromoCode();
                                     });
@@ -288,7 +289,7 @@ class _SelectPromocodeState extends State<SelectPromocode> {
                                     children: <Widget>[
                                       CustomText(
                                         c.name.toString(),
-                                        color: Colors.grey[700],
+                                        color: Colors.grey[700]!,
                                         isBold: true,
                                       ),
                                     ],
@@ -312,7 +313,7 @@ class _SelectPromocodeState extends State<SelectPromocode> {
 
   void applyPromoCode() async {
     if (_controller.text == "") return;
-    FocusManager.instance.primaryFocus.unfocus();
+    FocusManager.instance.primaryFocus!.unfocus();
     final res = await locator<APIService>().applyPromocode(
       widget.productId.toString(),
       widget.qty,
@@ -323,10 +324,10 @@ class _SelectPromocodeState extends State<SelectPromocode> {
       _controller.text = "";
 
       OrderDetails orderDetails = widget.orderDetails;
-      orderDetails.promocode = res.promocodeDiscount.promocode;
+      orderDetails.promocode = res.promocodeDiscount!.promocode ?? "";
       orderDetails.promocodeDiscount =
-          '$rupeeUnicode${res.promocodeDiscount.cost}';
-      orderDetails.total = res.cost.toStringAsFixed(2);
+          '$rupeeUnicode${res.promocodeDiscount!.cost}';
+      orderDetails.total = res.cost!.toStringAsFixed(2);
 
       ScaffoldMessenger.of(context).showSnackBar(
         new SnackBar(content: Text(COUPON_APPLIED.tr)),
@@ -337,12 +338,12 @@ class _SelectPromocodeState extends State<SelectPromocode> {
         PageTransition(
             child: SelectAddress(
               productId: widget.productId,
-              promoCode: res.promocodeDiscount.promocode,
-              promoCodeId: res.promocodeDiscount.promocodeId,
+              promoCode: res.promocodeDiscount!.promocode ?? "",
+              promoCodeId: res.promocodeDiscount!.promocodeId ?? "",
               size: widget.size,
               color: widget.color,
               qty: widget.qty,
-              finalTotal: res.cost.toStringAsFixed(2),
+              finalTotal: res.cost!.toStringAsFixed(2),
               orderDetails: orderDetails,
             ),
             type: PageTransitionType.rightToLeft),

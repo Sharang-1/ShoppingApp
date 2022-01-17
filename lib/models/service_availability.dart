@@ -12,9 +12,9 @@ class ServiceAvailability {
     this.message,
   });
 
-  String pincode;
-  bool serviceAvailable;
-  String message;
+  String? pincode;
+  bool? serviceAvailable;
+  String? message;
 
   factory ServiceAvailability.fromJson(Map<String, dynamic> json) =>
       ServiceAvailability(

@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 
 class ReviewsScreen extends StatelessWidget {
   final Reviews reviews;
-  const ReviewsScreen({Key key, @required this.reviews}) : super(key: key);
+  const ReviewsScreen({Key? key, required this.reviews}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,7 @@ class ReviewsScreen extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                ...reviews.items.map((e) => reviewCard(e)).toList(),
+                ...reviews.items!.map((e) => reviewCard(e)).toList(),
               ],
             ),
           ),

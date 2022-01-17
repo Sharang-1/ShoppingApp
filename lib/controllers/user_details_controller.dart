@@ -19,34 +19,34 @@ class UserDetailsController extends BaseController {
   String dateTimeString = DateTime.now().millisecondsSinceEpoch.toString();
 
   final ageLookup = locator<LookupController>()
-      ?.lookups
-      ?.where((element) => element.sectionName.toLowerCase() == "user")
-      ?.first
-      ?.sections
+      .lookups
+      .where((element) => element.sectionName!.toLowerCase() == "user")
+      .first
+      .sections
       ?.where(
         (e) => e.option == 'age',
       )
-      ?.first
-      ?.values;
+      .first
+      .values;
 
   final genderLookup = locator<LookupController>()
-      ?.lookups
-      ?.where((element) => element.sectionName.toLowerCase() == "user")
-      ?.first
-      ?.sections
+      .lookups
+      .where((element) => element.sectionName!.toLowerCase() == "user")
+      .first
+      .sections
       ?.where(
         (e) => e.option == 'gender',
       )
-      ?.first
-      ?.values;
+      .first
+      .values;
 
-  String token;
+  String? token;
 
   void showNotDeliveringDialog() {
     DialogService.showNotDeliveringDialog();
   }
 
-  UserDetails mUserDetails = locator<HomeController>().details;
+  UserDetails? mUserDetails = locator<HomeController>().details;
   Future getUserDetails() async {
     setBusy(true);
     token = (await SharedPreferences.getInstance()).getString(Authtoken);
@@ -61,8 +61,9 @@ class UserDetailsController extends BaseController {
   Future updateUserPhoto() async {
     setBusy(true);
     File file;
+    final ImagePicker _picker = ImagePicker();
     //ignore: deprecated_member_use
-    final pickedFile = await ImagePicker.pickImage(source: ImageSource.gallery);
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       file = File(pickedFile.path);
       if (await _apiService.updateUserPic(file)) {
@@ -75,14 +76,14 @@ class UserDetailsController extends BaseController {
 
   Future updateUserDetails() async {
     setBusy(true);
-    final result = await _apiService.updateUserData(mUserDetails);
+    final result = await _apiService.updateUserData(mUserDetails!);
     setBusy(false);
     if (result != null) {
       mUserDetails = result;
     }
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString(Name, mUserDetails.name);
-    await _addressService.setUpAddress(mUserDetails.contact);
+    prefs.setString(Name, mUserDetails!.name!);
+    await _addressService.setUpAddress(mUserDetails!.contact!);
     update();
     locator<HomeController>().updateUserDetails();
   }

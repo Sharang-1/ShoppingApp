@@ -10,13 +10,13 @@ class Appointments {
     this.offset,
     this.limit,
     this.records,
-    this.appointments,
+    required this.appointments,
   });
 
-  int offset;
-  int limit;
-  int records;
-  List<AppointmentData> appointments;
+  int? offset;
+  int? limit;
+  int? records;
+  List<AppointmentData?> appointments;
 
   factory Appointments.fromJson(Map<String, dynamic> json) {
     List<AppointmentData> appointmentElements;
@@ -38,7 +38,8 @@ class Appointments {
         "offset": offset,
         "limit": limit,
         "records": records,
-        "appointments": List<dynamic>.from(appointments.map((x) => x.toJson())),
+        "appointments":
+            List<dynamic>.from(appointments.map((x) => x?.toJson())),
       };
 }
 
@@ -54,14 +55,14 @@ class AppointmentData {
     this.seller,
   });
 
-  String id;
-  String userId;
-  DateTime timeSlotStart;
-  DateTime timeSlotEnd;
+  String? id;
+  String? userId;
+  DateTime? timeSlotStart;
+  DateTime? timeSlotEnd;
   dynamic status;
-  String customerMessage;
-  String sellerMessage;
-  SellerData seller;
+  String? customerMessage;
+  String? sellerMessage;
+  SellerData? seller;
 
   factory AppointmentData.fromJson(Map<String, dynamic> json) =>
       AppointmentData(
@@ -79,8 +80,8 @@ class AppointmentData {
   Map<String, dynamic> toJson() => {
         "id": id,
         "userId": userId,
-        "timeSlotStart": timeSlotStart.toIso8601String(),
-        "timeSlotEnd": timeSlotEnd.toIso8601String(),
+        "timeSlotStart": timeSlotStart?.toIso8601String(),
+        "timeSlotEnd": timeSlotEnd?.toIso8601String(),
         "status": status,
         "customerMessage": customerMessage == null ? null : customerMessage,
         "sellerMessage": sellerMessage,
@@ -95,9 +96,9 @@ class SellerData {
     this.contact,
   });
 
-  String id;
-  String name;
-  Contact contact;
+  String? id;
+  String? name;
+  Contact? contact;
 
   factory SellerData.fromJson(Map<String, dynamic> json) => SellerData(
         id: json["id"],
@@ -108,7 +109,7 @@ class SellerData {
   Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
-        "contact": contact.toJson(),
+        "contact": contact?.toJson(),
       };
 }
 
@@ -124,14 +125,14 @@ class Contact {
     this.geoLocation,
   });
 
-  String address;
-  String city;
-  String state;
-  int pincode;
-  String email;
-  AryNumber primaryNumber;
-  AryNumber secondaryNumber;
-  GeoLocation geoLocation;
+  String? address;
+  String? city;
+  String? state;
+  int? pincode;
+  String? email;
+  AryNumber? primaryNumber;
+  AryNumber? secondaryNumber;
+  GeoLocation? geoLocation;
 
   factory Contact.fromJson(Map<String, dynamic> json) => Contact(
         address: json["address"],
@@ -150,9 +151,9 @@ class Contact {
         "state": state,
         "pincode": pincode,
         "email": email,
-        "primaryNumber": primaryNumber.toJson(),
-        "secondaryNumber": secondaryNumber.toJson(),
-        "geoLocation": geoLocation.toJson(),
+        "primaryNumber": primaryNumber?.toJson(),
+        "secondaryNumber": secondaryNumber?.toJson(),
+        "geoLocation": geoLocation?.toJson(),
       };
 }
 
@@ -162,8 +163,8 @@ class GeoLocation {
     this.longitude,
   });
 
-  double latitude;
-  double longitude;
+  double? latitude;
+  double? longitude;
 
   factory GeoLocation.fromJson(Map<String, dynamic> json) => GeoLocation(
         latitude: json["latitude"].toDouble(),
@@ -178,19 +179,17 @@ class GeoLocation {
 
 class AryNumber {
   AryNumber({
-    this.code,
-    this.mobile,
+    required this.code,
+    required this.mobile,
   });
 
   String code;
   String mobile;
 
-  factory AryNumber.fromJson(Map<String, dynamic> json) => (json == null)
-      ? null
-      : AryNumber(
-          code: json["code"],
-          mobile: json["mobile"],
-        );
+  factory AryNumber.fromJson(Map<String, dynamic> json) => AryNumber(
+        code: json["code"],
+        mobile: json["mobile"],
+      );
 
   Map<String, dynamic> toJson() => {
         "code": code,

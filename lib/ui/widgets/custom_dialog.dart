@@ -7,12 +7,12 @@ class CustomDialog extends StatelessWidget {
   final String cancelTitle;
   final String confirmationTitle;
   final bool isConfirmationDialog;
-  final void Function() onConfirm;
-  final void Function() onCancel;
+  final void Function()? onConfirm;
+  final void Function()? onCancel;
 
   const CustomDialog({
-    Key key,
-    @required this.title,
+    Key? key,
+    required this.title,
     this.description = '',
     this.cancelTitle = '',
     this.confirmationTitle = 'OK',

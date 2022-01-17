@@ -20,13 +20,13 @@ import '../widgets/section_builder.dart';
 import '../widgets/shimmer/shimmer_widget.dart';
 
 class HomeViewList extends StatefulWidget {
-  final HomeController controller;
+  final HomeController? controller;
   final productUniqueKey;
   final sellerUniqueKey;
   final categoryUniqueKey;
 
   HomeViewList(
-      {Key key,
+      {Key? key,
       this.controller,
       this.productUniqueKey,
       this.sellerUniqueKey,
@@ -67,7 +67,7 @@ class _HomeViewListState extends State<HomeViewList> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                if ((controller?.topPromotion?.length ?? 0) == 0)
+                if ((controller.topPromotion.length) == 0)
                   Container(
                     height: 200,
                     child: ShimmerWidget(),
@@ -79,10 +79,10 @@ class _HomeViewListState extends State<HomeViewList> {
                     //   ),
                     // ),
                   ),
-                if ((controller?.topPromotion?.length ?? 0) > 0) ...[
+                if ((controller.topPromotion.length) > 0) ...[
                   HomeViewListHeader(
-                      title: controller?.remoteConfig
-                          ?.getString(TOP_PROMOTION_TITLE_EN)),
+                      title: controller.remoteConfig!
+                          .getString(TOP_PROMOTION_TITLE_EN)),
                   verticalSpaceTiny,
                   PromotionSlider(
                     aspectRatio: 4.0,
@@ -92,7 +92,7 @@ class _HomeViewListState extends State<HomeViewList> {
                   verticalSpaceSmall,
                 ],
                 FutureSectionBuilder(
-                  duration: sectionDelay['SECTION1'],
+                  duration: sectionDelay['SECTION1']!,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -100,6 +100,7 @@ class _HomeViewListState extends State<HomeViewList> {
                       SectionBuilder(
                         key: widget.productUniqueKey ?? UniqueKey(),
                         context: context,
+                        onEmptyList: () {},
                         layoutType: LayoutType.PRODUCT_LAYOUT_2,
                         filter: ProductFilter(
                           subCategories: [
@@ -114,10 +115,10 @@ class _HomeViewListState extends State<HomeViewList> {
                         ),
                         scrollDirection: Axis.horizontal,
                         header: SectionHeader(
-                          title: controller?.remoteConfig
-                              ?.getString(HOMESCREEN_SECTION_4_TITLE_EN),
-                          subTitle: controller?.remoteConfig
-                              ?.getString(HOMESCREEN_SECTION_4_SUBTITLE_EN),
+                          title: controller.remoteConfig!
+                              .getString(HOMESCREEN_SECTION_4_TITLE_EN),
+                          subTitle: controller.remoteConfig!
+                              .getString(HOMESCREEN_SECTION_4_SUBTITLE_EN),
                           viewAll: () {
                             BaseController.goToProductListPage(ProductPageArg(
                               queryString:
@@ -130,12 +131,12 @@ class _HomeViewListState extends State<HomeViewList> {
                     ],
                   ),
                 ),
-                if ((controller?.bottomPromotion?.length ?? 0) > 0) ...[
+                if ((controller.bottomPromotion.length) > 0) ...[
                   SectionDivider(),
                   BottomPromotion(promotion: controller.bottomPromotion[0])
                 ],
                 FutureSectionBuilder(
-                  duration: sectionDelay['SECTION2'],
+                  duration: sectionDelay['SECTION2']!,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -145,16 +146,17 @@ class _HomeViewListState extends State<HomeViewList> {
                         context: context,
                         layoutType: LayoutType.PRODUCT_LAYOUT_2,
                         filter: ProductFilter(minDiscount: 5),
+                        onEmptyList: () {},
                         controller: ProductsGridViewBuilderController(
                           randomize: true,
                           limit: 10,
                         ),
                         scrollDirection: Axis.horizontal,
                         header: SectionHeader(
-                          title: controller?.remoteConfig
-                              ?.getString(HOMESCREEN_SECTION_2_TITLE_EN),
-                          subTitle: controller?.remoteConfig
-                              ?.getString(HOMESCREEN_SECTION_2_SUBTITLE_EN),
+                          title: controller.remoteConfig!
+                              .getString(HOMESCREEN_SECTION_2_TITLE_EN),
+                          subTitle: controller.remoteConfig!
+                              .getString(HOMESCREEN_SECTION_2_SUBTITLE_EN),
                           viewAll: () {
                             BaseController.goToProductListPage(ProductPageArg(
                               queryString: 'minDiscount=5;',
@@ -167,7 +169,7 @@ class _HomeViewListState extends State<HomeViewList> {
                   ),
                 ),
                 FutureSectionBuilder(
-                  duration: sectionDelay['SECTION3'],
+                  duration: sectionDelay['SECTION3']!,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -175,7 +177,9 @@ class _HomeViewListState extends State<HomeViewList> {
                       SectionBuilder(
                         context: context,
                         layoutType: LayoutType.DESIGNER_ID_1_2_LAYOUT,
+                        onEmptyList: () {},
                         controller: SellersGridViewBuilderController(
+                          removeId: '',
                           subscriptionTypes: [1, 2],
                           withProducts: true,
                           random: true,
@@ -183,10 +187,10 @@ class _HomeViewListState extends State<HomeViewList> {
                         ),
                         scrollDirection: Axis.horizontal,
                         header: SectionHeader(
-                          title: controller?.remoteConfig
-                              ?.getString(HOMESCREEN_SECTION_3_TITLE_EN),
-                          subTitle: controller?.remoteConfig
-                              ?.getString(HOMESCREEN_SECTION_3_SUBTITLE_EN),
+                          title: controller.remoteConfig!
+                              .getString(HOMESCREEN_SECTION_3_TITLE_EN),
+                          subTitle: controller.remoteConfig!
+                              .getString(HOMESCREEN_SECTION_3_SUBTITLE_EN),
                         ),
                       ),
                     ],
@@ -194,7 +198,7 @@ class _HomeViewListState extends State<HomeViewList> {
                 ),
                 SectionDivider(),
                 FutureSectionBuilder(
-                  duration: sectionDelay['SECTION4'],
+                  duration: sectionDelay['SECTION4']!,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -202,6 +206,7 @@ class _HomeViewListState extends State<HomeViewList> {
                       SectionBuilder(
                         key: widget.productUniqueKey ?? UniqueKey(),
                         context: context,
+                        onEmptyList: () {},
                         layoutType: LayoutType.PRODUCT_LAYOUT_2,
                         filter: ProductFilter(
                           // subCategories: [
@@ -223,10 +228,10 @@ class _HomeViewListState extends State<HomeViewList> {
                         ),
                         scrollDirection: Axis.horizontal,
                         header: SectionHeader(
-                          title: controller?.remoteConfig
-                              ?.getString(HOMESCREEN_SECTION_1_TITLE_EN),
-                          subTitle: controller?.remoteConfig
-                              ?.getString(HOMESCREEN_SECTION_1_SUBTITLE_EN),
+                          title: controller.remoteConfig!
+                              .getString(HOMESCREEN_SECTION_1_TITLE_EN),
+                          subTitle: controller.remoteConfig!
+                              .getString(HOMESCREEN_SECTION_1_SUBTITLE_EN),
                           viewAll: () {
                             BaseController.goToProductListPage(ProductPageArg(
                               queryString: 'maxPrice=750;',
@@ -238,12 +243,12 @@ class _HomeViewListState extends State<HomeViewList> {
                     ],
                   ),
                 ),
-                if ((controller?.bottomPromotion?.length ?? 0) > 1) ...[
+                if ((controller.bottomPromotion.length) > 1) ...[
                   SectionDivider(),
                   BottomPromotion(promotion: controller.bottomPromotion[1])
                 ],
                 FutureSectionBuilder(
-                  duration: sectionDelay['SECTION5'],
+                  duration: sectionDelay['SECTION5']!,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -253,6 +258,7 @@ class _HomeViewListState extends State<HomeViewList> {
                         context: context,
                         layoutType: LayoutType.DESIGNER_ID_3_LAYOUT,
                         fromHome: true,
+                        onEmptyList: () {},
                         controller: SellersGridViewBuilderController(
                           random: true,
                           subscriptionType: 3,
@@ -261,17 +267,17 @@ class _HomeViewListState extends State<HomeViewList> {
                         ),
                         scrollDirection: Axis.horizontal,
                         header: SectionHeader(
-                          title: controller?.remoteConfig
-                              ?.getString(HOMESCREEN_SECTION_5_TITLE_EN),
-                          subTitle: controller?.remoteConfig
-                              ?.getString(HOMESCREEN_SECTION_5_SUBTITLE_EN),
+                          title: controller.remoteConfig!
+                              .getString(HOMESCREEN_SECTION_5_TITLE_EN),
+                          subTitle: controller.remoteConfig!
+                              .getString(HOMESCREEN_SECTION_5_SUBTITLE_EN),
                         ),
                       ),
                     ],
                   ),
                 ),
                 FutureSectionBuilder(
-                  duration: sectionDelay['SECTION6'],
+                  duration: sectionDelay['SECTION6']!,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -280,6 +286,7 @@ class _HomeViewListState extends State<HomeViewList> {
                         key: widget.productUniqueKey ?? UniqueKey(),
                         context: context,
                         layoutType: LayoutType.PRODUCT_LAYOUT_2,
+                        onEmptyList: () {},
                         filter: ProductFilter(
                           subCategories: [
                             '1',
@@ -291,10 +298,10 @@ class _HomeViewListState extends State<HomeViewList> {
                         ),
                         scrollDirection: Axis.horizontal,
                         header: SectionHeader(
-                          title: controller?.remoteConfig
-                              ?.getString(HOMESCREEN_SECTION_6_TITLE_EN),
-                          subTitle: controller?.remoteConfig
-                              ?.getString(HOMESCREEN_SECTION_6_SUBTITLE_EN),
+                          title: controller.remoteConfig!
+                              .getString(HOMESCREEN_SECTION_6_TITLE_EN),
+                          subTitle: controller.remoteConfig!
+                              .getString(HOMESCREEN_SECTION_6_SUBTITLE_EN),
                           viewAll: () {
                             BaseController.goToProductListPage(ProductPageArg(
                               queryString: 'category=1;',
@@ -306,12 +313,12 @@ class _HomeViewListState extends State<HomeViewList> {
                     ],
                   ),
                 ),
-                if ((controller?.bottomPromotion?.length ?? 0) > 2) ...[
+                if ((controller.bottomPromotion.length) > 2) ...[
                   SectionDivider(),
                   BottomPromotion(promotion: controller.bottomPromotion[2])
                 ],
                 FutureSectionBuilder(
-                  duration: sectionDelay['SECTION7'],
+                  duration: sectionDelay['SECTION7']!,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -319,6 +326,7 @@ class _HomeViewListState extends State<HomeViewList> {
                       SectionBuilder(
                         context: context,
                         layoutType: LayoutType.DESIGNER_ID_3_LAYOUT,
+                        onEmptyList: () {},
                         controller: SellersGridViewBuilderController(
                           subscriptionTypes: [1, 3],
                           random: true,
@@ -326,17 +334,17 @@ class _HomeViewListState extends State<HomeViewList> {
                         ),
                         scrollDirection: Axis.horizontal,
                         header: SectionHeader(
-                          title: controller?.remoteConfig
-                              ?.getString(HOMESCREEN_SECTION_7_TITLE_EN),
-                          subTitle: controller?.remoteConfig
-                              ?.getString(HOMESCREEN_SECTION_7_SUBTITLE_EN),
+                          title: controller.remoteConfig!
+                              .getString(HOMESCREEN_SECTION_7_TITLE_EN),
+                          subTitle: controller.remoteConfig!
+                              .getString(HOMESCREEN_SECTION_7_SUBTITLE_EN),
                         ),
                       ),
                     ],
                   ),
                 ),
                 FutureSectionBuilder(
-                  duration: sectionDelay['SECTION8'],
+                  duration: sectionDelay['SECTION8']!,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -345,6 +353,7 @@ class _HomeViewListState extends State<HomeViewList> {
                         key: widget.productUniqueKey ?? UniqueKey(),
                         context: context,
                         layoutType: LayoutType.PRODUCT_LAYOUT_2,
+                        onEmptyList: () {},
                         filter: ProductFilter(
                           subCategories: [
                             '1',
@@ -365,17 +374,17 @@ class _HomeViewListState extends State<HomeViewList> {
                         ),
                         scrollDirection: Axis.horizontal,
                         header: SectionHeader(
-                          title: controller?.remoteConfig
-                              ?.getString(HOMESCREEN_SECTION_8_TITLE_EN),
-                          subTitle: controller?.remoteConfig
-                              ?.getString(HOMESCREEN_SECTION_8_SUBTITLE_EN),
+                          title: controller.remoteConfig!
+                              .getString(HOMESCREEN_SECTION_8_TITLE_EN),
+                          subTitle: controller.remoteConfig!
+                              .getString(HOMESCREEN_SECTION_8_SUBTITLE_EN),
                         ),
                       ),
                     ],
                   ),
                 ),
                 FutureSectionBuilder(
-                  duration: sectionDelay['SECTION9'],
+                  duration: sectionDelay['SECTION9']!,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -383,6 +392,7 @@ class _HomeViewListState extends State<HomeViewList> {
                       SectionBuilder(
                         context: context,
                         layoutType: LayoutType.DESIGNER_ID_1_2_LAYOUT,
+                        onEmptyList: () {},
                         controller: SellersGridViewBuilderController(
                           subscriptionTypes: [2],
                           withProducts: true,
@@ -391,21 +401,21 @@ class _HomeViewListState extends State<HomeViewList> {
                         ),
                         scrollDirection: Axis.horizontal,
                         header: SectionHeader(
-                          title: controller?.remoteConfig
-                              ?.getString(HOMESCREEN_SECTION_9_TITLE_EN),
-                          subTitle: controller?.remoteConfig
-                              ?.getString(HOMESCREEN_SECTION_9_SUBTITLE_EN),
+                          title: controller.remoteConfig!
+                              .getString(HOMESCREEN_SECTION_9_TITLE_EN),
+                          subTitle: controller.remoteConfig!
+                              .getString(HOMESCREEN_SECTION_9_SUBTITLE_EN),
                         ),
                       ),
                     ],
                   ),
                 ),
-                if ((controller?.bottomPromotion?.length ?? 0) > 3) ...[
+                if ((controller.bottomPromotion.length) > 3) ...[
                   SectionDivider(),
                   BottomPromotion(promotion: controller.bottomPromotion[3]),
                 ],
                 FutureSectionBuilder(
-                  duration: sectionDelay['SECTION10'],
+                  duration: sectionDelay['SECTION10']!,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -414,25 +424,26 @@ class _HomeViewListState extends State<HomeViewList> {
                         key: widget.categoryUniqueKey,
                         context: context,
                         layoutType: LayoutType.CATEGORY_LAYOUT_3,
+                        onEmptyList: () {},
                         controller: CategoriesGridViewBuilderController(),
                         scrollDirection: Axis.horizontal,
                         header: SectionHeader(
-                          title: controller?.remoteConfig
-                              ?.getString(HOMESCREEN_SECTION_10_TITLE_EN),
-                          subTitle: controller?.remoteConfig
-                              ?.getString(HOMESCREEN_SECTION_10_SUBTITLE_EN),
+                          title: controller.remoteConfig!
+                              .getString(HOMESCREEN_SECTION_10_TITLE_EN),
+                          subTitle: controller.remoteConfig!
+                              .getString(HOMESCREEN_SECTION_10_SUBTITLE_EN),
                           viewAll: () => BaseController.category(),
                         ),
                       ),
                     ],
                   ),
                 ),
-                if ((controller?.bottomPromotion?.length ?? 0) > 4) ...[
+                if ((controller.bottomPromotion.length) > 4) ...[
                   SectionDivider(),
                   BottomPromotion(promotion: controller.bottomPromotion[4])
                 ],
                 FutureSectionBuilder(
-                  duration: sectionDelay['SECTION11'],
+                  duration: sectionDelay['SECTION11']!,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -440,6 +451,7 @@ class _HomeViewListState extends State<HomeViewList> {
                       SectionBuilder(
                         context: context,
                         layoutType: LayoutType.DESIGNER_ID_1_2_LAYOUT,
+                        onEmptyList: () {},
                         controller: SellersGridViewBuilderController(
                           subscriptionTypes: [1],
                           withProducts: true,
@@ -448,21 +460,21 @@ class _HomeViewListState extends State<HomeViewList> {
                         ),
                         scrollDirection: Axis.horizontal,
                         header: SectionHeader(
-                          title: controller?.remoteConfig
-                              ?.getString(HOMESCREEN_SECTION_11_TITLE_EN),
-                          subTitle: controller?.remoteConfig
-                              ?.getString(HOMESCREEN_SECTION_11_SUBTITLE_EN),
+                          title: controller.remoteConfig!
+                              .getString(HOMESCREEN_SECTION_11_TITLE_EN),
+                          subTitle: controller.remoteConfig!
+                              .getString(HOMESCREEN_SECTION_11_SUBTITLE_EN),
                         ),
                       ),
                     ],
                   ),
                 ),
-                if ((controller?.bottomPromotion?.length ?? 0) > 5) ...[
+                if ((controller.bottomPromotion.length) > 5) ...[
                   SectionDivider(),
                   BottomPromotion(promotion: controller.bottomPromotion[5])
                 ],
                 FutureSectionBuilder(
-                  duration: sectionDelay['SECTION12'],
+                  duration: sectionDelay['SECTION12']!,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -470,6 +482,7 @@ class _HomeViewListState extends State<HomeViewList> {
                       SectionBuilder(
                         context: context,
                         layoutType: LayoutType.DESIGNER_ID_1_2_LAYOUT,
+                        onEmptyList: () {},
                         controller: SellersGridViewBuilderController(
                           subscriptionTypes: [1, 2],
                           withProducts: true,
@@ -479,21 +492,21 @@ class _HomeViewListState extends State<HomeViewList> {
                         ),
                         scrollDirection: Axis.horizontal,
                         header: SectionHeader(
-                          title: controller?.remoteConfig
-                              ?.getString(HOMESCREEN_SECTION_12_TITLE_EN),
-                          subTitle: controller?.remoteConfig
-                              ?.getString(HOMESCREEN_SECTION_12_SUBTITLE_EN),
+                          title: controller.remoteConfig!
+                              .getString(HOMESCREEN_SECTION_12_TITLE_EN),
+                          subTitle: controller.remoteConfig!
+                              .getString(HOMESCREEN_SECTION_12_SUBTITLE_EN),
                         ),
                       ),
                     ],
                   ),
                 ),
-                if ((controller?.bottomPromotion?.length ?? 0) > 6) ...[
+                if ((controller.bottomPromotion.length) > 6) ...[
                   SectionDivider(),
                   BottomPromotion(promotion: controller.bottomPromotion[6]),
                 ],
                 FutureSectionBuilder(
-                  duration: sectionDelay['SECTION13'],
+                  duration: sectionDelay['SECTION13']!,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -501,6 +514,7 @@ class _HomeViewListState extends State<HomeViewList> {
                       SectionBuilder(
                         key: widget.productUniqueKey ?? UniqueKey(),
                         context: context,
+                        onEmptyList: () {},
                         layoutType: LayoutType.PRODUCT_LAYOUT_2,
                         controller: ProductsGridViewBuilderController(
                           randomize: true,
@@ -508,10 +522,10 @@ class _HomeViewListState extends State<HomeViewList> {
                         ),
                         scrollDirection: Axis.horizontal,
                         header: SectionHeader(
-                          title: controller?.remoteConfig
-                              ?.getString(HOMESCREEN_SECTION_13_TITLE_EN),
-                          subTitle: controller?.remoteConfig
-                              ?.getString(HOMESCREEN_SECTION_13_SUBTITLE_EN),
+                          title: controller.remoteConfig!
+                              .getString(HOMESCREEN_SECTION_13_TITLE_EN),
+                          subTitle: controller.remoteConfig!
+                              .getString(HOMESCREEN_SECTION_13_SUBTITLE_EN),
                           viewAll: () {
                             BaseController.goToProductListPage(ProductPageArg(
                               queryString: '',
@@ -523,12 +537,12 @@ class _HomeViewListState extends State<HomeViewList> {
                     ],
                   ),
                 ),
-                if ((controller?.bottomPromotion?.length ?? 0) > 7) ...[
+                if ((controller.bottomPromotion.length) > 7) ...[
                   SectionDivider(),
                   BottomPromotion(promotion: controller.bottomPromotion[7]),
                 ],
                 FutureSectionBuilder(
-                  duration: sectionDelay['SECTION14'],
+                  duration: sectionDelay['SECTION14']!,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -536,23 +550,24 @@ class _HomeViewListState extends State<HomeViewList> {
                       SectionBuilder(
                         key: widget.sellerUniqueKey ?? UniqueKey(),
                         context: context,
+                        onEmptyList: () {},
                         layoutType: LayoutType.DESIGNER_ID_3_VERTICAL_LAYOUT,
                         fromHome: true,
                         scrollDirection: Axis.vertical,
                         controller:
                             SellersGridViewBuilderController(random: true),
                         header: SectionHeader(
-                          title: controller?.remoteConfig
-                              ?.getString(HOMESCREEN_SECTION_14_TITLE_EN),
-                          subTitle: controller?.remoteConfig
-                              ?.getString(HOMESCREEN_SECTION_14_SUBTITLE_EN),
+                          title: controller.remoteConfig!
+                              .getString(HOMESCREEN_SECTION_14_TITLE_EN),
+                          subTitle: controller.remoteConfig!
+                              .getString(HOMESCREEN_SECTION_14_SUBTITLE_EN),
                         ),
                       ),
                     ],
                   ),
                 ),
                 FutureSectionBuilder(
-                  duration: sectionDelay["LAST_SECTION"],
+                  duration: sectionDelay["LAST_SECTION"]!,
                   child: Column(
                     children: [
                       verticalSpaceSmall,

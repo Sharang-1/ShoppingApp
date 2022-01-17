@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:compound/ui/widgets/sliver_fab.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -9,7 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:readmore/readmore.dart';
 import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sliver_fab/sliver_fab.dart';
+
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -43,7 +44,7 @@ import '../widgets/seller_profile_slider.dart';
 
 class SellerIndi extends StatefulWidget {
   final Seller data;
-  const SellerIndi({Key key, this.data}) : super(key: key);
+  const SellerIndi({Key? key, required this.data}) : super(key: key);
 
   @override
   _SellerIndiState createState() => _SellerIndiState();
@@ -76,10 +77,10 @@ class _SellerIndiState extends State<SellerIndi> {
   final double headFont = 16;
   final double subHeadFont = 14;
   final double smallFont = 10;
-  String selectedTime;
-  int selectedIndex;
+  String? selectedTime;
+  int? selectedIndex;
 
-  TutorialCoachMark tutorialCoachMark;
+  late TutorialCoachMark tutorialCoachMark;
 
   final DynamicLinkService _dynamicLinkService = locator<DynamicLinkService>();
   final AnalyticsService _analyticsService = locator<AnalyticsService>();
@@ -103,7 +104,7 @@ class _SellerIndiState extends State<SellerIndi> {
     Day today = Day.fromJson(
         timingJson[DateFormat('EEEE').format(_dateTime).toLowerCase()]);
     if (today.start == 0 && today.end == 0) return "";
-    return "${getTime(today.start)} - ${getTime(today.end)}";
+    return "${getTime(today.start as int? ?? 0)} - ${getTime(today.end as int? ?? 0)}";
   }
 
   bool isOpenNow(Timing timing) {
@@ -111,8 +112,8 @@ class _SellerIndiState extends State<SellerIndi> {
     Map<String, dynamic> timingJson = timing.toJson();
     Day today = Day.fromJson(
         timingJson[DateFormat('EEEE').format(_dateTime).toLowerCase()]);
-    if (today.open) {
-      if ((_dateTime.hour >= today.start) && (_dateTime.hour < today.end))
+    if (today.open ?? false) {
+      if ((_dateTime.hour >= today.start!) && (_dateTime.hour < today.end!))
         return true;
       else
         return false;
@@ -127,14 +128,14 @@ class _SellerIndiState extends State<SellerIndi> {
       _analyticsService.sendAnalyticsEvent(
           eventName: "seller_view",
           parameters: <String, dynamic>{
-            "seller_id": widget?.data?.key,
-            "seller_name": widget?.data?.name,
-            "subscription_id": widget?.data?.subscriptionType?.id?.toString(),
-            "subscription_name": widget?.data?.subscriptionType?.name,
-            "establishment_id": widget?.data?.establishmentType?.id?.toString(),
-            "establishment_name": widget?.data?.establishmentType?.name,
-            "user_id": locator<HomeController>()?.details?.key,
-            "user_name": locator<HomeController>()?.details?.name,
+            "seller_id": widget.data.key,
+            "seller_name": widget.data.name,
+            "subscription_id": widget.data.subscriptionType?.id?.toString(),
+            "subscription_name": widget.data.subscriptionType?.name,
+            "establishment_id": widget.data.establishmentType?.id?.toString(),
+            "establishment_name": widget.data.establishmentType?.name,
+            "user_id": locator<HomeController>().details!.key,
+            "user_name": locator<HomeController>().details!.name,
           });
     } catch (e) {}
     showTutorial(
@@ -144,39 +145,40 @@ class _SellerIndiState extends State<SellerIndi> {
     );
   }
 
-  Seller sellerData;
-  Map<String, String> sellerDetails;
+  late Seller sellerData;
+  late Map<String, String> sellerDetails;
 
   void setupSellerDetails(Seller data) {
     sellerData = data;
     sellerDetails = {
-      DESIGNER_DETAILS_KEY.tr: data.key,
-      DESIGNER_DETAILS_NAME.tr: data.name,
-      DESIGNER_DETAILS_TYPE.tr: data?.establishmentType?.name?.toString(),
+      DESIGNER_DETAILS_KEY.tr: data.key ?? "",
+      DESIGNER_DETAILS_NAME.tr: data.name ?? "",
+      DESIGNER_DETAILS_TYPE.tr: data.establishmentType?.name?.toString() ?? "",
       DESIGNER_DETAILS_RATTINGS.tr:
           data.ratingAverage?.rating?.toString() ?? "",
-      DESIGNER_DETAILS_LAT.tr: data?.contact?.geoLocation?.latitude?.toString(),
+      DESIGNER_DETAILS_LAT.tr:
+          data.contact?.geoLocation?.latitude?.toString() ?? "",
       DESIGNER_DETAILS_LON.tr:
-          data?.contact?.geoLocation?.longitude?.toString(),
+          data.contact?.geoLocation?.longitude?.toString() ?? "",
       DESIGNER_DETAILS_APPOINTMENT.tr: "false",
-      DESIGNER_DETAILS_ADDRESS.tr: data?.contact?.address,
-      DESIGNER_DETAILS_CITY.tr: data?.contact?.city,
-      DESIGNER_SCREEN_SPECIALITY.tr: data.known,
-      DESIGNER_SCREEN_DESIGNES_CREATES.tr: data.designs,
-      DESIGNER_SCREEN_SERVICES_OFFERED.tr: data.operations,
-      DESIGNER_SCREEN_WORK_OFFERED.tr: data.works,
-      DESIGNER_SCREEN_TYPE.tr: data?.establishmentType?.name ??
-          accountTypeValues.reverse[data?.accountType ?? AccountType.SELLER],
-      DESIGNER_DETAILS_NOTE_FROM_DESIGNER.tr: data.bio,
-      DESIGNER_DETAILS_OWNER_NAME.tr: data.owner.name,
+      DESIGNER_DETAILS_ADDRESS.tr: data.contact?.address ?? "",
+      DESIGNER_DETAILS_CITY.tr: data.contact?.city ?? "",
+      DESIGNER_SCREEN_SPECIALITY.tr: data.known ?? "",
+      DESIGNER_SCREEN_DESIGNES_CREATES.tr: data.designs ?? "",
+      DESIGNER_SCREEN_SERVICES_OFFERED.tr: data.operations ?? "",
+      DESIGNER_SCREEN_WORK_OFFERED.tr: data.works ?? "",
+      DESIGNER_SCREEN_TYPE.tr: data.establishmentType?.name ??
+          accountTypeValues.reverse[data.accountType ?? AccountType.SELLER]!,
+      DESIGNER_DETAILS_NOTE_FROM_DESIGNER.tr: data.bio ?? "",
+      DESIGNER_DETAILS_OWNER_NAME.tr: data.owner!.name ?? "",
     };
   }
 
   void showTutorial(BuildContext context,
-      {GlobalKey sellerAboutKey, GlobalKey appointmentBtnKey}) {
+      {GlobalKey? sellerAboutKey, GlobalKey? appointmentBtnKey}) {
     SharedPreferences.getInstance().then(
       (prefs) {
-        if (prefs?.getBool(ShouldShowDesignerProfileTutorial) ?? true) {
+        if (prefs.getBool(ShouldShowDesignerProfileTutorial) ?? true) {
           List<TargetFocus> targets = <TargetFocus>[
             TargetFocus(
               identify: "Seller About",
@@ -226,7 +228,7 @@ class _SellerIndiState extends State<SellerIndi> {
             onClickOverlay: (targetFocus) => tutorialCoachMark.next(),
             onClickTarget: (targetFocus) => tutorialCoachMark.next(),
             onFinish: () async =>
-                await prefs?.setBool(ShouldShowDesignerProfileTutorial, false),
+                await prefs.setBool(ShouldShowDesignerProfileTutorial, false),
             hideSkip: true,
           );
         }
@@ -239,12 +241,12 @@ class _SellerIndiState extends State<SellerIndi> {
     double media = ((MediaQuery.of(context).size.width - 100) / 2);
     double multiplyer = 0.8;
 
-    setupSellerDetails(widget?.data);
+    setupSellerDetails(widget.data);
 
     String designerProfilePicUrl =
-        "$DESIGNER_PROFILE_PHOTO_BASE_URL/${sellerData?.owner?.key}";
+        "$DESIGNER_PROFILE_PHOTO_BASE_URL/${sellerData.owner?.key}";
 
-    Timing _timing = sellerData.timing;
+    Timing _timing = sellerData.timing!;
 
     return Scaffold(
         backgroundColor: Colors.white,
@@ -362,7 +364,7 @@ class _SellerIndiState extends State<SellerIndi> {
                 height: 100 * multiplyer,
                 fadeInCurve: Curves.easeIn,
                 placeholder: "assets/images/product_preloading.png",
-                image: sellerData?.key != null
+                image: sellerData.key != null
                     ? "$SELLER_PHOTO_BASE_URL/${sellerData.key}"
                     : "https://images.unsplash.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
                 imageErrorBuilder: (context, error, stackTrace) => Image.asset(
@@ -415,27 +417,25 @@ class _SellerIndiState extends State<SellerIndi> {
                   child: InkWell(
                     onTap: () async {
                       await Share.share(await _dynamicLinkService
-                          .createLink(sellerLink + sellerData?.key));
+                              .createLink(sellerLink + sellerData.key!) ??
+                          "");
                       try {
                         await _analyticsService.sendAnalyticsEvent(
                             eventName: "seller_shared",
                             parameters: <String, dynamic>{
-                              "seller_id": sellerData?.key,
-                              "seller_name": sellerData?.name,
-                              "subscription_id": widget
-                                  ?.data?.subscriptionType?.id
-                                  ?.toString(),
+                              "seller_id": sellerData.key,
+                              "seller_name": sellerData.name,
+                              "subscription_id":
+                                  widget.data.subscriptionType?.id?.toString(),
                               "subscription_name":
-                                  widget?.data?.subscriptionType?.name,
-                              "establishment_id": widget
-                                  ?.data?.establishmentType?.id
-                                  ?.toString(),
+                                  widget.data.subscriptionType?.name,
+                              "establishment_id":
+                                  widget.data.establishmentType?.id?.toString(),
                               "establishment_name":
-                                  widget?.data?.establishmentType?.name,
-                              "user_id":
-                                  locator<HomeController>()?.details?.key,
+                                  widget.data.establishmentType?.name,
+                              "user_id": locator<HomeController>().details!.key,
                               "user_name":
-                                  locator<HomeController>()?.details?.name,
+                                  locator<HomeController>().details!.name,
                             });
                       } catch (e) {}
                     },
@@ -450,7 +450,7 @@ class _SellerIndiState extends State<SellerIndi> {
               iconTheme: IconThemeData(color: appBarIconColor),
               flexibleSpace: FlexibleSpaceBar(
                 background: SellerProfilePhotos(
-                  accountId: sellerDetails[DESIGNER_DETAILS_KEY.tr],
+                  accountId: sellerDetails[DESIGNER_DETAILS_KEY.tr]!,
                 ),
               ),
             ),
@@ -467,14 +467,14 @@ class _SellerIndiState extends State<SellerIndi> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          FutureBuilder<Reviews>(
+                          FutureBuilder<Reviews?>(
                             future: locator<APIService>().getReviews(
-                                sellerDetails[DESIGNER_DETAILS_KEY.tr],
+                                sellerDetails[DESIGNER_DETAILS_KEY.tr]!,
                                 isSellerReview: true),
                             builder: (context, snapshot) => ((snapshot
                                             .connectionState ==
                                         ConnectionState.done) &&
-                                    ((snapshot?.data?.ratingAverage?.rating ??
+                                    ((snapshot.data?.ratingAverage?.rating ??
                                             0) >
                                         0))
                                 ? FittedBox(
@@ -490,8 +490,9 @@ class _SellerIndiState extends State<SellerIndi> {
                                             border: Border.all(
                                               color: Tools
                                                   .getColorAccordingToRattings(
-                                                snapshot
-                                                    .data.ratingAverage.rating,
+                                                snapshot.data!.ratingAverage!
+                                                        .rating ??
+                                                    0,
                                               ),
                                             ),
                                             borderRadius:
@@ -502,13 +503,14 @@ class _SellerIndiState extends State<SellerIndi> {
                                                 CrossAxisAlignment.center,
                                             children: <Widget>[
                                               CustomText(
-                                                snapshot
-                                                    .data.ratingAverage.rating
+                                                snapshot.data!.ratingAverage!
+                                                    .rating!
                                                     .toStringAsFixed(1),
                                                 color: Tools
                                                     .getColorAccordingToRattings(
-                                                  snapshot.data.ratingAverage
-                                                      .rating,
+                                                  snapshot.data!.ratingAverage!
+                                                          .rating ??
+                                                      0,
                                                 ),
                                                 isBold: true,
                                                 fontSize: 14,
@@ -543,7 +545,7 @@ class _SellerIndiState extends State<SellerIndi> {
                                           alignment: Alignment.centerLeft,
                                           child: Text(
                                             sellerDetails[
-                                                DESIGNER_DETAILS_CITY.tr],
+                                                DESIGNER_DETAILS_CITY.tr]!,
                                             overflow: TextOverflow.ellipsis,
                                             textAlign: TextAlign.end,
                                             style: TextStyle(
@@ -616,7 +618,8 @@ class _SellerIndiState extends State<SellerIndi> {
                                   children: [
                                     Expanded(
                                       child: CustomText(
-                                        sellerDetails[DESIGNER_DETAILS_NAME.tr],
+                                        sellerDetails[
+                                            DESIGNER_DETAILS_NAME.tr]!,
                                         textStyle: TextStyle(
                                           fontSize: headFont + 2,
                                           fontFamily: headingFont,
@@ -654,7 +657,7 @@ class _SellerIndiState extends State<SellerIndi> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     CustomText(
-                                      sellerDetails[DESIGNER_DETAILS_TYPE.tr],
+                                      sellerDetails[DESIGNER_DETAILS_TYPE.tr]!,
                                       fontSize: subHeadFont,
                                       fontWeight: FontWeight.w500,
                                       fontFamily: headingFont,
@@ -700,7 +703,7 @@ class _SellerIndiState extends State<SellerIndi> {
                                         "$designerProfilePicUrl",
                                         headers: {
                                           "Authorization":
-                                              "Bearer ${locator<HomeController>()?.prefs?.getString(Authtoken) ?? ''}",
+                                              "Bearer ${locator<HomeController>().prefs!.getString(Authtoken) ?? ''}",
                                         }),
                                     imageErrorBuilder:
                                         (context, error, stackTrace) {
@@ -721,18 +724,18 @@ class _SellerIndiState extends State<SellerIndi> {
                                   children: [
                                     CustomText(
                                       sellerDetails[
-                                          DESIGNER_DETAILS_OWNER_NAME.tr],
+                                          DESIGNER_DETAILS_OWNER_NAME.tr]!,
                                       fontWeight: FontWeight.w500,
                                       fontSize: titleFontSize,
                                       dotsAfterOverFlow: true,
                                     ),
-                                    if ((sellerData?.education != null) ||
-                                        (sellerData?.designation != null))
+                                    if ((sellerData.education != null) ||
+                                        (sellerData.designation != null))
                                       Row(
                                         children: [
                                           Expanded(
                                             child: CustomText(
-                                              "${sellerData?.education ?? ''} ${sellerData?.designation ?? ''}",
+                                              "${sellerData.education ?? ''} ${sellerData.designation ?? ''}",
                                               fontSize: subtitleFontSize,
                                               fontWeight: FontWeight.w400,
                                               color: Colors.grey.shade600,
@@ -742,13 +745,13 @@ class _SellerIndiState extends State<SellerIndi> {
                                         ],
                                       ),
                                     ReadMoreText(
-                                      sellerData?.intro ??
+                                      sellerData.intro ??
                                           sellerDetails[
                                               DESIGNER_DETAILS_NOTE_FROM_DESIGNER
-                                                  .tr],
-                                      trimLines: ((sellerData?.education ==
+                                                  .tr]!,
+                                      trimLines: ((sellerData.education ==
                                                   null) &&
-                                              (sellerData?.designation == null))
+                                              (sellerData.designation == null))
                                           ? 3
                                           : 2,
                                       colorClickableText: logoRed,
@@ -772,7 +775,7 @@ class _SellerIndiState extends State<SellerIndi> {
                           ),
                           verticalSpaceSmall,
                           CustomText(
-                            sellerDetails[DESIGNER_DETAILS_ADDRESS.tr],
+                            sellerDetails[DESIGNER_DETAILS_ADDRESS.tr]!,
                             fontSize: subtitleFontSize,
                             color: Colors.grey,
                           ),
@@ -781,9 +784,11 @@ class _SellerIndiState extends State<SellerIndi> {
                             onTap: () {
                               MapUtils.openMap(
                                   double.parse(
-                                      sellerDetails[DESIGNER_DETAILS_LAT.tr]),
+                                      sellerDetails[DESIGNER_DETAILS_LAT.tr] ??
+                                          "0"),
                                   double.parse(
-                                      sellerDetails[DESIGNER_DETAILS_LON.tr]));
+                                      sellerDetails[DESIGNER_DETAILS_LON.tr] ??
+                                          "0"));
                             },
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -854,13 +859,13 @@ class _SellerIndiState extends State<SellerIndi> {
                                       children: <Widget>[
                                         key == DESIGNER_SCREEN_SPECIALITY.tr
                                             ? SvgPicture.asset(
-                                                icons[key],
+                                                icons[key]!,
                                                 height: 30,
                                                 width: 30,
                                                 color: Colors.blue[500],
                                               )
                                             : SvgPicture.asset(
-                                                icons[key],
+                                                icons[key]!,
                                                 height: 30,
                                                 width: 30,
                                               ),
@@ -881,9 +886,9 @@ class _SellerIndiState extends State<SellerIndi> {
                                               ),
                                               verticalSpaceSmall,
                                               CustomText(
-                                                sellerDetails[key],
+                                                sellerDetails[key]!,
                                                 fontSize: subtitleFontSize,
-                                                color: Colors.grey[700],
+                                                color: Colors.grey[700]!,
                                                 align: TextAlign.left,
                                               ),
                                               key == DESIGNER_SCREEN_TYPE.tr
@@ -899,7 +904,7 @@ class _SellerIndiState extends State<SellerIndi> {
                                                               0.6,
                                                       child: Divider(
                                                         thickness: 1,
-                                                        color: Colors.grey[400]
+                                                        color: Colors.grey[400]!
                                                             .withOpacity(0.1),
                                                       ),
                                                     ),
@@ -972,7 +977,7 @@ class _SellerIndiState extends State<SellerIndi> {
                                 ),
                               ),
                               onTap: () {
-                                return NavigationService.to(
+                                NavigationService.to(
                                   ProductsListRoute,
                                   arguments: ProductPageArg(
                                     subCategory: sellerData.name,
@@ -993,7 +998,7 @@ class _SellerIndiState extends State<SellerIndi> {
                     if (sellerData.subscriptionTypeId == 1 &&
                         showExploreSection)
                       SectionBuilder(
-                        key: productKey ?? UniqueKey(),
+                        key: productKey,
                         context: context,
                         filter: ProductFilter(
                           accountKey: sellerData.key,
@@ -1040,9 +1045,10 @@ class _SellerIndiState extends State<SellerIndi> {
                       context: context,
                       layoutType: LayoutType.DESIGNER_ID_3_LAYOUT,
                       fromHome: true,
+                      onEmptyList: () {},
                       controller: SellersGridViewBuilderController(
-                        removeId: sellerData.key,
-                        subscriptionType: sellerData.subscriptionTypeId,
+                        removeId: sellerData.key!,
+                        subscriptionType: sellerData.subscriptionTypeId!,
                         random: true,
                       ),
                       scrollDirection: Axis.horizontal,
@@ -1073,7 +1079,7 @@ class _SellerIndiState extends State<SellerIndi> {
         });
   }
 
-  Widget sectionDivider({double thickness}) => Padding(
+  Widget sectionDivider({double? thickness}) => Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: Divider(
           color: Colors.grey[300],
@@ -1081,7 +1087,7 @@ class _SellerIndiState extends State<SellerIndi> {
         ),
       );
 
-  Widget elementDivider({double thickness}) => Padding(
+  Widget elementDivider({double? thickness}) => Padding(
         padding: const EdgeInsets.symmetric(
           vertical: 8.0,
           horizontal: 50,

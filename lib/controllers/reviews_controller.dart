@@ -7,23 +7,22 @@ import 'base_controller.dart';
 
 class ReviewsController extends BaseController {
   final APIService _apiService = locator<APIService>();
-  Reviews reviews;
+  Reviews? reviews;
   RxBool isBusyWritingReview = false.obs;
   RxBool isFormVisible = false.obs;
-  RxDouble selectedRating = RxDouble();
+  RxDouble selectedRating = RxDouble(5);
 
-  String id;
+  String? id;
   bool isSeller;
 
-  ReviewsController({this.id, this.isSeller = false});
+  ReviewsController({required this.id, this.isSeller = false});
 
   @override
   void onInit() async {
     super.onInit();
     if (id != null) {
       setBusy(true);
-      reviews =
-          await _apiService.getReviews(id, isSellerReview: isSeller);
+      reviews = await _apiService.getReviews(id!, isSellerReview: isSeller);
       setBusy(false);
       update();
     }

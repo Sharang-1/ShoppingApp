@@ -1,11 +1,11 @@
 class ProductPageArg {
-  final String title;
-  final String queryString;
-  final String subCategory;
-  final String sellerPhoto;
+  final String? title;
+  final String? queryString;
+  final String? subCategory;
+  final String? sellerPhoto;
 
-  final String promotionKey;
-  final List<int> demographicIds;
+  final String? promotionKey;
+  final List<int>? demographicIds;
 
   ProductPageArg({
     this.title,
@@ -19,5 +19,5 @@ class ProductPageArg {
 
 class PromotionProductsPageArg {
   final String promoTitle;
-  PromotionProductsPageArg({this.promoTitle});
+  PromotionProductsPageArg({required this.promoTitle});
 }

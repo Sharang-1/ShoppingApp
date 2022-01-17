@@ -18,18 +18,18 @@ import '../widgets/custom_text.dart';
 import 'address_input_form_view.dart';
 
 class ProfileView extends StatefulWidget {
-  final UserDetailsController controller;
-  ProfileView({Key key, this.controller}) : super(key: key);
+  final UserDetailsController? controller;
+  ProfileView({Key? key, this.controller}) : super(key: key);
 
   @override
   _ProfileViewState createState() => _ProfileViewState();
 }
 
 class _ProfileViewState extends State<ProfileView> {
-  String nameString;
-  String initialString;
-  bool isButtonActive;
-  bool isEditable;
+  late String nameString;
+  late String initialString;
+  late bool isButtonActive;
+  late bool isEditable;
   final _formKey = GlobalKey<FormState>();
 
   void initState() {
@@ -102,10 +102,11 @@ class _ProfileViewState extends State<ProfileView> {
             ),
             // ignore: missing_return
           ).then((result) {
-            if (result == null) return;
+            if (result == null) return false;
             if (result) {
               locator<NavigationService>().pop();
             }
+            return false;
           });
         },
         child: Scaffold(
@@ -127,14 +128,14 @@ class _ProfileViewState extends State<ProfileView> {
                       ),
                     ),
                     onPressed: () async {
-                      if (isButtonActive) if (_formKey.currentState
+                      if (isButtonActive) if (_formKey.currentState!
                           .validate()) {
-                        _formKey.currentState.save();
+                        _formKey.currentState!.save();
 
                         await controller.updateUserDetails();
-                        Fimber.e(controller.mUserDetails.name +
+                        Fimber.e(controller.mUserDetails!.name! +
                             " " +
-                            controller.mUserDetails.contact.phone.mobile);
+                            controller.mUserDetails!.contact!.phone!.mobile!);
                         setState(() {
                           isButtonActive = false;
                           isEditable = false;
@@ -206,15 +207,15 @@ class _ProfileViewState extends State<ProfileView> {
                                         placeholder: AssetImage(
                                             "assets/images/user.png"),
                                         image: NetworkImage(
-                                            "$USER_PROFILE_PHOTO_BASE_URL/${controller?.mUserDetails?.key}?v=${controller.dateTimeString}",
+                                            "$USER_PROFILE_PHOTO_BASE_URL/${controller.mUserDetails?.key}?v=${controller.dateTimeString}",
                                             headers: {
                                               "Authorization":
-                                                  "Bearer ${controller?.token ?? ''}",
+                                                  "Bearer ${controller.token ?? ''}",
                                             }),
                                         imageErrorBuilder:
                                             (context, error, stackTrace) {
                                           print(
-                                              "User Photo: $USER_PROFILE_PHOTO_BASE_URL/${controller?.mUserDetails?.photo?.name} $error $stackTrace");
+                                              "User Photo: $USER_PROFILE_PHOTO_BASE_URL/${controller.mUserDetails?.photo?.name} $error $stackTrace");
                                           return Image.asset(
                                             "assets/images/user.png",
                                             width: 100,
@@ -324,7 +325,7 @@ class _ProfileViewState extends State<ProfileView> {
                                             initialValue:
                                                 controller.mUserDetails?.name,
                                             validator: (text) {
-                                              if (text.isEmpty ||
+                                              if (text!.isEmpty ||
                                                   text.trim().length == 0)
                                                 return SETTINGS_ADD_YOUR_NAME
                                                     .tr;
@@ -334,10 +335,10 @@ class _ProfileViewState extends State<ProfileView> {
                                               setState(() {
                                                 isButtonActive = true;
                                               });
-                                              _formKey.currentState.validate();
+                                              _formKey.currentState!.validate();
                                             },
                                             onSaved: (text) {
-                                              controller.mUserDetails.name =
+                                              controller.mUserDetails!.name =
                                                   text;
                                             },
                                             decoration: InputDecoration(
@@ -374,7 +375,7 @@ class _ProfileViewState extends State<ProfileView> {
                                             ),
                                             readOnly: true,
                                             initialValue: controller
-                                                ?.mUserDetails
+                                                .mUserDetails
                                                 ?.contact
                                                 ?.phone
                                                 ?.mobile
@@ -414,12 +415,12 @@ class _ProfileViewState extends State<ProfileView> {
                                               alignment: Alignment.centerLeft,
                                               child: DropdownButton<String>(
                                                 value:
-                                                    "${controller?.mUserDetails?.age?.id ?? 0}",
-                                                items: controller.ageLookup
+                                                    "${controller.mUserDetails?.age?.id ?? 0}",
+                                                items: controller.ageLookup!
                                                     .map(
                                                       (e) => DropdownMenuItem<
                                                           String>(
-                                                        child: Text(e.name,
+                                                        child: Text(e.name!,
                                                             style: TextStyle(
                                                               fontSize:
                                                                   subtitleFontSizeStyle,
@@ -437,14 +438,15 @@ class _ProfileViewState extends State<ProfileView> {
                                                     ? (value) {
                                                         setState(() {
                                                           controller
-                                                                  .mUserDetails
+                                                                  .mUserDetails!
                                                                   .age =
                                                               Age(
                                                                   id: int.parse(
-                                                                      value));
+                                                                      value ??
+                                                                          "0"));
                                                           isButtonActive = true;
                                                         });
-                                                        _formKey.currentState
+                                                        _formKey.currentState!
                                                             .validate();
                                                       }
                                                     : null,
@@ -474,13 +476,13 @@ class _ProfileViewState extends State<ProfileView> {
                                               alignment: Alignment.centerLeft,
                                               child: DropdownButton<String>(
                                                 value:
-                                                    "${controller?.mUserDetails?.gender?.id ?? 0}",
-                                                items: controller.genderLookup
+                                                    "${controller.mUserDetails?.gender?.id ?? 0}",
+                                                items: controller.genderLookup!
                                                     .map(
                                                       (e) => DropdownMenuItem<
                                                           String>(
                                                         child: Text(
-                                                          e.name,
+                                                          e.name!,
                                                           style: TextStyle(
                                                             fontSize:
                                                                 subtitleFontSizeStyle,
@@ -498,14 +500,15 @@ class _ProfileViewState extends State<ProfileView> {
                                                     ? (value) {
                                                         setState(() {
                                                           controller
-                                                                  .mUserDetails
+                                                                  .mUserDetails!
                                                                   .gender =
                                                               Gender(
                                                                   id: int.parse(
-                                                                      value));
+                                                                      value ??
+                                                                          "0"));
                                                           isButtonActive = true;
                                                         });
-                                                        _formKey.currentState
+                                                        _formKey.currentState!
                                                             .validate();
                                                       }
                                                     : null,
@@ -556,26 +559,28 @@ class _ProfileViewState extends State<ProfileView> {
                                                       );
                                                       if (userAdd != null) {
                                                         controller
-                                                                .mUserDetails
-                                                                .contact
+                                                                .mUserDetails!
+                                                                .contact!
                                                                 .googleAddress =
                                                             userAdd
                                                                 .googleAddress;
                                                         controller
-                                                                .mUserDetails
-                                                                .contact
+                                                                .mUserDetails!
+                                                                .contact!
                                                                 .address =
                                                             userAdd.address;
                                                         controller
-                                                                .mUserDetails
-                                                                .contact
+                                                                .mUserDetails!
+                                                                .contact!
                                                                 .pincode =
                                                             userAdd.pincode;
-                                                        controller.mUserDetails
-                                                                .contact.state =
+                                                        controller
+                                                                .mUserDetails!
+                                                                .contact!
+                                                                .state =
                                                             userAdd.state;
-                                                        controller.mUserDetails
-                                                                .contact.city =
+                                                        controller.mUserDetails!
+                                                                .contact!.city =
                                                             userAdd.city;
                                                         setState(() {
                                                           isButtonActive = true;
@@ -606,7 +611,7 @@ class _ProfileViewState extends State<ProfileView> {
                                                             top: 10,
                                                             bottom: 10),
                                                     child: (controller
-                                                                    ?.mUserDetails
+                                                                    .mUserDetails
                                                                     ?.contact
                                                                     ?.address
                                                                     ?.length ??
@@ -614,11 +619,11 @@ class _ProfileViewState extends State<ProfileView> {
                                                             0
                                                         ? CustomText(
                                                             controller
-                                                                .mUserDetails
-                                                                .contact
-                                                                .address,
+                                                                .mUserDetails!
+                                                                .contact!
+                                                                .address!,
                                                             color: Colors
-                                                                .grey[800],
+                                                                .grey[800]!,
                                                             fontWeight:
                                                                 FontWeight.w400,
                                                             fontSize:
@@ -636,7 +641,7 @@ class _ProfileViewState extends State<ProfileView> {
                                                 ),
                                                 if (isEditable &&
                                                     ((controller
-                                                                ?.mUserDetails
+                                                                .mUserDetails
                                                                 ?.contact
                                                                 ?.address
                                                                 ?.length ??
@@ -645,7 +650,7 @@ class _ProfileViewState extends State<ProfileView> {
                                                   horizontalSpaceTiny,
                                                 if (isEditable &&
                                                     ((controller
-                                                                ?.mUserDetails
+                                                                .mUserDetails
                                                                 ?.contact
                                                                 ?.address
                                                                 ?.length ??
@@ -682,15 +687,15 @@ class _ProfileViewState extends State<ProfileView> {
                                             children: [
                                               getSizeWidget(
                                                 initialValue: (controller
-                                                            ?.mUserDetails
+                                                            .mUserDetails
                                                             ?.measure
                                                             ?.shoulders ??
                                                         '')
                                                     .toString(),
                                                 hint: "*Shoulders",
                                                 onSaved: (text) {
-                                                  controller.mUserDetails
-                                                          .measure.shoulders =
+                                                  controller.mUserDetails!
+                                                          .measure!.shoulders =
                                                       num.parse(text);
                                                 },
                                               ),
@@ -698,57 +703,57 @@ class _ProfileViewState extends State<ProfileView> {
                                               getSizeWidget(
                                                   hint: "*Chest",
                                                   initialValue: (controller
-                                                              ?.mUserDetails
+                                                              .mUserDetails
                                                               ?.measure
                                                               ?.chest ??
                                                           '')
                                                       .toString(),
                                                   onSaved: (text) {
-                                                    controller.mUserDetails
-                                                            .measure.chest =
+                                                    controller.mUserDetails!
+                                                            .measure!.chest =
                                                         num.parse(text);
                                                   }),
                                               verticalSpaceSmall,
                                               getSizeWidget(
                                                   hint: "*Waist",
                                                   initialValue: (controller
-                                                              ?.mUserDetails
+                                                              .mUserDetails
                                                               ?.measure
                                                               ?.waist ??
                                                           '')
                                                       .toString(),
                                                   onSaved: (text) {
-                                                    controller.mUserDetails
-                                                            .measure.waist =
+                                                    controller.mUserDetails!
+                                                            .measure!.waist =
                                                         num.parse(text);
                                                   }),
                                               verticalSpaceSmall,
                                               getSizeWidget(
                                                   hint: "*Hips",
                                                   initialValue: (controller
-                                                              ?.mUserDetails
+                                                              .mUserDetails
                                                               ?.measure
                                                               ?.hips ??
                                                           '')
                                                       .toString(),
                                                   onSaved: (text) {
                                                     controller
-                                                        .mUserDetails
-                                                        .measure
+                                                        .mUserDetails!
+                                                        .measure!
                                                         .hips = num.parse(text);
                                                   }),
                                               verticalSpaceSmall,
                                               getSizeWidget(
                                                   hint: "*Height",
                                                   initialValue: (controller
-                                                              ?.mUserDetails
+                                                              .mUserDetails
                                                               ?.measure
                                                               ?.height ??
                                                           '')
                                                       .toString(),
                                                   onSaved: (text) {
-                                                    controller.mUserDetails
-                                                            .measure.height =
+                                                    controller.mUserDetails!
+                                                            .measure!.height =
                                                         num.parse(text);
                                                   }),
                                               verticalSpaceSmall,
@@ -784,7 +789,9 @@ class _ProfileViewState extends State<ProfileView> {
   }
 
   getSizeWidget(
-      {String hint = '', String initialValue = '', Function(String) onSaved}) {
+      {String hint = '',
+      String initialValue = '',
+      required Function(String) onSaved}) {
     return SizedBox(
       width: 120,
       child: Row(
@@ -793,7 +800,7 @@ class _ProfileViewState extends State<ProfileView> {
             child: CustomText(
               hint,
               fontSize: 10,
-              color: Colors.grey[500],
+              color: Colors.grey[500]!,
             ),
           ),
           Expanded(
@@ -805,7 +812,7 @@ class _ProfileViewState extends State<ProfileView> {
               ),
               readOnly: !isEditable,
               initialValue: initialValue,
-              validator: (text) => (GetUtils.isNum(text)) &&
+              validator: (text) => (GetUtils.isNum(text!)) &&
                       (num.parse(text) > 0 && num.parse(text) < 100)
                   ? null
                   : ENTER_VALID_SIZE.tr,
@@ -813,9 +820,11 @@ class _ProfileViewState extends State<ProfileView> {
                 setState(() {
                   isButtonActive = true;
                 });
-                _formKey.currentState.validate();
+                _formKey.currentState!.validate();
               },
-              onSaved: onSaved,
+              onSaved: (value) {
+                onSaved(value!);
+              },
               decoration: InputDecoration(
                 hintText: ' ',
                 hintStyle: TextStyle(

@@ -36,8 +36,8 @@ class _DzorExploreViewState extends State<DzorExploreView> {
       locator<AnalyticsService>().sendAnalyticsEvent(
           eventName: "dzor_explore_view",
           parameters: <String, dynamic>{
-            "user_id": locator<HomeController>()?.details?.key,
-            "user_name": locator<HomeController>()?.details?.name,
+            "user_id": locator<HomeController>().details!.key,
+            "user_name": locator<HomeController>().details!.name,
           });
     } catch (e) {}
   }
@@ -62,12 +62,13 @@ class _DzorExploreViewState extends State<DzorExploreView> {
                 "assets/images/wishlist.png",
                 color: Colors.grey.shade900,
               ),
-              onPressed: () async => locator<HomeController>().isLoggedIn
-                  ? await BaseController.gotoWishlist()
-                  : await BaseController.showLoginPopup(
-                      nextView: WishListRoute,
-                      shouldNavigateToNextScreen: true,
-                    ),
+              onPressed: () async =>
+                  locator<HomeController>().isLoggedIn ?? false
+                      ? await BaseController.gotoWishlist()
+                      : await BaseController.showLoginPopup(
+                          nextView: WishListRoute,
+                          shouldNavigateToNextScreen: true,
+                        ),
             ),
             Obx(
               () => IconButton(
@@ -75,12 +76,13 @@ class _DzorExploreViewState extends State<DzorExploreView> {
                   iconColor: Colors.grey.shade900,
                   count: locator<CartCountController>().count.value,
                 ),
-                onPressed: () async => locator<HomeController>().isLoggedIn
-                    ? await BaseController.cart()
-                    : await BaseController.showLoginPopup(
-                        nextView: CartViewRoute,
-                        shouldNavigateToNextScreen: true,
-                      ),
+                onPressed: () async =>
+                    locator<HomeController>().isLoggedIn ?? false
+                        ? await BaseController.cart()
+                        : await BaseController.showLoginPopup(
+                            nextView: CartViewRoute,
+                            shouldNavigateToNextScreen: true,
+                          ),
               ),
             ),
           ],
@@ -152,15 +154,17 @@ class _DzorExploreViewState extends State<DzorExploreView> {
                     SectionBuilder(
                       context: context,
                       header: SectionHeader(title: RECOMMENDED_DESIGNERS.tr),
+                      onEmptyList: () {},
                       layoutType: LayoutType.EXPLORE_DESIGNER_LAYOUT,
                       scrollDirection: Axis.horizontal,
-                      controller:
-                          SellersGridViewBuilderController(random: true),
+                      controller: SellersGridViewBuilderController(
+                          random: true, removeId: ''),
                     ),
                     verticalSpaceSmall,
                     SectionBuilder(
                       context: context,
                       layoutType: LayoutType.PRODUCT_LAYOUT_3,
+                      onEmptyList: () {},
                       scrollDirection: Axis.vertical,
                       controller: ProductsGridViewBuilderController(
                           randomize: true, limit: 100),

@@ -11,15 +11,15 @@ import 'grid_list_widget.dart';
 import 'product_tile_ui.dart';
 
 class PairItWithWidget extends StatelessWidget {
-  final Key productUniqueKey;
+  final Key? productUniqueKey;
   final List<String> exceptProductIDs;
   final Function(Product product) onProductClicked;
   final Function onEmpty;
   const PairItWithWidget({
     this.productUniqueKey,
-    this.onProductClicked,
+    required this.onProductClicked,
     this.exceptProductIDs = const [],
-    this.onEmpty,
+    required this.onEmpty,
   });
 
   @override
@@ -58,14 +58,15 @@ class PairItWithWidget extends StatelessWidget {
                 controller: ProductsGridViewBuilderController(
                     randomize: true,
                     limit: 20,
+                    filteredProductKey: "",
                     exceptProductIDs: exceptProductIDs),
                 onEmptyList: onEmpty,
                 childAspectRatio: 1.20,
                 scrollDirection: Axis.horizontal,
                 emptyListWidget: Container(),
                 disablePagination: true,
-                tileBuilder: (BuildContext context, productData, index,
-                    onUpdate, onDelete) {
+                tileBuilder:
+                    (BuildContext context, productData, index, onDelete) {
                   var product = productData as Product;
                   return GestureDetector(
                     onTap: () => onProductClicked(product),

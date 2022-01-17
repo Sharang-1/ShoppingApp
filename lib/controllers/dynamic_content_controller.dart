@@ -31,7 +31,7 @@ class DynamicContentController extends BaseController {
     switch (data["contentType"]) {
       case "product":
         if (data["id"] == null) return;
-        Product product =
+        Product? product =
             await locator<APIService>().getProductById(productId: data["id"]);
         if (product == null) return;
         await wait();
@@ -67,7 +67,7 @@ class DynamicContentController extends BaseController {
       case "promotion":
         if (data["id"] == null) return;
         Promotions promotions = await locator<APIService>().getPromotions();
-        Promotion promotion = promotions.promotions
+        Promotion promotion = promotions.promotions!
             .where((element) => element.key == data["id"])
             .toList()[0];
         if (promotion == null) return;
@@ -76,10 +76,10 @@ class DynamicContentController extends BaseController {
           context,
           MaterialPageRoute(
             builder: (context) => PromotionProduct(
-              promotionId: promotion?.key,
-              productIds:
-                  promotion.products.map((e) => e.toString()).toList() ?? [],
-              promotionTitle: promotion.name,
+              promotionId: promotion.key!,
+              demographicIds: [],
+              productIds: promotion.products!.map((e) => e.toString()).toList(),
+              promotionTitle: promotion.name!,
             ),
           ),
         );

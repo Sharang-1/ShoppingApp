@@ -12,7 +12,7 @@ import '../widgets/grid_list_widget.dart';
 import '../widgets/product_tile_ui.dart';
 
 class WishList extends StatefulWidget {
-  WishList({Key key}) : super(key: key);
+  WishList({Key? key}) : super(key: key);
 
   @override
   _WishListState createState() => _WishListState();
@@ -72,12 +72,13 @@ class _WishListState extends State<WishList> {
                           key: wishListKey,
                           context: context,
                           filter: filter,
+                          onEmptyList: () {},
                           gridCount: 2,
                           disablePagination: true,
                           controller: WishListGridViewBuilderController(),
                           childAspectRatio: 0.8,
-                          tileBuilder: (BuildContext context, data, index,
-                              onDelete, onUpdate) {
+                          tileBuilder:
+                              (BuildContext context, data, index, onDelete) {
                             final Product dProduct = data as Product;
                             return ProductTileUI(
                               index: index,

@@ -6,9 +6,9 @@ import '../../models/products.dart';
 
 class ProductDescriptionTable extends StatelessWidget {
   const ProductDescriptionTable(
-      {Key key,
-      @required this.product,
-      @required this.controller,
+      {Key? key,
+      required this.product,
+      required this.controller,
       this.workOnMap})
       : super(key: key);
 
@@ -17,14 +17,14 @@ class ProductDescriptionTable extends StatelessWidget {
   final workOnMap;
 
   String getNameFromLookupId(Lookups section, String option, num id) {
-    return section?.sections
+    return section.sections
             ?.where((element) =>
-                element?.option?.toLowerCase() == option?.toLowerCase())
-            ?.first
-            ?.values
-            ?.where((element) => element?.id == id)
-            ?.first
-            ?.name ??
+                element.option?.toLowerCase() == option.toLowerCase())
+            .first
+            .values
+            ?.where((element) => element.id == id)
+            .first
+            .name ??
         "No Lookup Found";
   }
 
@@ -54,7 +54,7 @@ class ProductDescriptionTable extends StatelessWidget {
           }
           var productSection = lookups
               .where(
-                  (element) => element.sectionName.toLowerCase() == "product")
+                  (element) => element.sectionName!.toLowerCase() == "product")
               .first;
           if (productSection == null) {
             return Container();
@@ -62,186 +62,186 @@ class ProductDescriptionTable extends StatelessWidget {
           return Table(
             children: [
               // divider
-              if ((product?.art?.length ?? 0) > 0)
+              if ((product.art?.length ?? 0) > 0)
                 getProductDetailsRow("Art", product.art),
               // divider,
-              if (product?.fabricDetails != null &&
-                  product?.fabricDetails != "")
+              if (product.fabricDetails != null && product.fabricDetails != "")
                 getProductDetailsRow(
                   "Fabric Feel",
-                  product?.fabricDetails,
+                  product.fabricDetails,
                 ),
               // divider
-              if ((product?.weaveType?.length ?? 0) > 0)
+              if ((product.weaveType?.length ?? 0) > 0)
                 getProductDetailsRow("Weave Type", product.weaveType),
               // divider,
-              if (product?.pricePerMeter != null)
+              if (product.pricePerMeter != null)
                 getProductDetailsRow(
-                    "Price Per Meter", product?.pricePerMeter?.toString()),
+                    "Price Per Meter", product.pricePerMeter?.toString()),
               // divider,
-              if (product?.typeOfWork != null && product?.typeOfWork != "")
+              if (product.typeOfWork != null && product.typeOfWork != "")
                 getProductDetailsRow(
                   "Type Of Work",
-                  product?.typeOfWork,
+                  product.typeOfWork,
                 ),
               // divider,
-              if (product?.workOn != null && product?.workOn?.length != 0)
-                getProductDetailsRow("Work on", getWorkOn(product?.workOn)),
+              if (product.workOn != null && product.workOn?.length != 0)
+                getProductDetailsRow("Work on", getWorkOn(product.workOn!)),
               // divider,
-              if (product?.pieces != null && product?.pieces?.id != -1)
+              if (product.pieces != null && product.pieces?.id != -1)
                 getProductDetailsRow(
                     "Pieces",
                     getNameFromLookupId(
-                        productSection, "pieces", product?.pieces?.id)),
+                        productSection, "pieces", product.pieces?.id ?? 0)),
               // divider,
-              if ((product?.whatDoesItHave != null) &&
-                  (product?.whatDoesItHave?.id != -1) &&
-                  (product?.category?.id == 9))
+              if ((product.whatDoesItHave != null) &&
+                  (product.whatDoesItHave?.id != -1) &&
+                  (product.category?.id == 9))
                 getProductDetailsRow(
                   "what Does It Have",
-                  ((product?.whatDoesItHave?.id == 1)
+                  ((product.whatDoesItHave?.id == 1)
                       ? 'Sling'
-                      : (product?.whatDoesItHave?.id == 2)
+                      : (product.whatDoesItHave?.id == 2)
                           ? 'Handel'
-                          : (product?.whatDoesItHave?.id == 3)
+                          : (product.whatDoesItHave?.id == 3)
                               ? 'Bag-Pack Straps'
                               : ''),
                 ),
               // divider,
-              if (product?.stitchingType != null &&
-                  product?.stitchingType?.id != -1)
+              if (product.stitchingType != null &&
+                  product.stitchingType?.id != -1)
                 getProductDetailsRow(
                   "Stiching Type",
                   getNameFromLookupId(productSection, "stitchingType",
-                      product?.stitchingType?.id),
+                      product.stitchingType?.id ?? 0),
                 ),
               // divider,
-              if (product?.style != null && product?.style != "")
+              if (product.style != null && product.style != "")
                 getProductDetailsRow(
                   "Style",
-                  product?.style,
+                  product.style,
                 ),
               // divider
-              if ((product?.bottomStyle?.length ?? 0) > 0)
+              if ((product.bottomStyle?.length ?? 0) > 0)
                 getProductDetailsRow("Bottom Style", product.bottomStyle),
               // divider
-              if ((product?.fittingType?.length ?? 0) > 0)
+              if ((product.fittingType?.length ?? 0) > 0)
                 getProductDetailsRow("Fitting Type", product.fittingType),
               // divider
-              if ((product?.riseStyle?.length ?? 0) > 0)
+              if ((product.riseStyle?.length ?? 0) > 0)
                 getProductDetailsRow("Rise Style", product.riseStyle),
               // divider,
-              if (product?.flair != null)
-                getProductDetailsRow("Flair", product?.flair?.toString()),
+              if (product.flair != null)
+                getProductDetailsRow("Flair", product.flair?.toString()),
               // divider,
-              if (product?.waist != null)
-                getProductDetailsRow("Waist", product?.waist?.toString()),
+              if (product.waist != null)
+                getProductDetailsRow("Waist", product.waist?.toString()),
               // divider,
-              if (product?.heelHeight != null && product?.heelHeight != 0)
+              if (product.heelHeight != null && product.heelHeight != 0)
                 getProductDetailsRow(
                   "Heel Height",
-                  product?.heelHeight?.toString(),
+                  product.heelHeight?.toString(),
                 ),
               // divider,
-              if (product?.length != null)
+              if (product.length != null)
                 getProductDetailsRow(
                   "Length",
-                  product?.length?.toString(),
+                  product.length?.toString(),
                 ),
               // divider,
-              if (product?.breadth != null && product?.breadth != 0)
+              if (product.breadth != null && product.breadth != 0)
                 getProductDetailsRow(
                   "Breadth",
-                  product?.breadth?.toString(),
+                  product.breadth?.toString(),
                 ),
               // divider,
-              if (product?.sleeveLength != null &&
-                  product?.sleeveLength?.id != -1)
+              if (product.sleeveLength != null &&
+                  product.sleeveLength?.id != -1)
                 getProductDetailsRow(
                   "Sleeve Length",
                   getNameFromLookupId(productSection, "sleeveLength",
-                      product?.sleeveLength?.id),
+                      product.sleeveLength?.id ?? 0),
                 ),
               // divider,
-              if (product?.neck != null && product?.neck != "")
-                getProductDetailsRow("Neck Type", product?.neck?.toString()),
+              if (product.neck != null && product.neck != "")
+                getProductDetailsRow("Neck Type", product.neck?.toString()),
               // divider,
-              if (product?.neckCut != null && product?.neckCut != "")
+              if (product.neckCut != null && product.neckCut != "")
                 getProductDetailsRow(
                   "Neck Cut",
-                  product?.neckCut,
+                  product.neckCut,
                 ),
               // divider,
-              if (product?.backCut != null && product?.backCut != "")
+              if (product.backCut != null && product.backCut != "")
                 getProductDetailsRow(
                   "Back Type",
-                  product?.backCut,
+                  product.backCut,
                 ),
               // divider
-              if ((product?.closureType?.length ?? 0) > 0)
+              if ((product.closureType?.length ?? 0) > 0)
                 getProductDetailsRow("ClosureType", product.closureType),
               // divider,
-              if ((product?.washing != null) && (product?.washing != ''))
-                getProductDetailsRow("Washing", product?.washing?.toString()),
+              if ((product.washing != null) && (product.washing != ''))
+                getProductDetailsRow("Washing", product.washing?.toString()),
               // divider,
-              if ((product?.occasionToWearIn != null) &&
-                  (product?.occasionToWearIn != ''))
+              if ((product.occasionToWearIn != null) &&
+                  (product.occasionToWearIn != ''))
                 getProductDetailsRow(
                   "Occasion To Wear In",
-                  product?.occasionToWearIn?.toString(),
+                  product.occasionToWearIn?.toString(),
                 ),
               // divider,
-              if (product?.topsLength != null && product?.topsLength?.id != -1)
+              if (product.topsLength != null && product.topsLength?.id != -1)
                 getProductDetailsRow(
                   "Top's length",
                   getNameFromLookupId(
                     productSection,
                     "topsLength",
-                    product?.topsLength?.id,
+                    product.topsLength?.id ?? 0,
                   ),
                 ),
               // divider,
-              if (product?.typeOfSaree != null && product?.typeOfSaree != "")
-                getProductDetailsRow("Type of Saree", product?.typeOfSaree),
+              if (product.typeOfSaree != null && product.typeOfSaree != "")
+                getProductDetailsRow("Type of Saree", product.typeOfSaree),
               // divider,
-              if (product?.made != null && product?.made?.id != -1)
+              if (product.made != null && product.made?.id != -1)
                 getProductDetailsRow(
                     "Made",
                     getNameFromLookupId(
-                        productSection, "made", product?.made?.id)),
-              if ((product?.hangings != null) && (product?.category?.id == 7))
+                        productSection, "made", product.made?.id ?? 0)),
+              if ((product.hangings != null) && (product.category?.id == 7))
                 getProductDetailsRow(
                   "Hangings",
-                  product.hangings ? "Yes" : "No",
+                  product.hangings ?? false ? "Yes" : "No",
                 ),
 
               // divider,
-              if ((product?.made != null) && (product?.made?.id != -1))
+              if ((product.made != null) && (product.made?.id != -1))
                 getProductDetailsRow(
                   "Made",
-                  product?.made?.id == 1 ? "Made on Demand" : "Ready Made",
+                  product.made?.id == 1 ? "Made on Demand" : "Ready Made",
                 ),
 
               // divider,
-              if ((product?.canCan != null) && (product?.category?.id == 14))
-                getProductDetailsRow("Can Can", product.canCan ? "Yes" : "No"),
+              if ((product.canCan != null) && (product.category?.id == 14))
+                getProductDetailsRow(
+                    "Can Can", product.canCan ?? false ? "Yes" : "No"),
 
               // divider,
-              if (product?.blousePadding != null &&
-                  product?.blousePadding?.id != -1)
+              if (product.blousePadding != null &&
+                  product.blousePadding?.id != -1)
                 getProductDetailsRow(
                   "Blouse Padding",
                   getNameFromLookupId(productSection, "blousePadding",
-                      product?.blousePadding?.id),
+                      product.blousePadding?.id ?? 0),
                 ),
               // divider,
-              if (product?.dimensions != null && product?.dimensions != "")
+              if (product.dimensions != null && product.dimensions != "")
                 getProductDetailsRow(
                   "Dimensions",
-                  product?.dimensions,
+                  product.dimensions,
                 ),
 
-              if (product?.margin != null && product.margin)
+              if (product.margin != null && (product.margin ?? false))
                 getProductDetailsRow("Margin", "Margin left in selai"),
             ],
           );

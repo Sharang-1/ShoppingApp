@@ -11,10 +11,10 @@ class SellerCard extends StatelessWidget {
   final bool fromHome;
   final Function onClick;
   const SellerCard({
-    Key key,
-    @required this.data,
-    @required this.fromHome,
-    this.onClick,
+    Key? key,
+    required this.data,
+    required this.fromHome,
+    required this.onClick,
   }) : super(key: key);
 
   @override
@@ -30,7 +30,7 @@ class SellerCard extends StatelessWidget {
           width:
               (MediaQuery.of(context).size.width - 40) * (fromHome ? 0.8 : 1),
           child: GestureDetector(
-            onTap: onClick,
+            onTap: onClick(),
             child: Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(curve15),
@@ -116,7 +116,7 @@ class SellerCard extends StatelessWidget {
                                   Expanded(
                                     child: CustomText(
                                       data.designs,
-                                      color: Colors.grey[700],
+                                      color: Colors.grey[700]!,
                                       isBold: true,
                                       dotsAfterOverFlow: true,
                                       fontSize:
@@ -140,7 +140,7 @@ class SellerCard extends StatelessWidget {
                                   Expanded(
                                     child: CustomText(
                                       data.known,
-                                      color: Colors.grey[700],
+                                      color: Colors.grey[700]!,
                                       isBold: true,
                                       dotsAfterOverFlow: true,
                                       fontSize:
@@ -190,7 +190,7 @@ class SellerCard extends StatelessWidget {
                                   Expanded(
                                     child: CustomText(
                                       data.works,
-                                      color: Colors.grey[700],
+                                      color: Colors.grey[700]!,
                                       isBold: true,
                                       dotsAfterOverFlow: true,
                                       fontSize:
@@ -208,7 +208,7 @@ class SellerCard extends StatelessWidget {
 
 class CustomDivider extends StatelessWidget {
   const CustomDivider({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -217,7 +217,7 @@ class CustomDivider extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
         child: Divider(
           thickness: 1,
-          color: Colors.grey[400].withOpacity(0.1),
+          color: Colors.grey[400]!.withOpacity(0.1),
         ));
   }
 }

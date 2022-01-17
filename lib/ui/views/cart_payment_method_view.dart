@@ -9,7 +9,6 @@ import '../../locator.dart';
 import '../../models/order.dart';
 import '../../models/order_details.dart';
 import '../../models/user_details.dart';
-import '../../services/dialog_service.dart';
 import '../../services/error_handling_service.dart';
 import '../../services/navigation_service.dart';
 import '../shared/app_colors.dart';
@@ -24,23 +23,23 @@ class PaymentMethod extends StatefulWidget {
   final UserDetailsContact billingAddress;
   final String productId;
   final String promoCode;
-  final String promoCodeId;
-  final String size;
-  final String color;
-  final int qty;
+  final String? promoCodeId;
+  final String? size;
+  final String? color;
+  final int? qty;
   final OrderDetails orderDetails;
 
   const PaymentMethod({
-    Key key,
-    this.productId,
-    this.promoCode,
-    this.promoCodeId,
+    Key? key,
+    required this.productId,
+    this.promoCode = "",
+    this.promoCodeId = "",
     this.size,
     this.color,
     this.qty,
-    this.billingAddress,
-    this.finalTotal,
-    this.orderDetails,
+    required this.billingAddress,
+    required this.finalTotal,
+    required this.orderDetails,
   }) : super(key: key);
 
   @override
@@ -63,14 +62,14 @@ class _PaymentMethodState extends State<PaymentMethod> {
     print("Cart Payment");
     print("final totle " + widget.finalTotal);
     print("billing add " +
-        widget.billingAddress.address +
+        widget.billingAddress.address! +
         '\n' +
-        widget.billingAddress.googleAddress);
+        widget.billingAddress.googleAddress!);
     print("product id " + widget.productId);
     print("promo code " + widget.promoCode);
-    print("promo id" + widget.promoCodeId);
-    print("size " + widget.size);
-    print("color " + widget.color);
+    print("promo id" + widget.promoCodeId!);
+    print("size " + widget.size!);
+    print("color " + widget.color!);
     print("qty" + widget.qty.toString());
     super.initState();
     // WidgetsBinding.instance.addPostFrameCallback(
@@ -87,14 +86,14 @@ class _PaymentMethodState extends State<PaymentMethod> {
   Widget build(BuildContext context) {
     if (widget.billingAddress.city != null &&
         !<String>["AHMEDABAD"]
-            .contains(widget.billingAddress.city.toUpperCase())) {
+            .contains(widget.billingAddress.city!.toUpperCase())) {
       setState(() {
         paymentMethodRadioValue = 2;
         paymentMethodGrpValue = 2;
       });
     }
     return GetBuilder<CartPaymentMethodController>(
-      init: CartPaymentMethodController(city: widget.billingAddress.city),
+      init: CartPaymentMethodController(city: widget.billingAddress.city ?? ""),
       builder: (controller) => Scaffold(
         backgroundColor: newBackgroundColor,
         appBar: AppBar(
@@ -145,7 +144,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                               ? PROCEED_TO_PAY.tr
                               : PLACE_ORDER.tr,
                           onButtonPressed: controller.busy
-                              ? null
+                              ? () {}
                               : () async {
                                   NavigationService.back();
                                   await makePayment(controller);
@@ -273,7 +272,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                     decoration: BoxDecoration(
                                       border: Border(
                                         bottom: BorderSide(
-                                          color: Colors.grey[200],
+                                          color: Colors.grey[200]!,
                                         ),
                                       ),
                                     ),
@@ -301,12 +300,13 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   CustomText(
-                                                    controller
-                                                        .paymentOptions[key],
+                                                    controller.paymentOptions[
+                                                            key] ??
+                                                        "",
                                                     fontSize:
                                                         titleFontSizeStyle,
                                                     isBold: true,
-                                                    color: Colors.grey[700],
+                                                    color: Colors.grey[700]!,
                                                   ),
                                                   if (key == 2)
                                                     verticalSpaceTiny,
@@ -319,7 +319,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                                 ],
                                               ),
                                             ),
-                                            iconpaymentMethodMap[key],
+                                            iconpaymentMethodMap[key]!,
                                             horizontalSpaceTiny,
                                           ],
                                         ),
@@ -342,9 +342,9 @@ class _PaymentMethodState extends State<PaymentMethod> {
 
   Future<void> makePayment(controller) async {
     final Order res = await controller.createOrder(
-        widget.billingAddress.address +
+        widget.billingAddress.address! +
             '\n' +
-            widget.billingAddress.googleAddress,
+            widget.billingAddress.googleAddress!,
         widget.productId,
         widget.promoCode,
         widget.promoCodeId,

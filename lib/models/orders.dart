@@ -15,10 +15,10 @@ class Orders {
     this.orders,
   });
 
-  num records;
-  num startIndex;
-  num limit;
-  List<Order> orders;
+  num? records;
+  num? startIndex;
+  num? limit;
+  List<Order>? orders;
 
   factory Orders.fromJson(Map<String, dynamic> json) => Orders(
         records: json["records"],
@@ -31,7 +31,7 @@ class Orders {
         "records": records,
         "startIndex": startIndex,
         "limit": limit,
-        "orders": List<dynamic>.from(orders.map((x) => x.toJson())),
+        "orders": List<dynamic>.from(orders!.map((x) => x.toJson())),
       };
 }
 
@@ -58,25 +58,25 @@ class Order {
     this.payment,
   });
 
-  String key;
-  bool enabled;
-  String created;
-  String modified;
-  String customerId;
-  String billingAddress;
-  String billingCity;
-  String billingState;
-  num billingPincode;
-  BillingPhone billingPhone;
-  String sellerId;
-  String productId;
-  Shipment shipment;
-  Variation variation;
-  OrderCost orderCost;
-  Status status;
-  String deliveryDate;
-  Product product;
-  Payment payment;
+  String? key;
+  bool? enabled;
+  String? created;
+  String? modified;
+  String? customerId;
+  String? billingAddress;
+  String? billingCity;
+  String? billingState;
+  num? billingPincode;
+  BillingPhone? billingPhone;
+  String? sellerId;
+  String? productId;
+  Shipment? shipment;
+  Variation? variation;
+  OrderCost? orderCost;
+  Status? status;
+  String? deliveryDate;
+  Product? product;
+  Payment? payment;
 
   factory Order.fromJson(Map<String, dynamic> json) => Order(
         key: json["key"],
@@ -120,16 +120,16 @@ class Order {
         "modified": modified,
         "customerId": customerId,
         "billingAddress": billingAddress == null ? null : billingAddress,
-        "billingPhone": billingPhone == null ? null : billingPhone.toJson(),
+        "billingPhone": billingPhone == null ? null : billingPhone?.toJson(),
         "sellerId": sellerId,
         "productId": productId,
-        "shipment": shipment == null ? null : shipment.toJson(),
-        "variation": variation == null ? null : variation.toJson(),
-        "orderCost": orderCost == null ? null : orderCost.toJson(),
-        "status": status == null ? null : status.toJson(),
+        "shipment": shipment == null ? null : shipment?.toJson(),
+        "variation": variation == null ? null : variation?.toJson(),
+        "orderCost": orderCost == null ? null : orderCost?.toJson(),
+        "status": status == null ? null : status?.toJson(),
         "deliveryDate": deliveryDate,
-        "product": product == null ? null : product.toJson(),
-        "payment": payment == null ? null : payment.toJson(),
+        "product": product == null ? null : product?.toJson(),
+        "payment": payment == null ? null : payment?.toJson(),
       };
 }
 
@@ -139,8 +139,8 @@ class BillingPhone {
     this.mobile,
   });
 
-  String code;
-  String mobile;
+  String? code;
+  String? mobile;
 
   factory BillingPhone.fromJson(Map<String, dynamic> json) => BillingPhone(
         code: json["code"],
@@ -165,15 +165,15 @@ class OrderCost {
       this.cost,
       this.note});
 
-  num productPrice;
-  num quantity;
-  CostAndRate productDiscount;
-  CostAndRate promocodeDiscount;
-  CostAndRate convenienceCharges;
-  CostAndRate gstCharges;
-  Delivery deliveryCharges;
-  num cost;
-  String note;
+  num? productPrice;
+  num? quantity;
+  CostAndRate? productDiscount;
+  CostAndRate? promocodeDiscount;
+  CostAndRate? convenienceCharges;
+  CostAndRate? gstCharges;
+  Delivery? deliveryCharges;
+  num? cost;
+  String? note;
 
   factory OrderCost.fromJson(Map<String, dynamic> json) => OrderCost(
         productPrice: json["productPrice"],
@@ -201,14 +201,14 @@ class OrderCost {
         "productPrice": productPrice,
         "quantity": quantity,
         "productDiscount":
-            productDiscount == null ? null : productDiscount.toJson(),
+            productDiscount == null ? null : productDiscount?.toJson(),
         "promocodeDiscount":
-            promocodeDiscount == null ? null : promocodeDiscount.toJson(),
+            promocodeDiscount == null ? null : promocodeDiscount?.toJson(),
         "convenienceCharges":
-            convenienceCharges == null ? null : convenienceCharges.toJson(),
-        "gstCharges": gstCharges == null ? null : gstCharges.toJson(),
+            convenienceCharges == null ? null : convenienceCharges?.toJson(),
+        "gstCharges": gstCharges == null ? null : gstCharges?.toJson(),
         "deliveryCharges":
-            deliveryCharges == null ? null : deliveryCharges.toJson(),
+            deliveryCharges == null ? null : deliveryCharges?.toJson(),
         "cost": cost,
         "note": note,
       };
@@ -222,10 +222,10 @@ class Payment {
     this.orderStatus,
   });
 
-  Option option;
-  String receiptId;
-  String orderId;
-  String orderStatus;
+  Option? option;
+  String? receiptId;
+  String? orderId;
+  String? orderStatus;
 
   factory Payment.fromJson(Map<String, dynamic> json) => Payment(
         option: json["option"] != null ? Option.fromJson(json["option"]) : null,
@@ -248,8 +248,8 @@ class Option {
     this.name,
   });
 
-  num id;
-  String name;
+  num? id;
+  String? name;
 
   factory Option.fromJson(Map<String, dynamic> json) => Option(
         id: json["id"],
@@ -267,7 +267,7 @@ class Account {
     this.key,
   });
 
-  String key;
+  String? key;
 
   factory Account.fromJson(Map<String, dynamic> json) => Account(
         key: json["key"],
@@ -285,9 +285,9 @@ class Status {
     this.note,
   });
 
-  num id;
-  String state;
-  String note;
+  num? id;
+  String? state;
+  String? note;
 
   factory Status.fromJson(Map<String, dynamic> json) => Status(
         id: json["id"],

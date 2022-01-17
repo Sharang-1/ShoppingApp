@@ -13,8 +13,8 @@ class ExploreDesignerTileUI extends StatelessWidget {
   final Seller data;
 
   const ExploreDesignerTileUI({
-    Key key,
-    @required this.data,
+    Key? key,
+    required this.data,
   }) : super(key: key);
 
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class ExploreDesignerTileUI extends StatelessWidget {
       padding: EdgeInsets.all(8.0),
       decoration: BoxDecoration(
           border:
-              Border(bottom: BorderSide(width: 5.0, color: Colors.grey[300]))),
+              Border(bottom: BorderSide(width: 5.0, color: Colors.grey[300]!))),
       child: Column(
         children: <Widget>[
           ClipOval(
@@ -39,7 +39,7 @@ class ExploreDesignerTileUI extends StatelessWidget {
                 padding: EdgeInsets.all(8.0),
                 child: FittedBox(
                   child: Text(
-                    data?.name?.substring(0, 1)?.toUpperCase() ?? 'D',
+                    data.name?.substring(0, 1).toUpperCase() ?? 'D',
                     style: TextStyle(
                       color: Colors.white,
                     ),
@@ -55,7 +55,7 @@ class ExploreDesignerTileUI extends StatelessWidget {
               children: [
                 Expanded(
                   child: CustomText(
-                    data.name,
+                    data.name ?? "",
                     dotsAfterOverFlow: true,
                     fontSize: titleFontSize,
                     fontWeight: FontWeight.w500,
@@ -64,10 +64,10 @@ class ExploreDesignerTileUI extends StatelessWidget {
                 verticalSpace(2),
                 Expanded(
                   child: CustomText(
-                    data.establishmentType.name,
+                    data.establishmentType!.name ?? "",
                     dotsAfterOverFlow: true,
                     fontSize: subtitleFontSize,
-                    color: Colors.grey[500],
+                    color: Colors.grey[500]!,
                   ),
                 ),
               ],

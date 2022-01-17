@@ -17,9 +17,9 @@ class SellersGridViewBuilderController
   final bool random;
   final bool topSellers;
   final bool withProducts;
-  final String removeId;
-  final num subscriptionType;
-  final List<num> subscriptionTypes;
+  final String? removeId;
+  final num? subscriptionType;
+  final List<num>? subscriptionTypes;
   final int limit;
 
   SellersGridViewBuilderController({
@@ -38,13 +38,15 @@ class SellersGridViewBuilderController
   });
 
   @override
-  Future init() {
+  Future init() async {
     return null;
   }
 
   @override
   Future<Sellers> getData(
-      {BaseFilterModel filterModel, int pageNumber, int pageSize = 10}) async {
+      {required BaseFilterModel filterModel,
+      required int pageNumber,
+      int pageSize = 10}) async {
     if ((subscriptionType != null) || (subscriptionTypes != null)) {
       pageSize = 30;
     }
@@ -55,9 +57,9 @@ class SellersGridViewBuilderController
 
     Sellers res = Sellers(records: 1000, limit: 1000, startIndex: 0);
 
-    res.items = (filterModel?.queryString ?? '').isEmpty
-        ? await locator<CacheService>()?.getSellers()
-        : (await _apiService?.getSellers(queryString: _queryString))?.items;
+    res.items = (filterModel.queryString).isEmpty
+        ? await locator<CacheService>().getSellers()
+        : (await _apiService.getSellers(queryString: _queryString)).items;
 
     if (res == null) {
       res = await _apiService.getSellers(queryString: _queryString);
@@ -66,63 +68,63 @@ class SellersGridViewBuilderController
 
     if (this.removeId != null) {
       res.items =
-          res.items.where((element) => element?.key != this.removeId).toList();
+          res.items!.where((element) => element.key != this.removeId).toList();
     }
 
     if (this.subscriptionType != null) {
-      res.items = res.items
+      res.items = res.items!
           .where(
-              (element) => element?.subscriptionTypeId == this.subscriptionType)
+              (element) => element.subscriptionTypeId == this.subscriptionType)
           .toList();
     }
 
     if (this.subscriptionTypes != null) {
-      res.items = res.items
+      res.items = res.items!
           .where((element) =>
-              subscriptionTypes.contains(element?.subscriptionTypeId))
+              subscriptionTypes!.contains(element.subscriptionTypeId))
           .toList();
     }
 
     if (this.sellerDeliveringToYou) {
-      res.items = res.items
+      res.items = res.items!
           .where((element) =>
-              element?.subscriptionTypeId == 1 ||
-              element?.subscriptionTypeId == 2)
+              element.subscriptionTypeId == 1 ||
+              element.subscriptionTypeId == 2)
           .toList();
     }
 
     if (this.profileOnly != null && this.profileOnly == true) {
-      res.items = res.items
-          .where((element) => element?.subscriptionTypeId != 2)
+      res.items = res.items!
+          .where((element) => element.subscriptionTypeId != 2)
           .toList();
     }
 
     if ((this.profileOnly == null || this.profileOnly == false) &&
         (this.sellerOnly != null && this.sellerOnly == true)) {
-      res.items = res.items
-          .where((element) => element?.subscriptionTypeId == 2)
+      res.items = res.items!
+          .where((element) => element.subscriptionTypeId == 2)
           .toList();
     }
 
     if (this.boutiquesOnly) {
-      res.items = res.items
-          .where((element) => element?.establishmentTypeId == 1)
+      res.items = res.items!
+          .where((element) => element.establishmentTypeId == 1)
           .toList();
     }
 
     if (this.random) {
-      res.items.shuffle();
-      if (res.items.length > pageSize && sellerWithNoProducts)
-        res.items = res.items.sublist(0, pageSize);
+      res.items!.shuffle();
+      if (res.items!.length > pageSize && sellerWithNoProducts)
+        res.items = res.items!.sublist(0, pageSize);
     }
 
     if (this.withProducts) {
       List<Seller> sellers = [];
-      await Future.forEach<Seller>(res.items, (e) async {
-        Products products = await _apiService.getProducts(
+      await Future.forEach<Seller>(res.items!, (e) async {
+        Products? products = await _apiService.getProducts(
             queryString: "startIndex=0;limit=3;accountKey=${e.key};");
         if (!((products?.items?.length ?? 0) < 3)) {
-          e.products = products.items;
+          e.products = products!.items;
           sellers.add(e);
           if (limit != null && sellers.length == limit) {
             res.items = sellers;
@@ -131,13 +133,13 @@ class SellersGridViewBuilderController
         }
       });
       res.items = sellers;
-      if (limit != null && res.items.length > limit)
-        res.items = res.items.sublist(0, limit);
+      if (limit != null && res.items!.length > limit)
+        res.items = res.items!.sublist(0, limit);
       return res;
     }
 
-    if (limit != null && res.items.length > limit)
-      res.items = res.items.sublist(0, limit);
+    if (limit != null && res.items!.length > limit)
+      res.items = res.items!.sublist(0, limit);
 
     return res;
   }

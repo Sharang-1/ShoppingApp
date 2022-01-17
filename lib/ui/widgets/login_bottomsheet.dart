@@ -19,7 +19,7 @@ class LoginBottomsheet extends StatelessWidget {
   final bool shouldNavigateToNextScreen;
   final dynamic arguments;
   const LoginBottomsheet({
-    this.nextView,
+    required this.nextView,
     this.shouldNavigateToNextScreen = false,
     this.arguments,
   });
@@ -96,7 +96,8 @@ class LoginBottomsheet extends StatelessWidget {
                             errorMessage: controller.phoneNoValidationMessage,
                             textFieldController: controller.phoneNoController,
                             isEnabled: true,
-                            selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
+                            onInputChanged: (value) {},
+                            // selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
                             formatInput: true,
                           ),
                           FittedBox(
@@ -122,7 +123,7 @@ class LoginBottomsheet extends StatelessWidget {
                             controller: controller.otpController,
                             hideCharacter: false,
                             hasTextBorderColor: Colors.black45,
-                            defaultBorderColor: Colors.grey[300],
+                            defaultBorderColor: Colors.grey[300]!,
                             pinBoxColor: Colors.white,
                             maxLength: 4,
                             onTextChanged: controller.validateOtp,
@@ -151,7 +152,7 @@ class LoginBottomsheet extends StatelessWidget {
                                         .resendOTP()
                                         .then(controller.resetTimer);
                                   }
-                                : null,
+                                : () {},
                             enabled: controller.otpSendButtonEnabled,
                           ),
                           verticalSpaceTiny,

@@ -20,7 +20,7 @@ import 'bottom_nav_style.dart';
 import 'home_view_list.dart';
 
 class HomeView extends StatefulWidget {
-  HomeView({Key key, this.args}) : super(key: key);
+  HomeView({Key? key, this.args}) : super(key: key);
 
   final args;
 
@@ -155,7 +155,7 @@ class _HomeViewState extends State<HomeView> {
                             ),
                           ),
                           Text(
-                            "${controller?.cityName?.capitalize ?? ''}",
+                            "${controller.cityName.capitalize ?? ''}",
                             style: TextStyle(
                               fontSize: 16,
                               color: textIconBlue,
@@ -170,7 +170,7 @@ class _HomeViewState extends State<HomeView> {
                         "assets/images/wishlist.png",
                         color: Colors.grey.shade900,
                       ),
-                      onPressed: controller.isLoggedIn
+                      onPressed: controller.isLoggedIn ?? false
                           ? BaseController.gotoWishlist
                           : () async => await BaseController.showLoginPopup(
                                 nextView: WishListRoute,
@@ -239,7 +239,7 @@ class _HomeViewState extends State<HomeView> {
                                     locator<CartCountController>().count.value,
                               ),
                             ),
-                            onTap: () async => controller.isLoggedIn
+                            onTap: () async => controller.isLoggedIn ?? false
                                 ? await BaseController.cart()
                                 : await BaseController.showLoginPopup(
                                     nextView: CartViewRoute,
@@ -252,7 +252,7 @@ class _HomeViewState extends State<HomeView> {
                     title: FittedBox(
                       fit: BoxFit.scaleDown,
                       child: Text(
-                        "${controller?.remoteConfig?.getString(HOMESCREEN_APPBAR_TEXT) ?? ''}",
+                        "${controller.remoteConfig!.getString(HOMESCREEN_APPBAR_TEXT)}",
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 14,

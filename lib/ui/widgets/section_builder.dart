@@ -1,9 +1,7 @@
 import 'package:compound/controllers/cart_count_controller.dart';
-import 'package:compound/controllers/grid_view_builder/cart_grid_view_builder_controller.dart';
-import 'package:compound/models/cart.dart' show Cart, Item;
-import 'package:compound/models/grid_view_builder_filter_models/cartFilter.dart';
-import 'package:compound/ui/widgets/cart_tile.dart';
-import 'package:fimber/fimber_base.dart';
+
+import '../../models/cart.dart' show Cart, Item;
+import '../../models/grid_view_builder_filter_models/cartFilter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -25,6 +23,7 @@ import '../../services/analytics_service.dart';
 import '../../services/navigation_service.dart';
 import '../shared/app_colors.dart';
 import '../shared/ui_helpers.dart';
+import 'cart_tile.dart';
 import 'categoryTileUI.dart';
 import 'explore_designer_tile.dart';
 import 'explore_product_tile.dart';
@@ -69,30 +68,30 @@ enum LayoutType {
 
 // ignore: must_be_immutable
 class SectionBuilder extends StatelessWidget {
-  final SectionHeader header;
+  final SectionHeader? header;
   final LayoutType layoutType;
-  Key key;
+  Key? key;
   BuildContext context;
-  BaseFilterModel filter;
+  BaseFilterModel? filter;
   BaseGridViewBuilderController controller;
   int gridCount;
   Widget spacer;
-  double height;
+  double? height;
   bool toProduct;
   bool fromHome;
   bool withScrollBar;
   Axis scrollDirection;
   Function onEmptyList;
   Widget Function(BuildContext, dynamic, int, Future<bool> Function(int),
-      Future<bool> Function(int, dynamic)) tileBuilder;
+      Future<bool> Function(int, dynamic))? tileBuilder;
   bool isSmallDevice = Get.size.width < 375;
-  String productId;
-  List<String> exceptProductIDs = [];
+  String? productId;
+  List<String>? exceptProductIDs = [];
 
   SectionBuilder({
-    @required this.context,
-    @required this.layoutType,
-    @required this.controller,
+    required this.context,
+    required this.layoutType,
+    required this.controller,
     this.header,
     this.gridCount = 1,
     this.filter,
@@ -103,20 +102,20 @@ class SectionBuilder extends StatelessWidget {
     this.toProduct = false,
     this.fromHome = false,
     this.withScrollBar = true,
-    this.onEmptyList,
+    required this.onEmptyList,
     this.tileBuilder,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Column(
         children: [
-          if (header != null && (header?.title?.isNotEmpty ?? false))
+          if (header != null && (header?.title!.isNotEmpty ?? false))
             HomeViewListHeader(
-              title: header.title,
-              subTitle: header.subTitle,
-              viewAll: header.viewAll,
+              title: header!.title!,
+              subTitle: header!.subTitle,
+              viewAll: header!.viewAll,
             ),
-          if (header != null && (header?.title?.isNotEmpty ?? false)) spacer,
+          if (header != null && (header?.title!.isNotEmpty ?? false)) spacer,
           SizedBox(
             height: getSize(layoutType),
             child: withScrollBar
@@ -160,8 +159,7 @@ class SectionBuilder extends StatelessWidget {
           disablePagination: true,
           onEmptyList: onEmptyList,
           loadingWidget: ShimmerWidget(type: type),
-          tileBuilder:
-              (BuildContext context, productData, index, onUpdate, onDelete) {
+          tileBuilder: (BuildContext context, productData, index, onDelete) {
             var product = productData as Product;
             return InkWell(
               onTap: () => BaseController.goToProductPage(productData),
@@ -170,18 +168,18 @@ class SectionBuilder extends StatelessWidget {
                 child: Container(
                   child: TopPicksAndDealsCard(
                     data: {
-                      "key": product?.key ?? "Test",
-                      "name": product?.name ?? "Test",
-                      "actualCost": (product.cost.cost +
-                              product.cost.convenienceCharges.cost +
-                              product.cost.gstCharges.cost)
+                      "key": product.key ?? "Test",
+                      "name": product.name ?? "Test",
+                      "actualCost": (product.cost!.cost +
+                              product.cost!.convenienceCharges!.cost! +
+                              product.cost!.gstCharges!.cost!)
                           .round(),
-                      "price": product?.cost?.costToCustomer?.round() ?? 0,
-                      "discount": product?.cost?.productDiscount?.rate ?? 0,
-                      "photo": product?.photo?.photos?.first?.name,
-                      "sellerName": product?.seller?.name ?? "",
+                      "price": product.cost?.costToCustomer.round() ?? 0,
+                      "discount": product.cost?.productDiscount?.rate ?? 0,
+                      "photo": product.photo?.photos?.first.name,
+                      "sellerName": product.seller?.name ?? "",
                       "isDiscountAvailable":
-                          product?.discount != null && product.discount != 0
+                          product.discount != null && product.discount != 0
                               ? "true"
                               : null,
                     },
@@ -209,8 +207,7 @@ class SectionBuilder extends StatelessWidget {
             scrollDirection: scrollDirection,
             childAspectRatio: getChildAspectRatio(layoutType),
           ),
-          tileBuilder:
-              (BuildContext context, productData, index, onUpdate, onDelete) {
+          tileBuilder: (BuildContext context, productData, index, onDelete) {
             return Container(
               child: ProductTileUI(
                 data: productData,
@@ -227,41 +224,46 @@ class SectionBuilder extends StatelessWidget {
 
       case LayoutType.VIEW_CART_LAYOUT:
         return GridListWidget<Cart, Item>(
-            context: context,
-            filter: CartFilter(),
-            gridCount: gridCount,
-            disablePagination: true,
-            controller: controller,
-            childAspectRatio: getChildAspectRatio(layoutType),
-            loadingWidget: ShimmerWidget(
-              type: type,
-              scrollDirection: scrollDirection,
-              //childAspectRatio: getChildAspectRatio(layoutType),
-            ),
-            tileBuilder: tileBuilder
-            //  (BuildContext context, data, index, onDelete, onUpdate) {
-            //   Fimber.d("test");
-            //   print((data as Item).toJson());
-            //   final Item dItem = data as Item;
-            //   exceptProductIDs.add(dItem.product.key);
+          context: context,
+          filter: CartFilter(),
+          gridCount: gridCount,
+          disablePagination: true,
+          controller: controller,
+          onEmptyList: () {},
+          childAspectRatio: getChildAspectRatio(layoutType),
+          loadingWidget: ShimmerWidget(
+            type: type,
+            scrollDirection: scrollDirection,
+            //childAspectRatio: getChildAspectRatio(layoutType),
+          ),
+          tileBuilder: (
+            BuildContext context,
+            data,
+            index,
+            onDelete,
+          ) {
+            // Fimber.d("test");
+            print((data as Item).toJson());
+            final Item dItem = data as Item;
+            exceptProductIDs!.add(dItem.product!.key!);
 
-            //   return CartTile(
-            //     index: index,
-            //     item: dItem,
-            //     onDelete: (int index) async {
-            //       final value = await onDelete(index);
-            //       print("Delete product index: $index");
-            //       if (!value) return;
-            //       await controller
-            //           .removeFromCartLocalStore(dItem.productId.toString());
-            //       locator<CartCountController>().decrementCartCount();
-            //       // try {
-            //       //   await controller.removeProductFromCartEvent(dItem?.product);
-            //       // } catch (e) {}
-            //     },
-            //   );
-            // },
+            return CartTile(
+              index: index,
+              item: dItem,
+              onDelete: (int index) async {
+                final value = await onDelete(index);
+                print("Delete product index: $index");
+                if (!value) return;
+                await controller
+                    .removeFromCartLocalStore(dItem.productId.toString());
+                locator<CartCountController>().decrementCartCount();
+                // try {
+                //   await controller.removeProductFromCartEvent(dItem?.product);
+                // } catch (e) {}
+              },
             );
+          },
+        );
 
       case LayoutType.PRODUCT_LAYOUT_3:
         return GridListWidget<Products, Product>(
@@ -275,8 +277,7 @@ class SectionBuilder extends StatelessWidget {
           scrollDirection: scrollDirection,
           disablePagination: true,
           onEmptyList: onEmptyList,
-          tileBuilder:
-              (BuildContext context, productData, index, onUpdate, onDelete) {
+          tileBuilder: (BuildContext context, productData, index, onDelete) {
             return ExploreProductTileUI(
               data: productData,
               onClick: () async {
@@ -288,8 +289,8 @@ class SectionBuilder extends StatelessWidget {
                         "product_name": productData?.name,
                         "category_id": productData?.category?.id?.toString(),
                         "category_name": productData?.category?.name,
-                        "user_id": locator<HomeController>()?.details?.key,
-                        "user_name": locator<HomeController>()?.details?.name,
+                        "user_id": locator<HomeController>().details!.key,
+                        "user_name": locator<HomeController>().details!.name,
                       });
                 } catch (e) {}
                 await NavigationService.to(
@@ -300,7 +301,7 @@ class SectionBuilder extends StatelessWidget {
               index: index,
               cardPadding: EdgeInsets.fromLTRB(0, 0, 0, 10),
               tags: <String>[
-                if (locator<HomeController>()?.cityName?.toLowerCase() ==
+                if (locator<HomeController>().cityName.toLowerCase() ==
                     'ahmedabad')
                   'CODAvailable',
               ],
@@ -313,7 +314,7 @@ class SectionBuilder extends StatelessWidget {
         return GridListWidget<Sellers, Seller>(
           key: UniqueKey(),
           context: context,
-          filter: filter ?? SellerFilter(),
+          filter: filter ?? SellerFilter(name: ''),
           gridCount: gridCount,
           childAspectRatio: getChildAspectRatio(layoutType),
           controller: controller,
@@ -321,7 +322,12 @@ class SectionBuilder extends StatelessWidget {
           scrollDirection: scrollDirection,
           emptyListWidget: Container(),
           onEmptyList: onEmptyList,
-          tileBuilder: (BuildContext context, data, index, onDelete, onUpdate) {
+          tileBuilder: (
+            BuildContext context,
+            data,
+            index,
+            onDelete,
+          ) {
             return GestureDetector(
               onTap: () {},
               child: SellerTileUi(
@@ -337,7 +343,7 @@ class SectionBuilder extends StatelessWidget {
         return GridListWidget<Sellers, Seller>(
           key: UniqueKey(),
           context: context,
-          filter: filter ?? SellerFilter(),
+          filter: filter ?? SellerFilter(name: ''),
           gridCount: gridCount,
           childAspectRatio: getChildAspectRatio(
             layoutType,
@@ -353,7 +359,12 @@ class SectionBuilder extends StatelessWidget {
             scrollDirection: scrollDirection,
             childAspectRatio: getChildAspectRatio(layoutType),
           ),
-          tileBuilder: (BuildContext context, data, index, onDelete, onUpdate) {
+          tileBuilder: (
+            BuildContext context,
+            data,
+            index,
+            onDelete,
+          ) {
             return GestureDetector(
               onTap: () {},
               child: Container(
@@ -368,7 +379,7 @@ class SectionBuilder extends StatelessWidget {
         return GridListWidget<Sellers, Seller>(
           key: UniqueKey(),
           context: context,
-          filter: filter ?? SellerFilter(),
+          filter: filter ?? SellerFilter(name: ''),
           gridCount: gridCount,
           childAspectRatio: getChildAspectRatio(layoutType),
           controller: controller,
@@ -381,7 +392,12 @@ class SectionBuilder extends StatelessWidget {
             scrollDirection: scrollDirection,
             childAspectRatio: getChildAspectRatio(layoutType),
           ),
-          tileBuilder: (BuildContext context, data, index, onDelete, onUpdate) {
+          tileBuilder: (
+            BuildContext context,
+            data,
+            index,
+            onDelete,
+          ) {
             return GestureDetector(
               onTap: () {},
               child: Container(
@@ -390,7 +406,7 @@ class SectionBuilder extends StatelessWidget {
                     bottom:
                         (layoutType == LayoutType.DESIGNER_ID_3_VERTICAL_LAYOUT)
                             ? BorderSide(
-                                color: Colors.grey[300],
+                                color: Colors.grey[300]!,
                               )
                             : BorderSide.none,
                   ),
@@ -409,7 +425,7 @@ class SectionBuilder extends StatelessWidget {
         return GridListWidget<Sellers, Seller>(
           key: UniqueKey(),
           context: context,
-          filter: filter ?? SellerFilter(),
+          filter: filter ?? SellerFilter(name: ''),
           gridCount: gridCount,
           childAspectRatio: getChildAspectRatio(
             layoutType,
@@ -420,7 +436,12 @@ class SectionBuilder extends StatelessWidget {
           scrollDirection: scrollDirection,
           emptyListWidget: Container(),
           onEmptyList: onEmptyList,
-          tileBuilder: (BuildContext context, data, index, onDelete, onUpdate) {
+          tileBuilder: (
+            BuildContext context,
+            data,
+            index,
+            onDelete,
+          ) {
             return GestureDetector(
               onTap: () => BaseController.goToSellerPage(data.key),
               child: ExploreDesignerTileUI(data: data),
@@ -441,7 +462,12 @@ class SectionBuilder extends StatelessWidget {
           scrollDirection: scrollDirection,
           emptyListWidget: Container(),
           onEmptyList: onEmptyList,
-          tileBuilder: (BuildContext context, data, index, onDelete, onUpdate) {
+          tileBuilder: (
+            BuildContext context,
+            data,
+            index,
+            onDelete,
+          ) {
             return GestureDetector(
               onTap: () => NavigationService.to(
                 CategoryIndiViewRoute,
@@ -473,7 +499,12 @@ class SectionBuilder extends StatelessWidget {
           scrollDirection: scrollDirection,
           emptyListWidget: Container(),
           onEmptyList: onEmptyList,
-          tileBuilder: (BuildContext context, data, index, onDelete, onUpdate) {
+          tileBuilder: (
+            BuildContext context,
+            data,
+            index,
+            onDelete,
+          ) {
             return GestureDetector(
               onTap: () => NavigationService.to(
                 CategoryIndiViewRoute,
@@ -489,10 +520,10 @@ class SectionBuilder extends StatelessWidget {
                       ? BoxDecoration(
                           border: Border(
                             right: BorderSide(
-                              color: Colors.grey[300],
+                              color: Colors.grey[300]!,
                             ),
                             bottom: BorderSide(
-                              color: Colors.grey[300],
+                              color: Colors.grey[300]!,
                             ),
                           ),
                         )
@@ -508,7 +539,7 @@ class SectionBuilder extends StatelessWidget {
         );
 
       default:
-        return null;
+        return Container();
     }
   }
 
@@ -520,19 +551,19 @@ class SectionBuilder extends StatelessWidget {
       case LayoutType.PRODUCT_LAYOUT_2:
         return 260;
       case LayoutType.PRODUCT_LAYOUT_3:
-        return null;
+        return 0;
 
       //Designer
       case LayoutType.DESIGNER_LAYOUT_1:
         return 220;
       case LayoutType.DESIGNER_LAYOUT_2:
-        return null;
+        return 0;
       case LayoutType.DESIGNER_ID_1_2_LAYOUT:
         return 250;
       case LayoutType.DESIGNER_ID_3_LAYOUT:
         return 110;
       case LayoutType.DESIGNER_ID_3_VERTICAL_LAYOUT:
-        return null;
+        return 0;
 
       //Explore
       case LayoutType.EXPLORE_DESIGNER_LAYOUT:
@@ -550,7 +581,7 @@ class SectionBuilder extends StatelessWidget {
       case LayoutType.MY_ORDERS_LAYOUT:
         return 260;
       case LayoutType.CATEGORY_LAYOUT_4:
-        return null;
+        return 0;
 
       //Promotion
       case LayoutType.PROMOTION_LAYOUT_1:
@@ -601,10 +632,10 @@ class SectionBuilder extends StatelessWidget {
 }
 
 class SectionHeader {
-  final String title, subTitle;
-  final Function viewAll;
+  final String? title, subTitle;
+  final Function? viewAll;
 
-  const SectionHeader({@required this.title, this.subTitle, this.viewAll});
+  const SectionHeader({required this.title, this.subTitle, this.viewAll});
 }
 
 class CategoryLayout1 extends StatelessWidget {
@@ -617,11 +648,11 @@ class CategoryLayout1 extends StatelessWidget {
 class FutureSectionBuilder extends StatelessWidget {
   final Widget child;
   final Duration duration;
-  final Widget loadingWidget;
+  final Widget? loadingWidget;
 
   const FutureSectionBuilder({
-    Key key,
-    this.child,
+    Key? key,
+    required this.child,
     this.duration = const Duration(seconds: 2),
     this.loadingWidget,
   }) : super(key: key);

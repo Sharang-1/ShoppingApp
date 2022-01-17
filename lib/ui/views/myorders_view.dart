@@ -1,25 +1,14 @@
-import 'package:compound/ui/widgets/my_order_tile.dart';
-import 'package:compound/ui/widgets/section_builder.dart';
-import 'package:compound/ui/widgets/shimmer/my_orders_shimmer.dart';
-import 'package:compound/utils/lang/translation_keys.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:grouped_list/grouped_list.dart';
-import 'package:intl/intl.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../constants/route_names.dart';
-import '../../constants/server_urls.dart';
 import '../../controllers/orders_controller.dart';
-import '../../models/orders.dart';
 import '../../services/navigation_service.dart';
+import '../../utils/lang/translation_keys.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
-import '../shared/ui_helpers.dart';
-import '../widgets/custom_text.dart';
-import '../widgets/grid_list_widget.dart';
-import '../widgets/shimmer/shimmer_widget.dart';
-import 'myorders_details_view.dart';
+import '../widgets/my_order_tile.dart';
 
 class MyOrdersView extends StatefulWidget {
   @override

@@ -13,37 +13,38 @@ import 'shimmer/shimmer_widget.dart';
 enum LoadMoreStatus { LOADING, STABLE }
 
 typedef TileFunctionBuilder = Widget Function(
-    BuildContext context,
-    dynamic data,
-    int index,
-    Future<bool> Function(int) onDelete,
-    Future<bool> Function(int, dynamic) onUpdate);
+  BuildContext context,
+  dynamic data,
+  int index,
+  Future<bool> Function(int) onDelete,
+);
+// Future<bool> Function(int, dynamic) onUpdate
 
 class GridListWidget<P, I> extends StatelessWidget {
-  final BaseFilterModel filter;
+  final BaseFilterModel? filter;
   final BaseGridViewBuilderController controller;
   final TileFunctionBuilder tileBuilder;
   final int gridCount;
   final double childAspectRatio;
   final bool disablePagination;
   final Axis scrollDirection;
-  final Widget emptyListWidget;
-  final Widget loadingWidget;
+  final Widget? emptyListWidget;
+  final Widget? loadingWidget;
   final Function onEmptyList;
 
   const GridListWidget({
-    Key key,
-    @required this.context,
-    @required this.filter,
-    @required this.controller,
-    @required this.gridCount,
-    @required this.tileBuilder,
+    Key? key,
+    required this.context,
+    required this.filter,
+    required this.controller,
+    required this.gridCount,
+    required this.tileBuilder,
     this.childAspectRatio = 1.0,
     this.disablePagination = false,
     this.scrollDirection = Axis.vertical,
     this.emptyListWidget,
     this.loadingWidget,
-    this.onEmptyList,
+    required this.onEmptyList,
   }) : super(key: key);
 
   final BuildContext context;
@@ -55,15 +56,16 @@ class GridListWidget<P, I> extends StatelessWidget {
       global: false,
       builder: (controller) => filter != null
           ? CustomGridViewFutureBuilder<P, I>(
-              filter: filter,
+              filter: filter!,
               gridCount: gridCount,
               tileBuilder: tileBuilder,
               controller: controller,
               childAspectRatio: childAspectRatio,
               disablePagination: disablePagination,
               scrollDirection: scrollDirection,
-              emptyListWidget:
-                  emptyListWidget == null ? EmptyListWidget() : emptyListWidget,
+              emptyListWidget: emptyListWidget == null
+                  ? EmptyListWidget()
+                  : emptyListWidget!,
               loadingWidget: loadingWidget,
               onEmptyList: onEmptyList,
             )
@@ -76,17 +78,17 @@ class GridListWidget<P, I> extends StatelessWidget {
 
 class CustomGridViewFutureBuilder<P, I> extends StatefulWidget {
   const CustomGridViewFutureBuilder({
-    Key key,
-    @required this.filter,
-    @required this.gridCount,
-    @required this.tileBuilder,
-    @required this.controller,
+    Key? key,
+    required this.filter,
+    required this.gridCount,
+    required this.tileBuilder,
+    required this.controller,
     this.childAspectRatio = 1.0,
-    this.disablePagination,
+    required this.disablePagination,
     this.scrollDirection = Axis.vertical,
     this.emptyListWidget,
     this.loadingWidget,
-    this.onEmptyList,
+    required this.onEmptyList,
   }) : super(key: key);
 
   final BaseFilterModel filter;
@@ -96,8 +98,8 @@ class CustomGridViewFutureBuilder<P, I> extends StatefulWidget {
   final double childAspectRatio;
   final bool disablePagination;
   final Axis scrollDirection;
-  final Widget emptyListWidget;
-  final Widget loadingWidget;
+  final Widget? emptyListWidget;
+  final Widget? loadingWidget;
   final Function onEmptyList;
 
   @override
@@ -107,8 +109,8 @@ class CustomGridViewFutureBuilder<P, I> extends StatefulWidget {
 
 class _CustomGridViewFutureBuilderState<P, I>
     extends State<CustomGridViewFutureBuilder<P, I>> {
-  Future future;
-  BaseFilterModel filter;
+  late Future<P> future;
+  late BaseFilterModel filter;
 
   @override
   void initState() {
@@ -116,7 +118,7 @@ class _CustomGridViewFutureBuilderState<P, I>
     future = widget.controller.getData(
       filterModel: filter,
       pageNumber: 1,
-    );
+    ) as Future<P>;
     super.initState();
   }
 
@@ -150,11 +152,11 @@ class _CustomGridViewFutureBuilderState<P, I>
                 //       width: 50,
                 //     ),
                 //   )
-                : widget.loadingWidget;
+                : widget.loadingWidget!;
           case ConnectionState.done:
             print(snapshots.data);
             return PaginatedGridView<P, I>(
-              data: snapshots.data,
+              data: snapshots.data!,
               filter: widget.filter,
               controller: widget.controller,
               gridCount: widget.gridCount,
@@ -162,11 +164,11 @@ class _CustomGridViewFutureBuilderState<P, I>
               childAspectRatio: widget.childAspectRatio,
               disablePagination: widget.disablePagination,
               scrollDirection: widget.scrollDirection,
-              emptyListWidget: widget.emptyListWidget,
+              emptyListWidget: widget.emptyListWidget!,
               onEmptyList: widget.onEmptyList,
             );
           default:
-            return null;
+            return Container();
         }
       },
     );
@@ -183,22 +185,22 @@ class PaginatedGridView<P, I> extends StatefulWidget {
   final bool disablePagination;
   final bool showScrollIndicator;
   final Axis scrollDirection;
-  final Widget emptyListWidget;
+  final Widget? emptyListWidget;
   final Function onEmptyList;
 
   const PaginatedGridView({
-    Key key,
-    @required this.data,
-    @required this.filter,
-    @required this.controller,
-    @required this.gridCount,
-    @required this.tileBuilder,
+    Key? key,
+    required this.data,
+    required this.filter,
+    required this.controller,
+    required this.gridCount,
+    required this.tileBuilder,
     this.childAspectRatio = 1,
-    this.disablePagination,
+    required this.disablePagination,
     this.showScrollIndicator = false,
     this.scrollDirection = Axis.vertical,
     this.emptyListWidget,
-    this.onEmptyList,
+    required this.onEmptyList,
   }) : super(key: key);
 
   @override
@@ -209,8 +211,8 @@ class _PaginatedGridViewState<I> extends State<PaginatedGridView> {
   final ScrollController _scrollController = new ScrollController();
   LoadMoreStatus loadMoreStatus = LoadMoreStatus.STABLE;
   List<I> items = [];
-  int currentPage;
-  CancelableOperation itemOperation;
+  late int currentPage;
+  late CancelableOperation itemOperation;
 
   @override
   void initState() {
@@ -244,10 +246,10 @@ class _PaginatedGridViewState<I> extends State<PaginatedGridView> {
               controller: _scrollController,
               itemCount: items.length,
               physics: ScrollPhysics(),
-              itemBuilder: (_, index) => widget.tileBuilder(
-                  context, items[index], index, onDelete, null),
+              itemBuilder: (_, index) =>
+                  widget.tileBuilder(context, items[index], index, onDelete),
             )
-          : widget.emptyListWidget,
+          : widget.emptyListWidget!,
     );
   }
 
@@ -296,7 +298,7 @@ class _PaginatedGridViewState<I> extends State<PaginatedGridView> {
 class EmptyListWidget extends StatelessWidget {
   final String text, img;
   const EmptyListWidget({
-    Key key,
+    Key? key,
     this.text = "Fill Me Up!",
     this.img = "assets/images/empty_cart.png",
   }) : super(key: key);

@@ -21,14 +21,14 @@ class ProductTileUI extends StatefulWidget {
   final Product data;
   final Function onClick;
   final int index;
-  final EdgeInsets cardPadding;
-  final Function() onAddToCartClicked;
+  final EdgeInsets? cardPadding;
+  final Function()? onAddToCartClicked;
 
   const ProductTileUI({
-    Key key,
-    @required this.data,
-    @required this.onClick,
-    @required this.index,
+    Key? key,
+    required this.data,
+    required this.onClick,
+    required this.index,
     this.cardPadding,
     this.onAddToCartClicked,
   }) : super(key: key);
@@ -47,7 +47,8 @@ class _ProductTileUIState extends State<ProductTileUI> {
     super.initState();
     setState(() {
       isWishlistIconFilled =
-          locator<WishListController>().list.indexOf(widget.data.key) != -1;
+          locator<WishListController>().list.indexOf(widget.data.key ?? "") !=
+              -1;
     });
   }
 
@@ -74,28 +75,33 @@ class _ProductTileUIState extends State<ProductTileUI> {
     EdgeInsetsGeometry paddingCard = widget.index % 2 == 0
         ? const EdgeInsets.fromLTRB(screenPadding, 0, 0, 10)
         : const EdgeInsets.fromLTRB(0, 0, screenPadding, 10);
-    paddingCard = widget.cardPadding == null ? paddingCard : widget.cardPadding;
+    paddingCard =
+        widget.cardPadding == null ? paddingCard : widget.cardPadding!;
 
     final photo = widget.data.photo ?? null;
     final photos = photo != null ? photo.photos ?? null : null;
-    final String photoURL = photos != null ? photos[0].name ?? null : null;
-    final String productName = widget?.data?.name ?? "No name";
-    final double productDiscount =
-        widget?.data?.cost?.productDiscount?.rate ?? 0.0;
-    final int productPrice = widget?.data?.cost?.costToCustomer?.round() ?? 0;
-    final int actualCost = (widget.data.cost.cost +
-                widget.data.cost.convenienceCharges.cost +
-                widget.data.cost.gstCharges.cost)
-            .round() ??
-        0;
+    final String photoURL = photos != null ? photos[0].name ?? "" : "";
+    final String productName = widget.data.name ?? "No name";
+    final double? productDiscount =
+        widget.data.cost!.productDiscount!.rate as double? ?? 0.0;
+    final int productPrice = widget.data.cost?.costToCustomer.round() ?? 0;
+    final int actualCost;
+    if (widget.data.cost != null && widget.data.cost!.gstCharges != null) {
+      actualCost = (widget.data.cost!.cost +
+              widget.data.cost!.convenienceCharges!.cost! +
+              widget.data.cost!.gstCharges!.cost!)
+          .round();
+    } else {
+      actualCost = 0;
+    }
 
     return GestureDetector(
-      onTap: widget.onClick,
+      onTap: widget.onClick(),
       child: Container(
         padding: paddingCard,
         decoration: BoxDecoration(
           border: Border.all(
-            color: Colors.grey[200],
+            color: Colors.grey[200]!,
           ),
         ),
         child: Card(
@@ -114,7 +120,7 @@ class _ProductTileUIState extends State<ProductTileUI> {
                   photoURL,
                   productDiscount,
                   priceFontSize,
-                  handcrafted: (widget?.data?.whoMadeIt?.id == 2),
+                  handcrafted: (widget.data.whoMadeIt?.id == 2),
                 ),
               ),
               Expanded(
@@ -139,18 +145,21 @@ class _ProductTileUIState extends State<ProductTileUI> {
                               ),
                             ),
                           ),
-                          widget?.onAddToCartClicked == null
+                          widget.onAddToCartClicked == null
                               ? InkWell(
                                   child: WishListIcon(
                                     filled: isWishlistIconFilled,
                                     width: 18,
                                     height: 18,
                                   ),
-                                  onTap: (locator<HomeController>().isLoggedIn)
+                                  onTap: (locator<HomeController>()
+                                              .isLoggedIn ??
+                                          false)
                                       ? () async {
                                           if (locator<WishListController>()
                                                   .list
-                                                  .indexOf(widget.data.key) !=
+                                                  .indexOf(
+                                                      widget.data.key ?? "") !=
                                               -1) {
                                             removeFromWishList(widget.data.key);
                                             setState(() {
@@ -180,7 +189,7 @@ class _ProductTileUIState extends State<ProductTileUI> {
                         ],
                       ),
                       Text(
-                        "By ${widget?.data?.seller?.name.toString() ?? 'No Name'}",
+                        "By ${widget.data.seller?.name.toString() ?? 'No Name'}",
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.left,
                         style: TextStyle(

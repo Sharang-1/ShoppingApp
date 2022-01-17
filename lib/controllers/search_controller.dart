@@ -13,20 +13,20 @@ class SearchController extends BaseController {
   Rx<Key> productGridKey = UniqueKey().obs;
   Rx<Key> sellerGridKey = UniqueKey().obs;
 
-  Rx<TextEditingController> searchController;
-  Rx<TabController> tabController;
+  late Rx<TextEditingController> searchController;
+  late Rx<TabController> tabController;
   Rx<FocusNode> searchBarFocusNode = FocusNode(canRequestFocus: true).obs;
 
   // Search States
-  Rx<Debouncer> debouncer;
+  late Rx<Debouncer> debouncer;
   RxInt currentTabIndex = 0.obs;
   RxBool showRandomSellers = true.obs;
   RxBool showTopProducts = true.obs;
   Rx<RegExp> searchFilterRegex = RegExp(r"\w+", caseSensitive: true).obs;
 
   // Filter States
-  Rx<ProductFilter> productFilter;
-  Rx<SellerFilter> sellerFilter;
+  late Rx<ProductFilter> productFilter;
+  late Rx<SellerFilter> sellerFilter;
 
   void setProductGridKey(UniqueKey key) {
     this.productGridKey.value = key;
@@ -47,7 +47,7 @@ class SearchController extends BaseController {
   Future<void> init(TickerProvider tickerProvider,
       {bool showSellers = false}) async {
     productFilter = ProductFilter().obs;
-    sellerFilter = SellerFilter().obs;
+    sellerFilter = SellerFilter(name: '').obs;
 
     debouncer = Debouncer(10).obs; // To delay search onChange method
     searchController = TextEditingController().obs;

@@ -25,10 +25,10 @@ class ProductController extends BaseController {
   final AnalyticsService _analyticsService = locator<AnalyticsService>();
   final WishListService _wishListService = locator<WishListService>();
 
-  Product productData;
-  Reviews reviews;
+  Product? productData;
+  Reviews? reviews;
 
-  String sellerId;
+  String? sellerId;
   String productId = "";
   String productName = "";
 
@@ -52,8 +52,8 @@ class ProductController extends BaseController {
           "product_name": productData?.name,
           "category_id": productData?.category?.id?.toString(),
           "category_name": productData?.category?.name,
-          "user_id": locator<HomeController>()?.details?.key,
-          "user_name": locator<HomeController>()?.details?.name,
+          "user_id": locator<HomeController>().details!.key,
+          "user_name": locator<HomeController>().details!.name,
         });
   }
 
@@ -65,7 +65,7 @@ class ProductController extends BaseController {
       {bool showDialog: true,
       bool fromBuyNow = false,
       bool fromCart = false,
-      Function onProductAdded}) async {
+      Function? onProductAdded}) async {
     print("Cart added");
     print(product.key);
 
@@ -73,20 +73,21 @@ class ProductController extends BaseController {
       await _analyticsService.sendAnalyticsEvent(
           eventName: "add_to_cart",
           parameters: <String, dynamic>{
-            "product_id": product?.key,
-            "product_name": product?.name,
-            "category_id": product?.category?.id?.toString(),
-            "category_name": product?.category?.name,
-            "user_id": locator<HomeController>()?.details?.key,
-            "user_name": locator<HomeController>()?.details?.name,
+            "product_id": product.key,
+            "product_name": product.name,
+            "category_id": product.category?.id?.toString(),
+            "category_name": product.category?.name,
+            "user_id": locator<HomeController>().details!.key,
+            "user_name": locator<HomeController>().details!.name,
           });
 
-    final res = await _apiService.addToCart(product.key, qty, size, color);
+    final res =
+        await _apiService.addToCart(product.key ?? "", qty, size, color);
     if (res != null) {
       await BaseController.vibrate(duration: 100);
 
       final localStoreResult =
-          await _cartLocalStoreService.addToCartLocalStore(product.key);
+          await _cartLocalStoreService.addToCartLocalStore(product.key!);
       if (localStoreResult == -1) {
         if (fromCart) {
           if (onProductAdded != null) onProductAdded();
@@ -118,29 +119,30 @@ class ProductController extends BaseController {
     return 0;
   }
 
-  Future<Product> refreshProduct(String productId) async {
+  Future<Product?> refreshProduct(String productId) async {
     productData = await _apiService.getProductById(
       productId: productId,
       withCoupons: true,
     );
-    return productData;
+    if (productData != null) return productData!;
+    return null;
   }
 
   Future<bool> buyNow(
       Product product, int qty, String size, String color) async {
     await _analyticsService
         .sendAnalyticsEvent(eventName: "buy_now", parameters: <String, dynamic>{
-      "product_id": product?.key,
-      "product_name": product?.name,
-      "category_id": product?.category?.id?.toString(),
-      "category_name": product?.category?.name,
-      "quantity": qty?.toString(),
-      "user_id": locator<HomeController>()?.details?.key,
-      "user_name": locator<HomeController>()?.details?.name,
+      "product_id": product.key,
+      "product_name": product.name,
+      "category_id": product.category?.id?.toString(),
+      "category_name": product.category?.name,
+      "quantity": qty.toString(),
+      "user_id": locator<HomeController>().details!.key,
+      "user_name": locator<HomeController>().details!.name,
     });
 
     var res = await addToCart(product, qty, size, color,
-        showDialog: false, fromBuyNow: true);
+        showDialog: false, fromBuyNow: true, onProductAdded: () {});
     if (res != null) {
       return true;
     }
@@ -180,15 +182,15 @@ class ProductController extends BaseController {
             "product_name": productName,
             "category_id": productData?.category?.id?.toString(),
             "category_name": productData?.category?.name,
-            "user_id": locator<HomeController>()?.details?.key,
-            "user_name": locator<HomeController>()?.details?.name,
+            "user_id": locator<HomeController>().details!.key,
+            "user_name": locator<HomeController>().details!.name,
           });
     } catch (e) {}
   }
 
   Future getProducts() async {
     setBusy(true);
-    Products result = await _apiService.getProducts();
+    Products? result = await _apiService.getProducts();
     setBusy(false);
     if (result != null) {
       Fimber.d(result.items.toString());

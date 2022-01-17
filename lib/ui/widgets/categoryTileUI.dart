@@ -9,8 +9,8 @@ import '../shared/ui_helpers.dart';
 class CategoryTileUI extends StatelessWidget {
   final Category data;
   const CategoryTileUI({
-    Key key,
-    @required this.data,
+    Key? key,
+    required this.data,
   }) : super(key: key);
 
   @override
@@ -37,7 +37,7 @@ class CategoryTileUI extends StatelessWidget {
               fit: BoxFit.fill,
               fadeInCurve: Curves.easeIn,
               placeholder: 'assets/images/category_preloading.png',
-              image: data?.id != null
+              image: data.id != null
                   ? '$CATEGORY_PHOTO_BASE_URL/${data.id}'
                   : 'https://images.pexels.com/photos/934070/pexels-photo-934070.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
               imageErrorBuilder: (context, error, stackTrace) => Image.asset(
@@ -71,8 +71,8 @@ class NewCategoryTile extends StatelessWidget {
   final Category data;
   final bool fromCategory;
   const NewCategoryTile({
-    Key key,
-    @required this.data,
+    Key? key,
+    required this.data,
     this.fromCategory = false,
   }) : super(key: key);
 
@@ -98,7 +98,7 @@ class NewCategoryTile extends StatelessWidget {
                 fit: BoxFit.fill,
                 fadeInCurve: Curves.easeIn,
                 placeholder: 'assets/images/category_preloading.png',
-                image: data?.id != null
+                image: data.id != null
                     ? '$CATEGORY_PHOTO_BASE_URL/${data.id}'
                     : 'assets/images/category_preloading.png',
                 imageErrorBuilder: (context, error, stackTrace) => Image.asset(

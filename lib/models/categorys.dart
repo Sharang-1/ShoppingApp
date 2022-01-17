@@ -5,10 +5,10 @@ Categorys categorysFromJson(String str) => Categorys.fromJson(json.decode(str));
 String categorysToJson(Categorys data) => json.encode(data.toJson());
 
 class Categorys {
-  int records;
-  int startIndex;
-  int limit;
-  List<Category> items;
+  int? records;
+  int? startIndex;
+  int? limit;
+  List<Category>? items;
 
   Categorys({
     this.records,
@@ -29,20 +29,20 @@ class Categorys {
         "records": records,
         "startIndex": startIndex,
         "limit": limit,
-        "categories": List<dynamic>.from(items.map((x) => x.toJson())),
+        "categories": List<dynamic>.from(items!.map((x) => x.toJson())),
       };
 }
 
 class Category {
-  int id;
-  String name;
-  bool enabled;
-  int order;
-  String filter;
-  String caption;
-  bool forApp;
-  Banner banner;
-  ProductFor productFor;
+  int? id;
+  String? name;
+  bool? enabled;
+  int? order;
+  String? filter;
+  String? caption;
+  bool? forApp;
+  Banner? banner;
+  ProductFor? productFor;
 
   Category({
     this.id,
@@ -78,14 +78,14 @@ class Category {
         "filter": filter,
         "caption": caption,
         "forApp": forApp,
-        "banner": banner == null ? null : banner.toJson(),
-        "productFor": productFor == null ? null : productFor.toJson(),
+        "banner": banner == null ? null : banner?.toJson(),
+        "productFor": productFor == null ? null : productFor?.toJson(),
       };
 }
 
 class Banner {
-  String name;
-  String originalName;
+  String? name;
+  String? originalName;
 
   Banner({
     this.name,
@@ -104,8 +104,8 @@ class Banner {
 }
 
 class ProductFor {
-  int id;
-  Name name;
+  int? id;
+  Name? name;
 
   ProductFor({
     this.id,
@@ -114,7 +114,7 @@ class ProductFor {
 
   factory ProductFor.fromJson(Map<String, dynamic> json) => ProductFor(
         id: json["id"],
-        name: nameValues.map[json["name"]],
+        name: nameValues.map![json["name"]],
       );
 
   Map<String, dynamic> toJson() => {
@@ -128,15 +128,15 @@ enum Name { WOMEN }
 final nameValues = EnumValues({"Women": Name.WOMEN});
 
 class EnumValues<T> {
-  Map<String, T> map;
-  Map<T, String> reverseMap;
+  Map<String, T>? map;
+  Map<T, String>? reverseMap;
 
   EnumValues(this.map);
 
   Map<T, String> get reverse {
     if (reverseMap == null) {
-      reverseMap = map.map((k, v) => new MapEntry(v, k));
+      reverseMap = map!.map((k, v) => new MapEntry(v, k));
     }
-    return reverseMap;
+    return reverseMap ?? {};
   }
 }

@@ -16,7 +16,7 @@ class OrderDetails {
       this.saved,
       this.total});
 
-  String productName,
+  String? productName,
       qty,
       size,
       color,

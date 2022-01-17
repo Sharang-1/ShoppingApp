@@ -6,7 +6,7 @@ import '../../controllers/startup_controller.dart';
 import '../shared/app_colors.dart';
 
 class StartUpView extends StatelessWidget {
-  const StartUpView({Key key}) : super(key: key);
+  const StartUpView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => GetBuilder(

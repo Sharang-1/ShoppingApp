@@ -9,9 +9,9 @@ class BusyButtonCicular extends StatefulWidget {
   final Function onPressed;
   final bool enabled;
   const BusyButtonCicular(
-      {@required this.title,
+      {required this.title,
       this.busy = false,
-      @required this.onPressed,
+      required this.onPressed,
       this.enabled = true});
 
   @override
@@ -23,7 +23,7 @@ class _BusyButtonCircularState extends State<BusyButtonCicular> {
   Widget build(BuildContext context) {
     return FloatingActionButton(
       heroTag: "Kaushik",
-      onPressed: widget.enabled ? widget.onPressed : null,
+      onPressed: widget.enabled ? widget.onPressed() : null,
       backgroundColor: widget.enabled ? logoRed : Colors.grey,
       child: Icon(
         Icons.arrow_forward,

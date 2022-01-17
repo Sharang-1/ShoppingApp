@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 class NoteText extends StatelessWidget {
   final String text;
   final TextAlign textAlign;
-  final Color color;
-  const NoteText(this.text, {this.textAlign, this.color});
+  final Color? color;
+  const NoteText(this.text, {required this.textAlign, this.color});
 
   @override
   Widget build(BuildContext context) {

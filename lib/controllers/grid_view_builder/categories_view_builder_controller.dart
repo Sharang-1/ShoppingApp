@@ -9,17 +9,18 @@ class CategoriesGridViewBuilderController
   final bool popularCategories;
   final APIService _apiService = locator<APIService>();
 
-  CategoriesGridViewBuilderController(
-      {this.popularCategories = false});
+  CategoriesGridViewBuilderController({this.popularCategories = false});
 
   @override
-  Future init() {
+  Future init() async {
     return null;
   }
 
   @override
   Future<Categorys> getData(
-      {BaseFilterModel filterModel, int pageNumber, int pageSize = 10}) async {
+      {required BaseFilterModel filterModel,
+      required int pageNumber,
+      int pageSize = 10}) async {
     String _queryString =
         "startIndex=${pageSize * (pageNumber - 1)};limit=$pageSize;" +
             filterModel.queryString;
@@ -29,13 +30,13 @@ class CategoriesGridViewBuilderController
       if (res == null) throw "Could not load";
     }
 
-    res.items = res.items.where((element) => element.forApp).toList();
-    res.items.shuffle();
+    res.items = res.items!.where((element) => element.forApp!).toList();
+    res.items!.shuffle();
 
     if (this.popularCategories) {
-      res.items = res.items.take(4).toList();
+      res.items = res.items!.take(4).toList();
     }
-    
+
     return res;
   }
 }

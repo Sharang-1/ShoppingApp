@@ -5,7 +5,7 @@ import '../../shared/app_colors.dart';
 import '../../shared/shared_styles.dart';
 
 class ProductShimmer extends StatelessWidget {
-  const ProductShimmer({Key key}) : super(key: key);
+  const ProductShimmer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +13,7 @@ class ProductShimmer extends StatelessWidget {
       padding: EdgeInsets.zero,
       decoration: BoxDecoration(
         border: Border.all(
-          color: Colors.grey[200],
+          color: Colors.grey[200]!,
         ),
       ),
       child: Card(

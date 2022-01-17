@@ -1,10 +1,12 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:open_appstore/open_appstore.dart';
+
+import 'package:store_redirect/store_redirect.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../constants/route_names.dart';
@@ -26,20 +28,20 @@ import '../widgets/profile_setup_indicator.dart';
 import 'help_view.dart';
 
 class SettingsView extends StatefulWidget {
-  SettingsView({Key key}) : super(key: key);
+  SettingsView({Key? key}) : super(key: key);
 
   @override
   _SettingsViewState createState() => _SettingsViewState();
 }
 
 class _SettingsViewState extends State<SettingsView> {
-  String selectedLang;
-  Map<int, String> sections;
-  Map<int, String> settingNameMap;
-  Map<int, IconData> settingIconMap;
-  Map<int, void Function()> settingOnTapMap;
-  Map<int, List<int>> sectionsSettingsMap;
-  AppBar appbar;
+  late String selectedLang;
+  late Map<int, String> sections;
+  late Map<int, String> settingNameMap;
+  late Map<int, IconData> settingIconMap;
+  late Map<int, void Function()> settingOnTapMap;
+  late Map<int, List<int>> sectionsSettingsMap;
+  late AppBar appbar;
 
   @override
   void initState() {
@@ -76,7 +78,7 @@ class _SettingsViewState extends State<SettingsView> {
                   )
                   .toList(),
               onChanged: (e) async {
-                await locator<HomeController>().changeLocale(e);
+                await locator<HomeController>().changeLocale(e as String);
                 setState(() {
                   selectedLang = e;
                   setupSettings();
@@ -113,9 +115,9 @@ class _SettingsViewState extends State<SettingsView> {
     };
 
     settingOnTapMap = {
-      1: () => OpenAppstore.launch(
+      1: () => StoreRedirect.redirect(
           androidAppId: "in.dzor.dzor_app", iOSAppId: "1562083632"),
-      2: () => OpenAppstore.launch(
+      2: () => StoreRedirect.redirect(
           androidAppId: "in.dzor.dzor_app", iOSAppId: "1562083632"),
       3: () => Get.bottomSheet(
             HelpView(),
@@ -171,7 +173,7 @@ class _SettingsViewState extends State<SettingsView> {
                           ),
                           child: InkWell(
                             onTap: () async {
-                              if (locator<HomeController>().isLoggedIn)
+                              if (locator<HomeController>().isLoggedIn ?? false)
                                 return await NavigationService.to(
                                   ProfileViewRoute,
                                   arguments: controller,
@@ -199,16 +201,17 @@ class _SettingsViewState extends State<SettingsView> {
                                               placeholder: AssetImage(
                                                   "assets/images/user.png"),
                                               image: (locator<HomeController>()
-                                                          ?.isLoggedIn ??
+                                                          .isLoggedIn ??
                                                       false)
-                                                  ? NetworkImage(
-                                                      "$USER_PROFILE_PHOTO_BASE_URL/${controller?.mUserDetails?.key}",
+                                                  ? Image.network(
+                                                      "$USER_PROFILE_PHOTO_BASE_URL/${controller.mUserDetails!.key}",
                                                       headers: {
                                                           "Authorization":
-                                                              "Bearer ${locator<HomeController>()?.prefs?.getString(Authtoken) ?? ''}",
-                                                        })
-                                                  : AssetImage(
-                                                      "assets/images/user.png"),
+                                                              "Bearer ${locator<HomeController>().prefs!.getString(Authtoken) ?? ''}",
+                                                        }) as ImageProvider
+                                                  : Image.asset(
+                                                          "assets/images/user.png")
+                                                      as ImageProvider,
                                               imageErrorBuilder:
                                                   (context, error, stackTrace) {
                                                 print(
@@ -240,11 +243,12 @@ class _SettingsViewState extends State<SettingsView> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: locator<HomeController>()
-                                                .isLoggedIn
+                                                    .isLoggedIn ??
+                                                false
                                             ? [
                                                 CustomText(
-                                                  controller?.mUserDetails
-                                                          ?.name ??
+                                                  controller
+                                                          .mUserDetails!.name ??
                                                       '',
                                                   isTitle: true,
                                                   fontSize: 16,
@@ -252,13 +256,13 @@ class _SettingsViewState extends State<SettingsView> {
                                                 ),
                                                 CustomText(
                                                   controller
-                                                          .mUserDetails
-                                                          ?.contact
+                                                          .mUserDetails!
+                                                          .contact
                                                           ?.phone
                                                           ?.mobile
                                                           ?.replaceRange(
                                                               5, 10, 'XXXXX')
-                                                          ?.toString() ??
+                                                          .toString() ??
                                                       '',
                                                   fontSize: 14,
                                                 ),
@@ -274,7 +278,8 @@ class _SettingsViewState extends State<SettingsView> {
                                       ),
                                     ],
                                   ),
-                                  if (locator<HomeController>().isLoggedIn)
+                                  if (locator<HomeController>().isLoggedIn ??
+                                      false)
                                     IconButton(
                                       icon: Icon(
                                         Icons.edit,
@@ -292,14 +297,14 @@ class _SettingsViewState extends State<SettingsView> {
                           ),
                         ),
                         if ((controller
-                                    ?.mUserDetails?.contact?.address?.length ??
+                                    .mUserDetails!.contact?.address?.length ??
                                 0) !=
                             0)
                           Divider(
                             color: Colors.grey[400],
                           ),
                         if ((controller
-                                    ?.mUserDetails?.contact?.address?.length ??
+                                    .mUserDetails!.contact?.address?.length ??
                                 0) !=
                             0)
                           Padding(
@@ -307,7 +312,7 @@ class _SettingsViewState extends State<SettingsView> {
                             child: Row(
                               children: [
                                 CustomText(
-                                  "${SETTINGS_MY_CITY.tr}: ${controller?.mUserDetails?.contact?.city}",
+                                  "${SETTINGS_MY_CITY.tr}: ${controller.mUserDetails!.contact?.city}",
                                   isBold: true,
                                   fontSize: 14,
                                 ),
@@ -322,7 +327,7 @@ class _SettingsViewState extends State<SettingsView> {
                           color: Colors.black87,
                           iconColor: Colors.black54,
                           onTap: () async =>
-                              locator<HomeController>().isLoggedIn
+                              locator<HomeController>().isLoggedIn ?? false
                                   ? await NavigationService.to(MyOrdersRoute)
                                   : await BaseController.showLoginPopup(
                                       nextView: MyOrdersRoute,
@@ -335,7 +340,7 @@ class _SettingsViewState extends State<SettingsView> {
                           color: Colors.black87,
                           iconColor: Colors.black54,
                           onTap: () async =>
-                              locator<HomeController>().isLoggedIn
+                              locator<HomeController>().isLoggedIn ?? false
                                   ? await NavigationService.to(
                                       MyAppointmentViewRoute)
                                   : await BaseController.showLoginPopup(
@@ -356,13 +361,13 @@ class _SettingsViewState extends State<SettingsView> {
                                 children: sections.keys
                                     .map(
                                       (int key) => SectionCard(
-                                        name: sections[key],
-                                        settingsCards: sectionsSettingsMap[key]
+                                        name: sections[key] ?? "",
+                                        settingsCards: sectionsSettingsMap[key]!
                                             .map(
                                               (int key) => SettingsCard(
-                                                name: settingNameMap[key],
-                                                onTap: settingOnTapMap[key],
-                                                icon: settingIconMap[key],
+                                                name: settingNameMap[key]!,
+                                                onTap: settingOnTapMap[key]!,
+                                                icon: settingIconMap[key]!,
                                                 color: Colors.black87,
                                                 iconColor: Colors.black54,
                                               ),
@@ -375,9 +380,9 @@ class _SettingsViewState extends State<SettingsView> {
                             ],
                           ),
                         ),
-                        if (locator<HomeController>().isLoggedIn)
+                        if (locator<HomeController>().isLoggedIn ?? false)
                           verticalSpaceTiny,
-                        locator<HomeController>().isLoggedIn
+                        locator<HomeController>().isLoggedIn ?? false
                             ? Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
@@ -420,7 +425,7 @@ class SectionCard extends StatelessWidget {
   final String name;
   final List<SettingsCard> settingsCards;
 
-  SectionCard({this.name, this.settingsCards});
+  SectionCard({required this.name, required this.settingsCards});
 
   @override
   Widget build(BuildContext context) {
@@ -446,14 +451,14 @@ class SectionCard extends StatelessWidget {
 class SettingsCard extends StatelessWidget {
   final String name;
   final IconData icon;
-  final Color color;
-  final Color iconColor;
+  final Color? color;
+  final Color? iconColor;
   final void Function() onTap;
 
   const SettingsCard({
-    @required this.name,
-    @required this.onTap,
-    @required this.icon,
+    required this.name,
+    required this.onTap,
+    required this.icon,
     this.iconColor,
     this.color,
   });
@@ -463,7 +468,7 @@ class SettingsCard extends StatelessWidget {
         decoration: BoxDecoration(
           border: Border(
             bottom: BorderSide(
-              color: Colors.grey[400],
+              color: Colors.grey[400]!,
             ),
           ),
         ),
@@ -473,7 +478,7 @@ class SettingsCard extends StatelessWidget {
             name,
             isBold: true,
             fontSize: titleFontSizeStyle,
-            color: color ?? Colors.grey[500],
+            color: color ?? Colors.grey[500]!,
           ),
           trailing: Icon(
             Icons.navigate_next_sharp,

@@ -5,11 +5,11 @@ Reviews reviewsFromJson(String str) => Reviews.fromJson(json.decode(str));
 String reviewsToJson(Reviews data) => json.encode(data.toJson());
 
 class Reviews {
-  int records;
-  int startIndex;
-  int limit;
-  List<Review> items;
-  RatingAverage ratingAverage;
+  int? records;
+  int? startIndex;
+  int? limit;
+  List<Review>? items;
+  RatingAverage? ratingAverage;
 
   Reviews({
     this.records,
@@ -32,15 +32,15 @@ class Reviews {
         "records": records,
         "startIndex": startIndex,
         "limit": limit,
-        "reviews": List<dynamic>.from(items.map((x) => x.toJson())),
-        "ratingAverage": ratingAverage.toJson(),
+        "reviews": List<dynamic>.from(items!.map((x) => x.toJson())),
+        "ratingAverage": ratingAverage?.toJson(),
       };
 }
 
 class RatingAverage {
-  int rating;
-  int total;
-  int person;
+  int? rating;
+  int? total;
+  int? person;
 
   RatingAverage({
     this.rating,
@@ -62,14 +62,14 @@ class RatingAverage {
 }
 
 class Review {
-  String key;
-  String description;
-  String created;
-  String modified;
-  String userId;
-  List<Reviewer> reviewer;
-  String productId;
-  int rating;
+  String? key;
+  String? description;
+  String? created;
+  String? modified;
+  String? userId;
+  List<Reviewer>? reviewer;
+  String? productId;
+  int? rating;
 
   Review({
     this.key,
@@ -100,14 +100,14 @@ class Review {
         "created": created,
         "modified": modified,
         "userId": userId,
-        "reviewer": List<dynamic>.from(reviewer.map((x) => x.toJson())),
+        "reviewer": List<dynamic>.from(reviewer!.map((x) => x.toJson())),
         "productId": productId,
         "rating": rating == null ? null : rating,
       };
 }
 
 class Reviewer {
-  Reviewer({this.name});
+  Reviewer({required this.name});
   String name;
 
   factory Reviewer.fromJson(Map<String, dynamic> json) => Reviewer(

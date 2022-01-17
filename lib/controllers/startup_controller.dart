@@ -31,7 +31,7 @@ class StartUpController extends BaseController {
     final updateDetails = await _apiService.getAppUpdate();
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     Version currentVersion = Version.parse(packageInfo.version);
-    Version latestVersion = Version.parse(updateDetails.version);
+    Version latestVersion = Version.parse(updateDetails!.version);
 
     await Future.wait([
       locator<ErrorHandlingService>().init(),
@@ -62,10 +62,9 @@ class StartUpController extends BaseController {
             )
           ],
         ),
-        barrierDismissible:
-            !(((updateDetails?.priority?.priority ?? 0) > 0) ?? false),
+        barrierDismissible: !(((updateDetails.priority?.priority ?? 0) > 0)),
       );
-      if (((updateDetails?.priority?.priority ?? 0) > 0) ?? false) return;
+      if (((updateDetails.priority?.priority ?? 0) > 0)) return;
     }
 
     Future.delayed(

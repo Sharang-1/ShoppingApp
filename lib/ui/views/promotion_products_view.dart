@@ -25,11 +25,11 @@ class PromotionProduct extends StatefulWidget {
   final List<int> demographicIds;
   final String promotionTitle;
   PromotionProduct({
-    Key key,
-    @required this.productIds,
-    @required this.promotionTitle,
-    @required this.promotionId,
-    this.demographicIds,
+    Key? key,
+    required this.productIds,
+    required this.promotionTitle,
+    required this.promotionId,
+    required this.demographicIds,
   }) : super(key: key);
 
   @override
@@ -37,7 +37,7 @@ class PromotionProduct extends StatefulWidget {
 }
 
 class _PromotionProductState extends State<PromotionProduct> {
-  Key promotionProductKey = UniqueKey();
+  Key? promotionProductKey = UniqueKey();
   final RefreshController refreshController =
       RefreshController(initialRefresh: false);
 
@@ -72,7 +72,8 @@ class _PromotionProductState extends State<PromotionProduct> {
             onPressed: () async {
               await Share.share(
                 await _dynamicLinkService
-                    .createLink(promotionLink + widget.promotionId),
+                        .createLink(promotionLink + widget.promotionId) ??
+                    "",
                 sharePositionOrigin: Rect.fromCenter(
                   center: Offset(100, 100),
                   width: 100,
@@ -123,12 +124,13 @@ class _PromotionProductState extends State<PromotionProduct> {
               children: <Widget>[
                 verticalSpace(20),
                 GridListWidget<Products, Product>(
+                  onEmptyList: () {},
                   key: promotionProductKey,
                   context: context,
                   filter: ProductFilter(demographicIds: widget.demographicIds),
                   gridCount: 2,
                   disablePagination: true,
-                  controller: (widget?.demographicIds?.length ?? 0) == 0
+                  controller: (widget.demographicIds.length) == 0
                       ? WishListGridViewBuilderController(
                           productIds: widget.productIds)
                       : ProductsGridViewBuilderController(),
@@ -136,17 +138,21 @@ class _PromotionProductState extends State<PromotionProduct> {
                   emptyListWidget: EmptyListWidget(
                     text: "",
                   ),
-                  tileBuilder:
-                      (BuildContext context, data, index, onDelete, onUpdate) {
+                  tileBuilder: (
+                    BuildContext context,
+                    data,
+                    index,
+                    onDelete,
+                  ) {
                     final Product dProduct = data as Product;
                     return Container(
                       decoration: BoxDecoration(
                         border: Border(
                           right: BorderSide(
-                            color: Colors.grey[300],
+                            color: Colors.grey[300]!,
                           ),
                           bottom: BorderSide(
-                            color: Colors.grey[300],
+                            color: Colors.grey[300]!,
                           ),
                         ),
                       ),

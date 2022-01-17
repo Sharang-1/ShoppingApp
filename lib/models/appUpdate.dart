@@ -14,12 +14,12 @@ class AppUpdate {
     this.bugFixes,
   });
 
-  String lastUpdate;
-  String version;
-  Priority priority;
-  String size;
-  String features;
-  String bugFixes;
+  String? lastUpdate;
+  String? version;
+  Priority? priority;
+  String? size;
+  String? features;
+  String? bugFixes;
 
   factory AppUpdate.fromJson(Map<String, dynamic> json) => AppUpdate(
         lastUpdate: json["lastUpdate"],
@@ -35,7 +35,7 @@ class AppUpdate {
   Map<String, dynamic> toJson() => {
         "lastUpdate": lastUpdate,
         "version": version,
-        "releasePriority": priority.toJson(),
+        "releasePriority": priority?.toJson(),
         "size": size,
         "features": features,
         "bugFixes": bugFixes,
@@ -48,8 +48,8 @@ class Priority {
     this.name,
   });
 
-  int priority;
-  String name;
+  int? priority;
+  String? name;
 
   factory Priority.fromJson(Map<String, dynamic> json) => Priority(
         priority: json["priority"],

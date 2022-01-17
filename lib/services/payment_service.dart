@@ -11,9 +11,9 @@ import 'error_handling_service.dart';
 import 'navigation_service.dart';
 
 class PaymentService {
-  String razorPayAPIKey;
-  Razorpay _razorpay;
-  AppInfo appInfo;
+  String? razorPayAPIKey;
+  Razorpay? _razorpay;
+  AppInfo? appInfo;
 
   Future init() async {
     _razorpay = Razorpay();
@@ -21,19 +21,19 @@ class PaymentService {
   }
 
   Future<String> getApiKey() async {
-    if (locator<HomeController>()?.isLoggedIn ?? true)
-      appInfo = await locator<APIService>().getAppInfo();
-    if (appInfo != null) razorPayAPIKey = appInfo.payment.apiKey;
-    return razorPayAPIKey;
+    if (locator<HomeController>().isLoggedIn ?? true)
+      appInfo = (await locator<APIService>().getAppInfo())!;
+    if (appInfo != null) razorPayAPIKey = appInfo!.payment!.apiKey!;
+    return razorPayAPIKey!;
   }
 
   Future makePayment(
-      {@required num amount,
-      @required String contactNo,
-      @required String orderId,
-      @required String receiptId,
-      @required String dzorOrderId,
-      String email,
+      {required num amount,
+      required String contactNo,
+      required String orderId,
+      required String receiptId,
+      required String dzorOrderId,
+      String? email,
       String name = 'Dzor Infotech Pvt Ltd',
       String currency = 'INR',
       String description = ''}) async {
@@ -61,11 +61,11 @@ class PaymentService {
       print(
           "Order Cost: $amount ${int.parse(amount.toStringAsFixed(2).replaceAll(".", ""))}");
 
-      _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS,
+      _razorpay?.on(Razorpay.EVENT_PAYMENT_SUCCESS,
           (PaymentSuccessResponse response) async {
-        print("OrderId: " + response.orderId);
-        print("Payment Id: " + response.paymentId);
-        print("Signature: " + response.signature);
+        print("OrderId: " + response.orderId!);
+        print("Payment Id: " + response.paymentId!);
+        print("Signature: " + response.signature!);
 
         await locator<APIService>().verifyPayment(
           orderId: dzorOrderId,
@@ -78,7 +78,7 @@ class PaymentService {
         await NavigationService.off(PaymentFinishedScreenRoute);
       });
 
-      _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR,
+      _razorpay?.on(Razorpay.EVENT_PAYMENT_ERROR,
           (PaymentFailureResponse response) async {
         await locator<APIService>().verifyPayment(
           orderId: dzorOrderId,
@@ -94,13 +94,13 @@ class PaymentService {
           arguments: OrderError.PAYMENT_ERROR,
         );
       });
-      _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET,
+      _razorpay?.on(Razorpay.EVENT_EXTERNAL_WALLET,
           (ExternalWalletResponse response) {
-        print("RazorPay External Wallet: " + response.walletName);
+        print("RazorPay External Wallet: " + response.walletName!);
       });
 
       try {
-        _razorpay.open(options);
+        _razorpay?.open(options);
       } catch (e) {
         print("RazorPay : ${e.toString()}");
         await NavigationService.off(

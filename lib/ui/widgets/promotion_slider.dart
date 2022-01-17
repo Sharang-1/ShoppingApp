@@ -16,8 +16,8 @@ class PromotionSlider extends StatefulWidget {
   final double aspectRatio;
 
   const PromotionSlider({
-    Key key,
-    this.promotions,
+    Key? key,
+    required this.promotions,
     this.aspectRatio = 1.6,
   }) : super(key: key);
 
@@ -28,14 +28,22 @@ class PromotionSlider extends StatefulWidget {
 class _PromotionSliderState extends State<PromotionSlider> {
   int _current = 0;
   int _timeOut = 10;
-  DefaultCacheManager defaultCacheManager;
+  late DefaultCacheManager defaultCacheManager;
 
   @override
   void initState() {
     defaultCacheManager = DefaultCacheManager();
-    _timeOut = widget?.promotions?.isNotEmpty ?? false
-        ? widget.promotions.first.time
-        : 3;
+    // _timeOut = widget.promotions.isEmpty;
+
+    if (widget.promotions.isNotEmpty) {
+      _timeOut = widget.promotions.first.time! as int;
+    } else {
+      _timeOut = 3;
+    }
+
+    // _timeOut = widget.promotions?.isNotEmpty ?? false
+    //     ? widget.promotions.first.time
+    //     : 3;
     super.initState();
   }
 
@@ -65,7 +73,8 @@ class _PromotionSliderState extends State<PromotionSlider> {
               onPageChanged: (index, reason) {
                 setState(() {
                   _current = index;
-                  _timeOut = widget?.promotions[index]?.time ?? 3;
+                  // _timeOut = widget.promotions[index].time as int ?? 3;
+                  _timeOut = widget.promotions[index].time as int;
                 });
               },
             ),
@@ -73,35 +82,36 @@ class _PromotionSliderState extends State<PromotionSlider> {
               return Builder(
                 builder: (BuildContext context) {
                   return InkWell(
-                    onTap: () {
+                    onTap: () async {
                       // var promoTitle = i?.name;
                       // List<String> productIds =
                       //     i?.products?.map((e) => e.toString())?.toList();
 
-                      if (i.exclusive) {
-                        return NavigationService.to(
-                          ProductsListRoute,
-                          arguments: ProductPageArg(
-                            promotionKey: i?.key,
-                            subCategory: 'Designer',
-                            queryString:
-                                "accountKey=${i.filter};sortField=price;sortOrder=asc;",
-                            sellerPhoto: "$SELLER_PHOTO_BASE_URL/${i.filter}",
-                          ),
-                        );
+                      if (i.exclusive ?? false) {
+                        return await NavigationService.to(ProductsListRoute,
+                            arguments: ProductPageArg(
+                              promotionKey: i.key,
+                              subCategory: 'Designer',
+                              queryString:
+                                  "accountKey=${i.filter};sortField=price;sortOrder=asc;",
+                              sellerPhoto: "$SELLER_PHOTO_BASE_URL/${i.filter}",
+                            ));
                       }
 
-                      return NavigationService.to(
-                        ProductsListRoute,
-                        arguments: ProductPageArg(
-                            title: i?.name ?? '',
+                      return NavigationService.to(ProductsListRoute,
+                          arguments: ProductPageArg(
+                            title: i.name ?? '',
                             queryString: "",
                             subCategory: "",
-                            promotionKey: i?.key,
-                            demographicIds:
-                                i?.demographics?.map((e) => e?.id)?.toList() ??
-                                    []),
-                      );
+                            promotionKey: i.key,
+                            demographicIds: i.demographics
+                                    ?.map((e) => e.id ?? 0)
+                                    .toList() ??
+                                [],
+                          )
+                          // i.demographics.map((e) => e?.id)?.toList() ??
+                          //     []),
+                          );
 
                       // Navigator.push(
                       //   context,
@@ -175,7 +185,7 @@ class _PromotionSliderState extends State<PromotionSlider> {
 }
 
 class BottomPromotion extends StatelessWidget {
-  const BottomPromotion({Key key, @required this.promotion}) : super(key: key);
+  const BottomPromotion({Key? key, required this.promotion}) : super(key: key);
 
   final Promotion promotion;
 
@@ -187,12 +197,13 @@ class BottomPromotion extends StatelessWidget {
           await NavigationService.to(
             ProductsListRoute,
             arguments: ProductPageArg(
-                title: promotion?.name ?? '',
+                title: promotion.name ?? '',
                 queryString: "",
                 subCategory: "",
-                promotionKey: promotion?.key,
+                promotionKey: promotion.key,
                 demographicIds:
-                    promotion?.demographics?.map((e) => e?.id)?.toList() ?? []),
+                    promotion.demographics?.map((e) => e.id ?? 0).toList() ??
+                        []),
           );
 
           // String promoTitle = promotion?.name ?? '';
@@ -237,7 +248,7 @@ class BottomPromotion extends StatelessWidget {
                 //   "assets/images/designer_preloading.png",
                 //   fit: BoxFit.cover,
                 // ),
-                imageUrl: "$PROMOTION_PHOTO_BASE_URL/${promotion?.key}",
+                imageUrl: "$PROMOTION_PHOTO_BASE_URL/${promotion.key}",
                 errorWidget: (context, url, error) => ShimmerWidget(),
               ),
             ),

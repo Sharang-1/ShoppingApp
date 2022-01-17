@@ -14,16 +14,16 @@ class GalleryPhotoViewWrapper extends StatefulWidget {
     this.backgroundDecoration,
     this.minScale,
     this.maxScale,
-    this.initialIndex,
-    @required this.galleryItems,
+    required this.initialIndex,
+    required this.galleryItems,
     this.showImageLabel = true,
     this.isSizeChart = false,
     this.appbarColor,
     this.scrollDirection = Axis.horizontal,
   }) : pageController = PageController(initialPage: initialIndex);
 
-  final LoadingBuilder loadingBuilder;
-  final Decoration backgroundDecoration;
+  final LoadingBuilder? loadingBuilder;
+  final Decoration? backgroundDecoration;
   final dynamic minScale;
   final dynamic maxScale;
   final int initialIndex;
@@ -32,7 +32,7 @@ class GalleryPhotoViewWrapper extends StatefulWidget {
   final Axis scrollDirection;
   final bool showImageLabel;
   final bool isSizeChart;
-  final Color appbarColor;
+  final Color? appbarColor;
 
   @override
   State<StatefulWidget> createState() {
@@ -41,7 +41,7 @@ class GalleryPhotoViewWrapper extends StatefulWidget {
 }
 
 class _GalleryPhotoViewWrapperState extends State<GalleryPhotoViewWrapper> {
-  int currentIndex;
+  late int currentIndex;
 
   @override
   void initState() {
@@ -81,7 +81,8 @@ class _GalleryPhotoViewWrapperState extends State<GalleryPhotoViewWrapper> {
                     builder: _buildItem,
                     itemCount: widget.galleryItems.length,
                     loadingBuilder: widget.loadingBuilder,
-                    backgroundDecoration: widget.backgroundDecoration,
+                    backgroundDecoration:
+                        widget.backgroundDecoration as BoxDecoration,
                     pageController: widget.pageController,
                     onPageChanged: onPageChanged,
                     scrollDirection: widget.scrollDirection,

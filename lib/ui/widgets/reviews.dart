@@ -16,15 +16,16 @@ import 'custom_text.dart';
 import 'write_review_bottomsheet.dart';
 
 class ReviewWidget extends StatelessWidget {
-  const ReviewWidget({Key key, this.id, this.isSeller = false, this.onSubmit})
+  const ReviewWidget(
+      {Key? key, this.id, this.isSeller = false, required this.onSubmit})
       : super(key: key);
-  final String id;
-  final bool isSeller;
+  final String? id;
+  final bool? isSeller;
   final Function onSubmit;
 
   @override
   Widget build(BuildContext context) => GetBuilder<ReviewsController>(
-        init: ReviewsController(id: id, isSeller: isSeller),
+        init: ReviewsController(id: id!, isSeller: isSeller!),
         global: false,
         builder: (controller) => Column(
           children: [
@@ -33,7 +34,7 @@ class ReviewWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  isSeller
+                  isSeller!
                       ? DESIGNER_SCREEN_REVIEWS.tr
                       : PRODUCTSCREEN_VIEW_REVIEWS.tr,
                   style: TextStyle(
@@ -42,8 +43,8 @@ class ReviewWidget extends StatelessWidget {
                   ),
                   textAlign: TextAlign.start,
                 ),
-                (controller.reviews?.ratingAverage != null) &&
-                        ((controller?.reviews?.ratingAverage?.person ?? 0) > 0)
+                (controller.reviews!.ratingAverage != null) &&
+                        ((controller.reviews!.ratingAverage?.person ?? 0) > 0)
                     ? Column(
                         children: <Widget>[
                           Container(
@@ -54,9 +55,9 @@ class ReviewWidget extends StatelessWidget {
                             decoration: BoxDecoration(
                               border: Border.all(
                                 color: Tools.getColorAccordingToRattings(
-                                  controller.reviews.items.isNotEmpty
-                                      ? controller?.reviews?.ratingAverage
-                                              ?.rating ??
+                                  controller.reviews!.items!.isNotEmpty
+                                      ? controller
+                                              .reviews!.ratingAverage?.rating ??
                                           5
                                       : 5,
                                 ),
@@ -65,16 +66,16 @@ class ReviewWidget extends StatelessWidget {
                               color: Colors.white,
                             ),
                             child: Text(
-                              controller.reviews.ratingAverage.rating != null
-                                  ? '${controller.reviews.ratingAverage.rating.toStringAsFixed(1)}'
+                              controller.reviews!.ratingAverage!.rating != null
+                                  ? '${controller.reviews!.ratingAverage!.rating!.toStringAsFixed(1)}'
                                   : "0",
                               style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
                                 color: Tools.getColorAccordingToRattings(
-                                  controller.reviews.items.isNotEmpty
-                                      ? controller?.reviews?.ratingAverage
-                                              ?.rating ??
+                                  controller.reviews!.items!.isNotEmpty
+                                      ? controller
+                                              .reviews!.ratingAverage?.rating ??
                                           5
                                       : 5,
                                 ),
@@ -82,8 +83,8 @@ class ReviewWidget extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            controller.reviews.ratingAverage.person != null
-                                ? "${controller.reviews.ratingAverage.person} Reviews"
+                            controller.reviews!.ratingAverage!.person != null
+                                ? "${controller.reviews!.ratingAverage!.person} Reviews"
                                 : "0 Reviews",
                             style: TextStyle(
                               fontSize: subtitleFontSize - 2,
@@ -102,7 +103,7 @@ class ReviewWidget extends StatelessWidget {
                     backgroundColor: Colors.white,
                   ),
                 if (!controller.busy)
-                  if ((controller.reviews?.items?.length ?? 0) == 0)
+                  if ((controller.reviews!.items?.length ?? 0) == 0)
                     Padding(
                       padding: EdgeInsets.all(8.0),
                       child: CustomText(
@@ -111,12 +112,12 @@ class ReviewWidget extends StatelessWidget {
                       ),
                     ),
                 if (controller.reviews != null &&
-                    controller.reviews.items.length > 0)
-                  ...controller.reviews.items
+                    controller.reviews!.items!.length > 0)
+                  ...controller.reviews!.items!
                       .sublist(
                           0,
-                          controller.reviews.items.length < 3
-                              ? controller.reviews.items.length
+                          controller.reviews!.items!.length < 3
+                              ? controller.reviews!.items!.length
                               : 3)
                       .map(
                         (Review r) => reviewCard(r),
@@ -127,18 +128,18 @@ class ReviewWidget extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        if (isSeller &&
-                            ((controller?.reviews?.items ?? [])
+                        if (isSeller! &&
+                            ((controller.reviews!.items ?? [])
                                 .where((e) =>
                                     e.userId ==
-                                    locator<HomeController>()?.details?.key)
+                                    locator<HomeController>().details!.key)
                                 .toList()
                                 .isEmpty))
                           TextButton(
                             onPressed: () => Get.bottomSheet(
                                 WriteReviewBottomsheet(
-                                  id,
-                                  isSeller: isSeller,
+                                  id!,
+                                  isSeller: isSeller ?? false,
                                   onSubmit: onSubmit,
                                 ),
                                 isScrollControlled: true),
@@ -162,10 +163,10 @@ class ReviewWidget extends StatelessWidget {
                               ],
                             ),
                           ),
-                        if ((controller?.reviews?.items?.length ?? 0) > 3)
+                        if ((controller.reviews!.items?.length ?? 0) > 3)
                           InkWell(
                             onTap: () => NavigationService.to(ReviewScreenRoute,
-                                arguments: controller?.reviews),
+                                arguments: controller.reviews),
                             child: CustomText(
                               VIEW_ALL.tr,
                               color: textIconBlue,
@@ -188,7 +189,7 @@ Widget reviewCard(Review r) => Container(
       decoration: BoxDecoration(
         border: Border(
           bottom: BorderSide(
-            color: Colors.grey[300],
+            color: Colors.grey[300]!,
           ),
         ),
       ),
@@ -205,18 +206,20 @@ Widget reviewCard(Review r) => Container(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CustomText(
-                      (r.userId != null && (r?.reviewer?.length ?? 0) > 0)
-                          ? r?.reviewer?.first?.name?.capitalize ??
-                              UNKNOWN_USER.tr
+                      (r.userId != null && (r.reviewer?.length ?? 0) > 0)
+                          ? r.reviewer?.first.name.capitalize ?? UNKNOWN_USER.tr
                           : UNKNOWN_USER.tr,
                       fontSize: subtitleFontSize,
                       isBold: true,
                     ),
                     verticalSpaceTiny,
                     CustomText(
-                      (r?.description ?? '').isNotEmpty
-                          ? r.description
+                      (r.description ?? '').isNotEmpty
+                          ? r.description!
                           : NO_DESCRIPTION.tr,
+                      // (r.description ?? '').isNotEmpty
+                      //     ? r.description
+                      //     : NO_DESCRIPTION.tr,
                       align: TextAlign.justify,
                       fontSize: subtitleFontSize - 2,
                     ),
@@ -228,7 +231,7 @@ Widget reviewCard(Review r) => Container(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   RatingBarIndicator(
-                    rating: r?.rating != null ? r?.rating?.toDouble() : 0,
+                    rating: r.rating != null ? r.rating!.toDouble() : 0,
                     itemCount: 5,
                     itemSize: 15,
                     itemBuilder: (context, _) => Icon(
@@ -238,7 +241,7 @@ Widget reviewCard(Review r) => Container(
                   ),
                   verticalSpaceTiny,
                   CustomText(
-                    (r?.modified?.split(" "))[0],
+                    (r.modified?.split(" "))![0],
                     align: TextAlign.end,
                     fontSize: subtitleFontSize - 2,
                   ),

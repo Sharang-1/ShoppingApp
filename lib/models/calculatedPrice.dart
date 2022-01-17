@@ -18,14 +18,14 @@ class CalculatedPrice {
     this.productDiscount,
   });
 
-  num productPrice;
-  num quantity;
-  CostAndRate productDiscount;
-  CostAndRate convenienceCharges;
-  CostAndRate gstCharges;
-  Delivery deliveryCharges;
-  num cost;
-  String note;
+  num? productPrice;
+  num? quantity;
+  CostAndRate? productDiscount;
+  CostAndRate? convenienceCharges;
+  CostAndRate? gstCharges;
+  Delivery? deliveryCharges;
+  num? cost;
+  String? note;
 
   factory CalculatedPrice.fromJson(Map<String, dynamic> json) =>
       CalculatedPrice(
@@ -63,7 +63,7 @@ class CostAndRate {
   final num cost;
   final num rate;
 
-  CostAndRate({this.cost, this.rate});
+  CostAndRate({required this.cost, required this.rate});
 
   factory CostAndRate.fromJson(Map<String, dynamic> json) => CostAndRate(
         cost: json["cost"],
@@ -77,8 +77,8 @@ class CostAndRate {
 }
 
 class Delivery {
-  final num cost;
-  final String note;
+  final num? cost;
+  final String? note;
 
   Delivery({
     this.cost,

@@ -21,7 +21,7 @@ import '../widgets/grid_list_widget.dart';
 import '../widgets/product_tile_ui.dart';
 
 class WishlistView extends StatefulWidget {
-  WishlistView({Key key}) : super(key: key);
+  WishlistView({Key? key}) : super(key: key);
 
   @override
   _WishlistViewState createState() => _WishlistViewState();
@@ -30,11 +30,11 @@ class WishlistView extends StatefulWidget {
 class _WishlistViewState extends State<WishlistView>
     with SingleTickerProviderStateMixin {
   TextEditingController _searchController = TextEditingController();
-  TabController _tabController;
+  late TabController _tabController;
   FocusNode _searchBarFocusNode = FocusNode(canRequestFocus: true);
 
   // Search States
-  Debouncer _debouncer;
+  late Debouncer _debouncer;
   int currentTabIndex = 0;
   bool showRecents = true;
   bool showResults = false;
@@ -43,8 +43,8 @@ class _WishlistViewState extends State<WishlistView>
   Key sellerGridKey = UniqueKey();
 
   // Filter States
-  ProductFilter productFilter;
-  SellerFilter sellerFilter;
+  late ProductFilter productFilter;
+  late SellerFilter sellerFilter;
 
   // These lists will be used for showing UI and filtering.
   List<String> productSearchHistoryList = [];
@@ -71,9 +71,9 @@ class _WishlistViewState extends State<WishlistView>
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       finalProductHistoryList = productSearchHistoryList =
-          prefs.getStringList(ProductSearchHistoryList);
+          prefs.getStringList(ProductSearchHistoryList) ?? [];
       finalSellerHistoryList = sellerSearchHistoryList =
-          prefs.getStringList(SellerSearchHistoryList);
+          prefs.getStringList(SellerSearchHistoryList) ?? [];
     });
   }
 
@@ -166,8 +166,8 @@ class _WishlistViewState extends State<WishlistView>
               gridCount: 2,
               controller: ProductsGridViewBuilderController(),
               childAspectRatio: 0.75,
-              tileBuilder:
-                  (BuildContext context, data, index, onDelete, onUpdate) {
+              onEmptyList: () {},
+              tileBuilder: (BuildContext context, data, index, onDelete) {
                 Fimber.d("test");
                 return ProductTileUI(
                   index: index,
@@ -185,10 +185,11 @@ class _WishlistViewState extends State<WishlistView>
             context: context,
             filter: sellerFilter,
             gridCount: 2,
-            controller: SellersGridViewBuilderController(),
+            onEmptyList: () {},
+            controller: SellersGridViewBuilderController(
+                removeId: '', subscriptionType: null, subscriptionTypes: []),
             disablePagination: true,
-            tileBuilder:
-                (BuildContext context, data, index, onDelete, onUpdate) {
+            tileBuilder: (BuildContext context, data, index, onDelete) {
               return Card(
                 child: Center(
                   child: Text(data.name),

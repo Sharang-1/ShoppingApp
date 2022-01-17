@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 class CustomText extends StatelessWidget {
   final double fontSize;
   final bool isBold;
-  final TextStyle textStyle;
+  final TextStyle? textStyle;
   final String text;
   final Color color;
   final bool dotsAfterOverFlow;
   final String fontFamily;
-  final FontWeight fontWeight;
+  final FontWeight? fontWeight;
   final bool isTitle;
-  final TextAlign align;
-  final double letterSpacing;
+  final TextAlign? align;
+  final double? letterSpacing;
 
   CustomText(this.text,
       {this.color = Colors.black,

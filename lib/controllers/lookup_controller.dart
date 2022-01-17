@@ -5,10 +5,10 @@ import 'base_controller.dart';
 
 class LookupController extends BaseController {
   LookupController({
-    Key key,
+    Key? key,
   }) : assert(List != null);
 
-  List<Lookups> lookups;
+  List<Lookups> lookups = [];
 
   void setUpLookups(List<Lookups> lookups) {
     this.lookups = lookups;

@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'base_controller.dart';
 
 class CartCountController extends BaseController {
-  CartCountController({Key key, this.count}) : assert(count != null);
+  CartCountController({Key? key, required this.count});
 
   RxInt count = 0.obs;
 

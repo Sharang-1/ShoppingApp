@@ -17,32 +17,32 @@ class AppointmentsController extends BaseController {
   final APIService _apiService = locator<APIService>();
   final AddressService _addressService = locator<AddressService>();
 
-  Appointments _data;
+  late Appointments _data;
   Appointments get data => _data;
 
-  TimeSlots _timeSlotsData;
+  late TimeSlots _timeSlotsData;
   TimeSlots get timeSlotsData => _timeSlotsData;
 
-  String selectedWeekDay;
-  int seltectedTime;
+  late String selectedWeekDay;
+  late int seltectedTime;
 
   Future getAppointments() async {
     setBusy(true);
-    Appointments result = await _apiService.getUserAppointments();
+    Appointments? result = await _apiService.getUserAppointments();
     if (result != null) {
       Fimber.d("Appointments : " + result.appointments.toString());
       result.appointments
-          .sort((a, b) => b.timeSlotStart.compareTo(a.timeSlotStart));
+          .sort((a, b) => b!.timeSlotStart!.compareTo(a!.timeSlotStart!));
       _data = result;
     }
     setBusy(false);
   }
 
   Future refreshAppointments() async {
-    Appointments result = await _apiService.getUserAppointments();
+    Appointments? result = await _apiService.getUserAppointments();
     if (result != null) {
       result.appointments
-          .sort((a, b) => -1 * a.timeSlotStart.compareTo(b.timeSlotStart));
+          .sort((a, b) => -1 * a!.timeSlotStart!.compareTo(b!.timeSlotStart!));
       _data = result;
     }
   }
@@ -64,12 +64,13 @@ class AppointmentsController extends BaseController {
         title: "Hey there!",
         description: "Please add your address before booking an appointment.",
         onConfirm: () async => await NavigationService.to(ProfileViewRoute),
+        onCancel: () {},
       );
 
       NavigationService.back();
     }
 
-    TimeSlots result = await _apiService.getAvaliableTimeSlots(sellerId);
+    TimeSlots? result = await _apiService.getAvaliableTimeSlots(sellerId);
     if (result != null) {
       Fimber.d(result.toString());
       const weekDayMap = {
@@ -81,13 +82,13 @@ class AppointmentsController extends BaseController {
         "saturday": "Sat",
         "sunday": "Sun"
       };
-      result.timeSlot.forEach((t) => t.day = weekDayMap[t.day]);
+      result.timeSlot.forEach((t) => t.day = weekDayMap[t.day]!);
       int timeSlotNumber = 0;
       while ((timeSlotNumber < 2) &&
-          result?.timeSlot[timeSlotNumber].time.isEmpty) {
+          result.timeSlot[timeSlotNumber].time.isEmpty) {
         timeSlotNumber++;
       }
-      if (result?.timeSlot[timeSlotNumber].time.isEmpty) {
+      if (result.timeSlot[timeSlotNumber].time.isEmpty) {
         await DialogService.showCustomDialog(AlertDialog(
           title: Center(
               child: Text(
@@ -98,8 +99,8 @@ class AppointmentsController extends BaseController {
         ));
         return NavigationService.back();
       }
-      selectedWeekDay = result?.timeSlot[timeSlotNumber]?.day;
-      seltectedTime = result?.timeSlot[timeSlotNumber]?.time?.first;
+      selectedWeekDay = result.timeSlot[timeSlotNumber].day;
+      seltectedTime = result.timeSlot[timeSlotNumber].time.first;
       _timeSlotsData = result;
       setBusy(false);
     } else {
@@ -119,7 +120,7 @@ class AppointmentsController extends BaseController {
     };
     DateTime now = new DateTime.now().toUtc();
 
-    var dayDiff = weekDayMap[selectedWeekDay] - now.weekday;
+    var dayDiff = weekDayMap[selectedWeekDay]! - now.weekday;
     if (dayDiff < 0) {
       dayDiff += 7;
     }

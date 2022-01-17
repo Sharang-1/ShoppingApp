@@ -1,4 +1,4 @@
-import 'package:fimber/fimber_base.dart';
+// import 'package:fimber/fimber_base.dart';
 import 'package:flutter/foundation.dart';
 import 'package:gender_picker/source/enums.dart';
 import 'package:get/get.dart';
@@ -25,9 +25,9 @@ class LoginController extends BaseController {
 
   final ageLookup = locator<LookupController>()
       .lookups
-      .where((element) => element.sectionName.toLowerCase() == "user")
+      .where((element) => element.sectionName!.toLowerCase() == "user")
       .first
-      .sections
+      .sections!
       .where(
         (e) => e.option == 'age',
       )
@@ -36,9 +36,9 @@ class LoginController extends BaseController {
 
   final genderLookup = locator<LookupController>()
       .lookups
-      .where((element) => element.sectionName.toLowerCase() == "user")
+      .where((element) => element.sectionName!.toLowerCase() == "user")
       .first
-      .sections
+      .sections!
       .where(
         (e) => e.option == 'gender',
       )
@@ -67,13 +67,13 @@ class LoginController extends BaseController {
   }
 
   Future login({
-    @required String phoneNo,
-    @required String name,
+    required String phoneNo,
+    required String name,
   }) async {
     setBusy(true);
     var result = await _authenticationService.loginWithPhoneNo(
         phoneNo: phoneNo, name: name, resend: false);
-    Fimber.d("---> login " + result.toString());
+    // Fimber.d("---> login " + result.toString());
     setBusy(false);
 
     if (result != null)
@@ -96,9 +96,9 @@ class LoginController extends BaseController {
   skipLogin() async {
     try {
       await locator<AnalyticsService>()
-          .sendAnalyticsEvent(eventName: "skip_login");
+          .sendAnalyticsEvent(eventName: "skip_login", parameters: {});
     } catch (e) {
-      Fimber.e(e.toString());
+      // Fimber.e(e.toString());
     }
     var pref = await SharedPreferences.getInstance();
     await pref.setBool(SkipLogin, true);

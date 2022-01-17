@@ -5,7 +5,7 @@ import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 
 class ShareDialog extends StatelessWidget {
-  const ShareDialog({Key key}) : super(key: key);
+  const ShareDialog({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

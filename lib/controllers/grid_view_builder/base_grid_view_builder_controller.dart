@@ -4,7 +4,9 @@ import '../base_controller.dart';
 abstract class BaseGridViewBuilderController<T, I> extends BaseController {
   Future init();
   Future<T> getData(
-      {BaseFilterModel filterModel, int pageNumber, int pageSize = 10});
+      {required BaseFilterModel filterModel,
+      required int pageNumber,
+      int pageSize = 10});
   Future<bool> deleteData(I item) {
     return Future.value(false);
   }

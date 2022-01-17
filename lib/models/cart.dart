@@ -5,10 +5,10 @@ Cart cartFromJson(String str) => Cart.fromJson(json.decode(str));
 String cartToJson(Cart data) => json.encode(data.toJson());
 
 class Cart {
-  String key;
-  String modified;
-  Owner owner;
-  List<Item> items;
+  String? key;
+  String? modified;
+  Owner? owner;
+  List<Item>? items;
 
   Cart({
     this.key,
@@ -27,18 +27,18 @@ class Cart {
   Map<String, dynamic> toJson() => {
         "key": key,
         "modified": modified,
-        "owner": owner.toJson(),
-        "items": List<dynamic>.from(items.map((x) => x.toJson())),
+        "owner": owner?.toJson(),
+        "items": List<dynamic>.from(items!.map((x) => x.toJson())),
       };
 }
 
 class Item {
-  num productId;
-  String size;
-  String color;
-  num quantity;
-  String inserted;
-  Product product;
+  num? productId;
+  String? size;
+  String? color;
+  num? quantity;
+  String? inserted;
+  Product? product;
 
   Item({
     this.productId,
@@ -64,45 +64,45 @@ class Item {
         "color": color == null ? null : color,
         "quantity": quantity == null ? null : quantity,
         "inserted": inserted,
-        "product": product.toJson(),
+        "product": product?.toJson(),
       };
 }
 
 class Product {
-  String key;
-  String name;
-  String description;
-  bool enabled;
-  String created;
-  String modified;
-  Owner account;
-  Owner owner;
-  num price;
-  Shipment shipment;
-  bool available;
-  Rating rating;
-  ProductPhoto photo;
-  num discount;
-  bool productNew;
-  Category whoMadeIt;
-  List<Variation> variations;
-  String typeOfWork;
-  bool margin;
-  Category productFor;
-  Category category;
-  Category pieces;
-  Category sleeveLength;
-  Category stitchingType;
-  List<Category> workOn;
-  String fabricDetails;
-  Category topsLength;
-  String style;
-  String neck;
-  bool hangings;
-  num breath;
-  num length;
-  String dimensions;
-  Cost cost;
+  String? key;
+  String? name;
+  String? description;
+  bool? enabled;
+  String? created;
+  String? modified;
+  Owner? account;
+  Owner? owner;
+  num? price;
+  Shipment? shipment;
+  bool? available;
+  Rating? rating;
+  ProductPhoto? photo;
+  num? discount;
+  bool? productNew;
+  Category? whoMadeIt;
+  List<Variation>? variations;
+  String? typeOfWork;
+  bool? margin;
+  Category? productFor;
+  Category? category;
+  Category? pieces;
+  Category? sleeveLength;
+  Category? stitchingType;
+  List<Category>? workOn;
+  String? fabricDetails;
+  Category? topsLength;
+  String? style;
+  String? neck;
+  bool? hangings;
+  num? breath;
+  num? length;
+  String? dimensions;
+  Cost? cost;
 
   Product({
     this.key,
@@ -206,43 +206,43 @@ class Product {
         "enabled": enabled,
         "created": created,
         "modified": modified,
-        "account": account.toJson(),
-        "owner": owner.toJson(),
+        "account": account?.toJson(),
+        "owner": owner?.toJson(),
         "price": price,
-        "shipment": shipment.toJson(),
+        "shipment": shipment?.toJson(),
         "available": available,
-        "rating": rating.toJson(),
-        "photo": photo == null ? null : photo.toJson(),
+        "rating": rating?.toJson(),
+        "photo": photo == null ? null : photo?.toJson(),
         "discount": discount,
         "new": productNew,
-        "whoMadeIt": whoMadeIt == null ? null : whoMadeIt.toJson(),
+        "whoMadeIt": whoMadeIt == null ? null : whoMadeIt?.toJson(),
         "variations": variations == null
             ? null
-            : List<dynamic>.from(variations.map((x) => x.toJson())),
+            : List<dynamic>.from(variations!.map((x) => x.toJson())),
         "typeOfWork": typeOfWork == null ? null : typeOfWork,
         "margin": margin == null ? null : margin,
-        "productFor": productFor == null ? null : productFor.toJson(),
-        "category": category == null ? null : category.toJson(),
-        "pieces": pieces == null ? null : pieces.toJson(),
-        "sleeveLength": sleeveLength == null ? null : sleeveLength.toJson(),
-        "stitchingType": stitchingType == null ? null : stitchingType.toJson(),
+        "productFor": productFor == null ? null : productFor?.toJson(),
+        "category": category == null ? null : category?.toJson(),
+        "pieces": pieces == null ? null : pieces?.toJson(),
+        "sleeveLength": sleeveLength == null ? null : sleeveLength?.toJson(),
+        "stitchingType": stitchingType == null ? null : stitchingType?.toJson(),
         "workOn": workOn == null
             ? null
-            : List<dynamic>.from(workOn.map((x) => x.toJson())),
+            : List<dynamic>.from(workOn!.map((x) => x.toJson())),
         "fabricDetails": fabricDetails == null ? null : fabricDetails,
-        "topsLength": topsLength == null ? null : topsLength.toJson(),
+        "topsLength": topsLength == null ? null : topsLength?.toJson(),
         "style": style == null ? null : style,
         "neck": neck == null ? null : neck,
         "hangings": hangings == null ? null : hangings,
         "breath": breath == null ? null : breath,
         "length": length == null ? null : length,
         "dimensions": dimensions == null ? null : dimensions,
-        "cost": cost == null ? null : cost.toJson(),
+        "cost": cost == null ? null : cost?.toJson(),
       };
 }
 
 class Owner {
-  String key;
+  String? key;
 
   Owner({
     this.key,
@@ -258,8 +258,8 @@ class Owner {
 }
 
 class Category {
-  num id;
-  String name;
+  num? id;
+  String? name;
 
   Category({
     this.id,
@@ -278,9 +278,9 @@ class Category {
 }
 
 class ProductPhoto {
-  List<PhotoElement> photos;
-  String accountId;
-  String productId;
+  List<PhotoElement>? photos;
+  String? accountId;
+  String? productId;
 
   ProductPhoto({
     this.photos,
@@ -296,15 +296,15 @@ class ProductPhoto {
       );
 
   Map<String, dynamic> toJson() => {
-        "photos": List<dynamic>.from(photos.map((x) => x.toJson())),
+        "photos": List<dynamic>.from(photos!.map((x) => x.toJson())),
         "accountId": accountId,
         "productId": productId,
       };
 }
 
 class PhotoElement {
-  String name;
-  String originalName;
+  String? name;
+  String? originalName;
 
   PhotoElement({
     this.name,
@@ -323,7 +323,7 @@ class PhotoElement {
 }
 
 class Rating {
-  num rate;
+  num? rate;
 
   Rating({
     this.rate,
@@ -339,7 +339,7 @@ class Rating {
 }
 
 class Shipment {
-  num days;
+  num? days;
 
   Shipment({
     this.days,
@@ -355,9 +355,9 @@ class Shipment {
 }
 
 class Variation {
-  String size;
-  num quantity;
-  String color;
+  String? size;
+  num? quantity;
+  String? color;
 
   Variation({
     this.size,
@@ -379,12 +379,12 @@ class Variation {
 }
 
 class Cost {
-  final num cost;
-  final num costToCustomer;
-  final CostAndRate productDiscount;
-  final CostAndRate convenienceCharges;
-  final CostAndRate gstCharges;
-  final String note;
+  final num? cost;
+  final num? costToCustomer;
+  final CostAndRate? productDiscount;
+  final CostAndRate? convenienceCharges;
+  final CostAndRate? gstCharges;
+  final String? note;
 
   Cost({
     this.cost,
@@ -421,8 +421,8 @@ class Cost {
 }
 
 class CostAndRate {
-  final num cost;
-  final num rate;
+  final num? cost;
+  final num? rate;
 
   CostAndRate({this.cost, this.rate});
 

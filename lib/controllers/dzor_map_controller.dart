@@ -25,7 +25,7 @@ class DzorMapController extends BaseController {
   final APIService _apiService = locator<APIService>();
   final AnalyticsService _analyticsService = locator<AnalyticsService>();
 
-  GoogleMapController mapController;
+  late GoogleMapController? mapController;
 
   bool mapToggle = false;
   bool clientsToggle = false;
@@ -35,14 +35,14 @@ class DzorMapController extends BaseController {
   var clients = [];
   dynamic currentClient;
   var currentBearing;
-  UserLocation currentLocation;
+  UserLocation currentLocation = UserLocation();
   String cityName = locator<HomeController>().cityName;
 
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
-  BitmapDescriptor iconS, iconT;
+  BitmapDescriptor? iconS, iconT;
 
-  Tailors tData;
-  Sellers sData;
+  Tailors? tData;
+  Sellers? sData;
 
   final String sellerKey;
   final BuildContext context;
@@ -50,7 +50,13 @@ class DzorMapController extends BaseController {
 
   GlobalKey get cardsKey => _cardsKey;
 
-  DzorMapController(this.context, {this.sellerKey});
+  DzorMapController(this.context,
+      {required this.sellerKey,
+      this.sData,
+      this.tData,
+      this.iconS,
+      this.iconT,
+      this.mapController});
 
   final List<TabItem> navigationItems = [
     TabItem(
@@ -155,11 +161,12 @@ class DzorMapController extends BaseController {
         configuration, 'assets/images/pin2.png');
 
     try {
-      await _analyticsService.sendAnalyticsEvent(eventName: "map_opened");
+      await _analyticsService
+          .sendAnalyticsEvent(eventName: "map_opened", parameters: {});
     } catch (e) {}
   }
 
-  populateClients({String sellerKey}) async {
+  populateClients({String? sellerKey}) async {
     clients = [];
     Future<Tailors> tailors = _apiService.getTailors();
     Future<Sellers> sellers =
@@ -168,24 +175,24 @@ class DzorMapController extends BaseController {
 
     tData = apiData[0] as Tailors;
     sData = apiData[1] as Sellers;
-    sData.items = sData.items
-        .where((s) => s?.subscriptionTypeId?.toString() != '2')
+    sData!.items = sData!.items!
+        .where((s) => s.subscriptionTypeId?.toString() != '2')
         .toList();
-    tData.items = tData.items
-        .where((t) => (t?.contact?.geoLocation?.latitude != null))
+    tData!.items = tData!.items!
+        .where((t) => (t.contact?.geoLocation?.latitude != null))
         .toList();
 
     if (sData != null) {
       clientsToggle = true;
     }
 
-    sData.items.shuffle();
-    tData.items.shuffle();
+    sData!.items!.shuffle();
+    tData!.items!.shuffle();
     update();
 
     if (sellerKey != null && sellerKey != '') {
       try {
-        currentClient = sData.items.firstWhere((e) => (e.key == sellerKey));
+        currentClient = sData!.items!.firstWhere((e) => (e.key == sellerKey));
         currentBearing = 90.0;
         zoomInMarker(currentClient?.contact?.geoLocation?.latitude,
             currentClient?.contact?.geoLocation?.longitude);
@@ -201,10 +208,13 @@ class DzorMapController extends BaseController {
 
   void onLocationIconClicked() async {
     try {
-      mapController.animateCamera(CameraUpdate.newCameraPosition(
+      mapController!.animateCamera(CameraUpdate.newCameraPosition(
         CameraPosition(
           bearing: 0,
-          target: LatLng(currentLocation.latitude, currentLocation.longitude),
+          target: LatLng(
+            currentLocation.latitude ?? 23.0204975,
+            currentLocation.longitude ?? 72.43931,
+          ),
           zoom: 17.0,
         ),
       ));
@@ -217,43 +227,43 @@ class DzorMapController extends BaseController {
   }
 
   zoomIn() async {
-    mapController.animateCamera(
+    mapController!.animateCamera(
       CameraUpdate.newCameraPosition(
         CameraPosition(
             target: currentClient == null
                 ? LatLng(
-                    currentLocation.latitude,
-                    currentLocation.longitude,
+                    currentLocation.latitude ?? 23.0204975,
+                    currentLocation.longitude ?? 72.43931,
                   )
                 : LatLng(
                     currentClient.contact.geoLocation.latitude,
                     currentClient.contact.geoLocation.longitude,
                   ),
-            zoom: (await mapController.getZoomLevel()) + 2),
+            zoom: (await mapController!.getZoomLevel()) + 2),
       ),
     );
   }
 
   zoomOut() async {
-    mapController.animateCamera(
+    mapController!.animateCamera(
       CameraUpdate.newCameraPosition(
         CameraPosition(
             target: currentClient == null
                 ? LatLng(
-                    currentLocation.latitude,
-                    currentLocation.longitude,
+                    currentLocation.latitude ?? 23.0204975,
+                    currentLocation.longitude ?? 72.43931,
                   )
                 : LatLng(
                     currentClient.contact.geoLocation.latitude,
                     currentClient.contact.geoLocation.longitude,
                   ),
-            zoom: (await mapController.getZoomLevel()) - 2),
+            zoom: (await mapController!.getZoomLevel()) - 2),
       ),
     );
   }
 
   zoomInMarker(double latitude, double longitude) {
-    mapController
+    mapController!
         .animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
             target: LatLng(latitude, longitude),
             zoom: 17.0,
@@ -262,16 +272,17 @@ class DzorMapController extends BaseController {
         .then((val) {
       resetToggle = true;
       try {
-        mapController.showMarkerInfoWindow(MarkerId(currentClient?.key));
+        mapController!.showMarkerInfoWindow(MarkerId(currentClient?.key));
       } catch (e) {}
       update();
     });
   }
 
   resetCamera() {
-    mapController
+    mapController!
         .animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-            target: LatLng(currentLocation.latitude, currentLocation.longitude),
+            target: LatLng(currentLocation.latitude ?? 23.0204975,
+                currentLocation.longitude ?? 72.43931),
             zoom: 10.0)))
         .then((val) {
       resetToggle = false;
@@ -280,7 +291,7 @@ class DzorMapController extends BaseController {
   }
 
   addBearing() {
-    mapController
+    mapController!
         .animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
             target: LatLng(currentClient.contact.geoLocation.latitude,
                 currentClient.contact.geoLocation.longitude),
@@ -300,7 +311,7 @@ class DzorMapController extends BaseController {
   }
 
   removeBearing() {
-    mapController
+    mapController!
         .animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
             target: LatLng(currentClient.contact.geoLocation.latitude,
                 currentClient.contact.geoLocation.longitude),
@@ -322,10 +333,10 @@ class DzorMapController extends BaseController {
     return "${s == "" ? "" : String.fromCharCode(0x2022)} $s";
   }
 
-  void showTutorial(BuildContext context, {GlobalKey cardsKey}) async {
+  void showTutorial(BuildContext context, {GlobalKey? cardsKey}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (prefs?.getBool(ShouldShowMapTutorial) ?? true) {
-      TutorialCoachMark tutorialCoachMark;
+    if (prefs.getBool(ShouldShowMapTutorial) ?? true) {
+      late TutorialCoachMark tutorialCoachMark;
       List<TargetFocus> targets = <TargetFocus>[
         TargetFocus(
           identify: "Map Target",
@@ -372,8 +383,7 @@ class DzorMapController extends BaseController {
         paddingFocus: 5,
         onClickOverlay: (targetFocus) => tutorialCoachMark.next(),
         onClickTarget: (targetFocus) => tutorialCoachMark.next(),
-        onFinish: () async =>
-            await prefs?.setBool(ShouldShowMapTutorial, false),
+        onFinish: () async => await prefs.setBool(ShouldShowMapTutorial, false),
       )..show();
     }
   }

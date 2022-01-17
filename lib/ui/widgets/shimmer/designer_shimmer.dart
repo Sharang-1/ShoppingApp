@@ -15,7 +15,7 @@ class DesignerShimmer extends StatelessWidget {
       height: 200.0,
       decoration: BoxDecoration(
         border: Border(
-          right: BorderSide(color: Colors.grey[200], style: BorderStyle.solid),
+          right: BorderSide(color: Colors.grey[200]!, style: BorderStyle.solid),
         ),
       ),
       width: MediaQuery.of(context).size.width - 40,

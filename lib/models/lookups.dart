@@ -12,8 +12,8 @@ class Lookups {
     this.sections,
   });
 
-  String sectionName;
-  List<Section> sections;
+  String? sectionName;
+  List<Section>? sections;
 
   factory Lookups.fromJson(Map<String, dynamic> json) => Lookups(
         sectionName: json["sectionName"],
@@ -23,7 +23,7 @@ class Lookups {
 
   Map<String, dynamic> toJson() => {
         "sectionName": sectionName,
-        "sections": List<dynamic>.from(sections.map((x) => x.toJson())),
+        "sections": List<dynamic>.from(sections!.map((x) => x.toJson())),
       };
 }
 
@@ -33,8 +33,8 @@ class Section {
     this.values,
   });
 
-  String option;
-  List<Value> values;
+  String? option;
+  List<Value>? values;
 
   factory Section.fromJson(Map<String, dynamic> json) => Section(
         option: json["option"],
@@ -43,7 +43,7 @@ class Section {
 
   Map<String, dynamic> toJson() => {
         "option": option,
-        "values": List<dynamic>.from(values.map((x) => x.toJson())),
+        "values": List<dynamic>.from(values!.map((x) => x.toJson())),
       };
 }
 
@@ -53,8 +53,8 @@ class Value {
     this.name,
   });
 
-  int id;
-  String name;
+  int? id;
+  String? name;
 
   factory Value.fromJson(Map<String, dynamic> json) => Value(
         id: json["id"],

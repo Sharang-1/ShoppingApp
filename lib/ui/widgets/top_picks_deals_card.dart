@@ -13,7 +13,7 @@ class TopPicksAndDealsCard extends StatelessWidget {
   final Map<String, dynamic> data;
 
   TopPicksAndDealsCard({
-    this.data,
+    required this.data,
   });
   @override
   Widget build(BuildContext context) {
@@ -111,7 +111,7 @@ class TopPicksAndDealsCard extends StatelessWidget {
                               dotsAfterOverFlow: true,
                               isTitle: true,
                               isBold: true,
-                              color: Colors.grey[800],
+                              color: Colors.grey[800]!,
                               fontSize: subtitleFontSizeStyle - 2,
                             ),
                           ),
@@ -139,7 +139,7 @@ class TopPicksAndDealsCard extends StatelessWidget {
                                 Padding(
                                   padding: EdgeInsets.only(bottom: 8.0),
                                   child: CustomText(
-                                      rupeeUnicode + data['price']?.toString(),
+                                      rupeeUnicode + data['price'].toString(),
                                       color: textIconBlue,
                                       isBold: true,
                                       fontSize: subtitleFontSizeStyle - 2),
@@ -289,7 +289,7 @@ class TopPicksAndDealsCard extends StatelessWidget {
 
 class CustomDivider extends StatelessWidget {
   const CustomDivider({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -298,7 +298,7 @@ class CustomDivider extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
       child: Divider(
         thickness: 1,
-        color: Colors.grey[400].withOpacity(0.1),
+        color: Colors.grey[400]!.withOpacity(0.1),
       ),
     );
   }

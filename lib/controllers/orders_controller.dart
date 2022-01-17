@@ -12,7 +12,7 @@ import 'cart_controller.dart';
 class OrdersController extends BaseController {
   final APIService _apiService = locator<APIService>();
 
-  Orders mOrders;
+  late Orders mOrders;
   Future getOrders() async {
     setBusy(true);
     final result = await _apiService.getAllOrders();
@@ -25,7 +25,7 @@ class OrdersController extends BaseController {
 
   static Future orderPlaced(context) async {
     Future.delayed(Duration(milliseconds: 2500), () async {
-      Order o = (await locator<APIService>().getAllOrders()).orders.first;
+      Order o = (await locator<APIService>().getAllOrders())!.orders!.first;
       await Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(

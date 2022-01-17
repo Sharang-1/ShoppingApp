@@ -107,14 +107,14 @@ class _MyAppointmentsState extends State<MyAppointments> {
                       //   width: 50,
                       // ),
                       if (!controller.busy &&
-                          (controller?.data?.appointments?.length ?? 0) == 0)
+                          (controller.data.appointments.length) == 0)
                         Padding(
                           padding: EdgeInsets.only(top: 16.0),
                           child: EmptyListWidget(),
                         ),
                       if (!controller.busy && controller.data != null)
                         ...controller.data.appointments.map(
-                            (data) => productCard(context, data, controller)),
+                            (data) => productCard(context, data!, controller)),
                     ]),
               )),
             ),
@@ -126,7 +126,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
       context, AppointmentData data, AppointmentsController controller) {
     final msgTextController = TextEditingController();
     String _errorText = '';
-    StateSetter _stateSetter;
+    late StateSetter _stateSetter;
     return DialogService.showCustomDialog(
       AlertDialog(
         title: Center(
@@ -164,7 +164,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                     _errorText = 'Enter atleast 10 character';
                   });
                 await controller.cancelAppointment(
-                    data.id, msgTextController.text);
+                    data.id!, msgTextController.text);
                 Navigator.of(context).pop();
                 await controller.refreshAppointments();
                 setState(() {
@@ -206,7 +206,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                       children: <Widget>[
                         verticalSpaceTiny,
                         CustomText(
-                          data?.seller?.name ?? '',
+                          data.seller?.name ?? '',
                           dotsAfterOverFlow: true,
                           isTitle: true,
                           fontWeight: FontWeight.w600,
@@ -224,7 +224,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                             horizontalSpaceSmall,
                             Expanded(
                                 child: CustomText(
-                              data.id,
+                              data.id ?? "",
                               dotsAfterOverFlow: true,
                               isBold: true,
                               color: logoRed,
@@ -242,23 +242,23 @@ class _MyAppointmentsState extends State<MyAppointments> {
                                   children: <Widget>[
                                     CustomText(
                                       new DateFormat.yMMMEd()
-                                          .format(data.timeSlotStart)
+                                          .format(data.timeSlotStart!)
                                           .toString(),
                                       isBold: true,
-                                      color: Colors.grey[600],
+                                      color: Colors.grey[600]!,
                                       fontSize: subtitleFontSize,
                                     ),
                                     verticalSpaceTiny,
                                     CustomText(
                                       DateFormat("h:mma")
-                                              .format(data.timeSlotStart)
+                                              .format(data.timeSlotStart!)
                                               .toString() +
                                           " - " +
                                           DateFormat("h:mma")
-                                              .format(data.timeSlotEnd)
+                                              .format(data.timeSlotEnd!)
                                               .toString(),
                                       isBold: true,
-                                      color: Colors.grey[600],
+                                      color: Colors.grey[600]!,
                                       fontSize: subtitleFontSize,
                                     ),
                                   ]),
@@ -282,7 +282,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                         )
                       ],
                     ),
-                    if ((data?.sellerMessage ?? '').isNotEmpty)
+                    if ((data.sellerMessage ?? '').isNotEmpty)
                       Align(
                         alignment: Alignment.topRight,
                         child: InkWell(
@@ -301,13 +301,13 @@ class _MyAppointmentsState extends State<MyAppointments> {
                               decoration: BoxDecoration(
                                 border: Border(
                                   top: BorderSide(
-                                    color: Colors.grey[200],
+                                    color: Colors.grey[200]!,
                                     style: BorderStyle.solid,
                                   ),
                                 ),
                               ),
                               padding: EdgeInsets.only(top: 8.0),
-                              child: Text(data?.sellerMessage ?? ''),
+                              child: Text(data.sellerMessage ?? ''),
                             ),
                             actions: [
                               TextButton(
@@ -327,8 +327,8 @@ class _MyAppointmentsState extends State<MyAppointments> {
             Expanded(
               child: ElevatedButton(
                   onPressed: () async => await MapUtils.openMap(
-                        data?.seller?.contact?.geoLocation?.latitude ?? 0,
-                        data?.seller?.contact?.geoLocation?.longitude ?? 0,
+                        data.seller?.contact?.geoLocation?.latitude ?? 0,
+                        data.seller?.contact?.geoLocation?.longitude ?? 0,
                       ),
                   style: ElevatedButton.styleFrom(
                     elevation: 5,

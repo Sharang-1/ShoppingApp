@@ -15,10 +15,10 @@ class Sellers {
     this.items,
   });
 
-  num records;
-  num startIndex;
-  num limit;
-  List<Seller> items;
+  num? records;
+  num? startIndex;
+  num? limit;
+  List<Seller>? items;
 
   factory Sellers.fromJson(Map<String, dynamic> json) => Sellers(
         records: json["records"] == null ? null : json["records"],
@@ -33,7 +33,7 @@ class Sellers {
         "records": records,
         "startIndex": startIndex,
         "limit": limit,
-        "sellers": List<dynamic>.from(items.map((x) => x.toJson())),
+        "sellers": List<dynamic>.from(items!.map((x) => x.toJson())),
       };
 }
 
@@ -63,34 +63,34 @@ class Seller {
     this.ratingAverage,
   });
 
-  String documentId;
-  String key;
-  RatingAverage ratingAverage;
-  AccountType accountType;
-  Photo photo;
-  String created;
-  String name;
-  String bio;
-  String known;
-  String designs;
-  String works;
-  String operations;
-  String intro;
-  String designation;
-  String education;
-  Contact contact;
-  Owner owner;
-  Timing timing;
-  num establishmentTypeId;
-  num subscriptionTypeId;
-  Type subscriptionType;
-  Type establishmentType;
-  List<Product> products;
+  String? documentId;
+  String? key;
+  RatingAverage? ratingAverage;
+  AccountType? accountType;
+  Photo? photo;
+  String? created;
+  String? name;
+  String? bio;
+  String? known;
+  String? designs;
+  String? works;
+  String? operations;
+  String? intro;
+  String? designation;
+  String? education;
+  Contact? contact;
+  Owner? owner;
+  Timing? timing;
+  num? establishmentTypeId;
+  num? subscriptionTypeId;
+  Type? subscriptionType;
+  Type? establishmentType;
+  List<Product>? products;
 
   factory Seller.fromJson(Map<String, dynamic> json) => Seller(
         documentId: json["documentId"],
         key: json["key"],
-        accountType: accountTypeValues.map[json["accountType"]],
+        accountType: accountTypeValues.map![json["accountType"]],
         photo: json["photo"] == null ? null : Photo.fromMap(json["photo"]),
         created: json["created"],
         name: json["name"],
@@ -119,7 +119,7 @@ class Seller {
         "documentId": documentId,
         "key": key,
         "accountType": accountTypeValues.reverse[accountType],
-        "photo": photo.toMap(),
+        "photo": photo!.toMap(),
         "created": created,
         "name": name,
         "bio": bio == null ? null : bio,
@@ -131,12 +131,12 @@ class Seller {
         "designation": designation == null ? null : designation,
         "education": education == null ? null : education,
         "contact": contact?.toJson(),
-        "timing": timing.toJson(),
+        "timing": timing!.toJson(),
         "establishmentTypeId": establishmentTypeId,
         "subscriptionTypeId": subscriptionTypeId,
-        "subscriptionType": subscriptionType.toJson(),
-        "ratingAverage": ratingAverage.toJson(),
-        "establishmentType": establishmentType.toJson(),
+        "subscriptionType": subscriptionType!.toJson(),
+        "ratingAverage": ratingAverage!.toJson(),
+        "establishmentType": establishmentType!.toJson(),
       };
 }
 
@@ -153,8 +153,8 @@ class Contact {
     this.state,
   });
 
-  GeoLocation geoLocation;
-  String address, city, state, pincode;
+  GeoLocation? geoLocation;
+  String? address, city, state, pincode;
 
   factory Contact.fromJson(Map<String, dynamic> json) => Contact(
         geoLocation: json["geoLocation"] == null
@@ -171,7 +171,7 @@ class Contact {
         "address": address,
         "city": city,
         "state": state,
-        "pincode": num?.parse(pincode),
+        "pincode": num?.parse(pincode!),
       };
 }
 
@@ -181,8 +181,8 @@ class GeoLocation {
     this.longitude,
   });
 
-  double latitude;
-  double longitude;
+  double? latitude;
+  double? longitude;
 
   factory GeoLocation.fromJson(Map<String, dynamic> json) => GeoLocation(
         latitude: json["latitude"] == null ? null : json["latitude"].toDouble(),
@@ -202,8 +202,8 @@ class AryNumber {
     this.mobile,
   });
 
-  String code;
-  String mobile;
+  String? code;
+  String? mobile;
 
   factory AryNumber.fromJson(Map<String, dynamic> json) => AryNumber(
         code: json["code"],
@@ -222,8 +222,8 @@ class Type {
     this.name,
   });
 
-  num id;
-  String name;
+  num? id;
+  String? name;
 
   factory Type.fromJson(Map<String, dynamic> json) => Type(
         id: json["id"],
@@ -242,8 +242,8 @@ class Owner {
     this.name,
   });
 
-  String key;
-  String name;
+  String? key;
+  String? name;
 
   factory Owner.fromJson(Map<String, dynamic> json) => Owner(
         key: json["key"],
@@ -267,13 +267,13 @@ class Timing {
     this.saturday,
   });
 
-  Day sunday;
-  Day monday;
-  Day tuesday;
-  Day wednesday;
-  Day thursday;
-  Day friday;
-  Day saturday;
+  Day? sunday;
+  Day? monday;
+  Day? tuesday;
+  Day? wednesday;
+  Day? thursday;
+  Day? friday;
+  Day? saturday;
 
   factory Timing.fromJson(Map<String, dynamic> json) => Timing(
         sunday: Day.fromJson(json["sunday"]),
@@ -286,13 +286,13 @@ class Timing {
       );
 
   Map<String, dynamic> toJson() => {
-        "sunday": sunday.toJson(),
-        "monday": monday.toJson(),
-        "tuesday": tuesday.toJson(),
-        "wednesday": wednesday.toJson(),
-        "thursday": thursday.toJson(),
-        "friday": friday.toJson(),
-        "saturday": saturday.toJson(),
+        "sunday": sunday!.toJson(),
+        "monday": monday!.toJson(),
+        "tuesday": tuesday!.toJson(),
+        "wednesday": wednesday!.toJson(),
+        "thursday": thursday!.toJson(),
+        "friday": friday!.toJson(),
+        "saturday": saturday!.toJson(),
       };
 }
 
@@ -303,9 +303,9 @@ class Day {
     this.end,
   });
 
-  bool open;
-  num start;
-  num end;
+  bool? open;
+  num? start;
+  num? end;
 
   factory Day.fromJson(Map<String, dynamic> json) => Day(
         open: json["open"],
@@ -327,9 +327,9 @@ class RatingAverage {
     this.person,
   });
 
-  int rating;
-  int total;
-  int person;
+  int? rating;
+  int? total;
+  int? person;
 
   factory RatingAverage.fromJson(Map<String, dynamic> json) => RatingAverage(
         rating: json["rating"],
@@ -345,15 +345,15 @@ class RatingAverage {
 }
 
 class EnumValues<T> {
-  Map<String, T> map;
-  Map<T, String> reverseMap;
+  Map<String, T>? map;
+  Map<T, String>? reverseMap;
 
   EnumValues(this.map);
 
   Map<T, String> get reverse {
     if (reverseMap == null) {
-      reverseMap = map.map((k, v) => new MapEntry(v, k));
+      reverseMap = map!.map((k, v) => new MapEntry(v, k));
     }
-    return reverseMap;
+    return reverseMap!;
   }
 }

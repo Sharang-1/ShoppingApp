@@ -22,7 +22,7 @@ import '../widgets/sellerTileUi.dart';
 import '../widgets/shimmer/shimmer_widget.dart';
 
 class SearchView extends StatefulWidget {
-  SearchView({Key key, this.showSellers = false}) : super(key: key);
+  SearchView({Key? key, this.showSellers = false}) : super(key: key);
 
   final bool showSellers;
 
@@ -177,6 +177,7 @@ class _SearchViewState extends State<SearchView>
                           child: GridListWidget<Products, Product>(
                             key: _controller.productGridKey.value,
                             context: context,
+                            onEmptyList: () {},
                             filter: _controller.productFilter.value,
                             gridCount: 2,
                             controller: ProductsGridViewBuilderController(
@@ -197,16 +198,16 @@ class _SearchViewState extends State<SearchView>
                                 childAspectRatio: 0.7,
                               ),
                             ),
-                            tileBuilder: (BuildContext context, data, index,
-                                    onUpdate, onDelete) =>
-                                Container(
+                            tileBuilder:
+                                (BuildContext context, data, index, onDelete) =>
+                                    Container(
                               decoration: BoxDecoration(
                                 border: Border(
                                   right: BorderSide(
-                                    color: Colors.grey[300],
+                                    color: Colors.grey[300]!,
                                   ),
                                   bottom: BorderSide(
-                                    color: Colors.grey[300],
+                                    color: Colors.grey[300]!,
                                   ),
                                 ),
                               ),
@@ -228,8 +229,10 @@ class _SearchViewState extends State<SearchView>
                             context: context,
                             filter: _controller.sellerFilter.value,
                             gridCount: 1,
+                            onEmptyList: () {},
                             controller: SellersGridViewBuilderController(
-                                random: _controller.showRandomSellers.value),
+                                random: _controller.showRandomSellers.value,
+                                removeId: ''),
                             emptyListWidget: EmptyListWidget(
                                 text:
                                     "No Search Found for ‘${_controller.sellerFilter.value.name}’, \nPlease try again!",
@@ -244,13 +247,13 @@ class _SearchViewState extends State<SearchView>
                                 childAspectRatio: 3.50,
                               ),
                             ),
-                            tileBuilder: (BuildContext context, data, index,
-                                    onUpdate, onDelete) =>
-                                Container(
+                            tileBuilder:
+                                (BuildContext context, data, index, onDelete) =>
+                                    Container(
                               decoration: BoxDecoration(
                                 border: Border(
                                   bottom: BorderSide(
-                                    color: Colors.grey[300],
+                                    color: Colors.grey[300]!,
                                   ),
                                 ),
                               ),
@@ -273,13 +276,13 @@ class _SearchViewState extends State<SearchView>
 
 class _SearchBarTextField extends StatelessWidget {
   const _SearchBarTextField({
-    Key key,
-    @required this.searchController,
-    @required this.focusNode,
-    @required this.searchAction,
+    Key? key,
+    required this.searchController,
+    required this.focusNode,
+    required this.searchAction,
     this.autofocus = false,
-    this.onTap,
-    this.onChanged,
+    required this.onTap,
+    required this.onChanged,
   }) : super(key: key);
 
   final Function searchAction;
@@ -313,9 +316,9 @@ class _SearchBarTextField extends StatelessWidget {
               style: TextStyle(
                 color: Colors.black,
               ),
-              onTap: onTap,
+              onTap: onTap(),
               onSubmitted: (txt) => searchAction(searchController.text.trim()),
-              onChanged: onChanged,
+              onChanged: onChanged(),
               decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: "Start typing...",

@@ -24,7 +24,7 @@ import 'custom_text.dart';
 
 class CustomDivider extends StatelessWidget {
   const CustomDivider({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -33,7 +33,7 @@ class CustomDivider extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
         child: Divider(
           thickness: 1,
-          color: Colors.grey[400].withOpacity(0.1),
+          color: Colors.grey[400]!.withOpacity(0.1),
         ));
   }
 }
@@ -45,10 +45,10 @@ class SellerTileUi extends StatelessWidget {
   final onClick;
 
   SellerTileUi({
-    Key key,
+    Key? key,
     this.toProduct = false,
-    @required this.data,
-    @required this.fromHome,
+    required this.data,
+    required this.fromHome,
     this.onClick,
   }) : super(key: key);
 
@@ -110,7 +110,7 @@ class SellerTileUi extends StatelessWidget {
                                 fadeInCurve: Curves.easeIn,
                                 placeholder:
                                     "assets/images/product_preloading.png",
-                                image: data?.key != null
+                                image: data.key != null
                                     ? "$SELLER_PHOTO_BASE_URL/${data.key}"
                                     : "https://images.unsplash.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
                                 imageErrorBuilder:
@@ -131,9 +131,12 @@ class SellerTileUi extends StatelessWidget {
                                       fontWeight: FontWeight.bold,
                                       color: logoRed)),
                               AutoSizeText(
-                                data?.subscriptionTypeId == 2
-                                    ? data?.contact?.address
-                                    : data?.bio ?? "",
+                                data.subscriptionTypeId == 2
+                                    ? data.contact!.address ?? ""
+                                    : data.bio ?? "",
+                                // data.subscriptionTypeId == 2
+                                //     ? data.contact!.address
+                                //     : data.bio ?? "",
                                 style: TextStyle(
                                   color: Colors.grey[700],
                                   fontSize:
@@ -162,7 +165,7 @@ class SellerTileUi extends StatelessWidget {
                                 Align(
                                   alignment: Alignment.centerLeft,
                                   child: CustomText(
-                                    data.name,
+                                    data.name ?? "",
                                     dotsAfterOverFlow: true,
                                     isTitle: true,
                                     isBold: true,
@@ -171,10 +174,15 @@ class SellerTileUi extends StatelessWidget {
                                 ),
                                 verticalSpaceTiny,
                                 CustomText(
-                                  data?.establishmentType?.name ??
+                                  data.establishmentType!.name ??
                                       accountTypeValues.reverse[
-                                          data?.accountType ??
-                                              AccountType.SELLER],
+                                          data.accountType ??
+                                              AccountType.SELLER] ??
+                                      "",
+                                  // data.establishmentType.name ??
+                                  //     accountTypeValues.reverse[
+                                  //         data?.accountType ??
+                                  //             AccountType.SELLER],
                                   color: data.accountType == AccountType.SELLER
                                       ? logoRed
                                       : textIconOrange,
@@ -184,7 +192,7 @@ class SellerTileUi extends StatelessWidget {
                                 ),
                                 verticalSpaceSmall,
                                 AutoSizeText(
-                                  data?.bio,
+                                  data.bio ?? "",
                                   style: TextStyle(
                                     color: Colors.grey[500],
                                     fontSize:
@@ -200,14 +208,14 @@ class SellerTileUi extends StatelessWidget {
                             flex: 3,
                             child: Row(
                               children: [
-                                FutureBuilder<Reviews>(
+                                FutureBuilder<Reviews?>(
                                   future: locator<APIService>().getReviews(
-                                      data?.key,
+                                      data.key ?? "",
                                       isSellerReview: true),
                                   builder: (context, snapshot) => ((snapshot
                                                   .connectionState ==
                                               ConnectionState.done) &&
-                                          ((snapshot?.data?.ratingAverage
+                                          ((snapshot.data?.ratingAverage
                                                       ?.rating ??
                                                   0) >
                                               0))
@@ -223,9 +231,13 @@ class SellerTileUi extends StatelessWidget {
                                               decoration: BoxDecoration(
                                                 color: Tools
                                                     .getColorAccordingToRattings(
-                                                  snapshot.data.ratingAverage
-                                                      .rating,
-                                                ),
+                                                        snapshot
+                                                            .data!
+                                                            .ratingAverage!
+                                                            .rating as num
+                                                        // snapshot.data.ratingAverage
+                                                        //     .rating,
+                                                        ),
                                                 borderRadius:
                                                     BorderRadius.circular(
                                                   curve30,
@@ -236,8 +248,8 @@ class SellerTileUi extends StatelessWidget {
                                                     CrossAxisAlignment.center,
                                                 children: <Widget>[
                                                   CustomText(
-                                                    snapshot.data.ratingAverage
-                                                        .rating
+                                                    snapshot.data!
+                                                        .ratingAverage!.rating
                                                         .toString(),
                                                     color: Colors.white,
                                                     isBold: true,
@@ -258,10 +270,10 @@ class SellerTileUi extends StatelessWidget {
                                 ),
                                 Expanded(
                                   child: CustomText(
-                                    data.operations,
+                                    data.operations ?? "",
                                     dotsAfterOverFlow: true,
                                     fontSize: 14,
-                                    color: Colors.grey[500],
+                                    color: Colors.grey[500]!,
                                   ),
                                 ),
                               ],
@@ -287,8 +299,8 @@ class DesignerTileUi extends StatelessWidget {
   final bool isSmallDevice;
 
   DesignerTileUi({
-    Key key,
-    @required this.data,
+    Key? key,
+    required this.data,
     this.isID3 = false,
     this.isSmallDevice = false,
   }) : super(key: key);
@@ -300,13 +312,13 @@ class DesignerTileUi extends StatelessWidget {
       height: 200.0,
       decoration: BoxDecoration(
         border: Border(
-          right: BorderSide(color: Colors.grey[200], style: BorderStyle.solid),
+          right: BorderSide(color: Colors.grey[200]!, style: BorderStyle.solid),
         ),
       ),
       width: MediaQuery.of(context).size.width - 40,
       child: GestureDetector(
         onTap: () async {
-          if (locator<HomeController>().isLoggedIn) {
+          if (locator<HomeController>().isLoggedIn ?? false) {
             if (data.subscriptionTypeId == 2)
               return NavigationService.to(
                 ProductsListRoute,
@@ -378,7 +390,7 @@ class DesignerTileUi extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 CustomText(
-                                  data.name,
+                                  data.name ?? "",
                                   dotsAfterOverFlow: true,
                                   isTitle: true,
                                   isBold: false,
@@ -389,7 +401,7 @@ class DesignerTileUi extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Image.asset(
-                                      data?.establishmentType?.id == 1
+                                      data.establishmentType?.id == 1
                                           ? 'assets/images/boutique.png'
                                           : 'assets/images/shop.png',
                                       color: Colors.black,
@@ -398,10 +410,15 @@ class DesignerTileUi extends StatelessWidget {
                                     ),
                                     horizontalSpaceTiny,
                                     CustomText(
-                                      data?.establishmentType?.name ??
+                                      data.establishmentType?.name ??
                                           accountTypeValues.reverse[
-                                              data?.accountType ??
-                                                  AccountType.SELLER],
+                                              data.accountType ??
+                                                  AccountType.SELLER] ??
+                                          "",
+                                      // data?.establishmentType?.name ??
+                                      //     accountTypeValues.reverse[
+                                      //         data?.accountType ??
+                                      //             AccountType.SELLER],
                                       color: Colors.black,
                                       isBold: false,
                                       dotsAfterOverFlow: true,
@@ -418,14 +435,13 @@ class DesignerTileUi extends StatelessWidget {
                     ),
                     Column(
                       children: [
-                        FutureBuilder<Reviews>(
+                        FutureBuilder<Reviews?>(
                           future: locator<APIService>()
-                              .getReviews(data?.key, isSellerReview: true),
+                              .getReviews(data.key!, isSellerReview: true),
                           builder: (context, snapshot) => ((snapshot
                                           .connectionState ==
                                       ConnectionState.done) &&
-                                  ((snapshot?.data?.ratingAverage?.rating ??
-                                          0) >
+                                  ((snapshot.data?.ratingAverage?.rating ?? 0) >
                                       0))
                               ? FittedBox(
                                   fit: BoxFit.scaleDown,
@@ -440,8 +456,8 @@ class DesignerTileUi extends StatelessWidget {
                                           border: Border.all(
                                             color: Tools
                                                 .getColorAccordingToRattings(
-                                              snapshot
-                                                  .data.ratingAverage.rating,
+                                              snapshot.data!.ratingAverage!
+                                                  .rating as num,
                                             ),
                                           ),
                                           borderRadius:
@@ -452,12 +468,13 @@ class DesignerTileUi extends StatelessWidget {
                                               CrossAxisAlignment.center,
                                           children: <Widget>[
                                             CustomText(
-                                              snapshot.data.ratingAverage.rating
+                                              snapshot
+                                                  .data!.ratingAverage!.rating
                                                   .toString(),
                                               color: Tools
                                                   .getColorAccordingToRattings(
-                                                snapshot
-                                                    .data.ratingAverage.rating,
+                                                snapshot.data!.ratingAverage!
+                                                    .rating as num,
                                               ),
                                               isBold: true,
                                               fontSize: 12,
@@ -467,8 +484,8 @@ class DesignerTileUi extends StatelessWidget {
                                               Icons.star,
                                               color: Tools
                                                   .getColorAccordingToRattings(
-                                                snapshot
-                                                    .data.ratingAverage.rating,
+                                                snapshot.data!.ratingAverage!
+                                                    .rating as num,
                                               ),
                                               size: 12,
                                             )
@@ -477,7 +494,7 @@ class DesignerTileUi extends StatelessWidget {
                                       ),
                                       verticalSpaceTiny,
                                       CustomText(
-                                        "${snapshot.data.ratingAverage.person} RATINGS",
+                                        "${snapshot.data!.ratingAverage!.person} RATINGS",
                                         color: Colors.black87,
                                         isBold: false,
                                         fontSize: 10,
@@ -506,14 +523,14 @@ class DesignerTileUi extends StatelessWidget {
                           ),
                           horizontalSpaceTiny,
                           CustomText(
-                            data.contact.city,
+                            data.contact!.city ?? "",
                             fontSize: 12,
                           ),
                           if (!isID3)
                             Row(
                               children: [
                                 horizontalSpaceSmall,
-                                if (data?.subscriptionType?.id == 1)
+                                if (data.subscriptionType?.id == 1)
                                   Image.asset(
                                     'assets/images/stitching.png',
                                     color: logoRed,
@@ -557,7 +574,7 @@ class DesignerTileUi extends StatelessWidget {
                 if (!isID3)
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: data.products
+                    children: data.products!
                         .map(
                           (product) => InkWell(
                             onTap: () =>
@@ -577,11 +594,11 @@ class DesignerTileUi extends StatelessWidget {
                                         placeholder: AssetImage(
                                             'assets/images/product_preloading.png'),
                                         image: CachedNetworkImageProvider(
-                                          (product?.photo?.photos?.length ??
+                                          (product.photo?.photos?.length ??
                                                       0) ==
                                                   0
                                               ? 'assets/images/product_preloading.png'
-                                              : '$PRODUCT_PHOTO_BASE_URL/${product.key}/${product?.photo?.photos?.first?.name}-small.png',
+                                              : '$PRODUCT_PHOTO_BASE_URL/${product.key}/${product.photo?.photos?.first.name}-small.png',
                                         ),
                                         imageErrorBuilder:
                                             (context, error, stackTrace) =>
@@ -593,7 +610,7 @@ class DesignerTileUi extends StatelessWidget {
                                         ),
                                       ),
                                     ),
-                                    if ((product?.cost?.productDiscount?.rate ??
+                                    if ((product.cost?.productDiscount?.rate ??
                                             0.0) !=
                                         0.0)
                                       Positioned(
@@ -615,7 +632,7 @@ class DesignerTileUi extends StatelessWidget {
                                           height: 15,
                                           child: Center(
                                             child: Text(
-                                              "${product?.cost?.productDiscount?.rate?.round()?.toString()} %",
+                                              "${product.cost?.productDiscount?.rate?.round().toString()} %",
                                               style: TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 8,
@@ -631,9 +648,9 @@ class DesignerTileUi extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     CustomText(
-                                      "${BaseController.formatPrice((product.cost.costToCustomer).round())}",
+                                      "${BaseController.formatPrice((product.cost!.costToCustomer).round())}",
                                       fontSize: 12,
-                                      color: ((product?.cost?.productDiscount
+                                      color: ((product.cost?.productDiscount
                                                       ?.rate ??
                                                   0.0) !=
                                               0.0)
@@ -641,15 +658,15 @@ class DesignerTileUi extends StatelessWidget {
                                           : Colors.black,
                                       isBold: true,
                                     ),
-                                    if ((product?.cost?.productDiscount?.rate ??
+                                    if ((product.cost?.productDiscount?.rate ??
                                             0.0) !=
                                         0.0)
                                       horizontalSpaceTiny,
-                                    if ((product?.cost?.productDiscount?.rate ??
+                                    if ((product.cost?.productDiscount?.rate ??
                                             0.0) !=
                                         0.0)
                                       Text(
-                                        "${BaseController.formatPrice((product.cost.cost + product.cost.convenienceCharges.cost + product.cost.gstCharges.cost).round())}",
+                                        "${BaseController.formatPrice((product.cost!.cost + product.cost!.convenienceCharges!.cost! + product.cost!.gstCharges!.cost!).round())}",
                                         style: TextStyle(
                                           decoration:
                                               TextDecoration.lineThrough,

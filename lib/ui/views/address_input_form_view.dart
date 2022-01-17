@@ -1,4 +1,4 @@
-import 'package:fimber/fimber_base.dart';
+// import 'package:fimber/fimber_base.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -34,19 +34,19 @@ class _AddressInputPageState extends State<AddressInputPage> {
             children: [
               PlacePicker(
                 initialPosition: new LatLng(
-                    _locationService.currentLocation?.latitude ?? 0.0,
-                    _locationService.currentLocation?.longitude ?? 0.0),
+                    _locationService.currentLocation.latitude ?? 23.0204975,
+                    _locationService.currentLocation.longitude ?? 72.43931),
                 useCurrentLocation: true,
                 selectInitialPosition: true,
                 enableMapTypeButton: false,
                 region: 'in',
                 apiKey: "AIzaSyCQo523YX7WkavuVVYLdFNXf79sJ89X2Ns",
                 onGeocodingSearchFailed: (data) {
-                  Fimber.e(data);
+                  // Fimber.e(data);
                 },
                 onPlacePicked: (r) {
-                  Fimber.e(r.formattedAddress);
-                  controller.selectedResult = r;
+                  // Fimber.e(r.formattedAddress);
+                  (widget as AddressController).selectedResult = r;
                   Navigator.of(context).pop<PickResult>(r);
                 },
               ),
@@ -61,7 +61,8 @@ class _AddressInputPageState extends State<AddressInputPage> {
 class BottomSheetForAddress extends StatefulWidget {
   final PickResult pickedPlace;
 
-  const BottomSheetForAddress({Key key, this.pickedPlace}) : super(key: key);
+  const BottomSheetForAddress({Key? key, required this.pickedPlace})
+      : super(key: key);
   @override
   _BottomSheetForAddressState createState() => _BottomSheetForAddressState();
 }
@@ -76,10 +77,10 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
 
   setAddress(PickResult pickedPlace) {
     setState(() {
-      _googleAddressStringController.text = pickedPlace.formattedAddress;
+      _googleAddressStringController.text = pickedPlace.formattedAddress ?? "";
 
       var googlePincode =
-          int.tryParse(pickedPlace.addressComponents.last.longName);
+          int.tryParse(pickedPlace.addressComponents!.last.longName);
       _pinCodeController.text = googlePincode?.toString() ?? "";
     });
   }
@@ -155,7 +156,8 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
                                 ),
                                 controller: _googleAddressStringController,
                                 validator: (text) {
-                                  if (text.isEmpty || text.trim().length == 0)
+                                  if ((text!.isEmpty) ||
+                                      text.trim().length == 0)
                                     return ENTER_PROPER_ADDRESS.tr;
                                   return null;
                                 },
@@ -183,7 +185,7 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
                                     _userInputedAddressString1Controller,
                                 maxLength: 30,
                                 validator: (text) {
-                                  if (text.isEmpty || text.trim().length == 0)
+                                  if (text!.isEmpty || text.trim().length == 0)
                                     return ENTER_PROPER_ADDRESS.tr;
                                   return null;
                                 },
@@ -207,7 +209,7 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
                                     _userInputedAddressString2Controller,
                                 maxLength: 50,
                                 validator: (text) {
-                                  if (text.isEmpty || text.trim().length == 0)
+                                  if (text!.isEmpty || text.trim().length == 0)
                                     return ENTER_PROPER_ADDRESS.tr;
                                   return null;
                                 },
@@ -278,20 +280,14 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
 
                                                 final String gujState =
                                                     "Gujarat".toUpperCase();
-                                                final int stateIndex = widget
-                                                    .pickedPlace
-                                                    .addressComponents
-                                                    .indexWhere((element) =>
-                                                        element.longName
-                                                            .toUpperCase() ==
-                                                        gujState);
-                                                String pickedCity;
+                                                String? pickedCity;
                                                 widget.pickedPlace
-                                                    .addressComponents
+                                                    .addressComponents!
                                                     .forEach((e) {
                                                   e.types[0] ==
                                                           "administrative_area_level_2"
                                                       ? pickedCity = e.longName
+                                                      // ignore: unnecessary_statements
                                                       : "city";
                                                 });
 

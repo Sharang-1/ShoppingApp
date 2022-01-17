@@ -12,9 +12,9 @@ import '../shared/ui_helpers.dart';
 import 'custom_text.dart';
 
 class SellerBottomSheetView extends StatefulWidget {
-  final Seller sellerData;
+  final Seller? sellerData;
   final context;
-  const SellerBottomSheetView({Key key, this.sellerData, this.context})
+  const SellerBottomSheetView({Key? key, this.sellerData, this.context})
       : super(key: key);
 
   @override
@@ -46,7 +46,7 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
 
   @override
   void initState() {
-    controller.getAvaliableTimeSlots(widget.sellerData.key, widget.context);
+    controller.getAvaliableTimeSlots(widget.sellerData!.key!, widget.context);
     super.initState();
   }
 
@@ -105,10 +105,10 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                                           Curves.easeIn,
                                                       placeholder:
                                                           "assets/images/product_preloading.png",
-                                                      image: widget?.sellerData
+                                                      image: widget.sellerData
                                                                   ?.key !=
                                                               null
-                                                          ? "$SELLER_PHOTO_BASE_URL/${widget?.sellerData?.key}"
+                                                          ? "$SELLER_PHOTO_BASE_URL/${widget.sellerData?.key}"
                                                           : "https://images.unsplash.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
                                                       imageErrorBuilder:
                                                           (context, error,
@@ -146,7 +146,8 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   CustomText(
-                                                    widget.sellerData.name,
+                                                    widget.sellerData!.name ??
+                                                        "",
                                                     isTitle: true,
                                                     fontWeight: FontWeight.w700,
                                                     fontSize:
@@ -154,8 +155,9 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                                   ),
                                                   verticalSpaceTiny,
                                                   CustomText(
-                                                    widget.sellerData.contact
-                                                        .address,
+                                                    widget.sellerData!.contact!
+                                                            .address ??
+                                                        "",
                                                     isTitle: true,
                                                     color: Colors.grey,
                                                     fontSize:
@@ -289,7 +291,7 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                                                     controller.selectedWeekDay = val
                                                                         ? timeSlot
                                                                             .day
-                                                                        : null;
+                                                                        : "";
                                                                   });
                                                                 })))
                                                         .toList(),
@@ -360,7 +362,8 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                                                     right: 5),
                                                             child: ChoiceChip(
                                                                 backgroundColor:
-                                                                    controller.seltectedTime == time
+                                                                    controller.seltectedTime ==
+                                                                            time
                                                                         ? textIconOrange
                                                                         : Colors
                                                                             .white,
@@ -394,9 +397,11 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                                                   setState(() {
                                                                     controller
                                                                             .seltectedTime =
-                                                                        val
-                                                                            ? time
-                                                                            : null;
+                                                                        time;
+                                                                    // controller.seltectedTime =
+                                                                    //     (val as int)
+                                                                    //         ? time
+                                                                    //         : "";
                                                                   });
                                                                 })))
                                                         .toList(),
@@ -473,7 +478,7 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                                   ? null
                                   : () {
                                       controller.bookAppointment(
-                                          widget.sellerData.key, _taskMsg);
+                                          widget.sellerData!.key!, _taskMsg);
                                     },
                               child: Padding(
                                 padding:

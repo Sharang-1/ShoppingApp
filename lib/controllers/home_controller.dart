@@ -1,6 +1,7 @@
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
-import 'package:geocoder/geocoder.dart';
+import 'package:geocoding/geocoding.dart';
+// import 'package:geocoder/geocoder.dart';
 import 'package:get/get.dart';
 import 'package:location/location.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -43,24 +44,25 @@ class HomeController extends BaseController {
   final _remoteConfigService = locator<RemoteConfigService>();
 
   final searchController = TextEditingController();
-  UniqueKey key, productKey, sellerKey, categoryKey, promotionKey;
+  UniqueKey? key, productKey, sellerKey, categoryKey, promotionKey;
   String cityName = "Add Location";
   String name = "";
-  RemoteConfig remoteConfig;
-  SharedPreferences prefs;
-  UserDetails details;
-  List<Promotion> topPromotion, bottomPromotion;
+  RemoteConfig? remoteConfig;
+  late SharedPreferences? prefs;
+  late UserDetails? details;
+  late List<Promotion> topPromotion, bottomPromotion;
   bool isProfileComplete = true;
-  bool isLoggedIn = false;
-  String currentLanguage;
+  bool? isLoggedIn = false;
+  late String currentLanguage;
 
   void onRefresh({context, args}) async {
     try {
       if (remoteConfig == null)
-        remoteConfig = _remoteConfigService?.remoteConfig;
+        remoteConfig = _remoteConfigService.remoteConfig;
       setup();
-      await remoteConfig.fetch();
-      await remoteConfig.activateFetched();
+      await remoteConfig!.fetch();
+      // await remoteConfig.activateFetched();
+      await remoteConfig!.activate();
     } catch (e) {
       print(e.toString());
     }
@@ -68,19 +70,23 @@ class HomeController extends BaseController {
     await updateIsLoggedIn();
 
     try {
-      UserLocation currentLocation =
+      UserLocation? currentLocation =
           await locator<LocationService>().getLocation();
 
       if (currentLocation != null) {
-        List<Address> addresses =
-            await Geocoder.local.findAddressesFromCoordinates(
-          Coordinates(
-            currentLocation.latitude,
-            currentLocation.longitude,
-          ),
+        List<Placemark> addresses = await placemarkFromCoordinates(
+          currentLocation.latitude!,
+          currentLocation.longitude!,
         );
-        cityName = addresses[0]?.locality;
-        if (cityName?.contains("null") ?? true) cityName = "Add Location";
+        // List<Address> addresses =
+        //     await Geocoder.local.findAddressesFromCoordinates(
+        //   Coordinates(
+        //     currentLocation.latitude,
+        //     currentLocation.longitude,
+        //   ),
+        // );
+        cityName = addresses[0].locality!;
+        if (cityName.contains("null")) cityName = "Add Location";
       }
     } catch (e) {
       print(e.toString());
@@ -94,10 +100,10 @@ class HomeController extends BaseController {
 
     List<Promotion> promotions = await getPromotions();
     topPromotion = promotions
-        .where((element) => element.position.toLowerCase() == "top")
+        .where((element) => element.position!.toLowerCase() == "top")
         .toList();
     bottomPromotion = promotions
-        .where((element) => element.position.toLowerCase() == "bottom")
+        .where((element) => element.position!.toLowerCase() == "bottom")
         .toList();
 
     await updateUserDetails();
@@ -123,7 +129,7 @@ class HomeController extends BaseController {
   }
 
   Future<void> updateUserDetails() async {
-    if (isLoggedIn) {
+    if (isLoggedIn ?? false) {
       details = await _apiService.getUserData();
       if ((details?.contact?.address?.isEmpty ?? true) ||
           (details?.contact?.googleAddress?.isEmpty ?? true)) {
@@ -138,9 +144,8 @@ class HomeController extends BaseController {
     locator<WishListController>()
         .setUpWishList(await _wishListService.getWishList());
     if (prefs == null) prefs = await SharedPreferences.getInstance();
-    currentLanguage = prefs?.getString(CurrentLanguage);
-    currentLanguage =
-        currentLanguage?.isEmpty ?? true ? 'English' : currentLanguage;
+    currentLanguage = prefs!.getString(CurrentLanguage)!;
+    currentLanguage = currentLanguage.isEmpty ? 'English' : currentLanguage;
   }
 
   @override
@@ -162,8 +167,13 @@ class HomeController extends BaseController {
     if (lastDeliveredProduct != null)
       await DialogService.showCustomDialog(
         RatingDialog(
-          icon: Image.network(
-            lastDeliveredProduct["image"],
+          onSubmitted: (val) async {
+            await postReview(
+                lastDeliveredProduct['id']!, val.rating.toDouble());
+          },
+          submitButtonText: "Submit",
+          image: Image.network(
+            lastDeliveredProduct["image"]!,
             height: 150,
             width: 150,
             errorBuilder: (context, error, stackTrace) => Image.asset(
@@ -172,16 +182,16 @@ class HomeController extends BaseController {
               width: 150,
             ),
           ),
-          title: lastDeliveredProduct["name"],
-          description: "Tap a star to give your review.",
-          submitButton: "Submit",
-          positiveComment: "We’re glad you liked it!! 😊",
-          negativeComment:
-              "Please reach us out and help us understand your concerns!",
-          accentColor: logoRed,
-          onSubmitPressed: (int rating) async {
-            await postReview(lastDeliveredProduct['id'], rating.toDouble());
-          },
+          title: Text(lastDeliveredProduct["name"] ?? ""),
+          message: Text("Tap a star to give your review."),
+          starColor: logoRed,
+          // positiveComment: "We’re glad you liked it!! 😊",
+          // negativeComment:
+          //     "Please reach us out and help us understand your concerns!",
+          // accentColor: logoRed,
+          // onSubmitPressed: (int rating) async {
+          //   await postReview(lastDeliveredProduct['id']!, rating.toDouble());
+          // },
         ),
         barrierDismissible: true,
       );
@@ -196,23 +206,23 @@ class HomeController extends BaseController {
       appStoreIdentifier: '1562083632',
     );
 
-    WidgetsBinding.instance.addPostFrameCallback(
+    WidgetsBinding.instance?.addPostFrameCallback(
       (_) async {
         await rateMyApp.init();
         if (prefs == null) prefs = await SharedPreferences.getInstance();
-        int launches = prefs.getInt('rateMyApp_launches') ?? 0;
+        int launches = prefs!.getInt('rateMyApp_launches') ?? 0;
         bool doNotOpenAgain =
-            prefs.getBool('rateMyApp_doNotOpenAgain') ?? false;
+            prefs!.getBool('rateMyApp_doNotOpenAgain') ?? false;
 
         if (!doNotOpenAgain &&
             (launches > 0) &&
             (launches % 2 == 0) &&
             (launches % 5 == 0)) {
           await rateMyApp.showRateDialog(
-            Get.context,
+            Get.context!,
             title: 'Dzor',
             onDismissed: () async {
-              await prefs.setBool('rateMyApp_doNotOpenAgain', true);
+              await prefs!.setBool('rateMyApp_doNotOpenAgain', true);
             },
           );
         }
@@ -226,7 +236,7 @@ class HomeController extends BaseController {
         NavigationService.to(CategoriesRoute);
         break;
       case 1:
-        if (isLoggedIn)
+        if (isLoggedIn ?? false)
           NavigationService.to(MyOrdersRoute);
         else
           BaseController.showLoginPopup(
@@ -238,7 +248,7 @@ class HomeController extends BaseController {
         NavigationService.to(DzorExploreViewRoute);
         break;
       case 3:
-        if (isLoggedIn)
+        if (isLoggedIn ?? false)
           NavigationService.to(MyAppointmentViewRoute);
         else
           BaseController.showLoginPopup(
@@ -247,7 +257,7 @@ class HomeController extends BaseController {
           );
         break;
       case 4:
-        if (isLoggedIn)
+        if (isLoggedIn ?? false)
           NavigationService.to(MapViewRoute);
         else
           BaseController.showLoginPopup(
@@ -266,8 +276,8 @@ class HomeController extends BaseController {
       var location = locator<LocationService>().location;
 
       PermissionStatus permissionStatus = await location.requestPermission();
-      if (permissionStatus == PermissionStatus.GRANTED) {
-        location.onLocationChanged().listen((locationData) {
+      if (permissionStatus == PermissionStatus.granted) {
+        location.onLocationChanged.listen((locationData) {
           if (cityName == "Add Location" && locationData != null) {
             UserLocation currentLocation = UserLocation(
               latitude: locationData.latitude,
@@ -275,17 +285,20 @@ class HomeController extends BaseController {
             );
 
             if (currentLocation != null) {
-              Geocoder.local
-                  .findAddressesFromCoordinates(
-                Coordinates(
-                  currentLocation.latitude,
-                  currentLocation.longitude,
-                ),
-              )
-                  .then((addresses) {
-                cityName = addresses[0].locality;
-                if (cityName?.contains("null") ?? true)
-                  cityName = "Add Location";
+              // Geocoder.local
+              //     .findAddressesFromCoordinates(
+              //   Coordinates(
+              //     currentLocation.latitude,
+              //     currentLocation.longitude,
+              //   ),
+              // )
+
+              placemarkFromCoordinates(
+                currentLocation.latitude!,
+                currentLocation.longitude!,
+              ).then((addresses) {
+                cityName = addresses[0].locality!;
+                if (cityName.contains("null")) cityName = "Add Location";
                 update();
               });
             }
@@ -296,29 +309,29 @@ class HomeController extends BaseController {
   }
 
   Future<Map<String, String>> getLastDeliveredProduct() async {
-    Order lastDeliveredOrder = (await _apiService.getAllOrders())
-        .orders
-        .where((e) => e.status.id == 7)
+    Order lastDeliveredOrder = (await _apiService.getAllOrders())!
+        .orders!
+        .where((e) => e.status!.id == 7)
         .first;
 
-    if (lastDeliveredOrder == null) return null;
+    if (lastDeliveredOrder == null) return {};
     if (prefs == null) prefs = await SharedPreferences.getInstance();
 
-    String lastStoredOrderKey = prefs.getString("lastDeliveredOrderKey");
+    String lastStoredOrderKey = prefs!.getString("lastDeliveredOrderKey")!;
     if (lastDeliveredOrder.key != null &&
-        (lastDeliveredOrder.key == lastStoredOrderKey)) return null;
+        (lastDeliveredOrder.key == lastStoredOrderKey)) return {};
     try {
-      if (await _apiService.hasReviewed(lastDeliveredOrder.productId))
-        return null;
+      if (await _apiService.hasReviewed(lastDeliveredOrder.productId!))
+        return {};
     } catch (e) {
       print(e.toString());
     }
-    await prefs.setString("lastDeliveredOrderKey", lastDeliveredOrder.key);
+    await prefs!.setString("lastDeliveredOrderKey", lastDeliveredOrder.key!);
     return {
-      "id": lastDeliveredOrder.productId,
-      "name": lastDeliveredOrder.product.name,
+      "id": lastDeliveredOrder.productId!,
+      "name": lastDeliveredOrder.product!.name!,
       "image":
-          '$PRODUCT_PHOTO_BASE_URL/${lastDeliveredOrder.productId}/${lastDeliveredOrder.product.photo.photos.first.name}-small.png',
+          '$PRODUCT_PHOTO_BASE_URL/${lastDeliveredOrder.productId}/${lastDeliveredOrder.product!.photo!.photos!.first.name}-small.png',
     };
   }
 
@@ -367,23 +380,23 @@ class HomeController extends BaseController {
 
   Future<List<Promotion>> getPromotions() async {
     final promotions = await _apiService.getPromotions();
-    return promotions.promotions;
+    return promotions.promotions!;
   }
 
   Future changeLocale(String lang) async {
     LocalizationService.changeLocale(lang);
     if (prefs == null) prefs = await SharedPreferences.getInstance();
-    await prefs.setString(CurrentLanguage, lang);
+    await prefs!.setString(CurrentLanguage, lang);
     currentLanguage = lang;
   }
 
   String getCurrentLang() => currentLanguage;
 
   void showTutorial(BuildContext context,
-      {GlobalKey searchKey, GlobalKey logoKey}) async {
+      {GlobalKey? searchKey, GlobalKey? logoKey}) async {
     if (prefs == null) prefs = await SharedPreferences.getInstance();
     if (prefs?.getBool(ShouldShowHomeTutorial) ?? true) {
-      TutorialCoachMark tutorialCoachMark;
+      late TutorialCoachMark tutorialCoachMark;
       List<TargetFocus> targets = <TargetFocus>[
         TargetFocus(
           identify: "Search Target",
@@ -463,12 +476,12 @@ class HomeController extends BaseController {
         paddingFocus: 5,
         onClickOverlay: (targetFocus) => tutorialCoachMark.next(),
         onClickTarget: (targetFocus) => tutorialCoachMark.next(),
-        onSkip: () async => await prefs?.setBool(ShouldShowHomeTutorial, false),
+        onSkip: () async => await prefs!.setBool(ShouldShowHomeTutorial, false),
         onFinish: () async =>
-            await prefs?.setBool(ShouldShowHomeTutorial, false),
+            await prefs!.setBool(ShouldShowHomeTutorial, false),
       )..show();
       try {
-        await prefs?.setBool(ShouldShowHomeTutorial, false);
+        await prefs!.setBool(ShouldShowHomeTutorial, false);
       } catch (e) {}
     }
   }

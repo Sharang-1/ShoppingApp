@@ -27,15 +27,15 @@ class ExploreProductTileUI extends StatefulWidget {
   final Product data;
   final Function onClick;
   final int index;
-  final EdgeInsets cardPadding;
-  final Function() onAddToCartClicked;
+  final EdgeInsets? cardPadding;
+  final Function()? onAddToCartClicked;
   final List<String> tags;
 
-  const ExploreProductTileUI({
-    Key key,
-    @required this.data,
-    @required this.onClick,
-    @required this.index,
+  ExploreProductTileUI({
+    Key? key,
+    required this.data,
+    required this.onClick,
+    required this.index,
     this.cardPadding,
     this.onAddToCartClicked,
     this.tags = const [],
@@ -55,7 +55,8 @@ class _ExploreProductTileUIState extends State<ExploreProductTileUI> {
     super.initState();
     setState(() {
       isWishlistIconFilled =
-          locator<WishListController>().list.indexOf(widget.data.key) != -1;
+          locator<WishListController>().list.indexOf(widget.data.key ?? "") !=
+              -1;
     });
   }
 
@@ -82,37 +83,37 @@ class _ExploreProductTileUIState extends State<ExploreProductTileUI> {
     EdgeInsetsGeometry paddingCard = widget.index % 2 == 0
         ? const EdgeInsets.fromLTRB(screenPadding, 0, 0, 10)
         : const EdgeInsets.fromLTRB(0, 0, screenPadding, 10);
-    paddingCard = widget.cardPadding == null ? paddingCard : widget.cardPadding;
+    paddingCard =
+        widget.cardPadding == null ? paddingCard : widget.cardPadding!;
 
-    final designerKey = widget.data.account.key;
+    final designerKey = widget.data.account!.key ?? "";
     final photo = widget.data.photo ?? null;
     final photos = photo != null ? photo.photos ?? null : null;
-    final String productName = widget?.data?.name ?? "No name";
+    final String productName = widget.data.name ?? "No name";
     final double productDiscount =
-        widget?.data?.cost?.productDiscount?.rate ?? 0.0;
-    final int productPrice = widget?.data?.cost?.costToCustomer?.round() ?? 0;
-    final int actualCost = (widget.data.cost.cost +
-                widget.data.cost.convenienceCharges.cost +
-                widget.data.cost?.gstCharges?.cost)
-            ?.round() ??
-        0;
-    final List<String> videos =
-        widget?.data?.video?.videos?.map((e) => e.name)?.toList() ?? [];
+        widget.data.cost?.productDiscount?.rate as double? ?? 0.0;
+    final int productPrice = widget.data.cost?.costToCustomer.round() ?? 0;
+    final int actualCost = (widget.data.cost!.cost +
+            widget.data.cost!.convenienceCharges!.cost! +
+            widget.data.cost!.gstCharges!.cost!)
+        .round();
+    final List<String>? videos =
+        widget.data.video?.videos.map((e) => e.name ?? "").toList() ?? [];
     final String fontFamily = "Poppins";
 
     return InkWell(
-      onTap: widget.onClick,
+      onTap: widget.onClick(fontFamily),
       child: Container(
         padding: EdgeInsets.only(top: 8.0),
         decoration: BoxDecoration(
             border: Border(
-                bottom: BorderSide(width: 5.0, color: Colors.grey[300]))),
+                bottom: BorderSide(width: 5.0, color: Colors.grey[300]!))),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             InkWell(
               onTap: () =>
-                  BaseController.goToSellerPage(widget.data.account.key),
+                  BaseController.goToSellerPage(widget.data.account!.key ?? ""),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Row(
@@ -144,7 +145,7 @@ class _ExploreProductTileUIState extends State<ExploreProductTileUI> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                "${widget?.data?.seller?.name.toString() ?? 'No Name'}",
+                                "${widget.data.seller?.name.toString() ?? 'No Name'}",
                                 overflow: TextOverflow.ellipsis,
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
@@ -155,7 +156,7 @@ class _ExploreProductTileUIState extends State<ExploreProductTileUI> {
                                 ),
                               ),
                               Text(
-                                "${widget?.data?.seller?.establishmentType?.name?.capitalize ?? ''}",
+                                "${widget.data.seller?.establishmentType?.name?.capitalize ?? ''}",
                                 overflow: TextOverflow.ellipsis,
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
@@ -175,8 +176,9 @@ class _ExploreProductTileUIState extends State<ExploreProductTileUI> {
                             ),
                             onPressed: () async {
                               await Share.share(
-                                await locator<DynamicLinkService>()
-                                    .createLink(productLink + widget.data.key),
+                                await locator<DynamicLinkService>().createLink(
+                                        productLink + widget.data.key!) ??
+                                    "",
                               );
                             },
                           ),
@@ -196,10 +198,9 @@ class _ExploreProductTileUIState extends State<ExploreProductTileUI> {
                         '$PRODUCT_PHOTO_BASE_URL/${widget.data.key}/${e.name}')
                     .toList(),
                 videoUrls: (videos ?? <String>[])
-                        ?.map((e) =>
-                            "${BASE_URL}products/${widget.data.key}/videos/$e")
-                        ?.toList() ??
-                    [],
+                    .map((e) =>
+                        "${BASE_URL}products/${widget.data.key}/videos/$e")
+                    .toList(),
                 discount: productDiscount,
                 priceFontSize: priceFontSize,
               ),
@@ -232,9 +233,9 @@ class _ExploreProductTileUIState extends State<ExploreProductTileUI> {
                               child: Row(
                                   children: <String>[
                                 ...widget.tags,
-                                if ((widget.data?.stitchingType?.id ?? -1) == 2)
+                                if ((widget.data.stitchingType?.id ?? -1) == 2)
                                   "Unstitched",
-                                if (widget.data.whoMadeIt.id == 2)
+                                if (widget.data.whoMadeIt!.id == 2)
                                   "HandCrafted",
                               ]
                                       .map(
@@ -310,7 +311,7 @@ class _ExploreProductTileUIState extends State<ExploreProductTileUI> {
                             color: lightGreen,
                           ),
                           child: InkWell(
-                            onTap: widget.onClick,
+                            onTap: widget.onClick(),
                             child: Text(
                               SHOP_NOW.tr,
                               style: TextStyle(
@@ -334,10 +335,11 @@ class _ExploreProductTileUIState extends State<ExploreProductTileUI> {
                         child: Container(
                           child: InkWell(
                             onTap: () async {
-                              if (locator<HomeController>().isLoggedIn) {
+                              if (locator<HomeController>().isLoggedIn ??
+                                  false) {
                                 if (locator<WishListController>()
                                         .list
-                                        .indexOf(widget.data.key) !=
+                                        .indexOf(widget.data.key!) !=
                                     -1) {
                                   removeFromWishList(widget.data.key);
                                   setState(() {
@@ -405,11 +407,11 @@ class _ExploreProductTileUIState extends State<ExploreProductTileUI> {
                   border: Border(
                     top: BorderSide(
                       width: 0.5,
-                      color: Colors.grey[400],
+                      color: Colors.grey[400]!,
                     ),
                     bottom: BorderSide(
                       width: 0.5,
-                      color: Colors.grey[400],
+                      color: Colors.grey[400]!,
                     ),
                   ),
                 ),

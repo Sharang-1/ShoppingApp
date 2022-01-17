@@ -4,7 +4,7 @@ import '../packages/google_maps_place_picker/google_maps_place_picker.dart';
 import 'base_controller.dart';
 
 class AddressController extends BaseController {
-  PickResult selectedResult;
+  late PickResult selectedResult;
   var googleAddress = "".obs;
 
   set setSelectedResult(PickResult place) {

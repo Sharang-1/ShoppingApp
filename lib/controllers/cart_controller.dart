@@ -21,7 +21,7 @@ class CartController extends BaseController {
 
   Future init() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    userName = prefs.getString(Name);
+    userName = prefs.getString(Name)!;
     update();
     return;
   }
@@ -30,22 +30,22 @@ class CartController extends BaseController {
     await _analyticsService.sendAnalyticsEvent(
         eventName: "remove_from_cart",
         parameters: <String, dynamic>{
-          "product_id": product?.key,
-          "product_name": product?.name,
-          "category_id": product?.category?.id?.toString(),
-          "category_name": product?.category?.name,
-          "user_id": locator<HomeController>()?.details?.key,
-          "user_name": locator<HomeController>()?.details?.name,
+          "product_id": product.key,
+          "product_name": product.name,
+          "category_id": product.category?.id?.toString(),
+          "category_name": product.category?.name,
+          "user_id": locator<HomeController>().details?.key,
+          "user_name": locator<HomeController>().details?.name,
         });
     var products = await _apiService.getCartProductItemList();
-    isCartEmpty = products.isEmpty;
+    isCartEmpty = products?.isEmpty ?? false;
     update();
     return;
   }
 
   Future<bool> hasProducts() async {
     var products = await _apiService.getCartProductItemList();
-    isCartEmpty = products.isEmpty;
+    isCartEmpty = products?.isEmpty ?? false;
     return !isCartEmpty;
   }
 

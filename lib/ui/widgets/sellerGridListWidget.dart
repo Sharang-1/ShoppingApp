@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class SellerGridListWidget extends StatelessWidget {
   const SellerGridListWidget({
-    Key key,
-    @required this.context,
+    Key? key,
+    required this.context,
   }) : super(key: key);
 
   final BuildContext context;

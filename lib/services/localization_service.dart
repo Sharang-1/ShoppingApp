@@ -28,10 +28,10 @@ class LocalizationService extends Translations {
 
   static void changeLocale(String lang) {
     final locale = getLocaleFromLanguage(lang);
-    Get.updateLocale(locale);
+    Get.updateLocale(locale!);
   }
 
-  static Locale getLocaleFromLanguage(String lang) {
+  static Locale? getLocaleFromLanguage(String lang) {
     for (int i = 0; i < langs.length; i++) {
       if (lang == langs[i]) return locales[i];
     }

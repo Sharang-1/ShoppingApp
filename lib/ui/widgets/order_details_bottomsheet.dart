@@ -10,39 +10,39 @@ import 'custom_text.dart';
 // ignore: must_be_immutable
 class OrderDetailsBottomsheet extends StatelessWidget {
   OrderDetailsBottomsheet({
-    @required this.orderDetails,
+    required this.orderDetails,
     this.proceedToOrder,
-    this.isPromocodeApplied,
+    this.isPromocodeApplied = false,
     this.buttonText,
     this.buttonIcon,
-    this.onButtonPressed,
+    required this.onButtonPressed,
   }) {
     orderSummaryDetails = {
-      "Product Name": orderDetails?.productName?.capitalizeFirst,
-      "Qty": orderDetails?.qty,
-      "Size": orderDetails?.size,
-      "Color": orderDetails?.color,
-      "Promo Code": orderDetails?.promocode,
-      "Promo Code Discount": orderDetails?.promocodeDiscount,
-      "Price": orderDetails?.price,
-      "Discount": orderDetails?.discount,
-      "Discounted Price": orderDetails?.discountedPrice,
-      "Convenience Charges": orderDetails?.convenienceCharges,
-      "GST": orderDetails?.gst,
-      "Delivery Charges": orderDetails?.deliveryCharges,
-      "Actual Price": orderDetails?.actualPrice,
-      "Saved": orderDetails?.saved,
-      "Total": orderDetails?.total,
+      "Product Name": orderDetails.productName?.capitalizeFirst ?? "",
+      "Qty": orderDetails.qty ?? "",
+      "Size": orderDetails.size ?? "",
+      "Color": orderDetails.color ?? "",
+      "Promo Code": orderDetails.promocode ?? "",
+      "Promo Code Discount": orderDetails.promocodeDiscount ?? "",
+      "Price": orderDetails.price ?? "",
+      "Discount": orderDetails.discount ?? "",
+      "Discounted Price": orderDetails.discountedPrice ?? "",
+      "Convenience Charges": orderDetails.convenienceCharges ?? "",
+      "GST": orderDetails.gst ?? "",
+      "Delivery Charges": orderDetails.deliveryCharges ?? "",
+      "Actual Price": orderDetails.actualPrice ?? "",
+      "Saved": orderDetails.saved ?? "",
+      "Total": orderDetails.total ?? "",
     };
   }
 
   final OrderDetails orderDetails;
-  final Function proceedToOrder;
-  final String buttonText;
-  final IconData buttonIcon;
+  final Function? proceedToOrder;
+  final String? buttonText;
+  final IconData? buttonIcon;
   final Function onButtonPressed;
   final bool isPromocodeApplied;
-  Map<String, String> orderSummaryDetails;
+  Map<String, String> orderSummaryDetails = {};
 
   static const orderSummaryDetails1 = [
     "Product Name",
@@ -112,10 +112,10 @@ class OrderDetailsBottomsheet extends StatelessWidget {
                                 fontSize: titleFontSize,
                               ),
                               CustomText(
-                                orderSummaryDetails[key],
+                                orderSummaryDetails[key] ?? "",
                                 fontSize: subtitleFontSize,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.grey[600],
+                                color: Colors.grey[600]!,
                               )
                             ]),
                             TableRow(children: [
@@ -143,10 +143,10 @@ class OrderDetailsBottomsheet extends StatelessWidget {
                                   fontSize: titleFontSize,
                                 ),
                                 CustomText(
-                                  orderSummaryDetails[key],
+                                  orderSummaryDetails[key] ?? "",
                                   fontSize: subtitleFontSize,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.grey[600],
+                                  color: Colors.grey[600]!,
                                 )
                               ]),
                               TableRow(children: [
@@ -194,7 +194,7 @@ class OrderDetailsBottomsheet extends StatelessWidget {
                                           color: Colors.grey,
                                           fontSize: titleFontSize),
                                       CustomText(
-                                        orderSummaryDetails[key],
+                                        orderSummaryDetails[key] ?? "",
                                         fontSize: titleFontSize + 2,
                                         color: lightGreen,
                                         isBold: true,
@@ -228,7 +228,7 @@ class OrderDetailsBottomsheet extends StatelessWidget {
                                             ? orderSummaryDetails[key] == "0.0"
                                                 ? green
                                                 : Colors.black
-                                            : Colors.grey[600],
+                                            : Colors.grey[600]!,
                                         fontWeight: FontWeight.bold,
                                       )
                                     ],
@@ -251,19 +251,19 @@ class OrderDetailsBottomsheet extends StatelessWidget {
                                         CustomText(
                                           rupeeUnicode +
                                               (double.parse(orderDetails
-                                                          .discountedPrice
+                                                          .discountedPrice!
                                                           .replaceAll(
                                                               rupeeUnicode,
                                                               " ")) -
                                                       double.parse(
                                                         orderDetails
-                                                            .promocodeDiscount
+                                                            .promocodeDiscount!
                                                             .replaceAll(
                                                                 "₹", ""),
                                                       ))
                                                   .toStringAsFixed(2),
                                           fontSize: subtitleFontSize,
-                                          color: Colors.grey[600],
+                                          color: Colors.grey[600]!,
                                           fontWeight: FontWeight.bold,
                                         )
                                       ],
@@ -295,13 +295,15 @@ class OrderDetailsBottomsheet extends StatelessWidget {
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),
-                          onPressed: () => proceedToOrder(
-                              qty: int.parse(orderDetails.qty),
-                              total: orderDetails.total),
+                          onPressed: () =>
+                              proceedToOrder!(
+                                  qty: int.parse(orderDetails.qty ?? "0"),
+                                  total: orderDetails.total) ??
+                              () {},
                           child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 15),
                             child: Text(
-                              orderDetails.total + "\t" + "Proceed to Order ",
+                              orderDetails.total! + "\t" + "Proceed to Order ",
                               style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
@@ -325,7 +327,7 @@ class OrderDetailsBottomsheet extends StatelessWidget {
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),
-                          onPressed: onButtonPressed,
+                          onPressed: onButtonPressed(),
                           child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 15),
                             child: Row(
@@ -338,7 +340,7 @@ class OrderDetailsBottomsheet extends StatelessWidget {
                                   ),
                                 if (buttonIcon != null) horizontalSpaceSmall,
                                 Text(
-                                  buttonText,
+                                  buttonText ?? "",
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,

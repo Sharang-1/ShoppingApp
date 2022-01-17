@@ -23,21 +23,21 @@ class Order {
     this.payment,
   });
 
-  String key;
-  bool enabled;
-  String created;
-  String modified;
-  String customerId;
-  String billingAddress;
-  BillingPhone billingPhone;
-  String sellerId;
-  String productId;
-  Shipment shipment;
-  Variation variation;
-  OrderCost orderCost;
-  Status status;
-  String deliveryDate;
-  Payment payment;
+  String? key;
+  bool? enabled;
+  String? created;
+  String? modified;
+  String? customerId;
+  String? billingAddress;
+  BillingPhone? billingPhone;
+  String? sellerId;
+  String? productId;
+  Shipment? shipment;
+  Variation? variation;
+  OrderCost? orderCost;
+  Status? status;
+  String? deliveryDate;
+  Payment? payment;
 
   factory Order.fromJson(Map<String, dynamic> json) => Order(
         key: json["key"],
@@ -64,15 +64,15 @@ class Order {
         "modified": modified,
         "customerId": customerId,
         "billingAddress": billingAddress,
-        "billingPhone": billingPhone.toJson(),
+        "billingPhone": billingPhone?.toJson(),
         "sellerId": sellerId,
         "productId": productId,
-        "shipment": shipment.toJson(),
-        "variation": variation.toJson(),
-        "orderCost": orderCost.toJson(),
-        "status": status.toJson(),
+        "shipment": shipment?.toJson(),
+        "variation": variation?.toJson(),
+        "orderCost": orderCost?.toJson(),
+        "status": status?.toJson(),
         "deliveryDate": deliveryDate,
-        "payment": payment.toJson(),
+        "payment": payment?.toJson(),
       };
 }
 
@@ -82,8 +82,8 @@ class BillingPhone {
     this.mobile,
   });
 
-  String code;
-  String mobile;
+  String? code;
+  String? mobile;
 
   factory BillingPhone.fromJson(Map<String, dynamic> json) => BillingPhone(
         code: json["code"],
@@ -106,12 +106,12 @@ class OrderCost {
     this.costToSeller,
   });
 
-  String productId;
-  num productPrice;
-  num quantity;
-  num shippingCharge;
-  num cost;
-  num costToSeller;
+  String? productId;
+  num? productPrice;
+  num? quantity;
+  num? shippingCharge;
+  num? cost;
+  num? costToSeller;
 
   factory OrderCost.fromJson(Map<String, dynamic> json) => OrderCost(
         productId: json["productId"],
@@ -140,10 +140,10 @@ class Payment {
     this.orderStatus,
   });
 
-  Option option;
-  String receiptId;
-  String orderId;
-  String orderStatus;
+  Option? option;
+  String? receiptId;
+  String? orderId;
+  String? orderStatus;
 
   factory Payment.fromJson(Map<String, dynamic> json) => Payment(
         option: json["option"] != null ? Option.fromJson(json["option"]) : null,
@@ -166,8 +166,8 @@ class Option {
     this.name,
   });
 
-  num id;
-  String name;
+  num? id;
+  String? name;
 
   factory Option.fromJson(Map<String, dynamic> json) => Option(
         id: json["id"],
@@ -185,7 +185,7 @@ class Shipment {
     this.days,
   });
 
-  num days;
+  num? days;
 
   factory Shipment.fromJson(Map<String, dynamic> json) => Shipment(
         days: json["days"],
@@ -202,8 +202,8 @@ class Status {
     this.state,
   });
 
-  num id;
-  String state;
+  num? id;
+  String? state;
 
   factory Status.fromJson(Map<String, dynamic> json) => Status(
         id: json["id"],
@@ -223,9 +223,9 @@ class Variation {
     this.color,
   });
 
-  String size;
-  num quantity;
-  String color;
+  String? size;
+  num? quantity;
+  String? color;
 
   factory Variation.fromJson(Map<String, dynamic> json) => Variation(
         size: json["size"],

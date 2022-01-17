@@ -10,7 +10,7 @@ class CartPaymentMethodController extends BaseController {
   final Map<int, String> paymentOptions = {};
   final String city;
 
-  CartPaymentMethodController({this.city});
+  CartPaymentMethodController({required this.city});
 
   Future<void> onInit() async {
     super.onInit();
@@ -42,7 +42,7 @@ class CartPaymentMethodController extends BaseController {
     return null;
   }
 
-  Future<Order> createOrder(
+  Future<Order?> createOrder(
       String billingAddress,
       String productId,
       String promoCode,
@@ -56,17 +56,17 @@ class CartPaymentMethodController extends BaseController {
     final order = await _apiService.createOrder(billingAddress, productId,
         promoCode, promoCodeId, size, color, qty, paymentOptionId, pincode);
     if (order != null) {
-      if (order.payment.option.id != 2) {
+      if (order.payment!.option!.id != 2) {
         setBusy(false);
         return order;
       }
 
       await _paymentService.makePayment(
-        amount: order.orderCost.cost,
-        contactNo: order.billingPhone.mobile,
-        orderId: order.payment.orderId,
-        receiptId: order.payment.receiptId,
-        dzorOrderId: order.key,
+        amount: order.orderCost!.cost!,
+        contactNo: order.billingPhone!.mobile!,
+        orderId: order.payment!.orderId!,
+        receiptId: order.payment!.receiptId!,
+        dzorOrderId: order.key!,
       );
     }
     setBusy(false);

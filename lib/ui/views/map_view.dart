@@ -28,9 +28,12 @@ class MapView extends StatelessWidget {
   final Map<int, Seller> carouselSellerMap = {};
   final String sellerKey;
 
-  MapView({this.sellerKey});
+  MapView({required this.sellerKey});
 
-  onCardTap({DzorMapController dzorMapController, int index, dynamic client}) {
+  onCardTap(
+      {required DzorMapController dzorMapController,
+      required int index,
+      dynamic client}) {
     dzorMapController.currentClient = client;
     dzorMapController.currentBearing = 90.0;
     dzorMapController.zoomInMarker(client.contact.geoLocation.latitude,
@@ -48,13 +51,13 @@ class MapView extends StatelessWidget {
 
   Widget clientCardSeller(
       DzorMapController dzorMapController, context, Seller client, int index) {
-    List<String> tempSplitName = client.name.split(" ");
+    List<String> tempSplitName = client.name!.split(" ");
     String shortName = tempSplitName[0].substring(0, 1);
     print(client.operations ?? "No data");
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: InkWell(
-        onTap: () => BaseController.goToSellerPage(client.key),
+        onTap: () => BaseController.goToSellerPage(client.key!),
         child: Card(
           clipBehavior: Clip.antiAlias,
           shape: RoundedRectangleBorder(
@@ -98,7 +101,7 @@ class MapView extends StatelessWidget {
                               Tooltip(
                                 message: client.name,
                                 child: Text(
-                                  client.name,
+                                  client.name ?? "",
                                   style: TextStyle(
                                     fontWeight: FontWeight.w600,
                                     color: Colors.grey[600],
@@ -129,7 +132,7 @@ class MapView extends StatelessWidget {
                                           //   client
                                           //       .contact.geoLocation.longitude,
                                           // )),
-                                          "${client?.contact?.city ?? ''}",
+                                          "${client.contact?.city ?? ''}",
                                           style: TextStyle(
                                             fontSize: subtitleFontSize - 2,
                                             color: Colors.grey[500],
@@ -139,16 +142,16 @@ class MapView extends StatelessWidget {
                                     ),
                                   ),
                                   horizontalSpaceSmall,
-                                  FutureBuilder<Reviews>(
+                                  FutureBuilder<Reviews?>(
                                       future: locator<APIService>().getReviews(
-                                        client.key,
+                                        client.key ?? "",
                                         isSellerReview: true,
                                       ),
                                       builder: (context, snapshot) {
                                         if (snapshot.connectionState ==
                                             ConnectionState.done)
                                           return Text(
-                                            "⭐${snapshot.data.ratingAverage.rating.toString()}",
+                                            "⭐${snapshot.data!.ratingAverage!.rating.toString()}",
                                             style: TextStyle(
                                               fontSize: subtitleFontSize - 2,
                                               color: Colors.grey[500],
@@ -170,7 +173,7 @@ class MapView extends StatelessWidget {
               Center(
                 child: GestureDetector(
                   onTap: () async =>
-                      await BaseController.goToSellerPage(client.key),
+                      await BaseController.goToSellerPage(client.key ?? ""),
                   child: Icon(
                     CupertinoIcons.forward,
                   ),
@@ -185,7 +188,7 @@ class MapView extends StatelessWidget {
 
   Widget clientCardTailor(
       DzorMapController dzorMapController, context, Tailor client, int index) {
-    List<String> tempSplitName = client.name.split(" ");
+    List<String> tempSplitName = client.name!.split(" ");
     String shortName = tempSplitName[0].substring(0, 1);
     return InkWell(
       onTap: () => onCardTap(
@@ -229,7 +232,7 @@ class MapView extends StatelessWidget {
                       Tooltip(
                         message: client.name,
                         child: Text(
-                          client.name,
+                          client.name ?? "",
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
                             color: Colors.grey[600],
@@ -240,8 +243,8 @@ class MapView extends StatelessWidget {
                       ),
                     ],
                   ),
-                  if (client?.contact?.primaryNumber?.mobile != null &&
-                      client?.contact?.primaryNumber?.mobile != '0000000000')
+                  if (client.contact?.primaryNumber?.mobile != null &&
+                      client.contact?.primaryNumber?.mobile != '0000000000')
                     Align(
                       alignment: Alignment.centerRight,
                       child: Padding(
@@ -249,8 +252,8 @@ class MapView extends StatelessWidget {
                         child: InkWell(
                           onTap: () async {
                             String contactNo =
-                                client?.contact?.primaryNumber?.mobile;
-                            return await launch("tel://$contactNo");
+                                client.contact?.primaryNumber?.mobile ?? "";
+                            await launch("tel://$contactNo");
                           },
                           child: Icon(Icons.call_outlined,
                               size: 30, color: Colors.green),
@@ -280,7 +283,7 @@ class MapView extends StatelessWidget {
 
       final Marker marker = Marker(
         markerId: markerId,
-        icon: isSeller ? dzorMapController.iconS : dzorMapController.iconT,
+        icon: isSeller ? dzorMapController.iconS! : dzorMapController.iconT!,
         position: LatLng(client.contact.geoLocation.latitude,
             client.contact.geoLocation.longitude),
         draggable: false,
@@ -289,7 +292,7 @@ class MapView extends StatelessWidget {
           dzorMapController.currentClient = client;
           try {
             if ((showSailors && isSeller) || (!showSailors && !isSeller))
-              carouselController.animateToPage(carouselMap[client.key]);
+              carouselController.animateToPage(carouselMap[client.key]!);
           } catch (e) {
             Fimber.e(e.toString());
           }
@@ -299,12 +302,12 @@ class MapView extends StatelessWidget {
     }
 
     if (dzorMapController.tData != null)
-      dzorMapController.tData.items.forEach((t) {
+      dzorMapController.tData!.items!.forEach((t) {
         createMarker(t, isSeller: false);
       });
 
     if (dzorMapController.sData != null)
-      dzorMapController.sData.items.forEach((s) {
+      dzorMapController.sData!.items!.forEach((s) {
         createMarker(s);
       });
     return Set<Marker>.of(dzorMapController.markers.values);
@@ -337,7 +340,7 @@ class MapView extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      "${dzorMapController?.cityName?.capitalize ?? ''}",
+                      "${dzorMapController.cityName.capitalize ?? ''}",
                       style: TextStyle(
                         fontSize: 16,
                         color: textIconBlue,
@@ -384,9 +387,8 @@ class MapView extends StatelessWidget {
                       dzorMapController.showSailors),
                   initialCameraPosition: CameraPosition(
                     target: new LatLng(
-                      dzorMapController?.currentLocation?.latitude ??
-                          23.0204975,
-                      dzorMapController?.currentLocation?.longitude ?? 72.43931,
+                      dzorMapController.currentLocation.latitude ?? 23.0204975,
+                      dzorMapController.currentLocation.longitude ?? 72.43931,
                     ),
                     zoom: 12,
                   ),
@@ -499,7 +501,7 @@ class MapView extends StatelessWidget {
                                 child: CarouselSlider(
                                   carouselController: carouselController,
                                   items: dzorMapController.showSailors
-                                      ? dzorMapController.sData.items
+                                      ? dzorMapController.sData!.items!
                                           .asMap()
                                           .entries
                                           .map((element) {
@@ -516,7 +518,7 @@ class MapView extends StatelessWidget {
                                               element.value,
                                               element.key);
                                         }).toList()
-                                      : dzorMapController.tData.items
+                                      : dzorMapController.tData!.items!
                                           .asMap()
                                           .entries
                                           .map((element) {
@@ -617,7 +619,7 @@ class CustomCategoryChip extends StatelessWidget {
 
 class TailorIndiView extends StatelessWidget {
   final DzorMapController dzorMapController;
-  const TailorIndiView(this.dzorMapController, {Key key}) : super(key: key);
+  const TailorIndiView(this.dzorMapController, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

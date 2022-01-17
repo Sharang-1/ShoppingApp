@@ -5,7 +5,7 @@ import '../../utils/lang/translation_keys.dart';
 import '../shared/shared_styles.dart';
 
 class SellerStatus extends StatelessWidget {
-  const SellerStatus({this.isOpen, this.time = ""});
+  const SellerStatus({required this.isOpen, this.time = ""});
 
   final bool isOpen;
   final String time;

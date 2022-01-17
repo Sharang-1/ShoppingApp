@@ -17,15 +17,15 @@ class NavigationService {
       off(routeName, arguments: arguments);
 
   Future<dynamic> navigateAndRemoveUntil(String routeName,
-          {Function predicate, dynamic arguments}) =>
+          {Function? predicate, dynamic arguments}) =>
       offAll(routeName,
-          predicate: predicate == null ? (route) => false : predicate,
+          predicate: predicate == null ? (route) => false : predicate(),
           arguments: arguments);
 
   //GetX Routing
-  static Future<T> to<T>(String page,
+  static Future<T?> to<T>(String page,
       {dynamic arguments,
-      int id,
+      int? id,
       bool popNavbar = false,
       bool preventDuplicates = false}) async {
     if (popNavbar) back();
@@ -33,22 +33,25 @@ class NavigationService {
         arguments: arguments, id: id, preventDuplicates: preventDuplicates);
   }
 
-  static Future<T> off<T>(String page,
-          {dynamic arguments, int id, bool preventDuplicates = false}) async =>
+  static Future<T?> off<T>(String page,
+          {dynamic arguments, int? id, bool preventDuplicates = false}) async =>
       await Get.offNamed<T>(page,
           arguments: arguments, id: id, preventDuplicates: preventDuplicates);
 
-  static Future<T> offAll<T>(
+  static Future<T?> offAll<T>(
     String page, {
-    bool Function(Route<dynamic>) predicate,
+    bool Function(Route<dynamic>)? predicate,
     dynamic arguments,
-    int id,
+    int? id,
   }) async =>
       await Get.offAllNamed<T>(page,
           predicate: predicate, arguments: arguments, id: id);
 
   static void back<T>(
-          {T result, bool closeOverlays = false, bool canPop = true, int id}) =>
+          {T? result,
+          bool closeOverlays = false,
+          bool canPop = true,
+          int? id}) =>
       Get.back(
           result: result, closeOverlays: closeOverlays, canPop: canPop, id: id);
 }

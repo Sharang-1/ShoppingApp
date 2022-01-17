@@ -25,38 +25,37 @@ class CartProductTileUI extends StatefulWidget {
   final OrderDetails orderDetails;
 
   CartProductTileUI({
-    Key key,
-    @required this.item,
+    Key? key,
+    required this.item,
     this.isPromoCodeApplied = true,
     this.finalTotal = "",
     this.promoCode = "",
     this.promoCodeDiscount = "",
-    this.increaseQty,
-    this.decreaseQty,
-    this.orderDetails,
-    @required this.proceedToOrder,
-    @required this.onRemove,
+    required this.increaseQty,
+    required this.decreaseQty,
+    required this.orderDetails,
+    required this.proceedToOrder,
+    required this.onRemove,
   }) : super(key: key);
   @override
   _CartProductTileUIState createState() => _CartProductTileUIState();
 }
 
 class _CartProductTileUIState extends State<CartProductTileUI> {
-  bool clicked;
-  double price;
-  double discount;
-  double deliveryCharges;
-  double discountedPrice;
-  String productImage;
-  OrderDetails orderDetails;
+  late bool clicked;
+  late double price;
+  late double discount;
+  late double deliveryCharges;
+  late double discountedPrice;
+  late String productImage;
+  late OrderDetails orderDetails;
 
   @override
   void initState() {
     clicked = false;
-    price = widget.item.product.price;
-    discount = widget.item.product.discount ?? 0;
-    productImage =
-        widget.item.product.photo?.photos?.elementAt(0)?.name ?? null;
+    price = widget.item.product!.price as double;
+    discount = (widget.item.product!.discount ?? 0) as double;
+    productImage = widget.item.product!.photo?.photos?.elementAt(0).name ?? "";
     deliveryCharges = 0;
     discountedPrice = price - (price * discount / 100);
 
@@ -72,9 +71,9 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
     super.didUpdateWidget(oldWidget);
   }
 
-  void updateDetails({num qty}) {
+  void updateDetails({num? qty}) {
     orderDetails = OrderDetails(
-      productName: widget.item.product.name,
+      productName: widget.item.product!.name,
       qty: qty?.toString() ?? widget.item.quantity.toString(),
       size: widget.item.size != null && widget.item.size != ""
           ? (widget.item.size == 'N/A' ? '-' : widget.item.size)
@@ -85,21 +84,21 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
       promocode: widget.promoCode,
       promocodeDiscount: '$rupeeUnicode${widget.promoCodeDiscount}',
       price: rupeeUnicode +
-          ((qty ?? widget.item.quantity) * widget.item.product.cost.cost)
+          ((qty ?? widget.item.quantity)! * widget.item.product!.cost!.cost!)
               .toString(),
       discount: discount.toString() + "%",
       discountedPrice: rupeeUnicode +
-          ((discountedPrice * (qty ?? widget.item.quantity)) ?? 0).toString(),
+          ((discountedPrice * (qty ?? widget.item.quantity!))).toString(),
       convenienceCharges:
-          '${widget?.item?.product?.cost?.convenienceCharges?.rate} %',
+          '${widget.item.product?.cost?.convenienceCharges?.rate} %',
       gst:
-          '$rupeeUnicode${(((qty ?? widget?.item?.quantity) ?? 1) * (widget?.item?.product?.cost?.gstCharges?.cost ?? 0))?.toStringAsFixed(2)} (${widget?.item?.product?.cost?.gstCharges?.rate}%)',
+          '$rupeeUnicode${(((qty ?? widget.item.quantity) ?? 1) * (widget.item.product?.cost?.gstCharges?.cost ?? 0)).toStringAsFixed(2)} (${widget.item.product?.cost?.gstCharges?.rate}%)',
       deliveryCharges: "-",
       actualPrice:
-          "$rupeeUnicode ${(((qty ?? widget?.item?.quantity) ?? 1) * ((widget?.item?.product?.cost?.cost ?? 0) + (widget?.item?.product?.cost?.gstCharges?.cost ?? 0)) + (widget?.item?.product?.cost?.convenienceCharges?.cost)).toStringAsFixed(2)}",
+          "$rupeeUnicode ${(((qty ?? widget.item.quantity) ?? 1) * ((widget.item.product?.cost?.cost ?? 0) + (widget.item.product?.cost?.gstCharges?.cost ?? 0)) + (widget.item.product?.cost?.convenienceCharges?.cost ?? 0)).toStringAsFixed(2)}",
       saved:
           // ignore: deprecated_member_use
-          "$rupeeUnicode ${((((qty ?? widget?.item?.quantity) ?? 1) * ((widget?.item?.product?.cost?.cost ?? 0) + (widget?.item?.product?.cost?.gstCharges?.cost ?? 0)) + (widget?.item?.product?.cost?.convenienceCharges?.cost)) - (double.parse(widget.finalTotal, (s) => 0) ?? 0)).toStringAsFixed(2)}",
+          "$rupeeUnicode ${((((qty ?? widget.item.quantity) ?? 1) * ((widget.item.product?.cost?.cost ?? 0) + (widget.item.product?.cost?.gstCharges?.cost ?? 0)) + (widget.item.product?.cost?.convenienceCharges?.cost ?? 0)) - (double.parse(widget.finalTotal, (s) => 0))).toStringAsFixed(2)}",
       total: qty == null ? rupeeUnicode + widget.finalTotal : '-',
     );
   }
@@ -149,7 +148,7 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                               Expanded(
                                 child: CustomText(
                                   capitalizeString(
-                                    orderDetails.productName,
+                                    orderDetails.productName ?? "",
                                   ),
                                   dotsAfterOverFlow: true,
                                   isTitle: true,
@@ -158,7 +157,7 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                                 ),
                               ),
                               InkWell(
-                                onTap: widget.onRemove,
+                                onTap: widget.onRemove(),
                                 child: Icon(
                                   FontAwesomeIcons.trashAlt,
                                   color: Colors.grey,
@@ -188,14 +187,15 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                                       ),
                                     ),
                                     onTap: () {
-                                      num qty = num.parse(orderDetails.qty);
+                                      num qty =
+                                          num.parse(orderDetails.qty ?? "0");
                                       if (qty > 1)
                                         setState(() {
                                           qty--;
                                           widget.decreaseQty();
                                           updateDetails(qty: qty);
                                         });
-                                      setUpProductPrices(qty);
+                                      setUpProductPrices(qty as int? ?? 0);
                                     },
                                   ),
                                   horizontalSpaceTiny,
@@ -215,23 +215,23 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                                       ),
                                     ),
                                     onTap: () {
-                                      num qty = num.parse(orderDetails.qty);
+                                      num qty =
+                                          num.parse(orderDetails.qty ?? "0");
                                       setState(() {
                                         qty++;
                                         widget.increaseQty();
                                         updateDetails(qty: qty);
                                       });
-                                      setUpProductPrices(qty);
+                                      setUpProductPrices(qty as int? ?? 0);
                                     },
                                   ),
                                 ],
                               ),
-                              if ((double.parse(orderDetails.saved
-                                          .replaceAll(rupeeUnicode, "")) ??
-                                      0) >
+                              if ((double.parse(orderDetails.saved!
+                                      .replaceAll(rupeeUnicode, ""))) >
                                   0)
                                 CustomText(
-                                  orderDetails.actualPrice,
+                                  orderDetails.actualPrice ?? "",
                                   textStyle: TextStyle(
                                     decoration: TextDecoration.lineThrough,
                                     color: Colors.grey,
@@ -252,7 +252,7 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                                 fontSize: subtitleFontSize - 2,
                               ),
                               CustomText(
-                                orderDetails.total,
+                                orderDetails.total ?? "",
                                 color: Colors.black,
                                 isBold: true,
                                 fontSize: priceFontSize,
@@ -269,9 +269,8 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                                 color: Colors.grey,
                                 fontSize: subtitleFontSize - 2,
                               ),
-                              if ((double.parse(orderDetails.saved
-                                          .replaceAll(rupeeUnicode, "")) ??
-                                      0) >
+                              if ((double.parse(orderDetails.saved!
+                                      .replaceAll(rupeeUnicode, ""))) >
                                   0)
                                 CustomText(
                                   "You Saved: ${orderDetails.saved}",
@@ -302,7 +301,7 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                       "Product Details",
                       fontSize: 14,
                       isBold: true,
-                      color: Colors.grey[500],
+                      color: Colors.grey[500]!,
                     ),
                     Icon(
                       !clicked
@@ -323,7 +322,7 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
   void setUpProductPrices(int qty) async {
     setState(() {
       orderDetails.total = rupeeUnicode +
-          (widget.item.product.cost.costToCustomer * qty).toStringAsFixed(2);
+          (widget.item.product!.cost!.costToCustomer! * qty).toStringAsFixed(2);
     });
   }
 
@@ -346,6 +345,7 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
         orderDetails: orderDetails,
         proceedToOrder: widget.proceedToOrder,
         isPromocodeApplied: widget.isPromoCodeApplied,
+        onButtonPressed: () {},
       ),
     ).whenComplete(() {
       setState(() {
