@@ -179,7 +179,10 @@ class SectionBuilder extends StatelessWidget {
                               product.cost!.gstCharges!.cost!)
                           .round(),
                       "price": product.cost?.costToCustomer.round() ?? 0,
-                      "discount": product.cost?.productDiscount?.rate ?? 0,
+                      "discount": (product.cost?.productDiscount != null &&
+                              product.cost?.productDiscount!.rate != null)
+                          ? product.cost?.productDiscount!.rate
+                          : 0,
                       "photo": product.photo?.photos?.first.name,
                       "sellerName": product.seller?.name ?? "",
                       "isDiscountAvailable":

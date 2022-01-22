@@ -83,7 +83,10 @@ class _ProductTileUIState extends State<ProductTileUI> {
     final String photoURL = photos != null ? photos[0].name ?? "" : "";
     final String productName = widget.data.name ?? "No name";
     final double? productDiscount =
-        widget.data.cost!.productDiscount!.rate as double? ?? 0.0;
+        (widget.data.cost!.productDiscount != null &&
+                widget.data.cost!.productDiscount!.rate != null)
+            ? widget.data.cost!.productDiscount!.rate as double?
+            : 0.0;
     final int productPrice = widget.data.cost?.costToCustomer.round() ?? 0;
     final int actualCost;
     if (widget.data.cost != null && widget.data.cost!.gstCharges != null) {
