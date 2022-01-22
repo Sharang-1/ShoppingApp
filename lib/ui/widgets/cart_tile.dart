@@ -131,7 +131,9 @@ class _CartTileState extends State<CartTile> {
             item: item,
             finalTotal: finalTotal,
             promoCode: promoCode,
-            onRemove: onCartItemDelete,
+            onRemove: () {
+              onCartItemDelete();
+            },
             promoCodeDiscount: promoCodeDiscount,
             isPromoCodeApplied: isPromoCodeApplied,
             proceedToOrder: proceedToOrder,

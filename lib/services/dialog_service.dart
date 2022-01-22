@@ -58,8 +58,12 @@ class DialogService {
         description: description,
         confirmationTitle: confirmationTitle,
         cancelTitle: cancelTitle,
-        onConfirm: onConfirm(),
-        onCancel: onCancel(),
+        onConfirm: () {
+          onConfirm();
+        },
+        onCancel: () {
+          onCancel();
+        },
       ));
 
   static void showNotDeliveringDialog({String? msg}) {

@@ -16,7 +16,7 @@ class CartLocalStoreService {
     }
   }
 
-  Future<int> getCartCount() async {
+  Future<int?> getCartCount() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getStringList(CartItemList)!.length;
   }

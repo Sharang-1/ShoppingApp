@@ -32,11 +32,19 @@ class CustomDialog extends StatelessWidget {
           if (isConfirmationDialog)
             TextButton(
               child: Text(cancelTitle),
-              onPressed: onCancel ?? () => Get.back(),
+              onPressed: onCancel != null
+                  ? () {
+                      onCancel!();
+                    }
+                  : () => Get.back(),
             ),
           TextButton(
             child: Text(confirmationTitle),
-            onPressed: onConfirm ?? () => Get.back(),
+            onPressed: onConfirm != null
+                ? () {
+                    onConfirm!();
+                  }
+                : () => Get.back(),
           ),
         ],
       );

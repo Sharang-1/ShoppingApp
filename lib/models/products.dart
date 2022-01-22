@@ -100,7 +100,7 @@ class Product {
   Video? video;
 
   Product({
-     this.key,
+    this.key,
     this.name,
     this.description,
     this.enabled,
@@ -162,37 +162,39 @@ class Product {
   });
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
-      key: json["key"],
-      name: json["name"],
-      description: json["description"] == null ? null : json["description"],
-      enabled: json["enabled"],
+      key: json["key"] ?? "",
+      name: json["name"] ?? "",
+      description: json["description"] == null ? "" : json["description"],
+      enabled: json["enabled"] ?? false,
       created: json["created"],
       modified: json["modified"],
-      account:
-          json["account"] == null ? null : Account.fromJson(json["account"]),
-      owner: json["owner"] == null ? null : Account.fromJson(json["owner"]),
-      price: json["price"],
+      account: json["account"] == null
+          ? Account(key: "")
+          : Account.fromJson(json["account"]),
+      owner: json["owner"] == null
+          ? Account(key: "")
+          : Account.fromJson(json["owner"]),
+      price: json["price"] ?? 0,
       whoMadeIt: json["whoMadeIt"] == null
           ? null
           : BlousePadding.fromJson(json["whoMadeIt"]),
       shipment:
           json["shipment"] == null ? null : Shipment.fromJson(json["shipment"]),
-      available: json["available"],
+      available: json["available"] ?? false,
       variations: json["variations"] == null
-          ? null
+          ? []
           : List<Variation>.from(
               json["variations"].map((x) => Variation.fromJson(x))),
-      explore: json["explore"],
-      typeOfWork: json["typeOfWork"] == null ? null : json["typeOfWork"],
-      fabricDetails:
-          json["fabricDetails"] == null ? null : json["fabricDetails"],
-      art: json["art"] == null ? null : json["art"],
-      bottomStyle: json["bottomStyle"] == null ? null : json["bottomStyle"],
-      closureType: json["closureType"] == null ? null : json["closureType"],
-      fittingType: json["fittingType"] == null ? null : json["fittingType"],
-      riseStyle: json["riseStyle"] == null ? null : json["riseStyle"],
-      weaveType: json["weaveType"] == null ? null : json["weaveType"],
-      margin: json["margin"] == null ? null : json["margin"],
+      explore: json["explore"] ?? false,
+      typeOfWork: json["typeOfWork"] == null ? "" : json["typeOfWork"],
+      fabricDetails: json["fabricDetails"] == null ? "" : json["fabricDetails"],
+      art: json["art"] == null ? "" : json["art"],
+      bottomStyle: json["bottomStyle"] == null ? "" : json["bottomStyle"],
+      closureType: json["closureType"] == null ? "" : json["closureType"],
+      fittingType: json["fittingType"] == null ? "" : json["fittingType"],
+      riseStyle: json["riseStyle"] == null ? "" : json["riseStyle"],
+      weaveType: json["weaveType"] == null ? "" : json["weaveType"],
+      margin: json["margin"] == null ? false : json["margin"],
       productFor: json["productFor"] == null
           ? null
           : BlousePadding.fromJson(json["productFor"]),
@@ -202,26 +204,26 @@ class Product {
       whatDoesItHave: json["whatDoesItHave"] == null
           ? null
           : BlousePadding.fromJson(json["whatDoesItHave"]),
-      hangings: json["hangings"] == null ? null : json["hangings"],
-      breadth: json["breadth"] == null ? null : json["breadth"],
-      heelHeight: json["heelHeight"] == null ? null : json["heelHeight"],
+      hangings: json["hangings"] == null ? false : json["hangings"],
+      breadth: json["breadth"] == null ? 0 : json["breadth"],
+      heelHeight: json["heelHeight"] == null ? 0 : json["heelHeight"],
       lengthOfKurta: json["lengthOfKurta"] == null
           ? null
           : BlousePadding.fromJson(json["lengthOfKurta"]),
       occasionToWearIn:
-          json["occasionToWearIn"] == null ? null : json["occasionToWearIn"],
-      washing: json["washing"] == null ? null : json["washing"],
-      length: json["length"] == null ? null : json["length"],
-      style: json["style"] == null ? null : json["style"],
-      dimensions: json["dimensions"] == null ? null : json["dimensions"],
+          json["occasionToWearIn"] == null ? "" : json["occasionToWearIn"],
+      washing: json["washing"] == null ? "" : json["washing"],
+      length: json["length"] == null ? 0 : json["length"],
+      style: json["style"] == null ? "" : json["style"],
+      dimensions: json["dimensions"] == null ? "" : json["dimensions"],
       rating: Rating.fromJson(json["rating"]),
       photo:
           json["photo"] == null ? null : ProductPhoto.fromJson(json["photo"]),
       video: json["video"] == null ? null : Video.fromJson(json["video"]),
-      discount: json["discount"] == null ? null : json["discount"],
-      productNew: json["new"],
-      neckCut: json["neckCut"] == null ? null : json["neckCut"],
-      backCut: json["backCut"] == null ? null : json["backCut"],
+      discount: json["discount"] == null ? 0 : json["discount"],
+      productNew: json["new"] ?? false,
+      neckCut: json["neckCut"] == null ? "" : json["neckCut"],
+      backCut: json["backCut"] == null ? "" : json["backCut"],
       blousePadding: json["blousePadding"] == null
           ? null
           : BlousePadding.fromJson(json["blousePadding"]),
@@ -232,7 +234,7 @@ class Product {
           ? null
           : BlousePadding.fromJson(json["stitchingType"]),
       workOn: json["workOn"] == null
-          ? null
+          ? []
           : List<BlousePadding>.from(
               json["workOn"].map((x) => BlousePadding.fromJson(x))),
       topsLength: json["topsLength"] == null
@@ -241,19 +243,21 @@ class Product {
       pieces: json["pieces"] == null
           ? null
           : BlousePadding.fromJson(json["pieces"]),
-      neck: json["neck"] == null ? null : json["neck"],
-      waist: json["waist"] == null ? null : json["waist"],
-      flair: json["flair"] == null ? null : json["flair"],
-      canCan: json["canCan"] == null ? null : json["canCan"],
+      neck: json["neck"] == null ? "" : json["neck"],
+      waist: json["waist"] == null ? 0 : json["waist"],
+      flair: json["flair"] == null ? 0 : json["flair"],
+      canCan: json["canCan"] == null ? false : json["canCan"],
       made: json["made"] == null ? null : BlousePadding.fromJson(json["made"]),
-      typeOfSaree: json["typeOfSaree"] == null ? null : json["typeOfSaree"],
-      oldPrice: json["oldPrice"] == null ? null : json["oldPrice"],
+      typeOfSaree: json["typeOfSaree"] == null ? "" : json["typeOfSaree"],
+      oldPrice: json["oldPrice"] == null ? 0 : json["oldPrice"],
       seller: json["seller"] == null ? null : Seller.fromJson(json["seller"]),
       cost: json["cost"] == null ? null : Cost.fromJson(json["cost"]),
-      pricePerMeter:
-          json["pricePerMeter"] == null ? null : json["pricePerMeter"],
-      coupons:
-          List<Coupon>.from(json["promocodes"]?.map((x) => Coupon.fromJson(x)) ?? []));
+      pricePerMeter: json["pricePerMeter"] == null ? 0 : json["pricePerMeter"],
+      coupons: json["promocodes"] == null
+          ? []
+          : List<Coupon>.from(
+              json["promocodes"].map((x) => Coupon.fromJson(x)),
+            ));
 
   Map<String, dynamic> toJson() => {
         "key": key,

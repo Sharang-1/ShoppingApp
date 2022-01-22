@@ -823,7 +823,7 @@ class _ProfileViewState extends State<ProfileView> {
                 _formKey.currentState!.validate();
               },
               onSaved: (value) {
-                onSaved(value!);
+                onSaved(value ?? "");
               },
               decoration: InputDecoration(
                 hintText: ' ',

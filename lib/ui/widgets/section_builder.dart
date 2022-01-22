@@ -109,7 +109,9 @@ class SectionBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Column(
         children: [
-          if (header != null && (header?.title!.isNotEmpty ?? false))
+          if (header != null &&
+              (header?.title!.isNotEmpty ?? false) &&
+              (header?.subTitle!.isNotEmpty ?? false))
             HomeViewListHeader(
               title: header!.title!,
               subTitle: header!.subTitle,
@@ -157,7 +159,9 @@ class SectionBuilder extends StatelessWidget {
           emptyListWidget: Container(),
           scrollDirection: scrollDirection,
           disablePagination: true,
-          onEmptyList: onEmptyList,
+          onEmptyList: () {
+            onEmptyList();
+          },
           loadingWidget: ShimmerWidget(type: type),
           tileBuilder: (BuildContext context, productData, index, onDelete) {
             var product = productData as Product;
@@ -578,6 +582,7 @@ class SectionBuilder extends StatelessWidget {
         return 100;
       case LayoutType.VIEW_CART_LAYOUT:
         return Get.size.height * 0.6;
+
       case LayoutType.MY_ORDERS_LAYOUT:
         return 260;
       case LayoutType.CATEGORY_LAYOUT_4:

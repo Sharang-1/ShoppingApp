@@ -62,13 +62,12 @@ class _DzorExploreViewState extends State<DzorExploreView> {
                 "assets/images/wishlist.png",
                 color: Colors.grey.shade900,
               ),
-              onPressed: () async =>
-                  locator<HomeController>().isLoggedIn ?? false
-                      ? await BaseController.gotoWishlist()
-                      : await BaseController.showLoginPopup(
-                          nextView: WishListRoute,
-                          shouldNavigateToNextScreen: true,
-                        ),
+              onPressed: () async => locator<HomeController>().isLoggedIn
+                  ? await BaseController.gotoWishlist()
+                  : await BaseController.showLoginPopup(
+                      nextView: WishListRoute,
+                      shouldNavigateToNextScreen: true,
+                    ),
             ),
             Obx(
               () => IconButton(
@@ -76,13 +75,12 @@ class _DzorExploreViewState extends State<DzorExploreView> {
                   iconColor: Colors.grey.shade900,
                   count: locator<CartCountController>().count.value,
                 ),
-                onPressed: () async =>
-                    locator<HomeController>().isLoggedIn ?? false
-                        ? await BaseController.cart()
-                        : await BaseController.showLoginPopup(
-                            nextView: CartViewRoute,
-                            shouldNavigateToNextScreen: true,
-                          ),
+                onPressed: () async => locator<HomeController>().isLoggedIn
+                    ? await BaseController.cart()
+                    : await BaseController.showLoginPopup(
+                        nextView: CartViewRoute,
+                        shouldNavigateToNextScreen: true,
+                      ),
               ),
             ),
           ],

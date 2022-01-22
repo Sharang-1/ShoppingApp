@@ -28,7 +28,9 @@ class StartUpController extends BaseController {
   @override
   void onInit() async {
     super.onInit();
+
     final updateDetails = await _apiService.getAppUpdate();
+    print("Startup INIT");
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     Version currentVersion = Version.parse(packageInfo.version);
     Version latestVersion = Version.parse(updateDetails!.version);
@@ -39,7 +41,7 @@ class StartUpController extends BaseController {
       locator<AnalyticsService>().setup(),
       locator<PushNotificationService>().initialise(),
       locator<RemoteConfigService>().init(),
-      locator<DynamicLinkService>().handleDynamicLink(),
+      // locator<DynamicLinkService>().handleDynamicLink(),
     ]);
 
     locator<LookupController>().setUpLookups(await _apiService.getLookups());

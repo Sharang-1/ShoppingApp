@@ -23,11 +23,11 @@ class PromotionProduct extends StatefulWidget {
   final String promotionId;
   final List<String> productIds;
   final List<int> demographicIds;
-  final String promotionTitle;
+  final String? promotionTitle;
   PromotionProduct({
     Key? key,
     required this.productIds,
-    required this.promotionTitle,
+    this.promotionTitle,
     required this.promotionId,
     required this.demographicIds,
   }) : super(key: key);
@@ -59,7 +59,7 @@ class _PromotionProductState extends State<PromotionProduct> {
         title: Text(
           widget.promotionTitle == null || widget.promotionTitle == ""
               ? "Products"
-              : widget.promotionTitle,
+              : widget.promotionTitle!,
           style: TextStyle(
             fontFamily: headingFont,
             fontWeight: FontWeight.w700,

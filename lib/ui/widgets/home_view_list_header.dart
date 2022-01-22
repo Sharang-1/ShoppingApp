@@ -81,7 +81,9 @@ class HomeViewListHeader extends StatelessWidget {
                             ),
                           ),
                         ),
-                        onTap: viewAll!(),
+                        onTap: () {
+                          viewAll!();
+                        },
                       ),
               ],
             ),

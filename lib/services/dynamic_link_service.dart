@@ -40,7 +40,7 @@ class DynamicLinkService {
 
     final PendingDynamicLinkData? data =
         await FirebaseDynamicLinks.instance.getInitialLink();
-    final Uri deepLink = data!.link;
+    final Uri? deepLink = data!.link;
 
     if (deepLink != null) {
       List<String> segments = deepLink.pathSegments;

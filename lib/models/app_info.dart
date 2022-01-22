@@ -8,13 +8,13 @@ class AppInfo {
   AppInfo({
     this.lastUpdate,
     this.version,
-    this.payment,
+    required this.payment,
     this.pollWaitTime,
   });
 
   String? lastUpdate;
   String? version;
-  Payment? payment;
+  late Payment payment;
   int? pollWaitTime;
 
   factory AppInfo.fromJson(Map<String, dynamic> json) => AppInfo(
@@ -27,7 +27,7 @@ class AppInfo {
   Map<String, dynamic> toJson() => {
         "lastUpdate": lastUpdate,
         "version": version,
-        "payment": payment?.toJson(),
+        "payment": payment.toJson(),
         "pollWaitTime": pollWaitTime,
       };
 }

@@ -11,6 +11,7 @@ class CustomLogInterceptor extends Interceptor {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
+    print("On req");
     Fimber.d(
         "--> ${options.method != null ? options.method.toUpperCase() : 'METHOD'} ${"" + (options.baseUrl) + (options.path)}");
     Fimber.d("Headers:");
@@ -25,27 +26,31 @@ class CustomLogInterceptor extends Interceptor {
     Fimber.d(
         "--> END ${options.method != null ? options.method.toUpperCase() : 'METHOD'}");
 
-    return options;
+    return handler.next(options);
   }
 
   @override
   Future onError(DioError dioError, ErrorInterceptorHandler handle) async {
+    print("On err");
     // Fimber.e(
     //     "<-- ${dioError.message} ${(dioError.response.request != null ? (dioError.response.request.baseUrl + dioError.response.request.path) : 'URL')}");
     // Fimber.e(
     //     "${dioError.response != null ? dioError.response!.data : 'Unknown Error'}");
     // Fimber.e("<-- End error");
+    handle.next(dioError);
 
-    return dioError;
+    // return dioError;
   }
 
   @override
   Future onResponse(
       Response response, ResponseInterceptorHandler handler) async {
+    print("On resp");
     // Fimber.d(
     //     "<-- ${response.statusCode} ${(response.request != null ? (response.request.baseUrl + response.request.path) : 'URL')}");
     // Fimber.d("Headers:");
     response.headers.forEach((k, v) => Fimber.d('$k: $v'));
+    handler.next(response);
     // Fimber.d("Response: ${response.data}");
     // Fimber.d("<-- END HTTP");
   }

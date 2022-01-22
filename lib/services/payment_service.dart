@@ -16,15 +16,20 @@ class PaymentService {
   AppInfo? appInfo;
 
   Future init() async {
+    print("Payment Init called");
     _razorpay = Razorpay();
     await getApiKey();
   }
 
-  Future<String> getApiKey() async {
-    if (locator<HomeController>().isLoggedIn ?? true)
+  Future<String?> getApiKey() async {
+    print("in Payment Service Api");
+    if (locator<HomeController>().isLoggedIn) {
+      print("Get API Key in Razor Pay");
       appInfo = (await locator<APIService>().getAppInfo())!;
-    if (appInfo != null) razorPayAPIKey = appInfo!.payment!.apiKey!;
-    return razorPayAPIKey!;
+    }
+    if (appInfo != null) razorPayAPIKey = appInfo!.payment.apiKey!;
+    print("Razor pay API Key $appInfo");
+    return razorPayAPIKey;
   }
 
   Future makePayment(
@@ -47,11 +52,11 @@ class PaymentService {
         'currency': currency,
         'order_id': orderId,
         'receipt': receiptId,
-        'name': appInfo?.payment?.merchantName ?? name,
+        'name': appInfo?.payment.merchantName ?? name,
         'description': description,
         'prefill': {
           'contact': contactNo,
-          'email': email ?? (appInfo?.payment?.email ?? "info@dzor.in")
+          'email': email ?? (appInfo?.payment.email ?? "info@dzor.in")
         },
         'theme': {
           'color': '#bE505F',

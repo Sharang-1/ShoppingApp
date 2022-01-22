@@ -13,6 +13,7 @@ class AppInterceptors extends Interceptor {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
+    print("in App Interceptor");
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.get(Authtoken);
     String device = locator<PushNotificationService>().fcmToken;
@@ -20,6 +21,7 @@ class AppInterceptors extends Interceptor {
       "Authorization": "Bearer $token",
       "Device": "$device",
     });
-    return options;
+    print(options);
+    return handler.next(options);
   }
 }

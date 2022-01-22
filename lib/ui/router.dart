@@ -53,7 +53,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return _getPageRoute(
         routeName: settings.name!,
         viewToShow: LoginView(),
-        pageArguments: pageArguments!,
+        pageArguments: pageArguments,
         pageTransitionType: transitionType,
       );
 
@@ -61,7 +61,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return _getPageRoute(
         routeName: settings.name!,
         viewToShow: IntroPage(),
-        pageArguments: pageArguments!,
+        pageArguments: pageArguments,
         pageTransitionType: transitionType,
       );
 
@@ -69,7 +69,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return _getPageRoute(
         routeName: settings.name!,
         viewToShow: Loader(),
-        pageArguments: pageArguments!,
+        pageArguments: pageArguments,
         pageTransitionType: transitionType,
       );
 
@@ -79,7 +79,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         viewToShow: HomeView(
           args: pageArguments,
         ),
-        pageArguments: pageArguments!,
+        pageArguments: pageArguments,
         pageTransitionType: transitionType,
       );
 
@@ -96,14 +96,14 @@ Route<dynamic> generateRoute(RouteSettings settings) {
 
     case OtpVerifiedRoute:
       return _getPageRoute(
-          pageArguments: pageArguments!,
+          pageArguments: pageArguments,
           routeName: settings.name!,
           viewToShow: OtpVerifiedView(),
           pageTransitionType: PageTransitionType.rightToLeft);
 
     case OtpVerified2Route:
       return _getPageRoute(
-          pageArguments: pageArguments!,
+          pageArguments: pageArguments,
           routeName: settings.name!,
           viewToShow: OtpVerifiedView2(),
           pageTransitionType: PageTransitionType.rightToLeft);
@@ -111,7 +111,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case SearchViewRoute:
       return _getPageRoute(
         routeName: settings.name!,
-        viewToShow: SearchView(showSellers: pageArguments as bool),
+        viewToShow:
+            SearchView(showSellers: pageArguments == null ? false : true),
         pageArguments: pageArguments,
         pageTransitionType: transitionType,
       );
@@ -120,7 +121,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return _getPageRoute(
         routeName: settings.name!,
         viewToShow: DzorExploreView(),
-        pageArguments: pageArguments!,
+        pageArguments: pageArguments,
         pageTransitionType: PageTransitionType.bottomToTop,
       );
 
@@ -128,7 +129,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return _getPageRoute(
         routeName: settings.name!,
         viewToShow: CartView(),
-        pageArguments: pageArguments!,
+        pageArguments: pageArguments,
         pageTransitionType: PageTransitionType.rightToLeft,
       );
 
@@ -136,12 +137,13 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return _getPageRoute(
         routeName: settings.name!,
         viewToShow: ProductListView(
-          title: (pageArguments as ProductPageArg).title!,
-          queryString: (pageArguments as ProductPageArg).queryString!,
-          subCategory: (pageArguments as ProductPageArg).subCategory!,
-          sellerPhoto: (pageArguments as ProductPageArg).sellerPhoto!,
-          promotionKey: (pageArguments as ProductPageArg).promotionKey!,
-          demographicIds: (pageArguments as ProductPageArg).demographicIds!,
+          title: (pageArguments as ProductPageArg).title ?? "",
+          queryString: (pageArguments as ProductPageArg).queryString ?? "",
+          subCategory: (pageArguments as ProductPageArg).subCategory ?? "",
+          sellerPhoto: (pageArguments as ProductPageArg).sellerPhoto ?? "",
+          promotionKey: (pageArguments as ProductPageArg).promotionKey ?? "",
+          demographicIds:
+              (pageArguments as ProductPageArg).demographicIds ?? [],
         ),
         pageArguments: pageArguments,
         pageTransitionType: PageTransitionType.rightToLeft,
@@ -151,7 +153,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return _getPageRoute(
         routeName: settings.name!,
         viewToShow: WishList(),
-        pageArguments: pageArguments!,
+        pageArguments: pageArguments,
         pageTransitionType: PageTransitionType.rightToLeft,
       );
 
@@ -159,7 +161,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return _getPageRoute(
         routeName: settings.name!,
         viewToShow: CategoriesView(),
-        pageArguments: pageArguments!,
+        pageArguments: pageArguments,
         pageTransitionType: PageTransitionType.rightToLeft,
       );
 
@@ -173,63 +175,63 @@ Route<dynamic> generateRoute(RouteSettings settings) {
 
     case MapViewRoute:
       return _getPageRoute(
-          pageArguments: pageArguments!,
+          pageArguments: pageArguments,
           routeName: settings.name!,
           viewToShow: MapView(sellerKey: (pageArguments as String)),
           pageTransitionType: PageTransitionType.rightToLeft);
 
     case ProductIndividualRoute:
       return _getPageRoute(
-          pageArguments: pageArguments!,
+          pageArguments: pageArguments,
           routeName: settings.name!,
           viewToShow: ProductIndiView(data: pageArguments as Product),
           pageTransitionType: PageTransitionType.rightToLeft);
 
     case PaymentFinishedScreenRoute:
       return _getPageRoute(
-          pageArguments: pageArguments!,
+          pageArguments: pageArguments,
           routeName: settings.name!,
           viewToShow: OrderPlacedView(),
           pageTransitionType: PageTransitionType.rightToLeft);
 
     case PaymentErrorScreenRoute:
       return _getPageRoute(
-          pageArguments: pageArguments!,
+          pageArguments: pageArguments,
           routeName: settings.name!,
           viewToShow: OrderErrorView(error: (pageArguments as OrderError)),
           pageTransitionType: PageTransitionType.rightToLeft);
 
     case AppointmentBookedScreenRoute:
       return _getPageRoute(
-          pageArguments: pageArguments!,
+          pageArguments: pageArguments,
           routeName: settings.name!,
           viewToShow: AppointmentBookedView(),
           pageTransitionType: PageTransitionType.rightToLeft);
 
     case MyOrdersRoute:
       return _getPageRoute(
-          pageArguments: pageArguments!,
+          pageArguments: pageArguments,
           routeName: settings.name!,
           viewToShow: MyOrdersView(),
           pageTransitionType: PageTransitionType.rightToLeft);
 
     case MyOrderDetailsRoute:
       return _getPageRoute(
-          pageArguments: pageArguments!,
+          pageArguments: pageArguments,
           routeName: settings.name!,
           viewToShow: MyOrdersDetailsView(pageArguments as Order),
           pageTransitionType: PageTransitionType.rightToLeft);
 
     case DynamicContentViewRoute:
       return _getPageRoute(
-          pageArguments: pageArguments!,
+          pageArguments: pageArguments,
           routeName: settings.name!,
           viewToShow: DynamicContentLoadingView(data: pageArguments),
           pageTransitionType: PageTransitionType.bottomToTop);
 
     case ReviewScreenRoute:
       return _getPageRoute(
-          pageArguments: pageArguments!,
+          pageArguments: pageArguments,
           routeName: settings.name!,
           viewToShow: ReviewsScreen(reviews: pageArguments as Reviews),
           pageTransitionType: PageTransitionType.bottomToTop);
@@ -237,7 +239,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case BuyNowRoute:
       print("Buy now page args " + pageArguments.toString());
       return _getPageRoute(
-          pageArguments: pageArguments!,
+          pageArguments: pageArguments,
           routeName: settings.name!,
           viewToShow: CartView(
             productId: pageArguments.toString(),
@@ -246,21 +248,21 @@ Route<dynamic> generateRoute(RouteSettings settings) {
 
     case SellerIndiViewRoute:
       return _getPageRoute(
-          pageArguments: pageArguments!,
+          pageArguments: pageArguments,
           routeName: settings.name!,
           viewToShow: SellerIndi(data: pageArguments as Seller),
           pageTransitionType: PageTransitionType.rightToLeft);
 
     case MyAppointmentViewRoute:
       return _getPageRoute(
-          pageArguments: pageArguments!,
+          pageArguments: pageArguments,
           routeName: settings.name!,
           viewToShow: MyAppointments(),
           pageTransitionType: PageTransitionType.rightToLeft);
 
     case ProfileViewRoute:
       return _getPageRoute(
-          pageArguments: pageArguments!,
+          pageArguments: pageArguments,
           routeName: settings.name!,
           viewToShow: ProfileView(
             controller: pageArguments as UserDetailsController,
@@ -280,14 +282,14 @@ Route<dynamic> generateRoute(RouteSettings settings) {
 
     case AddressInputPageRoute:
       return _getPageRoute(
-          pageArguments: pageArguments!,
+          pageArguments: pageArguments,
           routeName: settings.name!,
           viewToShow: AddressInputPage(),
           pageTransitionType: PageTransitionType.rightToLeft);
 
     case SettingsRoute:
       return _getPageRoute(
-          pageArguments: pageArguments!,
+          pageArguments: pageArguments,
           routeName: settings.name!,
           viewToShow: SettingsView(),
           pageTransitionType: PageTransitionType.rightToLeft);
@@ -301,7 +303,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
 }
 
 PageRoute _getPageRoute({
-  required Object pageArguments,
+  Object? pageArguments,
   required String routeName,
   required Widget viewToShow,
   required PageTransitionType pageTransitionType,

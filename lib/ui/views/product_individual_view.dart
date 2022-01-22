@@ -280,9 +280,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                       height: 20,
                                       child: InkWell(
                                         onTap: () async =>
-                                            locator<HomeController>()
-                                                        .isLoggedIn ??
-                                                    false
+                                            locator<HomeController>().isLoggedIn
                                                 ? controller
                                                     .onWishlistBtnClicked(
                                                         productId!)
@@ -1365,8 +1363,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                               GestureDetector(
                                 onTap: () async {
                                   print("buy now clicked");
-                                  if (locator<HomeController>().isLoggedIn ??
-                                      false) {
+                                  if (locator<HomeController>().isLoggedIn) {
                                     if (selectedQty == 0 ||
                                         selectedColor == "" ||
                                         selectedSize == "") {
@@ -1469,8 +1466,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                               ),
                             GestureDetector(
                               onTap: () async {
-                                if (locator<HomeController>().isLoggedIn ??
-                                    false) {
+                                if (locator<HomeController>().isLoggedIn) {
                                   if (disabledAddToCartBtn ||
                                       selectedQty == 0 ||
                                       selectedColor == "" ||
@@ -1571,8 +1567,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                   InkWell(
                                     key: cartKey,
                                     onTap: () async => locator<HomeController>()
-                                                .isLoggedIn ??
-                                            false
+                                            .isLoggedIn
                                         ? await BaseController.cart()
                                         : await BaseController.showLoginPopup(
                                             nextView: CartViewRoute,
@@ -1653,7 +1648,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
   }
 
   Future<void> goToSellerProfile(controller) async {
-    if (locator<HomeController>().isLoggedIn ?? false) {
+    if (locator<HomeController>().isLoggedIn) {
       if (productData?.seller?.subscriptionTypeId == 2) {
         await NavigationService.to(
           ProductsListRoute,

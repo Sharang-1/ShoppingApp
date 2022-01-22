@@ -73,7 +73,7 @@ class MyApp extends StatelessWidget {
       navigatorObservers: [],
       builder: (context, child) => ScrollConfiguration(
         behavior: CustomScrollOverlayBehaviour(),
-        child: child!,
+        child: child ?? Container(),
       ),
       theme: ThemeData(
         primaryColor: primaryColor,

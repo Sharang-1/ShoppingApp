@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:compound/constants/shared_pref.dart';
 import 'package:dio/dio.dart' as dio;
+// import 'package:dio/dio.dart';
 // import 'package:dio_retry/dio_retry.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/foundation.dart';
@@ -38,6 +40,7 @@ import '../../models/user_details.dart';
 import '../cache_service.dart';
 import '../dialog_service.dart';
 import '../error_handling_service.dart';
+import '../push_notification_service.dart';
 import 'AppInterceptor.dart';
 import 'CustomLogInterceptor.dart';
 import 'performance_interceptor.dart';
@@ -66,7 +69,7 @@ class APIService {
         return status! < 500;
       }));
 
-  // final excludeToken = Options(headers: {"excludeToken": true});
+  // final excludeToken = dio.Options(headers: {"excludeToken": true});
   final ErrorHandlingService _errorHandlingService =
       locator<ErrorHandlingService>();
 
@@ -82,13 +85,13 @@ class APIService {
         //   ),
         // ),
         CustomLogInterceptor(),
-        if (releaseMode) PerformanceInterceptor()
+        // if (releaseMode) PerformanceInterceptor()
       ]);
     appointmentClient
       ..interceptors.addAll([
         AppInterceptors(),
         CustomLogInterceptor(),
-        if (releaseMode) PerformanceInterceptor()
+        // if (releaseMode) PerformanceInterceptor()
       ]);
   }
   Future apiWrapper(
@@ -98,11 +101,16 @@ class APIService {
     dio.Options? options,
     bool authenticated = false,
   }) async {
+    print("IN API Wrapper $path");
+
     if (authenticated) {
+      print("AUTHENTICATED");
+
       if (options == null) {
-        options = dio.Options();
+        options = dio.Options(headers: {'excludeToken': true});
       }
-      options.headers!["excludeToken"] = true;
+      print("options $options");
+      // options.headers!["excludeToken"] = true;
     }
 
     try {
@@ -119,7 +127,9 @@ class APIService {
         res = await apiClient.put(path,
             data: data, queryParameters: queryParameters, options: options);
       }
+      print("res = $res and path = $path");
       if (res.statusCode == 401) {
+        return null;
         throw Exception("Unauthorized");
       }
 
@@ -139,7 +149,7 @@ class APIService {
     } catch (e, stacktrace) {
       Fimber.e("Api Service error", ex: e, stacktrace: stacktrace);
       if (e.toString().contains("Unauthorized")) {
-        if (locator<HomeController>().isLoggedIn ?? false) {
+        if (locator<HomeController>().isLoggedIn) {
           try {
             await BaseController.logout();
             await locator<HomeController>().updateIsLoggedIn();
@@ -150,6 +160,14 @@ class APIService {
       }
     }
   }
+
+  // Future apiWrapper(String path,
+  //     {data,
+  //     Map<String, dynamic>? queryParameters,
+  //     dio.Options? options,
+  //     bool authenticated = false}) async {
+
+  //     }
 
   Future sendOTP({required String phoneNo}) {
     return apiWrapper("message/generateOtpToLogin", data: {"mobile": phoneNo});
@@ -171,7 +189,6 @@ class APIService {
     if (lookupData != null) {
       List<Lookups> lookups =
           lookupData.map<Lookups>((e) => Lookups.fromJson(e)).toList();
-      print(lookups);
       return lookups;
     }
 
@@ -179,11 +196,13 @@ class APIService {
   }
 
   Future<AppInfo?> getAppInfo() async {
-    AppInfo appInfo = AppInfo();
+    late AppInfo appInfo;
     var json = await apiWrapper("app/info");
-    if (json != null) appInfo = AppInfo.fromJson(json);
+    appInfo = AppInfo.fromJson(json);
+    // if (json != null) appInfo = AppInfo.fromJson(json);
     if ((appInfo.pollWaitTime ?? 0) > 0) pollWaitTime = appInfo.pollWaitTime!;
-    return null;
+    print("appInfo is $appInfo");
+    return appInfo;
   }
 
   Future<Reviews?> getReviews(String key, {bool isSellerReview = false}) async {
@@ -377,9 +396,11 @@ class APIService {
   }
 
   Future<List<String>?> getCartProductItemList() async {
-    var cartData = await apiWrapper("carts/my?context=productDetails",
+    var cartData = null;
+    cartData = await apiWrapper("carts/my?context=productDetails",
         authenticated: true,
         options: dio.Options(headers: {'excludeToken': false}));
+    print("cartData is $cartData");
     if (cartData != null) {
       try {
         CartModule.Cart cart = CartModule.Cart.fromJson(cartData);
@@ -753,6 +774,7 @@ class APIService {
 
   Future<AppUpdate?> getAppUpdate() async {
     var res = await apiClient.get("release/app");
+
     if (res.data != null) return AppUpdate.fromJson(res.data);
     return null;
   }

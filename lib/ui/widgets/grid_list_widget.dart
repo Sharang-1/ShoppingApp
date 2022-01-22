@@ -67,7 +67,9 @@ class GridListWidget<P, I> extends StatelessWidget {
                   ? EmptyListWidget()
                   : emptyListWidget!,
               loadingWidget: loadingWidget,
-              onEmptyList: onEmptyList,
+              onEmptyList: () {
+                onEmptyList();
+              },
             )
           : Container(
               child: null,
@@ -165,7 +167,9 @@ class _CustomGridViewFutureBuilderState<P, I>
               disablePagination: widget.disablePagination,
               scrollDirection: widget.scrollDirection,
               emptyListWidget: widget.emptyListWidget!,
-              onEmptyList: widget.onEmptyList,
+              onEmptyList: () {
+                widget.onEmptyList();
+              },
             );
           default:
             return Container();
@@ -186,7 +190,7 @@ class PaginatedGridView<P, I> extends StatefulWidget {
   final bool showScrollIndicator;
   final Axis scrollDirection;
   final Widget? emptyListWidget;
-  final Function onEmptyList;
+  final Function? onEmptyList;
 
   const PaginatedGridView({
     Key? key,
@@ -212,7 +216,7 @@ class _PaginatedGridViewState<I> extends State<PaginatedGridView> {
   LoadMoreStatus loadMoreStatus = LoadMoreStatus.STABLE;
   List<I> items = [];
   late int currentPage;
-  late CancelableOperation itemOperation;
+  CancelableOperation? itemOperation;
 
   @override
   void initState() {
@@ -224,13 +228,13 @@ class _PaginatedGridViewState<I> extends State<PaginatedGridView> {
   @override
   void dispose() {
     _scrollController.dispose();
-    if (itemOperation != null) itemOperation.cancel();
+    if (itemOperation != null) itemOperation!.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    if ((widget.onEmptyList != null) && (items.isEmpty)) widget.onEmptyList();
+    if ((widget.onEmptyList != null) && (items.isEmpty)) widget.onEmptyList!();
     return NotificationListener(
       onNotification: !(widget.disablePagination) ? onNotification : null,
       child: items.length != 0

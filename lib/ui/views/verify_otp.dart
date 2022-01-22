@@ -69,8 +69,8 @@ class _VerifyOTPViewState extends State<VerifyOTPView> {
                     controller.otpController.text != "",
                 title: 'Verify',
                 busy: controller.busy,
-                onPressed: () {
-                  controller.verifyOTP(
+                onPressed: () async {
+                  await controller.verifyOTP(
                     otp: controller.otpController.text,
                   );
                 },

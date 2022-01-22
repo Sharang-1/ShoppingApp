@@ -30,7 +30,9 @@ class SellerCard extends StatelessWidget {
           width:
               (MediaQuery.of(context).size.width - 40) * (fromHome ? 0.8 : 1),
           child: GestureDetector(
-            onTap: onClick(),
+            onTap: () {
+              onClick();
+            },
             child: Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(curve15),

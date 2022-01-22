@@ -96,7 +96,9 @@ class _ProductTileUIState extends State<ProductTileUI> {
     }
 
     return GestureDetector(
-      onTap: widget.onClick(),
+      onTap: () {
+        widget.onClick();
+      },
       child: Container(
         padding: paddingCard,
         decoration: BoxDecoration(
@@ -152,9 +154,7 @@ class _ProductTileUIState extends State<ProductTileUI> {
                                     width: 18,
                                     height: 18,
                                   ),
-                                  onTap: (locator<HomeController>()
-                                              .isLoggedIn ??
-                                          false)
+                                  onTap: (locator<HomeController>().isLoggedIn)
                                       ? () async {
                                           if (locator<WishListController>()
                                                   .list

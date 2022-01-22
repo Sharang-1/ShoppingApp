@@ -136,13 +136,17 @@ class ReviewWidget extends StatelessWidget {
                                 .toList()
                                 .isEmpty))
                           TextButton(
-                            onPressed: () => Get.bottomSheet(
-                                WriteReviewBottomsheet(
-                                  id!,
-                                  isSeller: isSeller ?? false,
-                                  onSubmit: onSubmit,
-                                ),
-                                isScrollControlled: true),
+                            onPressed: () {
+                              Get.bottomSheet(
+                                  WriteReviewBottomsheet(
+                                    id!,
+                                    isSeller: isSeller ?? false,
+                                    onSubmit: () {
+                                      onSubmit();
+                                    },
+                                  ),
+                                  isScrollControlled: true);
+                            },
                             style: TextButton.styleFrom(
                               primary: Colors.white,
                               backgroundColor: logoRed,

@@ -9,7 +9,9 @@ class TextLink extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onPressed(),
+      onTap: () {
+        onPressed();
+      },
       child: Text(
         text,
         style: TextStyle(

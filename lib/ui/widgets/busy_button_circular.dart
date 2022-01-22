@@ -23,7 +23,11 @@ class _BusyButtonCircularState extends State<BusyButtonCicular> {
   Widget build(BuildContext context) {
     return FloatingActionButton(
       heroTag: "Kaushik",
-      onPressed: widget.enabled ? widget.onPressed() : null,
+      onPressed: widget.enabled
+          ? () async {
+              await widget.onPressed();
+            }
+          : () async {},
       backgroundColor: widget.enabled ? logoRed : Colors.grey,
       child: Icon(
         Icons.arrow_forward,

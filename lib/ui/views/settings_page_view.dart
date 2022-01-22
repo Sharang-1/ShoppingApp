@@ -173,7 +173,7 @@ class _SettingsViewState extends State<SettingsView> {
                           ),
                           child: InkWell(
                             onTap: () async {
-                              if (locator<HomeController>().isLoggedIn ?? false)
+                              if (locator<HomeController>().isLoggedIn)
                                 return await NavigationService.to(
                                   ProfileViewRoute,
                                   arguments: controller,
@@ -201,8 +201,7 @@ class _SettingsViewState extends State<SettingsView> {
                                               placeholder: AssetImage(
                                                   "assets/images/user.png"),
                                               image: (locator<HomeController>()
-                                                          .isLoggedIn ??
-                                                      false)
+                                                      .isLoggedIn)
                                                   ? Image.network(
                                                       "$USER_PROFILE_PHOTO_BASE_URL/${controller.mUserDetails!.key}",
                                                       headers: {
@@ -243,8 +242,7 @@ class _SettingsViewState extends State<SettingsView> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: locator<HomeController>()
-                                                    .isLoggedIn ??
-                                                false
+                                                .isLoggedIn
                                             ? [
                                                 CustomText(
                                                   controller
@@ -278,8 +276,7 @@ class _SettingsViewState extends State<SettingsView> {
                                       ),
                                     ],
                                   ),
-                                  if (locator<HomeController>().isLoggedIn ??
-                                      false)
+                                  if (locator<HomeController>().isLoggedIn)
                                     IconButton(
                                       icon: Icon(
                                         Icons.edit,
@@ -327,7 +324,7 @@ class _SettingsViewState extends State<SettingsView> {
                           color: Colors.black87,
                           iconColor: Colors.black54,
                           onTap: () async =>
-                              locator<HomeController>().isLoggedIn ?? false
+                              locator<HomeController>().isLoggedIn
                                   ? await NavigationService.to(MyOrdersRoute)
                                   : await BaseController.showLoginPopup(
                                       nextView: MyOrdersRoute,
@@ -340,7 +337,7 @@ class _SettingsViewState extends State<SettingsView> {
                           color: Colors.black87,
                           iconColor: Colors.black54,
                           onTap: () async =>
-                              locator<HomeController>().isLoggedIn ?? false
+                              locator<HomeController>().isLoggedIn
                                   ? await NavigationService.to(
                                       MyAppointmentViewRoute)
                                   : await BaseController.showLoginPopup(
@@ -380,9 +377,9 @@ class _SettingsViewState extends State<SettingsView> {
                             ],
                           ),
                         ),
-                        if (locator<HomeController>().isLoggedIn ?? false)
+                        if (locator<HomeController>().isLoggedIn)
                           verticalSpaceTiny,
-                        locator<HomeController>().isLoggedIn ?? false
+                        locator<HomeController>().isLoggedIn
                             ? Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[

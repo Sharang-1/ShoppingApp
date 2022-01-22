@@ -48,12 +48,12 @@ class HomeController extends BaseController {
   String cityName = "Add Location";
   String name = "";
   RemoteConfig? remoteConfig;
-  late SharedPreferences? prefs;
+  SharedPreferences? prefs;
   late UserDetails? details;
-  late List<Promotion> topPromotion, bottomPromotion;
+  List<Promotion> topPromotion = [], bottomPromotion = [];
   bool isProfileComplete = true;
-  bool? isLoggedIn = false;
-  late String currentLanguage;
+  bool isLoggedIn = false;
+  String? currentLanguage;
 
   void onRefresh({context, args}) async {
     try {
@@ -129,7 +129,7 @@ class HomeController extends BaseController {
   }
 
   Future<void> updateUserDetails() async {
-    if (isLoggedIn ?? false) {
+    if (isLoggedIn) {
       details = await _apiService.getUserData();
       if ((details?.contact?.address?.isEmpty ?? true) ||
           (details?.contact?.googleAddress?.isEmpty ?? true)) {
@@ -144,8 +144,8 @@ class HomeController extends BaseController {
     locator<WishListController>()
         .setUpWishList(await _wishListService.getWishList());
     if (prefs == null) prefs = await SharedPreferences.getInstance();
-    currentLanguage = prefs!.getString(CurrentLanguage)!;
-    currentLanguage = currentLanguage.isEmpty ? 'English' : currentLanguage;
+    currentLanguage = prefs!.getString(CurrentLanguage) ?? "";
+    currentLanguage = currentLanguage == "" ? 'English' : currentLanguage;
   }
 
   @override
@@ -159,75 +159,78 @@ class HomeController extends BaseController {
     promotionKey = UniqueKey();
 
     remoteConfig = _remoteConfigService.remoteConfig;
+
     setup();
 
     await updateIsLoggedIn();
 
-    final lastDeliveredProduct = await getLastDeliveredProduct();
-    if (lastDeliveredProduct != null)
-      await DialogService.showCustomDialog(
-        RatingDialog(
-          onSubmitted: (val) async {
-            await postReview(
-                lastDeliveredProduct['id']!, val.rating.toDouble());
-          },
-          submitButtonText: "Submit",
-          image: Image.network(
-            lastDeliveredProduct["image"]!,
-            height: 150,
-            width: 150,
-            errorBuilder: (context, error, stackTrace) => Image.asset(
-              'assets/images/product_preloading.png',
+    if (isLoggedIn) {
+      final lastDeliveredProduct = await getLastDeliveredProduct();
+      if (lastDeliveredProduct != null)
+        await DialogService.showCustomDialog(
+          RatingDialog(
+            onSubmitted: (val) async {
+              await postReview(
+                  lastDeliveredProduct['id']!, val.rating.toDouble());
+            },
+            submitButtonText: "Submit",
+            image: Image.network(
+              lastDeliveredProduct["image"]!,
               height: 150,
               width: 150,
+              errorBuilder: (context, error, stackTrace) => Image.asset(
+                'assets/images/product_preloading.png',
+                height: 150,
+                width: 150,
+              ),
             ),
+            title: Text(lastDeliveredProduct["name"] ?? ""),
+            message: Text("Tap a star to give your review."),
+            starColor: logoRed,
+            // positiveComment: "We’re glad you liked it!! 😊",
+            // negativeComment:
+            //     "Please reach us out and help us understand your concerns!",
+            // accentColor: logoRed,
+            // onSubmitPressed: (int rating) async {
+            //   await postReview(lastDeliveredProduct['id']!, rating.toDouble());
+            // },
           ),
-          title: Text(lastDeliveredProduct["name"] ?? ""),
-          message: Text("Tap a star to give your review."),
-          starColor: logoRed,
-          // positiveComment: "We’re glad you liked it!! 😊",
-          // negativeComment:
-          //     "Please reach us out and help us understand your concerns!",
-          // accentColor: logoRed,
-          // onSubmitPressed: (int rating) async {
-          //   await postReview(lastDeliveredProduct['id']!, rating.toDouble());
-          // },
-        ),
-        barrierDismissible: true,
+          barrierDismissible: true,
+        );
+
+      final RateMyApp rateMyApp = RateMyApp(
+        preferencesPrefix: 'rateMyApp_',
+        minDays: 0,
+        minLaunches: 0,
+        remindDays: 2,
+        remindLaunches: 2,
+        googlePlayIdentifier: 'in.dzor.dzor_app',
+        appStoreIdentifier: '1562083632',
       );
 
-    final RateMyApp rateMyApp = RateMyApp(
-      preferencesPrefix: 'rateMyApp_',
-      minDays: 0,
-      minLaunches: 0,
-      remindDays: 2,
-      remindLaunches: 2,
-      googlePlayIdentifier: 'in.dzor.dzor_app',
-      appStoreIdentifier: '1562083632',
-    );
+      WidgetsBinding.instance?.addPostFrameCallback(
+        (_) async {
+          await rateMyApp.init();
+          if (prefs == null) prefs = await SharedPreferences.getInstance();
+          int launches = prefs!.getInt('rateMyApp_launches') ?? 0;
+          bool doNotOpenAgain =
+              prefs!.getBool('rateMyApp_doNotOpenAgain') ?? false;
 
-    WidgetsBinding.instance?.addPostFrameCallback(
-      (_) async {
-        await rateMyApp.init();
-        if (prefs == null) prefs = await SharedPreferences.getInstance();
-        int launches = prefs!.getInt('rateMyApp_launches') ?? 0;
-        bool doNotOpenAgain =
-            prefs!.getBool('rateMyApp_doNotOpenAgain') ?? false;
-
-        if (!doNotOpenAgain &&
-            (launches > 0) &&
-            (launches % 2 == 0) &&
-            (launches % 5 == 0)) {
-          await rateMyApp.showRateDialog(
-            Get.context!,
-            title: 'Dzor',
-            onDismissed: () async {
-              await prefs!.setBool('rateMyApp_doNotOpenAgain', true);
-            },
-          );
-        }
-      },
-    );
+          if (!doNotOpenAgain &&
+              (launches > 0) &&
+              (launches % 2 == 0) &&
+              (launches % 5 == 0)) {
+            await rateMyApp.showRateDialog(
+              Get.context!,
+              title: 'Dzor',
+              onDismissed: () async {
+                await prefs!.setBool('rateMyApp_doNotOpenAgain', true);
+              },
+            );
+          }
+        },
+      );
+    }
   }
 
   bool bottomNavigationOnTap(int i) {
@@ -236,7 +239,7 @@ class HomeController extends BaseController {
         NavigationService.to(CategoriesRoute);
         break;
       case 1:
-        if (isLoggedIn ?? false)
+        if (isLoggedIn)
           NavigationService.to(MyOrdersRoute);
         else
           BaseController.showLoginPopup(
@@ -248,7 +251,7 @@ class HomeController extends BaseController {
         NavigationService.to(DzorExploreViewRoute);
         break;
       case 3:
-        if (isLoggedIn ?? false)
+        if (isLoggedIn)
           NavigationService.to(MyAppointmentViewRoute);
         else
           BaseController.showLoginPopup(
@@ -257,7 +260,7 @@ class HomeController extends BaseController {
           );
         break;
       case 4:
-        if (isLoggedIn ?? false)
+        if (isLoggedIn)
           NavigationService.to(MapViewRoute);
         else
           BaseController.showLoginPopup(
@@ -308,7 +311,7 @@ class HomeController extends BaseController {
     }
   }
 
-  Future<Map<String, String>> getLastDeliveredProduct() async {
+  Future<Map<String, String>?> getLastDeliveredProduct() async {
     Order lastDeliveredOrder = (await _apiService.getAllOrders())!
         .orders!
         .where((e) => e.status!.id == 7)
@@ -347,12 +350,13 @@ class HomeController extends BaseController {
   Future<int> setUpCartListAndGetCount({bool withNetworkCall = true}) async {
     if (withNetworkCall) {
       final res = await _apiService.getCartProductItemList();
+      print("Response in setUpCartList is $res");
       if (res != null) {
         await _cartLocalStoreService.setCartList(res);
         return res.length;
       }
     } else {
-      final count = _cartLocalStoreService.getCartCount();
+      var count = await _cartLocalStoreService.getCartCount();
       if (count != null) {
         return count;
       }
@@ -390,7 +394,7 @@ class HomeController extends BaseController {
     currentLanguage = lang;
   }
 
-  String getCurrentLang() => currentLanguage;
+  String getCurrentLang() => currentLanguage ?? "English";
 
   void showTutorial(BuildContext context,
       {GlobalKey? searchKey, GlobalKey? logoKey}) async {

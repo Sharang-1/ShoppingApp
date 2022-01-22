@@ -41,7 +41,7 @@ class BaseController extends GetxController {
       _cartLocalStoreService.setCartList(list);
 
   Future<int> addToCartLocalStore(String productId) async =>
-      locator<HomeController>().isLoggedIn ?? false
+      locator<HomeController>().isLoggedIn
           ? _cartLocalStoreService.addToCartLocalStore(productId)
           : await showLoginPopup(
               nextView: CartViewRoute,
@@ -82,19 +82,18 @@ class BaseController extends GetxController {
   // Goto Screens
   static Future<void> search() async =>
       await NavigationService.to(SearchViewRoute);
-  static Future<dynamic> cart() async =>
-      locator<HomeController>().isLoggedIn ?? false
-          ? await NavigationService.to(CartViewRoute)
-          : await showLoginPopup(
-              nextView: CartViewRoute,
-              shouldNavigateToNextScreen: true,
-            );
+  static Future<dynamic> cart() async => locator<HomeController>().isLoggedIn
+      ? await NavigationService.to(CartViewRoute)
+      : await showLoginPopup(
+          nextView: CartViewRoute,
+          shouldNavigateToNextScreen: true,
+        );
   static Future<void> category() async =>
       await NavigationService.to(CategoriesRoute);
   static Future<dynamic> gotoSettingsPage() async =>
       await NavigationService.to(SettingsRoute);
   static Future<dynamic> gotoWishlist() async =>
-      locator<HomeController>().isLoggedIn ?? false
+      locator<HomeController>().isLoggedIn
           ? await NavigationService.to(WishListRoute)
           : await showLoginPopup(
               nextView: WishListRoute,
@@ -107,7 +106,7 @@ class BaseController extends GetxController {
 
   static Future<dynamic> goToSellerPage(String sellerId) async {
     Seller seller = await locator<APIService>().getSellerByID(sellerId);
-    if (locator<HomeController>().isLoggedIn ?? false) {
+    if (locator<HomeController>().isLoggedIn) {
       if (seller.subscriptionTypeId == 2) {
         return NavigationService.to(
           ProductsListRoute,

@@ -60,7 +60,9 @@ class PairItWithWidget extends StatelessWidget {
                     limit: 20,
                     filteredProductKey: "",
                     exceptProductIDs: exceptProductIDs),
-                onEmptyList: onEmpty,
+                onEmptyList: () {
+                  onEmpty();
+                },
                 childAspectRatio: 1.20,
                 scrollDirection: Axis.horizontal,
                 emptyListWidget: Container(),
@@ -69,11 +71,17 @@ class PairItWithWidget extends StatelessWidget {
                     (BuildContext context, productData, index, onDelete) {
                   var product = productData as Product;
                   return GestureDetector(
-                    onTap: () => onProductClicked(product),
+                    onTap: () {
+                      onProductClicked(product);
+                    },
                     child: ProductTileUI(
                       data: product,
-                      onClick: () => onProductClicked(product),
-                      onAddToCartClicked: () => onProductClicked(product),
+                      onClick: () {
+                        onProductClicked(product);
+                      },
+                      onAddToCartClicked: () {
+                        onProductClicked(product);
+                      },
                       index: index,
                       cardPadding: EdgeInsets.all(2.0),
                     ),

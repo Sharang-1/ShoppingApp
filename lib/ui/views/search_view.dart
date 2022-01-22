@@ -60,7 +60,9 @@ class _SearchViewState extends State<SearchView>
             onTap: () {
               _controller.showRandomSellers = false.obs;
             },
-            onChanged: _controller.searchBarOnChange,
+            onChanged: (txt) {
+              _controller.searchBarOnChange(txt);
+            },
           ),
           actions: <Widget>[
             if (_controller.currentTabIndex.value == 0)
@@ -306,7 +308,9 @@ class _SearchBarTextField extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.search),
             color: appBarIconColor,
-            onPressed: () => searchAction(searchController.text.trim()),
+            onPressed: () {
+              searchAction(searchController.text.trim());
+            },
           ),
           Expanded(
             child: TextField(
@@ -316,9 +320,15 @@ class _SearchBarTextField extends StatelessWidget {
               style: TextStyle(
                 color: Colors.black,
               ),
-              onTap: onTap(),
-              onSubmitted: (txt) => searchAction(searchController.text.trim()),
-              onChanged: onChanged(),
+              onTap: () {
+                onTap();
+              },
+              onSubmitted: (txt) {
+                searchAction(searchController.text.trim());
+              },
+              onChanged: (txt) {
+                onChanged(txt);
+              },
               decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: "Start typing...",

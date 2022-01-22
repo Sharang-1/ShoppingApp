@@ -86,7 +86,9 @@ class _InputFieldState extends State<InputField> {
                   keyboardType: widget.textInputType,
                   focusNode: widget.fieldFocusNode,
                   textInputAction: widget.textInputAction,
-                  onChanged: widget.onChanged,
+                  onChanged: (txt) {
+                    widget.onChanged(txt);
+                  },
                   inputFormatters: widget.formatter != null
                       ? [widget.formatter as TextInputFormatter]
                       : null,

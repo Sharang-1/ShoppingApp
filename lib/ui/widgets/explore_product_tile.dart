@@ -102,7 +102,9 @@ class _ExploreProductTileUIState extends State<ExploreProductTileUI> {
     final String fontFamily = "Poppins";
 
     return InkWell(
-      onTap: widget.onClick(fontFamily),
+      onTap: () {
+        widget.onClick(fontFamily);
+      },
       child: Container(
         padding: EdgeInsets.only(top: 8.0),
         decoration: BoxDecoration(
@@ -335,8 +337,7 @@ class _ExploreProductTileUIState extends State<ExploreProductTileUI> {
                         child: Container(
                           child: InkWell(
                             onTap: () async {
-                              if (locator<HomeController>().isLoggedIn ??
-                                  false) {
+                              if (locator<HomeController>().isLoggedIn) {
                                 if (locator<WishListController>()
                                         .list
                                         .indexOf(widget.data.key!) !=

@@ -318,7 +318,7 @@ class DesignerTileUi extends StatelessWidget {
       width: MediaQuery.of(context).size.width - 40,
       child: GestureDetector(
         onTap: () async {
-          if (locator<HomeController>().isLoggedIn ?? false) {
+          if (locator<HomeController>().isLoggedIn) {
             if (data.subscriptionTypeId == 2)
               return NavigationService.to(
                 ProductsListRoute,

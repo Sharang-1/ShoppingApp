@@ -17,12 +17,18 @@ class Cart {
     this.items,
   });
 
-  factory Cart.fromJson(Map<String, dynamic> json) => Cart(
-        key: json["key"],
-        modified: json["modified"],
-        owner: Owner.fromJson(json["owner"]),
-        items: List<Item>.from(json["items"].map((x) => Item.fromJson(x))),
-      );
+  factory Cart.fromJson(Map<String, dynamic> json) {
+    print("IN CART");
+    print(json);
+    print("------");
+
+    return Cart(
+      key: json["key"],
+      modified: json["modified"],
+      owner: Owner.fromJson(json["owner"]),
+      items: List<Item>.from(json["items"].map((x) => Item.fromJson(x))),
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         "key": key,

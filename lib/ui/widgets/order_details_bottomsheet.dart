@@ -295,11 +295,11 @@ class OrderDetailsBottomsheet extends StatelessWidget {
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),
-                          onPressed: () =>
-                              proceedToOrder!(
-                                  qty: int.parse(orderDetails.qty ?? "0"),
-                                  total: orderDetails.total) ??
-                              () {},
+                          onPressed: () {
+                            proceedToOrder!(
+                                qty: int.parse(orderDetails.qty ?? "0"),
+                                total: orderDetails.total);
+                          },
                           child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 15),
                             child: Text(
@@ -327,7 +327,9 @@ class OrderDetailsBottomsheet extends StatelessWidget {
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),
-                          onPressed: onButtonPressed(),
+                          onPressed: () {
+                            onButtonPressed();
+                          },
                           child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 15),
                             child: Row(
