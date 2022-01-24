@@ -249,13 +249,15 @@ class _SelectPromocodeState extends State<SelectPromocode> {
                     children: List<Widget>.of(
                       widget.availableCoupons.map(
                         (Coupon c) => GestureDetector(
-                          onTap: () => setState(
-                            () {
-                              couponGrpValue = couponRadioValue = c.code!;
-                              _controller.text = c.code!;
-                              applyPromoCode();
-                            },
-                          ),
+                          onTap: () {
+                            setState(
+                              () {
+                                couponGrpValue = couponRadioValue = c.code!;
+                                _controller.text = c.code!;
+                                applyPromoCode();
+                              },
+                            );
+                          },
                           child: Container(
                             decoration: BoxDecoration(
                               border: Border(

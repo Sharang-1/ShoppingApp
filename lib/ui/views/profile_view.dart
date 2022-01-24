@@ -246,7 +246,8 @@ class _ProfileViewState extends State<ProfileView> {
                                         color: Colors.white,
                                       ),
                                       child: InkWell(
-                                        onTap: controller.updateUserPhoto,
+                                        onTap: () async =>
+                                            controller.updateUserPhoto(),
                                         child: Icon(
                                           Icons.edit,
                                         ),
@@ -532,7 +533,7 @@ class _ProfileViewState extends State<ProfileView> {
                                         Expanded(
                                           flex: 7,
                                           child: InkWell(
-                                            onTap: isEditable
+                                            onTap: () => isEditable
                                                 ? () async {
                                                     PickResult pickedPlace =
                                                         await Navigator.push(

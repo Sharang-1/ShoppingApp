@@ -292,7 +292,7 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
             ),
             verticalSpaceSmall,
             InkWell(
-              onTap: onTap,
+              onTap: () => onTap,
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
                 color: Colors.grey[50],

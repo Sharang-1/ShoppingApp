@@ -98,7 +98,7 @@ class _HomeSliderState extends State<HomeSlider> {
                           builder: (BuildContext context) {
                             return GestureDetector(
                               onTap: widget.fromExplore
-                                  ? null
+                                  ? () {}
                                   : () {
                                       if (!widget.fromHome) {
                                         open(
@@ -168,7 +168,7 @@ class _HomeSliderState extends State<HomeSlider> {
                           builder: (BuildContext context) {
                             return GestureDetector(
                               onTap: widget.fromExplore
-                                  ? null
+                                  ? () {}
                                   : () {
                                       if (!widget.fromHome) {
                                         open(context,

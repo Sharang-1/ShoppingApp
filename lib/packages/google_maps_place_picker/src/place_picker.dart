@@ -173,9 +173,11 @@ class _PlacePickerState extends State<PlacePicker> {
   @override
   void initState() {
     super.initState();
+
+    // provider = await _initPlaceProvider();
     _futureProvider = _initPlaceProvider();
-    // provider =
-    //     PlaceProvider(widget.apiKey, widget.proxyBaseUrl, widget.httpClient);
+    //  provider =
+    //     PlaceProvider(widget.apiKey, widget.proxyBaseUrl, widget.httpClient, );
     // provider.sessionToken = Uuid().generateV4();
     // provider.desiredAccuracy = widget.desiredLocationAccuracy;
     // provider.setMapType(widget.initialMapType);
@@ -206,15 +208,22 @@ class _PlacePickerState extends State<PlacePicker> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-        onWillPop: () {
-          searchBarController.clearOverlay();
-          return Future.value(true);
-        },
-        child: ChangeNotifierProvider.value(
-          value: provider,
-          child: Builder(
-            builder: (context) {
-              return Scaffold(
+      onWillPop: () {
+        searchBarController.clearOverlay();
+        return Future.value(true);
+      },
+      child: FutureBuilder<PlaceProvider>(
+        future: _futureProvider,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            provider = snapshot.data;
+
+            return MultiProvider(
+              providers: [
+                ChangeNotifierProvider<PlaceProvider>.value(value: provider!),
+              ],
+              child: Scaffold(
+                key: ValueKey<int>(provider.hashCode),
                 resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
                 extendBodyBehindAppBar: true,
                 appBar: AppBar(
@@ -224,16 +233,44 @@ class _PlacePickerState extends State<PlacePicker> {
                   elevation: 0,
                   backgroundColor: Colors.transparent,
                   titleSpacing: 0.0,
-                  title: _buildSearchBar(),
+                  title: _buildSearchBar(context),
                 ),
                 body: _buildMapWithLocation(),
-              );
-            },
-          ),
-        ));
+              ),
+            );
+          }
+
+          final children = <Widget>[];
+          if (snapshot.hasError) {
+            children.addAll([
+              Icon(
+                Icons.error_outline,
+                color: Theme.of(context).errorColor,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 16),
+                child: Text('Error: ${snapshot.error}'),
+              )
+            ]);
+          } else {
+            children.add(CircularProgressIndicator());
+          }
+
+          return Scaffold(
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: children,
+              ),
+            ),
+          );
+        },
+      ),
+    );
   }
 
-  Widget _buildSearchBar() {
+  Widget _buildSearchBar(BuildContext context) {
     return Row(
       children: <Widget>[
         widget.automaticallyImplyAppBarLeading

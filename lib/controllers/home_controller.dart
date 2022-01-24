@@ -261,7 +261,7 @@ class HomeController extends BaseController {
         break;
       case 4:
         if (isLoggedIn)
-          NavigationService.to(MapViewRoute);
+          NavigationService.to(MapViewRoute, arguments: sellerKey.toString());
         else
           BaseController.showLoginPopup(
             nextView: MapViewRoute,
@@ -410,7 +410,9 @@ class HomeController extends BaseController {
             TargetContent(
               align: ContentAlign.bottom,
               child: GestureDetector(
-                onTap: () => tutorialCoachMark.next(),
+                onTap: () {
+                  tutorialCoachMark.next();
+                },
                 child: Container(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -444,7 +446,9 @@ class HomeController extends BaseController {
             TargetContent(
               align: ContentAlign.top,
               child: GestureDetector(
-                onTap: () => tutorialCoachMark.next(),
+                onTap: () {
+                  tutorialCoachMark.next();
+                },
                 child: Container(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,

@@ -165,7 +165,9 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
                                   labelText: YOUR_LOCATION.tr,
                                   isDense: true,
                                   suffixIcon: InkWell(
-                                    onTap: changeAddress,
+                                    onTap: () {
+                                      changeAddress();
+                                    },
                                     child: Text(
                                       CHANGE.tr,
                                       style: TextStyle(

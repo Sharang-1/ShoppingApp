@@ -359,7 +359,7 @@ class _ProductListViewState extends State<ProductListView> {
                                   ((snapshot.data?.ratingAverage?.rating ?? 0) >
                                       0))
                               ? InkWell(
-                                  onTap: showReviewBottomsheet,
+                                  onTap: () => showReviewBottomsheet,
                                   child: FittedBox(
                                     fit: BoxFit.scaleDown,
                                     child: Container(

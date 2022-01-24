@@ -22,7 +22,7 @@ class _BusyButtonState extends State<BusyButton> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: widget.enabled
+      onTap: () => widget.enabled
           ? () {
               widget.onPressed();
             }

@@ -328,7 +328,7 @@ class MapView extends StatelessWidget {
               backgroundColor: Colors.white,
               iconTheme: IconThemeData(color: appBarIconColor),
               title: InkWell(
-                onTap: dzorMapController.onCityNameTap,
+                onTap: () => dzorMapController.onCityNameTap(),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -429,7 +429,7 @@ class MapView extends StatelessWidget {
                                             child: Row(
                                               children: [
                                                 InkWell(
-                                                  onTap:
+                                                  onTap: () =>
                                                       dzorMapController.zoomIn,
                                                   child: Icon(
                                                     Icons.add,
@@ -443,7 +443,7 @@ class MapView extends StatelessWidget {
                                                   ),
                                                 ),
                                                 InkWell(
-                                                  onTap:
+                                                  onTap: () =>
                                                       dzorMapController.zoomOut,
                                                   child: Icon(
                                                     Icons.remove,

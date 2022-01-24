@@ -313,7 +313,7 @@ class _ExploreProductTileUIState extends State<ExploreProductTileUI> {
                             color: lightGreen,
                           ),
                           child: InkWell(
-                            onTap: widget.onClick(),
+                            onTap: () => widget.onClick(),
                             child: Text(
                               SHOP_NOW.tr,
                               style: TextStyle(

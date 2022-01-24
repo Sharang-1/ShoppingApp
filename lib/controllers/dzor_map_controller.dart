@@ -346,7 +346,9 @@ class DzorMapController extends BaseController {
             TargetContent(
               align: ContentAlign.top,
               child: GestureDetector(
-                onTap: () => tutorialCoachMark.next(),
+                onTap: () {
+                  tutorialCoachMark.next();
+                },
                 child: Container(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,

@@ -96,7 +96,9 @@ class LoginView extends StatelessWidget {
                     children: controller.ageLookup!
                         .map(
                           (e) => InkWell(
-                            onTap: () => controller.onAgeChanged(e.id!),
+                            onTap: () {
+                              controller.onAgeChanged(e.id!);
+                            },
                             child: Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),

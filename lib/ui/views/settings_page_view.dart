@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_cast
+
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -202,13 +204,13 @@ class _SettingsViewState extends State<SettingsView> {
                                                   "assets/images/user.png"),
                                               image: (locator<HomeController>()
                                                       .isLoggedIn)
-                                                  ? Image.network(
+                                                  ? NetworkImage(
                                                       "$USER_PROFILE_PHOTO_BASE_URL/${controller.mUserDetails!.key}",
                                                       headers: {
                                                           "Authorization":
                                                               "Bearer ${locator<HomeController>().prefs!.getString(Authtoken) ?? ''}",
                                                         }) as ImageProvider
-                                                  : Image.asset(
+                                                  : AssetImage(
                                                           "assets/images/user.png")
                                                       as ImageProvider,
                                               imageErrorBuilder:
@@ -482,7 +484,7 @@ class SettingsCard extends StatelessWidget {
             color: iconColor ?? Colors.grey[500],
             size: 30,
           ),
-          onTap: onTap,
+          onTap: () => onTap,
         ),
       );
 }

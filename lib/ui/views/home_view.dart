@@ -155,7 +155,9 @@ class _HomeViewState extends State<HomeView> {
                       iconTheme: IconThemeData(color: Colors.grey.shade900),
                       backgroundColor: Colors.white,
                       title: InkWell(
-                        onTap: controller.onCityNameTap,
+                        onTap: () {
+                          controller.onCityNameTap();
+                        },
                         child: Column(
                           children: [
                             Text(
@@ -253,12 +255,14 @@ class _HomeViewState extends State<HomeView> {
                                       .value,
                                 ),
                               ),
-                              onTap: () async => controller.isLoggedIn
-                                  ? await BaseController.cart()
-                                  : await BaseController.showLoginPopup(
-                                      nextView: CartViewRoute,
-                                      shouldNavigateToNextScreen: true,
-                                    ),
+                              onTap: () async {
+                                controller.isLoggedIn
+                                    ? await BaseController.cart()
+                                    : await BaseController.showLoginPopup(
+                                        nextView: CartViewRoute,
+                                        shouldNavigateToNextScreen: true,
+                                      );
+                              },
                             ),
                           );
                         }),

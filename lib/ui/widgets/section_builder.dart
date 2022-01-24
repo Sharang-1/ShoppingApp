@@ -110,8 +110,8 @@ class SectionBuilder extends StatelessWidget {
   Widget build(BuildContext context) => Column(
         children: [
           if (header != null &&
-              (header?.title!.isNotEmpty ?? false) &&
-              (header?.subTitle!.isNotEmpty ?? false))
+              (header?.title?.isNotEmpty ?? false) &&
+              (header?.subTitle?.isNotEmpty ?? false))
             HomeViewListHeader(
               title: header!.title!,
               subTitle: header!.subTitle,

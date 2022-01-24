@@ -224,7 +224,7 @@ class SettingsCard extends StatelessWidget {
             color: Colors.grey[500],
             size: 30,
           ),
-          onTap: onTap,
+          onTap: () => onTap,
         ),
       );
 }

@@ -117,7 +117,7 @@ class _WishlistViewState extends State<WishlistView>
     return [
           ListTile(
             trailing: GestureDetector(
-              onTap: _clearRecentButtonAction,
+              onTap: () => _clearRecentButtonAction,
               child: Text("Clear Recent"),
             ),
           )
@@ -201,7 +201,7 @@ class _WishlistViewState extends State<WishlistView>
           ),
         if (showRecents && _getListByTabIndex().length != 0)
           GestureDetector(
-            onTap: _changeSearchFieldFocus,
+            onTap: () => _changeSearchFieldFocus,
             child: Container(
               color: Colors.black.withAlpha(150),
             ),
