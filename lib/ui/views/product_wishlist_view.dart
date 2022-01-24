@@ -77,8 +77,8 @@ class _WishListState extends State<WishList> {
                           disablePagination: true,
                           controller: WishListGridViewBuilderController(),
                           childAspectRatio: 0.8,
-                          tileBuilder:
-                              (BuildContext context, data, index, onDelete) {
+                          tileBuilder: (BuildContext context, data, index,
+                              onDelete, onUpdate) {
                             final Product dProduct = data as Product;
                             return ProductTileUI(
                               index: index,

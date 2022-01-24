@@ -167,7 +167,8 @@ class _WishlistViewState extends State<WishlistView>
               controller: ProductsGridViewBuilderController(),
               childAspectRatio: 0.75,
               onEmptyList: () {},
-              tileBuilder: (BuildContext context, data, index, onDelete) {
+              tileBuilder:
+                  (BuildContext context, data, index, onDelete, onUpdate) {
                 Fimber.d("test");
                 return ProductTileUI(
                   index: index,
@@ -189,7 +190,8 @@ class _WishlistViewState extends State<WishlistView>
             controller: SellersGridViewBuilderController(
                 removeId: '', subscriptionType: null, subscriptionTypes: []),
             disablePagination: true,
-            tileBuilder: (BuildContext context, data, index, onDelete) {
+            tileBuilder:
+                (BuildContext context, data, index, onDelete, onUpdate) {
               return Card(
                 child: Center(
                   child: Text(data.name),

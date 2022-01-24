@@ -13,12 +13,11 @@ import 'shimmer/shimmer_widget.dart';
 enum LoadMoreStatus { LOADING, STABLE }
 
 typedef TileFunctionBuilder = Widget Function(
-  BuildContext context,
-  dynamic data,
-  int index,
-  Future<bool> Function(int) onDelete,
-);
-// Future<bool> Function(int, dynamic) onUpdate
+    BuildContext context,
+    dynamic data,
+    int index,
+    Future<bool> Function(int) onDelete,
+    Future<bool>? Function(int, dynamic)? onUpdate);
 
 class GridListWidget<P, I> extends StatelessWidget {
   final BaseFilterModel? filter;
@@ -250,8 +249,8 @@ class _PaginatedGridViewState<I> extends State<PaginatedGridView> {
               controller: _scrollController,
               itemCount: items.length,
               physics: ScrollPhysics(),
-              itemBuilder: (_, index) =>
-                  widget.tileBuilder(context, items[index], index, onDelete),
+              itemBuilder: (_, index) => widget.tileBuilder(
+                  context, items[index], index, onDelete, null),
             )
           : widget.emptyListWidget!,
     );

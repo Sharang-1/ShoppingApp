@@ -68,383 +68,379 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                     )
                   : Padding(
                       padding: EdgeInsets.only(bottom: 60.0),
-                      child: Scrollbar(
-                        child: SingleChildScrollView(
-                            child: Container(
-                          color: Colors.white,
-                          child: Padding(
-                            padding: EdgeInsets.only(top: 30.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 10, horizontal: 30),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                            flex: 3,
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  right: 12.0),
-                                              child: FittedBox(
-                                                fit: BoxFit.scaleDown,
-                                                child: Container(
-                                                  height: 300,
-                                                  width: 300,
-                                                  child: ClipOval(
-                                                    child: FadeInImage
-                                                        .assetNetwork(
-                                                      width: 80,
-                                                      height: 80,
-                                                      fadeInCurve:
-                                                          Curves.easeIn,
-                                                      placeholder:
-                                                          "assets/images/product_preloading.png",
-                                                      image: widget.sellerData
-                                                                  ?.key !=
-                                                              null
-                                                          ? "$SELLER_PHOTO_BASE_URL/${widget.sellerData?.key}"
-                                                          : "https://images.unsplash.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-                                                      imageErrorBuilder:
-                                                          (context, error,
-                                                                  stackTrace) =>
-                                                              Image.asset(
+                      // child: Scrollbar(
+
+                      child: SingleChildScrollView(
+                          // physics: ScrollPhysics(),
+                          child: Container(
+                        color: Colors.white,
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 30.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 10, horizontal: 30),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          flex: 3,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 12.0),
+                                            child: FittedBox(
+                                              fit: BoxFit.scaleDown,
+                                              child: Container(
+                                                height: 300,
+                                                width: 300,
+                                                child: ClipOval(
+                                                  child:
+                                                      FadeInImage.assetNetwork(
+                                                    width: 80,
+                                                    height: 80,
+                                                    fadeInCurve: Curves.easeIn,
+                                                    placeholder:
                                                         "assets/images/product_preloading.png",
-                                                        width: 500,
-                                                        height: 500,
-                                                        fit: BoxFit.scaleDown,
-                                                      ),
+                                                    image: widget.sellerData
+                                                                ?.key !=
+                                                            null
+                                                        ? "$SELLER_PHOTO_BASE_URL/${widget.sellerData?.key}"
+                                                        : "https://images.unsplash.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
+                                                    imageErrorBuilder: (context,
+                                                            error,
+                                                            stackTrace) =>
+                                                        Image.asset(
+                                                      "assets/images/product_preloading.png",
+                                                      width: 500,
+                                                      height: 500,
                                                       fit: BoxFit.scaleDown,
                                                     ),
+                                                    fit: BoxFit.scaleDown,
                                                   ),
-                                                  decoration: BoxDecoration(
+                                                ),
+                                                decoration: BoxDecoration(
+                                                  color: Color.fromRGBO(
+                                                      255, 255, 255, 1),
+                                                  shape: BoxShape.circle,
+                                                  border: Border.all(
                                                     color: Color.fromRGBO(
-                                                        255, 255, 255, 1),
-                                                    shape: BoxShape.circle,
-                                                    border: Border.all(
-                                                      color: Color.fromRGBO(
-                                                          255, 255, 255, 0.1),
-                                                      width: 8.0,
-                                                    ),
+                                                        255, 255, 255, 0.1),
+                                                    width: 8.0,
                                                   ),
                                                 ),
                                               ),
                                             ),
                                           ),
-                                          Expanded(
-                                            flex: 7,
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 4.0),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  CustomText(
-                                                    widget.sellerData!.name ??
-                                                        "",
-                                                    isTitle: true,
-                                                    fontWeight: FontWeight.w700,
-                                                    fontSize:
-                                                        titleFontSizeStyle + 5,
-                                                  ),
-                                                  verticalSpaceTiny,
-                                                  CustomText(
-                                                    widget.sellerData!.contact!
-                                                            .address ??
-                                                        "",
-                                                    isTitle: true,
-                                                    color: Colors.grey,
-                                                    fontSize:
-                                                        titleFontSizeStyle - 4,
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      verticalSpaceSmall,
-                                      Divider(
-                                        color: Colors.grey.withOpacity(0.2),
-                                      ),
-                                      verticalSpaceSmall,
-                                      Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Container(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width -
-                                                  60,
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.rectangle,
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(curve15)),
-                                                border: Border.all(
-                                                    width: 0.25,
-                                                    color: Colors.grey),
-                                              ),
-                                              child: Row(
-                                                children: <Widget>[
-                                                  Container(
-                                                      decoration: BoxDecoration(
-                                                          color: textIconOrange,
-                                                          shape: BoxShape
-                                                              .rectangle,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      curve15)),
-                                                      width: ((MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .width -
-                                                                  60) /
-                                                              4) -
-                                                          1.2,
-                                                      height: 80,
-                                                      child: Column(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        children: <Widget>[
-                                                          CustomText(
-                                                            DateFormat('MMM')
-                                                                .format(DateTime
-                                                                    .now()),
-                                                            textStyle:
-                                                                TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              fontSize: 20,
-                                                              color:
-                                                                  Colors.white,
-                                                            ),
-                                                          ),
-                                                          verticalSpaceTiny_0,
-                                                          Icon(
-                                                            Icons
-                                                                .calendar_today,
-                                                            color: Colors.white,
-                                                          )
-                                                        ],
-                                                      )),
-                                                  horizontalSpaceSmall,
-                                                  Wrap(
-                                                    direction: Axis.horizontal,
-                                                    children: controller
-                                                        .timeSlotsData.timeSlot
-                                                        .map((timeSlot) => SizedBox(
-                                                            height: 80,
-                                                            width: (MediaQuery.of(context).size.width - 60 - ((MediaQuery.of(context).size.width - 60) / 4) - 10) / 3,
-                                                            child: ChoiceChip(
-                                                                backgroundColor: Colors.white,
-                                                                labelStyle: TextStyle(fontSize: subtitleFontSizeStyle - 3, fontWeight: controller.selectedWeekDay == timeSlot.day ? FontWeight.w600 : FontWeight.normal, color: controller.selectedWeekDay == timeSlot.day ? darkRedSmooth : Colors.grey),
-                                                                selectedColor: Colors.white,
-                                                                label: Column(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .center,
-                                                                  crossAxisAlignment:
-                                                                      CrossAxisAlignment
-                                                                          .center,
-                                                                  children: <
-                                                                      Widget>[
-                                                                    CircleAvatar(
-                                                                      radius:
-                                                                          25,
-                                                                      child:
-                                                                          Column(
-                                                                        mainAxisAlignment:
-                                                                            MainAxisAlignment.center,
-                                                                        children: [
-                                                                          CustomText(
-                                                                            timeSlot.day,
-                                                                            fontSize:
-                                                                                subtitleFontSizeStyle - 4,
-                                                                            color: controller.selectedWeekDay == timeSlot.day
-                                                                                ? Colors.white
-                                                                                : Colors.grey,
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                      backgroundColor: controller.selectedWeekDay ==
-                                                                              timeSlot.day
-                                                                          ? textIconOrange
-                                                                          : Colors.white,
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                                selected: controller.selectedWeekDay == timeSlot.day,
-                                                                onSelected: (val) {
-                                                                  setState(() {
-                                                                    controller.selectedWeekDay = val
-                                                                        ? timeSlot
-                                                                            .day
-                                                                        : "";
-                                                                  });
-                                                                })))
-                                                        .toList(),
-                                                  )
-                                                ],
-                                              )),
-                                        ],
-                                      ),
-                                      verticalSpaceMedium,
-                                      Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            CustomText(
-                                              "Time",
-                                              isTitle: true,
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: titleFontSizeStyle,
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 4.0),
-                                              child: Text(
-                                                "Choose an available time slot",
-                                                style: TextStyle(
-                                                  color: Colors.black45,
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
                                         ),
-                                      ),
-                                      verticalSpaceTiny,
-                                      Row(
-                                        children: <Widget>[
-                                          Expanded(
-                                              child: Container(
-                                                  height: 50,
-                                                  child: ListView(
-                                                    scrollDirection:
-                                                        Axis.horizontal,
-                                                    children: controller
-                                                        .timeSlotsData.timeSlot
-                                                        .firstWhere((t) =>
-                                                            t.day ==
-                                                            controller
-                                                                .selectedWeekDay)
-                                                        .time
-                                                        .where((e) {
-                                                          var dateTime =
-                                                              DateTime.now();
-                                                          if (weekDayMap[controller
-                                                                  .selectedWeekDay] ==
-                                                              dateTime
-                                                                  .weekday) {
-                                                            return e >
-                                                                dateTime.hour;
-                                                          }
-                                                          return true;
-                                                        })
-                                                        .toList()
-                                                        .map((time) => Padding(
-                                                            padding:
-                                                                EdgeInsets.only(
-                                                                    right: 5),
-                                                            child: ChoiceChip(
-                                                                backgroundColor:
-                                                                    controller.seltectedTime ==
-                                                                            time
+                                        Expanded(
+                                          flex: 7,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 4.0),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                CustomText(
+                                                  widget.sellerData!.name ?? "",
+                                                  isTitle: true,
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize:
+                                                      titleFontSizeStyle + 5,
+                                                ),
+                                                verticalSpaceTiny,
+                                                CustomText(
+                                                  widget.sellerData!.contact!
+                                                          .address ??
+                                                      "",
+                                                  isTitle: true,
+                                                  color: Colors.grey,
+                                                  fontSize:
+                                                      titleFontSizeStyle - 4,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    verticalSpaceSmall,
+                                    Divider(
+                                      color: Colors.grey.withOpacity(0.2),
+                                    ),
+                                    verticalSpaceSmall,
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Container(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width -
+                                                60,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.rectangle,
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(curve15)),
+                                              border: Border.all(
+                                                  width: 0.25,
+                                                  color: Colors.grey),
+                                            ),
+                                            child: Row(
+                                              children: <Widget>[
+                                                Container(
+                                                    decoration: BoxDecoration(
+                                                        color: textIconOrange,
+                                                        shape:
+                                                            BoxShape.rectangle,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(
+                                                                    curve15)),
+                                                    width:
+                                                        ((MediaQuery.of(context)
+                                                                        .size
+                                                                        .width -
+                                                                    60) /
+                                                                4) -
+                                                            1.2,
+                                                    height: 80,
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: <Widget>[
+                                                        CustomText(
+                                                          DateFormat('MMM')
+                                                              .format(DateTime
+                                                                  .now()),
+                                                          textStyle: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: 20,
+                                                            color: Colors.white,
+                                                          ),
+                                                        ),
+                                                        verticalSpaceTiny_0,
+                                                        Icon(
+                                                          Icons.calendar_today,
+                                                          color: Colors.white,
+                                                        )
+                                                      ],
+                                                    )),
+                                                horizontalSpaceSmall,
+                                                Wrap(
+                                                  direction: Axis.horizontal,
+                                                  children: controller
+                                                      .timeSlotsData.timeSlot
+                                                      .map((timeSlot) => SizedBox(
+                                                          height: 80,
+                                                          width: (MediaQuery.of(context).size.width - 60 - ((MediaQuery.of(context).size.width - 60) / 4) - 10) / 3,
+                                                          child: ChoiceChip(
+                                                              backgroundColor: Colors.white,
+                                                              labelStyle: TextStyle(fontSize: subtitleFontSizeStyle - 3, fontWeight: controller.selectedWeekDay == timeSlot.day ? FontWeight.w600 : FontWeight.normal, color: controller.selectedWeekDay == timeSlot.day ? darkRedSmooth : Colors.grey),
+                                                              selectedColor: Colors.white,
+                                                              label: Column(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .center,
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .center,
+                                                                children: <
+                                                                    Widget>[
+                                                                  CircleAvatar(
+                                                                    radius: 25,
+                                                                    child:
+                                                                        Column(
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .center,
+                                                                      children: [
+                                                                        CustomText(
+                                                                          timeSlot
+                                                                              .day,
+                                                                          fontSize:
+                                                                              subtitleFontSizeStyle - 4,
+                                                                          color: controller.selectedWeekDay == timeSlot.day
+                                                                              ? Colors.white
+                                                                              : Colors.grey,
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                    backgroundColor: controller.selectedWeekDay ==
+                                                                            timeSlot
+                                                                                .day
                                                                         ? textIconOrange
                                                                         : Colors
                                                                             .white,
-                                                                shape:
-                                                                    RoundedRectangleBorder(
-                                                                        borderRadius: BorderRadius.circular(
-                                                                            15),
-                                                                        side:
-                                                                            BorderSide(
-                                                                          color: controller.seltectedTime == time
-                                                                              ? textIconOrange
-                                                                              : Colors.grey,
-                                                                          width:
-                                                                              0.5,
-                                                                        )),
-                                                                labelStyle: TextStyle(
-                                                                    fontSize:
-                                                                        subtitleFontSizeStyle - 4,
-                                                                    fontWeight: controller.seltectedTime == time ? FontWeight.w600 : FontWeight.normal,
-                                                                    color: controller.seltectedTime == time ? Colors.white : Colors.grey),
-                                                                selectedColor: textIconOrange,
-                                                                label: Text(
-                                                                  getTime(time) +
-                                                                      " - " +
-                                                                      getTime(
-                                                                          time +
-                                                                              1),
-                                                                ),
-                                                                selected: controller.seltectedTime == time,
-                                                                onSelected: (val) {
-                                                                  setState(() {
-                                                                    controller
-                                                                            .seltectedTime =
-                                                                        time;
-                                                                    // controller.seltectedTime =
-                                                                    //     (val as int)
-                                                                    //         ? time
-                                                                    //         : "";
-                                                                  });
-                                                                })))
-                                                        .toList(),
-                                                  )))
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              selected: controller.selectedWeekDay == timeSlot.day,
+                                                              onSelected: (val) {
+                                                                setState(() {
+                                                                  controller.selectedWeekDay = val
+                                                                      ? timeSlot
+                                                                          .day
+                                                                      : "";
+                                                                });
+                                                              })))
+                                                      .toList(),
+                                                )
+                                              ],
+                                            )),
+                                      ],
+                                    ),
+                                    verticalSpaceMedium,
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          CustomText(
+                                            "Time",
+                                            isTitle: true,
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: titleFontSizeStyle,
+                                          ),
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 4.0),
+                                            child: Text(
+                                              "Choose an available time slot",
+                                              style: TextStyle(
+                                                color: Colors.black45,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                          ),
                                         ],
                                       ),
-                                      verticalSpaceMedium,
-                                      Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: CustomText(
-                                          "Task",
-                                          isTitle: true,
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: titleFontSizeStyle,
-                                        ),
+                                    ),
+                                    verticalSpaceTiny,
+                                    Row(
+                                      children: <Widget>[
+                                        Expanded(
+                                            child: Container(
+                                                height: 50,
+                                                child: ListView(
+                                                  scrollDirection:
+                                                      Axis.horizontal,
+                                                  children: controller
+                                                      .timeSlotsData.timeSlot
+                                                      .firstWhere((t) =>
+                                                          t.day ==
+                                                          controller
+                                                              .selectedWeekDay)
+                                                      .time
+                                                      .where((e) {
+                                                        var dateTime =
+                                                            DateTime.now();
+                                                        if (weekDayMap[controller
+                                                                .selectedWeekDay] ==
+                                                            dateTime.weekday) {
+                                                          return e >
+                                                              dateTime.hour;
+                                                        }
+                                                        return true;
+                                                      })
+                                                      .toList()
+                                                      .map((time) => Padding(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  right: 5),
+                                                          child: ChoiceChip(
+                                                              backgroundColor:
+                                                                  controller.seltectedTime == time
+                                                                      ? textIconOrange
+                                                                      : Colors
+                                                                          .white,
+                                                              shape:
+                                                                  RoundedRectangleBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              15),
+                                                                      side:
+                                                                          BorderSide(
+                                                                        color: controller.seltectedTime ==
+                                                                                time
+                                                                            ? textIconOrange
+                                                                            : Colors.grey,
+                                                                        width:
+                                                                            0.5,
+                                                                      )),
+                                                              labelStyle: TextStyle(
+                                                                  fontSize: subtitleFontSizeStyle - 4,
+                                                                  fontWeight: controller.seltectedTime == time ? FontWeight.w600 : FontWeight.normal,
+                                                                  color: controller.seltectedTime == time ? Colors.white : Colors.grey),
+                                                              selectedColor: textIconOrange,
+                                                              label: Text(
+                                                                getTime(time) +
+                                                                    " - " +
+                                                                    getTime(
+                                                                        time +
+                                                                            1),
+                                                              ),
+                                                              selected: controller.seltectedTime == time,
+                                                              onSelected: (val) {
+                                                                setState(() {
+                                                                  controller
+                                                                          .seltectedTime =
+                                                                      time;
+                                                                  // controller.seltectedTime =
+                                                                  //     (val as int)
+                                                                  //         ? time
+                                                                  //         : "";
+                                                                });
+                                                              })))
+                                                      .toList(),
+                                                )))
+                                      ],
+                                    ),
+                                    verticalSpaceMedium,
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: CustomText(
+                                        "Task",
+                                        isTitle: true,
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: titleFontSizeStyle,
                                       ),
-                                      verticalSpaceTiny,
-                                      DropdownButton(
-                                        hint: Text("Select Your Message"),
-                                        value: _taskMsg == "" ? null : _taskMsg,
-                                        items: (<String>[
-                                          "Customised stitching",
-                                          "Design new Apparel",
-                                          "Browse & Shop",
-                                          "Alterations",
-                                          "Other"
-                                        ].map((e) => DropdownMenuItem<String>(
-                                            value: e,
-                                            child: Text(e)))).toList(),
-                                        onChanged: (value) {
-                                          setState(() {
-                                            _taskMsg = value.toString();
-                                          });
-                                        },
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                    verticalSpaceTiny,
+                                    DropdownButton(
+                                      hint: Text("Select Your Message"),
+                                      value: _taskMsg == "" ? null : _taskMsg,
+                                      items: (<String>[
+                                        "Customised stitching",
+                                        "Design new Apparel",
+                                        "Browse & Shop",
+                                        "Alterations",
+                                        "Other"
+                                      ].map((e) => DropdownMenuItem<String>(
+                                          value: e, child: Text(e)))).toList(),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          _taskMsg = value.toString();
+                                        });
+                                      },
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                        )),
-                      ),
+                        ),
+                      )),
+                      // ),
                     ),
               Align(
                 alignment: Alignment.topRight,

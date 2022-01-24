@@ -157,7 +157,9 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                                 ),
                               ),
                               InkWell(
-                                onTap: widget.onRemove(),
+                                onTap: () {
+                                  widget.onRemove();
+                                },
                                 child: Icon(
                                   FontAwesomeIcons.trashAlt,
                                   color: Colors.grey,

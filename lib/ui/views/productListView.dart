@@ -436,8 +436,8 @@ class _ProductListViewState extends State<ProductListView> {
                               childAspectRatio: 0.7,
                             ),
                           ),
-                          tileBuilder:
-                              (BuildContext context, data, index, onUpdate) {
+                          tileBuilder: (BuildContext context, data, index,
+                              onUpdate, onDelete) {
                             return Container(
                               decoration: BoxDecoration(
                                 border: Border(

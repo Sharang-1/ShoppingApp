@@ -159,7 +159,7 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
                                   ),
                                   childAspectRatio: 0.7,
                                   tileBuilder: (BuildContext context, data,
-                                      index, onDelete) {
+                                      index, onUpdate, onDelete) {
                                     return ProductTileUI(
                                       data: data,
                                       cardPadding: EdgeInsets.zero,

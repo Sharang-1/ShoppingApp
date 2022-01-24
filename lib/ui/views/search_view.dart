@@ -200,9 +200,9 @@ class _SearchViewState extends State<SearchView>
                                 childAspectRatio: 0.7,
                               ),
                             ),
-                            tileBuilder:
-                                (BuildContext context, data, index, onDelete) =>
-                                    Container(
+                            tileBuilder: (BuildContext context, data, index,
+                                    onDelete, onUpdate) =>
+                                Container(
                               decoration: BoxDecoration(
                                 border: Border(
                                   right: BorderSide(
@@ -249,9 +249,9 @@ class _SearchViewState extends State<SearchView>
                                 childAspectRatio: 3.50,
                               ),
                             ),
-                            tileBuilder:
-                                (BuildContext context, data, index, onDelete) =>
-                                    Container(
+                            tileBuilder: (BuildContext context, data, index,
+                                    onDelete, onUpdate) =>
+                                Container(
                               decoration: BoxDecoration(
                                 border: Border(
                                   bottom: BorderSide(

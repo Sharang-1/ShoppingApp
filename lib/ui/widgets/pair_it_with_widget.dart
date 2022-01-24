@@ -67,8 +67,8 @@ class PairItWithWidget extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 emptyListWidget: Container(),
                 disablePagination: true,
-                tileBuilder:
-                    (BuildContext context, productData, index, onDelete) {
+                tileBuilder: (BuildContext context, productData, index,
+                    onDelete, onUpdate) {
                   var product = productData as Product;
                   return GestureDetector(
                     onTap: () {

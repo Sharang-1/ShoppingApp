@@ -138,12 +138,8 @@ class _PromotionProductState extends State<PromotionProduct> {
                   emptyListWidget: EmptyListWidget(
                     text: "",
                   ),
-                  tileBuilder: (
-                    BuildContext context,
-                    data,
-                    index,
-                    onDelete,
-                  ) {
+                  tileBuilder:
+                      (BuildContext context, data, index, onDelete, onUpdate) {
                     final Product dProduct = data as Product;
                     return Container(
                       decoration: BoxDecoration(
