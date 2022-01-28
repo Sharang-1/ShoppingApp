@@ -338,14 +338,16 @@ class _SettingsViewState extends State<SettingsView> {
                           name: "${SETTINGS_MY_APPOINTMENT.tr}",
                           color: Colors.black87,
                           iconColor: Colors.black54,
-                          onTap: () async =>
-                              locator<HomeController>().isLoggedIn
-                                  ? await NavigationService.to(
-                                      MyAppointmentViewRoute)
-                                  : await BaseController.showLoginPopup(
-                                      nextView: MyAppointmentViewRoute,
-                                      shouldNavigateToNextScreen: true,
-                                    ),
+                          onTap: () async {
+                            print("123");
+                            locator<HomeController>().isLoggedIn
+                                ? await NavigationService.to(
+                                MyAppointmentViewRoute)
+                                : await BaseController.showLoginPopup(
+                              nextView: MyAppointmentViewRoute,
+                              shouldNavigateToNextScreen: true,
+                            );
+                          },
                           icon: Icons.event,
                         ),
                         verticalSpaceSmall,
@@ -484,7 +486,7 @@ class SettingsCard extends StatelessWidget {
             color: iconColor ?? Colors.grey[500],
             size: 30,
           ),
-          onTap: () => onTap,
+          onTap: () { onTap();},
         ),
       );
 }

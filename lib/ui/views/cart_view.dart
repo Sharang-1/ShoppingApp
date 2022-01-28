@@ -236,39 +236,39 @@ class _CartViewState extends State<CartView> {
                                             verticalSpace(10),
                                             SizedBox(
                                               height: 300,
-                                              child: PairItWithWidget(
-                                                exceptProductIDs:
-                                                    exceptProductIDs,
-                                                onEmpty: () async {
-                                                  await Future.delayed(
-                                                    Duration(
-                                                      milliseconds: 5,
-                                                    ),
-                                                  );
-                                                  controller.hidePairItWith();
-                                                },
-                                                onProductClicked:
-                                                    (product) async {
-                                                  showModalBottomSheet(
-                                                    context: context,
-                                                    builder: (context) =>
-                                                        Container(
-                                                      height:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .height *
-                                                              0.9,
-                                                      child: ProductIndiView(
-                                                        data: product,
-                                                        fromCart: true,
-                                                      ),
-                                                    ),
-                                                    isScrollControlled: true,
-                                                  ).then((void v) => setState(
-                                                      () =>
-                                                          {key = UniqueKey()}));
-                                                },
-                                              ),
+                                              // child: PairItWithWidget(
+                                              //   exceptProductIDs:
+                                              //       exceptProductIDs,
+                                              //   onEmpty: () async {
+                                              //     await Future.delayed(
+                                              //       Duration(
+                                              //         milliseconds: 5,
+                                              //       ),
+                                              //     );
+                                              //     controller.hidePairItWith();
+                                              //   },
+                                              //   onProductClicked:
+                                              //       (product) async {
+                                              //     showModalBottomSheet(
+                                              //       context: context,
+                                              //       builder: (context) =>
+                                              //           Container(
+                                              //         height:
+                                              //             MediaQuery.of(context)
+                                              //                     .size
+                                              //                     .height *
+                                              //                 0.9,
+                                              //         child: ProductIndiView(
+                                              //           data: product,
+                                              //           fromCart: true,
+                                              //         ),
+                                              //       ),
+                                              //       isScrollControlled: true,
+                                              //     ).then((void v) => setState(
+                                              //         () =>
+                                              //             {key = UniqueKey()}));
+                                              //   },
+                                              // ),
                                             ),
                                             verticalSpace(15),
                                           ],

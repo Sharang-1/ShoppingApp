@@ -210,7 +210,7 @@ class _ProductListViewState extends State<ProductListView> {
           color: Colors.black,
         ),
       ),
-      floatingActionButton: (widget.sellerPhoto != null)
+      floatingActionButton: (widget.sellerPhoto != null && widget.sellerPhoto != "")
           ? FloatingActionButton.extended(
               label: Text(
                 REVIEWS.tr,
@@ -221,10 +221,13 @@ class _ProductListViewState extends State<ProductListView> {
               ),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30)),
-              onPressed: showReviewBottomsheet,
+              onPressed: ()
+        {
+          showReviewBottomsheet();
+        },
               backgroundColor: logoRed,
             )
-          : null,
+          : Container(),
       backgroundColor: Colors.white,
       body: SafeArea(
         top: false,
@@ -294,7 +297,7 @@ class _ProductListViewState extends State<ProductListView> {
                     ),
                   ),
                 ],
-                if (widget.sellerPhoto != null)
+                if (widget.sellerPhoto != null && widget.sellerPhoto != "")
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [

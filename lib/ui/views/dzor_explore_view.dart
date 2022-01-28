@@ -1,3 +1,4 @@
+import 'package:compound/ui/widgets/explore_product_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -149,9 +150,10 @@ class _DzorExploreViewState extends State<DzorExploreView> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
+
                     SectionBuilder(
                       context: context,
-                      header: SectionHeader(title: RECOMMENDED_DESIGNERS.tr),
+                      header: SectionHeader(title: RECOMMENDED_DESIGNERS.tr, subTitle: " "),
                       onEmptyList: () {},
                       layoutType: LayoutType.EXPLORE_DESIGNER_LAYOUT,
                       scrollDirection: Axis.horizontal,
@@ -159,8 +161,10 @@ class _DzorExploreViewState extends State<DzorExploreView> {
                           random: true, removeId: ''),
                     ),
                     verticalSpaceSmall,
+
                     SectionBuilder(
                       context: context,
+                      // header: SectionHeader(title: " ", subTitle: " "),
                       layoutType: LayoutType.PRODUCT_LAYOUT_3,
                       onEmptyList: () {},
                       scrollDirection: Axis.vertical,

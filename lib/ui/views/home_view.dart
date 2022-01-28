@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
+// import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../constants/route_names.dart';
 import '../../controllers/base_controller.dart';
@@ -130,23 +130,26 @@ class _HomeViewState extends State<HomeView> {
               left: false,
               right: false,
               bottom: false,
-              child: SmartRefresher(
-                enablePullDown: true,
-                footer: Container(),
-                header: WaterDropHeader(
-                  waterDropColor: logoRed,
-                  refresh: Center(
-                    child: Image.asset(
-                      "assets/images/loading_img.gif",
-                      height: 25,
-                      width: 25,
-                    ),
-                  ),
-                  complete: Container(),
-                ),
-                controller: controller.refreshController,
-                onRefresh: () {
-                  controller.onRefresh(context: context);
+              child: RefreshIndicator(
+                displacement: 10,
+                edgeOffset: 50,
+
+                // enablePullDown: true,
+                // footer: Container(),
+                // header: WaterDropHeader(
+                //   waterDropColor: logoRed,
+                //   refresh: Center(
+                //     child: Image.asset(
+                //       "assets/images/loading_img.gif",
+                //       height: 25,
+                //       width: 25,
+                //     ),
+                //   ),
+                //   complete: Container(),
+                // ),
+                // controller: controller.refreshController,
+                onRefresh: () async {
+                  await controller.onRefresh();
                 },
                 child: CustomScrollView(
                   slivers: <Widget>[

@@ -97,7 +97,6 @@ class _HomeViewListState extends State<HomeViewList> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // SectionDivider(),
-                      Text("Here"),
                       SectionBuilder(
                         key: widget.productUniqueKey ?? UniqueKey(),
                         context: context,
@@ -118,8 +117,7 @@ class _HomeViewListState extends State<HomeViewList> {
                         header: SectionHeader(
                           title: controller.remoteConfig!
                               .getString(HOMESCREEN_SECTION_4_TITLE_EN),
-                          subTitle: controller.remoteConfig!
-                              .getString(HOMESCREEN_SECTION_4_SUBTITLE_EN),
+                          subTitle: "",
                           viewAll: () {
                             BaseController.goToProductListPage(ProductPageArg(
                               queryString:
@@ -248,35 +246,35 @@ class _HomeViewListState extends State<HomeViewList> {
                   SectionDivider(),
                   BottomPromotion(promotion: controller.bottomPromotion[1])
                 ],
-                FutureSectionBuilder(
-                  duration: sectionDelay['SECTION5']!,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SectionDivider(),
-                      SectionBuilder(
-                        key: widget.sellerUniqueKey ?? UniqueKey(),
-                        context: context,
-                        layoutType: LayoutType.DESIGNER_ID_3_LAYOUT,
-                        fromHome: true,
-                        onEmptyList: () {},
-                        controller: SellersGridViewBuilderController(
-                          random: true,
-                          subscriptionType: 3,
-                          boutiquesOnly: true,
-                          limit: 12,
-                        ),
-                        scrollDirection: Axis.horizontal,
-                        header: SectionHeader(
-                          title: controller.remoteConfig!
-                              .getString(HOMESCREEN_SECTION_5_TITLE_EN),
-                          subTitle: controller.remoteConfig!
-                              .getString(HOMESCREEN_SECTION_5_SUBTITLE_EN),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                // FutureSectionBuilder(
+                //   duration: sectionDelay['SECTION5']!,
+                //   child: Column(
+                //     crossAxisAlignment: CrossAxisAlignment.start,
+                //     children: [
+                //       SectionDivider(),
+                //       SectionBuilder(
+                //         key: widget.sellerUniqueKey ?? UniqueKey(),
+                //         context: context,
+                //         layoutType: LayoutType.DESIGNER_ID_3_LAYOUT,
+                //         fromHome: true,
+                //         onEmptyList: () {},
+                //         controller: SellersGridViewBuilderController(
+                //           random: true,
+                //           subscriptionType: 3,
+                //           boutiquesOnly: true,
+                //           limit: 12,
+                //         ),
+                //         scrollDirection: Axis.horizontal,
+                //         header: SectionHeader(
+                //           title: controller.remoteConfig!
+                //               .getString(HOMESCREEN_SECTION_5_TITLE_EN),
+                //           subTitle: controller.remoteConfig!
+                //               .getString(HOMESCREEN_SECTION_5_SUBTITLE_EN),
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
                 FutureSectionBuilder(
                   duration: sectionDelay['SECTION6']!,
                   child: Column(

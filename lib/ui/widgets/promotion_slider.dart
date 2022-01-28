@@ -197,9 +197,9 @@ class BottomPromotion extends StatelessWidget {
           await NavigationService.to(
             ProductsListRoute,
             arguments: ProductPageArg(
-                title: promotion.name ?? '',
-                queryString: "",
-                subCategory: "",
+                title: promotion.name,
+                queryString: null,
+                subCategory: null,
                 promotionKey: promotion.key,
                 demographicIds:
                     promotion.demographics?.map((e) => e.id ?? 0).toList() ??

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -162,9 +163,10 @@ class _CartTileState extends State<CartTile> {
                 child: Row(
                   children: [
                     Image.asset(
-                      'assets/images/coupon.png',
-                      height: 20,
-                      width: 20,
+                      'assets/images/coupon_icon.png',
+                      // color: Colors.black,
+                      height: 30,
+                      width: 30,
                     ),
                     horizontalSpaceSmall,
                     Text(

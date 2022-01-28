@@ -64,7 +64,7 @@ class UserDetails {
         age: json["age"] == null ? null : Age.fromJson(json["age"]),
         gender: json["gender"] == null ? null : Gender.fromJson(json["gender"]),
         measure:
-            json["measure"] == null ? null : Measure.fromJson(json["measure"]),
+            json["measure"] == null ? Measure() : Measure.fromJson(json["measure"]),
         email: json["email"] != null ? json["email"] : null,
         size: json["size"],
         contact: UserDetailsContact.fromJson(json["contact"]),

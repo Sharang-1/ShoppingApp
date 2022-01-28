@@ -15,7 +15,7 @@ class IntroPage extends StatelessWidget {
         slides: [
           Slide(
             description:
-                "Discover traditional wear designers with unique philosophies around you.",
+                "Discover Unique Home Grown Brands around you",
             marginDescription: EdgeInsets.only(left: 10, right: 10, top: 20),
             styleDescription: TextStyle(
                 fontWeight: FontWeight.bold,
@@ -34,7 +34,7 @@ class IntroPage extends StatelessWidget {
           ),
           Slide(
               description:
-                  " Get authentic regional traditional wear delivered home.",
+                  "Get Unique and Special products delivered Home",
               marginDescription: EdgeInsets.only(left: 10, right: 10, top: 20),
               marginTitle: EdgeInsets.only(top: 100),
               styleDescription: TextStyle(

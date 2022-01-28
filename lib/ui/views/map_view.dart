@@ -134,7 +134,7 @@ class MapView extends StatelessWidget {
                                           // )),
                                           "${client.contact?.city ?? ''}",
                                           style: TextStyle(
-                                            fontSize: subtitleFontSize - 2,
+                                            fontSize: subtitleFontSize - 5,
                                             color: Colors.grey[500],
                                           ),
                                         ),

@@ -64,7 +64,9 @@ class UserDetailsController extends BaseController {
     final ImagePicker _picker = ImagePicker();
     //ignore: deprecated_member_use
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
+
+    if (pickedFile!.path != null) {
+      print("Hello Pic changing $pickedFile");
       file = File(pickedFile.path);
       if (await _apiService.updateUserPic(file)) {
         dateTimeString = DateTime.now().millisecondsSinceEpoch.toString();

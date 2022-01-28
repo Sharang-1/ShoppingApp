@@ -26,7 +26,7 @@ class ProductsGridViewBuilderController
 
   @override
   Future init() async {
-    return null;
+    // return null;
   }
 
   @override

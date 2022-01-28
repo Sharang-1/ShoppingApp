@@ -366,8 +366,7 @@ class _PlacePickerState extends State<PlacePicker> {
   Widget _buildMapWithLocation() {
     if (widget.useCurrentLocation != null && widget.useCurrentLocation!) {
       return FutureBuilder(
-          future: provider!
-              .updateCurrentLocation(widget.forceAndroidLocationManager),
+          future: provider!.updateCurrentLocation(widget.forceAndroidLocationManager),
           builder: (context, snap) {
             if (snap.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
@@ -375,8 +374,7 @@ class _PlacePickerState extends State<PlacePicker> {
               if (provider!.currentPosition == null) {
                 return _buildMap(widget.initialPosition);
               } else {
-                return _buildMap(LatLng(provider!.currentPosition!.latitude,
-                    provider!.currentPosition!.longitude));
+                return _buildMap(LatLng(provider!.currentPosition!.latitude, provider!.currentPosition!.longitude));
               }
             }
           });

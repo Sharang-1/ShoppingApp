@@ -34,9 +34,7 @@ import 'base_controller.dart';
 import 'dynamic_content_controller.dart';
 
 class HomeController extends BaseController {
-  final RefreshController refreshController =
-      RefreshController(initialRefresh: false);
-
+  late RefreshController refreshController;
   final _cartLocalStoreService = locator<CartLocalStoreService>();
   final _wishListService = locator<WishListService>();
   final _apiService = locator<APIService>();
@@ -55,7 +53,7 @@ class HomeController extends BaseController {
   bool isLoggedIn = false;
   String? currentLanguage;
 
-  void onRefresh({context, args}) async {
+   onRefresh({context, args}) async {
     try {
       if (remoteConfig == null)
         remoteConfig = _remoteConfigService.remoteConfig;
@@ -130,7 +128,7 @@ class HomeController extends BaseController {
 
   Future<void> updateUserDetails() async {
     if (isLoggedIn) {
-      details = await _apiService.getUserData();
+      details = await _apiService.getUserData() ?? UserDetails();
       if ((details?.contact?.address?.isEmpty ?? true) ||
           (details?.contact?.googleAddress?.isEmpty ?? true)) {
         isProfileComplete = false;
@@ -151,7 +149,7 @@ class HomeController extends BaseController {
   @override
   void onInit() async {
     super.onInit();
-
+    refreshController = RefreshController(initialRefresh: false);
     key = UniqueKey();
     productKey = UniqueKey();
     sellerKey = UniqueKey();

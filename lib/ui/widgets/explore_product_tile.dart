@@ -101,10 +101,12 @@ class _ExploreProductTileUIState extends State<ExploreProductTileUI> {
         widget.data.video?.videos.map((e) => e.name ?? "").toList() ?? [];
     final String fontFamily = "Poppins";
 
+
     return InkWell(
       onTap: () {
         widget.onClick(fontFamily);
       },
+
       child: Container(
         padding: EdgeInsets.only(top: 8.0),
         decoration: BoxDecoration(
@@ -114,8 +116,10 @@ class _ExploreProductTileUIState extends State<ExploreProductTileUI> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             InkWell(
-              onTap: () =>
-                  BaseController.goToSellerPage(widget.data.account!.key ?? ""),
+              onTap: () {
+                BaseController.goToSellerPage(widget.data.account!.key ?? "");
+              }
+                  ,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Row(

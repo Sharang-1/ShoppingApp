@@ -354,6 +354,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                 scrollDirection: Axis.horizontal,
                                 child: Row(
                                   children: [
+                                    "Free Delivery",
                                     PRODUCTSCREEN_ASSURED.tr,
                                     if (available! &&
                                         (totalQuantity != 0) &&
@@ -1184,11 +1185,11 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                   ),
                                 ],
                               ),
-                              sectionDivider(),
-                              ReviewWidget(
-                                onSubmit: () {},
-                                id: productId,
-                              ),
+                              // sectionDivider(),
+                              // ReviewWidget(
+                              //   onSubmit: () {},
+                              //   id: productId,
+                              // ),
                               sectionDivider(),
                               Row(
                                 mainAxisAlignment:
