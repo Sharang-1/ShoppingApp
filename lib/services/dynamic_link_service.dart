@@ -6,7 +6,20 @@ import 'navigation_service.dart';
 
 class DynamicLinkService {
   Future handleDynamicLink() async {
-    // FirebaseDynamicLinks.instance.onLink(
+    FirebaseDynamicLinks.instance.onLink.listen((linkData) {
+      final Uri deepLink = linkData.link;
+        if (deepLink != null) {
+          List<String> segments = deepLink.pathSegments;
+          Map<String, String> data = {
+            "contentType": segments[0],
+            "id": segments[1],
+          };
+          NavigationService.to(DynamicContentViewRoute, arguments: data);
+        }
+    }).onError((error){
+        Fimber.e("Dynamic Link Failed : ${error.toString()}");
+    });
+    //   (
     //     onSuccess: (PendingDynamicLinkData linkData) async {
     //   final Uri deepLink = linkData?.link;
     //   if (deepLink != null) {
@@ -17,9 +30,14 @@ class DynamicLinkService {
     //     };
     //     NavigationService.to(DynamicContentViewRoute, arguments: data);
     //   }
-    // }, onError: (Error e) {
-    //   // Fimber.e("Dynamic Link Failed : ${e.message}");
-    //   return;
+    // }, onError: (final Uri deepLink = linkData?.link;
+    //     //   if (deepLink != null) {
+    //     //     List<String> segments = deepLink.pathSegments;
+    //     //     Map<String, String> data = {
+    //     //       "contentType": segments[0],
+    //     //       "id": segments[1],
+    //     //     };
+    //     //     NavigationService.to(DynamicContentViewRoute, arguments: data);
     // });
 
     // FirebaseDynamicLinks.instance.onLink(
@@ -37,19 +55,6 @@ class DynamicLinkService {
     //   // Fimber.e("Dynamic Link Failed : ${e.message}");
     //   return;
     // });
-
-    final PendingDynamicLinkData? data =
-        await FirebaseDynamicLinks.instance.getInitialLink();
-    final Uri? deepLink = data!.link;
-
-    if (deepLink != null) {
-      List<String> segments = deepLink.pathSegments;
-      Map<String, String> data = {
-        "contentType": segments[0],
-        "id": segments[1],
-      };
-      NavigationService.to(DynamicContentViewRoute, arguments: data);
-    }
   }
 
   //// NEED TO SOLVE
@@ -59,10 +64,14 @@ class DynamicLinkService {
         link: Uri.parse(url),
         androidParameters: AndroidParameters(
             packageName: "in.dzor.dzor_app", minimumVersion: 0),
-        iosParameters: IosParameters(
+        iosParameters: IOSParameters(
             bundleId: "in.dzor.dzor-app",
             minimumVersion: '1.0.0',
             appStoreId: '1562083632'));
+
+    final ShortDynamicLink shortDynamicLink = await FirebaseDynamicLinks.instance.buildShortLink(parameters);
+    final Uri uri = shortDynamicLink.shortUrl;
+    return uri.toString();
 
     // final link = await parameters.buildUrl();
 

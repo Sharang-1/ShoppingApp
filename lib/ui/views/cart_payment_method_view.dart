@@ -84,14 +84,12 @@ class _PaymentMethodState extends State<PaymentMethod> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.billingAddress.city != null &&
-        !<String>["AHMEDABAD"]
-            .contains(widget.billingAddress.city!.toUpperCase())) {
-      setState(() {
-        paymentMethodRadioValue = 2;
-        paymentMethodGrpValue = 2;
-      });
-    }
+    // if (widget.billingAddress.city != null) {
+    //   setState(() {
+    //     paymentMethodRadioValue = 2;
+    //     paymentMethodGrpValue = 2;
+    //   });
+    // }
     return GetBuilder<CartPaymentMethodController>(
       init: CartPaymentMethodController(city: widget.billingAddress.city ?? ""),
       builder: (controller) => Scaffold(
@@ -261,6 +259,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                               (int key) {
                                 return GestureDetector(
                                   onTap: () {
+                                    print(controller.paymentOptions);
                                     setState(() {
                                       paymentMethodGrpValue =
                                           paymentMethodRadioValue = key;
@@ -292,6 +291,9 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                               groupValue: paymentMethodGrpValue,
                                               onChanged: (val) {
                                                 print(val);
+                                                paymentMethodGrpValue =
+                                                    paymentMethodRadioValue = key;
+                                                setState(() {});
                                               },
                                             ),
                                             Expanded(
@@ -308,6 +310,15 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                                     isBold: true,
                                                     color: Colors.grey[700]!,
                                                   ),
+                                                  if (key == 1)
+                                                    verticalSpaceTiny,
+                                                  if (key == 1)
+                                                    CustomText(
+                                                      "No Cash Accepted",
+                                                      fontSize:
+                                                      titleFontSize - 4,
+                                                    ),
+
                                                   if (key == 2)
                                                     verticalSpaceTiny,
                                                   if (key == 2)

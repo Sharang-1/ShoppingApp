@@ -96,6 +96,7 @@ const Map<int, String> workOnMap = {
 
 Map<String, Color> tagColors = {
   PRODUCTSCREEN_ASSURED.tr: Colors.blueAccent,
+
   PRODUCTSCREEN_RETURNS.tr: Colors.grey[700]!,
   PRODUCTSCREEN_IN_STOCK.tr: lightGreen,
   PRODUCTSCREEN_SOLD_OUT.tr: logoRed,
@@ -354,85 +355,89 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                 scrollDirection: Axis.horizontal,
                                 child: Row(
                                   children: [
-                                    "Free Delivery",
-                                    PRODUCTSCREEN_ASSURED.tr,
-                                    if (available! &&
-                                        (totalQuantity != 0) &&
-                                        locator<HomeController>()
-                                                .cityName
-                                                .toLowerCase() ==
-                                            'ahmedabad')
-                                      PRODUCTSCREEN_COD.tr,
-                                    PRODUCTSCREEN_RETURNS.tr,
-                                    if (available! && (totalQuantity != 0))
-                                      PRODUCTSCREEN_IN_STOCK.tr,
-                                    if ((available! && (totalQuantity == 0)) ||
-                                        !available!)
-                                      PRODUCTSCREEN_SOLD_OUT.tr,
-                                    PRODUCTSCREEN_JUST_HERE.tr,
-                                    if ((productData?.stitchingType?.id ??
-                                            -1) ==
-                                        2)
-                                      PRODUCTSCREEN_UNSTITCHED.tr,
-                                    if (productData!.whoMadeIt!.id == 2)
-                                      PRODUCTSCREEN_HANDCRAFTED.tr,
-                                    if (totalQuantity == 1)
-                                      PRODUCTSCREEN_ONE_IN_MARKET.tr,
-                                  ]
-                                      .map(
-                                        (e) => InkWell(
-                                          onTap: e.contains(
-                                                  PRODUCTSCREEN_RETURNS.tr)
-                                              ? () async =>
-                                                  await showModalBottomSheet(
-                                                    isScrollControlled: true,
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.vertical(
-                                                        top: Radius.circular(
-                                                            curve10),
+                                    Text("Free Delivery", style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),),
+                                    Row(
+                                      children: [
+                                        PRODUCTSCREEN_ASSURED.tr,
+                                        if (available! &&
+                                            (totalQuantity != 0) &&
+                                            locator<HomeController>()
+                                                    .cityName
+                                                    .toLowerCase() ==
+                                                'ahmedabad')
+                                          PRODUCTSCREEN_COD.tr,
+                                        PRODUCTSCREEN_RETURNS.tr,
+                                        if (available! && (totalQuantity != 0))
+                                          PRODUCTSCREEN_IN_STOCK.tr,
+                                        if ((available! && (totalQuantity == 0)) ||
+                                            !available!)
+                                          PRODUCTSCREEN_SOLD_OUT.tr,
+                                        PRODUCTSCREEN_JUST_HERE.tr,
+                                        if ((productData?.stitchingType?.id ??
+                                                -1) ==
+                                            2)
+                                          PRODUCTSCREEN_UNSTITCHED.tr,
+                                        if (productData!.whoMadeIt!.id == 2)
+                                          PRODUCTSCREEN_HANDCRAFTED.tr,
+                                        if (totalQuantity == 1)
+                                          PRODUCTSCREEN_ONE_IN_MARKET.tr,
+                                      ]
+                                          .map(
+                                            (e) => InkWell(
+                                              onTap: e.contains(
+                                                      PRODUCTSCREEN_RETURNS.tr)
+                                                  ? () async =>
+                                                      await showModalBottomSheet(
+                                                        isScrollControlled: true,
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius.vertical(
+                                                            top: Radius.circular(
+                                                                curve10),
+                                                          ),
+                                                        ),
+                                                        clipBehavior:
+                                                            Clip.antiAlias,
+                                                        context: context,
+                                                        builder: (con) =>
+                                                            HelpView(),
+                                                      )
+                                                  : null,
+                                              child: Container(
+                                                margin: EdgeInsets.symmetric(
+                                                  vertical: 4.0,
+                                                  horizontal: 8.0,
+                                                ),
+                                                child: Row(
+                                                  children: [
+                                                    if (e.contains(
+                                                        PRODUCTSCREEN_ASSURED
+                                                            .tr)) ...[
+                                                      Image.asset(
+                                                        "assets/images/assured.png",
+                                                        color: Colors.blueAccent,
+                                                        height: 16,
+                                                        width: 16,
+                                                      ),
+                                                      horizontalSpaceTiny,
+                                                    ],
+                                                    Text(
+                                                      e,
+                                                      style: TextStyle(
+                                                        fontSize: 12.0,
+                                                        color: tagColors[e] ??
+                                                            Colors.grey,
                                                       ),
                                                     ),
-                                                    clipBehavior:
-                                                        Clip.antiAlias,
-                                                    context: context,
-                                                    builder: (con) =>
-                                                        HelpView(),
-                                                  )
-                                              : null,
-                                          child: Container(
-                                            margin: EdgeInsets.symmetric(
-                                              vertical: 4.0,
-                                              horizontal: 8.0,
-                                            ),
-                                            child: Row(
-                                              children: [
-                                                if (e.contains(
-                                                    PRODUCTSCREEN_ASSURED
-                                                        .tr)) ...[
-                                                  Image.asset(
-                                                    "assets/images/assured.png",
-                                                    color: Colors.blueAccent,
-                                                    height: 16,
-                                                    width: 16,
-                                                  ),
-                                                  horizontalSpaceTiny,
-                                                ],
-                                                Text(
-                                                  e,
-                                                  style: TextStyle(
-                                                    fontSize: 12.0,
-                                                    color: tagColors[e] ??
-                                                        Colors.grey,
-                                                  ),
+                                                  ],
                                                 ),
-                                              ],
+                                              ),
                                             ),
-                                          ),
-                                        ),
-                                      )
-                                      .toList(),
+                                          )
+                                          .toList(),
+                                    ),
+                                  ],
                                 ),
                               ),
                               if ((controller.productData?.coupons?.length ??

@@ -263,8 +263,27 @@ class _SelectAddressState extends State<SelectAddress> {
                                       Radio(
                                         value: address,
                                         groupValue: addressGrpValue,
-                                        onChanged: (val) {
-                                          print(val);
+
+                                        onChanged: (val) async {
+                                          setState(
+                                                () {
+                                              addressGrpValue = addressRadioValue = address;
+                                              disabledPayment = false;
+                                            },
+                                          );
+
+                                          final calculatedPrice = await calculatePrice();
+                                          if (calculatedPrice != null) {
+                                            deliveryCharges = calculatedPrice
+                                                .deliveryCharges?.cost
+                                                ?.toStringAsFixed(2);
+                                            setState(() {
+                                              orderDetails.deliveryCharges =
+                                                  rupeeUnicode + deliveryCharges!;
+                                              orderDetails.total =
+                                              "$rupeeUnicode${calculatedPrice.cost?.toStringAsFixed(2)}";
+                                            });
+                                          }
                                         },
                                       ),
                                       Expanded(

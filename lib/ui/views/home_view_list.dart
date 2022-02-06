@@ -130,6 +130,43 @@ class _HomeViewListState extends State<HomeViewList> {
                     ],
                   ),
                 ),
+
+                FutureSectionBuilder(
+                  duration: sectionDelay['SECTION1']!,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SectionDivider(),
+                      SectionBuilder(
+                        key: widget.productUniqueKey ?? UniqueKey(),
+                        context: context,
+                        onEmptyList: () {},
+                        layoutType: LayoutType.PRODUCT_LAYOUT_2,
+                        filter: ProductFilter(
+                          subCategories: [
+                            '21'
+                          ],
+                        ),
+                        controller: ProductsGridViewBuilderController(
+                          randomize: true,
+                          limit: 10,
+                        ),
+                        scrollDirection: Axis.horizontal,
+                        header: SectionHeader(
+                          title: "Unique Home Decor",
+                          subTitle: "",
+                          viewAll: () {
+                            BaseController.goToProductListPage(ProductPageArg(
+                              queryString:
+                              'category=21;',
+                              subCategory: '21',
+                            ));
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 if ((controller.bottomPromotion.length) > 0) ...[
                   SectionDivider(),
                   BottomPromotion(promotion: controller.bottomPromotion[0])

@@ -26,17 +26,17 @@ class CartPaymentMethodController extends BaseController {
 
     paymentOptions.addAll(
       {
-        1: "Cash On Delivery",
-        2: "Pay Online",
+        1: "Pay Online on Delivery",
+        2: "Pay Now",
       },
     );
     print("city122: $city");
-    if (city == null) {
-      paymentOptions.remove(1);
-    }
-    if (!<String>["AHMEDABAD"].contains(city.toUpperCase())) {
-      paymentOptions.remove(1);
-    }
+    // if (city == null) {
+    //   paymentOptions.remove(1);
+    // }
+    // if (!<String>["AHMEDABAD"].contains(city.toUpperCase())) {
+    //   paymentOptions.remove(1);
+    // }
     update();
 
     return null;

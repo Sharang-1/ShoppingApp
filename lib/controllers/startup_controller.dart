@@ -41,7 +41,7 @@ class StartUpController extends BaseController {
       locator<AnalyticsService>().setup(),
       locator<PushNotificationService>().initialise(),
       locator<RemoteConfigService>().init(),
-      // locator<DynamicLinkService>().handleDynamicLink(),
+      locator<DynamicLinkService>().handleDynamicLink(),
     ]);
 
     locator<LookupController>().setUpLookups(await _apiService.getLookups());
