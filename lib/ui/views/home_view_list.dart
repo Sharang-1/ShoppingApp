@@ -89,8 +89,19 @@ class _HomeViewListState extends State<HomeViewList> {
                     key: controller.promotionKey,
                     promotions: controller.topPromotion,
                   ),
+                  // SectionDivider(),
                   verticalSpaceSmall,
                 ],
+                Container(
+                  color: Colors.white,
+                  child: Image.asset(
+                    'assets/images/delivery_upi.png',
+                    fit: BoxFit.fill,
+                  )
+                ),
+                verticalSpaceSmall,
+
+                // SectionDivider(),
                 FutureSectionBuilder(
                   duration: sectionDelay['SECTION1']!,
                   child: Column(
