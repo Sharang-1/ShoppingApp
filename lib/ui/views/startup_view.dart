@@ -13,13 +13,22 @@ class StartUpView extends StatelessWidget {
         init: StartUpController(),
         builder: (controller) => Scaffold(
           backgroundColor: newBackgroundColor,
-          body: Center(
-            child: SvgPicture.asset(
-              "assets/svg/dzor_logo.svg",
-              color: logoRed,
-              width: MediaQuery.of(context).size.width / 2,
-              fit: BoxFit.contain,
-            ),
+          body: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(
+                child: SvgPicture.asset(
+                  "assets/svg/dzor_logo.svg",
+                  color: logoRed,
+                  width: MediaQuery.of(context).size.width / 2,
+                  fit: BoxFit.contain,
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 40),
+                child: Text("India Ke Home Grown Brands ka Apna App")
+              ),
+            ],
           ),
         ),
       );
