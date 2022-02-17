@@ -245,6 +245,46 @@ class _HomeViewListState extends State<HomeViewList> {
                 ),
                 SectionDivider(),
                 FutureSectionBuilder(
+                  duration: sectionDelay['SECTION3']!,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // SectionDivider(),
+                      SectionBuilder(
+                        key: widget.productUniqueKey ?? UniqueKey(),
+                        context: context,
+                        onEmptyList: () {},
+                        layoutType: LayoutType.PRODUCT_LAYOUT_2,
+                        filter: ProductFilter(
+                          subCategories: [
+                            '10'
+                          ],
+                        ),
+                        controller: ProductsGridViewBuilderController(
+                          randomize: true,
+                          limit: 10,
+                        ),
+                        scrollDirection: Axis.horizontal,
+                        header: SectionHeader(
+                          title: "UNIQUE DESIGNER FOOT WEARS",
+                          // title: controller.remoteConfig!
+                          //     .getString(HOMESCREEN_SECTION_6_TITLE_EN),
+                          subTitle: "",
+                          viewAll: () {
+                            BaseController.goToProductListPage(ProductPageArg(
+                              queryString:
+                              'category=10;',
+                              subCategory: '',
+                            ));
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SectionDivider(),
+
+                FutureSectionBuilder(
                   duration: sectionDelay['SECTION4']!,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
