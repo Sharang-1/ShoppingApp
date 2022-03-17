@@ -277,6 +277,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
           viewToShow: CategoryIndiView(
             queryString: pargs.queryString!,
             subCategory: pargs.subCategory!,
+            categoryPhoto: pargs.sellerPhoto,
           ),
           pageTransitionType: PageTransitionType.rightToLeft);
 

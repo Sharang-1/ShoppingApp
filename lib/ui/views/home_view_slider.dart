@@ -166,7 +166,12 @@ class _HomeSliderState extends State<HomeSlider> {
                       if (widget.sizeChartUrl.isNotEmpty)
                         Builder(
                           builder: (BuildContext context) {
+
+                            print("123 ${widget.sizeChartUrl}");
+
+                            print("123 ${Uri.parse(widget.sizeChartUrl).isAbsolute}");
                             return GestureDetector(
+
                               onTap: widget.fromExplore
                                   ? () {}
                                   : () {

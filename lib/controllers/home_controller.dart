@@ -1,3 +1,9 @@
+import 'dart:convert';
+
+// import 'package:compound/models/cart.dart';
+import 'package:compound/app/app.dart';
+import 'package:compound/models/products.dart';
+import 'package:compound/models/sellers.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
@@ -9,7 +15,7 @@ import 'package:rate_my_app/rate_my_app.dart';
 import 'package:rating_dialog/rating_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
-
+import 'package:http/http.dart' as http;
 import '../constants/route_names.dart';
 import '../constants/server_urls.dart';
 import '../constants/shared_pref.dart';
@@ -137,10 +143,12 @@ class HomeController extends BaseController {
   }
 
   setup() async {
+
     locator<CartCountController>()
         .setCartCount(await setUpCartListAndGetCount());
     locator<WishListController>()
         .setUpWishList(await _wishListService.getWishList());
+
     if (prefs == null) prefs = await SharedPreferences.getInstance();
     currentLanguage = prefs!.getString(CurrentLanguage) ?? "";
     currentLanguage = currentLanguage == "" ? 'English' : currentLanguage;
@@ -491,4 +499,80 @@ class HomeController extends BaseController {
       } catch (e) {}
     }
   }
+}
+
+Future getProducts(String promotionKey) async {
+  var headersList = {
+    'Accept': '*/*'
+  };
+  // if (num == 0){
+  //   await getDynamicKeys();
+  // }
+  var url = Uri.parse('${appVar.currentUrl}promotions/${promotionKey}');
+  var res = await http.get(url, headers: headersList);
+
+  final resBody = await jsonDecode(res.body);
+  var promotion = Promotion.fromJson(resBody);
+  if (res.statusCode >= 200 && res.statusCode < 300) {
+    print(resBody);
+  }
+  else {
+    print(res.reasonPhrase);
+  }
+  return promotion;
+}
+
+
+Future<Product> getProductFromKey(String key) async {
+  var headersList = {
+    'Accept': '*/*'
+  };
+  var url = Uri.parse('${appVar.currentUrl}products/${key}');
+
+  var res = await http.get(url, headers: headersList);
+
+  final resBody = await jsonDecode(res.body);
+  var product = Product.fromJson(resBody);
+
+  url = Uri.parse('${appVar.currentUrl}sellers/${product.account?.key}');
+  res = await http.get(url, headers: headersList);
+
+  final sellerBody = await jsonDecode(res.body);
+
+  var seller = Seller.fromJson(sellerBody);
+
+  product.seller = seller;
+
+  // if (res.statusCode >= 200 && res.statusCode < 300) {
+  //   print(resBody);
+  // }
+  // else {
+  //   print(res.reasonPhrase);
+  // }
+  return product;
+}
+
+Future getDynamicKeys() async {
+  var headersList = {
+    'Accept': '*/*'
+  };
+  // var url = Uri.parse('https://dev.dzor.in/api/promotions');
+  var url = Uri.parse('${appVar.currentUrl}/promotions');
+
+  var res = await http.get(url, headers: headersList);
+  List<String> mylist = [];
+  appVar.dynamicSectionKeys.clear();
+  final resBody = await jsonDecode(res.body);
+  for (var each in resBody['promotions']){
+    try {
+      if (each['products'].length > 0)
+      if (each['position'] == 'Bottom' && each['enabled']) {
+        appVar.dynamicSectionKeys.add(each['key']);
+        mylist.add(each['key']);
+      }
+    } catch (e) {
+      continue;
+    }
+  }
+  print(appVar.dynamicSectionKeys);
 }

@@ -8,6 +8,9 @@ import '../ui/widgets/custom_dialog.dart';
 import '../utils/lang/translation_keys.dart';
 
 class DialogService {
+
+
+
   /// Shows a simple dialog
   static Future showDialog({
     String title = "",
@@ -78,5 +81,28 @@ class DialogService {
     if (Get.isDialogOpen ?? false) {
       Get.back();
     }
+  }
+}
+
+class SnackBarService{
+  static void showTopSnackBar(BuildContext context, String text){
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      behavior: SnackBarBehavior.floating,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(18),
+      ),
+      margin: EdgeInsets.only(
+          bottom: MediaQuery.of(context).size.height - 130,
+          right: 20,
+          left: 20),
+      content: Row(
+        children: [
+          Icon(CupertinoIcons.checkmark_alt, color: Colors.white,),
+          SizedBox(width: 20,),
+          Text(text),
+        ],
+      ),
+      backgroundColor: Color(0xFF5da588),
+    ));
   }
 }

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -134,6 +135,7 @@ class _ProductListViewState extends State<ProductListView> {
       sellerKey = widget.queryString.split('=').last.replaceAll(';', '');
 
     if (widget.queryString.contains("sortField")) showRandomProducts = false;
+
     super.initState();
   }
 
@@ -298,115 +300,7 @@ class _ProductListViewState extends State<ProductListView> {
                   ),
                 ],
                 if (widget.sellerPhoto != null && widget.sellerPhoto != "")
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        height: 100,
-                        width: 100,
-                        margin: EdgeInsets.only(right: 6.0),
-                        child: ClipOval(
-                          child: FadeInImage.assetNetwork(
-                            width: 80,
-                            height: 80,
-                            fadeInCurve: Curves.easeIn,
-                            placeholder: "assets/images/product_preloading.png",
-                            image: widget.sellerPhoto!,
-                            imageErrorBuilder: (context, error, stackTrace) =>
-                                Image.asset(
-                              "assets/images/product_preloading.png",
-                              width: 80,
-                              height: 80,
-                              fit: BoxFit.cover,
-                            ),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        decoration: BoxDecoration(
-                          color: Color.fromRGBO(255, 255, 255, 1),
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: Color.fromRGBO(255, 255, 255, 0.1),
-                            width: 8.0,
-                          ),
-                        ),
-                      ),
-                      if (widget.subCategory != 'Designer') verticalSpaceSmall,
-                      if (widget.subCategory != 'Designer')
-                        Text(
-                          widget.subCategory,
-                          overflow: TextOverflow.visible,
-                          maxLines: 2,
-                          softWrap: true,
-                          style: TextStyle(
-                            fontFamily: headingFont,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 18,
-                          ),
-                        ),
-                      verticalSpaceSmall,
-                      FutureBuilder<Reviews?>(
-                        future: reviews == null
-                            ? locator<APIService>().getReviews(
-                                sellerKey,
-                                isSellerReview: true,
-                              )
-                            : Future.value(reviews),
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                                  ConnectionState.done &&
-                              snapshot.hasData) reviews = snapshot.data;
-
-                          return ((snapshot.connectionState ==
-                                      ConnectionState.done) &&
-                                  ((snapshot.data?.ratingAverage?.rating ?? 0) >
-                                      0))
-                              ? InkWell(
-                                  onTap: () => showReviewBottomsheet,
-                                  child: FittedBox(
-                                    fit: BoxFit.scaleDown,
-                                    child: Container(
-                                      padding: EdgeInsets.symmetric(
-                                        vertical: 5,
-                                        horizontal: 10,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        color: newBackgroundColor,
-                                        borderRadius: BorderRadius.circular(
-                                          5,
-                                        ),
-                                        border: Border.all(
-                                          color: getColorAccordingToRattings(
-                                            snapshot
-                                                .data!.ratingAverage!.rating!,
-                                          ),
-                                        ),
-                                      ),
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: <Widget>[
-                                          CustomText(
-                                            snapshot
-                                                .data!.ratingAverage!.rating!
-                                                .toStringAsFixed(1),
-                                            color: getColorAccordingToRattings(
-                                              snapshot
-                                                  .data!.ratingAverage!.rating!,
-                                            ),
-                                            isBold: true,
-                                            fontSize: 15,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              : Container();
-                        },
-                      ),
-                    ],
-                  ),
+                  _header(),
                 verticalSpace(20),
                 FutureBuilder(
                   future: Future.delayed(Duration(milliseconds: 500)),
@@ -470,5 +364,142 @@ class _ProductListViewState extends State<ProductListView> {
         ),
       ),
     );
+  }
+
+  Widget _header(){
+    return FutureBuilder(
+        future: Future.delayed(Duration(seconds: 3)),
+        builder: (context, data){
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Row(
+              children: [
+                Container(
+                  height: 100,
+                  width: 100,
+                  margin: EdgeInsets.only(right: 6.0),
+                  child: ClipOval(
+                    child: FadeInImage.assetNetwork(
+                      width: 80,
+                      height: 80,
+                      fadeInCurve: Curves.easeIn,
+                      placeholder: "assets/images/product_preloading.png",
+                      image: widget.sellerPhoto!,
+                      imageErrorBuilder: (context, error, stackTrace) =>
+                          Image.asset(
+                            "assets/images/product_preloading.png",
+                            width: 80,
+                            height: 80,
+                            fit: BoxFit.cover,
+                          ),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  decoration: BoxDecoration(
+                    color: Color.fromRGBO(255, 255, 255, 1),
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Color.fromRGBO(255, 255, 255, 0.1),
+                      width: 8.0,
+                    ),
+                  ),
+                ),
+                if (widget.subCategory != 'Designer')
+                  SizedBox(
+                    width: 200,
+                    child: AutoSizeText(
+                      widget.subCategory,
+                      overflow: TextOverflow.visible,
+                      maxLines: 1,
+                      softWrap: true,
+                      style: TextStyle(
+                        fontFamily: headingFont,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ),
+                if (widget.subCategory == 'Designer')
+                  AutoSizeText(
+                    widget.subCategory,
+                    overflow: TextOverflow.visible,
+                    maxLines: 17,
+                    softWrap: true,
+                    style: TextStyle(
+                      fontFamily: headingFont,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 15,
+                    ),
+                  ),
+              ],
+            ),
+             verticalSpaceSmall,
+
+            verticalSpaceSmall,
+            FutureBuilder<Reviews?>(
+              future: reviews == null
+                  ? locator<APIService>().getReviews(
+                sellerKey,
+                isSellerReview: true,
+              )
+                  : Future.value(reviews),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState ==
+                    ConnectionState.done &&
+                    snapshot.hasData) reviews = snapshot.data;
+
+                return ((snapshot.connectionState ==
+                    ConnectionState.done) &&
+                    ((snapshot.data?.ratingAverage?.rating ?? 0) >
+                        0))
+                    ? InkWell(
+                  onTap: () => showReviewBottomsheet,
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        vertical: 5,
+                        horizontal: 10,
+                      ),
+                      decoration: BoxDecoration(
+                        color: newBackgroundColor,
+                        borderRadius: BorderRadius.circular(
+                          5,
+                        ),
+                        border: Border.all(
+                          color: getColorAccordingToRattings(
+                            snapshot
+                                .data!.ratingAverage!.rating!,
+                          ),
+                        ),
+                      ),
+                      child: Row(
+                        crossAxisAlignment:
+                        CrossAxisAlignment.center,
+                        children: <Widget>[
+                          CustomText(
+                            snapshot
+                                .data!.ratingAverage!.rating!
+                                .toStringAsFixed(1),
+                            color: getColorAccordingToRattings(
+                              snapshot
+                                  .data!.ratingAverage!.rating!,
+                            ),
+                            isBold: true,
+                            fontSize: 15,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                )
+                    : Container();
+              },
+            ),
+          ],
+        );
+    });
   }
 }

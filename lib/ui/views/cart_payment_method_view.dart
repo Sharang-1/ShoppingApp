@@ -1,7 +1,8 @@
+import 'package:compound/app/app.dart';
+import 'package:compound/services/api/api_service.dart';
 import 'package:compound/utils/lang/translation_keys.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../constants/route_names.dart';
 import '../../controllers/base_controller.dart';
 import '../../controllers/cart_payment_method_controller.dart';
@@ -352,6 +353,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
   }
 
   Future<void> makePayment(controller) async {
+    appVar.previousOrders = (await locator<APIService>().getAllOrders())!.orders!;
     final Order res = await controller.createOrder(
         widget.billingAddress.address! +
             '\n' +

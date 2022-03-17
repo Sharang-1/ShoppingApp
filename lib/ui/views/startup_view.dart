@@ -15,19 +15,34 @@ class StartUpView extends StatelessWidget {
           backgroundColor: newBackgroundColor,
           body: Column(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Center(
-                child: SvgPicture.asset(
-                  "assets/svg/dzor_logo.svg",
-                  color: logoRed,
-                  width: MediaQuery.of(context).size.width / 2,
-                  fit: BoxFit.contain,
+
+              Padding(
+                padding: const EdgeInsets.only(bottom: 50),
+                child: Center(
+                  child: SvgPicture.asset(
+                    "assets/svg/dzor_logo.svg",
+                    color: logoRed,
+                    width: MediaQuery.of(context).size.width / 2,
+                    fit: BoxFit.contain,
+                  ),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(top: 40),
-                child: Text("India Ke Home Grown Brands ka Apna App")
+                padding: const EdgeInsets.only(top: 30.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [Text("India ke Home-Grown brands",
+                    style: TextStyle(color: textIconBlue, fontWeight: FontWeight.w700, fontSize: 20),
+                  ),
+                    Text("ka apna App",
+                      style: TextStyle(color: textIconBlue, fontWeight: FontWeight.w700, fontSize: 20),
+                    ),]
+                  ,
+                ),
               ),
+
             ],
           ),
         ),

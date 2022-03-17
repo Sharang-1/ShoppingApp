@@ -263,6 +263,7 @@ class _SellerIndiState extends State<SellerIndi> {
                 horizontal: 8,
               ),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Expanded(
                     flex: 5,
@@ -318,6 +319,7 @@ class _SellerIndiState extends State<SellerIndi> {
                     ),
                   ),
                   horizontalSpaceSmall,
+                  if (widget.data.subscriptionType != null && widget.data.subscriptionType!.id != 3)
                   Expanded(
                     flex: 5,
                     child: ElevatedButton(

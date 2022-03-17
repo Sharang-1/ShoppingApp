@@ -1,4 +1,6 @@
 import 'package:fimber/fimber.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../constants/route_names.dart';
@@ -61,10 +63,11 @@ class ProductController extends BaseController {
     return _apiService.getLookups();
   }
 
-  Future<int> addToCart(Product product, int qty, String size, String color,
+  Future<int> addToCart(Product product, int qty,BuildContext context, String size, String color,
       {bool showDialog: true,
       bool fromBuyNow = false,
       bool fromCart = false,
+
       Function? onProductAdded}) async {
     print("Cart added");
     print(product.key);
@@ -94,11 +97,7 @@ class ProductController extends BaseController {
           return -1;
         }
         if (showDialog) {
-          await DialogService.showDialog(
-            title: PRODUCTSCREEN_ADDED_TO_BAG_TITLE.tr,
-            description: PRODUCTSCREEN_ADDED_TO_BAG_DESCRIPTION.tr,
-          );
-          await BaseController.showSizePopup();
+          SnackBarService.showTopSnackBar(context, PRODUCTSCREEN_ADDED_TO_BAG_DESCRIPTION.tr);
         }
         return -1;
       } else {
@@ -107,11 +106,12 @@ class ProductController extends BaseController {
           return 1;
         }
         if (showDialog) {
-          await DialogService.showDialog(
-            title: PRODUCTSCREEN_ADDED_TO_BAG_TITLE.tr,
-            description: PRODUCTSCREEN_ADDED_TO_BAG_DESCRIPTION.tr,
-          );
-          await BaseController.showSizePopup();
+          SnackBarService.showTopSnackBar(context, PRODUCTSCREEN_ADDED_TO_BAG_DESCRIPTION.tr);
+          // await DialogService.showDialog(
+          //   title: PRODUCTSCREEN_ADDED_TO_BAG_TITLE.tr,
+          //   description: PRODUCTSCREEN_ADDED_TO_BAG_DESCRIPTION.tr,
+          // );
+          // await BaseController.showSizePopup();
         }
       }
       return 1;
@@ -129,7 +129,7 @@ class ProductController extends BaseController {
   }
 
   Future<bool> buyNow(
-      Product product, int qty, String size, String color) async {
+      Product product, int qty, context,  String size, String color) async {
     await _analyticsService
         .sendAnalyticsEvent(eventName: "buy_now", parameters: <String, dynamic>{
       "product_id": product.key,
@@ -141,7 +141,7 @@ class ProductController extends BaseController {
       "user_name": locator<HomeController>().details!.name,
     });
 
-    var res = await addToCart(product, qty, size, color,
+    var res = await addToCart(product, qty,context, size, color,
         showDialog: false, fromBuyNow: true, onProductAdded: () {});
     if (res != null) {
       return true;

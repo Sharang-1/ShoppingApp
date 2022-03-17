@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -56,8 +57,34 @@ class _ProductTileUIState extends State<ProductTileUI> {
     var res = await _wishListService.addWishList(id);
     if (res == true) {
       locator<WishListController>().addToWishList(id);
-      Get.snackbar('Added to Your wishlist', '',
-          snackPosition: SnackPosition.BOTTOM);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18),
+        ),
+        margin: EdgeInsets.only(
+            bottom: MediaQuery.of(context).size.height - 130,
+            right: 20,
+            left: 20),
+        content: Row(
+          children: [
+            Icon(CupertinoIcons.checkmark_alt, color: Colors.white,),
+            SizedBox(width: 20,),
+            const Text('Added to Your wishlist'),
+          ],
+        ),
+        backgroundColor: Color(0xFF5da588),
+      ));
+      // Get.snackbar( 'Added to Your wishlist','',
+      //     snackPosition: SnackPosition.TOP,
+      //
+      //   backgroundColor: Color(0xFF5da588),
+      //   icon: Icon(
+      //     CupertinoIcons.check_mark,
+      //     color: Colors.white,
+      //   ),
+      //
+      // );
     }
   }
 
@@ -100,6 +127,7 @@ class _ProductTileUIState extends State<ProductTileUI> {
 
     return GestureDetector(
       onTap: () {
+         print("Hello World ${widget.data.coupons}");
         widget.onClick();
       },
       child: Container(

@@ -345,26 +345,23 @@ class _SelectAddressState extends State<SelectAddress> {
                           ),
                         ),
                         onPressed: () async {
-                          PickResult pickedPlace = await Navigator.push(
-                            context,
-                            PageTransition(
-                              child: AddressInputPage(),
-                              type: PageTransitionType.rightToLeft,
-                            ),
-                          );
-                          if (pickedPlace != null) {
+                          // PickResult pickedPlace = await Navigator.push(
+                          //   context,
+                          //   PageTransition(
+                          //     child: AddressInputPage(),
+                          //     type: PageTransitionType.rightToLeft,
+                          //   ),
+                          // );
+
                             UserDetailsContact userAdd =
                                 await showMaterialModalBottomSheet(
                               expand: true,
                               context: context,
-                              builder: (_) => BottomSheetForAddress(
-                                pickedPlace: pickedPlace,
-                              ),
+                              builder: (_) => BottomSheetForAddress(),
                             );
                             if (userAdd != null) {
                               controller.addAddress(userAdd);
                             }
-                          }
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,

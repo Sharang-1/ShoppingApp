@@ -60,9 +60,8 @@ class _AddressInputPageState extends State<AddressInputPage> {
 }
 
 class BottomSheetForAddress extends StatefulWidget {
-  final PickResult pickedPlace;
 
-  const BottomSheetForAddress({Key? key, required this.pickedPlace})
+  const BottomSheetForAddress({Key? key})
       : super(key: key);
   @override
   _BottomSheetForAddressState createState() => _BottomSheetForAddressState();
@@ -73,23 +72,23 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
   final _userInputedAddressString2Controller = TextEditingController();
   final _googleAddressStringController = TextEditingController();
   final _pinCodeController = TextEditingController();
+  final _cityController = TextEditingController();
 
   _BottomSheetForAddressState();
 
-  setAddress(PickResult pickedPlace) {
-    setState(() {
-      _googleAddressStringController.text = pickedPlace.formattedAddress ?? "";
-
-      var googlePincode =
-          int.tryParse(pickedPlace.addressComponents!.last.longName);
-      _pinCodeController.text = googlePincode?.toString() ?? "";
-    });
-  }
+  // setAddress(PickResult pickedPlace) {
+  //   setState(() {
+  //     _googleAddressStringController.text = pickedPlace.formattedAddress ?? "";
+  //
+  //     var googlePincode =
+  //         int.tryParse(pickedPlace.addressComponents!.last.longName);
+  //     _pinCodeController.text = googlePincode?.toString() ?? "";
+  //   });
+  // }
 
   @override
   void initState() {
     super.initState();
-    setAddress(widget.pickedPlace);
   }
 
   @override
@@ -103,6 +102,7 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
     _userInputedAddressString2Controller.dispose();
     _googleAddressStringController.dispose();
     _pinCodeController.dispose();
+    _cityController.dispose();
     super.dispose();
   }
 
@@ -124,7 +124,7 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
+                      padding: const EdgeInsets .only(left: 8.0),
                       child: Text(
                         ADD_ADDRESS.tr,
                         style: TextStyle(
@@ -147,39 +147,39 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
-                          TextFormField(
-                            style: TextStyle(
-                              color: Colors.grey[500],
-                              fontSize: 12,
-                            ),
-                            controller: _googleAddressStringController,
-                            validator: (text) {
-                              if ((text!.isEmpty) ||
-                                  text.trim().length == 0)
-                                return ENTER_PROPER_ADDRESS.tr;
-                              return null;
-                            },
-                            decoration: InputDecoration(
-                              labelText: YOUR_LOCATION.tr,
-                              isDense: true,
-                              suffixIcon: InkWell(
-                                onTap: () {
-                                  changeAddress();
-                                },
-                                child: Text(
-                                  CHANGE.tr,
-                                  style: TextStyle(
-                                    fontSize: 10,
-                                    color: logoRed,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            autofocus: false,
-                            readOnly: true,
-                            maxLines: 3,
-                          ),
-                          verticalSpaceMedium,
+                          // TextFormField(
+                          //   style: TextStyle(
+                          //     color: Colors.grey[500],
+                          //     fontSize: 12,
+                          //   ),
+                          //   controller: _googleAddressStringController,
+                          //   validator: (text) {
+                          //     if ((text!.isEmpty) ||
+                          //         text.trim().length == 0)
+                          //       return ENTER_PROPER_ADDRESS.tr;
+                          //     return null;
+                          //   },
+                          //   decoration: InputDecoration(
+                          //     labelText: YOUR_LOCATION.tr,
+                          //     isDense: true,
+                          //     suffixIcon: InkWell(
+                          //       onTap: () {
+                          //         changeAddress();
+                          //       },
+                          //       child: Text(
+                          //         CHANGE.tr,
+                          //         style: TextStyle(
+                          //           fontSize: 10,
+                          //           color: logoRed,
+                          //         ),
+                          //       ),
+                          //     ),
+                          //   ),
+                          //   autofocus: false,
+                          //   readOnly: true,
+                          //   maxLines: 3,
+                          // ),
+                          // verticalSpaceMedium,
                           TextFormField(
                             controller:
                                 _userInputedAddressString1Controller,
@@ -228,6 +228,42 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
                               fontSize: 16,
                             ),
                           ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+
+                              SizedBox(
+                                width: 100,
+                                child: TextFormField(
+                                  controller: _cityController,
+                                  decoration: InputDecoration(
+                                      hintText: "City"
+                                  ),
+
+                                  autofocus: false,
+                                  enabled: true,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ),
+
+                              SizedBox(
+                                width: 100,
+                                child: TextFormField(
+                                  controller: _pinCodeController,
+                                  decoration: InputDecoration(
+                                    hintText: "Pincode"
+                                  ),
+                                  autofocus: false,
+                                  enabled: true,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                           verticalSpaceMedium,
                           Align(
                             alignment: Alignment.bottomCenter,
@@ -242,21 +278,14 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
                                   ),
                                 ),
                                 onPressed:
-                                    ((_userInputedAddressString1Controller
-                                                .text
-                                                .trim()
-                                                .isEmpty) ||
-                                            (_userInputedAddressString2Controller
-                                                .text
-                                                .trim()
-                                                .isEmpty))
-                                        ? null
-                                        : () {
-                                            final userInputAddressString =
+                                    () {
+                                      String pickedCity = _cityController.text.trim();
+
+                                      final userInputAddressString =
                                                 "${_userInputedAddressString1Controller.text}, \n${_userInputedAddressString2Controller.text}";
-                                            final googleAddresString =
-                                                _googleAddressStringController
-                                                    .text;
+                                            final googleAddresString = "";
+                                                // _googleAddressStringController
+                                                //     .text;
                                             final pinCode = int.tryParse(
                                                 _pinCodeController.text);
 
@@ -269,36 +298,18 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
                                                         .trim()
                                                         .length ==
                                                     0 ||
-                                                googleAddresString
-                                                    .isEmpty ||
-                                                googleAddresString
-                                                        .trim()
-                                                        .length ==
-                                                    0) {
+                                                pinCode.toString().length == 0
+                                                    || pickedCity.length == 0) {
                                               return;
                                             }
 
                                             final String gujState =
                                                 "Gujarat".toUpperCase();
-                                            String? pickedCity;
-                                            widget.pickedPlace
-                                                .addressComponents!
-                                                .forEach((e) {
-                                              e.types[0] ==
-                                                      "administrative_area_level_2"
-                                                  ? pickedCity = e.longName
-                                                  // ignore: unnecessary_statements
-                                                  : "city";
-                                            });
+
 
                                             print(
                                                 "pickedCity12 : $pickedCity");
-                                            // if (stateIndex != -1)
-                                            //   pickedCity = widget
-                                            //       .pickedPlace
-                                            //       .addressComponents[
-                                            //           stateIndex - 1]
-                                            //       .longName;
+
 
                                             Navigator.of(context)
                                                 .pop<UserDetailsContact>(
@@ -306,7 +317,7 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
                                               address:
                                                   userInputAddressString,
                                               googleAddress:
-                                                  googleAddresString,
+                                                  "",
                                               pincode: pinCode,
                                               city: pickedCity,
                                               state: gujState,
@@ -337,14 +348,14 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
     );
   }
 
-  void changeAddress() async {
-    PickResult pickedPlace = await Navigator.push(
-      context,
-      PageTransition(
-        child: AddressInputPage(),
-        type: PageTransitionType.rightToLeft,
-      ),
-    );
-    setAddress(pickedPlace);
-  }
+  // void changeAddress() async {
+  //   PickResult pickedPlace = await Navigator.push(
+  //     context,
+  //     PageTransition(
+  //       child: AddressInputPage(),
+  //       type: PageTransitionType.rightToLeft,
+  //     ),
+  //   );
+  //   setAddress(pickedPlace);
+  // }
 }

@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:compound/constants/server_urls.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/state_manager.dart';
@@ -18,8 +19,10 @@ import '../widgets/product_tile_ui.dart';
 class CategoryIndiView extends StatefulWidget {
   final String? queryString;
   final String? subCategory;
+  final String? categoryPhoto;
 
-  const CategoryIndiView({Key? key, this.queryString, this.subCategory})
+  const CategoryIndiView(
+      {Key? key, this.queryString, this.subCategory, this.categoryPhoto})
       : super(key: key);
 
   @override
@@ -47,58 +50,7 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
     return GetBuilder(
       init: CategoriesController()..init(subCategory: widget.subCategory ?? ''),
       builder: (controller) => Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.white,
-          title: FittedBox(
-            alignment: Alignment.centerLeft,
-            fit: BoxFit.scaleDown,
-            child: Text(
-              widget.subCategory ?? "",
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          actions: [
-            IconButton(
-              iconSize: 50,
-              icon: Icon(FontAwesomeIcons.slidersH,
-                  color: Colors.black, size: 20),
-              onPressed: () async {
-                ProductFilter filterDialogResponse = await showModalBottomSheet(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(20),
-                        topRight: Radius.circular(20)),
-                  ),
-                  isScrollControlled: true,
-                  clipBehavior: Clip.antiAlias,
-                  context: context,
-                  builder: (BuildContext context) {
-                    return FractionallySizedBox(
-                        heightFactor: 0.75,
-                        child: ProductFilterDialog(
-                          oldFilter: filter,
-                          showCategories: false,
-                        ));
-                  },
-                );
 
-                if (filterDialogResponse != null) {
-                  setState(() {
-                    showRandomProducts = false;
-                    filter = filterDialogResponse;
-                    key = UniqueKey();
-                  });
-                }
-              },
-            ),
-          ],
-          iconTheme: IconThemeData(color: Colors.black),
-        ),
         backgroundColor: newBackgroundColor,
         body: SafeArea(
           top: true,
@@ -132,11 +84,79 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
             },
             child: CustomScrollView(
               slivers: <Widget>[
+                SliverAppBar(
+                  toolbarHeight: 150,
+                  actions: [
+                    IconButton(
+                      iconSize: 50,
+                      icon: Icon(FontAwesomeIcons.slidersH,
+                          color: Colors.black, size: 20),
+                      onPressed: () async {
+                        ProductFilter filterDialogResponse = await showModalBottomSheet(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20)),
+                          ),
+                          isScrollControlled: true,
+                          clipBehavior: Clip.antiAlias,
+                          context: context,
+                          builder: (BuildContext context) {
+                            return FractionallySizedBox(
+                                heightFactor: 0.75,
+                                child: ProductFilterDialog(
+                                  oldFilter: filter,
+                                  showCategories: false,
+                                ));
+                          },
+                        );
+
+                        if (filterDialogResponse != null) {
+                          setState(() {
+                            showRandomProducts = false;
+                            filter = filterDialogResponse;
+                            key = UniqueKey();
+                          });
+                        }
+                      },
+                    ),
+                  ],
+                  centerTitle: true,
+                  title: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(height: 10,),
+                      SizedBox(
+                        height: 80,
+                        child: FadeInImage.assetNetwork(
+                          fit: BoxFit.fill,
+                          fadeInCurve: Curves.easeIn,
+                          placeholder: 'assets/images/category_preloading.png',
+                          image: widget.categoryPhoto != null
+                              ? '$CATEGORY_PHOTO_BASE_URL/${widget.categoryPhoto}'
+                              : 'assets/images/category_preloading.png',
+                          imageErrorBuilder: (context, error, stackTrace) =>
+                              Image.asset(
+                            "assets/images/category_preloading.png",
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        widget.subCategory ?? "",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  floating: true,
+                  backgroundColor: Colors.white,
+                ),
                 SliverList(
-                  // Use a delegate to build items as they're scrolled on screen.
                   delegate: SliverChildBuilderDelegate(
-                    // The builder function returns a ListTile with a title that
-                    // displays the index of the current item.
                     (context, index) => Column(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[

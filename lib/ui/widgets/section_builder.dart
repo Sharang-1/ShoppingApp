@@ -526,6 +526,7 @@ class SectionBuilder extends StatelessWidget {
               onTap: () => NavigationService.to(
                 CategoryIndiViewRoute,
                 arguments: ProductPageArg(
+                  sellerPhoto: data.id.toString(),
                   queryString: data.filter,
                   subCategory: data.name,
                 ),

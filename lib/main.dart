@@ -1,4 +1,7 @@
+import 'package:compound/app/app.dart';
+import 'package:compound/controllers/home_controller.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -15,7 +18,7 @@ import 'ui/shared/app_colors.dart';
 import 'ui/views/startup_view.dart';
 
 void main() async {
-  setup();
+  await setup();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String lang =
       prefs.getString(CurrentLanguage) ?? LocalizationService.langs[0];
@@ -28,12 +31,17 @@ void main() async {
   );
 }
 
-void setup() async {
+ setup() async {
 // Setup logger level
+  appVar = App();
   setupLogger();
   // Register all the models and services before the app starts
   setupLocator();
-
+  if (kReleaseMode)
+    appVar.currentUrl = appVar.liveUrl;
+  else
+    appVar.currentUrl = appVar.devUrl;
+  await getDynamicKeys();
   // Running flutter app
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);

@@ -536,17 +536,8 @@ class _ProfileViewState extends State<ProfileView> {
                                       onTap: () async {
 
                                         if (isEditable){
-                                          PickResult? pickedPlace =
-                                                      await Navigator.push(
-                                                    context,
-                                                    PageTransition(
-                                                      child:
-                                                          AddressInputPage(),
-                                                      type: PageTransitionType
-                                                          .rightToLeft,
-                                                    ),
-                                                  );
-                                                  if (pickedPlace != null) {
+
+
                                                     UserDetailsContact
                                                         userAdd =
                                                         await showMaterialModalBottomSheet(
@@ -555,8 +546,7 @@ class _ProfileViewState extends State<ProfileView> {
                                                       expand: true,
                                                       builder: (_) =>
                                                           BottomSheetForAddress(
-                                                        pickedPlace:
-                                                            pickedPlace,
+
                                                       ),
                                                     );
                                                     if (userAdd != null) {
@@ -588,7 +578,7 @@ class _ProfileViewState extends State<ProfileView> {
                                                         isButtonActive = true;
                                                       });
                                                     }
-                                                  }
+
                                                 }
 
                                         else{

@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:http/http.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -149,6 +149,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
   double height = 100;
 
   bool showHeader = false;
+  bool showSizechart = false;
 
   GlobalKey cartKey = GlobalKey();
 
@@ -223,18 +224,26 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                       children: [
                         Stack(
                           children: <Widget>[
-                            HomeSlider(
-                              key: photosKey,
-                              imgList: imageURLs ?? [],
-                              sizeChartUrl:
-                                  "${BASE_URL}sellers/${productData!.account!.key}/categories/${productData!.category!.id}/sizechart",
-                              videoList: productData?.video?.videos
-                                      .map((e) =>
-                                          "${BASE_URL}products/${productData!.key}/videos/${e.name}")
-                                      .toList() ??
-                                  [],
-                              aspectRatio: 1,
-                              fromProduct: true,
+                            FutureBuilder(
+                              future: checkshowSizeChart(),
+                              builder: (context, data) {
+                                if (data.connectionState == ConnectionState.done){
+                                  return HomeSlider(
+                                    key: photosKey,
+                                    imgList: imageURLs ?? [],
+                                    sizeChartUrl: showSizechart == true ?
+                                    "${BASE_URL}sellers/${productData!.account!.key}/categories/${productData!.category!.id}/sizechart" : "",
+                                    videoList: productData?.video?.videos
+                                        .map((e) =>
+                                    "${BASE_URL}products/${productData!.key}/videos/${e.name}")
+                                        .toList() ??
+                                        [],
+                                    aspectRatio: 1,
+                                    fromProduct: true,
+                                  );
+                                }
+                              return Container();
+                              }
                             ),
                             if ((productData?.discount ?? 0.0) != 0.0)
                               Positioned(
@@ -339,7 +348,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                             children: <Widget>[
                               productPriceInfo(
                                 productName: productData!.name,
-                                designerName: productData!.seller!.name,
+                                designerName: productData!.seller?.name ?? "No Name",
                                 productPrice: productPrice,
                                 actualPrice: (productData!.cost!.cost +
                                         productData!
@@ -1271,8 +1280,11 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                 context: context,
                                 onEmptyList: () {},
                                 filter: ProductFilter(
-                                    existingQueryString:
-                                        "subCategory=${productData?.category?.id ?? -1};"),
+                                  subCategories: [
+                                    "${productData?.category?.id}"
+                                  ],),
+                                    // existingQueryString:
+                                    //     "subCategory=${productData?.category?.id};"),
                                 layoutType: LayoutType.PRODUCT_LAYOUT_2,
                                 controller: ProductsGridViewBuilderController(
                                   filteredProductKey: productData?.key,
@@ -1400,6 +1412,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                       var res = await controller.buyNow(
                                           productData!,
                                           selectedQty,
+                                          context,
                                           selectedSize,
                                           selectedColor);
                                       if (res != null && res == true) {
@@ -1507,6 +1520,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                     var res = await controller.addToCart(
                                         productData!,
                                         selectedQty,
+                                        context,
                                         selectedSize,
                                         selectedColor,
                                         fromCart: widget.fromCart,
@@ -1651,6 +1665,13 @@ class _ProductIndiViewState extends State<ProductIndiView> {
         ),
       ),
     );
+  }
+  Future<void> checkshowSizeChart() async {
+    var abs = await get(Uri.parse("${BASE_URL}sellers/${productData!.account!.key}/categories/${productData!.category!.id}/sizechart"));
+    if (abs.statusCode == 400 || abs.statusCode == 404)
+      showSizechart = false;
+    else
+      showSizechart = true;
   }
 
   Future<void> goToSellerProfile(controller) async {
