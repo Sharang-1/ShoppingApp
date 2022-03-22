@@ -73,6 +73,7 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
   final _googleAddressStringController = TextEditingController();
   final _pinCodeController = TextEditingController();
   final _cityController = TextEditingController();
+  final _stateController = TextEditingController();
 
   _BottomSheetForAddressState();
 
@@ -103,6 +104,7 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
     _googleAddressStringController.dispose();
     _pinCodeController.dispose();
     _cityController.dispose();
+    _stateController.dispose();
     super.dispose();
   }
 
@@ -228,8 +230,9 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
                               fontSize: 16,
                             ),
                           ),
+                          /// City and PINCODE
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
 
                               SizedBox(
@@ -248,6 +251,8 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
                                 ),
                               ),
 
+                              SizedBox(width: 50,),
+
                               SizedBox(
                                 width: 100,
                                 child: TextFormField(
@@ -265,6 +270,30 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
                             ],
                           ),
                           verticalSpaceMedium,
+                          /// State
+                          TextFormField(
+                            controller:
+                            _stateController,
+                            maxLength: 50,
+                            validator: (text) {
+                              if (text!.isEmpty || text.trim().length == 0)
+                                return "Enter proper State";
+                              return null;
+                            },
+                            onChanged: (text) {
+                              setState(() {
+                                _stateController.text;
+                              });
+                            },
+                            decoration: InputDecoration(
+                              hintText: "State"
+                            ),
+                            autofocus: false,
+                            enabled: true,
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
                           Align(
                             alignment: Alignment.bottomCenter,
                             child: SizedBox(
@@ -283,7 +312,7 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
 
                                       final userInputAddressString =
                                                 "${_userInputedAddressString1Controller.text}, \n${_userInputedAddressString2Controller.text}";
-                                            final googleAddresString = "";
+                                            String googleAddresString = "";
                                                 // _googleAddressStringController
                                                 //     .text;
                                             final pinCode = int.tryParse(
@@ -303,24 +332,23 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
                                               return;
                                             }
 
-                                            final String gujState =
-                                                "Gujarat".toUpperCase();
+                                            final String state = _stateController.text.trim();
 
 
                                             print(
                                                 "pickedCity12 : $pickedCity");
 
-
+                                            googleAddresString = userInputAddressString + ", " + pickedCity + ", " + state + ", " + pinCode.toString();
                                             Navigator.of(context)
                                                 .pop<UserDetailsContact>(
                                                     new UserDetailsContact(
                                               address:
                                                   userInputAddressString,
                                               googleAddress:
-                                                  "",
+                                              googleAddresString,
                                               pincode: pinCode,
                                               city: pickedCity,
-                                              state: gujState,
+                                              state: state,
                                             ));
                                           },
                                 child: Padding(

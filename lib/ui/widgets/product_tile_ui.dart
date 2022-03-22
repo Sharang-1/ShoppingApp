@@ -133,9 +133,7 @@ class _ProductTileUIState extends State<ProductTileUI> {
       child: Container(
         padding: paddingCard,
         decoration: BoxDecoration(
-          border: Border.all(
-            color: Colors.grey[200]!,
-          ),
+
         ),
         child: Card(
           shape: RoundedRectangleBorder(

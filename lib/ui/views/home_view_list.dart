@@ -111,6 +111,8 @@ class _HomeViewListState extends State<HomeViewList> {
                       )
                     ),
                     verticalSpaceSmall,
+
+                    if (appVar.dynamicSectionKeys.length > i)
                     FutureBuilder(
                         future: getProducts(appVar.dynamicSectionKeys[i++]),
                         builder: (context, data){
@@ -125,7 +127,7 @@ class _HomeViewListState extends State<HomeViewList> {
                               subTitle: "",
                               viewAll: () {
                                 BaseController.goToProductListPage(ProductPageArg(
-                                  promotionKey: appVar.dynamicSectionKeys[i],
+                                  promotionKey: appVar.dynamicSectionKeys[i-1],
                                   subCategory: 'Designer',
                                   queryString:
                                   "",
@@ -138,34 +140,40 @@ class _HomeViewListState extends State<HomeViewList> {
                         );
                           return Container();
               }),
-                    FutureBuilder(
-                        future: getProducts(appVar.dynamicSectionKeys[i++]),
-                        builder: (context, data){
-                          if (data.connectionState == ConnectionState.active){
-                            return ShimmerWidget(type: LayoutType.PRODUCT_LAYOUT_2);
-                          }
-                          if (data.hasData)
-                            return Container(
 
-                              child: DynamicSectionBuilder(
-                                header: SectionHeader(
-                                  title: (data.data as Promotion).name,
-                                  subTitle: "",
-                                  viewAll: () {
-                                    BaseController.goToProductListPage(ProductPageArg(
-                                      promotionKey: appVar.dynamicSectionKeys[i],
-                                      subCategory: 'Designer',
-                                      queryString:
-                                      "",
-                                      sellerPhoto: "",
-                                    ));
-                                  },
-                                ),
-                                products: (data.data as Promotion).products ?? [],
-                              ),
-                            );
-                          return Container();
-                        }),
+                    if (appVar.dynamicSectionKeys.length > i)
+                      Column(
+                        children: [
+                          SectionDivider(),
+                          FutureBuilder(
+                            future: getProducts(appVar.dynamicSectionKeys[i++]),
+                            builder: (context, data){
+                              if (data.connectionState == ConnectionState.active){
+                                return ShimmerWidget(type: LayoutType.PRODUCT_LAYOUT_2);
+                              }
+                              if (data.hasData)
+                                return Container(
+                                  child: DynamicSectionBuilder(
+                                    header: SectionHeader(
+                                      title: (data.data as Promotion).name,
+                                      subTitle: "",
+                                      viewAll: () {
+                                        BaseController.goToProductListPage(ProductPageArg(
+                                          promotionKey: appVar.dynamicSectionKeys[i-1],
+                                          subCategory: 'Designer',
+                                          queryString:
+                                          "",
+                                          sellerPhoto: "",
+                                        ));
+                                      },
+                                    ),
+                                    products: (data.data as Promotion).products ?? [],
+                                  ),
+                                );
+                              return Container();
+                            }),
+                        ],
+                      ),
                     // FutureSectionBuilder(
                     //   duration: sectionDelay['SECTION1']!,
                     //   child: Column(
@@ -202,10 +210,10 @@ class _HomeViewListState extends State<HomeViewList> {
                     //     ],
                     //   ),
                     // ),
-                    if ((controller.bottomPromotion.length) > 0) ...[
-                      SectionDivider(),
-                      BottomPromotion(promotion: controller.bottomPromotion[0])
-                    ],
+                    // if ((controller.bottomPromotion.length) > 0) ...[
+                    //   SectionDivider(),
+                    //   BottomPromotion(promotion: controller.bottomPromotion[0])
+                    // ],
                     FutureSectionBuilder(
                       duration: sectionDelay['SECTION2']!,
                       child: Column(
@@ -268,7 +276,9 @@ class _HomeViewListState extends State<HomeViewList> {
                       ),
                     ),
                     SectionDivider(),
-                    FutureBuilder(
+                    if (appVar.dynamicSectionKeys.length > i)
+
+                      FutureBuilder(
                         future: getProducts(appVar.dynamicSectionKeys[i++]),
 
                         builder: (context, data){
@@ -283,8 +293,9 @@ class _HomeViewListState extends State<HomeViewList> {
                                   title: (data.data as Promotion).name,
                                   subTitle: "",
                                   viewAll: () {
+
                                     BaseController.goToProductListPage(ProductPageArg(
-                                      promotionKey: appVar.dynamicSectionKeys[i],
+                                      promotionKey: appVar.dynamicSectionKeys[i-1],
                                       subCategory: 'Designer',
                                       queryString:
                                       "",
@@ -297,34 +308,40 @@ class _HomeViewListState extends State<HomeViewList> {
                             );
                           return Container();
                         }),
-                    FutureBuilder(                    future: getProducts(appVar.dynamicSectionKeys[i++]),
+                    if (appVar.dynamicSectionKeys.length > i)
+                      Column(
+                        children: [
+                          SectionDivider(),
+                          FutureBuilder(                    future: getProducts(appVar.dynamicSectionKeys[i++]),
 
-                        builder: (context, data){
-                          if (data.connectionState == ConnectionState.active){
-                            return ShimmerWidget(type: LayoutType.PRODUCT_LAYOUT_2);
-                          }
-                          if (data.hasData)
-                            return Container(
+                            builder: (context, data){
+                              if (data.connectionState == ConnectionState.active){
+                                return ShimmerWidget(type: LayoutType.PRODUCT_LAYOUT_2);
+                              }
+                              if (data.hasData)
+                                return Container(
 
-                              child: DynamicSectionBuilder(
-                                header: SectionHeader(
-                                  title: (data.data as Promotion).name,
-                                  subTitle: "",
-                                  viewAll: () {
-                                    BaseController.goToProductListPage(ProductPageArg(
-                                      promotionKey: appVar.dynamicSectionKeys[i],
-                                      subCategory: 'Designer',
-                                      queryString:
-                                      "",
-                                      sellerPhoto: "",
-                                    ));
-                                  },
-                                ),
-                                products: (data.data as Promotion).products ?? [],
-                              ),
-                            );
-                          return Container();
-                        }),
+                                  child: DynamicSectionBuilder(
+                                    header: SectionHeader(
+                                      title: (data.data as Promotion).name,
+                                      subTitle: "",
+                                      viewAll: () {
+                                        BaseController.goToProductListPage(ProductPageArg(
+                                          promotionKey: appVar.dynamicSectionKeys[i-1],
+                                          subCategory: 'Designer',
+                                          queryString:
+                                          "",
+                                          sellerPhoto: "",
+                                        ));
+                                      },
+                                    ),
+                                    products: (data.data as Promotion).products ?? [],
+                                  ),
+                                );
+                              return Container();
+                            }),
+                        ],
+                      ),
                     // FutureSectionBuilder(
                     //   duration: sectionDelay['SECTION3']!,
                     //   child: Column(
@@ -411,10 +428,7 @@ class _HomeViewListState extends State<HomeViewList> {
                         ],
                       ),
                     ),
-                    if ((controller.bottomPromotion.length) > 1) ...[
-                      SectionDivider(),
-                      BottomPromotion(promotion: controller.bottomPromotion[1])
-                    ],
+
                     // FutureSectionBuilder(
                     //   duration: sectionDelay['SECTION5']!,
                     //   child: Column(
@@ -481,10 +495,118 @@ class _HomeViewListState extends State<HomeViewList> {
                         ],
                       ),
                     ),
-                    if ((controller.bottomPromotion.length) > 2) ...[
-                      SectionDivider(),
-                      BottomPromotion(promotion: controller.bottomPromotion[2])
-                    ],
+                    if (appVar.dynamicSectionKeys.length > i)
+                      FutureBuilder(
+                          future: getProducts(appVar.dynamicSectionKeys[i++]),
+                          builder: (context, data){
+                            if (data.connectionState == ConnectionState.active){
+                              return ShimmerWidget(type: LayoutType.PRODUCT_LAYOUT_2);
+                            }
+                            if (data.hasData)
+                              return Container(
+                                child: DynamicSectionBuilder(
+                                  header: SectionHeader(
+                                    title: (data.data as Promotion).name,
+                                    subTitle: "",
+                                    viewAll: () {
+                                      BaseController.goToProductListPage(ProductPageArg(
+                                        promotionKey: appVar.dynamicSectionKeys[i-1],
+                                        subCategory: 'Designer',
+                                        queryString:
+                                        "",
+                                        sellerPhoto: "",
+                                      ));
+                                    },
+                                  ),
+                                  products: (data.data as Promotion).products ?? [],
+                                ),
+                              );
+                            return Container();
+                          }),
+                    if (appVar.dynamicSectionKeys.length > i)
+                      FutureBuilder(
+                          future: getProducts(appVar.dynamicSectionKeys[i++]),
+                          builder: (context, data){
+                            if (data.connectionState == ConnectionState.active){
+                              return ShimmerWidget(type: LayoutType.PRODUCT_LAYOUT_2);
+                            }
+                            if (data.hasData)
+                              return Container(
+                                child: DynamicSectionBuilder(
+                                  header: SectionHeader(
+                                    title: (data.data as Promotion).name,
+                                    subTitle: "",
+                                    viewAll: () {
+                                      BaseController.goToProductListPage(ProductPageArg(
+                                        promotionKey: appVar.dynamicSectionKeys[i-1],
+                                        subCategory: 'Designer',
+                                        queryString:
+                                        "",
+                                        sellerPhoto: "",
+                                      ));
+                                    },
+                                  ),
+                                  products: (data.data as Promotion).products ?? [],
+                                ),
+                              );
+                            return Container();
+                          }),
+                    if (appVar.dynamicSectionKeys.length > i)
+                      FutureBuilder(
+                          future: getProducts(appVar.dynamicSectionKeys[i++]),
+                          builder: (context, data){
+                            if (data.connectionState == ConnectionState.active){
+                              return ShimmerWidget(type: LayoutType.PRODUCT_LAYOUT_2);
+                            }
+                            if (data.hasData)
+                              return Container(
+                                child: DynamicSectionBuilder(
+                                  header: SectionHeader(
+                                    title: (data.data as Promotion).name,
+                                    subTitle: "",
+                                    viewAll: () {
+                                      BaseController.goToProductListPage(ProductPageArg(
+                                        promotionKey: appVar.dynamicSectionKeys[i-1],
+                                        subCategory: 'Designer',
+                                        queryString:
+                                        "",
+                                        sellerPhoto: "",
+                                      ));
+                                    },
+                                  ),
+                                  products: (data.data as Promotion).products ?? [],
+                                ),
+                              );
+                            return Container();
+                          }),
+                    if (appVar.dynamicSectionKeys.length > i)
+                      FutureBuilder(
+                          future: getProducts(appVar.dynamicSectionKeys[i++]),
+                          builder: (context, data){
+                            if (data.connectionState == ConnectionState.active){
+                              return ShimmerWidget(type: LayoutType.PRODUCT_LAYOUT_2);
+                            }
+                            if (data.hasData)
+                              return Container(
+                                child: DynamicSectionBuilder(
+                                  header: SectionHeader(
+                                    title: (data.data as Promotion).name,
+                                    subTitle: "",
+                                    viewAll: () {
+                                      BaseController.goToProductListPage(ProductPageArg(
+                                        promotionKey: appVar.dynamicSectionKeys[i-1],
+                                        subCategory: 'Designer',
+                                        queryString:
+                                        "",
+                                        sellerPhoto: "",
+                                      ));
+                                    },
+                                  ),
+                                  products: (data.data as Promotion).products ?? [],
+                                ),
+                              );
+                            return Container();
+                          }),
                     FutureSectionBuilder(
                       duration: sectionDelay['SECTION7']!,
                       child: Column(
@@ -578,38 +700,32 @@ class _HomeViewListState extends State<HomeViewList> {
                         ],
                       ),
                     ),
-                    if ((controller.bottomPromotion.length) > 3) ...[
-                      SectionDivider(),
-                      BottomPromotion(promotion: controller.bottomPromotion[3]),
-                    ],
-                    FutureSectionBuilder(
-                      duration: sectionDelay['SECTION10']!,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SectionDivider(),
-                          SectionBuilder(
-                            key: widget.categoryUniqueKey,
-                            context: context,
-                            layoutType: LayoutType.CATEGORY_LAYOUT_3,
-                            onEmptyList: () {},
-                            controller: CategoriesGridViewBuilderController(),
-                            scrollDirection: Axis.horizontal,
-                            header: SectionHeader(
-                              title: controller.remoteConfig!
-                                  .getString(HOMESCREEN_SECTION_10_TITLE_EN),
-                              subTitle: controller.remoteConfig!
-                                  .getString(HOMESCREEN_SECTION_10_SUBTITLE_EN),
-                              viewAll: () => BaseController.category(),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    if ((controller.bottomPromotion.length) > 4) ...[
-                      SectionDivider(),
-                      BottomPromotion(promotion: controller.bottomPromotion[4])
-                    ],
+
+                    // FutureSectionBuilder(
+                    //   duration: sectionDelay['SECTION10']!,
+                    //   child: Column(
+                    //     crossAxisAlignment: CrossAxisAlignment.start,
+                    //     children: [
+                    //       SectionDivider(),
+                    //       SectionBuilder(
+                    //         key: widget.categoryUniqueKey,
+                    //         context: context,
+                    //         layoutType: LayoutType.CATEGORY_LAYOUT_3,
+                    //         onEmptyList: () {},
+                    //         controller: CategoriesGridViewBuilderController(),
+                    //         scrollDirection: Axis.horizontal,
+                    //         header: SectionHeader(
+                    //           title: controller.remoteConfig!
+                    //               .getString(HOMESCREEN_SECTION_10_TITLE_EN),
+                    //           subTitle: controller.remoteConfig!
+                    //               .getString(HOMESCREEN_SECTION_10_SUBTITLE_EN),
+                    //           viewAll: () => BaseController.category(),
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+
                     FutureSectionBuilder(
                       duration: sectionDelay['SECTION11']!,
                       child: Column(
@@ -637,10 +753,7 @@ class _HomeViewListState extends State<HomeViewList> {
                         ],
                       ),
                     ),
-                    if ((controller.bottomPromotion.length) > 5) ...[
-                      SectionDivider(),
-                      BottomPromotion(promotion: controller.bottomPromotion[5])
-                    ],
+
                     FutureSectionBuilder(
                       duration: sectionDelay['SECTION12']!,
                       child: Column(
@@ -669,10 +782,7 @@ class _HomeViewListState extends State<HomeViewList> {
                         ],
                       ),
                     ),
-                    if ((controller.bottomPromotion.length) > 6) ...[
-                      SectionDivider(),
-                      BottomPromotion(promotion: controller.bottomPromotion[6]),
-                    ],
+
                     FutureSectionBuilder(
                       duration: sectionDelay['SECTION13']!,
                       child: Column(
@@ -705,10 +815,7 @@ class _HomeViewListState extends State<HomeViewList> {
                         ],
                       ),
                     ),
-                    if ((controller.bottomPromotion.length) > 7) ...[
-                      SectionDivider(),
-                      BottomPromotion(promotion: controller.bottomPromotion[7]),
-                    ],
+
                     FutureSectionBuilder(
                       duration: sectionDelay['SECTION14']!,
                       child: Column(
@@ -1123,20 +1230,6 @@ class DynamicSectionBuilder extends StatelessWidget {
               ],
             ),
           )
-
-          // ListView.builder(
-          //   scrollDirection: Axis.horizontal,
-          //     itemCount: 5,
-          //     itemBuilder: (BuildContext context,int index){
-          //       return ListTile(
-          //           leading: Icon(Icons.list),
-          //           trailing: Text("GFG",
-          //             style: TextStyle(
-          //                 color: Colors.green,fontSize: 15),),
-          //           title:Text("List item $index")
-          //       );
-          //     }
-          // ),
         ],
       ),
     );
