@@ -1,13 +1,13 @@
-import 'package:firebase_remote_config/firebase_remote_config.dart';
+// import 'package:firebase_remote_config/firebase_remote_config.dart';
 
 class RemoteConfigService {
-  RemoteConfig remoteConfig = RemoteConfig.instance;
+  // RemoteConfig remoteConfig = RemoteConfig.instance;
 
   Future<void> init() async {
-    remoteConfig = RemoteConfig.instance;
+    // remoteConfig = RemoteConfig.instance;
 
-    await remoteConfig.fetch();
-    await remoteConfig.activate();
+    // await remoteConfig.fetch();
+    // await remoteConfig.activate();
     // await remoteConfig.activateFetched();
   }
 }

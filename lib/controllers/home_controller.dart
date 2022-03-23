@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:compound/app/app.dart';
 import 'package:compound/models/products.dart';
 import 'package:compound/models/sellers.dart';
-import 'package:firebase_remote_config/firebase_remote_config.dart';
+// import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 // import 'package:geocoder/geocoder.dart';
@@ -51,7 +51,7 @@ class HomeController extends BaseController {
   UniqueKey? key, productKey, sellerKey, categoryKey, promotionKey;
   String cityName = "Add Location";
   String name = "";
-  RemoteConfig? remoteConfig;
+  // RemoteConfig? remoteConfig;
   SharedPreferences? prefs;
   late UserDetails? details;
   List<Promotion> topPromotion = [], bottomPromotion = [];
@@ -61,12 +61,12 @@ class HomeController extends BaseController {
 
    onRefresh({context, args}) async {
     try {
-      if (remoteConfig == null)
-        remoteConfig = _remoteConfigService.remoteConfig;
+      // if (remoteConfig == null)
+        // remoteConfig = _remoteConfigService.remoteConfig;
       setup();
-      await remoteConfig!.fetch();
+      // await remoteConfig!.fetch();
       // await remoteConfig.activateFetched();
-      await remoteConfig!.activate();
+      // await remoteConfig!.activate();
     } catch (e) {
       print(e.toString());
     }
@@ -164,7 +164,7 @@ class HomeController extends BaseController {
     categoryKey = UniqueKey();
     promotionKey = UniqueKey();
 
-    remoteConfig = _remoteConfigService.remoteConfig;
+    // remoteConfig = _remoteConfigService.remoteConfig;
 
     setup();
 

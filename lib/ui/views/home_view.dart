@@ -273,7 +273,8 @@ class _HomeViewState extends State<HomeView> {
                       title: FittedBox(
                         fit: BoxFit.scaleDown,
                         child: Text(
-                          "${controller.remoteConfig!.getString(HOMESCREEN_APPBAR_TEXT)}",
+                          "Hello World",
+                          // "${controller.remoteConfig!.getString(HOMESCREEN_APPBAR_TEXT)}",
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 14,

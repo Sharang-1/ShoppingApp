@@ -16,7 +16,7 @@ import '../../controllers/grid_view_builder/sellers_grid_view_builder_controller
 import '../../controllers/home_controller.dart';
 import '../../models/grid_view_builder_filter_models/productFilter.dart';
 import '../../models/productPageArg.dart';
-import '../../services/remote_config_service.dart';
+// import '../../services/remote_config_service.dart';
 import '../../utils/lang/translation_keys.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
@@ -92,8 +92,9 @@ class _HomeViewListState extends State<HomeViewList> {
                     //   ),
                     if ((controller.topPromotion.length) > 0) ...[
                       HomeViewListHeader(
-                          title: controller.remoteConfig!
-                              .getString(TOP_PROMOTION_TITLE_EN)),
+                        title: "Hello World"),
+                          // title: controller.remoteConfig!
+                          //     .getString(TOP_PROMOTION_TITLE_EN)),
                       verticalSpaceTiny,
                       PromotionSlider(
                         aspectRatio: 4.0,
@@ -232,10 +233,12 @@ class _HomeViewListState extends State<HomeViewList> {
                             ),
                             scrollDirection: Axis.horizontal,
                             header: SectionHeader(
-                              title: controller.remoteConfig!
-                                  .getString(HOMESCREEN_SECTION_2_TITLE_EN),
-                              subTitle: controller.remoteConfig!
-                                  .getString(HOMESCREEN_SECTION_2_SUBTITLE_EN),
+                        title: "Hello World",
+subTitle: "Hello World",
+                              // title: controller.remoteConfig!
+                              //     .getString(HOMESCREEN_SECTION_2_TITLE_EN),
+                              // subTitle: controller.remoteConfig!
+                              //     .getString(HOMESCREEN_SECTION_2_SUBTITLE_EN),
                               viewAll: () {
                                 BaseController.goToProductListPage(ProductPageArg(
                                   queryString: 'minDiscount=5;',
@@ -266,10 +269,12 @@ class _HomeViewListState extends State<HomeViewList> {
                             ),
                             scrollDirection: Axis.horizontal,
                             header: SectionHeader(
-                              title: controller.remoteConfig!
-                                  .getString(HOMESCREEN_SECTION_3_TITLE_EN),
-                              subTitle: controller.remoteConfig!
-                                  .getString(HOMESCREEN_SECTION_3_SUBTITLE_EN),
+                              title: "Hello World",
+                              subTitle: "Hello world"
+                              // title: controller.remoteConfig!
+                              //     .getString(HOMESCREEN_SECTION_3_TITLE_EN),
+                              // subTitle: controller.remoteConfig!
+                              //     .getString(HOMESCREEN_SECTION_3_SUBTITLE_EN),
                             ),
                           ),
                         ],
@@ -413,10 +418,12 @@ class _HomeViewListState extends State<HomeViewList> {
                             ),
                             scrollDirection: Axis.horizontal,
                             header: SectionHeader(
-                              title: controller.remoteConfig!
-                                  .getString(HOMESCREEN_SECTION_1_TITLE_EN),
-                              subTitle: controller.remoteConfig!
-                                  .getString(HOMESCREEN_SECTION_1_SUBTITLE_EN),
+                              title: "Hello World",
+                              subTitle: "Hello World",
+                              // title: controller.remoteConfig!
+                              //     .getString(HOMESCREEN_SECTION_1_TITLE_EN),
+                              // subTitle: controller.remoteConfig!
+                              //     .getString(HOMESCREEN_SECTION_1_SUBTITLE_EN),
                               viewAll: () {
                                 BaseController.goToProductListPage(ProductPageArg(
                                   queryString: 'maxPrice=750;',
@@ -480,10 +487,12 @@ class _HomeViewListState extends State<HomeViewList> {
                             ),
                             scrollDirection: Axis.horizontal,
                             header: SectionHeader(
-                              title: controller.remoteConfig!
-                                  .getString(HOMESCREEN_SECTION_6_TITLE_EN),
-                              subTitle: controller.remoteConfig!
-                                  .getString(HOMESCREEN_SECTION_6_SUBTITLE_EN),
+                              title: "Hello World",
+                              subTitle: "Hello World",
+                              // title: controller.remoteConfig!
+                              //     .getString(HOMESCREEN_SECTION_6_TITLE_EN),
+                              // subTitle: controller.remoteConfig!
+                              //     .getString(HOMESCREEN_SECTION_6_SUBTITLE_EN),
                               viewAll: () {
                                 BaseController.goToProductListPage(ProductPageArg(
                                   queryString: 'category=1;',
@@ -624,10 +633,12 @@ class _HomeViewListState extends State<HomeViewList> {
                             ),
                             scrollDirection: Axis.horizontal,
                             header: SectionHeader(
-                              title: controller.remoteConfig!
-                                  .getString(HOMESCREEN_SECTION_7_TITLE_EN),
-                              subTitle: controller.remoteConfig!
-                                  .getString(HOMESCREEN_SECTION_7_SUBTITLE_EN),
+                              title: "Hello World",
+                              subTitle: "Hello World"
+                              // title: controller.remoteConfig!
+                              //     .getString(HOMESCREEN_SECTION_7_TITLE_EN),
+                              // subTitle: controller.remoteConfig!
+                              //     .getString(HOMESCREEN_SECTION_7_SUBTITLE_EN),
                             ),
                           ),
                         ],
@@ -664,10 +675,12 @@ class _HomeViewListState extends State<HomeViewList> {
                             ),
                             scrollDirection: Axis.horizontal,
                             header: SectionHeader(
-                              title: controller.remoteConfig!
-                                  .getString(HOMESCREEN_SECTION_8_TITLE_EN),
-                              subTitle: controller.remoteConfig!
-                                  .getString(HOMESCREEN_SECTION_8_SUBTITLE_EN),
+                              title: "Hello World",
+                              subTitle: "Hello World"
+                              // title: controller.remoteConfig!
+                              //     .getString(HOMESCREEN_SECTION_8_TITLE_EN),
+                              // subTitle: controller.remoteConfig!
+                              //     .getString(HOMESCREEN_SECTION_8_SUBTITLE_EN),
                             ),
                           ),
                         ],
@@ -691,10 +704,12 @@ class _HomeViewListState extends State<HomeViewList> {
                             ),
                             scrollDirection: Axis.horizontal,
                             header: SectionHeader(
-                              title: controller.remoteConfig!
-                                  .getString(HOMESCREEN_SECTION_9_TITLE_EN),
-                              subTitle: controller.remoteConfig!
-                                  .getString(HOMESCREEN_SECTION_9_SUBTITLE_EN),
+                              title: "Hello World",
+                              subTitle: "Hello World"
+                              // title: controller.remoteConfig!
+                              //     .getString(HOMESCREEN_SECTION_9_TITLE_EN),
+                              // subTitle: controller.remoteConfig!
+                              //     .getString(HOMESCREEN_SECTION_9_SUBTITLE_EN),
                             ),
                           ),
                         ],
@@ -744,10 +759,12 @@ class _HomeViewListState extends State<HomeViewList> {
                             ),
                             scrollDirection: Axis.horizontal,
                             header: SectionHeader(
-                              title: controller.remoteConfig!
-                                  .getString(HOMESCREEN_SECTION_11_TITLE_EN),
-                              subTitle: controller.remoteConfig!
-                                  .getString(HOMESCREEN_SECTION_11_SUBTITLE_EN),
+                              title: "Hello World",
+                              subTitle: "Hello World"
+                              // title: controller.remoteConfig!
+                              //     .getString(HOMESCREEN_SECTION_11_TITLE_EN),
+                              // subTitle: controller.remoteConfig!
+                              //     .getString(HOMESCREEN_SECTION_11_SUBTITLE_EN),
                             ),
                           ),
                         ],
@@ -773,10 +790,12 @@ class _HomeViewListState extends State<HomeViewList> {
                             ),
                             scrollDirection: Axis.horizontal,
                             header: SectionHeader(
-                              title: controller.remoteConfig!
-                                  .getString(HOMESCREEN_SECTION_12_TITLE_EN),
-                              subTitle: controller.remoteConfig!
-                                  .getString(HOMESCREEN_SECTION_12_SUBTITLE_EN),
+                              title: "Hello World",
+                              subTitle: "Hello World"
+                              // title: controller.remoteConfig!
+                              //     .getString(HOMESCREEN_SECTION_12_TITLE_EN),
+                              // subTitle: controller.remoteConfig!
+                              //     .getString(HOMESCREEN_SECTION_12_SUBTITLE_EN),
                             ),
                           ),
                         ],
@@ -800,10 +819,12 @@ class _HomeViewListState extends State<HomeViewList> {
                             ),
                             scrollDirection: Axis.horizontal,
                             header: SectionHeader(
-                              title: controller.remoteConfig!
-                                  .getString(HOMESCREEN_SECTION_13_TITLE_EN),
-                              subTitle: controller.remoteConfig!
-                                  .getString(HOMESCREEN_SECTION_13_SUBTITLE_EN),
+                              title: "Hello World",
+                              subTitle: "Hello World",
+                              // title: controller.remoteConfig!
+                              //     .getString(HOMESCREEN_SECTION_13_TITLE_EN),
+                              // subTitle: controller.remoteConfig!
+                              //     .getString(HOMESCREEN_SECTION_13_SUBTITLE_EN),
                               viewAll: () {
                                 BaseController.goToProductListPage(ProductPageArg(
                                   queryString: '',
@@ -832,10 +853,12 @@ class _HomeViewListState extends State<HomeViewList> {
                             controller:
                                 SellersGridViewBuilderController(random: true),
                             header: SectionHeader(
-                              title: controller.remoteConfig!
-                                  .getString(HOMESCREEN_SECTION_14_TITLE_EN),
-                              subTitle: controller.remoteConfig!
-                                  .getString(HOMESCREEN_SECTION_14_SUBTITLE_EN),
+                              title: "Hello World",
+                              subTitle: "Hello World"
+                              // title: controller.remoteConfig!
+                              //     .getString(HOMESCREEN_SECTION_14_TITLE_EN),
+                              // subTitle: controller.remoteConfig!
+                              //     .getString(HOMESCREEN_SECTION_14_SUBTITLE_EN),
                             ),
                           ),
                         ],
