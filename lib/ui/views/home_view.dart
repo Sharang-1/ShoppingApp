@@ -273,7 +273,7 @@ class _HomeViewState extends State<HomeView> {
                       title: FittedBox(
                         fit: BoxFit.scaleDown,
                         child: Text(
-                          "Hello World",
+                          "Use Code 💥1STOFMANY💥 while checkout",
                           // "${controller.remoteConfig!.getString(HOMESCREEN_APPBAR_TEXT)}",
                           style: TextStyle(
                             color: Colors.black,

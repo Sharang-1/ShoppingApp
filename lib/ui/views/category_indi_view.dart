@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:compound/constants/server_urls.dart';
+import 'package:compound/services/navigation_service.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/state_manager.dart';
@@ -86,6 +87,22 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
               slivers: <Widget>[
                 SliverAppBar(
                   toolbarHeight: 150,
+
+                  leading: InkWell(
+                    onTap: () => NavigationService.back(),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                      ),
+                      margin: EdgeInsets.all(8.0),
+                      child: Icon(
+                        Icons.navigate_before,
+                        color: Colors.black,
+                        size: 40,
+                      ),
+                    ),
+                  ),
                   actions: [
                     IconButton(
                       iconSize: 50,

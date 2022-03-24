@@ -92,7 +92,7 @@ class _HomeViewListState extends State<HomeViewList> {
                     //   ),
                     if ((controller.topPromotion.length) > 0) ...[
                       HomeViewListHeader(
-                        title: "Hello World"),
+                        title: "Featured Home Grown Brands!"),
                           // title: controller.remoteConfig!
                           //     .getString(TOP_PROMOTION_TITLE_EN)),
                       verticalSpaceTiny,
@@ -215,6 +215,41 @@ class _HomeViewListState extends State<HomeViewList> {
                     //   SectionDivider(),
                     //   BottomPromotion(promotion: controller.bottomPromotion[0])
                     // ],
+                    if (appVar.dynamicSectionKeys.length > i)
+
+                      FutureBuilder(
+                        future: getProducts(appVar.dynamicSectionKeys[i++]),
+
+                        builder: (context, data){
+                          if (data.connectionState == ConnectionState.active){
+                            return ShimmerWidget(type: LayoutType.PRODUCT_LAYOUT_2);
+                          }
+                          if (data.hasData)
+                            return Column(
+
+                              children:[
+                                SectionDivider(),
+                                DynamicSectionBuilder(
+                                header: SectionHeader(
+                                  title: (data.data as Promotion).name,
+                                  subTitle: "",
+                                  viewAll: () {
+
+                                    BaseController.goToProductListPage(ProductPageArg(
+                                      promotionKey: appVar.dynamicSectionKeys[i-1],
+                                      subCategory: 'Designer',
+                                      queryString:
+                                      "",
+                                      sellerPhoto: "",
+                                    ));
+                                  },
+                                ),
+                                products: (data.data as Promotion).products ?? [],
+                              ),
+                          ]
+                            );
+                          return Container();
+                        }),
                     FutureSectionBuilder(
                       duration: sectionDelay['SECTION2']!,
                       child: Column(
@@ -233,8 +268,9 @@ class _HomeViewListState extends State<HomeViewList> {
                             ),
                             scrollDirection: Axis.horizontal,
                             header: SectionHeader(
-                        title: "Hello World",
-subTitle: "Hello World",
+                        
+                        title: "Best deals all day long",
+                        subTitle: "Scroll right to see more",
                               // title: controller.remoteConfig!
                               //     .getString(HOMESCREEN_SECTION_2_TITLE_EN),
                               // subTitle: controller.remoteConfig!
@@ -269,8 +305,8 @@ subTitle: "Hello World",
                             ),
                             scrollDirection: Axis.horizontal,
                             header: SectionHeader(
-                              title: "Hello World",
-                              subTitle: "Hello world"
+                              title: "BEST DESIGNERS AROUND YOU",
+                              subTitle: " "
                               // title: controller.remoteConfig!
                               //     .getString(HOMESCREEN_SECTION_3_TITLE_EN),
                               // subTitle: controller.remoteConfig!
@@ -280,53 +316,24 @@ subTitle: "Hello World",
                         ],
                       ),
                     ),
-                    SectionDivider(),
-                    if (appVar.dynamicSectionKeys.length > i)
-
-                      FutureBuilder(
-                        future: getProducts(appVar.dynamicSectionKeys[i++]),
-
-                        builder: (context, data){
-                          if (data.connectionState == ConnectionState.active){
-                            return ShimmerWidget(type: LayoutType.PRODUCT_LAYOUT_2);
-                          }
-                          if (data.hasData)
-                            return Container(
-
-                              child: DynamicSectionBuilder(
-                                header: SectionHeader(
-                                  title: (data.data as Promotion).name,
-                                  subTitle: "",
-                                  viewAll: () {
-
-                                    BaseController.goToProductListPage(ProductPageArg(
-                                      promotionKey: appVar.dynamicSectionKeys[i-1],
-                                      subCategory: 'Designer',
-                                      queryString:
-                                      "",
-                                      sellerPhoto: "",
-                                    ));
-                                  },
-                                ),
-                                products: (data.data as Promotion).products ?? [],
-                              ),
-                            );
-                          return Container();
-                        }),
+                    
+                    
                     if (appVar.dynamicSectionKeys.length > i)
                       Column(
                         children: [
                           SectionDivider(),
-                          FutureBuilder(                    future: getProducts(appVar.dynamicSectionKeys[i++]),
-
+                          FutureBuilder(
+                            future: getProducts(appVar.dynamicSectionKeys[i++]),
                             builder: (context, data){
                               if (data.connectionState == ConnectionState.active){
                                 return ShimmerWidget(type: LayoutType.PRODUCT_LAYOUT_2);
                               }
                               if (data.hasData)
-                                return Container(
+                                return Column(
 
-                                  child: DynamicSectionBuilder(
+                                  children:[
+                                    SectionDivider(),
+                                    DynamicSectionBuilder(
                                     header: SectionHeader(
                                       title: (data.data as Promotion).name,
                                       subTitle: "",
@@ -342,7 +349,8 @@ subTitle: "Hello World",
                                     ),
                                     products: (data.data as Promotion).products ?? [],
                                   ),
-                                );
+                              ])
+                              ;
                               return Container();
                             }),
                         ],
@@ -418,8 +426,8 @@ subTitle: "Hello World",
                             ),
                             scrollDirection: Axis.horizontal,
                             header: SectionHeader(
-                              title: "Hello World",
-                              subTitle: "Hello World",
+                              title: "SHOP DESIGNER COLLECTION BELOW ₹999",
+                              subTitle: "",
                               // title: controller.remoteConfig!
                               //     .getString(HOMESCREEN_SECTION_1_TITLE_EN),
                               // subTitle: controller.remoteConfig!
@@ -465,45 +473,45 @@ subTitle: "Hello World",
                     //     ],
                     //   ),
                     // ),
-                    FutureSectionBuilder(
-                      duration: sectionDelay['SECTION6']!,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SectionDivider(),
-                          SectionBuilder(
-                            key: widget.productUniqueKey ?? UniqueKey(),
-                            context: context,
-                            layoutType: LayoutType.PRODUCT_LAYOUT_2,
-                            onEmptyList: () {},
-                            filter: ProductFilter(
-                              subCategories: [
-                                '1',
-                              ],
-                            ),
-                            controller: ProductsGridViewBuilderController(
-                              randomize: true,
-                              limit: 10,
-                            ),
-                            scrollDirection: Axis.horizontal,
-                            header: SectionHeader(
-                              title: "Hello World",
-                              subTitle: "Hello World",
-                              // title: controller.remoteConfig!
-                              //     .getString(HOMESCREEN_SECTION_6_TITLE_EN),
-                              // subTitle: controller.remoteConfig!
-                              //     .getString(HOMESCREEN_SECTION_6_SUBTITLE_EN),
-                              viewAll: () {
-                                BaseController.goToProductListPage(ProductPageArg(
-                                  queryString: 'category=1;',
-                                  subCategory: '',
-                                ));
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    // FutureSectionBuilder(
+                    //   duration: sectionDelay['SECTION6']!,
+                    //   child: Column(
+                    //     crossAxisAlignment: CrossAxisAlignment.start,
+                    //     children: [
+                    //       SectionDivider(),
+                    //       SectionBuilder(
+                    //         key: widget.productUniqueKey ?? UniqueKey(),
+                    //         context: context,
+                    //         layoutType: LayoutType.PRODUCT_LAYOUT_2,
+                    //         onEmptyList: () {},
+                    //         filter: ProductFilter(
+                    //           subCategories: [
+                    //             '1',
+                    //           ],
+                    //         ),
+                    //         controller: ProductsGridViewBuilderController(
+                    //           randomize: true,
+                    //           limit: 10,
+                    //         ),
+                    //         scrollDirection: Axis.horizontal,
+                    //         header: SectionHeader(
+                    //           title: "Hello World",
+                    //           subTitle: "Hello World",
+                    //           // title: controller.remoteConfig!
+                    //           //     .getString(HOMESCREEN_SECTION_6_TITLE_EN),
+                    //           // subTitle: controller.remoteConfig!
+                    //           //     .getString(HOMESCREEN_SECTION_6_SUBTITLE_EN),
+                    //           viewAll: () {
+                    //             BaseController.goToProductListPage(ProductPageArg(
+                    //               queryString: 'category=1;',
+                    //               subCategory: '',
+                    //             ));
+                    //           },
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                     if (appVar.dynamicSectionKeys.length > i)
                       FutureBuilder(
                           future: getProducts(appVar.dynamicSectionKeys[i++]),
@@ -512,8 +520,10 @@ subTitle: "Hello World",
                               return ShimmerWidget(type: LayoutType.PRODUCT_LAYOUT_2);
                             }
                             if (data.hasData)
-                              return Container(
-                                child: DynamicSectionBuilder(
+                              return Column(
+                                children:[
+                                  SectionDivider(),
+                                  DynamicSectionBuilder(
                                   header: SectionHeader(
                                     title: (data.data as Promotion).name,
                                     subTitle: "",
@@ -528,7 +538,7 @@ subTitle: "Hello World",
                                     },
                                   ),
                                   products: (data.data as Promotion).products ?? [],
-                                ),
+                                ),]
                               );
                             return Container();
                           }),
@@ -540,23 +550,26 @@ subTitle: "Hello World",
                               return ShimmerWidget(type: LayoutType.PRODUCT_LAYOUT_2);
                             }
                             if (data.hasData)
-                              return Container(
-                                child: DynamicSectionBuilder(
-                                  header: SectionHeader(
-                                    title: (data.data as Promotion).name,
-                                    subTitle: "",
-                                    viewAll: () {
-                                      BaseController.goToProductListPage(ProductPageArg(
-                                        promotionKey: appVar.dynamicSectionKeys[i-1],
-                                        subCategory: 'Designer',
-                                        queryString:
-                                        "",
-                                        sellerPhoto: "",
-                                      ));
-                                    },
+                              return Column(
+                                children: [
+                                  SectionDivider(),
+                                  DynamicSectionBuilder(
+                                    header: SectionHeader(
+                                      title: (data.data as Promotion).name,
+                                      subTitle: "",
+                                      viewAll: () {
+                                        BaseController.goToProductListPage(ProductPageArg(
+                                          promotionKey: appVar.dynamicSectionKeys[i-1],
+                                          subCategory: 'Designer',
+                                          queryString:
+                                          "",
+                                          sellerPhoto: "",
+                                        ));
+                                      },
+                                    ),
+                                    products: (data.data as Promotion).products ?? [],
                                   ),
-                                  products: (data.data as Promotion).products ?? [],
-                                ),
+                                ],
                               );
                             return Container();
                           }),
@@ -568,23 +581,26 @@ subTitle: "Hello World",
                               return ShimmerWidget(type: LayoutType.PRODUCT_LAYOUT_2);
                             }
                             if (data.hasData)
-                              return Container(
-                                child: DynamicSectionBuilder(
-                                  header: SectionHeader(
-                                    title: (data.data as Promotion).name,
-                                    subTitle: "",
-                                    viewAll: () {
-                                      BaseController.goToProductListPage(ProductPageArg(
-                                        promotionKey: appVar.dynamicSectionKeys[i-1],
-                                        subCategory: 'Designer',
-                                        queryString:
-                                        "",
-                                        sellerPhoto: "",
-                                      ));
-                                    },
+                              return Column(
+                                children: [
+                                  SectionDivider(),
+                                  DynamicSectionBuilder(
+                                    header: SectionHeader(
+                                      title: (data.data as Promotion).name,
+                                      subTitle: "",
+                                      viewAll: () {
+                                        BaseController.goToProductListPage(ProductPageArg(
+                                          promotionKey: appVar.dynamicSectionKeys[i-1],
+                                          subCategory: 'Designer',
+                                          queryString:
+                                          "",
+                                          sellerPhoto: "",
+                                        ));
+                                      },
+                                    ),
+                                    products: (data.data as Promotion).products ?? [],
                                   ),
-                                  products: (data.data as Promotion).products ?? [],
-                                ),
+                                ],
                               );
                             return Container();
                           }),
@@ -596,23 +612,26 @@ subTitle: "Hello World",
                               return ShimmerWidget(type: LayoutType.PRODUCT_LAYOUT_2);
                             }
                             if (data.hasData)
-                              return Container(
-                                child: DynamicSectionBuilder(
-                                  header: SectionHeader(
-                                    title: (data.data as Promotion).name,
-                                    subTitle: "",
-                                    viewAll: () {
-                                      BaseController.goToProductListPage(ProductPageArg(
-                                        promotionKey: appVar.dynamicSectionKeys[i-1],
-                                        subCategory: 'Designer',
-                                        queryString:
-                                        "",
-                                        sellerPhoto: "",
-                                      ));
-                                    },
+                              return Column(
+                                children: [
+                                  SectionDivider(),
+                                  DynamicSectionBuilder(
+                                    header: SectionHeader(
+                                      title: (data.data as Promotion).name,
+                                      subTitle: "",
+                                      viewAll: () {
+                                        BaseController.goToProductListPage(ProductPageArg(
+                                          promotionKey: appVar.dynamicSectionKeys[i-1],
+                                          subCategory: 'Designer',
+                                          queryString:
+                                          "",
+                                          sellerPhoto: "",
+                                        ));
+                                      },
+                                    ),
+                                    products: (data.data as Promotion).products ?? [],
                                   ),
-                                  products: (data.data as Promotion).products ?? [],
-                                ),
+                                ],
                               );
                             return Container();
                           }),
@@ -633,8 +652,8 @@ subTitle: "Hello World",
                             ),
                             scrollDirection: Axis.horizontal,
                             header: SectionHeader(
-                              title: "Hello World",
-                              subTitle: "Hello World"
+                              title: "GREAT LABELS IN YOUR CITY!",
+                              subTitle: ""
                               // title: controller.remoteConfig!
                               //     .getString(HOMESCREEN_SECTION_7_TITLE_EN),
                               // subTitle: controller.remoteConfig!
@@ -644,77 +663,77 @@ subTitle: "Hello World",
                         ],
                       ),
                     ),
-                    FutureSectionBuilder(
-                      duration: sectionDelay['SECTION8']!,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SectionDivider(),
-                          SectionBuilder(
-                            key: widget.productUniqueKey ?? UniqueKey(),
-                            context: context,
-                            layoutType: LayoutType.PRODUCT_LAYOUT_2,
-                            onEmptyList: () {},
-                            filter: ProductFilter(
-                              subCategories: [
-                                '1',
-                                '2',
-                                '3',
-                                '4',
-                                '5',
-                                '6',
-                                '7',
-                                '8',
-                                '12'
-                              ],
-                              maxPrice: 1500,
-                            ),
-                            controller: ProductsGridViewBuilderController(
-                              randomize: true,
-                              limit: 10,
-                            ),
-                            scrollDirection: Axis.horizontal,
-                            header: SectionHeader(
-                              title: "Hello World",
-                              subTitle: "Hello World"
-                              // title: controller.remoteConfig!
-                              //     .getString(HOMESCREEN_SECTION_8_TITLE_EN),
-                              // subTitle: controller.remoteConfig!
-                              //     .getString(HOMESCREEN_SECTION_8_SUBTITLE_EN),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    FutureSectionBuilder(
-                      duration: sectionDelay['SECTION9']!,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SectionDivider(),
-                          SectionBuilder(
-                            context: context,
-                            layoutType: LayoutType.DESIGNER_ID_1_2_LAYOUT,
-                            onEmptyList: () {},
-                            controller: SellersGridViewBuilderController(
-                              subscriptionTypes: [2],
-                              withProducts: true,
-                              random: true,
-                              limit: 7,
-                            ),
-                            scrollDirection: Axis.horizontal,
-                            header: SectionHeader(
-                              title: "Hello World",
-                              subTitle: "Hello World"
-                              // title: controller.remoteConfig!
-                              //     .getString(HOMESCREEN_SECTION_9_TITLE_EN),
-                              // subTitle: controller.remoteConfig!
-                              //     .getString(HOMESCREEN_SECTION_9_SUBTITLE_EN),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    // FutureSectionBuilder(
+                    //   duration: sectionDelay['SECTION8']!,
+                    //   child: Column(
+                    //     crossAxisAlignment: CrossAxisAlignment.start,
+                    //     children: [
+                    //       SectionDivider(),
+                    //       SectionBuilder(
+                    //         key: widget.productUniqueKey ?? UniqueKey(),
+                    //         context: context,
+                    //         layoutType: LayoutType.PRODUCT_LAYOUT_2,
+                    //         onEmptyList: () {},
+                    //         filter: ProductFilter(
+                    //           subCategories: [
+                    //             '1',
+                    //             '2',
+                    //             '3',
+                    //             '4',
+                    //             '5',
+                    //             '6',
+                    //             '7',
+                    //             '8',
+                    //             '12'
+                    //           ],
+                    //           maxPrice: 1500,
+                    //         ),
+                    //         controller: ProductsGridViewBuilderController(
+                    //           randomize: true,
+                    //           limit: 10,
+                    //         ),
+                    //         scrollDirection: Axis.horizontal,
+                    //         header: SectionHeader(
+                    //           title: "Hello World",
+                    //           subTitle: "Hello World"
+                    //           // title: controller.remoteConfig!
+                    //           //     .getString(HOMESCREEN_SECTION_8_TITLE_EN),
+                    //           // subTitle: controller.remoteConfig!
+                    //           //     .getString(HOMESCREEN_SECTION_8_SUBTITLE_EN),
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+                    // FutureSectionBuilder(
+                    //   duration: sectionDelay['SECTION9']!,
+                    //   child: Column(
+                    //     crossAxisAlignment: CrossAxisAlignment.start,
+                    //     children: [
+                    //       SectionDivider(),
+                    //       SectionBuilder(
+                    //         context: context,
+                    //         layoutType: LayoutType.DESIGNER_ID_1_2_LAYOUT,
+                    //         onEmptyList: () {},
+                    //         controller: SellersGridViewBuilderController(
+                    //           subscriptionTypes: [2],
+                    //           withProducts: true,
+                    //           random: true,
+                    //           limit: 7,
+                    //         ),
+                    //         scrollDirection: Axis.horizontal,
+                    //         header: SectionHeader(
+                    //           title: "Hello World",
+                    //           subTitle: "Hello World"
+                    //           // title: controller.remoteConfig!
+                    //           //     .getString(HOMESCREEN_SECTION_9_TITLE_EN),
+                    //           // subTitle: controller.remoteConfig!
+                    //           //     .getString(HOMESCREEN_SECTION_9_SUBTITLE_EN),
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
 
                     // FutureSectionBuilder(
                     //   duration: sectionDelay['SECTION10']!,
@@ -759,8 +778,8 @@ subTitle: "Hello World",
                             ),
                             scrollDirection: Axis.horizontal,
                             header: SectionHeader(
-                              title: "Hello World",
-                              subTitle: "Hello World"
+                              title: "EXPLORE BOUTIQUES",
+                              subTitle: " "
                               // title: controller.remoteConfig!
                               //     .getString(HOMESCREEN_SECTION_11_TITLE_EN),
                               // subTitle: controller.remoteConfig!
@@ -771,36 +790,36 @@ subTitle: "Hello World",
                       ),
                     ),
 
-                    FutureSectionBuilder(
-                      duration: sectionDelay['SECTION12']!,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SectionDivider(),
-                          SectionBuilder(
-                            context: context,
-                            layoutType: LayoutType.DESIGNER_ID_1_2_LAYOUT,
-                            onEmptyList: () {},
-                            controller: SellersGridViewBuilderController(
-                              subscriptionTypes: [1, 2],
-                              withProducts: true,
-                              random: true,
-                              boutiquesOnly: true,
-                              limit: 7,
-                            ),
-                            scrollDirection: Axis.horizontal,
-                            header: SectionHeader(
-                              title: "Hello World",
-                              subTitle: "Hello World"
-                              // title: controller.remoteConfig!
-                              //     .getString(HOMESCREEN_SECTION_12_TITLE_EN),
-                              // subTitle: controller.remoteConfig!
-                              //     .getString(HOMESCREEN_SECTION_12_SUBTITLE_EN),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    // FutureSectionBuilder(
+                    //   duration: sectionDelay['SECTION12']!,
+                    //   child: Column(
+                    //     crossAxisAlignment: CrossAxisAlignment.start,
+                    //     children: [
+                    //       SectionDivider(),
+                    //       SectionBuilder(
+                    //         context: context,
+                    //         layoutType: LayoutType.DESIGNER_ID_1_2_LAYOUT,
+                    //         onEmptyList: () {},
+                    //         controller: SellersGridViewBuilderController(
+                    //           subscriptionTypes: [1, 2],
+                    //           withProducts: true,
+                    //           random: true,
+                    //           boutiquesOnly: true,
+                    //           limit: 7,
+                    //         ),
+                    //         scrollDirection: Axis.horizontal,
+                    //         header: SectionHeader(
+                    //           title: "Hello World",
+                    //           subTitle: "Hello World"
+                    //           // title: controller.remoteConfig!
+                    //           //     .getString(HOMESCREEN_SECTION_12_TITLE_EN),
+                    //           // subTitle: controller.remoteConfig!
+                    //           //     .getString(HOMESCREEN_SECTION_12_SUBTITLE_EN),
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
 
                     FutureSectionBuilder(
                       duration: sectionDelay['SECTION13']!,
@@ -819,8 +838,8 @@ subTitle: "Hello World",
                             ),
                             scrollDirection: Axis.horizontal,
                             header: SectionHeader(
-                              title: "Hello World",
-                              subTitle: "Hello World",
+                              title: "Explore Designer collection",
+                              subTitle: "",
                               // title: controller.remoteConfig!
                               //     .getString(HOMESCREEN_SECTION_13_TITLE_EN),
                               // subTitle: controller.remoteConfig!
@@ -853,8 +872,8 @@ subTitle: "Hello World",
                             controller:
                                 SellersGridViewBuilderController(random: true),
                             header: SectionHeader(
-                              title: "Hello World",
-                              subTitle: "Hello World"
+                              title: "Discover Designers",
+                              subTitle: ""
                               // title: controller.remoteConfig!
                               //     .getString(HOMESCREEN_SECTION_14_TITLE_EN),
                               // subTitle: controller.remoteConfig!
