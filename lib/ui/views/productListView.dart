@@ -374,8 +374,10 @@ class _ProductListViewState extends State<ProductListView> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            SizedBox(width: 18,),
             Row(
               children: [
+
                 Container(
                   height: 100,
                   width: 100,
@@ -433,6 +435,7 @@ class _ProductListViewState extends State<ProductListView> {
                       fontSize: 15,
                     ),
                   ),
+
               ],
             ),
              verticalSpaceSmall,
@@ -498,6 +501,7 @@ class _ProductListViewState extends State<ProductListView> {
                     : Container();
               },
             ),
+            SizedBox(width: 18,),
           ],
         );
     });
