@@ -254,7 +254,7 @@ class HomeController extends BaseController {
           );
         break;
       case 2:
-        NavigationService.to(DzorExploreViewRoute);
+        // NavigationService.to(DzorExploreViewRoute);
         break;
       case 3:
         if (isLoggedIn)

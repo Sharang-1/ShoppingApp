@@ -88,9 +88,9 @@ class _HomeViewState extends State<HomeView> {
                     icon: Padding(
                       key: logoKey,
                       padding: const EdgeInsets.all(4.0),
-                      child: SvgPicture.asset(
-                        "assets/svg/logo.svg",
-                        color: logoRed,
+                      child: Image.asset(
+                        "assets/images/logo.png",
+                        // color: logoRed,
                         height: 15,
                         width: 15,
                       ),

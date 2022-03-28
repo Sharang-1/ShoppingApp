@@ -83,9 +83,9 @@ class _VerifyOTPViewState extends State<VerifyOTPView> {
   }
 
   Widget image(context) {
-    return SvgPicture.asset(
-      "assets/svg/logo.svg",
-      color: logoRed,
+    return Image.asset(
+      "assets/images/logo.png",
+      // color: logoRed,
       width: MediaQuery.of(context).size.width / 3,
     );
   }

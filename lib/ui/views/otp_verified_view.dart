@@ -21,9 +21,9 @@ class OtpVerifiedView extends StatelessWidget {
         child: Stack(
           alignment: Alignment.center,
           children: <Widget>[
-            SvgPicture.asset(
-              "assets/svg/logo.svg",
-              color: logoRed,
+            Image.asset(
+              "assets/images/logo.png",
+              // color: logoRed,
               width: MediaQuery.of(context).size.width / 2.5,
               height: MediaQuery.of(context).size.width / 2.5,
             ),

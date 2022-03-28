@@ -33,14 +33,14 @@ class _DzorExploreViewState extends State<DzorExploreView> {
   void initState() {
     super.initState();
 
-    try {
-      locator<AnalyticsService>().sendAnalyticsEvent(
-          eventName: "dzor_explore_view",
-          parameters: <String, dynamic>{
-            "user_id": locator<HomeController>().details!.key,
-            "user_name": locator<HomeController>().details!.name,
-          });
-    } catch (e) {}
+    // try {
+    //   locator<AnalyticsService>().sendAnalyticsEvent(
+    //       eventName: "dzor_explore_view",
+    //       parameters: <String, dynamic>{
+    //         "user_id": locator<HomeController>().details!.key,
+    //         "user_name": locator<HomeController>().details!.name,
+    //       });
+    // } catch (e) {}
   }
 
   @override
@@ -148,6 +148,7 @@ class _DzorExploreViewState extends State<DzorExploreView> {
                 refreshController.refreshCompleted(resetFooterState: true);
               },
               child: SingleChildScrollView(
+
                 child: Column(
                   children: [
 

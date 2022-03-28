@@ -83,9 +83,9 @@ class DzorMapController extends BaseController {
       title: '',
       icon: Padding(
         padding: const EdgeInsets.all(4.0),
-        child: SvgPicture.asset(
-          "assets/svg/logo.svg",
-          color: logoRed,
+        child: Image.asset(
+          "assets/images/logo.png",
+          // color: logoRed,
           height: 15,
           width: 15,
         ),
@@ -122,7 +122,7 @@ class DzorMapController extends BaseController {
         NavigationService.to(MyOrdersRoute);
         break;
       case 2:
-        NavigationService.to(DzorExploreViewRoute);
+        // NavigationService.to(DzorExploreViewRoute);
         break;
       case 3:
         NavigationService.to(MyAppointmentViewRoute);

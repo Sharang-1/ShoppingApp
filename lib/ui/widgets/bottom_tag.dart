@@ -36,8 +36,8 @@ class BottomTag extends StatelessWidget {
                   EdgeInsets.symmetric(horizontal: screenPadding, vertical: 10),
               child: Row(
                 children: <Widget>[
-                  SvgPicture.asset(
-                    "assets/svg/dzor_logo.svg",
+                  Image.asset(
+                    "assets/images/logo.png",
                     color: Colors.grey[800],
                     height: 35,
                     width: 35,

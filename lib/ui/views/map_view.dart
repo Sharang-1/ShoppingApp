@@ -368,6 +368,7 @@ class MapView extends StatelessWidget {
                 style: TabStyle.fixedCircle,
                 items: dzorMapController.navigationItems,
                 backgroundColor: logoRed,
+
                 activeColor: backgroundWhiteCreamColor,
                 disableDefaultTabController: true,
                 initialActiveIndex: 2,

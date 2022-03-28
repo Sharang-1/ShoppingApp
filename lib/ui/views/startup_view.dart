@@ -21,9 +21,9 @@ class StartUpView extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(bottom: 50),
                 child: Center(
-                  child: SvgPicture.asset(
-                    "assets/svg/dzor_logo.svg",
-                    color: logoRed,
+                  child: Image.asset(
+                    "assets/images/dzor_logo.png",
+                    // color: logoRed,
                     width: MediaQuery.of(context).size.width / 2,
                     fit: BoxFit.contain,
                   ),
@@ -34,10 +34,10 @@ class StartUpView extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [Text("India ke Home-Grown brands",
-                    style: TextStyle(color: textIconBlue, fontWeight: FontWeight.w700, fontSize: 20),
+                    style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700, fontSize: 20),
                   ),
                     Text("ka apna App",
-                      style: TextStyle(color: textIconBlue, fontWeight: FontWeight.w700, fontSize: 20),
+                      style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700, fontSize: 20),
                     ),]
                   ,
                 ),

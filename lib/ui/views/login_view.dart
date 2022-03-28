@@ -254,9 +254,9 @@ class LoginView extends StatelessWidget {
                             Center(
                               child: Container(
                                 margin: EdgeInsets.only(top: 8.0),
-                                child: SvgPicture.asset(
-                                  "assets/svg/logo.svg",
-                                  color: logoRed,
+                                child: Image.asset(
+                                  "assets/images/logo.png",
+                                  // color: logoRed,
                                   width: MediaQuery.of(context).size.width / 3,
                                 ),
                               ),

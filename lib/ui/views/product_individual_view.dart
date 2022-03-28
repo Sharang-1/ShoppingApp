@@ -242,7 +242,18 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                     fromProduct: true,
                                   );
                                 }
-                              return Container();
+                              return HomeSlider(
+                                  key: photosKey,
+                                  imgList: imageURLs ?? [],
+
+                                videoList: productData?.video?.videos
+                                      .map((e) =>
+                                  "${BASE_URL}products/${productData!.key}/videos/${e.name}")
+                                      .toList() ??
+                                      [],
+                                  aspectRatio: 1,
+                                  fromProduct: true,
+                                );
                               }
                             ),
                             if ((productData?.discount ?? 0.0) != 0.0)

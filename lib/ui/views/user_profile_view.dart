@@ -57,9 +57,9 @@ class SettingsView extends StatelessWidget {
   final AppBar appbar = AppBar(
     elevation: 0,
     centerTitle: true,
-    title: SvgPicture.asset(
-      "assets/svg/logo.svg",
-      color: logoRed,
+    title: Image.asset(
+      "assets/images/logo.png",
+      // color: logoRed,
       height: 35,
       width: 35,
     ),

@@ -9,8 +9,9 @@ Color secondaryColor = _colorFromHex("#bE505F"); //  _colorFromHex("#e1547e");
 
 Color lightRedSmooth = _colorFromHex("#f57f8d");
 Color darkRedSmooth = _colorFromHex("#bE505F"); //_colorFromHex("#e1547e");
-Color logoRed = _colorFromHex("#bE505F");
+// Color logoRed = _colorFromHex("#F2AO4E");
 Color lightBlue = _colorFromHex("#78a2ec");
+Color logoRed = Color(0xFFF2A04E);
 Color green = Colors.green[700]!;
 Color lightGreen = _colorFromHex("#51BF47");
 Color textIconOrange = _colorFromHex("#eb6969");
