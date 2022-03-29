@@ -557,7 +557,7 @@ Future getDynamicKeys() async {
     'Accept': '*/*'
   };
   // var url = Uri.parse('https://dev.dzor.in/api/promotions');
-  var url = Uri.parse('${appVar.currentUrl}/promotions');
+  var url = Uri.parse('${appVar.currentUrl}promotions');
 
   var res = await http.get(url, headers: headersList);
   List<String> mylist = [];

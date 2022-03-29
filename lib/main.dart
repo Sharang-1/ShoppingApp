@@ -37,10 +37,11 @@ void main() async {
   setupLogger();
   // Register all the models and services before the app starts
   setupLocator();
-  if (kReleaseMode)
-    appVar.currentUrl = appVar.liveUrl;
-  else
-    appVar.currentUrl = appVar.devUrl;
+  appVar.currentUrl = appVar.liveUrl;
+  // if (kReleaseMode)
+  //   appVar.currentUrl = appVar.liveUrl;
+  // else
+  //   appVar.currentUrl = appVar.devUrl;
   await getDynamicKeys();
   // Running flutter app
   WidgetsFlutterBinding.ensureInitialized();
