@@ -367,6 +367,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
         paymentMethodRadioValue,
         widget.billingAddress.pincode);
 
+    print("res = $res");
     if (res != null) {
       NavigationService.off(PaymentFinishedScreenRoute);
     } else if (paymentMethodGrpValue != 2) {
