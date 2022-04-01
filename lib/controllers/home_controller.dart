@@ -53,7 +53,7 @@ class HomeController extends BaseController {
   String name = "";
   // RemoteConfig? remoteConfig;
   SharedPreferences? prefs;
-  late UserDetails? details;
+  UserDetails? details;
   List<Promotion> topPromotion = [], bottomPromotion = [];
   bool isProfileComplete = true;
   bool isLoggedIn = false;

@@ -205,7 +205,7 @@ class _SettingsViewState extends State<SettingsView> {
                                               image: (locator<HomeController>()
                                                       .isLoggedIn)
                                                   ? NetworkImage(
-                                                      "$USER_PROFILE_PHOTO_BASE_URL/${controller.mUserDetails!.key}",
+                                                      "$USER_PROFILE_PHOTO_BASE_URL/${controller.mUserDetails?.key}",
                                                       headers: {
                                                           "Authorization":
                                                               "Bearer ${locator<HomeController>().prefs!.getString(Authtoken) ?? ''}",
@@ -248,7 +248,7 @@ class _SettingsViewState extends State<SettingsView> {
                                             ? [
                                                 CustomText(
                                                   controller
-                                                          .mUserDetails!.name ??
+                                                          .mUserDetails?.name ??
                                                       '',
                                                   isTitle: true,
                                                   fontSize: 16,
@@ -256,13 +256,14 @@ class _SettingsViewState extends State<SettingsView> {
                                                 ),
                                                 CustomText(
                                                   controller
-                                                          .mUserDetails!
-                                                          .contact
-                                                          ?.phone
-                                                          ?.mobile
-                                                          ?.replaceRange(
-                                                              5, 10, 'XXXXX')
-                                                          .toString() ??
+                                                      .mUserDetails != null ? controller
+                                                      .mUserDetails!
+                                                      .contact
+                                                      ?.phone
+                                                      ?.mobile
+                                                      ?.replaceRange(
+                                                      5, 10, 'XXXXX')
+                                                      .toString() ?? '' :
                                                       '',
                                                   fontSize: 14,
                                                 ),
@@ -296,14 +297,14 @@ class _SettingsViewState extends State<SettingsView> {
                           ),
                         ),
                         if ((controller
-                                    .mUserDetails!.contact?.address?.length ??
+                                    .mUserDetails?.contact?.address?.length ??
                                 0) !=
                             0)
                           Divider(
                             color: Colors.grey[400],
                           ),
                         if ((controller
-                                    .mUserDetails!.contact?.address?.length ??
+                                    .mUserDetails?.contact?.address?.length ??
                                 0) !=
                             0)
                           Padding(
@@ -311,7 +312,7 @@ class _SettingsViewState extends State<SettingsView> {
                             child: Row(
                               children: [
                                 CustomText(
-                                  "${SETTINGS_MY_CITY.tr}: ${controller.mUserDetails!.contact?.city}",
+                                  "${SETTINGS_MY_CITY.tr}: ${controller.mUserDetails?.contact?.city}",
                                   isBold: true,
                                   fontSize: 14,
                                 ),

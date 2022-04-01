@@ -239,6 +239,7 @@ class _HomeViewState extends State<HomeView> {
                               ),
                           ],
                         ),
+
                         onPressed: () => NavigationService.to(SettingsRoute),
                       ),
                       actions: <Widget>[

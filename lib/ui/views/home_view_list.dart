@@ -65,6 +65,7 @@ class _HomeViewListState extends State<HomeViewList> {
   @override
   Widget build(BuildContext context) {
     int i = 0;
+
     return GetBuilder<HomeController>(
         init: widget.controller,
         builder: (controller) {
@@ -118,12 +119,14 @@ class _HomeViewListState extends State<HomeViewList> {
                     FutureBuilder(
                         future: getProducts(appVar.dynamicSectionKeys[i++]),
                         builder: (context, data){
+
                           if (data.connectionState == ConnectionState.active){
                             return Container(
                               height: 200,
                             );
                             return ShimmerWidget(type: LayoutType.PRODUCT_LAYOUT_2);
                           }
+
                           if (data.hasData)
                         return Container(
                           child: DynamicSectionBuilder(
@@ -132,7 +135,7 @@ class _HomeViewListState extends State<HomeViewList> {
                               subTitle: "",
                               viewAll: () {
                                 BaseController.goToProductListPage(ProductPageArg(
-                                  promotionKey: appVar.dynamicSectionKeys[i-1],
+                                  promotionKey: (data.data as Promotion).key,
                                   subCategory: 'Designer',
                                   queryString:
                                   "",
@@ -154,6 +157,7 @@ class _HomeViewListState extends State<HomeViewList> {
                           FutureBuilder(
                             future: getProducts(appVar.dynamicSectionKeys[i++]),
                             builder: (context, data){
+
                               if (data.connectionState == ConnectionState.active){
                                 return ShimmerWidget(type: LayoutType.PRODUCT_LAYOUT_2);
                               }
@@ -165,7 +169,8 @@ class _HomeViewListState extends State<HomeViewList> {
                                       subTitle: "",
                                       viewAll: () {
                                         BaseController.goToProductListPage(ProductPageArg(
-                                          promotionKey: appVar.dynamicSectionKeys[i-1],
+                                          promotionKey: (data.data as Promotion).key,
+
                                           subCategory: 'Designer',
                                           queryString:
                                           "",
@@ -226,9 +231,11 @@ class _HomeViewListState extends State<HomeViewList> {
                         future: getProducts(appVar.dynamicSectionKeys[i++]),
 
                         builder: (context, data){
+
                           if (data.connectionState == ConnectionState.active){
                             return ShimmerWidget(type: LayoutType.PRODUCT_LAYOUT_2);
                           }
+
                           if (data.hasData)
                             return Column(
 
@@ -241,7 +248,8 @@ class _HomeViewListState extends State<HomeViewList> {
                                   viewAll: () {
 
                                     BaseController.goToProductListPage(ProductPageArg(
-                                      promotionKey: appVar.dynamicSectionKeys[i-1],
+                                      promotionKey: (data.data as Promotion).key,
+
                                       subCategory: 'Designer',
                                       queryString:
                                       "",
@@ -326,13 +334,15 @@ class _HomeViewListState extends State<HomeViewList> {
                     if (appVar.dynamicSectionKeys.length > i)
                       Column(
                         children: [
-                          SectionDivider(),
+                          // SectionDivider(),
                           FutureBuilder(
                             future: getProducts(appVar.dynamicSectionKeys[i++]),
                             builder: (context, data){
+
                               if (data.connectionState == ConnectionState.active){
                                 return ShimmerWidget(type: LayoutType.PRODUCT_LAYOUT_2);
                               }
+
                               if (data.hasData)
                                 return Column(
 
@@ -344,7 +354,8 @@ class _HomeViewListState extends State<HomeViewList> {
                                       subTitle: "",
                                       viewAll: () {
                                         BaseController.goToProductListPage(ProductPageArg(
-                                          promotionKey: appVar.dynamicSectionKeys[i-1],
+                                          promotionKey: (data.data as Promotion).key,
+
                                           subCategory: 'Designer',
                                           queryString:
                                           "",
@@ -404,7 +415,7 @@ class _HomeViewListState extends State<HomeViewList> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // SectionDivider(),
+                          SectionDivider(),
                           SectionBuilder(
                             key: widget.productUniqueKey ?? UniqueKey(),
                             context: context,
@@ -520,9 +531,11 @@ class _HomeViewListState extends State<HomeViewList> {
                       FutureBuilder(
                           future: getProducts(appVar.dynamicSectionKeys[i++]),
                           builder: (context, data){
+
                             if (data.connectionState == ConnectionState.active){
                               return ShimmerWidget(type: LayoutType.PRODUCT_LAYOUT_2);
                             }
+
                             if (data.hasData)
                               return Column(
                                 children:[
@@ -533,7 +546,7 @@ class _HomeViewListState extends State<HomeViewList> {
                                     subTitle: "",
                                     viewAll: () {
                                       BaseController.goToProductListPage(ProductPageArg(
-                                        promotionKey: appVar.dynamicSectionKeys[i-1],
+                                        promotionKey: (data.data as Promotion).key,
                                         subCategory: 'Designer',
                                         queryString:
                                         "",
@@ -550,9 +563,11 @@ class _HomeViewListState extends State<HomeViewList> {
                       FutureBuilder(
                           future: getProducts(appVar.dynamicSectionKeys[i++]),
                           builder: (context, data){
+
                             if (data.connectionState == ConnectionState.active){
                               return ShimmerWidget(type: LayoutType.PRODUCT_LAYOUT_2);
                             }
+
                             if (data.hasData)
                               return Column(
                                 children: [
@@ -563,7 +578,7 @@ class _HomeViewListState extends State<HomeViewList> {
                                       subTitle: "",
                                       viewAll: () {
                                         BaseController.goToProductListPage(ProductPageArg(
-                                          promotionKey: appVar.dynamicSectionKeys[i-1],
+                                          promotionKey: (data.data as Promotion).key,
                                           subCategory: 'Designer',
                                           queryString:
                                           "",
@@ -581,9 +596,11 @@ class _HomeViewListState extends State<HomeViewList> {
                       FutureBuilder(
                           future: getProducts(appVar.dynamicSectionKeys[i++]),
                           builder: (context, data){
+
                             if (data.connectionState == ConnectionState.active){
                               return ShimmerWidget(type: LayoutType.PRODUCT_LAYOUT_2);
                             }
+
                             if (data.hasData)
                               return Column(
                                 children: [
@@ -594,7 +611,7 @@ class _HomeViewListState extends State<HomeViewList> {
                                       subTitle: "",
                                       viewAll: () {
                                         BaseController.goToProductListPage(ProductPageArg(
-                                          promotionKey: appVar.dynamicSectionKeys[i-1],
+                                          promotionKey: (data.data as Promotion).key,
                                           subCategory: 'Designer',
                                           queryString:
                                           "",
@@ -612,9 +629,11 @@ class _HomeViewListState extends State<HomeViewList> {
                       FutureBuilder(
                           future: getProducts(appVar.dynamicSectionKeys[i++]),
                           builder: (context, data){
+
                             if (data.connectionState == ConnectionState.active){
                               return ShimmerWidget(type: LayoutType.PRODUCT_LAYOUT_2);
                             }
+
                             if (data.hasData)
                               return Column(
                                 children: [
@@ -625,7 +644,7 @@ class _HomeViewListState extends State<HomeViewList> {
                                       subTitle: "",
                                       viewAll: () {
                                         BaseController.goToProductListPage(ProductPageArg(
-                                          promotionKey: appVar.dynamicSectionKeys[i-1],
+                                          promotionKey: (data.data as Promotion).key,
                                           subCategory: 'Designer',
                                           queryString:
                                           "",
@@ -907,7 +926,7 @@ class _HomeViewListState extends State<HomeViewList> {
                                   },
                                   style: TextButton.styleFrom(
                                     primary: Colors.white,
-                                    backgroundColor: darkRedSmooth,
+                                    backgroundColor: logoRed,
                                     textStyle: TextStyle(
                                         fontWeight: FontWeight.bold, fontSize: 16),
                                     shape: RoundedRectangleBorder(
@@ -999,8 +1018,10 @@ class DynamicSectionBuilder extends StatelessWidget {
   List<num> products = [];
   DynamicSectionBuilder({Key? key,  this.header, required this.products}) : super(key: key);
   int i = 0;
+
   @override
   Widget build(BuildContext context) {
+    products.shuffle();
     return Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,

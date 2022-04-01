@@ -8,7 +8,8 @@ Color primaryColor = _colorFromHex("#3e5377"); //_colorFromHex("#7062b1");
 Color secondaryColor = _colorFromHex("#bE505F"); //  _colorFromHex("#e1547e");
 
 Color lightRedSmooth = _colorFromHex("#f57f8d");
-Color darkRedSmooth = _colorFromHex("#bE505F"); //_colorFromHex("#e1547e");
+// Color darkRedSmooth = _colorFromHex("#bE505F"); //_colorFromHex("#e1547e");
+Color darkRedSmooth = logoRed;
 // Color logoRed = _colorFromHex("#F2AO4E");
 Color lightBlue = _colorFromHex("#78a2ec");
 Color logoRed = Color(0xFFF2A04E);
