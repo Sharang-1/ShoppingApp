@@ -113,6 +113,7 @@ class _HomeSliderState extends State<HomeSlider> {
                                   //         BorderRadius.circular(curve15)),
                                   width: MediaQuery.of(context).size.width,
                                   child: CachedNetworkImage(
+                                    key: Key(i),
                                     // maxHeightDiskCache: 200,
                                     // maxWidthDiskCache: 200,
                                     fit: BoxFit.contain,

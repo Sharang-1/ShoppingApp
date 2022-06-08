@@ -114,7 +114,43 @@ class _HomeViewListState extends State<HomeViewList> {
                       )
                     ),
                     verticalSpaceSmall,
+                    FutureSectionBuilder(
+                      duration: sectionDelay['SECTION1']!,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // SectionDivider(),
+                          SectionBuilder(
+                            key: widget.productUniqueKey ?? UniqueKey(),
+                            context: context,
+                            layoutType: LayoutType.PRODUCT_LAYOUT_2,
+                            filter: ProductFilter(explore: true),
+                            onEmptyList: () {},
+                            controller: ProductsGridViewBuilderController(
+                              randomize: true,
+                              limit: 10,
+                            ),
+                            scrollDirection: Axis.horizontal,
+                            header: SectionHeader(
 
+                        title: "Amazing Products for you",
+                        subTitle: "Scroll right to see more",
+                              // title: controller.remoteConfig!
+                              //     .getString(HOMESCREEN_SECTION_2_TITLE_EN),
+                              // subTitle: controller.remoteConfig!
+                              //     .getString(HOMESCREEN_SECTION_2_SUBTITLE_EN),
+                              // viewAll: () {
+                              //   BaseController.goToProductListPage(ProductPageArg(
+                              //     queryString: 'minDiscount=5;',
+                              //     subCategory: '',
+                              //   ));
+                              // },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    
                     if (appVar.dynamicSectionKeys.length > i)
                     FutureBuilder(
                         future: getProducts(appVar.dynamicSectionKeys[i++]),

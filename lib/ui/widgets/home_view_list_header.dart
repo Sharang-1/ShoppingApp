@@ -35,13 +35,13 @@ class HomeViewListHeader extends StatelessWidget {
                           fit: BoxFit.scaleDown,
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            title.toUpperCase(),
+                            title,
                             textAlign: TextAlign.left,
                             style: TextStyle(
                               color: Colors.grey[800],
                               letterSpacing: 1.0,
                               fontSize: titleFontSizeStyle,
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
                         ),

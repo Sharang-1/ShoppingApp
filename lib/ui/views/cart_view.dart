@@ -61,29 +61,30 @@ class _CartViewState extends State<CartView> {
           ),
         ),
         backgroundColor: Colors.white,
-        bottomNavigationBar: Container(
-          // color: Colors.grey[200],
-          padding: EdgeInsets.only(
-            left: 8,
-            right: 8,
-            bottom: MediaQuery.of(context).padding.bottom,
-          ),
-          child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                primary: lightGreen,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5),
-                ),
-              ),
-              onPressed: () async => await BaseController.showSizePopup(),
-              child: CustomText(
-                ADD_MEASUREMENTS.tr,
-                align: TextAlign.center,
-                color: Colors.white,
-                isBold: true,
-                fontSize: 14,
-              )),
-        ),
+        // bottomNavigationBar: Container(
+        //   // color: Colors.grey[200],
+        //   padding: EdgeInsets.only(
+        //     left: 8,
+        //     right: 8,
+        //     bottom: MediaQuery.of(context).padding.bottom,
+        //   ),
+        //   child: ElevatedButton(
+        //       style: ElevatedButton.styleFrom(
+        //         primary: lightGreen,
+        //         shape: RoundedRectangleBorder(
+        //           borderRadius: BorderRadius.circular(5),
+        //         ),
+        //       ),
+        //       onPressed: () async => await BaseController.showSizePopup(),
+        //       child: CustomText(
+        //         ADD_MEASUREMENTS.tr,
+        //         align: TextAlign.center,
+        //         color: Colors.white,
+        //         isBold: true,
+        //         fontSize: 14,
+        //       )),
+        // ),
+        
         body: SafeArea(
           top: true,
           left: false,
@@ -235,7 +236,7 @@ class _CartViewState extends State<CartView> {
                                           children: [
                                             verticalSpace(10),
                                             SizedBox(
-                                              height: 300,
+                                              height: 100,
                                               // child: PairItWithWidget(
                                               //   exceptProductIDs:
                                               //       exceptProductIDs,
