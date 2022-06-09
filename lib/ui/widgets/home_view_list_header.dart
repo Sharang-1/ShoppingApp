@@ -39,7 +39,7 @@ class HomeViewListHeader extends StatelessWidget {
                             textAlign: TextAlign.left,
                             style: TextStyle(
                               color: Colors.grey[800],
-                              letterSpacing: 1.0,
+                              letterSpacing: 0.4,
                               fontSize: titleFontSizeStyle,
                               fontWeight: FontWeight.w600,
                             ),

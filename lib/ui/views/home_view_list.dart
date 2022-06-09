@@ -150,12 +150,11 @@ class _HomeViewListState extends State<HomeViewList> {
                         ],
                       ),
                     ),
-                    
+                    SectionDivider(),
                     if (appVar.dynamicSectionKeys.length > i)
                     FutureBuilder(
                         future: getProducts(appVar.dynamicSectionKeys[i++]),
                         builder: (context, data){
-
                           if (data.connectionState == ConnectionState.active){
                             return Container(
                               height: 200,

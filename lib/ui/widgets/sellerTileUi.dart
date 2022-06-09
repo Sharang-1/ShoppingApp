@@ -493,12 +493,12 @@ class DesignerTileUi extends StatelessWidget {
                                         ),
                                       ),
                                       verticalSpaceTiny,
-                                      CustomText(
-                                        "${snapshot.data!.ratingAverage!.person} RATINGS",
-                                        color: Colors.black87,
-                                        isBold: false,
-                                        fontSize: 10,
-                                      ),
+                                      // CustomText(
+                                      //   "${snapshot.data!.ratingAverage!.person} RATINGS",
+                                      //   color: Colors.black87,
+                                      //   isBold: false,
+                                      //   fontSize: 10,
+                                      // ),
                                     ],
                                   ),
                                 )

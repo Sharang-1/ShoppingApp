@@ -924,10 +924,13 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        PRODUCTSCREEN_KNOW_YOUR_DESIGNER.tr,
+                                        "Know your Designer",
+                                        // PRODUCTSCREEN_KNOW_YOUR_DESIGNER.tr,
                                         style: TextStyle(
-                                          letterSpacing: 1.0,
                                           fontSize: 14,
+                                    letterSpacing: 0.4,
+                              
+                              fontWeight: FontWeight.w600,
                                         ),
                                       ),
                                       Padding(
@@ -1221,9 +1224,12 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   CustomText(
-                                    PRODUCTSCREEN_ITEM_DETAILS.tr,
+                                    "Item Details",
+                                    // PRODUCTSCREEN_ITEM_DETAILS.tr,
                                     fontSize: 14,
-                                    letterSpacing: 1.0,
+                                    letterSpacing: 0.4,
+                              
+                              fontWeight: FontWeight.w600,
                                   ),
                                 ],
                               ),
@@ -1279,10 +1285,13 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                               ),
                               sectionDivider(),
                               Text(
-                                PRODUCTSCREEN_RECOMMENDED_PRODUCTS.tr,
+                                "Recommended Products",
+                                // PRODUCTSCREEN_RECOMMENDED_PRODUCTS.tr,
                                 style: TextStyle(
                                   fontSize: 14,
-                                  letterSpacing: 1.0,
+                                    letterSpacing: 0.4,
+                              
+                              fontWeight: FontWeight.w600,
                                 ),
                               ),
                               verticalSpace(5),
@@ -1306,10 +1315,13 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                               if (showMoreFromDesigner) sectionDivider(),
                               if (showMoreFromDesigner)
                                 Text(
-                                  PRODUCTSCREEN_MORE_FROM_DESIGNER.tr,
+                                  "More from Designer",
+                                  // PRODUCTSCREEN_MORE_FROM_DESIGNER.tr,
                                   style: TextStyle(
                                     fontSize: 14,
-                                    letterSpacing: 1.0,
+                                    letterSpacing: 0.4,
+                              
+                              fontWeight: FontWeight.w600,
                                   ),
                                 ),
                               if (showMoreFromDesigner) verticalSpace(5),
