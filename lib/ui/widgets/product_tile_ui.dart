@@ -281,21 +281,20 @@ class _ProductTileUIState extends State<ProductTileUI> {
               child: ColorFiltered(
                 colorFilter: ColorFilter.mode(
                     Colors.transparent.withOpacity(0.12), BlendMode.srcATop),
-                child: FadeInImage(
-                  fit: BoxFit.contain,
-                  fadeInCurve: Curves.easeIn,
-                  placeholder:
-                      AssetImage('assets/images/product_preloading.png'),
-                  image: CachedNetworkImageProvider(
-                    photoURL == null
-                        ? 'https://images.pexels.com/photos/157675/fashion-men-s-individuality-black-and-white-157675.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
-                        : '$PRODUCT_PHOTO_BASE_URL/${widget.data.key}/$photoURL-small.png',
-                  ),
-                  imageErrorBuilder: (context, error, stackTrace) =>
-                      Image.asset(
-                    "assets/images/product_preloading.png",
+                child: CachedNetworkImage(
+                  errorWidget: (context, url, error) => Image.asset(
+                    'assets/images/product_preloading.png',
                     fit: BoxFit.cover,
                   ),
+                  imageUrl: photoURL == null
+                        ? 'https://images.pexels.com/photos/157675/fashion-men-s-individuality-black-and-white-157675.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
+                        : '$PRODUCT_PHOTO_BASE_URL/${widget.data.key}/$photoURL-small.png',
+                  fit: BoxFit.fill,
+                  fadeInCurve: Curves.easeIn,
+                  placeholder: (context, url) =>
+                      Image.asset('assets/images/product_preloading.png',
+                      fit: BoxFit.cover,
+                      ),
                 ),
               ),
             ),

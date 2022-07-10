@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/server_urls.dart';
@@ -31,19 +32,19 @@ class CategoryTileUI extends StatelessWidget {
         children: <Widget>[
           Positioned.fill(
               child: ColorFiltered(
-            colorFilter: ColorFilter.mode(
-                Colors.black.withOpacity(0.3), BlendMode.srcATop),
-            child: FadeInImage.assetNetwork(
-              fit: BoxFit.fill,
-              fadeInCurve: Curves.easeIn,
-              placeholder: 'assets/images/category_preloading.png',
-              image: data.id != null
+            colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.3), BlendMode.srcATop),
+            child: CachedNetworkImage(
+                errorWidget: (context, url, error) => Image.asset(
+                  'assets/images/category_preloading.png',
+                  fit: BoxFit.cover,
+                ) ,
+                imageUrl: data.id != null
                   ? '$CATEGORY_PHOTO_BASE_URL/${data.id}'
                   : 'https://images.pexels.com/photos/934070/pexels-photo-934070.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-              imageErrorBuilder: (context, error, stackTrace) => Image.asset(
-                  "assets/images/category_preloading.png",
-                  fit: BoxFit.fill),
-            ),
+                fit: BoxFit.fill,
+                fadeInCurve: Curves.easeIn,
+                placeholder: (context,url)=>Image.asset('assets/images/category_preloading.png', fit: BoxFit.cover,),
+              ),
           )),
           Positioned.fill(
             child: Column(
@@ -94,17 +95,15 @@ class NewCategoryTile extends StatelessWidget {
           child: AspectRatio(
             aspectRatio: 1.0,
             child: ClipOval(
-              child: FadeInImage.assetNetwork(
+              child: CachedNetworkImage(
+                errorWidget: (context, url, error) => Image.asset(
+                  'assets/images/category_preloading.png',
+                  fit: BoxFit.cover,
+                ) ,
+                imageUrl: '$CATEGORY_PHOTO_BASE_URL/${data.id}',
                 fit: BoxFit.fill,
                 fadeInCurve: Curves.easeIn,
-                placeholder: 'assets/images/category_preloading.png',
-                image: data.id != null
-                    ? '$CATEGORY_PHOTO_BASE_URL/${data.id}'
-                    : 'assets/images/category_preloading.png',
-                imageErrorBuilder: (context, error, stackTrace) => Image.asset(
-                  "assets/images/category_preloading.png",
-                  fit: BoxFit.fill,
-                ),
+                placeholder: (context,url)=>Image.asset('assets/images/category_preloading.png', fit: BoxFit.cover,),
               ),
             ),
           ),
