@@ -45,7 +45,8 @@ class CategoryTileUI extends StatelessWidget {
                 fadeInCurve: Curves.easeIn,
                 placeholder: (context,url)=>Image.asset('assets/images/category_preloading.png', fit: BoxFit.cover,),
               ),
-          )),
+          ),
+          ),
           Positioned.fill(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
