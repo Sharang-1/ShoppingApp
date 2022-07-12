@@ -1969,7 +1969,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
         dateParse!.year,
         dateParse!.month,
         dateParse!.day +
-                (data.shipment?.days == null ? 0 : data.shipment!.days! + 1)
+                (data.shipment?.days == null ? 0 : data.shipment!.days! + 4)
             as int);
     dateParse = DateTime.parse(newDate.toString());
     formattedDate =

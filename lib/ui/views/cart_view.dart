@@ -146,6 +146,7 @@ class _CartViewState extends State<CartView> {
                         color: Colors.black,
                       ),
                     ),
+                    // ? cart item tile
                     FutureBuilder(
                       future: Future.delayed(Duration(seconds: 1)),
                       builder: (c, s) => s.connectionState ==
