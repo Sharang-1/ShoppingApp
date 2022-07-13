@@ -11,8 +11,6 @@ import 'package:tuple/tuple.dart';
 import '../google_maps_place_picker.dart';
 import '../providers/place_provider.dart';
 import 'components/animated_pin.dart';
-import 'components/floating_card.dart';
-import 'place_picker.dart';
 
 typedef SelectedPlaceWidgetBuilder = Widget Function(
     BuildContext context,
@@ -333,7 +331,7 @@ class GoogleMapPlacePicker extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           SizedBox(height: 10),
-          RaisedButton(
+          MaterialButton(
             padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
             child: Text(
               "Select here",

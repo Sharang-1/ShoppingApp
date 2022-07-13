@@ -1,5 +1,4 @@
 // import 'package:fimber/fimber_base.dart';
-import 'package:flutter/foundation.dart';
 import 'package:gender_picker/source/enums.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';

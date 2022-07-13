@@ -2,13 +2,11 @@ import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:page_transition/page_transition.dart';
 
 import '../../constants/server_urls.dart';
 import '../../controllers/user_details_controller.dart';
 import '../../locator.dart';
 import '../../models/user_details.dart';
-import '../../packages/google_maps_place_picker/google_maps_place_picker.dart';
 import '../../services/dialog_service.dart';
 import '../../services/navigation_service.dart';
 import '../../utils/lang/translation_keys.dart';

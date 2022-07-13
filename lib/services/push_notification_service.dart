@@ -1,9 +1,6 @@
-import 'dart:io';
 
 import 'package:fimber/fimber.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
-import 'package:overlay_support/overlay_support.dart';
 
 import '../constants/route_names.dart';
 import 'navigation_service.dart';

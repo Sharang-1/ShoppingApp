@@ -33,7 +33,6 @@ import '../services/dialog_service.dart';
 import '../services/localization_service.dart';
 import '../services/location_service.dart';
 import '../services/navigation_service.dart';
-import '../services/remote_config_service.dart';
 import '../services/wishlist_service.dart';
 import '../ui/shared/app_colors.dart';
 import 'base_controller.dart';
@@ -45,7 +44,6 @@ class HomeController extends BaseController {
   final _wishListService = locator<WishListService>();
   final _apiService = locator<APIService>();
   final _authService = locator<AuthenticationService>();
-  final _remoteConfigService = locator<RemoteConfigService>();
 
   final searchController = TextEditingController();
   UniqueKey? key, productKey, sellerKey, categoryKey, promotionKey;
@@ -508,7 +506,7 @@ Future getProducts(String promotionKey) async {
   // if (num == 0){
   //   await getDynamicKeys();
   // }
-  var url = Uri.parse('${appVar.currentUrl}promotions/${promotionKey}');
+  var url = Uri.parse('${appVar.currentUrl}promotions/$promotionKey');
   var res = await http.get(url, headers: headersList);
 
   final resBody = await jsonDecode(res.body);
@@ -527,7 +525,7 @@ Future<Product> getProductFromKey(String key) async {
   var headersList = {
     'Accept': '*/*'
   };
-  var url = Uri.parse('${appVar.currentUrl}products/${key}');
+  var url = Uri.parse('${appVar.currentUrl}products/$key');
 
   var res = await http.get(url, headers: headersList);
 

@@ -10,7 +10,6 @@ import '../../locator.dart';
 import '../../models/calculatedPrice.dart';
 import '../../models/order_details.dart';
 import '../../models/user_details.dart';
-import '../../packages/google_maps_place_picker/google_maps_place_picker.dart';
 import '../../services/api/api_service.dart';
 import '../../services/dialog_service.dart';
 import '../../utils/lang/translation_keys.dart';

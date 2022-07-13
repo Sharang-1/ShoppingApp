@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:store_redirect/store_redirect.dart';
 // import 'package:open_appstore/open_appstore.dart';

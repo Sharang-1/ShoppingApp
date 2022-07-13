@@ -1969,11 +1969,11 @@ class _ProductIndiViewState extends State<ProductIndiView> {
         dateParse!.year,
         dateParse!.month,
         dateParse!.day +
-                (data.shipment?.days == null ? 0 : data.shipment!.days! + 4)
+                (data.shipment?.days == null ? 0 : data.shipment!.days! + 1)
             as int);
     dateParse = DateTime.parse(newDate.toString());
     formattedDate =
-        "${weekday[dateParse!.weekday - 1]} , ${dateParse!.day} ${month[dateParse!.month - 1]}";
+        "${weekday[dateParse!.weekday - 1]} , ${dateParse!.day + 4} ${month[dateParse!.month - 1]}";
     shipment = data.shipment?.days == null ? "Not Available" : formattedDate;
     totalQuantity = 0;
     variations!.forEach((variation) {

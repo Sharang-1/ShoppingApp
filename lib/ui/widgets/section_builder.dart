@@ -1,8 +1,6 @@
-import 'package:compound/controllers/cart_count_controller.dart';
 
 import '../../models/cart.dart' show Cart, Item;
 import '../../models/grid_view_builder_filter_models/cartFilter.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -23,7 +21,6 @@ import '../../services/analytics_service.dart';
 import '../../services/navigation_service.dart';
 import '../shared/app_colors.dart';
 import '../shared/ui_helpers.dart';
-import 'cart_tile.dart';
 import 'categoryTileUI.dart';
 import 'explore_designer_tile.dart';
 import 'explore_product_tile.dart';
@@ -118,7 +115,7 @@ class SectionBuilder extends StatelessWidget {
             viewAll: header!.viewAll,
           ),
         if (header != null && (header?.title!.isNotEmpty ?? false)) spacer,
-        SizedBox(
+        Container(
           height: getSize(layoutType),
           child: withScrollBar
               ? Theme(

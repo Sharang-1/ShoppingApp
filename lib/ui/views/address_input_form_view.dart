@@ -3,7 +3,6 @@ import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:page_transition/page_transition.dart';
 
 import '../../controllers/address_controller.dart';
 import '../../locator.dart';
@@ -248,7 +247,7 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
                               ),
                             ),
                             TextFormField(
-                              maxLines: 3,
+                              maxLines: 1,
                               controller: _userInputedAddressString2Controller,
                               maxLength: 50,
                               validator: (text) {
@@ -262,6 +261,7 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
                                 });
                               },
                               decoration: InputDecoration(
+                                enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(20), borderSide: BorderSide(color: secondaryColor)),
                                 
                                   labelText: LANDMARK_LABEL.tr,
                                   isDense: true,

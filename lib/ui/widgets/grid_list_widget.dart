@@ -1,7 +1,6 @@
 import 'package:async/async.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/grid_view_builder/base_grid_view_builder_controller.dart';

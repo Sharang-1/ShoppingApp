@@ -1,13 +1,9 @@
 import 'dart:async';
 import 'dart:io';
-
-import 'package:compound/constants/shared_pref.dart';
 import 'package:dio/dio.dart' as dio;
 // import 'package:dio/dio.dart';
 // import 'package:dio_retry/dio_retry.dart';
 import 'package:fimber/fimber.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get_connect/http/src/multipart/multipart_file.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -40,10 +36,8 @@ import '../../models/user_details.dart';
 import '../cache_service.dart';
 import '../dialog_service.dart';
 import '../error_handling_service.dart';
-import '../push_notification_service.dart';
 import 'AppInterceptor.dart';
 import 'CustomLogInterceptor.dart';
-import 'performance_interceptor.dart';
 
 class APIService {
   int pollWaitTime = 1;
@@ -130,7 +124,6 @@ class APIService {
       print("res = $res and path = $path");
       if (res.statusCode == 401) {
         return null;
-        throw Exception("Unauthorized");
       }
 
       print("Fetched Raw Response From API");
@@ -396,7 +389,7 @@ class APIService {
   }
 
   Future<List<String>?> getCartProductItemList() async {
-    var cartData = null;
+    var cartData;
     cartData = await apiWrapper("carts/my?context=productDetails",
         authenticated: true,
         options: dio.Options(headers: {'excludeToken': false}));

@@ -1,12 +1,10 @@
 import 'package:compound/ui/widgets/section_builder.dart';
 import 'package:compound/utils/lang/translation_keys.dart';
 import 'package:fimber/fimber.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import '../../controllers/base_controller.dart';
 import '../../controllers/cart_controller.dart';
 import '../../controllers/cart_count_controller.dart';
 import '../../controllers/grid_view_builder/cart_grid_view_builder_controller.dart';
@@ -19,8 +17,6 @@ import '../shared/ui_helpers.dart';
 import '../widgets/cart_tile.dart';
 import '../widgets/custom_stepper.dart';
 import '../widgets/custom_text.dart';
-import '../widgets/pair_it_with_widget.dart';
-import 'product_individual_view.dart';
 
 class CartView extends StatefulWidget {
   final String productId;
@@ -166,7 +162,7 @@ class _CartViewState extends State<CartView> {
                                       index, onDelete, onUpdate) {
                                     Fimber.d("test");
                                     print((data as Item).toJson());
-                                    final Item dItem = data as Item;
+                                    final Item dItem = data;
                                     exceptProductIDs
                                         .add(dItem.product!.key ?? "");
 

@@ -1,5 +1,4 @@
 import 'package:compound/utils/lang/translation_keys.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';

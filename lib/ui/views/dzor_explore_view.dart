@@ -1,4 +1,4 @@
-import 'package:compound/ui/widgets/explore_product_tile.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -11,7 +11,6 @@ import '../../controllers/grid_view_builder/products_grid_view_builder_controlle
 import '../../controllers/grid_view_builder/sellers_grid_view_builder_controller.dart';
 import '../../controllers/home_controller.dart';
 import '../../locator.dart';
-import '../../services/analytics_service.dart';
 import '../../services/navigation_service.dart';
 import '../../utils/lang/translation_keys.dart';
 import '../shared/app_colors.dart';

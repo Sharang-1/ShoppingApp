@@ -1,7 +1,5 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 // import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -11,7 +9,6 @@ import '../../controllers/cart_count_controller.dart';
 import '../../controllers/home_controller.dart';
 import '../../locator.dart';
 import '../../services/navigation_service.dart';
-import '../../services/remote_config_service.dart';
 import '../../utils/lang/translation_keys.dart';
 import '../shared/app_colors.dart';
 import '../widgets/cart_icon_badge.dart';

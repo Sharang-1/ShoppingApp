@@ -1,7 +1,6 @@
 import 'package:compound/app/app.dart';
 import 'package:compound/controllers/home_controller.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';

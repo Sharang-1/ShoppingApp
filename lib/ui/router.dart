@@ -88,7 +88,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         routeName: settings.name!,
         viewToShow: VerifyOTPView(
           ageId: (pageArguments as Map<String, int>)["ageId"]!,
-          genderId: (pageArguments as Map<String, int>)["genderId"]!,
+          genderId: (pageArguments)["genderId"]!,
         ),
         pageArguments: pageArguments,
         pageTransitionType: PageTransitionType.rightToLeft,
@@ -138,12 +138,12 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         routeName: settings.name!,
         viewToShow: ProductListView(
           title: (pageArguments as ProductPageArg).title ?? "",
-          queryString: (pageArguments as ProductPageArg).queryString ?? "",
-          subCategory: (pageArguments as ProductPageArg).subCategory ?? "",
-          sellerPhoto: (pageArguments as ProductPageArg).sellerPhoto ?? "",
-          promotionKey: (pageArguments as ProductPageArg).promotionKey ?? "",
+          queryString: (pageArguments).queryString ?? "",
+          subCategory: (pageArguments).subCategory ?? "",
+          sellerPhoto: (pageArguments).sellerPhoto ?? "",
+          promotionKey: (pageArguments).promotionKey ?? "",
           demographicIds:
-              (pageArguments as ProductPageArg).demographicIds ?? [],
+              (pageArguments).demographicIds ?? [],
         ),
         pageArguments: pageArguments,
         pageTransitionType: PageTransitionType.rightToLeft,
@@ -169,7 +169,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return _getPageRoute(
         routeName: settings.name!,
         viewToShow: ProductIndiView(data: (pageArguments as Product)),
-        pageArguments: pageArguments as Product,
+        pageArguments: pageArguments,
         pageTransitionType: PageTransitionType.rightToLeft,
       );
 
