@@ -26,7 +26,7 @@ class DesignerShimmer extends StatelessWidget {
         clipBehavior: Clip.antiAlias,
         elevation: 0,
         child: Container(
-          padding: EdgeInsets.all(8),
+          padding: EdgeInsets.symmetric(vertical :5, horizontal: 8),
           child: Column(
             children: [
               Row(

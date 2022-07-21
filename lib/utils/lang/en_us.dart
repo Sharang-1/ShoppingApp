@@ -11,6 +11,7 @@ const Map<String, String> enUS = {
   NAVBAR_ORDERS: "Orders",
   NAVBAR_APPOINTMENTS: "Appointments",
   NAVBAR_MAPS: "Maps",
+  NAVBAR_PROFILE : "Profile",
 
   // LoginScreen
   LOGIN_PHONE_NO_VALIDATION_MSG:
@@ -105,6 +106,7 @@ const Map<String, String> enUS = {
   SETTINGS_APPBAR_TITLE: "Settings",
   SETTINGS_MY_CITY: "My City",
   SETTINGS_MY_ORDER: "My Orders",
+  SETTINGS_MY_WISHLIST : "My Wishlist",
   SETTINGS_MY_APPOINTMENT: "My Appointments",
   SETTINGS_CONNECT_WITH_US: "Connect With Us",
   SETTINGS_SEND_FEEDBACK: "Send Feedback",

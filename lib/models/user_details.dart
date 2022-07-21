@@ -61,8 +61,10 @@ class UserDetails {
         modified: json["modified"],
         firstName: json["firstName"],
         lastName: json["lastName"],
-        age: json["age"] == null ? null : Age.fromJson(json["age"]),
-        gender: json["gender"] == null ? null : Gender.fromJson(json["gender"]),
+        age: Age.fromJson(json["age"]),
+        // age: json["age"] == null ? null : Age.fromJson(json["age"]),
+        gender: Gender.fromJson(json["gender"]),
+        // gender: json["gender"] == null ? null : Gender.fromJson(json["gender"]),
         measure:
             json["measure"] == null ? Measure() : Measure.fromJson(json["measure"]),
         email: json["email"] != null ? json["email"] : null,
@@ -182,17 +184,17 @@ class UserPhoto {
 
 class Age {
   Age({
-    required this.id,
+    required this.age,
   });
 
-  int id;
+  int age;
 
   factory Age.fromJson(Map<String, dynamic> json) => Age(
-        id: json["id"],
+        age: json["age"],
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
+        "age": age,
       };
 }
 
@@ -204,11 +206,11 @@ class Gender {
   int id;
 
   factory Gender.fromJson(Map<String, dynamic> json) => Gender(
-        id: json["id"],
+        id: json["gender"],
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
+        "gender": id,
       };
 }
 

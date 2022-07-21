@@ -289,11 +289,11 @@ class _ProductTileUIState extends State<ProductTileUI> {
                   imageUrl: photoURL == null
                         ? 'https://images.pexels.com/photos/157675/fashion-men-s-individuality-black-and-white-157675.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
                         : '$PRODUCT_PHOTO_BASE_URL/${widget.data.key}/$photoURL-small.png',
-                  fit: BoxFit.fill,
+                  fit: BoxFit.contain,
                   fadeInCurve: Curves.easeIn,
                   placeholder: (context, url) =>
                       Image.asset('assets/images/product_preloading.png',
-                      fit: BoxFit.cover,
+                      fit: BoxFit.contain,
                       ),
                 ),
               ),

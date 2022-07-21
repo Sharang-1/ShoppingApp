@@ -12,6 +12,7 @@ Map<String, String> guIN = {
   NAVBAR_ORDERS: "ઓડર્સ",
   NAVBAR_APPOINTMENTS: "આપોઈંટમેંટ",
   NAVBAR_MAPS: "નકશો",
+  NAVBAR_PROFILE : "પ્રોફાઇલ",
 
   // LoginScreen
   LOGIN_PHONE_NO_VALIDATION_MSG: "મહેરબાની કરી ૧૦ આંકડા નો મોબાઇલ નંબર લખો",
@@ -105,6 +106,7 @@ Map<String, String> guIN = {
   SETTINGS_APPBAR_TITLE: "સેટિંગ્સ",
   SETTINGS_MY_CITY: "મારુ શહર",
   SETTINGS_MY_ORDER: "મારા ઓર્ડર",
+  SETTINGS_MY_WISHLIST : "મારા વિશસૂચિ",
   SETTINGS_MY_APPOINTMENT: "મારી અપ્પોઇન્ત્મેંટ્સ",
   SETTINGS_CONNECT_WITH_US: "અમારી સાથે જોડાવ",
   SETTINGS_SEND_FEEDBACK: "ફીડબેક મોકલો",

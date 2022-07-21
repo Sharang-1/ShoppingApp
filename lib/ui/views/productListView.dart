@@ -373,7 +373,7 @@ class _ProductListViewState extends State<ProductListView> {
         return Padding(
           padding: const EdgeInsets.only(left: 15, right: 15),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               // SizedBox(width: 18,),
@@ -412,7 +412,7 @@ class _ProductListViewState extends State<ProductListView> {
                   ),
                   if (widget.subCategory != 'Designer')
                     SizedBox(
-                      width: 200,
+                      // width: 150,
                       child: AutoSizeText(
                         widget.subCategory,
                         overflow: TextOverflow.visible,

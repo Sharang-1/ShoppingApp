@@ -68,7 +68,7 @@ class _SelectAddressState extends State<SelectAddress> {
     return GetBuilder<CartSelectDeliveryController>(
       init: CartSelectDeliveryController(),
       builder: (controller) => Scaffold(
-        backgroundColor: newBackgroundColor,
+        backgroundColor: newBackgroundColor2,
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.white,
@@ -100,7 +100,7 @@ class _SelectAddressState extends State<SelectAddress> {
               children: [
                 InkWell(
                   onTap: () {
-                    showModalBottomSheet<void>(
+                    showBottomSheet(
                       clipBehavior: Clip.antiAlias,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.only(
@@ -108,7 +108,8 @@ class _SelectAddressState extends State<SelectAddress> {
                           topRight: Radius.circular(10),
                         ),
                       ),
-                      isScrollControlled: true,
+                      // isScrollControlled: true,
+                      
                       context: context,
                       builder: (context) => OrderDetailsBottomsheet(
                         orderDetails: orderDetails,

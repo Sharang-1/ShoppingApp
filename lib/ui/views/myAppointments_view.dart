@@ -59,7 +59,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                   icon: Icon(Icons.help)),
             ],
           ),
-          backgroundColor: newBackgroundColor,
+          backgroundColor: newBackgroundColor2,
           body: SafeArea(
             top: true,
             left: false,

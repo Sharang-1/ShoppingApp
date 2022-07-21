@@ -148,7 +148,7 @@ class _SettingsViewState extends State<SettingsView> {
         init: UserDetailsController()..getUserDetails(),
         builder: (controller) {
           return Scaffold(
-            backgroundColor: newBackgroundColor,
+            backgroundColor: newBackgroundColor2,
             appBar: appbar,
             body: SafeArea(
               top: false,
@@ -350,10 +350,17 @@ class _SettingsViewState extends State<SettingsView> {
                           },
                           icon: Icons.event,
                         ),
+                        SettingsCard(
+                          name: "${SETTINGS_MY_WISHLIST.tr}",
+                          color: Colors.black87,
+                          iconColor: Colors.black54,
+                          onTap: ()=> BaseController.gotoWishlist(),
+                          icon: FontAwesomeIcons.heart,
+                        ),
                         verticalSpaceSmall,
                         Padding(
                           padding: EdgeInsets.symmetric(
-                              horizontal: 8.0, vertical: 10),
+                               vertical: 10),
                           child: Column(
                             children: <Widget>[
                               verticalSpaceTiny_0,
@@ -411,6 +418,7 @@ class _SettingsViewState extends State<SettingsView> {
                                 ],
                               )
                             : verticalSpaceLarge,
+                            
                       ],
                     ),
                   ),
@@ -466,6 +474,8 @@ class SettingsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
+          padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+
         decoration: BoxDecoration(
           border: Border(
             bottom: BorderSide(
@@ -473,20 +483,23 @@ class SettingsCard extends StatelessWidget {
             ),
           ),
         ),
-        child: ListTile(
-          leading: Icon(icon),
-          title: CustomText(
-            name,
-            isBold: true,
-            fontSize: titleFontSizeStyle,
-            color: color ?? Colors.grey[500]!,
+        child: Container(
+          decoration: BoxDecoration(color: Colors.grey[100], borderRadius: BorderRadius.circular(15)),
+          child: ListTile(
+            leading: Icon(icon),
+            title: CustomText(
+              name,
+              isBold: true,
+              fontSize: titleFontSizeStyle,
+              color: color ?? Colors.grey[500]!,
+            ),
+            trailing: Icon(
+              Icons.navigate_next_sharp,
+              color: iconColor ?? Colors.grey[500],
+              size: 30,
+            ),
+            onTap: () { onTap();},
           ),
-          trailing: Icon(
-            Icons.navigate_next_sharp,
-            color: iconColor ?? Colors.grey[500],
-            size: 30,
-          ),
-          onTap: () { onTap();},
         ),
       );
 }

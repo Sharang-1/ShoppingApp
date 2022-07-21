@@ -31,6 +31,8 @@ class LocationService {
             // Fimber.d("location update-> " + locationData.toString());
           }
         }));
+      }else{
+        // TODO : handle loaction permission denied
       }
     });
   }

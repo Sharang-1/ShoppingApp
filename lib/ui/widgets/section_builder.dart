@@ -117,27 +117,28 @@ class SectionBuilder extends StatelessWidget {
         if (header != null && (header?.title!.isNotEmpty ?? false)) spacer,
         Container(
           height: getSize(layoutType),
-          child: withScrollBar
-              ? Theme(
-                  data: ThemeData(
-                    scrollbarTheme: ScrollbarThemeData().copyWith(
-                      thumbColor: MaterialStateProperty.all(logoRed),
-                      trackColor: MaterialStateProperty.all(Colors.black),
-                      trackBorderColor:
-                          MaterialStateProperty.all(Colors.grey[500]),
-                      isAlwaysShown: true,
-                      showTrackOnHover: true,
-                    ),
-                  ),
-                  child: Scrollbar(
-                    controller: ScrollController(),
-                    child: getGridListWidget(
-                      layoutType,
-                      isSmallDevice: isSmallDevice,
-                    ),
-                  ),
-                )
-              : getGridListWidget(layoutType, isSmallDevice: isSmallDevice),
+          // child: withScrollBar
+          //     ? Theme(
+          //         data: ThemeData(
+          //           scrollbarTheme: ScrollbarThemeData().copyWith(
+          //             thumbColor: MaterialStateProperty.all(logoRed),
+          //             trackColor: MaterialStateProperty.all(Colors.black),
+          //             trackBorderColor:
+          //                 MaterialStateProperty.all(Colors.grey[500]),
+          //             isAlwaysShown: true,
+          //             showTrackOnHover: true,
+          //           ),
+          //         ),
+          //         child: Scrollbar(
+          //           controller: ScrollController(),
+          //           child: getGridListWidget(
+          //             layoutType,
+          //             isSmallDevice: isSmallDevice,
+          //           ),
+          //         ),
+          //       )
+          //     : 
+            child:  getGridListWidget(layoutType, isSmallDevice: isSmallDevice),
         ),
       ],
     );
@@ -442,7 +443,7 @@ class SectionBuilder extends StatelessWidget {
                 ),
                 child: DesignerTileUi(
                   data: data,
-                  isID3: ((layoutType == LayoutType.DESIGNER_ID_3_LAYOUT) ||
+                  isID3: ((layoutType == LayoutType.DESIGNER_ID_3_VERTICAL_LAYOUT) ||
                       layoutType == LayoutType.DESIGNER_ID_3_VERTICAL_LAYOUT),
                 ),
               ),

@@ -22,7 +22,8 @@ class CartIconWithBadge extends StatelessWidget {
         ),
         Positioned(
           top: 4,
-          child: Image.asset(
+          child: 
+          Image.asset(
             "assets/images/shopping.png",
             color: iconColor,
             height: 30,
@@ -36,7 +37,7 @@ class CartIconWithBadge extends StatelessWidget {
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    color: logoRed,
+                    color: Colors.grey[100],
                   ),
                   padding: EdgeInsets.symmetric(
                     vertical: 2,
@@ -46,7 +47,7 @@ class CartIconWithBadge extends StatelessWidget {
                     count.toString(),
                     style: TextStyle(
                       fontSize: 8,
-                      color: Colors.white,
+                      color: Colors.black,
                     ),
                   ),
                 ),

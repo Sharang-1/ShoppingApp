@@ -52,7 +52,7 @@ class _MyOrdersViewState extends State<MyOrdersView> {
             ],
             iconTheme: IconThemeData(color: appBarIconColor),
           ),
-          backgroundColor: newBackgroundColor,
+          backgroundColor: newBackgroundColor2,
           body: SafeArea(
             top: true,
             left: false,

@@ -51,7 +51,7 @@ class _SearchViewState extends State<SearchView>
         appBar: AppBar(
           elevation: 0,
           iconTheme: IconThemeData(color: appBarIconColor),
-          backgroundColor: Colors.white,
+          backgroundColor: logoRed,
           title: _SearchBarTextField(
             searchAction: _controller.searchAction,
             searchController: _controller.searchController.value,
@@ -300,7 +300,7 @@ class _SearchBarTextField extends StatelessWidget {
       height: 36,
       padding: EdgeInsets.symmetric(horizontal: 4.0),
       decoration: BoxDecoration(
-        color: backgroundBlueGreyColor,
+        color: backgroundWhiteCreamColor,
         borderRadius: BorderRadius.circular(10),
       ),
       child: Row(

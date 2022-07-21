@@ -41,7 +41,7 @@ class _CategoriesViewState extends State<CategoriesView> {
         backgroundColor: Colors.white,
         elevation: 0,
       ),
-      backgroundColor: newBackgroundColor,
+      backgroundColor: newBackgroundColor2,
       body: SafeArea(
         top: false,
         left: false,
@@ -70,7 +70,7 @@ class _CategoriesViewState extends State<CategoriesView> {
             refreshController.refreshCompleted(resetFooterState: true);
           },
           child: Padding(
-            padding: EdgeInsets.only(top: 16.0, left: 4.0, right: 8.0),
+            padding: EdgeInsets.only(top: 16.0, left: 8.0, right: 8.0),
             child: FutureBuilder(
               future: Future.delayed(Duration(milliseconds: 500)),
               builder: (c, s) => s.connectionState == ConnectionState.done

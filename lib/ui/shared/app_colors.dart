@@ -24,6 +24,7 @@ const Color backgroundColor = Color.fromARGB(255, 26, 27, 30);
 Color backgroundWhiteCreamColor = _colorFromHex("#f5f0e5");
 Color backgroundBlueGreyColor = _colorFromHex("#d6d9dD");
 Color newBackgroundColor = Color.fromRGBO(255, 255, 255, 0.95);
+Color newBackgroundColor2 = Color.fromRGBO(255, 255, 255, 1);
 
 Color shimmerBaseColor = Colors.grey[300]!;
 Color shimmerHighlightColor = Colors.grey[100]!;

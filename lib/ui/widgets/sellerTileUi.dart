@@ -343,7 +343,7 @@ class DesignerTileUi extends StatelessWidget {
           clipBehavior: Clip.antiAlias,
           elevation: 0,
           child: Container(
-            padding: EdgeInsets.all(8),
+            padding: EdgeInsets.symmetric(horizontal: 8, vertical : 5),
             child: Column(
               children: [
                 Row(

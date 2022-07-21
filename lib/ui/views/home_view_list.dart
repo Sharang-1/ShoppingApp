@@ -78,7 +78,7 @@ class _HomeViewListState extends State<HomeViewList> {
                 child: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
+                    children: [
                       // if ((controller.topPromotion.length) == 0)
                       //   Container(
                       //     height: 150,
@@ -915,33 +915,35 @@ class _HomeViewListState extends State<HomeViewList> {
                         ),
                       ),
                 
-                      FutureSectionBuilder(
-                        duration: sectionDelay['SECTION14']!,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SectionDivider(),
-                            SectionBuilder(
-                              key: widget.sellerUniqueKey ?? UniqueKey(),
-                              context: context,
-                              onEmptyList: () {},
-                              layoutType: LayoutType.DESIGNER_ID_3_VERTICAL_LAYOUT,
-                              fromHome: true,
-                              scrollDirection: Axis.vertical,
-                              controller:
-                                  SellersGridViewBuilderController(random: true),
-                              header: SectionHeader(
-                                title: "Discover Designers",
-                                subTitle: ""
-                                // title: controller.remoteConfig!
-                                //     .getString(HOMESCREEN_SECTION_14_TITLE_EN),
-                                // subTitle: controller.remoteConfig!
-                                //     .getString(HOMESCREEN_SECTION_14_SUBTITLE_EN),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                      // ! this is causing unusual ui bugs
+
+                      // FutureSectionBuilder(
+                      //   duration: sectionDelay['SECTION14']!,
+                      //   child: Column(
+                      //     crossAxisAlignment: CrossAxisAlignment.start,
+                      //     children: [
+                      //       SectionDivider(),
+                      //       SectionBuilder(
+                      //         key: widget.sellerUniqueKey ?? UniqueKey(),
+                      //         context: context,
+                      //         onEmptyList: () {},
+                      //         layoutType: LayoutType.DESIGNER_ID_3_VERTICAL_LAYOUT,
+                      //         fromHome: true,
+                      //         scrollDirection: Axis.vertical,
+                      //         controller:
+                      //             SellersGridViewBuilderController(random: true),
+                      //         header: SectionHeader(
+                      //           title: "Discover Designers",
+                      //           subTitle: ""
+                      //           // title: controller.remoteConfig!
+                      //           //     .getString(HOMESCREEN_SECTION_14_TITLE_EN),
+                      //           // subTitle: controller.remoteConfig!
+                      //           //     .getString(HOMESCREEN_SECTION_14_SUBTITLE_EN),
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
                       FutureSectionBuilder(
                         duration: sectionDelay["LAST_SECTION"]!,
                         child: Column(

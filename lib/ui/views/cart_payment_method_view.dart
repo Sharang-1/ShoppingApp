@@ -94,7 +94,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
     return GetBuilder<CartPaymentMethodController>(
       init: CartPaymentMethodController(city: widget.billingAddress.city ?? ""),
       builder: (controller) => Scaffold(
-        backgroundColor: newBackgroundColor,
+        backgroundColor: newBackgroundColor2,
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.white,

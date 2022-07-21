@@ -137,7 +137,7 @@ class OtpVerificationController extends BaseController {
 
       var mUserDetails = await _apiService.getUserData();
       mUserDetails!.name = prefs.getString(Name);
-      mUserDetails.age = Age(id: ageId);
+      mUserDetails.age = Age(age: ageId);
       mUserDetails.gender = Gender(id: genderId);
       await _addressService.setUpAddress(mUserDetails.contact!);
       await _apiService.updateUserData(mUserDetails);

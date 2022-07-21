@@ -57,10 +57,10 @@ class HomeController extends BaseController {
   bool isLoggedIn = false;
   String? currentLanguage;
 
-   onRefresh({context, args}) async {
+  onRefresh({context, args}) async {
     try {
       // if (remoteConfig == null)
-        // remoteConfig = _remoteConfigService.remoteConfig;
+      // remoteConfig = _remoteConfigService.remoteConfig;
       setup();
       // await remoteConfig!.fetch();
       // await remoteConfig.activateFetched();
@@ -72,8 +72,7 @@ class HomeController extends BaseController {
     await updateIsLoggedIn();
 
     try {
-      UserLocation? currentLocation =
-          await locator<LocationService>().getLocation();
+      UserLocation? currentLocation = await locator<LocationService>().getLocation();
 
       if (currentLocation != null) {
         List<Placemark> addresses = await placemarkFromCoordinates(
@@ -101,12 +100,9 @@ class HomeController extends BaseController {
     promotionKey = UniqueKey();
 
     List<Promotion> promotions = await getPromotions();
-    topPromotion = promotions
-        .where((element) => element.position!.toLowerCase() == "top")
-        .toList();
-    bottomPromotion = promotions
-        .where((element) => element.position!.toLowerCase() == "bottom")
-        .toList();
+    topPromotion = promotions.where((element) => element.position!.toLowerCase() == "top").toList();
+    bottomPromotion =
+        promotions.where((element) => element.position!.toLowerCase() == "bottom").toList();
 
     await updateUserDetails();
     update();
@@ -141,11 +137,8 @@ class HomeController extends BaseController {
   }
 
   setup() async {
-
-    locator<CartCountController>()
-        .setCartCount(await setUpCartListAndGetCount());
-    locator<WishListController>()
-        .setUpWishList(await _wishListService.getWishList());
+    locator<CartCountController>().setCartCount(await setUpCartListAndGetCount());
+    locator<WishListController>().setUpWishList(await _wishListService.getWishList());
 
     if (prefs == null) prefs = await SharedPreferences.getInstance();
     currentLanguage = prefs!.getString(CurrentLanguage) ?? "";
@@ -174,8 +167,7 @@ class HomeController extends BaseController {
         await DialogService.showCustomDialog(
           RatingDialog(
             onSubmitted: (val) async {
-              await postReview(
-                  lastDeliveredProduct['id']!, val.rating.toDouble());
+              await postReview(lastDeliveredProduct['id']!, val.rating.toDouble());
             },
             submitButtonText: "Submit",
             image: Image.network(
@@ -217,13 +209,9 @@ class HomeController extends BaseController {
           await rateMyApp.init();
           if (prefs == null) prefs = await SharedPreferences.getInstance();
           int launches = prefs!.getInt('rateMyApp_launches') ?? 0;
-          bool doNotOpenAgain =
-              prefs!.getBool('rateMyApp_doNotOpenAgain') ?? false;
+          bool doNotOpenAgain = prefs!.getBool('rateMyApp_doNotOpenAgain') ?? false;
 
-          if (!doNotOpenAgain &&
-              (launches > 0) &&
-              (launches % 2 == 0) &&
-              (launches % 5 == 0)) {
+          if (!doNotOpenAgain && (launches > 0) && (launches % 2 == 0) && (launches % 5 == 0)) {
             await rateMyApp.showRateDialog(
               Get.context!,
               title: 'Dzor',
@@ -252,7 +240,7 @@ class HomeController extends BaseController {
           );
         break;
       case 2:
-        // NavigationService.to(DzorExploreViewRoute);
+        NavigationService.to(DzorExploreViewRoute);
         break;
       case 3:
         if (isLoggedIn)
@@ -265,7 +253,8 @@ class HomeController extends BaseController {
         break;
       case 4:
         if (isLoggedIn)
-          NavigationService.to(MapViewRoute, arguments: sellerKey.toString());
+          // NavigationService.to(MapViewRoute, arguments: sellerKey.toString());
+          NavigationService.to(SettingsRoute);
         else
           BaseController.showLoginPopup(
             nextView: MapViewRoute,
@@ -316,20 +305,16 @@ class HomeController extends BaseController {
   }
 
   Future<Map<String, String>?> getLastDeliveredProduct() async {
-    Order lastDeliveredOrder = (await _apiService.getAllOrders())!
-        .orders!
-        .where((e) => e.status!.id == 7)
-        .first;
+    Order lastDeliveredOrder =
+        (await _apiService.getAllOrders())!.orders!.where((e) => e.status!.id == 7).first;
 
     if (lastDeliveredOrder == null) return {};
     if (prefs == null) prefs = await SharedPreferences.getInstance();
 
     String lastStoredOrderKey = prefs!.getString("lastDeliveredOrderKey")!;
-    if (lastDeliveredOrder.key != null &&
-        (lastDeliveredOrder.key == lastStoredOrderKey)) return {};
+    if (lastDeliveredOrder.key != null && (lastDeliveredOrder.key == lastStoredOrderKey)) return {};
     try {
-      if (await _apiService.hasReviewed(lastDeliveredOrder.productId!))
-        return {};
+      if (await _apiService.hasReviewed(lastDeliveredOrder.productId!)) return {};
     } catch (e) {
       print(e.toString());
     }
@@ -400,8 +385,7 @@ class HomeController extends BaseController {
 
   String getCurrentLang() => currentLanguage ?? "English";
 
-  void showTutorial(BuildContext context,
-      {GlobalKey? searchKey, GlobalKey? logoKey}) async {
+  void showTutorial(BuildContext context, {GlobalKey? searchKey, GlobalKey? logoKey}) async {
     if (prefs == null) prefs = await SharedPreferences.getInstance();
     if (prefs?.getBool(ShouldShowHomeTutorial) ?? true) {
       late TutorialCoachMark tutorialCoachMark;
@@ -425,9 +409,7 @@ class HomeController extends BaseController {
                       Text(
                         "Dzor Search",
                         style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                            fontSize: 20.0),
+                            fontWeight: FontWeight.bold, color: Colors.white, fontSize: 20.0),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 10.0),
@@ -489,8 +471,7 @@ class HomeController extends BaseController {
         onClickOverlay: (targetFocus) => tutorialCoachMark.next(),
         onClickTarget: (targetFocus) => tutorialCoachMark.next(),
         onSkip: () async => await prefs!.setBool(ShouldShowHomeTutorial, false),
-        onFinish: () async =>
-            await prefs!.setBool(ShouldShowHomeTutorial, false),
+        onFinish: () async => await prefs!.setBool(ShouldShowHomeTutorial, false),
       )..show();
       try {
         await prefs!.setBool(ShouldShowHomeTutorial, false);
@@ -500,9 +481,7 @@ class HomeController extends BaseController {
 }
 
 Future getProducts(String promotionKey) async {
-  var headersList = {
-    'Accept': '*/*'
-  };
+  var headersList = {'Accept': '*/*'};
   // if (num == 0){
   //   await getDynamicKeys();
   // }
@@ -513,18 +492,14 @@ Future getProducts(String promotionKey) async {
   var promotion = Promotion.fromJson(resBody);
   if (res.statusCode >= 200 && res.statusCode < 300) {
     print(resBody);
-  }
-  else {
+  } else {
     print(res.reasonPhrase);
   }
   return promotion;
 }
 
-
 Future<Product> getProductFromKey(String key) async {
-  var headersList = {
-    'Accept': '*/*'
-  };
+  var headersList = {'Accept': '*/*'};
   var url = Uri.parse('${appVar.currentUrl}products/$key');
 
   var res = await http.get(url, headers: headersList);
@@ -551,9 +526,7 @@ Future<Product> getProductFromKey(String key) async {
 }
 
 Future getDynamicKeys() async {
-  var headersList = {
-    'Accept': '*/*'
-  };
+  var headersList = {'Accept': '*/*'};
   // var url = Uri.parse('https://dev.dzor.in/api/promotions');
   var url = Uri.parse('${appVar.currentUrl}promotions');
 
@@ -561,10 +534,9 @@ Future getDynamicKeys() async {
   List<String> mylist = [];
   appVar.dynamicSectionKeys.clear();
   final resBody = await jsonDecode(res.body);
-  for (var each in resBody['promotions']){
+  for (var each in resBody['promotions']) {
     try {
-      if (each['products'].length > 0)
-      if (each['position'] == 'Bottom' && each['enabled']) {
+      if (each['products'].length > 0) if (each['position'] == 'Bottom' && each['enabled']) {
         appVar.dynamicSectionKeys.add(each['key']);
         mylist.add(each['key']);
       }

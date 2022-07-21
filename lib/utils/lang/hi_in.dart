@@ -12,6 +12,7 @@ Map<String, String> hiIN = {
   NAVBAR_ORDERS: "ऑर्डर्स",
   NAVBAR_APPOINTMENTS: "अपॉइंटमेंट्स",
   NAVBAR_MAPS: "मैप्स",
+  NAVBAR_PROFILE : "प्रोफ़ाइल",
 
   // LoginScreen
   LOGIN_PHONE_NO_VALIDATION_MSG: "कृप्या १० अंक का योग्य फ़ोन नंबर डाले",
@@ -106,6 +107,7 @@ Map<String, String> hiIN = {
   SETTINGS_APPBAR_TITLE: "सेटिंग्स",
   SETTINGS_MY_CITY: "मेरा शहर",
   SETTINGS_MY_ORDER: "मेरे ऑर्डर्स",
+  SETTINGS_MY_WISHLIST : "मेरी इच्छा सूची",
   SETTINGS_MY_APPOINTMENT: "मेरे अपॉइंटमेंट्स",
   SETTINGS_CONNECT_WITH_US: "हमसे जुड़े",
   SETTINGS_SEND_FEEDBACK: "फीडबैक भेजे",

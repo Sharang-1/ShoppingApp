@@ -154,226 +154,279 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
       builder: (controller) => Container(
         padding: EdgeInsets.only(top: 24.0),
         child: Container(
-          color: Colors.transparent,
-          child: Padding(
-            padding: EdgeInsets.all(8.0),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
-                      child: Text(
-                        ADD_ADDRESS.tr,
-                        style: TextStyle(
-                            fontFamily: headingFont, fontWeight: FontWeight.w700, fontSize: 20),
-                      ),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                verticalSpaceSmall,
+                Align(
+                  alignment: Alignment.topRight,
+                  child : Container(margin: EdgeInsets.only(right: 10, top: 5),child: GestureDetector(onTap: ()=> Get.back(),child: Icon(Icons.cancel),))
+                ),
+                verticalSpaceMedium,
+                Align(
+                  alignment: Alignment.center,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: Text(
+                      ADD_ADDRESS.tr,
+                      style: TextStyle(
+                          fontFamily: headingFont, fontWeight: FontWeight.w700, fontSize: 20),
                     ),
                   ),
-                  verticalSpaceSmall,
-                  Card(
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
-                    elevation: 3.0,
-                    color: Colors.white,
-                    shadowColor: Colors.black,
-                    child: Container(
-                      padding: EdgeInsets.all(8.0),
-                      child: Form(
-                        key: _formKey,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
+                ),
+                verticalSpaceSmall,
+                Container(
+                  // decoration: BoxDecoration(border: Border.all()),
+                  padding: EdgeInsets.all(12.0),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        // TextFormField(
+                        //   style: TextStyle(
+                        //     color: Colors.grey[500],
+                        //     fontSize: 12,
+                        //   ),
+                        //   controller: _googleAddressStringController,
+                        //   validator: (text) {
+                        //     if ((text!.isEmpty) ||
+                        //         text.trim().length == 0)
+                        //       return ENTER_PROPER_ADDRESS.tr;
+                        //     return null;
+                        //   },
+                        //   decoration: InputDecoration(
+                        //     labelText: YOUR_LOCATION.tr,
+                        //     isDense: true,
+                        //     suffixIcon: InkWell(
+                        //       onTap: () {
+                        //         changeAddress();
+                        //       },
+                        //       child: Text(
+                        //         CHANGE.tr,
+                        //         style: TextStyle(
+                        //           fontSize: 10,
+                        //           color: logoRed,
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ),
+                        //   autofocus: false,
+                        //   readOnly: true,
+                        //   maxLines: 3,
+                        // ),
+                        // verticalSpaceMedium,
+                        TextFormField(
+                          controller: _userInputedAddressString1Controller,
+                          // maxLength: 30,
+                          validator: (text) {
+                            if (text!.isEmpty || text.trim().length == 0)
+                              return ENTER_PROPER_ADDRESS.tr;
+                            return null;
+                          },
+                          onChanged: (text) {
+                            setState(() {
+                              _userInputedAddressString1Controller.text;
+                            });
+                          },
+                          decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                  borderSide: BorderSide(color: secondaryColor)),
+                              labelText: "Address line 1",
+                              hintText: HOUSE_NAME_LABEL.tr,
+                              isDense: true,
+                              hintStyle: TextStyle(
+                                  fontSize: subtitleFontSizeStyle, fontFamily: textFont),
+                              labelStyle:
+                                  TextStyle(fontSize: titleFontSizeStyle, fontFamily: textFont)),
+                          autofocus: false,
+                          enabled: true,
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                        verticalSpaceSmall,
+                        verticalSpaceSmall,
+
+                        TextFormField(
+                          // maxLines: 1,
+                          controller: _userInputedAddressString2Controller,
+                          // maxLength: 50,
+                          validator: (text) {
+                            if (text!.isEmpty || text.trim().length == 0)
+                              return ENTER_PROPER_ADDRESS.tr;
+                            return null;
+                          },
+                          onChanged: (text) {
+                            setState(() {
+                              _userInputedAddressString2Controller.text;
+                            });
+                          },
+                          decoration: InputDecoration(
+                              // enabledBorder: OutlineInputBorder(
+                              //       borderRadius: BorderRadius.circular(20),
+                              //       borderSide: BorderSide(color: logoRed)),
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                  borderSide: BorderSide(color: logoRed)),
+                              labelText: "Address line 2",
+                              hintText: LANDMARK_LABEL.tr,
+                              isDense: true,
+                              // border: InputBorder.none,
+                              hintStyle: TextStyle(
+                                  fontSize: subtitleFontSizeStyle, fontFamily: textFont),
+                              labelStyle:
+                                  TextStyle(fontSize: titleFontSizeStyle, fontFamily: textFont)),
+                          autofocus: false,
+                          enabled: true,
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                        verticalSpaceSmall,
+                        verticalSpaceSmall,
+
+
+                        /// City and PINCODE
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            // TextFormField(
-                            //   style: TextStyle(
-                            //     color: Colors.grey[500],
-                            //     fontSize: 12,
-                            //   ),
-                            //   controller: _googleAddressStringController,
-                            //   validator: (text) {
-                            //     if ((text!.isEmpty) ||
-                            //         text.trim().length == 0)
-                            //       return ENTER_PROPER_ADDRESS.tr;
-                            //     return null;
-                            //   },
-                            //   decoration: InputDecoration(
-                            //     labelText: YOUR_LOCATION.tr,
-                            //     isDense: true,
-                            //     suffixIcon: InkWell(
-                            //       onTap: () {
-                            //         changeAddress();
-                            //       },
-                            //       child: Text(
-                            //         CHANGE.tr,
-                            //         style: TextStyle(
-                            //           fontSize: 10,
-                            //           color: logoRed,
-                            //         ),
-                            //       ),
-                            //     ),
-                            //   ),
-                            //   autofocus: false,
-                            //   readOnly: true,
-                            //   maxLines: 3,
-                            // ),
-                            // verticalSpaceMedium,
-                            TextFormField(
-                              maxLines: 3,
-                              controller: _userInputedAddressString1Controller,
-                              maxLength: 30,
-                              validator: (text) {
-                                if (text!.isEmpty || text.trim().length == 0)
-                                  return ENTER_PROPER_ADDRESS.tr;
-                                return null;
-                              },
-                              onChanged: (text) {
-                                setState(() {
-                                  _userInputedAddressString1Controller.text;
-                                });
-                              },
-                              decoration: InputDecoration(
-                                  labelText: HOUSE_NAME_LABEL.tr,
-                                  isDense: true,
-                                  border: InputBorder.none,
-                                  labelStyle: TextStyle(
-                                      fontSize: subtitleFontSizeStyle, fontFamily: textFont)),
-                              autofocus: false,
-                              enabled: true,
-                              style: TextStyle(
-                                fontSize: 16,
-                              ),
-                            ),
-                            TextFormField(
-                              maxLines: 1,
-                              controller: _userInputedAddressString2Controller,
-                              maxLength: 50,
-                              validator: (text) {
-                                if (text!.isEmpty || text.trim().length == 0)
-                                  return ENTER_PROPER_ADDRESS.tr;
-                                return null;
-                              },
-                              onChanged: (text) {
-                                setState(() {
-                                  _userInputedAddressString2Controller.text;
-                                });
-                              },
-                              decoration: InputDecoration(
-                                enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(20), borderSide: BorderSide(color: secondaryColor)),
-                                
-                                  labelText: LANDMARK_LABEL.tr,
-                                  isDense: true,
-                                  border: InputBorder.none,
-                                  labelStyle: TextStyle(
-                                      fontSize: subtitleFontSizeStyle, fontFamily: textFont)),
-                              autofocus: false,
-                              enabled: true,
-                              style: TextStyle(
-                                fontSize: 16,
-                              ),
-                            ),
+                          children: [
+                            SizedBox(
+                              width: 130,
+                              child: TextFormField(
+                                validator: (text) {
+                                  if (text!.isEmpty || text.trim().length == 0)
+                                    return "Enter proper city";
+                                  return null;
+                                },
+                                controller: _cityController,
+                                decoration: InputDecoration(
+                                  // prefixIcon: Icon(Icons.location_city_rounded),
+                                  hintStyle: TextStyle(
+                                      fontSize: subtitleFontSizeStyle, fontFamily: textFont),
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                      borderSide: BorderSide(color: secondaryColor)),
 
-                            /// City and PINCODE
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  width: 100,
-                                  child: TextFormField(
-                                    controller: _cityController,
-                                    decoration: InputDecoration(
-                                        hintText: "City",
-                                        border: InputBorder.none,
-                                        labelStyle: TextStyle(
-                                            fontSize: subtitleFontSizeStyle, fontFamily: textFont)),
-                                    autofocus: false,
-                                    enabled: true,
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 50,
-                                ),
-                                SizedBox(
-                                  width: 100,
-                                  child: TextFormField(
-                                    controller: _pinCodeController,
-                                    decoration: InputDecoration(
-                                        hintText: "Pincode",
-                                        border: InputBorder.none,
-                                        labelStyle: TextStyle(
-                                            fontSize: subtitleFontSizeStyle, fontFamily: textFont)),
-                                    autofocus: false,
-                                    enabled: true,
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            verticalSpaceMedium,
-
-                            /// State
-                            TextFormField(
-                              controller: _stateController,
-                              maxLength: 50,
-                              validator: (text) {
-                                if (text!.isEmpty || text.trim().length == 0)
-                                  return "Enter proper State";
-                                return null;
-                              },
-                              onChanged: (text) {
-                                setState(() {
-                                  _stateController.text;
-                                });
-                              },
-                              decoration: InputDecoration(
-                                  hintText: "State",
-                                  border: InputBorder.none,
+                                  hintText: "City",
+                                  labelText: "City",
+                                  // border: InputBorder.none,
                                   labelStyle: TextStyle(
-                                      fontSize: subtitleFontSizeStyle, fontFamily: textFont)),
-                              autofocus: false,
-                              enabled: true,
-                              style: TextStyle(
-                                fontSize: 16,
+                                    fontSize: titleFontSizeStyle,
+                                    fontFamily: textFont,
+                                  ),
+                                ),
+                                autofocus: false,
+                                enabled: true,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                ),
                               ),
                             ),
-                            Align(
-                              alignment: Alignment.bottomCenter,
-                              child: SizedBox(
-                                width: double.infinity,
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    elevation: 5,
-                                    primary: lightGreen,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                  ),
-                                  onPressed: _submit,
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 12),
-                                    child: CustomText(
-                                      SAVE_AND_PROCEED.tr,
-                                      isBold: true,
-                                      color: Colors.white,
-                                    ),
-                                  ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            SizedBox(
+                              width: 130,
+                              child: TextFormField(
+                                validator: (text) {
+                                  if (text!.isEmpty || text.trim().length == 0)
+                                    return "Enter proper Pin";
+                                  if (!text.isNumericOnly) return "Invalid Pincode";
+                                  return null;
+                                },
+                                controller: _pinCodeController,
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                      borderSide: BorderSide(color: secondaryColor)),
+
+                                  hintText: "Pincode",
+                                  labelText: "Pincode",
+                                  // border: InputBorder.none,
+                                  hintStyle: TextStyle(
+                                      fontSize: subtitleFontSizeStyle, fontFamily: textFont),
+                                  labelStyle: TextStyle(
+                                      fontSize: titleFontSizeStyle, fontFamily: textFont),
+                                ),
+                                autofocus: false,
+                                enabled: true,
+                                style: TextStyle(
+                                  fontSize: 16,
                                 ),
                               ),
                             ),
                           ],
                         ),
-                      ),
+                        verticalSpaceSmall,
+                        verticalSpaceSmall,
+
+                        /// State
+                        TextFormField(
+                          controller: _stateController,
+                          // maxLength: 50,
+                          validator: (text) {
+                            if (text!.isEmpty || text.trim().length == 0)
+                              return "Enter proper State";
+                            return null;
+                          },
+                          onChanged: (text) {
+                            setState(() {
+                              _stateController.text;
+                            });
+                          },
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide: BorderSide(color: secondaryColor)),
+                            hintText: "State",
+                            labelText: "State",
+                            // border: InputBorder.none,
+                            hintStyle:
+                                TextStyle(fontSize: subtitleFontSizeStyle, fontFamily: textFont),
+                            labelStyle:
+                                TextStyle(fontSize: titleFontSizeStyle, fontFamily: textFont),
+                          ),
+                          autofocus: false,
+                          enabled: true,
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                        verticalSpaceMedium,
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                elevation: 5,
+                                primary: lightGreen,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              onPressed: _submit,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 12),
+                                child: CustomText(
+                                  SAVE_AND_PROCEED.tr,
+                                  isBold: true,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

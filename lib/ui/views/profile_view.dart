@@ -109,50 +109,8 @@ class _ProfileViewState extends State<ProfileView> {
           });
         },
         child: Scaffold(
-          backgroundColor: newBackgroundColor,
-          bottomNavigationBar: isButtonActive
-              ? Padding(
-                  padding: EdgeInsets.only(
-                    left: screenPadding,
-                    right: screenPadding,
-                    top: 10,
-                    bottom: MediaQuery.of(context).padding.bottom + 4.0,
-                  ),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      elevation: 0,
-                      primary: isButtonActive ? lightGreen : Colors.grey[400],
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    onPressed: () async {
-                      if (isButtonActive) if (_formKey.currentState!
-                          .validate()) {
-                         _formKey.currentState!.save();
-
-                        await controller.updateUserDetails();
-                        Fimber.e(controller.mUserDetails!.name! +
-                            " " +
-                            controller.mUserDetails!.contact!.phone!.mobile!);
-                        setState(() {
-                          isButtonActive = false;
-                          isEditable = false;
-                        });
-                      }
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 15),
-                      child: CustomText(
-                        SAVE.tr,
-                        fontSize: titleFontSizeStyle,
-                        isBold: true,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                )
-              : null,
+          backgroundColor: newBackgroundColor2,
+          
           appBar: AppBar(
             elevation: 0,
             title: Text(
@@ -168,6 +126,42 @@ class _ProfileViewState extends State<ProfileView> {
               color: appBarIconColor,
             ),
             backgroundColor: Colors.white,
+            actions: [
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  vertical: 10, horizontal: 20,
+                ),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    elevation: 0,
+                    primary: isButtonActive ? lightGreen : Colors.grey[400],
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  onPressed: () async {
+                    if (isButtonActive) if (_formKey.currentState!.validate()) {
+                      _formKey.currentState!.save();
+
+                      await controller.updateUserDetails();
+                      Fimber.e(controller.mUserDetails!.name! +
+                          " " +
+                          controller.mUserDetails!.contact!.phone!.mobile!);
+                      setState(() {
+                        isButtonActive = false;
+                        isEditable = false;
+                      });
+                    }
+                  },
+                  child: CustomText(
+                    SAVE.tr,
+                    fontSize: titleFontSizeStyle,
+                    isBold: true,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ],
           ),
           // resizeToAvoidBottomInset: false,
           body: SafeArea(
@@ -404,6 +398,7 @@ class _ProfileViewState extends State<ProfileView> {
                                       color: Colors.black,
                                     ),
                                   ),
+                                  // ! age
                                   Expanded(
                                     flex: 7,
                                     child: Padding(
@@ -414,7 +409,7 @@ class _ProfileViewState extends State<ProfileView> {
                                         alignment: Alignment.centerLeft,
                                         child: DropdownButton<String>(
                                           value:
-                                              "${controller.mUserDetails?.age?.id ?? 0}",
+                                              "${controller.mUserDetails?.age?.age ?? 0}",
                                           items: controller.ageLookup!
                                               .map(
                                                 (e) => DropdownMenuItem<
@@ -440,7 +435,7 @@ class _ProfileViewState extends State<ProfileView> {
                                                             .mUserDetails!
                                                             .age =
                                                         Age(
-                                                            id: int.parse(
+                                                            age: int.parse(
                                                                 value ??
                                                                     "0"));
                                                     isButtonActive = true;
@@ -465,6 +460,7 @@ class _ProfileViewState extends State<ProfileView> {
                                       color: Colors.black,
                                     ),
                                   ),
+                                  // ! gender
                                   Expanded(
                                     flex: 7,
                                     child: Padding(

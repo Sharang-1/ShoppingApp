@@ -1,5 +1,12 @@
+import 'package:compound/ui/views/categories_view.dart';
+import 'package:compound/ui/views/home_screen.dart';
+import 'package:compound/ui/views/myAppointments_view.dart';
+import 'package:compound/ui/views/myorders_view.dart';
+import 'package:compound/ui/views/profile_view.dart';
+import 'package:compound/ui/views/settings_page_view.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 // import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -40,15 +47,17 @@ class _HomeViewState extends State<HomeView> {
   //   controller.dispose();
   //   super.dispose();
   // }
+int _activeIndex = 2;
 
   @override
   Widget build(BuildContext context) {
+  List _screens = [CategoriesView(),MyOrdersView(), HomeScreen(args: widget.args), MyAppointments(), SettingsView()];
+
     return GetBuilder<HomeController>(
         init: controller,
         initState: (state) {
           controller.onRefresh(context: context, args: widget.args);
-          controller.showTutorial(context,
-              searchKey: searchKey, logoKey: logoKey);
+          controller.showTutorial(context, searchKey: searchKey, logoKey: logoKey);
         },
         builder: (controller) {
           return Scaffold(
@@ -59,246 +68,202 @@ class _HomeViewState extends State<HomeView> {
               style: BottomNavigationStyle(),
               child: ConvexAppBar(
                 style: TabStyle.fixedCircle,
+                color: logoRed,
                 items: [
                   TabItem(
                     title: NAVBAR_CATEGORIES.tr,
-                    icon: Padding(
-                      padding: const EdgeInsets.only(top: 4.0),
-                      child: Image.asset(
-                        "assets/images/nav_categories.png",
-                        color: newBackgroundColor,
-                      ),
-                    ),
+                    icon: _activeIndex == 0
+                        ? SvgPicture.asset("assets/icons/categ1.svg")
+                        : SvgPicture.asset("assets/icons/categ0.svg"),
                   ),
                   TabItem(
                     title: NAVBAR_ORDERS.tr,
-                    icon: Padding(
-                      padding: const EdgeInsets.only(top: 4.0),
-                      child: Image.asset(
-                        "assets/images/nav_orders.png",
-                        color: newBackgroundColor,
-                      ),
-                    ),
+                    icon: _activeIndex == 1
+                        ? SvgPicture.asset("assets/icons/orders1.svg")
+                        : SvgPicture.asset("assets/icons/orders0.svg"),
                   ),
                   TabItem(
                     title: '',
-                    icon: Padding(
-                      key: logoKey,
-                      padding: const EdgeInsets.all(4.0),
-                      child: Image.asset(
-                        "assets/images/logo.png",
-                        // color: logoRed,
-                        height: 15,
-                        width: 15,
+                    icon: Container(
+                    decoration: BoxDecoration(shape: BoxShape.circle,
+                        color: backgroundWhiteCreamColor,
+                      ),
+                      child: Padding(
+                        key: logoKey,
+                        padding: const EdgeInsets.all(4.0),
+                        child: Image.asset(
+                          "assets/images/logo.png",
+                          // color: logoRed,
+                          height: 15,
+                          width: 15,
+                        ),
                       ),
                     ),
                   ),
                   TabItem(
                     title: NAVBAR_APPOINTMENTS.tr,
-                    icon: Padding(
-                      padding: const EdgeInsets.only(top: 4.0),
-                      child: Image.asset(
-                        "assets/images/nav_appointment.png",
-                        color: newBackgroundColor,
-                      ),
-                    ),
+                    icon: _activeIndex == 3
+                        ? SvgPicture.asset("assets/icons/appointment1.svg")
+                        : SvgPicture.asset("assets/icons/appointment0.svg"),
                   ),
+                  // ! replace with profile
+                  // TabItem(
+                  //   title: NAVBAR_MAPS.tr,
+                  //   icon: Padding(
+                  //     padding: const EdgeInsets.only(top: 4.0),
+                  //     child: Image.asset(
+                  //       "assets/images/nav_map.png",
+                  //       color: newBackgroundColor,
+                  //     ),
+                  //   ),
+                  // ),
                   TabItem(
-                    title: NAVBAR_MAPS.tr,
-                    icon: Padding(
-                      padding: const EdgeInsets.only(top: 4.0),
-                      child: Image.asset(
-                        "assets/images/nav_map.png",
-                        color: newBackgroundColor,
-                      ),
-                    ),
+                    title: NAVBAR_PROFILE.tr,
+                    icon: _activeIndex==4? SvgPicture.asset("assets/icons/profile1.svg"): SvgPicture.asset("assets/icons/profile0.svg"),
                   ),
                 ],
-                backgroundColor: logoRed,
-                activeColor: backgroundWhiteCreamColor,
+                backgroundColor: Colors.white,
+                activeColor: logoRed,
                 disableDefaultTabController: true,
                 initialActiveIndex: 2,
-                onTabNotify: controller.bottomNavigationOnTap,
+                // onTabNotify: controller.bottomNavigationOnTap,
                 elevation: 5,
+                onTap: (i)=> setState(() {
+                  _activeIndex = i;
+                }),
               ),
             ),
-            body: SafeArea(
-              top: true,
-              left: false,
-              right: false,
-              bottom: false,
-              child: RefreshIndicator(
-                displacement: 10,
-                edgeOffset: 50,
+            body: _screens[_activeIndex],
+            // SafeArea(
+            //   top: true,
+            //   left: false,
+            //   right: false,
+            //   bottom: false,
+            //   child: RefreshIndicator(
+            //     displacement: 10,
+            //     edgeOffset: 50,
 
-                // enablePullDown: true,
-                // footer: Container(),
-                // header: WaterDropHeader(
-                //   waterDropColor: logoRed,
-                //   refresh: Center(
-                //     child: Image.asset(
-                //       "assets/images/loading_img.gif",
-                //       height: 25,
-                //       width: 25,
-                //     ),
-                //   ),
-                //   complete: Container(),
-                // ),
-                // controller: controller.refreshController,
-                onRefresh: () async {
-                  await controller.onRefresh();
-                },
-                child: CustomScrollView(
-                  slivers: <Widget>[
-                    SliverAppBar(
-                      elevation: 0,
-                      iconTheme: IconThemeData(color: Colors.grey.shade900),
-                      backgroundColor: Colors.white,
-                      title: InkWell(
-                        onTap: () {
-                          controller.onCityNameTap();
-                        },
-                        child: Column(
-                          children: [
-                            Text(
-                              HOMESCREEN_LOCATION.tr,
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.grey[400],
-                              ),
-                            ),
-                            Text(
-                              "${controller.cityName.capitalize ?? ''}",
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: textIconBlue,
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      centerTitle: true,
-                      leading: IconButton(
-                        icon: Image.asset(
-                          "assets/images/wishlist.png",
-                          color: Colors.grey.shade900,
-                        ),
-                        onPressed: controller.isLoggedIn
-                            ? BaseController.gotoWishlist
-                            : () async => await BaseController.showLoginPopup(
-                                  nextView: WishListRoute,
-                                  shouldNavigateToNextScreen: true,
-                                ),
-                      ),
-                      actions: <Widget>[
-                        InkWell(
-                          key: searchKey,
-                          onTap: () {
-                            BaseController.search();
-                          },
-                          child: Container(
-                            margin: EdgeInsets.only(right: 8.0),
-                            padding: EdgeInsets.all(4.0),
-                            height: 35,
-                            width: 35,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: logoRed,
-                            ),
-                            child: Image.asset(
-                              "assets/images/search.png",
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ],
-                      pinned: false,
-                      primary: false,
-                    ),
-                    SliverAppBar(
-                      primary: true,
-                      automaticallyImplyLeading: false,
-                      iconTheme: IconThemeData(color: appBarIconColor),
-                      backgroundColor: Colors.white,
-                      pinned: true,
-                      leading: IconButton(
-                        icon: Stack(
-                          children: [
-                            Image.asset(
-                              "assets/images/profile_m.png",
-                              color: Colors.grey.shade900,
-                            ),
-                            if (!controller.isProfileComplete)
-                              Positioned(
-                                top: 4,
-                                right: 4,
-                                child: ProfileSetupIndicator(),
-                              ),
-                          ],
-                        ),
-
-                        onPressed: () => NavigationService.to(SettingsRoute),
-                      ),
-                      actions: <Widget>[
-                        Obx(() {
-                          return Center(
-                            child: InkWell(
-                              key: cartKey,
-                              child: Container(
-                                margin: EdgeInsets.only(right: 12.0),
-                                padding: EdgeInsets.all(4.0),
-                                height: 35,
-                                width: 35,
-                                child: CartIconWithBadge(
-                                  iconColor: Colors.grey.shade900,
-                                  count: locator<CartCountController>()
-                                      .count
-                                      .value,
-                                ),
-                              ),
-                              onTap: () async {
-                                controller.isLoggedIn
-                                    ? await BaseController.cart()
-                                    : await BaseController.showLoginPopup(
-                                        nextView: CartViewRoute,
-                                        shouldNavigateToNextScreen: true,
-                                      );
-                              },
-                            ),
-                          );
-                        }),
-                      ],
-                      title: FittedBox(
-                        fit: BoxFit.scaleDown,
-                        child: Text(
-                          "Use Code 💥1STOFMANY💥 while checkout",
-                          // "${controller.remoteConfig!.getString(HOMESCREEN_APPBAR_TEXT)}",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 14,
-                          ),
-                        ),
-                      ),
-                      centerTitle: true,
-                    ),
-                    SliverList(
-                      delegate: SliverChildBuilderDelegate(
-                        (context, index) => Padding(
-                          padding: const EdgeInsets.only(top: 10),
-                          child: HomeViewList(
-                            controller: controller,
-                            productUniqueKey: controller.productKey,
-                            sellerUniqueKey: controller.sellerKey,
-                            categoryUniqueKey: controller.categoryKey,
-                          ),
-                        ),
-                        childCount: 1,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            //     // enablePullDown: true,
+            //     // footer: Container(),
+            //     // header: WaterDropHeader(
+            //     //   waterDropColor: logoRed,
+            //     //   refresh: Center(
+            //     //     child: Image.asset(
+            //     //       "assets/images/loading_img.gif",
+            //     //       height: 25,
+            //     //       width: 25,
+            //     //     ),
+            //     //   ),
+            //     //   complete: Container(),
+            //     // ),
+            //     // controller: controller.refreshController,
+            //     onRefresh: () async {
+            //       await controller.onRefresh();
+            //     },
+            //     child: CustomScrollView(
+            //       slivers: <Widget>[
+            //         SliverAppBar(
+            //           elevation: 0,
+            //           iconTheme: IconThemeData(color: Colors.white),
+            //           backgroundColor: logoRed,
+            //           actions: <Widget>[
+            //             Spacer(
+            //               flex: 2,
+            //             ),
+            //             InkWell(
+            //               key: searchKey,
+            //               onTap: () {
+            //                 BaseController.search();
+            //               },
+            //               child: Padding(
+            //                 padding: EdgeInsets.symmetric(vertical: 10),
+            //                 child: Container(
+            //                     // margin: EdgeInsets.only(right: 8.0),
+            //                     padding: EdgeInsets.symmetric(vertical: 2),
+            //                     height: 25,
+            //                     decoration: BoxDecoration(
+            //                       borderRadius: BorderRadius.circular(10),
+            //                       color: Colors.white,
+            //                     ),
+            //                     child: Row(
+            //                       children: [
+            //                         SizedBox(
+            //                           width: 10,
+            //                         ),
+            //                         Image.asset(
+            //                           "assets/images/search.png",
+            //                           color: Colors.black,
+            //                         ),
+            //                         SizedBox(
+            //                           width: 5,
+            //                         ),
+            //                         Text(
+            //                           '|',
+            //                           style: TextStyle(color: Colors.black),
+            //                         ),
+            //                         SizedBox(
+            //                           width: 10,
+            //                         ),
+            //                         Text(
+            //                           "Search for products, designers..",
+            //                           style: TextStyle(color: Colors.black),
+            //                         ),
+            //                         SizedBox(
+            //                           width: 20,
+            //                         ),
+            //                       ],
+            //                     )),
+            //               ),
+            //             ),
+            //             Spacer(),
+            //             Obx(() {
+            //               return Center(
+            //                 child: InkWell(
+            //                   key: cartKey,
+            //                   child: Container(
+            //                     margin: EdgeInsets.only(right: 12.0),
+            //                     padding: EdgeInsets.all(4.0),
+            //                     height: 35,
+            //                     width: 35,
+            //                     child: CartIconWithBadge(
+            //                       iconColor: Colors.white,
+            //                       count: locator<CartCountController>().count.value,
+            //                     ),
+            //                   ),
+            //                   onTap: () async {
+            //                     controller.isLoggedIn
+            //                         ? await BaseController.cart()
+            //                         : await BaseController.showLoginPopup(
+            //                             nextView: CartViewRoute,
+            //                             shouldNavigateToNextScreen: true,
+            //                           );
+            //                   },
+            //                 ),
+            //               );
+            //             }),
+            //           ],
+            //           pinned: false,
+            //           primary: false,
+            //           floating: true,
+            //         ),
+            //         SliverList(
+            //           delegate: SliverChildBuilderDelegate(
+            //             (context, index) => Padding(
+            //               padding: const EdgeInsets.only(top: 10),
+            //               child: HomeViewList(
+            //                 controller: controller,
+            //                 productUniqueKey: controller.productKey,
+            //                 sellerUniqueKey: controller.sellerKey,
+            //                 categoryUniqueKey: controller.categoryKey,
+            //               ),
+            //             ),
+            //             childCount: 1,
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
           );
         });
   }

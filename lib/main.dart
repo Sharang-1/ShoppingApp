@@ -71,7 +71,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
-        statusBarColor: Colors.white,
+        statusBarColor: logoRed,
+        statusBarIconBrightness: Brightness.light
       ),
     );
 
@@ -84,8 +85,9 @@ class MyApp extends StatelessWidget {
         child: child ?? Container(),
       ),
       theme: ThemeData(
+        // brightness: Brightness.dark,
         primaryColor: primaryColor,
-        appBarTheme: AppBarTheme(brightness: Brightness.light),
+        appBarTheme: AppBarTheme(systemOverlayStyle: SystemUiOverlayStyle.dark),
         textTheme: Theme.of(context).textTheme.apply(
               fontFamily: 'Poppins',
             ),

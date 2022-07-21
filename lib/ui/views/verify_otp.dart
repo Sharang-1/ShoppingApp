@@ -21,6 +21,7 @@ class _VerifyOTPViewState extends State<VerifyOTPView> {
   Widget genericWelcomeText(String txt, headingFontSize) {
     return Text(
       txt,
+      maxLines :2,
       style:
           TextStyle(fontSize: headingFontSize - 3, fontWeight: FontWeight.w600),
     );
@@ -31,7 +32,7 @@ class _VerifyOTPViewState extends State<VerifyOTPView> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         genericWelcomeText(
-          "Enter the OTP sent to ${controller.phoneNo} \nvia sms",
+          "Enter the OTP sent to ${controller.phoneNo} via sms",
           headingFontSize,
         ),
       ],
