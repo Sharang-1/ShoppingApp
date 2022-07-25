@@ -1,7 +1,10 @@
 import 'dart:async';
+import 'dart:html';
 
 import 'package:fimber/fimber.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:location/location.dart';
+// import 'package:permission_handler/permission_handler.dart';
 
 class UserLocation {
   final double? latitude;
@@ -15,27 +18,67 @@ class LocationService {
   late UserLocation currentLocation;
   Location location = Location();
   // Continuously emit location updates
-  StreamController<UserLocation> _locationController =
-      StreamController<UserLocation>.broadcast();
+  StreamController<UserLocation> _locationController = StreamController<UserLocation>.broadcast();
 
   LocationService() {
+    // getUserLocation();
     location.requestPermission().then((granted) {
-      if (granted == PermissionStatus.granted) {
-        location.onLocationChanged.listen(((locationData) {
-          if (locationData != null) {
-            currentLocation = UserLocation(
-              latitude: locationData.latitude,
-              longitude: locationData.longitude,
-            );
-            _locationController.add(currentLocation);
-            // Fimber.d("location update-> " + locationData.toString());
-          }
-        }));
-      }else{
-        // TODO : handle loaction permission denied
-      }
-    });
+        if (granted == PermissionStatus.granted) {
+          location.onLocationChanged.listen(((locationData) {
+            if (locationData != null) {
+              currentLocation = UserLocation(
+                latitude: locationData.latitude,
+                longitude: locationData.longitude,
+              );
+              _locationController.add(currentLocation);
+              // Fimber.d("location update-> " + locationData.toString());
+            }
+          }));
+        } else {
+          // TODO : handle loaction permission denied
+
+        }
+      });
   }
+
+  // Future<dynamic> getUserLocation() async {
+  //   bool serviceStatus = await location.serviceEnabled();
+  //   PermissionStatus _permissionStatus;
+  //   LocationData _locationData;
+
+  //   if (serviceStatus) {
+  //     _permissionStatus = await location.requestPermission();
+  //     if (_permissionStatus == PermissionStatus.denied ||
+  //         _permissionStatus == PermissionStatus.deniedForever) {
+        
+  //     }else{
+  //       _locationData = await location.getLocation();
+  //       if (_locationData != null) {
+  //         currentLocation =
+  //             UserLocation(longitude: _locationData.longitude, latitude: _locationData.latitude);
+  //         _locationController.add(currentLocation);
+  //       }
+  //     }
+
+  //     location.requestPermission().then((granted) {
+  //       if (granted == PermissionStatus.granted) {
+  //         location.onLocationChanged.listen(((locationData) {
+  //           if (locationData != null) {
+  //             currentLocation = UserLocation(
+  //               latitude: locationData.latitude,
+  //               longitude: locationData.longitude,
+  //             );
+  //             _locationController.add(currentLocation);
+  //             // Fimber.d("location update-> " + locationData.toString());
+  //           }
+  //         }));
+  //       } else {
+  //         // TODO : handle loaction permission denied
+
+  //       }
+  //     });
+  //   }
+  // }
 
   Stream<UserLocation> get locationStream => _locationController.stream;
 

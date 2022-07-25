@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:grouped_list/grouped_list.dart';
@@ -23,17 +24,14 @@ class MyOrdersTile extends StatefulWidget {
 
 class MyordersTileState extends State<MyOrdersTile> {
   Widget build(BuildContext context) {
-    List<Widget> myOrderShimmerEffect() =>
-        List<Widget>.generate(5, (index) => MyOrdersShimmer());
+    List<Widget> myOrderShimmerEffect() => List<Widget>.generate(5, (index) => MyOrdersShimmer());
     return SingleChildScrollView(
       child: Padding(
-        padding: EdgeInsets.only(
-            left: screenPadding, right: screenPadding, top: 10, bottom: 10),
+        padding: EdgeInsets.only(left: screenPadding, right: screenPadding, top: 10, bottom: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            if (widget.controller.busy)
-              Column(children: myOrderShimmerEffect()),
+            if (widget.controller.busy) Column(children: myOrderShimmerEffect()),
             //widget.loader,
             // Image.asset(
             //   "assets/images/loading_img.gif",
@@ -62,8 +60,7 @@ class MyordersTileState extends State<MyOrdersTile> {
                         top: BorderSide(color: Colors.grey[400]!),
                       ),
                     ),
-                    padding:
-                        const EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0),
+                    padding: const EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0),
                     child: FittedBox(
                       alignment: Alignment.centerLeft,
                       fit: BoxFit.scaleDown,
@@ -101,8 +98,7 @@ class MyordersTileState extends State<MyOrdersTile> {
                                 child: Row(
                                   children: [
                                     Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           order.status!.state ?? "",
@@ -143,19 +139,16 @@ class MyordersTileState extends State<MyOrdersTile> {
                                   Padding(
                                     padding: EdgeInsets.all(8.0),
                                     child: ClipRRect(
-                                      borderRadius:
-                                          BorderRadius.circular(curve15),
+                                      borderRadius: BorderRadius.circular(curve15),
                                       child: FadeInImage.assetNetwork(
                                         width: 100,
                                         height: 100,
                                         fadeInCurve: Curves.easeIn,
-                                        placeholder:
-                                            "assets/images/product_preloading.png",
+                                        placeholder: "assets/images/product_preloading.png",
                                         image:
                                             "$PRODUCT_PHOTO_BASE_URL/${order.product!.key}/${order.product?.photo?.photos?.first.name ?? 'photo'}-small.png",
-                                        imageErrorBuilder:
-                                            (context, error, stackTrace) =>
-                                                Image.asset(
+                                        imageErrorBuilder: (context, error, stackTrace) =>
+                                            Image.asset(
                                           "assets/images/product_preloading.png",
                                           width: 100,
                                           height: 100,
@@ -168,14 +161,11 @@ class MyordersTileState extends State<MyOrdersTile> {
                                   horizontalSpaceTiny,
                                   Expanded(
                                       child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: <Widget>[
                                       CustomText(
-                                        order.product!.name!.capitalizeFirst ??
-                                            "",
+                                        order.product!.name!.capitalizeFirst ?? "",
                                         isBold: true,
                                         color: Colors.grey[800]!,
                                         dotsAfterOverFlow: true,
@@ -189,9 +179,7 @@ class MyordersTileState extends State<MyOrdersTile> {
                                               color: Colors.black54,
                                               fontSize: subtitleFontSize),
                                           horizontalSpaceSmall,
-                                          CustomText(
-                                              (order.orderCost!.quantity ?? 0)
-                                                  .toString(),
+                                          CustomText((order.orderCost!.quantity ?? 0).toString(),
                                               dotsAfterOverFlow: true,
                                               color: Colors.grey,
                                               fontSize: subtitleFontSize),
@@ -205,8 +193,7 @@ class MyordersTileState extends State<MyOrdersTile> {
                                                 color: Colors.black54,
                                                 fontSize: subtitleFontSize),
                                             horizontalSpaceSmall,
-                                            CustomText(
-                                                order.variation!.size ?? "",
+                                            CustomText(order.variation!.size ?? "",
                                                 dotsAfterOverFlow: true,
                                                 color: Colors.grey,
                                                 fontSize: subtitleFontSize),
@@ -214,8 +201,7 @@ class MyordersTileState extends State<MyOrdersTile> {
                                         ),
                                       verticalSpaceTiny,
                                       CustomText(
-                                        rupeeUnicode +
-                                            order.orderCost!.cost.toString(),
+                                        rupeeUnicode + order.orderCost!.cost.toString(),
                                         dotsAfterOverFlow: true,
                                         fontSize: titleFontSize,
                                         isBold: true,
@@ -236,7 +222,14 @@ class MyordersTileState extends State<MyOrdersTile> {
                           ),
                         ),
                       ),
-                      onTap: () {
+                      onTap: () async {
+                        await FirebaseAnalytics.instance.logEvent(
+                          name: "order_histoy",
+                          parameters: {
+                            "user_id": order.customerId,
+                            "order_id": order.productId,
+                          },
+                        );
                         Navigator.push(
                           context,
                           new MaterialPageRoute(
@@ -248,11 +241,9 @@ class MyordersTileState extends State<MyOrdersTile> {
                   ),
                 ),
               ),
-            if (!widget.controller.busy &&
-                widget.controller.mOrders?.orders?.length == 0)
+            if (!widget.controller.busy && widget.controller.mOrders?.orders?.length == 0)
               verticalSpaceLarge,
-            if (!widget.controller.busy &&
-                widget.controller?.mOrders?.orders?.length == 0)
+            if (!widget.controller.busy && widget.controller?.mOrders?.orders?.length == 0)
               EmptyListWidget(),
             verticalSpaceMedium,
           ],

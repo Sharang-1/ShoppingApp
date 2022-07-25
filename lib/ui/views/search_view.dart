@@ -300,7 +300,7 @@ class _SearchBarTextField extends StatelessWidget {
       height: 36,
       padding: EdgeInsets.symmetric(horizontal: 4.0),
       decoration: BoxDecoration(
-        color: backgroundWhiteCreamColor,
+        color: newBackgroundColor2,
         borderRadius: BorderRadius.circular(10),
       ),
       child: Row(

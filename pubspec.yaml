@@ -35,6 +35,7 @@ dependencies:
   flutter_rating_bar: ^4.0.0
   flutter_svg: ^1.0.3
   font_awesome_flutter: ^9.2.0
+  fluttertoast: ^8.0.9
   gender_picker: ^1.1.0
   geocoding: ^2.0.2
   geolocator: ^8.0.0

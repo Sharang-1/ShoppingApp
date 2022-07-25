@@ -1,7 +1,6 @@
 import 'dart:convert';
 
-UserDetails userDetailsFromJson(String str) =>
-    UserDetails.fromJson(json.decode(str));
+UserDetails userDetailsFromJson(String str) => UserDetails.fromJson(json.decode(str));
 
 String userDetailsToJson(UserDetails data) => json.encode(data.toJson());
 
@@ -61,12 +60,11 @@ class UserDetails {
         modified: json["modified"],
         firstName: json["firstName"],
         lastName: json["lastName"],
-        age: Age.fromJson(json["age"]),
-        // age: json["age"] == null ? null : Age.fromJson(json["age"]),
-        gender: Gender.fromJson(json["gender"]),
-        // gender: json["gender"] == null ? null : Gender.fromJson(json["gender"]),
-        measure:
-            json["measure"] == null ? Measure() : Measure.fromJson(json["measure"]),
+        // age: Age.fromJson(json["age"]),
+        age: json["age"] == null ? null : Age.fromJson(json["age"]),
+        // gender: Gender.fromJson(json["gender"]),
+        gender: json["gender"] == null ? null : Gender.fromJson(json["gender"]),
+        measure: json["measure"] == null ? Measure() : Measure.fromJson(json["measure"]),
         email: json["email"] != null ? json["email"] : null,
         size: json["size"],
         contact: UserDetailsContact.fromJson(json["contact"]),
@@ -121,12 +119,10 @@ class UserDetailsContact {
   int? pincode;
   String? state = "";
 
-  factory UserDetailsContact.fromJson(Map<String, dynamic> json) =>
-      UserDetailsContact(
+  factory UserDetailsContact.fromJson(Map<String, dynamic> json) => UserDetailsContact(
         address: json["address"] == null ? "" : json["address"],
         city: json["city"],
-        googleAddress:
-            json["googleAddress"] == null ? "" : json["googleAddress"],
+        googleAddress: json["googleAddress"] == null ? "" : json["googleAddress"],
         phone: json["phone"] != null ? Phone.fromJson(json["phone"]) : null,
         pincode: json["pincode"],
         state: json["state"],
@@ -183,34 +179,39 @@ class UserPhoto {
 }
 
 class Age {
-  Age({
-    required this.age,
-  });
+  Age({required this.id, required this.name});
 
-  int age;
+  int id;
+  String name;
 
   factory Age.fromJson(Map<String, dynamic> json) => Age(
-        age: json["age"],
+        id: json["id"],
+        name: json["name"],
       );
 
   Map<String, dynamic> toJson() => {
-        "age": age,
+        "id": id,
+        "name": name,
       };
 }
 
 class Gender {
   Gender({
     required this.id,
+    required this.name,
   });
 
   int id;
+  String name;
 
   factory Gender.fromJson(Map<String, dynamic> json) => Gender(
-        id: json["gender"],
+        id: json["id"],
+        name : json["name"],
       );
 
   Map<String, dynamic> toJson() => {
-        "gender": id,
+        "id": id,
+        "name" : name,
       };
 }
 

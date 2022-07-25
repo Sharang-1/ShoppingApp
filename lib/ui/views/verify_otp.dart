@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart';
 import 'package:pin_code_text_field/pin_code_text_field.dart';
 
 import '../../controllers/otp_verification_controller.dart';
@@ -22,6 +23,7 @@ class _VerifyOTPViewState extends State<VerifyOTPView> {
     return Text(
       txt,
       maxLines :2,
+      textAlign: TextAlign.center,
       style:
           TextStyle(fontSize: headingFontSize - 3, fontWeight: FontWeight.w600),
     );
@@ -99,9 +101,7 @@ class _VerifyOTPViewState extends State<VerifyOTPView> {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
-            welcomeText(context, controller, headingFontSize)
-          ]),
+          Container(width: Get.width*0.9,child: welcomeText(context, controller, headingFontSize)),
           verticalSpaceMedium,
           PinCodeTextField(
             pinBoxHeight: 40,
@@ -155,12 +155,16 @@ class _VerifyOTPViewState extends State<VerifyOTPView> {
 
   @override
   Widget build(BuildContext context) {
+    List ageValues = ["16-18", "19-23", "24-30","31-36","37-45",">45"];
+    List genderValues = ["male", "female", "other", "prefer not to say"];
     const double headingFontSize = headingFontSizeStyle + 5;
 
     return GetBuilder<OtpVerificationController>(
       init: OtpVerificationController(
         ageId: widget.ageId,
+        ageVal: ageValues[widget.ageId],
         genderId: widget.genderId,
+        genderVal: genderValues[widget.genderId],
       ),
       builder: (controller) => Scaffold(
         bottomNavigationBar: BottomAppBar(

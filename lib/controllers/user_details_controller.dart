@@ -58,17 +58,11 @@ class UserDetailsController extends BaseController {
     update();
   }
 
-  Future updateUserPhoto() async {
+  Future updateUserPhoto(_file) async {
     setBusy(true);
-    File file;
-    final ImagePicker _picker = ImagePicker();
-    //ignore: deprecated_member_use
-    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
-
-    if (pickedFile!.path != null) {
-      print("Hello Pic changing $pickedFile");
-      file = File(pickedFile.path);
-      if (await _apiService.updateUserPic(file)) {
+   
+    if (_file!.path != null) {
+      if (await _apiService.updateUserPic(_file)) {
         dateTimeString = DateTime.now().millisecondsSinceEpoch.toString();
         update();
       }

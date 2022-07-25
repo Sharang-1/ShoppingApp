@@ -29,11 +29,13 @@ class OtpVerificationController extends BaseController {
   int timerCountDownSeconds = 30;
   int ageId;
   int genderId;
+  String ageVal;
+  String genderVal;
 
-  OtpVerificationController({required this.ageId, required this.genderId});
+  OtpVerificationController({required this.ageId, required this.genderId, required this.genderVal, required
+   this.ageVal});
 
-  final AuthenticationService _authenticationService =
-      locator<AuthenticationService>();
+  final AuthenticationService _authenticationService = locator<AuthenticationService>();
   final APIService _apiService = locator<APIService>();
   final AddressService _addressService = locator<AddressService>();
   final AnalyticsService _analyticsService = locator<AnalyticsService>();
@@ -96,8 +98,8 @@ class OtpVerificationController extends BaseController {
   Future<void> resendOTP() async {
     // resend otp here.
     setBusy(true);
-    final result = await _authenticationService.loginWithPhoneNo(
-        phoneNo: phoneNo, name: name, resend: true);
+    final result =
+        await _authenticationService.loginWithPhoneNo(phoneNo: phoneNo, name: name, resend: true);
     print("Reset OTP Results : ");
     print(result);
     setBusy(false);
@@ -137,14 +139,13 @@ class OtpVerificationController extends BaseController {
 
       var mUserDetails = await _apiService.getUserData();
       mUserDetails!.name = prefs.getString(Name);
-      mUserDetails.age = Age(age: ageId);
-      mUserDetails.gender = Gender(id: genderId);
+      mUserDetails.age = Age(id: ageId, name: ageVal);
+      mUserDetails.gender = Gender(id: genderId, name: genderVal);
       await _addressService.setUpAddress(mUserDetails.contact!);
       await _apiService.updateUserData(mUserDetails);
 
       try {
-        await _analyticsService
-            .sendAnalyticsEvent(eventName: "login", parameters: {});
+        await _analyticsService.sendAnalyticsEvent(eventName: "login", parameters: {});
       } catch (e) {}
 
       NavigationService.off(OtpVerifiedRoute);

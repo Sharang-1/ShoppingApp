@@ -1,3 +1,4 @@
+import 'package:compound/ui/shared/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:intro_slider/intro_slider.dart';
 import 'package:intro_slider/slide_object.dart';
@@ -70,14 +71,14 @@ class IntroPage extends StatelessWidget {
         onDonePress: this.onDonePress,
         onSkipPress: this.onSkipPress,
         colorDot: Colors.black,
-        colorActiveDot: Color.fromARGB(255, 235, 105, 105),
+        colorActiveDot: logoRed,
         doneButtonStyle: ButtonStyle(
           backgroundColor: MaterialStateProperty.all<Color>(
-              Color.fromARGB(255, 235, 105, 105)),
+              logoRed),
         ),
         skipButtonStyle: ButtonStyle(
           backgroundColor: MaterialStateProperty.all<Color>(
-              Color.fromARGB(255, 235, 105, 105)),
+              logoRed),
         ));
     // colorDoneBtn: Color.fromARGB(255, 235, 105, 105),
     // colorSkipBtn: Color.fromARGB(255, 235, 105, 105));
