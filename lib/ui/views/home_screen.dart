@@ -80,19 +80,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                   "assets/images/search.png",
                                   color: Colors.black,
                                 ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  '|',
-                                  style: TextStyle(color: Colors.black),
-                                ),
+                                
                                 SizedBox(
                                   width: 10,
                                 ),
                                 Text(
                                   "Search for products, designers..",
-                                  style: TextStyle(color: Colors.black),
+                                  style: TextStyle(color: Colors.black54),
                                 ),
                                 SizedBox(
                                   width: 20,
@@ -109,11 +103,14 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: Container(
                             margin: EdgeInsets.only(right: 12.0),
                             padding: EdgeInsets.all(4.0),
-                            height: 35,
-                            width: 35,
-                            child: CartIconWithBadge(
-                              iconColor: Colors.white,
-                              count: locator<CartCountController>().count.value,
+                            // height: 35,
+                            // width: 35,
+                            decoration: BoxDecoration(shape: BoxShape.circle, gradient: RadialGradient(colors: [Colors.white, logoRed])),
+                            child: Center(
+                              child: CartIconWithBadge(
+                                iconColor: Colors.black,
+                                count: locator<CartCountController>().count.value,
+                              ),
                             ),
                           ),
                           onTap: () async {

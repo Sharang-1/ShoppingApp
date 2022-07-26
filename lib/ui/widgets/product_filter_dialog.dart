@@ -227,7 +227,7 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
                                 borderRadius: BorderRadius.circular(5),
                                 side: BorderSide(
                                   color: subCategoriesValues[sKey] !=
-                                          NullThrownError()
+                                          null
                                       ? green
                                       : Colors.grey,
                                   width: 0.5,

@@ -45,7 +45,6 @@ import '../widgets/cart_icon_badge.dart';
 import '../widgets/custom_text.dart';
 import '../widgets/home_view_list_header.dart';
 import '../widgets/product_description_table.dart';
-import '../widgets/reviews.dart';
 import '../widgets/section_builder.dart';
 import '../widgets/shimmer/shimmer_widget.dart';
 import '../widgets/wishlist_icon.dart';

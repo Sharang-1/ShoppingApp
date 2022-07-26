@@ -1,3 +1,4 @@
+import 'package:compound/ui/widgets/product_tile_ui_2.dart';
 
 import '../../models/cart.dart' show Cart, Item;
 import '../../models/grid_view_builder_filter_models/cartFilter.dart';
@@ -39,7 +40,9 @@ enum LayoutType {
   PRODUCT_LAYOUT_1,
   PRODUCT_LAYOUT_2,
   PRODUCT_LAYOUT_3, // Explore Dzor Product Layout
+  PRODUCT_LAYOUT_4, // Etsy like product view
   PRODUCT_LAYOUT_5, // Check error in Layout 3
+
   //Category Layouts
   CATEGORY_LAYOUT_1,
   CATEGORY_LAYOUT_2,
@@ -110,10 +113,10 @@ class SectionBuilder extends StatelessWidget {
         if (header != null)
           if (header!.title != null)
             HomeViewListHeader(
-            title: header!.title!,
-            subTitle: header?.subTitle ?? "",
-            viewAll: header!.viewAll,
-          ),
+              title: header!.title!,
+              subTitle: header?.subTitle ?? "",
+              viewAll: header!.viewAll,
+            ),
         if (header != null && (header?.title!.isNotEmpty ?? false)) spacer,
         Container(
           height: getSize(layoutType),
@@ -137,8 +140,8 @@ class SectionBuilder extends StatelessWidget {
           //           ),
           //         ),
           //       )
-          //     : 
-            child:  getGridListWidget(layoutType, isSmallDevice: isSmallDevice),
+          //     :
+          child: getGridListWidget(layoutType, isSmallDevice: isSmallDevice),
         ),
       ],
     );
@@ -153,8 +156,7 @@ class SectionBuilder extends StatelessWidget {
           filter: filter ?? ProductFilter(),
           gridCount: gridCount,
           controller: controller,
-          childAspectRatio:
-              getChildAspectRatio(layoutType, isSmallDevice: isSmallDevice),
+          childAspectRatio: getChildAspectRatio(layoutType, isSmallDevice: isSmallDevice),
           emptyListWidget: Container(),
           scrollDirection: scrollDirection,
           disablePagination: true,
@@ -162,8 +164,7 @@ class SectionBuilder extends StatelessWidget {
             onEmptyList();
           },
           loadingWidget: ShimmerWidget(type: type),
-          tileBuilder:
-              (BuildContext context, productData, index, onDelete, onUpdate) {
+          tileBuilder: (BuildContext context, productData, index, onDelete, onUpdate) {
             var product = productData as Product;
             return InkWell(
               onTap: () => BaseController.goToProductPage(productData),
@@ -186,9 +187,7 @@ class SectionBuilder extends StatelessWidget {
                       "photo": product.photo?.photos?.first.name,
                       "sellerName": product.seller?.name ?? "",
                       "isDiscountAvailable":
-                          product.discount != null && product.discount != 0
-                              ? "true"
-                              : null,
+                          product.discount != null && product.discount != 0 ? "true" : null,
                     },
                   ),
                 ),
@@ -216,8 +215,7 @@ class SectionBuilder extends StatelessWidget {
             scrollDirection: scrollDirection,
             childAspectRatio: getChildAspectRatio(layoutType),
           ),
-          tileBuilder:
-              (BuildContext context, productData, index, onDelete, onUpdate) {
+          tileBuilder: (BuildContext context, productData, index, onDelete, onUpdate) {
             return Container(
               child: ProductTileUI(
                 data: productData,
@@ -228,6 +226,38 @@ class SectionBuilder extends StatelessWidget {
                 index: index,
                 cardPadding: EdgeInsets.fromLTRB(0, 0, 0, 8),
               ),
+            );
+          },
+        );
+
+      case LayoutType.PRODUCT_LAYOUT_4:
+        return GridListWidget<Products, Product>(
+          key: UniqueKey(),
+          context: context,
+          filter: filter ?? ProductFilter(),
+          gridCount: gridCount,
+          controller: controller,
+          childAspectRatio: getChildAspectRatio(layoutType),
+          emptyListWidget: Container(),
+          scrollDirection: scrollDirection,
+          disablePagination: true,
+          onEmptyList: () {
+            onEmptyList();
+          },
+          loadingWidget: ShimmerWidget(
+            type: type,
+            scrollDirection: scrollDirection,
+            childAspectRatio: getChildAspectRatio(layoutType),
+          ),
+          tileBuilder: (BuildContext context, productData, index, onDelete, onUpdate) {
+            return ProductTileUI2(
+              data: productData,
+              onClick: () => NavigationService.to(
+                ProductIndividualRoute,
+                arguments: productData,
+              ),
+              index: index,
+              cardPadding: EdgeInsets.fromLTRB(0, 0, 0, 8),
             );
           },
         );
@@ -247,7 +277,6 @@ class SectionBuilder extends StatelessWidget {
             //childAspectRatio: getChildAspectRatio(layoutType),
           ),
           tileBuilder: tileBuilder!,
-
         );
 
       // case LayoutType.PRODUCT_LAYOUT_3:
@@ -263,39 +292,39 @@ class SectionBuilder extends StatelessWidget {
       //     disablePagination: true,
       //     onEmptyList: onEmptyList,
       //     tileBuilder: tileBuilder!);
-            //   (BuildContext context, productData, index, onUpdate, onDelete) {
-            // return ExploreProductTileUI(
-            //   data: productData,
-            //   onClick: () async {
-            //     // try {
-            //     //   await locator<AnalyticsService>().sendAnalyticsEvent(
-            //     //       eventName: "product_view_from_explore",
-            //     //       parameters: <String, dynamic>{
-            //     //         "product_id": productData?.key,
-            //     //         "product_name": productData?.name,
-            //     //         "category_id": productData?.category?.id?.toString(),
-            //     //         "category_name": productData?.category?.name,
-            //     //         "user_id": locator<HomeController>()?.details?.key,
-            //     //         "user_name": locator<HomeController>()?.details?.name,
-            //     //       });
-            //     // } catch (e) {
-            //     //   print("error is $e");
-            //     // }
-            //     await NavigationService.to(
-            //       ProductIndividualRoute,
-            //       arguments: productData,
-            //     );
-            //   },
-            //   index: index,
-            //   cardPadding: EdgeInsets.fromLTRB(0, 0, 0, 10),
-            //   tags: <String>[
-            //     if (locator<HomeController>().cityName.toLowerCase() ==
-            //         'ahmedabad')
-            //       'CODAvailable',
-            //   ],
-            // );
-            //   },
-            // );
+      //   (BuildContext context, productData, index, onUpdate, onDelete) {
+      // return ExploreProductTileUI(
+      //   data: productData,
+      //   onClick: () async {
+      //     // try {
+      //     //   await locator<AnalyticsService>().sendAnalyticsEvent(
+      //     //       eventName: "product_view_from_explore",
+      //     //       parameters: <String, dynamic>{
+      //     //         "product_id": productData?.key,
+      //     //         "product_name": productData?.name,
+      //     //         "category_id": productData?.category?.id?.toString(),
+      //     //         "category_name": productData?.category?.name,
+      //     //         "user_id": locator<HomeController>()?.details?.key,
+      //     //         "user_name": locator<HomeController>()?.details?.name,
+      //     //       });
+      //     // } catch (e) {
+      //     //   print("error is $e");
+      //     // }
+      //     await NavigationService.to(
+      //       ProductIndividualRoute,
+      //       arguments: productData,
+      //     );
+      //   },
+      //   index: index,
+      //   cardPadding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+      //   tags: <String>[
+      //     if (locator<HomeController>().cityName.toLowerCase() ==
+      //         'ahmedabad')
+      //       'CODAvailable',
+      //   ],
+      // );
+      //   },
+      // );
 
       case LayoutType.PRODUCT_LAYOUT_3:
         return GridListWidget<Products, Product>(
@@ -316,41 +345,37 @@ class SectionBuilder extends StatelessWidget {
             scrollDirection: scrollDirection,
             childAspectRatio: getChildAspectRatio(layoutType),
           ),
-          tileBuilder:
-              (BuildContext context, productData, index, onDelete, onUpdate) {
-                return ExploreProductTileUI(
-                  data: productData,
-                  onClick: () async {
-                    try {
-                      await locator<AnalyticsService>().sendAnalyticsEvent(
-                          eventName: "product_view_from_explore",
-                          parameters: <String, dynamic>{
-                            "product_id": productData?.key,
-                            "product_name": productData?.name,
-                            "category_id": productData?.category?.id?.toString(),
-                            "category_name": productData?.category?.name,
-                            "user_id": locator<HomeController>().details?.key,
-                            "user_name": locator<HomeController>().details?.name,
-                          });
-                    } catch (e) {
-                      print("error is $e");
-                    }
-                    await NavigationService.to(
-                      ProductIndividualRoute,
-                      arguments: productData,
-                    );
-                  },
-                  index: index,
-                  cardPadding: EdgeInsets.fromLTRB(0, 0, 0, 10),
-                  tags: <String>[
-                    if (locator<HomeController>().cityName.toLowerCase() ==
-                        'ahmedabad')
-                      'CODAvailable',
-                  ],
+          tileBuilder: (BuildContext context, productData, index, onDelete, onUpdate) {
+            return ExploreProductTileUI(
+              data: productData,
+              onClick: () async {
+                try {
+                  await locator<AnalyticsService>().sendAnalyticsEvent(
+                      eventName: "product_view_from_explore",
+                      parameters: <String, dynamic>{
+                        "product_id": productData?.key,
+                        "product_name": productData?.name,
+                        "category_id": productData?.category?.id?.toString(),
+                        "category_name": productData?.category?.name,
+                        "user_id": locator<HomeController>().details?.key,
+                        "user_name": locator<HomeController>().details?.name,
+                      });
+                } catch (e) {
+                  print("error is $e");
+                }
+                await NavigationService.to(
+                  ProductIndividualRoute,
+                  arguments: productData,
                 );
+              },
+              index: index,
+              cardPadding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+              tags: <String>[
+                if (locator<HomeController>().cityName.toLowerCase() == 'ahmedabad') 'CODAvailable',
+              ],
+            );
           },
         );
-
 
       case LayoutType.DESIGNER_LAYOUT_1:
       case LayoutType.DESIGNER_LAYOUT_2:
@@ -433,12 +458,11 @@ class SectionBuilder extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(
                   border: Border(
-                    bottom:
-                        (layoutType == LayoutType.DESIGNER_ID_3_VERTICAL_LAYOUT)
-                            ? BorderSide(
-                                color: Colors.grey[300]!,
-                              )
-                            : BorderSide.none,
+                    bottom: (layoutType == LayoutType.DESIGNER_ID_3_VERTICAL_LAYOUT)
+                        ? BorderSide(
+                            color: Colors.grey[300]!,
+                          )
+                        : BorderSide.none,
                   ),
                 ),
                 child: DesignerTileUi(
@@ -566,6 +590,9 @@ class SectionBuilder extends StatelessWidget {
       case LayoutType.PRODUCT_LAYOUT_1:
       case LayoutType.PRODUCT_LAYOUT_2:
         return 260;
+      case LayoutType.PRODUCT_LAYOUT_4:
+        return 150;
+      
       case LayoutType.PRODUCT_LAYOUT_3:
         return null;
 
@@ -615,6 +642,8 @@ class SectionBuilder extends StatelessWidget {
       case LayoutType.PRODUCT_LAYOUT_1:
       case LayoutType.PRODUCT_LAYOUT_2:
         return 1.35;
+      case LayoutType.PRODUCT_LAYOUT_4:
+        return 0.75;
       case LayoutType.PRODUCT_LAYOUT_3:
         return 0.68;
       case LayoutType.VIEW_CART_LAYOUT:
@@ -681,9 +710,7 @@ class FutureSectionBuilder extends StatelessWidget {
     return FutureBuilder(
       future: Future.delayed(duration),
       builder: (context, snapshot) =>
-          snapshot.connectionState == ConnectionState.done
-              ? child
-              : loadingWidget ?? Container(),
+          snapshot.connectionState == ConnectionState.done ? child : loadingWidget ?? Container(),
     );
   }
 }

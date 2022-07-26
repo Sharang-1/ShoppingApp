@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart';
 import 'package:pin_code_text_field/pin_code_text_field.dart';
 
 import '../../controllers/otp_verification_controller.dart';

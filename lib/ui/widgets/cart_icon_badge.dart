@@ -1,6 +1,6 @@
+import 'package:compound/ui/shared/app_colors.dart';
 import 'package:flutter/material.dart';
 
-import '../shared/app_colors.dart';
 
 class CartIconWithBadge extends StatelessWidget {
   final iconColor;
@@ -37,7 +37,7 @@ class CartIconWithBadge extends StatelessWidget {
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    color: Colors.grey[100],
+                    color: Colors.green,
                   ),
                   padding: EdgeInsets.symmetric(
                     vertical: 2,
@@ -47,7 +47,7 @@ class CartIconWithBadge extends StatelessWidget {
                     count.toString(),
                     style: TextStyle(
                       fontSize: 8,
-                      color: Colors.black,
+                      color: Colors.white,
                     ),
                   ),
                 ),

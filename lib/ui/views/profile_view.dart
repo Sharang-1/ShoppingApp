@@ -40,6 +40,7 @@ class _ProfileViewState extends State<ProfileView> {
     setState(() {
       if (image != null) {
         _image = File(image.path);
+        print(_image);
       } else {
         print('No image selected');
       }
@@ -206,28 +207,35 @@ class _ProfileViewState extends State<ProfileView> {
                                 width: 120,
                                 margin: EdgeInsets.only(right: 6.0),
                                 child: ClipOval(
-                                  child: _image == null ? FadeInImage(
-                                    width: 100,
-                                    height: 100,
-                                    fadeInCurve: Curves.easeIn,
-                                    placeholder: AssetImage("assets/images/user.png"),
-                                    image: NetworkImage(
-                                        "$USER_PROFILE_PHOTO_BASE_URL/${controller.mUserDetails?.key}?v=${controller.dateTimeString}",
-                                        headers: {
-                                          "Authorization": "Bearer ${controller.token ?? ''}",
-                                        }),
-                                    imageErrorBuilder: (context, error, stackTrace) {
-                                      print(
-                                          "User Photo: $USER_PROFILE_PHOTO_BASE_URL/${controller.mUserDetails?.photo?.name} $error $stackTrace");
-                                      return Image.asset(
-                                        "assets/images/user.png",
-                                        width: 100,
-                                        height: 100,
-                                        fit: BoxFit.cover,
-                                      );
-                                    },
-                                    fit: BoxFit.cover,
-                                  ) : Image.file(_image!, fit: BoxFit.cover,height: 100,width: 100,),
+                                  child: _image == null
+                                      ? FadeInImage(
+                                          width: 100,
+                                          height: 100,
+                                          fadeInCurve: Curves.easeIn,
+                                          placeholder: AssetImage("assets/images/user.png"),
+                                          image: NetworkImage(
+                                              "$USER_PROFILE_PHOTO_BASE_URL/${controller.mUserDetails?.key}?v=${controller.dateTimeString}",
+                                              headers: {
+                                                "Authorization": "Bearer ${controller.token ?? ''}",
+                                              }),
+                                          imageErrorBuilder: (context, error, stackTrace) {
+                                            print(
+                                                "User Photo: $USER_PROFILE_PHOTO_BASE_URL/${controller.mUserDetails?.photo?.name} $error $stackTrace");
+                                            return Image.asset(
+                                              "assets/images/user.png",
+                                              width: 100,
+                                              height: 100,
+                                              fit: BoxFit.cover,
+                                            );
+                                          },
+                                          fit: BoxFit.cover,
+                                        )
+                                      : Image.file(
+                                          _image!,
+                                          fit: BoxFit.cover,
+                                          height: 100,
+                                          width: 100,
+                                        ),
                                 ),
                                 decoration: BoxDecoration(
                                   color: Color.fromRGBO(255, 255, 255, 1),
@@ -242,15 +250,16 @@ class _ProfileViewState extends State<ProfileView> {
                                 bottom: 8,
                                 right: 8,
                                 child: Container(
+                                  
                                   padding: EdgeInsets.all(4.0),
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    color: Colors.white,
+                                    color: Colors.grey[50],
                                   ),
                                   child: InkWell(
                                     onTap: () async {
                                       _getImage();
-                                      controller.updateUserPhoto(_image);
+                                   _image!= null ? controller.updateUserPhoto(_image):(){};
                                     },
                                     child: Icon(
                                       Icons.edit,

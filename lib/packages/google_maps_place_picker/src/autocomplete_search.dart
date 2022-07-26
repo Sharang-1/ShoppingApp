@@ -8,7 +8,6 @@ import '../google_maps_place_picker.dart';
 import '../providers/place_provider.dart';
 import '../providers/search_provider.dart';
 import 'components/prediction_tile.dart';
-import 'components/rounded_frame.dart';
 import 'controllers/autocomplete_search_controller.dart';
 
 class AutoCompleteSearch extends StatefulWidget {

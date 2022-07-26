@@ -122,7 +122,7 @@ class _HomeViewListState extends State<HomeViewList> {
                             SectionBuilder(
                               key: widget.productUniqueKey ?? UniqueKey(),
                               context: context,
-                              layoutType: LayoutType.PRODUCT_LAYOUT_2,
+                              layoutType: LayoutType.PRODUCT_LAYOUT_4,
                               filter: ProductFilter(explore: true),
                               onEmptyList: () {},
                               controller: ProductsGridViewBuilderController(
@@ -158,7 +158,6 @@ class _HomeViewListState extends State<HomeViewList> {
                               return Container(
                                 height: 200,
                               );
-                              return ShimmerWidget(type: LayoutType.PRODUCT_LAYOUT_2);
                             }
                 
                             if (data.hasData)

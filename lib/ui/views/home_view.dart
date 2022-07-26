@@ -2,26 +2,17 @@ import 'package:compound/ui/views/categories_view.dart';
 import 'package:compound/ui/views/home_screen.dart';
 import 'package:compound/ui/views/myAppointments_view.dart';
 import 'package:compound/ui/views/myorders_view.dart';
-import 'package:compound/ui/views/profile_view.dart';
 import 'package:compound/ui/views/settings_page_view.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-// import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import '../../constants/route_names.dart';
-import '../../controllers/base_controller.dart';
-import '../../controllers/cart_count_controller.dart';
 import '../../controllers/home_controller.dart';
 import '../../locator.dart';
-import '../../services/navigation_service.dart';
 import '../../utils/lang/translation_keys.dart';
 import '../shared/app_colors.dart';
-import '../widgets/cart_icon_badge.dart';
-import '../widgets/profile_setup_indicator.dart';
 import 'bottom_nav_style.dart';
-import 'home_view_list.dart';
 
 class HomeView extends StatefulWidget {
   HomeView({Key? key, this.args}) : super(key: key);

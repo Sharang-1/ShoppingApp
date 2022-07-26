@@ -1,6 +1,3 @@
-import 'dart:io';
-
-import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constants/shared_pref.dart';
@@ -59,7 +56,7 @@ class UserDetailsController extends BaseController {
   }
 
   Future updateUserPhoto(_file) async {
-    setBusy(true);
+    // setBusy(true);
    
     if (_file!.path != null) {
       if (await _apiService.updateUserPic(_file)) {
@@ -67,7 +64,7 @@ class UserDetailsController extends BaseController {
         update();
       }
     }
-    setBusy(false);
+    // setBusy(false);
   }
 
   Future updateUserDetails() async {
