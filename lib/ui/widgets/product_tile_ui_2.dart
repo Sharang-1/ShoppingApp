@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 import '../../constants/route_names.dart';
@@ -140,9 +141,7 @@ class _ProductTileUI2State extends State<ProductTileUI2> {
         ),
         child: Stack(
           children: <Widget>[
-            ClipRRect(
-          borderRadius: BorderRadius.circular(8),
-
+            Container(
               child: _imageStackview(
                 photoURL,
                 productDiscount,
@@ -185,11 +184,7 @@ class _ProductTileUI2State extends State<ProductTileUI2> {
                             },
                     )
                   : InkWell(
-                      child: Image.asset(
-                        'assets/images/add_to_bag.png',
-                        height: 20,
-                        width: 20,
-                      ),
+                      child: Icon(FontAwesomeIcons.heart, color: Colors.white,)
                     ),
             ),
 
@@ -274,24 +269,30 @@ class _ProductTileUI2State extends State<ProductTileUI2> {
         Positioned.fill(
           child: FractionallySizedBox(
             widthFactor: 1,
-            child: ClipRRect(
-              clipBehavior: Clip.antiAlias,
-              child: ColorFiltered(
-                colorFilter:
-                    ColorFilter.mode(Colors.transparent.withOpacity(0.12), BlendMode.srcATop),
-                child: CachedNetworkImage(
-                  errorWidget: (context, url, error) => Image.asset(
-                    'assets/images/product_preloading.png',
+            child: Container(
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
+              padding: const EdgeInsets.all(3.0),
+              child: ClipRRect(
+                clipBehavior: Clip.antiAlias,
+                borderRadius: BorderRadius.circular(8),
+            
+                child: ColorFiltered(
+                  colorFilter:
+                      ColorFilter.mode(Colors.transparent.withOpacity(0.12), BlendMode.srcATop),
+                  child: CachedNetworkImage(
+                    errorWidget: (context, url, error) => Image.asset(
+                      'assets/images/product_preloading.png',
+                      fit: BoxFit.cover,
+                    ),
+                    imageUrl: photoURL == null
+                        ? 'https://images.pexels.com/photos/157675/fashion-men-s-individuality-black-and-white-157675.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
+                        : '$PRODUCT_PHOTO_BASE_URL/${widget.data.key}/$photoURL-small.png',
                     fit: BoxFit.cover,
-                  ),
-                  imageUrl: photoURL == null
-                      ? 'https://images.pexels.com/photos/157675/fashion-men-s-individuality-black-and-white-157675.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
-                      : '$PRODUCT_PHOTO_BASE_URL/${widget.data.key}/$photoURL-small.png',
-                  fit: BoxFit.cover,
-                  fadeInCurve: Curves.easeIn,
-                  placeholder: (context, url) => Image.asset(
-                    'assets/images/product_preloading.png',
-                    fit: BoxFit.cover,
+                    fadeInCurve: Curves.easeIn,
+                    placeholder: (context, url) => Image.asset(
+                      'assets/images/product_preloading.png',
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),

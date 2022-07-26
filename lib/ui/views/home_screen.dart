@@ -105,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             padding: EdgeInsets.all(4.0),
                             // height: 35,
                             // width: 35,
-                            decoration: BoxDecoration(shape: BoxShape.circle, gradient: RadialGradient(colors: [Colors.white, logoRed])),
+                            decoration: BoxDecoration(shape: BoxShape.circle, gradient: RadialGradient(radius: 0.7,colors: [Colors.white, logoRed])),
                             child: Center(
                               child: CartIconWithBadge(
                                 iconColor: Colors.black,

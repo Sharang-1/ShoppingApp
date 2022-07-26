@@ -19,7 +19,7 @@ class WishListIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return SvgPicture.asset(
       "assets/svg/wishlist.svg",
-      color: filled ? logoRed : Colors.grey,
+      color: filled ? logoRed : Colors.grey[100],
       height: height,
       width: width,
     );
