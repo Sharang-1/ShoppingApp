@@ -43,7 +43,7 @@
 	<string>Dzor App does not require access to calender. </string>
 	<key>NSContactsUsageDescription</key>
 	<string>Dzor App does not require access to contacts.</string>
-	<key>NSLocationAlwaysUsageDescription</key>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Dzor App uses your location to show designers around you</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Dzor App uses your location to show designers around you.</string>
