@@ -6,7 +6,7 @@ import 'package:compound/models/products.dart';
 import 'package:compound/models/sellers.dart';
 // import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
-import 'package:geocoding/geocoding.dart';
+// import 'package:geocoding/geocoding.dart';
 // import 'package:geocoder/geocoder.dart';
 import 'package:get/get.dart';
 import 'package:location/location.dart';
@@ -71,27 +71,27 @@ class HomeController extends BaseController {
 
     await updateIsLoggedIn();
 
-    try {
-      UserLocation? currentLocation = await locator<LocationService>().getLocation();
+    // try {
+    //   UserLocation? currentLocation = await locator<LocationService>().getLocation();
 
-      if (currentLocation != null) {
-        List<Placemark> addresses = await placemarkFromCoordinates(
-          currentLocation.latitude!,
-          currentLocation.longitude!,
-        );
-        // List<Address> addresses =
-        //     await Geocoder.local.findAddressesFromCoordinates(
-        //   Coordinates(
-        //     currentLocation.latitude,
-        //     currentLocation.longitude,
-        //   ),
-        // );
-        cityName = addresses[0].locality!;
-        if (cityName.contains("null")) cityName = "Add Location";
-      }
-    } catch (e) {
-      print(e.toString());
-    }
+    //   if (currentLocation != null) {
+    //     List<Placemark> addresses = await placemarkFromCoordinates(
+    //       currentLocation.latitude!,
+    //       currentLocation.longitude!,
+    //     );
+    //     // List<Address> addresses =
+    //     //     await Geocoder.local.findAddressesFromCoordinates(
+    //     //   Coordinates(
+    //     //     currentLocation.latitude,
+    //     //     currentLocation.longitude,
+    //     //   ),
+    //     // );
+    //     cityName = addresses[0].locality!;
+    //     if (cityName.contains("null")) cityName = "Add Location";
+    //   }
+    // } catch (e) {
+    //   print(e.toString());
+    // }
 
     key = UniqueKey();
     productKey = UniqueKey();
@@ -289,14 +289,14 @@ class HomeController extends BaseController {
               //   ),
               // )
 
-              placemarkFromCoordinates(
-                currentLocation.latitude!,
-                currentLocation.longitude!,
-              ).then((addresses) {
-                cityName = addresses[0].locality!;
-                if (cityName.contains("null")) cityName = "Add Location";
-                update();
-              });
+              // placemarkFromCoordinates(
+              //   currentLocation.latitude!,
+              //   currentLocation.longitude!,
+              // ).then((addresses) {
+              //   cityName = addresses[0].locality!;
+              //   if (cityName.contains("null")) cityName = "Add Location";
+              //   update();
+              // });
             }
           }
         });

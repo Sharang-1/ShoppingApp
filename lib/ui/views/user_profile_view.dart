@@ -1,7 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:store_redirect/store_redirect.dart';
-// import 'package:open_appstore/open_appstore.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../constants/server_urls.dart';
 import '../../controllers/base_controller.dart';
@@ -35,10 +36,12 @@ class SettingsView extends StatelessWidget {
   };
 
   final Map<int, void Function()> settingOnTapMap = {
-    1: () => StoreRedirect.redirect(
-        androidAppId: "in.dzor.dzor_app", iOSAppId: "1562083632"),
-    2: () => StoreRedirect.redirect(
-        androidAppId: "in.dzor.dzor_app", iOSAppId: "1562083632"),
+    1: () => Platform.isAndroid
+        ? launch("https://play.google.com/store/apps/details?id=in.dzor.dzor_app&hl=en_IN&gl=US")
+        : launch("https://apps.apple.com/in/app/dzor/id1562083632"),
+    2: () => Platform.isAndroid
+        ? launch("https://play.google.com/store/apps/details?id=in.dzor.dzor_app&hl=en_IN&gl=US")
+        : launch("https://apps.apple.com/in/app/dzor/id1562083632"),
     // 1: () => OpenAppstore.launch(
     //     androidAppId: "in.dzor.dzor_app", iOSAppId: "1562083632"),
     // 2: () => OpenAppstore.launch(

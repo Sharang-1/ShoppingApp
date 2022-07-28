@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io' show Platform;
 
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
+// import 'package:geolocator/geolocator.dart';
 import 'package:google_api_headers/google_api_headers.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
@@ -26,7 +26,7 @@ class PlacePicker extends StatefulWidget {
     this.onPlacePicked,
     required this.initialPosition,
     this.useCurrentLocation,
-    this.desiredLocationAccuracy = LocationAccuracy.high,
+    // this.desiredLocationAccuracy = LocationAccuracy.high,
     this.onMapCreated,
     this.hintText,
     this.searchingText,
@@ -67,7 +67,7 @@ class PlacePicker extends StatefulWidget {
   final String apiKey;
   final LatLng initialPosition;
   final bool? useCurrentLocation;
-  final LocationAccuracy desiredLocationAccuracy;
+  // final LocationAccuracy desiredLocationAccuracy;
   final MapCreatedCallback? onMapCreated;
   final String? hintText;
   final String? searchingText;
@@ -199,7 +199,7 @@ class _PlacePickerState extends State<PlacePicker> {
       headers,
     );
     provider.sessionToken = Uuid().generateV4();
-    provider.desiredAccuracy = widget.desiredLocationAccuracy;
+    // provider.desiredAccuracy = widget.desiredLocationAccuracy;
     provider.setMapType(widget.initialMapType);
 
     return provider;
@@ -235,7 +235,8 @@ class _PlacePickerState extends State<PlacePicker> {
                   titleSpacing: 0.0,
                   title: _buildSearchBar(context),
                 ),
-                body: _buildMapWithLocation(),
+                // body: _buildMapWithLocation(),
+                body: Container(),
               ),
             );
           }
@@ -356,78 +357,78 @@ class _PlacePickerState extends State<PlacePicker> {
     );
   }
 
-  _moveToCurrentPosition() async {
-    if (provider!.currentPosition != null) {
-      await _moveTo(provider!.currentPosition!.latitude,
-          provider!.currentPosition!.longitude);
-    }
-  }
+  // _moveToCurrentPosition() async {
+  //   if (provider!.currentPosition != null) {
+  //     await _moveTo(provider!.currentPosition!.latitude,
+  //         provider!.currentPosition!.longitude);
+  //   }
+  // }
 
-  Widget _buildMapWithLocation() {
-    if (widget.useCurrentLocation != null && widget.useCurrentLocation!) {
-      return FutureBuilder(
-          future: provider!.updateCurrentLocation(widget.forceAndroidLocationManager),
-          builder: (context, snap) {
-            if (snap.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            } else {
-              if (provider!.currentPosition == null) {
-                return _buildMap(widget.initialPosition);
-              } else {
-                return _buildMap(LatLng(provider!.currentPosition!.latitude, provider!.currentPosition!.longitude));
-              }
-            }
-          });
-    } else {
-      return FutureBuilder(
-        future: Future.delayed(Duration(milliseconds: 1)),
-        builder: (context, snap) {
-          if (snap.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else {
-            return _buildMap(widget.initialPosition);
-          }
-        },
-      );
-    }
-  }
+  // Widget _buildMapWithLocation() {
+  //   if (widget.useCurrentLocation != null && widget.useCurrentLocation!) {
+  //     return FutureBuilder(
+  //         future: provider!.updateCurrentLocation(widget.forceAndroidLocationManager),
+  //         builder: (context, snap) {
+  //           if (snap.connectionState == ConnectionState.waiting) {
+  //             return const Center(child: CircularProgressIndicator());
+  //           } else {
+  //             if (provider!.currentPosition == null) {
+  //               return _buildMap(widget.initialPosition);
+  //             } else {
+  //               return _buildMap(LatLng(provider!.currentPosition!.latitude, provider!.currentPosition!.longitude));
+  //             }
+  //           }
+  //         });
+  //   } else {
+  //     return FutureBuilder(
+  //       future: Future.delayed(Duration(milliseconds: 1)),
+  //       builder: (context, snap) {
+  //         if (snap.connectionState == ConnectionState.waiting) {
+  //           return const Center(child: CircularProgressIndicator());
+  //         } else {
+  //           return _buildMap(widget.initialPosition);
+  //         }
+  //       },
+  //     );
+  //   }
+  // }
 
-  Widget _buildMap(LatLng initialTarget) {
-    return GoogleMapPlacePicker(
-      initialTarget: initialTarget,
-      appBarKey: appBarKey,
-      selectedPlaceWidgetBuilder: widget.selectedPlaceWidgetBuilder,
-      pinBuilder: widget.pinBuilder,
-      onSearchFailed: widget.onGeocodingSearchFailed,
-      debounceMilliseconds: widget.cameraMoveDebounceInMilliseconds,
-      enableMapTypeButton: widget.enableMapTypeButton,
-      enableMyLocationButton: widget.enableMyLocationButton,
-      usePinPointingSearch: widget.usePinPointingSearch,
-      usePlaceDetailSearch: widget.usePlaceDetailSearch,
-      onMapCreated: widget.onMapCreated,
-      selectInitialPosition: widget.selectInitialPosition,
-      language: widget.autocompleteLanguage,
-      forceSearchOnZoomChanged: widget.forceSearchOnZoomChanged,
-      hidePlaceDetailsWhenDraggingPin: widget.hidePlaceDetailsWhenDraggingPin,
-      onToggleMapType: () {
-        provider!.switchMapType();
-      },
-      onMyLocation: () async {
-        // Prevent to click many times in short period.
-        if (provider!.isOnUpdateLocationCooldown == false) {
-          provider!.isOnUpdateLocationCooldown = true;
-          Timer(Duration(seconds: widget.myLocationButtonCooldown), () {
-            provider!.isOnUpdateLocationCooldown = false;
-          });
-          await provider!
-              .updateCurrentLocation(widget.forceAndroidLocationManager);
-          await _moveToCurrentPosition();
-        }
-      },
-      onMoveStart: () {
-        searchBarController.reset();
-      },
-      onPlacePicked: widget.onPlacePicked,
-    );
-  }
+//   Widget _buildMap(LatLng initialTarget) {
+//     return GoogleMapPlacePicker(
+//       initialTarget: initialTarget,
+//       appBarKey: appBarKey,
+//       selectedPlaceWidgetBuilder: widget.selectedPlaceWidgetBuilder,
+//       pinBuilder: widget.pinBuilder,
+//       onSearchFailed: widget.onGeocodingSearchFailed,
+//       debounceMilliseconds: widget.cameraMoveDebounceInMilliseconds,
+//       enableMapTypeButton: widget.enableMapTypeButton,
+//       enableMyLocationButton: widget.enableMyLocationButton,
+//       usePinPointingSearch: widget.usePinPointingSearch,
+//       usePlaceDetailSearch: widget.usePlaceDetailSearch,
+//       onMapCreated: widget.onMapCreated,
+//       selectInitialPosition: widget.selectInitialPosition,
+//       language: widget.autocompleteLanguage,
+//       forceSearchOnZoomChanged: widget.forceSearchOnZoomChanged,
+//       hidePlaceDetailsWhenDraggingPin: widget.hidePlaceDetailsWhenDraggingPin,
+//       onToggleMapType: () {
+//         provider!.switchMapType();
+//       },
+//       onMyLocation: () async {
+//         // Prevent to click many times in short period.
+//         if (provider!.isOnUpdateLocationCooldown == false) {
+//           provider!.isOnUpdateLocationCooldown = true;
+//           Timer(Duration(seconds: widget.myLocationButtonCooldown), () {
+//             provider!.isOnUpdateLocationCooldown = false;
+//           });
+//           await provider!
+//               .updateCurrentLocation(widget.forceAndroidLocationManager);
+//           await _moveToCurrentPosition();
+//         }
+//       },
+//       onMoveStart: () {
+//         searchBarController.reset();
+//       },
+//       onPlacePicked: widget.onPlacePicked,
+//     );
+//   }
 }

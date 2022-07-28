@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
-import 'package:geolocator/geolocator.dart';
+// import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/geocoding.dart';
 import 'package:google_maps_webservice/places.dart';
@@ -41,32 +41,32 @@ class PlaceProvider extends ChangeNotifier {
   late GoogleMapsGeocoding geocoding;
   String? sessionToken;
   bool isOnUpdateLocationCooldown = false;
-  LocationAccuracy? desiredAccuracy;
+  // LocationAccuracy? desiredAccuracy;
   bool isAutoCompleteSearching = false;
 
-  Future<void> updateCurrentLocation(bool forceAndroidLocationManager) async {
-    try {
-      await Permission.location.request();
-      if (await Permission.location.request().isGranted) {
-        currentPosition = await Geolocator.getCurrentPosition(
-            desiredAccuracy: desiredAccuracy ?? LocationAccuracy.best);
-      } else {
-        currentPosition = null;
-      }
-    } catch (e) {
-      print(e);
-      currentPosition = null;
-    }
+  // Future<void> updateCurrentLocation(bool forceAndroidLocationManager) async {
+  //   try {
+  //     await Permission.location.request();
+  //     if (await Permission.location.request().isGranted) {
+  //       currentPosition = await Geolocator.getCurrentPosition(
+  //           desiredAccuracy: desiredAccuracy ?? LocationAccuracy.best);
+  //     } else {
+  //       currentPosition = null;
+  //     }
+  //   } catch (e) {
+  //     print(e);
+  //     currentPosition = null;
+  //   }
 
-    notifyListeners();
-  }
+  //   notifyListeners();
+  // }
 
-  Position? _currentPoisition;
-  Position? get currentPosition => _currentPoisition;
-  set currentPosition(Position? newPosition) {
-    _currentPoisition = newPosition;
-    notifyListeners();
-  }
+  // Position? _currentPoisition;
+  // Position? get currentPosition => _currentPoisition;
+  // set currentPosition(Position? newPosition) {
+  //   _currentPoisition = newPosition;
+  //   notifyListeners();
+  // }
 
   Timer? _debounceTimer;
   Timer? get debounceTimer => _debounceTimer;

@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
-import 'package:store_redirect/store_redirect.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../constants/route_names.dart';
@@ -116,10 +115,10 @@ class _SettingsViewState extends State<SettingsView> {
     };
 
     settingOnTapMap = {
-      1: () => StoreRedirect.redirect(
-          androidAppId: "in.dzor.dzor_app", iOSAppId: "1562083632"),
-      2: () => StoreRedirect.redirect(
-          androidAppId: "in.dzor.dzor_app", iOSAppId: "1562083632"),
+      1: () => Platform.isAndroid ? launch("https://play.google.com/store/apps/details?id=in.dzor.dzor_app&hl=en_IN&gl=US") : launch("https://apps.apple.com/in/app/dzor/id1562083632"),
+      2: () => Platform.isAndroid
+          ? launch("https://play.google.com/store/apps/details?id=in.dzor.dzor_app&hl=en_IN&gl=US")
+          : launch("https://apps.apple.com/in/app/dzor/id1562083632"),
       3: () => Get.bottomSheet(
             HelpView(),
             backgroundColor: Colors.white,

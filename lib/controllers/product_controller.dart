@@ -87,7 +87,7 @@ class ProductController extends BaseController {
     final res =
         await _apiService.addToCart(product.key ?? "", qty, size, color);
     if (res != null) {
-      await BaseController.vibrate(duration: 100);
+      await BaseController.vibrate(duration: 10);
 
       final localStoreResult =
           await _cartLocalStoreService.addToCartLocalStore(product.key!);
