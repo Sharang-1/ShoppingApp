@@ -21,10 +21,7 @@ PODS:
   - Firebase/Performance (8.11.0):
     - Firebase/CoreOnly
     - FirebasePerformance (~> 8.11.0)
-  - Firebase/RemoteConfig (8.11.0):
-    - Firebase/CoreOnly
-    - FirebaseRemoteConfig (~> 8.11.0)
-  - firebase_analytics (9.1.0):
+  - firebase_analytics (9.1.1):
     - Firebase/Analytics (= 8.11.0)
     - firebase_core
     - Flutter
@@ -47,11 +44,7 @@ PODS:
     - Firebase/Performance (= 8.11.0)
     - firebase_core
     - Flutter
-  - firebase_remote_config (1.0.4):
-    - Firebase/RemoteConfig (= 8.11.0)
-    - firebase_core
-    - Flutter
-  - FirebaseABTesting (8.11.0):
+  - FirebaseABTesting (8.12.0):
     - FirebaseCore (~> 8.0)
   - FirebaseAnalytics (8.11.0):
     - FirebaseAnalytics/AdIdSupport (= 8.11.0)
@@ -75,7 +68,7 @@ PODS:
     - FirebaseCoreDiagnostics (~> 8.0)
     - GoogleUtilities/Environment (~> 7.7)
     - GoogleUtilities/Logger (~> 7.7)
-  - FirebaseCoreDiagnostics (8.11.0):
+  - FirebaseCoreDiagnostics (8.12.0):
     - GoogleDataTransport (~> 9.1)
     - GoogleUtilities/Environment (~> 7.7)
     - GoogleUtilities/Logger (~> 7.7)
@@ -89,7 +82,7 @@ PODS:
     - PromisesObjC (< 3.0, >= 1.2)
   - FirebaseDynamicLinks (8.11.0):
     - FirebaseCore (~> 8.0)
-  - FirebaseInstallations (8.11.0):
+  - FirebaseInstallations (8.12.0):
     - FirebaseCore (~> 8.0)
     - GoogleUtilities/Environment (~> 7.7)
     - GoogleUtilities/UserDefaults (~> 7.7)
@@ -112,7 +105,7 @@ PODS:
     - GoogleUtilities/ISASwizzler (~> 7.7)
     - GoogleUtilities/MethodSwizzler (~> 7.7)
     - nanopb (~> 2.30908.0)
-  - FirebaseRemoteConfig (8.11.0):
+  - FirebaseRemoteConfig (8.12.0):
     - FirebaseABTesting (~> 8.0)
     - FirebaseCore (~> 8.0)
     - FirebaseInstallations (~> 8.0)
@@ -127,10 +120,6 @@ PODS:
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
-  - geocoding (1.0.5):
-    - Flutter
-  - geolocator_apple (1.2.0):
-    - Flutter
   - google_maps_flutter (0.0.1):
     - Flutter
     - GoogleMaps
@@ -185,8 +174,6 @@ PODS:
     - GoogleUtilities/Logger
   - image_picker (0.0.1):
     - Flutter
-  - launch_review (0.0.1):
-    - Flutter
   - libphonenumber (0.0.1):
     - Flutter
     - libPhoneNumber-iOS
@@ -213,7 +200,7 @@ PODS:
   - PromisesObjC (2.0.0)
   - rate_my_app (1.1.1):
     - Flutter
-  - razorpay-pod (1.1.17)
+  - razorpay-pod (1.1.18)
   - razorpay_flutter (1.1.10):
     - Flutter
     - razorpay-pod
@@ -222,13 +209,9 @@ PODS:
     - Flutter
   - shared_preferences_ios (0.0.1):
     - Flutter
-  - sign_in_with_apple (0.0.1):
-    - Flutter
   - sqflite (0.0.2):
     - Flutter
     - FMDB (>= 2.7.5)
-  - store_redirect (0.0.1):
-    - Flutter
   - Toast (4.0.0)
   - url_launcher_ios (0.0.1):
     - Flutter
@@ -247,15 +230,11 @@ DEPENDENCIES:
   - firebase_dynamic_links (from `.symlinks/plugins/firebase_dynamic_links/ios`)
   - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
   - firebase_performance (from `.symlinks/plugins/firebase_performance/ios`)
-  - firebase_remote_config (from `.symlinks/plugins/firebase_remote_config/ios`)
   - Flutter (from `Flutter`)
   - flutter_keyboard_visibility (from `.symlinks/plugins/flutter_keyboard_visibility/ios`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
-  - geocoding (from `.symlinks/plugins/geocoding/ios`)
-  - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
   - google_maps_flutter (from `.symlinks/plugins/google_maps_flutter/ios`)
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
-  - launch_review (from `.symlinks/plugins/launch_review/ios`)
   - libphonenumber (from `.symlinks/plugins/libphonenumber/ios`)
   - libphonenumber_plugin (from `.symlinks/plugins/libphonenumber_plugin/ios`)
   - location (from `.symlinks/plugins/location/ios`)
@@ -267,9 +246,7 @@ DEPENDENCIES:
   - razorpay_flutter (from `.symlinks/plugins/razorpay_flutter/ios`)
   - share (from `.symlinks/plugins/share/ios`)
   - shared_preferences_ios (from `.symlinks/plugins/shared_preferences_ios/ios`)
-  - sign_in_with_apple (from `.symlinks/plugins/sign_in_with_apple/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
-  - store_redirect (from `.symlinks/plugins/store_redirect/ios`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
   - vibration (from `.symlinks/plugins/vibration/ios`)
   - video_player_avfoundation (from `.symlinks/plugins/video_player_avfoundation/ios`)
@@ -315,24 +292,16 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_messaging/ios"
   firebase_performance:
     :path: ".symlinks/plugins/firebase_performance/ios"
-  firebase_remote_config:
-    :path: ".symlinks/plugins/firebase_remote_config/ios"
   Flutter:
     :path: Flutter
   flutter_keyboard_visibility:
     :path: ".symlinks/plugins/flutter_keyboard_visibility/ios"
   fluttertoast:
     :path: ".symlinks/plugins/fluttertoast/ios"
-  geocoding:
-    :path: ".symlinks/plugins/geocoding/ios"
-  geolocator_apple:
-    :path: ".symlinks/plugins/geolocator_apple/ios"
   google_maps_flutter:
     :path: ".symlinks/plugins/google_maps_flutter/ios"
   image_picker:
     :path: ".symlinks/plugins/image_picker/ios"
-  launch_review:
-    :path: ".symlinks/plugins/launch_review/ios"
   libphonenumber:
     :path: ".symlinks/plugins/libphonenumber/ios"
   libphonenumber_plugin:
@@ -355,12 +324,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/share/ios"
   shared_preferences_ios:
     :path: ".symlinks/plugins/shared_preferences_ios/ios"
-  sign_in_with_apple:
-    :path: ".symlinks/plugins/sign_in_with_apple/ios"
   sqflite:
     :path: ".symlinks/plugins/sqflite/ios"
-  store_redirect:
-    :path: ".symlinks/plugins/store_redirect/ios"
   url_launcher_ios:
     :path: ".symlinks/plugins/url_launcher_ios/ios"
   vibration:
@@ -373,36 +338,32 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   connectivity_plus: 5f0eb61093bec56935f21a1699dd2758bc895587
   Firebase: 44dd9724c84df18b486639e874f31436eaa9a20c
-  firebase_analytics: b267e923ba3cdc892bdcadc01efab50f3b8b7441
+  firebase_analytics: 44279c13994b4dcd373c3282636b0f366bc97cff
   firebase_core: 443bccfd6aa6b42f07be365b500773dc69db2d87
   firebase_crashlytics: 824c5100677bbc8dbc4cc2b264dab21c0ffa3279
   firebase_dynamic_links: f3436f43908547e9a7aa75fb66889c92fc91ff56
   firebase_messaging: 8dc3a6f069774a0bf4dac04dd79fdaffcb62e145
   firebase_performance: e5fd7253815624e46aaebcd0195a6bd3589e2fdc
-  firebase_remote_config: cf241473a39f76ae77e6ac44f27033d13813babe
-  FirebaseABTesting: aac00a5472250a45f1462675792030e44df025c7
+  FirebaseABTesting: 1b05c92327b3f0a9545cea3bab4d93e82550e29b
   FirebaseAnalytics: 4e4b13031034e6561ed3bd1d47b6fdabbd6487c6
   FirebaseCore: 2f4f85b453cc8fea4bb2b37e370007d2bcafe3f0
-  FirebaseCoreDiagnostics: 64d9709d804a6c25bd77841371c1fcfd909d5601
+  FirebaseCoreDiagnostics: 3b40dfadef5b90433a60ae01f01e90fe87aa76aa
   FirebaseCrashlytics: 62268addefae79601057818156e8bc69d71fee41
   FirebaseDynamicLinks: f506c83eb7eba0f9861f84cd6b65c38b3bd5ff6f
-  FirebaseInstallations: 044eede8a049bce71c4541ee68d6e4364fcbe774
+  FirebaseInstallations: 25764cf322e77f99449395870a65b2bef88e1545
   FirebaseMessaging: 02e248e8997f71fa8cc9d78e9d49ec1a701ba14a
   FirebasePerformance: c40a3bfe5ed9e91f2ab4851d1aa8e0f2f3ca19cf
-  FirebaseRemoteConfig: a6a1ce9dabf404817ae2a44e8421d276660d9091
+  FirebaseRemoteConfig: f174a7091ac8e69bf6d0de2bae2212edb922a0ab
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
   flutter_keyboard_visibility: 0339d06371254c3eb25eeb90ba8d17dca8f9c069
-  fluttertoast: 6122fa75143e992b1d3470f61000f591a798cc58
+  fluttertoast: 16fbe6039d06a763f3533670197d01fc73459037
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
-  geocoding: 32cfcdb16d38d907caaba65e2e42ad10d38bee58
-  geolocator_apple: b741765c55dc21950e3e106e8b3584e55cf81ce5
   google_maps_flutter: abdb8dee6c52d4be36ad131ee6ebfacd14417c5a
   GoogleAppMeasurement: aa3cb422fab2b05d2efac543a5720d1a85b9dea5
   GoogleDataTransport: 629c20a4d363167143f30ea78320d5a7eb8bd940
   GoogleMaps: eb03e327edfd70b06de1e6e321653f73712df7ad
   GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
   image_picker: 0d37d1cb66231c2473a0e3ccb8d062d0c2b3d297
-  launch_review: 75d5a956ba8eaa493e9c9d4bf4c05e505e8d5ed0
   libphonenumber: bd14d5abfc5939ab0b0767234e2d8e2593af258e
   libPhoneNumber-iOS: 0a32a9525cf8744fe02c5206eb30d571e38f7d75
   libphonenumber_plugin: 7cf755ad1656145935d6c208173a476bd3f12898
@@ -414,14 +375,12 @@ SPEC CHECKSUMS:
   permission_handler: ccb20a9fad0ee9b1314a52b70b76b473c5f8dab0
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
   rate_my_app: 8e49687f3520c56352f974f0cb401afea07cd496
-  razorpay-pod: 570fa697c5c0d8e356f42d783bf37d9361334062
+  razorpay-pod: 9aca3a303ef2f9281232c2f742fc6de937679500
   razorpay_flutter: 84b3bfd206ae9c9c2a9ba585524a1b3d8102b6c1
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   share: 0b2c3e82132f5888bccca3351c504d0003b3b410
   shared_preferences_ios: aef470a42dc4675a1cdd50e3158b42e3d1232b32
-  sign_in_with_apple: f3bf75217ea4c2c8b91823f225d70230119b8440
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
-  store_redirect: 2977747cf81689a39bd62c248c2deacb7a0d131e
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   url_launcher_ios: 02f1989d4e14e998335b02b67a7590fa34f971af
   vibration: 1ec279c4a1a7a646627b54039d812334b3f1114a
