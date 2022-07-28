@@ -1,7 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:launch_review/launch_review.dart';
 import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:version/version.dart';
 
 import '../constants/route_names.dart';
@@ -57,9 +59,11 @@ class StartUpController extends BaseController {
           actions: [
             TextButton(
               child: Text("Update App"),
-              onPressed: () async {
-                await LaunchReview.launch(
-                    androidAppId: "in.dzor.dzor_app", iOSAppId: "1562083632");
+              onPressed: ()  {
+                 Platform.isAndroid
+                    ? launch(
+                        "https://play.google.com/store/apps/details?id=in.dzor.dzor_app&hl=en_IN&gl=US")
+                    : launch("https://apps.apple.com/in/app/dzor/id1562083632");
               },
             )
           ],
