@@ -322,8 +322,8 @@ class _ProductTileUI2State extends State<ProductTileUI2> {
             : Container(),
         if (handcrafted)
           Positioned(
-            bottom: 0,
-            left: 0,
+            bottom: 8,
+            left: 8,
             child: Container(
               height: 14,
               padding: EdgeInsets.symmetric(horizontal: 8.0),
