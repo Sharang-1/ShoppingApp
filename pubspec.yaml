@@ -81,6 +81,9 @@ dependencies:
   video_player: ^2.2.7
   visibility_detector: ^0.2.2
 
+dependency_overrides:
+  firebase_analytics_platform_interface: 3.0.5
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
