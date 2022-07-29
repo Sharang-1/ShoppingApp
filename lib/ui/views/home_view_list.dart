@@ -691,35 +691,35 @@ class _HomeViewListState extends State<HomeViewList> {
                                 );
                               return Container();
                             }),
-                      FutureSectionBuilder(
-                        duration: sectionDelay['SECTION7']!,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SectionDivider(),
-                            SectionBuilder(
-                              context: context,
-                              layoutType: LayoutType.DESIGNER_ID_3_LAYOUT,
-                              onEmptyList: () {},
-                              controller: SellersGridViewBuilderController(
-                                removeId: '',
-                                subscriptionTypes: [2],
-                                random: true,
-                                limit: 12,
-                              ),
-                              scrollDirection: Axis.horizontal,
-                              header: SectionHeader(
-                                title: "GREAT LABELS IN YOUR CITY!",
-                                subTitle: ""
-                                // title: controller.remoteConfig!
-                                //     .getString(HOMESCREEN_SECTION_7_TITLE_EN),
-                                // subTitle: controller.remoteConfig!
-                                //     .getString(HOMESCREEN_SECTION_7_SUBTITLE_EN),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                      // FutureSectionBuilder(
+                      //   duration: sectionDelay['SECTION7']!,
+                      //   child: Column(
+                      //     crossAxisAlignment: CrossAxisAlignment.start,
+                      //     children: [
+                      //       SectionDivider(),
+                      //       SectionBuilder(
+                      //         context: context,
+                      //         layoutType: LayoutType.DESIGNER_ID_3_LAYOUT,
+                      //         onEmptyList: () {},
+                      //         controller: SellersGridViewBuilderController(
+                      //           removeId: '',
+                      //           subscriptionTypes: [2],
+                      //           random: true,
+                      //           limit: 12,
+                      //         ),
+                      //         scrollDirection: Axis.horizontal,
+                      //         header: SectionHeader(
+                      //           title: "GREAT LABELS IN YOUR CITY!",
+                      //           subTitle: ""
+                      //           // title: controller.remoteConfig!
+                      //           //     .getString(HOMESCREEN_SECTION_7_TITLE_EN),
+                      //           // subTitle: controller.remoteConfig!
+                      //           //     .getString(HOMESCREEN_SECTION_7_SUBTITLE_EN),
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
                       // FutureSectionBuilder(
                       //   duration: sectionDelay['SECTION8']!,
                       //   child: Column(
