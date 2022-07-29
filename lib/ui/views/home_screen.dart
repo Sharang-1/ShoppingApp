@@ -1,5 +1,6 @@
 import 'package:compound/controllers/home_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import '../../constants/route_names.dart';
@@ -49,6 +50,11 @@ class _HomeScreenState extends State<HomeScreen> {
             child: CustomScrollView(
               slivers: <Widget>[
                 SliverAppBar(
+                  systemOverlayStyle: SystemUiOverlayStyle(
+                    statusBarColor: logoRed,
+                    statusBarBrightness: Brightness.light,
+                    statusBarIconBrightness: Brightness.light,
+                  ),
                   elevation: 0,
                   iconTheme: IconThemeData(color: Colors.white),
                   backgroundColor: logoRed,
