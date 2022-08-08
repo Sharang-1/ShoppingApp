@@ -439,7 +439,7 @@ class APIService {
   }
 
   Future<PromoCode?> applyPromocode(
-      String productId, int qty, String code, String promotion) async {
+    String productId, int qty, String code, String promotion) async {
     final quantity = qty >= 1 ? qty : 1;
     code = code.trim();
     final promoCodeData = await apiWrapper(

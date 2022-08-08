@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:fimber/fimber.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:location/location.dart';
 // import 'package:permission_handler/permission_handler.dart';
 
@@ -21,22 +22,21 @@ class LocationService {
   LocationService() {
     // getUserLocation();
     location.requestPermission().then((granted) {
-        if (granted == PermissionStatus.granted) {
-          location.onLocationChanged.listen(((locationData) {
-            if (locationData != null) {
-              currentLocation = UserLocation(
-                latitude: locationData.latitude,
-                longitude: locationData.longitude,
-              );
-              _locationController.add(currentLocation);
-              // Fimber.d("location update-> " + locationData.toString());
-            }
-          }));
-        } else {
-          // TODO : handle loaction permission denied
-
-        }
-      });
+      if (granted == PermissionStatus.granted) {
+        location.onLocationChanged.listen(((locationData) {
+          if (locationData != null) {
+            currentLocation = UserLocation(
+              latitude: locationData.latitude,
+              longitude: locationData.longitude,
+            );
+            _locationController.add(currentLocation);
+            // Fimber.d("location update-> " + locationData.toString());
+          }
+        }));
+      } else {
+        Fluttertoast.showToast(msg: "Location permission required!");
+      }
+    });
   }
 
   // Future<dynamic> getUserLocation() async {
@@ -48,7 +48,7 @@ class LocationService {
   //     _permissionStatus = await location.requestPermission();
   //     if (_permissionStatus == PermissionStatus.denied ||
   //         _permissionStatus == PermissionStatus.deniedForever) {
-        
+
   //     }else{
   //       _locationData = await location.getLocation();
   //       if (_locationData != null) {
@@ -71,7 +71,6 @@ class LocationService {
   //           }
   //         }));
   //       } else {
-  //         // TODO : handle loaction permission denied
 
   //       }
   //     });

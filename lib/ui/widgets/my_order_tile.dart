@@ -5,8 +5,11 @@ import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
 
 import '../../constants/server_urls.dart';
+import '../../controllers/home_controller.dart';
 import '../../controllers/user_details_controller.dart';
+import '../../locator.dart';
 import '../../models/orders.dart';
+import '../../services/analytics_service.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
@@ -24,6 +27,8 @@ class MyOrdersTile extends StatefulWidget {
 }
 
 class MyordersTileState extends State<MyOrdersTile> {
+  final AnalyticsService _analyticsService = locator<AnalyticsService>();
+
   Widget build(BuildContext context) {
     List<Widget> myOrderShimmerEffect() => List<Widget>.generate(5, (index) => MyOrdersShimmer());
     return SingleChildScrollView(
@@ -224,14 +229,14 @@ class MyordersTileState extends State<MyOrdersTile> {
                         ),
                       ),
                       onTap: () async {
-                        await FirebaseAnalytics.instance.logEvent(
-                          name: "order_histoy",
-                          parameters: {
-                            "user_id": order.customerId,
-                            // "user_contact" : UserDetailsController.,
-                            "order_id": order.productId,
-                          },
-                        );
+                       await  _analyticsService.sendAnalyticsEvent(
+                            eventName: "order_history_view",
+                            parameters: <String, dynamic>{
+                              "order_id": order.productId,
+                              "user_id": locator<HomeController>().details!.key,
+                              "user_name": locator<HomeController>().details!.name,
+                              "user_contact": locator<HomeController>().details!.contact,
+                            });
                         Navigator.push(
                           context,
                           new MaterialPageRoute(

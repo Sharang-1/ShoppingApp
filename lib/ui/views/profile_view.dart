@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../../constants/server_urls.dart';
+import '../../controllers/home_controller.dart';
 import '../../controllers/user_details_controller.dart';
 import '../../locator.dart';
 import '../../models/user_details.dart';
@@ -212,7 +213,7 @@ class _ProfileViewState extends State<ProfileView> {
                                           width: 100,
                                           height: 100,
                                           fadeInCurve: Curves.easeIn,
-                                          placeholder: AssetImage("assets/images/user.png"),
+                                          placeholder: locator<HomeController>().details!.gender?.name == "Male" ? AssetImage("assets/icons/maleUser.png"):AssetImage("assets/icons/femaleUser.png"),
                                           image: NetworkImage(
                                               "$USER_PROFILE_PHOTO_BASE_URL/${controller.mUserDetails?.key}?v=${controller.dateTimeString}",
                                               headers: {
@@ -221,12 +222,17 @@ class _ProfileViewState extends State<ProfileView> {
                                           imageErrorBuilder: (context, error, stackTrace) {
                                             print(
                                                 "User Photo: $USER_PROFILE_PHOTO_BASE_URL/${controller.mUserDetails?.photo?.name} $error $stackTrace");
-                                            return Image.asset(
-                                              "assets/images/user.png",
+                                            return locator<HomeController>().details!.gender?.name == "Male" ? Image.asset(
+                                              "assets/icons/maleUser.png",
                                               width: 100,
                                               height: 100,
                                               fit: BoxFit.cover,
-                                            );
+                                            ): Image.asset(
+                                                    "assets/icons/femaleUser.png",
+                                                    width: 100,
+                                                    height: 100,
+                                                    fit: BoxFit.cover,
+                                                  );
                                           },
                                           fit: BoxFit.cover,
                                         )
@@ -246,27 +252,27 @@ class _ProfileViewState extends State<ProfileView> {
                                   ),
                                 ),
                               ),
-                              Positioned(
-                                bottom: 8,
-                                right: 8,
-                                child: Container(
+                              // Positioned(
+                              //   bottom: 8,
+                              //   right: 8,
+                              //   child: Container(
                                   
-                                  padding: EdgeInsets.all(4.0),
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.grey[50],
-                                  ),
-                                  child: InkWell(
-                                    onTap: () async {
-                                      _getImage();
-                                   _image!= null ? controller.updateUserPhoto(_image):(){};
-                                    },
-                                    child: Icon(
-                                      Icons.edit,
-                                    ),
-                                  ),
-                                ),
-                              ),
+                              //     padding: EdgeInsets.all(4.0),
+                              //     decoration: BoxDecoration(
+                              //       shape: BoxShape.circle,
+                              //       color: Colors.grey[50],
+                              //     ),
+                              //     child: InkWell(
+                              //       onTap: () async {
+                              //         _getImage();
+                              //      _image!= null ? controller.updateUserPhoto(_image):(){};
+                              //       },
+                              //       child: Icon(
+                              //         Icons.edit,
+                              //       ),
+                              //     ),
+                              //   ),
+                              // ),
                             ],
                           ),
                           verticalSpaceMedium,
