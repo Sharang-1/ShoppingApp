@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:compound/ui/widgets/product_detail_card.dart';
 import 'package:http/http.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
@@ -52,15 +53,7 @@ import 'cart_view.dart';
 import 'gallery_view.dart';
 import 'help_view.dart';
 
-const weekday = [
-  "Monday",
-  "Tuesday",
-  "wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-  "Sunday"
-];
+const weekday = ["Monday", "Tuesday", "wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
 var month = [
   "January",
@@ -95,7 +88,6 @@ const Map<int, String> workOnMap = {
 
 Map<String, Color> tagColors = {
   PRODUCTSCREEN_ASSURED.tr: Colors.blueAccent,
-
   PRODUCTSCREEN_RETURNS.tr: Colors.grey[700]!,
   PRODUCTSCREEN_IN_STOCK.tr: lightGreen,
   PRODUCTSCREEN_SOLD_OUT.tr: logoRed,
@@ -104,8 +96,7 @@ Map<String, Color> tagColors = {
 class ProductIndiView extends StatefulWidget {
   final Product data;
   final bool fromCart;
-  const ProductIndiView({Key? key, required this.data, this.fromCart = false})
-      : super(key: key);
+  const ProductIndiView({Key? key, required this.data, this.fromCart = false}) : super(key: key);
   @override
   _ProductIndiViewState createState() => _ProductIndiViewState();
 }
@@ -113,8 +104,7 @@ class ProductIndiView extends StatefulWidget {
 class _ProductIndiViewState extends State<ProductIndiView> {
   final refreshController = RefreshController(initialRefresh: false);
   final DynamicLinkService _dynamicLinkService = locator<DynamicLinkService>();
-  final ErrorHandlingService _errorHandlingService =
-      locator<ErrorHandlingService>();
+  final ErrorHandlingService _errorHandlingService = locator<ErrorHandlingService>();
   late ProductController productController;
 
   UniqueKey key = UniqueKey();
@@ -207,8 +197,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                   ),
                   controller: refreshController,
                   onRefresh: () async {
-                    Product? product =
-                        await controller.refreshProduct(productData!.key!);
+                    Product? product = await controller.refreshProduct(productData!.key!);
                     if (product != null) {
                       setState(() {
                         setupProductDetails(product);
@@ -224,66 +213,36 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                         Stack(
                           children: <Widget>[
                             FutureBuilder(
-                              future: checkshowSizeChart(),
-                              builder: (context, data) {
-                                if (data.connectionState == ConnectionState.done){
+                                future: checkshowSizeChart(),
+                                builder: (context, data) {
+                                  if (data.connectionState == ConnectionState.done) {
+                                    return HomeSlider(
+                                      key: photosKey,
+                                      imgList: imageURLs ?? [],
+                                      sizeChartUrl: showSizechart == true
+                                          ? "${BASE_URL}sellers/${productData!.account!.key}/categories/${productData!.category!.id}/sizechart"
+                                          : "",
+                                      videoList: productData?.video?.videos
+                                              .map((e) =>
+                                                  "${BASE_URL}products/${productData!.key}/videos/${e.name}")
+                                              .toList() ??
+                                          [],
+                                      aspectRatio: 1,
+                                      fromProduct: true,
+                                    );
+                                  }
                                   return HomeSlider(
                                     key: photosKey,
                                     imgList: imageURLs ?? [],
-                                    sizeChartUrl: showSizechart == true ?
-                                    "${BASE_URL}sellers/${productData!.account!.key}/categories/${productData!.category!.id}/sizechart" : "",
                                     videoList: productData?.video?.videos
-                                        .map((e) =>
-                                    "${BASE_URL}products/${productData!.key}/videos/${e.name}")
-                                        .toList() ??
+                                            .map((e) =>
+                                                "${BASE_URL}products/${productData!.key}/videos/${e.name}")
+                                            .toList() ??
                                         [],
                                     aspectRatio: 1,
                                     fromProduct: true,
                                   );
-                                }
-                              return HomeSlider(
-                                  key: photosKey,
-                                  imgList: imageURLs ?? [],
-
-                                videoList: productData?.video?.videos
-                                      .map((e) =>
-                                  "${BASE_URL}products/${productData!.key}/videos/${e.name}")
-                                      .toList() ??
-                                      [],
-                                  aspectRatio: 1,
-                                  fromProduct: true,
-                                );
-                              }
-                            ),
-                            if ((productData?.discount ?? 0.0) != 0.0)
-                              Positioned(
-                                top: 4,
-                                right: 4,
-                                child: InkWell(
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: logoRed,
-                                      borderRadius: BorderRadius.circular(50),
-                                    ),
-                                    width: 40,
-                                    height: 40,
-                                    child: Center(
-                                      child: Text(
-                                        productData!.discount!
-                                                .round()
-                                                .toString() +
-                                            "%",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: subtitleFontSize,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  onTap: () => NavigationService.back(),
-                                ),
-                              ),
+                                }),
                             Positioned(
                               bottom: 32,
                               right: 8,
@@ -292,6 +251,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                 decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(30),
+                                  boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 1)]
                                 ),
                                 child: Row(
                                   children: [
@@ -299,20 +259,14 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                       width: 20,
                                       height: 20,
                                       child: InkWell(
-                                        onTap: () async =>
-                                            locator<HomeController>().isLoggedIn
-                                                ? controller
-                                                    .onWishlistBtnClicked(
-                                                        productId!)
-                                                : await BaseController
-                                                    .showLoginPopup(
-                                                    nextView: WishListRoute,
-                                                    shouldNavigateToNextScreen:
-                                                        true,
-                                                  ),
+                                        onTap: () async => locator<HomeController>().isLoggedIn
+                                            ? controller.onWishlistBtnClicked(productId!)
+                                            : await BaseController.showLoginPopup(
+                                                nextView: WishListRoute,
+                                                shouldNavigateToNextScreen: true,
+                                              ),
                                         child: WishListIcon(
-                                          filled:
-                                              controller.isWishlistIconFilled,
+                                          filled: controller.isWishlistIconFilled,
                                           width: 20,
                                           height: 20,
                                         ),
@@ -326,18 +280,14 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                         onTap: () async {
                                           await Share.share(
                                             await _dynamicLinkService
-                                                    .createLink(productLink +
-                                                        productId!) ??
+                                                    .createLink(productLink + productId!) ??
                                                 "",
                                           );
                                           await controller.shareProductEvent(
-                                              productId: productId!,
-                                              productName: productName!);
+                                              productId: productId!, productName: productName!);
                                         },
                                         child: Icon(
-                                          Platform.isIOS
-                                              ? CupertinoIcons.share
-                                              : Icons.share,
+                                          Platform.isIOS ? CupertinoIcons.share : Icons.share,
                                           size: 20,
                                         ),
                                       ),
@@ -356,71 +306,90 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              productPriceInfo(
-                                productName: productData!.name,
-                                designerName: productData!.seller?.name ?? "No Name",
-                                productPrice: productPrice,
-                                actualPrice: (productData!.cost!.cost +
-                                        productData!
-                                            .cost!.convenienceCharges!.cost! +
-                                        productData!.cost!.gstCharges!.cost!)
-                                    .round(),
-                                showPrice: (available!),
-                                isClothMeterial:
-                                    (productData!.category!.id == 13),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    width: MediaQuery.of(context).size.width * 0.8,
+                                    child: productPriceInfo(
+                                      productName: productData!.name,
+                                      designerName: productData!.seller?.name ?? "No Name",
+                                      productPrice: productPrice,
+                                      actualPrice: (productData!.cost!.cost +
+                                              productData!.cost!.convenienceCharges!.cost! +
+                                              productData!.cost!.gstCharges!.cost!)
+                                          .round(),
+                                      showPrice: (available!),
+                                      isClothMeterial: (productData!.category!.id == 13),
+                                    ),
+                                  ),
+                                  if ((productData?.discount ?? 0.0) != 0.0)
+                                    InkWell(
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: logoRed,
+                                          borderRadius: BorderRadius.circular(50),
+                                        ),
+                                        width: 40,
+                                        height: 40,
+                                        child: Center(
+                                          child: Text(
+                                            productData!.discount!.round().toString() + "%",
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: subtitleFontSize,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      onTap: () => NavigationService.back(),
+                                    ),
+                                ],
                               ),
                               elementDivider(),
                               SingleChildScrollView(
                                 scrollDirection: Axis.horizontal,
                                 child: Row(
                                   children: [
-                                    Text("Free Delivery", style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),),
+                                    Text(
+                                      "Free Delivery",
+                                      style: TextStyle(
+                                          color: Colors.black, fontWeight: FontWeight.w600),
+                                    ),
                                     Row(
                                       children: [
                                         PRODUCTSCREEN_ASSURED.tr,
                                         if (available! &&
                                             (totalQuantity != 0) &&
-                                            locator<HomeController>()
-                                                    .cityName
-                                                    .toLowerCase() ==
+                                            locator<HomeController>().cityName.toLowerCase() ==
                                                 'ahmedabad')
                                           PRODUCTSCREEN_COD.tr,
                                         PRODUCTSCREEN_RETURNS.tr,
                                         if (available! && (totalQuantity != 0))
                                           PRODUCTSCREEN_IN_STOCK.tr,
-                                        if ((available! && (totalQuantity == 0)) ||
-                                            !available!)
+                                        if ((available! && (totalQuantity == 0)) || !available!)
                                           PRODUCTSCREEN_SOLD_OUT.tr,
                                         PRODUCTSCREEN_JUST_HERE.tr,
-                                        if ((productData?.stitchingType?.id ??
-                                                -1) ==
-                                            2)
+                                        if ((productData?.stitchingType?.id ?? -1) == 2)
                                           PRODUCTSCREEN_UNSTITCHED.tr,
                                         if (productData!.whoMadeIt!.id == 2)
                                           PRODUCTSCREEN_HANDCRAFTED.tr,
-                                        if (totalQuantity == 1)
-                                          PRODUCTSCREEN_ONE_IN_MARKET.tr,
+                                        if (totalQuantity == 1) PRODUCTSCREEN_ONE_IN_MARKET.tr,
                                       ]
                                           .map(
                                             (e) => InkWell(
-                                              onTap: e.contains(
-                                                      PRODUCTSCREEN_RETURNS.tr)
-                                                  ? () async =>
-                                                      await showModalBottomSheet(
+                                              onTap: e.contains(PRODUCTSCREEN_RETURNS.tr)
+                                                  ? () async => await showModalBottomSheet(
                                                         isScrollControlled: true,
-                                                        shape:
-                                                            RoundedRectangleBorder(
-                                                          borderRadius:
-                                                              BorderRadius.vertical(
-                                                            top: Radius.circular(
-                                                                curve10),
+                                                        shape: RoundedRectangleBorder(
+                                                          borderRadius: BorderRadius.vertical(
+                                                            top: Radius.circular(curve10),
                                                           ),
                                                         ),
-                                                        clipBehavior:
-                                                            Clip.antiAlias,
+                                                        clipBehavior: Clip.antiAlias,
                                                         context: context,
-                                                        builder: (con) =>
-                                                            HelpView(),
+                                                        builder: (con) => HelpView(),
                                                       )
                                                   : null,
                                               child: Container(
@@ -430,9 +399,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                 ),
                                                 child: Row(
                                                   children: [
-                                                    if (e.contains(
-                                                        PRODUCTSCREEN_ASSURED
-                                                            .tr)) ...[
+                                                    if (e.contains(PRODUCTSCREEN_ASSURED.tr)) ...[
                                                       Image.asset(
                                                         "assets/images/assured.png",
                                                         color: Colors.blueAccent,
@@ -445,8 +412,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                       e,
                                                       style: TextStyle(
                                                         fontSize: 12.0,
-                                                        color: tagColors[e] ??
-                                                            Colors.grey,
+                                                        color: tagColors[e] ?? Colors.grey,
                                                       ),
                                                     ),
                                                   ],
@@ -459,10 +425,186 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                   ],
                                 ),
                               ),
-                              if ((controller.productData?.coupons?.length ??
-                                      0) >
-                                  0) ...[
-                                sectionDivider(),
+
+                              elementDivider(),
+                              if (available!)
+                                Container(
+                                  // decoration: BoxDecoration(border: Border.all()),
+                                  width: MediaQuery.of(context).size.width,
+                                  // padding : EdgeInsets.symmetric(horizontal : 10),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      selectedSize == "N/A"
+                                          ? verticalSpace(0)
+                                          : Row(
+                                              children: <Widget>[
+                                                Expanded(
+                                                  child: Text(
+                                                    PRODUCTSCREEN_SELECT_SIZE.tr,
+                                                    style: TextStyle(
+                                                      fontWeight: FontWeight.normal,
+                                                      fontSize: 14,
+                                                      letterSpacing: 1.0,
+                                                      color: logoRed,
+                                                    ),
+                                                  ),
+                                                ),
+                                                InkWell(
+                                                  onTap: () {
+                                                    _showDialog(context, productData?.seller?.key,
+                                                        productData?.category?.id ?? 1);
+                                                  },
+                                                  child: Text(
+                                                    PRODUCTSCREEN_SIZE_CHART.tr,
+                                                    style: TextStyle(
+                                                      decoration: TextDecoration.underline,
+                                                      fontSize: 12,
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                      verticalSpaceTiny,
+                                      allSizes(variations),
+                                      selectedSize == ""
+                                          ? Container()
+                                          : Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: <Widget>[
+                                                selectedSize == "N/A"
+                                                    ? verticalSpace(0)
+                                                    : elementDivider(),
+                                                Text(
+                                                  PRODUCTSCREEN_SELECT_COLOR.tr,
+                                                  style: TextStyle(
+                                                    fontSize: 14,
+                                                    letterSpacing: 1.0,
+                                                    color: logoRed,
+                                                  ),
+                                                ),
+                                                verticalSpace(5),
+                                                allColors(
+                                                  variations,
+                                                ),
+                                              ],
+                                            ),
+                                      selectedColor == ""
+                                          ? Container()
+                                          : (productData!.category!.id != 13)
+                                              ? Container()
+                                              : Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: <Widget>[
+                                                    elementDivider(),
+                                                    Text(
+                                                      "Select ${(productData!.category!.id == 13) ? 'No. of Meters' : 'Qty'}"
+                                                          .toUpperCase(),
+                                                      style: TextStyle(
+                                                        fontSize: 14,
+                                                        letterSpacing: 1.0,
+                                                        color: logoRed,
+                                                      ),
+                                                    ),
+                                                    verticalSpaceSmall,
+                                                    FittedBox(
+                                                      fit: BoxFit.scaleDown,
+                                                      child: Container(
+                                                        height: 30,
+                                                        decoration: BoxDecoration(
+                                                          border: Border.all(
+                                                            color: darkRedSmooth,
+                                                          ),
+                                                          borderRadius: BorderRadius.circular(5),
+                                                        ),
+                                                        child: Row(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment.center,
+                                                          children: <Widget>[
+                                                            IconButton(
+                                                              padding: const EdgeInsets.symmetric(
+                                                                  vertical: 4.0),
+                                                              color: selectedQty == 0
+                                                                  ? Colors.grey
+                                                                  : darkRedSmooth,
+                                                              iconSize: 18,
+                                                              icon: Icon(Icons.remove),
+                                                              onPressed: () {
+                                                                if (selectedQty != 0) {
+                                                                  setState(() {
+                                                                    selectedQty = selectedQty - 1;
+                                                                  });
+                                                                }
+                                                              },
+                                                            ),
+                                                            Text(
+                                                              selectedQty.toString(),
+                                                              style: TextStyle(
+                                                                  color: darkRedSmooth,
+                                                                  fontSize: 12,
+                                                                  fontWeight: FontWeight.bold),
+                                                            ),
+                                                            IconButton(
+                                                              padding: const EdgeInsets.symmetric(
+                                                                  vertical: 4.0),
+                                                              iconSize: 18,
+                                                              color: maxQty == selectedQty
+                                                                  ? Colors.grey
+                                                                  : darkRedSmooth,
+                                                              icon: Icon(Icons.add),
+                                                              onPressed: () {
+                                                                print("maxQty" + maxQty.toString());
+                                                                if (maxQty != selectedQty) {
+                                                                  setState(() {
+                                                                    selectedQty = selectedQty + 1;
+                                                                  });
+                                                                }
+                                                              },
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                      verticalSpaceTiny,
+                                      Padding(
+                                        padding: EdgeInsets.only(top: 8.0),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              PRODUCTSCREEN_SELECTION_GUIDE.tr,
+                                              style: TextStyle(
+                                                color: Colors.grey,
+                                                fontSize: subtitleFontSizeStyle - 2,
+                                              ),
+                                            ),
+                                            verticalSpaceTiny,
+                                            GestureDetector(
+                                              onTap: () async {
+                                                if (await canLaunch(RETURN_POLICY_URL))
+                                                  await launch(RETURN_POLICY_URL);
+                                              },
+                                              child: Text(
+                                                "Return Policy",
+                                                style: TextStyle(
+                                                    color: Colors.grey,
+                                                    fontSize: subtitleFontSizeStyle - 2,
+                                                    decoration: TextDecoration.underline),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+
+                              if ((controller.productData?.coupons?.length ?? 0) > 0) ...[
+                                // sectionDivider(),
+                                elementDivider(),
+
                                 HomeViewListHeader(
                                   title: PRODUCTSCREEN_AVAILABLE_COUPONS.tr,
                                   padding: EdgeInsets.zero,
@@ -477,134 +619,96 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                   onTap: () async {
                                                     await Get.bottomSheet(
                                                       Container(
-                                                        padding:
-                                                            EdgeInsets.only(
+                                                        padding: EdgeInsets.only(
                                                           top: 16.0,
                                                           right: 8.0,
                                                           left: 8.0,
-                                                          bottom: MediaQuery.of(
-                                                                      context)
+                                                          bottom: MediaQuery.of(context)
                                                                   .padding
                                                                   .bottom +
                                                               16.0,
                                                         ),
                                                         color: Colors.white,
                                                         child: Column(
-                                                          mainAxisSize:
-                                                              MainAxisSize.min,
+                                                          mainAxisSize: MainAxisSize.min,
                                                           crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
+                                                              CrossAxisAlignment.start,
                                                           children: [
                                                             Row(
                                                               mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .spaceBetween,
+                                                                  MainAxisAlignment.spaceBetween,
                                                               children: [
                                                                 Row(
                                                                   children: [
                                                                     Image.asset(
                                                                       'assets/images/discount_tag.png',
-                                                                      height:
-                                                                          22,
+                                                                      height: 22,
                                                                       width: 22,
-                                                                      fit: BoxFit
-                                                                          .cover,
+                                                                      fit: BoxFit.cover,
                                                                     ),
                                                                     horizontalSpaceSmall,
                                                                     Text(
                                                                       "Deals",
-                                                                      style:
-                                                                          TextStyle(
-                                                                        fontSize:
-                                                                            18,
-                                                                        color:
-                                                                            logoRed,
+                                                                      style: TextStyle(
+                                                                        fontSize: 18,
+                                                                        color: logoRed,
                                                                       ),
                                                                     ),
                                                                   ],
                                                                 ),
                                                                 IconButton(
-                                                                  tooltip:
-                                                                      "Close",
+                                                                  tooltip: "Close",
                                                                   iconSize: 28,
-                                                                  icon: Icon(
-                                                                      CupertinoIcons
-                                                                          .clear_circled_solid),
-                                                                  color: Colors
-                                                                          .grey[
-                                                                      500],
+                                                                  icon: Icon(CupertinoIcons
+                                                                      .clear_circled_solid),
+                                                                  color: Colors.grey[500],
                                                                   onPressed: () =>
-                                                                      NavigationService
-                                                                          .back(),
+                                                                      NavigationService.back(),
                                                                 ),
                                                               ],
                                                             ),
                                                             verticalSpaceSmall,
                                                             Row(
                                                               mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .spaceBetween,
+                                                                  MainAxisAlignment.spaceBetween,
                                                               children: [
                                                                 Container(
-                                                                  decoration:
-                                                                      BoxDecoration(
-                                                                    border:
-                                                                        Border
-                                                                            .all(
-                                                                      color:
-                                                                          logoRed,
+                                                                  decoration: BoxDecoration(
+                                                                    border: Border.all(
+                                                                      color: logoRed,
                                                                     ),
                                                                     borderRadius:
-                                                                        BorderRadius
-                                                                            .circular(
+                                                                        BorderRadius.circular(
                                                                       5,
                                                                     ),
                                                                   ),
-                                                                  padding:
-                                                                      EdgeInsets
-                                                                          .symmetric(
-                                                                    vertical:
-                                                                        4.0,
-                                                                    horizontal:
-                                                                        8.0,
+                                                                  padding: EdgeInsets.symmetric(
+                                                                    vertical: 4.0,
+                                                                    horizontal: 8.0,
                                                                   ),
                                                                   child: Text(
-                                                                    e.code!
-                                                                        .toUpperCase(),
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontSize:
-                                                                          14,
+                                                                    e.code!.toUpperCase(),
+                                                                    style: TextStyle(
+                                                                      fontSize: 14,
                                                                     ),
                                                                   ),
                                                                 ),
                                                                 ElevatedButton(
-                                                                  style: ElevatedButton
-                                                                      .styleFrom(
-                                                                    primary: Colors
-                                                                        .white,
-                                                                    elevation:
-                                                                        0,
+                                                                  style: ElevatedButton.styleFrom(
+                                                                    primary: Colors.white,
+                                                                    elevation: 0,
                                                                   ),
                                                                   child: Text(
                                                                     "COPY",
-                                                                    style:
-                                                                        TextStyle(
-                                                                      color:
-                                                                          logoRed,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold,
+                                                                    style: TextStyle(
+                                                                      color: logoRed,
+                                                                      fontWeight: FontWeight.bold,
                                                                     ),
                                                                   ),
-                                                                  onPressed:
-                                                                      () async {
-                                                                    await Clipboard
-                                                                        .setData(
+                                                                  onPressed: () async {
+                                                                    await Clipboard.setData(
                                                                       ClipboardData(
-                                                                        text: e
-                                                                            .code,
+                                                                        text: e.code,
                                                                       ),
                                                                     );
 
@@ -612,8 +716,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                                       "Coupon Code Copied",
                                                                       "Use this code while placing order.",
                                                                       snackPosition:
-                                                                          SnackPosition
-                                                                              .BOTTOM,
+                                                                          SnackPosition.BOTTOM,
                                                                     );
                                                                   },
                                                                 ),
@@ -624,16 +727,13 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                               "Get FLAT Rs. ${e.discount} off",
                                                               style: TextStyle(
                                                                 fontSize: 14,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
+                                                                fontWeight: FontWeight.bold,
                                                               ),
                                                             ),
                                                             verticalSpaceTiny,
                                                             Center(
                                                               child: Divider(
-                                                                color: Colors
-                                                                    .grey[500],
+                                                                color: Colors.grey[500],
                                                               ),
                                                             ),
                                                             verticalSpaceTiny,
@@ -652,13 +752,10 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                     margin: EdgeInsets.all(8.0),
                                                     child: DottedBorder(
                                                       color: logoRed,
-                                                      borderType:
-                                                          BorderType.RRect,
-                                                      radius:
-                                                          Radius.circular(5),
+                                                      borderType: BorderType.RRect,
+                                                      radius: Radius.circular(5),
                                                       child: Padding(
-                                                        padding: EdgeInsets
-                                                            .symmetric(
+                                                        padding: EdgeInsets.symmetric(
                                                           vertical: 4.0,
                                                           horizontal: 8.0,
                                                         ),
@@ -689,338 +786,247 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                           []),
                                 ),
                               ],
-                              sectionDivider(),
+                              if (available!) elementDivider(),
                               if (available!)
-                                Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      selectedSize == "N/A"
-                                          ? verticalSpace(0)
-                                          : Row(
-                                              children: <Widget>[
-                                                Expanded(
-                                                  child: Text(
-                                                    PRODUCTSCREEN_SELECT_SIZE
-                                                        .tr,
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.normal,
-                                                      fontSize: 14,
-                                                      letterSpacing: 1.0,
-                                                      color: logoRed,
-                                                    ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    if (!widget.fromCart)
+                                      GestureDetector(
+                                        onTap: () async {
+                                          print("buy now clicked");
+                                          if (locator<HomeController>().isLoggedIn) {
+                                            if (selectedQty == 0 ||
+                                                selectedColor == "" ||
+                                                selectedSize == "") {
+                                              await DialogService.showCustomDialog(
+                                                AlertDialog(
+                                                  title: FittedBox(
+                                                    fit: BoxFit.scaleDown,
+                                                    child: Text(
+                                                        PRODUCTSCREEN_SELECT_SIZE_COLOR_QTY.tr),
                                                   ),
-                                                ),
-                                                InkWell(
-                                                  onTap: () {
-                                                    _showDialog(
-                                                        context,
-                                                        productData
-                                                            ?.seller?.key,
-                                                        productData?.category
-                                                                ?.id ??
-                                                            1);
-                                                  },
-                                                  child: Text(
-                                                    PRODUCTSCREEN_SIZE_CHART.tr,
-                                                    style: TextStyle(
-                                                      decoration: TextDecoration
-                                                          .underline,
-                                                      fontSize: 12,
-                                                    ),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                      verticalSpaceTiny,
-                                      allSizes(variations),
-                                      selectedSize == ""
-                                          ? Container()
-                                          : Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                selectedSize == "N/A"
-                                                    ? verticalSpace(0)
-                                                    : elementDivider(),
-                                                Text(
-                                                  PRODUCTSCREEN_SELECT_COLOR.tr,
-                                                  style: TextStyle(
-                                                    fontSize: 14,
-                                                    letterSpacing: 1.0,
-                                                    color: logoRed,
-                                                  ),
-                                                ),
-                                                verticalSpace(5),
-                                                allColors(
-                                                  variations,
-                                                ),
-                                              ],
-                                            ),
-                                      selectedColor == ""
-                                          ? Container()
-                                          : (productData!.category!.id != 13)
-                                              ? Container()
-                                              : Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: <Widget>[
-                                                    elementDivider(),
-                                                    Text(
-                                                      "Select ${(productData!.category!.id == 13) ? 'No. of Meters' : 'Qty'}"
-                                                          .toUpperCase(),
-                                                      style: TextStyle(
-                                                        fontSize: 14,
-                                                        letterSpacing: 1.0,
-                                                        color: logoRed,
-                                                      ),
-                                                    ),
-                                                    verticalSpaceSmall,
-                                                    FittedBox(
-                                                      fit: BoxFit.scaleDown,
-                                                      child: Container(
-                                                        height: 30,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          border: Border.all(
-                                                            color:
-                                                                darkRedSmooth,
-                                                          ),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(5),
-                                                        ),
-                                                        child: Row(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .center,
-                                                          children: <Widget>[
-                                                            IconButton(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                          .symmetric(
-                                                                      vertical:
-                                                                          4.0),
-                                                              color: selectedQty ==
-                                                                      0
-                                                                  ? Colors.grey
-                                                                  : darkRedSmooth,
-                                                              iconSize: 18,
-                                                              icon: Icon(
-                                                                  Icons.remove),
-                                                              onPressed: () {
-                                                                if (selectedQty !=
-                                                                    0) {
-                                                                  setState(() {
-                                                                    selectedQty =
-                                                                        selectedQty -
-                                                                            1;
-                                                                  });
-                                                                }
-                                                              },
-                                                            ),
-                                                            Text(
-                                                              selectedQty
-                                                                  .toString(),
-                                                              style: TextStyle(
-                                                                  color:
-                                                                      darkRedSmooth,
-                                                                  fontSize: 12,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold),
-                                                            ),
-                                                            IconButton(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                          .symmetric(
-                                                                      vertical:
-                                                                          4.0),
-                                                              iconSize: 18,
-                                                              color: maxQty ==
-                                                                      selectedQty
-                                                                  ? Colors.grey
-                                                                  : darkRedSmooth,
-                                                              icon: Icon(
-                                                                  Icons.add),
-                                                              onPressed: () {
-                                                                print("maxQty" +
-                                                                    maxQty
-                                                                        .toString());
-                                                                if (maxQty !=
-                                                                    selectedQty) {
-                                                                  setState(() {
-                                                                    selectedQty =
-                                                                        selectedQty +
-                                                                            1;
-                                                                  });
-                                                                }
-                                                              },
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
+                                                  actions: [
+                                                    TextButton(
+                                                        onPressed: () async {
+                                                          DialogService.popDialog();
+                                                          await Scrollable.ensureVisible(
+                                                            variationSelectionCardKey
+                                                                .currentContext!,
+                                                            alignment: 0.50,
+                                                          );
+                                                        },
+                                                        child: Text("OK")),
                                                   ],
                                                 ),
-                                      verticalSpaceTiny,
+                                              );
+                                            } else {
+                                              var res = await controller.buyNow(
+                                                  productData!,
+                                                  selectedQty,
+                                                  context,
+                                                  selectedSize,
+                                                  selectedColor);
+                                              if (res != null && res == true) {
+                                                final cartRes = await locator<APIService>()
+                                                    .getCartProductItemList();
+                                                if (cartRes != null) {
+                                                  await locator<CartLocalStoreService>()
+                                                      .setCartList(cartRes);
+                                                  locator<CartCountController>()
+                                                      .setCartCount(cartRes.length);
+                                                }
+
+                                                print(
+                                                    "UserDetails: ${locator<HomeController>().details?.toJson()}");
+
+                                                if (locator<HomeController>().details?.measure ==
+                                                    null) {
+                                                  await BaseController.showSizePopup();
+                                                }
+
+                                                Navigator.push(
+                                                  context,
+                                                  PageTransition(
+                                                    child: CartView(
+                                                      productId: productData!.key!,
+                                                    ),
+                                                    type: PageTransitionType.rightToLeft,
+                                                  ),
+                                                );
+                                              }
+                                            }
+                                          } else {
+                                            await BaseController.showLoginPopup(
+                                              nextView: "buynow",
+                                              shouldNavigateToNextScreen: false,
+                                            );
+                                          }
+                                        },
+                                        child: Container(
+                                          width: MediaQuery.of(context).size.width * 0.40,
+                                          padding: EdgeInsets.symmetric(
+                                            vertical: 10,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                              color: lightGreen,
+                                            ),
+                                            color: lightGreen,
+                                            borderRadius: BorderRadius.circular(5),
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              PRODUCTSCREEN_BUY_NOW.tr,
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: subtitleFontSizeStyle,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    verticalSpaceTiny,
+                                    Text(
+                                      "${PRODUCTSCREEN_DELIVERY_BY.tr} : $shipment",
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.black54
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              // sectionDivider(),
+                              elementDivider(),
+                              CustomText(
+                                "Item Details",
+                                // PRODUCTSCREEN_ITEM_DETAILS.tr,
+                                fontSize: 14,
+                                letterSpacing: 0.4,
+
+                                fontWeight: FontWeight.w600,
+                              ),
+                              Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                elevation: 0,
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      verticalSpace(5),
                                       Padding(
-                                        padding: EdgeInsets.only(top: 8.0),
+                                        padding: const EdgeInsets.all(10.0),
                                         child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              PRODUCTSCREEN_SELECTION_GUIDE.tr,
+                                              'Description',
+                                              textAlign: TextAlign.left,
                                               style: TextStyle(
+                                                fontSize: 12,
                                                 color: Colors.grey,
-                                                fontSize:
-                                                    subtitleFontSizeStyle - 2,
                                               ),
                                             ),
                                             verticalSpaceTiny,
-                                            GestureDetector(
-                                              onTap: () async {
-                                                if (await canLaunch(
-                                                    RETURN_POLICY_URL))
-                                                  await launch(
-                                                      RETURN_POLICY_URL);
-                                              },
-                                              child: Text(
-                                                "Return Policy",
-                                                style: TextStyle(
-                                                    color: Colors.grey,
-                                                    fontSize:
-                                                        subtitleFontSizeStyle -
-                                                            2,
-                                                    decoration: TextDecoration
-                                                        .underline),
+                                            Text(
+                                              productData?.description ?? "",
+                                              textAlign: TextAlign.justify,
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                color: Colors.black,
                                               ),
                                             ),
                                           ],
                                         ),
                                       ),
+                                      Divider(color: Colors.grey.withOpacity(0.5), height: 1),
+                                      ProductDescriptionTable(
+                                        product: productData!,
+                                        controller: controller,
+                                        workOnMap: workOnMap,
+                                      ),
                                     ],
                                   ),
                                 ),
-                              if (available!) sectionDivider(),
-                              if (available!)
-                                Text(
-                                  "${PRODUCTSCREEN_DELIVERY_BY.tr} : $shipment",
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              sectionDivider(),
-                              Column(
+                              ),
+                              elementDivider(),
+                              ProductDetailCard(
                                 key: knowDesignerKey,
                                 children: [
                                   Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
                                         "Know your Designer",
                                         // PRODUCTSCREEN_KNOW_YOUR_DESIGNER.tr,
                                         style: TextStyle(
                                           fontSize: 14,
-                                    letterSpacing: 0.4,
-                              
-                              fontWeight: FontWeight.w600,
+                                          letterSpacing: 0.4,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
                                       Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 20.0),
+                                        padding: const EdgeInsets.only(right: 20.0),
                                         child: FutureBuilder<Reviews?>(
-                                          future: locator<APIService>()
-                                              .getReviews(
-                                                  productData!.seller!.key!,
-                                                  isSellerReview: true),
-                                          builder: (context, snapshot) =>
-                                              ((snapshot.connectionState ==
-                                                          ConnectionState
-                                                              .done) &&
-                                                      ((snapshot
-                                                                  .data
-                                                                  ?.ratingAverage
-                                                                  ?.rating ??
-                                                              0) >
-                                                          0))
-                                                  ? FittedBox(
-                                                      fit: BoxFit.scaleDown,
-                                                      child: Container(
-                                                        padding: EdgeInsets
-                                                            .symmetric(
-                                                          vertical: 2,
-                                                          horizontal: 5,
-                                                        ),
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          border: Border.all(
-                                                            color: Tools
-                                                                .getColorAccordingToRattings(
-                                                              snapshot
-                                                                  .data!
-                                                                  .ratingAverage!
-                                                                  .rating!,
-                                                            ),
-                                                          ),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(5),
-                                                        ),
-                                                        child: Row(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .center,
-                                                          children: <Widget>[
-                                                            CustomText(
-                                                              snapshot
-                                                                  .data!
-                                                                  .ratingAverage!
-                                                                  .rating!
-                                                                  .toString(),
-                                                              color: Tools
-                                                                  .getColorAccordingToRattings(
-                                                                snapshot
-                                                                    .data!
-                                                                    .ratingAverage!
-                                                                    .rating!,
-                                                              ),
-                                                              isBold: true,
-                                                              fontSize: 12,
-                                                            ),
-                                                            horizontalSpaceTiny,
-                                                            Icon(
-                                                              Icons.star,
-                                                              color: Tools
-                                                                  .getColorAccordingToRattings(
-                                                                snapshot
-                                                                    .data!
-                                                                    .ratingAverage!
-                                                                    .rating!,
-                                                              ),
-                                                              size: 12,
-                                                            )
-                                                          ],
+                                          future: locator<APIService>().getReviews(
+                                              productData!.seller!.key!,
+                                              isSellerReview: true),
+                                          builder: (context, snapshot) => ((snapshot
+                                                          .connectionState ==
+                                                      ConnectionState.done) &&
+                                                  ((snapshot.data?.ratingAverage?.rating ?? 0) > 0))
+                                              ? FittedBox(
+                                                  fit: BoxFit.scaleDown,
+                                                  child: Container(
+                                                    padding: EdgeInsets.symmetric(
+                                                      vertical: 2,
+                                                      horizontal: 5,
+                                                    ),
+                                                    decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                        color: Tools.getColorAccordingToRattings(
+                                                          snapshot.data!.ratingAverage!.rating!,
                                                         ),
                                                       ),
-                                                    )
-                                                  : Container(),
+                                                      borderRadius: BorderRadius.circular(5),
+                                                    ),
+                                                    child: Row(
+                                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                                      children: <Widget>[
+                                                        CustomText(
+                                                          snapshot.data!.ratingAverage!.rating!
+                                                              .toString(),
+                                                          color: Tools.getColorAccordingToRattings(
+                                                            snapshot.data!.ratingAverage!.rating!,
+                                                          ),
+                                                          isBold: true,
+                                                          fontSize: 12,
+                                                        ),
+                                                        horizontalSpaceTiny,
+                                                        Icon(
+                                                          Icons.star,
+                                                          color: Tools.getColorAccordingToRattings(
+                                                            snapshot.data!.ratingAverage!.rating!,
+                                                          ),
+                                                          size: 12,
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                )
+                                              : Container(),
                                         ),
                                       ),
                                     ],
                                   ),
-                                  if (productData?.seller?.subscriptionTypeId !=
-                                      2)
+                                  if (productData?.seller?.subscriptionTypeId != 2)
                                     verticalSpace(5),
                                   GestureDetector(
-                                    onTap: () async =>
-                                        await goToSellerProfile(controller),
+                                    onTap: () async => await goToSellerProfile(controller),
                                     child: Card(
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(5),
@@ -1029,26 +1035,20 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                       child: Container(
                                         padding: EdgeInsets.all(8.0),
                                         child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
                                             Expanded(
                                               child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
+                                                mainAxisAlignment: MainAxisAlignment.center,
                                                 children: [
                                                   Column(
                                                     children: [
                                                       Container(
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color: Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                          shape:
-                                                              BoxShape.circle,
+                                                        decoration: BoxDecoration(
+                                                          color: Color.fromRGBO(255, 255, 255, 1),
+                                                          shape: BoxShape.circle,
                                                           border: Border.all(
-                                                            color:
-                                                                Colors.black38,
+                                                            color: Colors.black38,
                                                             width: 0.5,
                                                           ),
                                                         ),
@@ -1056,14 +1056,11 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                           child: FadeInImage(
                                                               width: 50,
                                                               height: 50,
-                                                              fadeInCurve:
-                                                                  Curves.easeIn,
+                                                              fadeInCurve: Curves.easeIn,
                                                               fit: BoxFit.cover,
-                                                              placeholder:
-                                                                  AssetImage(
-                                                                      "assets/images/user.png"),
-                                                              image:
-                                                                  NetworkImage(
+                                                              placeholder: AssetImage(
+                                                                  "assets/images/user.png"),
+                                                              image: NetworkImage(
                                                                 "$DESIGNER_PROFILE_PHOTO_BASE_URL/${productData?.seller?.owner?.key}",
                                                                 headers: {
                                                                   "Authorization":
@@ -1071,42 +1068,31 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                                 },
                                                               ),
                                                               imageErrorBuilder:
-                                                                  (context,
-                                                                      error,
-                                                                      stackTrace) {
+                                                                  (context, error, stackTrace) {
                                                                 print(
                                                                     "Image Error: $error $stackTrace");
-                                                                return Image
-                                                                    .asset(
+                                                                return Image.asset(
                                                                   "assets/images/user.png",
                                                                   width: 50,
                                                                   height: 50,
-                                                                  fit: BoxFit
-                                                                      .cover,
+                                                                  fit: BoxFit.cover,
                                                                 );
                                                               }),
                                                         ),
                                                       ),
                                                       verticalSpaceTiny,
                                                       Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
+                                                        mainAxisAlignment: MainAxisAlignment.center,
                                                         children: [
                                                           Icon(
-                                                            FontAwesomeIcons
-                                                                .mapMarkerAlt,
+                                                            FontAwesomeIcons.mapMarkerAlt,
                                                             color: logoRed,
                                                             size: 10,
                                                           ),
                                                           CustomText(
-                                                              productData!
-                                                                  .seller!
-                                                                  .contact!
-                                                                  .city!,
+                                                              productData!.seller!.contact!.city!,
                                                               fontSize: 10,
-                                                              color:
-                                                                  textIconBlue),
+                                                              color: textIconBlue),
                                                         ],
                                                       ),
                                                     ],
@@ -1114,84 +1100,54 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                   horizontalSpaceSmall,
                                                   Expanded(
                                                     child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      mainAxisAlignment: MainAxisAlignment.center,
                                                       children: [
                                                         CustomText(
                                                           "${productData?.seller?.owner?.name ?? ""}",
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          fontSize:
-                                                              titleFontSize,
-                                                          dotsAfterOverFlow:
-                                                              true,
+                                                          fontWeight: FontWeight.w500,
+                                                          fontSize: titleFontSize,
+                                                          dotsAfterOverFlow: true,
                                                         ),
                                                         CustomText(
                                                           "(${productData?.seller?.name ?? ''})",
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          fontSize:
-                                                              subtitleFontSize,
-                                                          dotsAfterOverFlow:
-                                                              true,
+                                                          fontWeight: FontWeight.w500,
+                                                          fontSize: subtitleFontSize,
+                                                          dotsAfterOverFlow: true,
                                                         ),
-                                                        if ((productData?.seller
-                                                                    ?.education !=
+                                                        if ((productData?.seller?.education !=
                                                                 null) ||
-                                                            (productData?.seller
-                                                                    ?.designation !=
+                                                            (productData?.seller?.designation !=
                                                                 null))
                                                           Row(
                                                             children: [
                                                               Expanded(
-                                                                child:
-                                                                    CustomText(
+                                                                child: CustomText(
                                                                   "${productData?.seller?.education ?? ''} ${productData?.seller?.designation ?? ''}",
-                                                                  fontSize:
-                                                                      subtitleFontSize,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400,
-                                                                  color: Colors
-                                                                      .grey
-                                                                      .shade600,
-                                                                  dotsAfterOverFlow:
-                                                                      true,
+                                                                  fontSize: subtitleFontSize,
+                                                                  fontWeight: FontWeight.w400,
+                                                                  color: Colors.grey.shade600,
+                                                                  dotsAfterOverFlow: true,
                                                                 ),
                                                               ),
                                                             ],
                                                           ),
                                                         ReadMoreText(
-                                                          productData?.seller
-                                                                  ?.intro ??
-                                                              (productData
-                                                                      ?.seller
-                                                                      ?.bio ??
-                                                                  ""),
-                                                          trimLines: ((productData
-                                                                          ?.seller
-                                                                          ?.education ==
-                                                                      null) &&
-                                                                  (productData
-                                                                          ?.seller
-                                                                          ?.designation ==
-                                                                      null))
-                                                              ? 2
-                                                              : 1,
-                                                          colorClickableText:
-                                                              logoRed,
-                                                          trimMode:
-                                                              TrimMode.Line,
+                                                          productData?.seller?.intro ??
+                                                              (productData?.seller?.bio ?? ""),
+                                                          trimLines:
+                                                              ((productData?.seller?.education ==
+                                                                          null) &&
+                                                                      (productData?.seller
+                                                                              ?.designation ==
+                                                                          null))
+                                                                  ? 2
+                                                                  : 1,
+                                                          colorClickableText: logoRed,
+                                                          trimMode: TrimMode.Line,
                                                           style: TextStyle(
-                                                            fontSize:
-                                                                subtitleFontSize -
-                                                                    2,
-                                                            color: Colors
-                                                                .grey[600],
+                                                            fontSize: subtitleFontSize - 2,
+                                                            color: Colors.grey[600],
                                                           ),
                                                         ),
                                                       ],
@@ -1217,93 +1173,32 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                               //   onSubmit: () {},
                               //   id: productId,
                               // ),
-                              sectionDivider(),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  CustomText(
-                                    "Item Details",
-                                    // PRODUCTSCREEN_ITEM_DETAILS.tr,
+
+                              Container(
+                                margin: EdgeInsets.symmetric(vertical: 5),
+                                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                                width: double.maxFinite,
+                                decoration: BoxDecoration(color: logoRed),
+                                child: Text(
+                                  "Recommended Products",
+                                  // PRODUCTSCREEN_RECOMMENDED_PRODUCTS.tr,
+                                  style: TextStyle(
+                                    color: Colors.white,
                                     fontSize: 14,
                                     letterSpacing: 0.4,
-                              
-                              fontWeight: FontWeight.w600,
-                                  ),
-                                ],
-                              ),
-                              verticalSpace(5),
-                              Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                elevation: 0,
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(10.0),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Description',
-                                              textAlign: TextAlign.left,
-                                              style: TextStyle(
-                                                fontSize: 12,
-                                                color: Colors.grey,
-                                              ),
-                                            ),
-                                            verticalSpaceTiny,
-                                            Text(
-                                              productData?.description ?? "",
-                                              textAlign: TextAlign.justify,
-                                              style: TextStyle(
-                                                fontSize: 12,
-                                                color: Colors.black,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Divider(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          height: 1),
-                                      ProductDescriptionTable(
-                                        product: productData!,
-                                        controller: controller,
-                                        workOnMap: workOnMap,
-                                      ),
-                                    ],
+                                    fontWeight: FontWeight.w600,
                                   ),
                                 ),
                               ),
-                              sectionDivider(),
-                              Text(
-                                "Recommended Products",
-                                // PRODUCTSCREEN_RECOMMENDED_PRODUCTS.tr,
-                                style: TextStyle(
-                                  fontSize: 14,
-                                    letterSpacing: 0.4,
-                              
-                              fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              verticalSpace(5),
                               SectionBuilder(
                                 key: uniqueKey ?? UniqueKey(),
                                 context: context,
                                 onEmptyList: () {},
                                 filter: ProductFilter(
-                                  subCategories: [
-                                    "${productData?.category?.id}"
-                                  ],),
-                                    // existingQueryString:
-                                    //     "subCategory=${productData?.category?.id};"),
+                                  subCategories: ["${productData?.category?.id}"],
+                                ),
+                                // existingQueryString:
+                                //     "subCategory=${productData?.category?.id};"),
                                 layoutType: LayoutType.PRODUCT_LAYOUT_2,
                                 controller: ProductsGridViewBuilderController(
                                   filteredProductKey: productData?.key,
@@ -1311,16 +1206,22 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                 ),
                                 scrollDirection: Axis.horizontal,
                               ),
-                              if (showMoreFromDesigner) sectionDivider(),
+                              // if (showMoreFromDesigner) sectionDivider(),
                               if (showMoreFromDesigner)
-                                Text(
-                                  "More from Designer",
-                                  // PRODUCTSCREEN_MORE_FROM_DESIGNER.tr,
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    letterSpacing: 0.4,
-                              
-                              fontWeight: FontWeight.w600,
+                                Container(
+                                  margin: EdgeInsets.symmetric(vertical: 5),
+                                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                                  width: double.maxFinite,
+                                  decoration: BoxDecoration(color: logoRed),
+                                  child: Text(
+                                    "More from Designer",
+                                    // PRODUCTSCREEN_MORE_FROM_DESIGNER.tr,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                      letterSpacing: 0.4,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                                   ),
                                 ),
                               if (showMoreFromDesigner) verticalSpace(5),
@@ -1329,9 +1230,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                   key: uniqueKey ?? UniqueKey(),
                                   context: context,
                                   filter: ProductFilter(
-                                      existingQueryString: productData
-                                                  ?.account?.key !=
-                                              null
+                                      existingQueryString: productData?.account?.key != null
                                           ? "accountKey=${productData?.account?.key};"
                                           : ""),
                                   layoutType: LayoutType.PRODUCT_LAYOUT_2,
@@ -1378,8 +1277,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                           Padding(
                             padding: const EdgeInsets.only(right: 8.0),
                             child: Center(
-                                child: CustomText(
-                                    "${BaseController.formatPrice(productPrice)}")),
+                                child: CustomText("${BaseController.formatPrice(productPrice)}")),
                           ),
                       ],
                     ),
@@ -1389,256 +1287,240 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: Container(
+                      height: 60,
                       color: Colors.grey[200],
                       padding: EdgeInsets.only(
-                        left: 12,
-                        right: 4,
+                        left: 10,
+                        right: 10,
                         top: 8.0,
-                        bottom: MediaQuery.of(context).padding.bottom + 4.0,
+                        bottom: MediaQuery.of(context).padding.bottom + 8.0,
                       ),
-                      child: FittedBox(
-                        child: Row(
-                          children: [
-                            if (!widget.fromCart)
-                              GestureDetector(
-                                onTap: () async {
-                                  print("buy now clicked");
-                                  if (locator<HomeController>().isLoggedIn) {
-                                    if (selectedQty == 0 ||
-                                        selectedColor == "" ||
-                                        selectedSize == "") {
-                                      await DialogService.showCustomDialog(
-                                        AlertDialog(
-                                          title: FittedBox(
-                                            fit: BoxFit.scaleDown,
-                                            child: Text(
-                                                PRODUCTSCREEN_SELECT_SIZE_COLOR_QTY
-                                                    .tr),
-                                          ),
-                                          actions: [
-                                            TextButton(
-                                                onPressed: () async {
-                                                  DialogService.popDialog();
-                                                  await Scrollable
-                                                      .ensureVisible(
-                                                    variationSelectionCardKey
-                                                        .currentContext!,
-                                                    alignment: 0.50,
-                                                  );
-                                                },
-                                                child: Text("OK")),
-                                          ],
-                                        ),
-                                      );
-                                    } else {
-                                      var res = await controller.buyNow(
-                                          productData!,
-                                          selectedQty,
-                                          context,
-                                          selectedSize,
-                                          selectedColor);
-                                      if (res != null && res == true) {
-                                        final cartRes =
-                                            await locator<APIService>()
-                                                .getCartProductItemList();
-                                        if (cartRes != null) {
-                                          await locator<CartLocalStoreService>()
-                                              .setCartList(cartRes);
-                                          locator<CartCountController>()
-                                              .setCartCount(cartRes.length);
-                                        }
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        // price dalna
+                        children: [
+productPriceDetail(
+  productName: productData!.name,
+                            designerName: productData!.seller?.name ?? "No Name",
+                            productPrice: productPrice,
+                            actualPrice: (productData!.cost!.cost +
+                                    productData!.cost!.convenienceCharges!.cost! +
+                                    productData!.cost!.gstCharges!.cost!)
+                                .round(),
+                            showPrice: (available!),
+                            isClothMeterial: (productData!.category!.id == 13),
+),
 
-                                        print(
-                                            "UserDetails: ${locator<HomeController>().details?.toJson()}");
 
-                                        if (locator<HomeController>()
-                                                .details
-                                                ?.measure ==
-                                            null) {
-                                          await BaseController.showSizePopup();
-                                        }
+                          // ? buy now button commented
+                          // if (!widget.fromCart)
+                          //   GestureDetector(
+                          //     onTap: () async {
+                          //       print("buy now clicked");
+                          //       if (locator<HomeController>().isLoggedIn) {
+                          //         if (selectedQty == 0 ||
+                          //             selectedColor == "" ||
+                          //             selectedSize == "") {
+                          //           await DialogService.showCustomDialog(
+                          //             AlertDialog(
+                          //               title: FittedBox(
+                          //                 fit: BoxFit.scaleDown,
+                          //                 child: Text(PRODUCTSCREEN_SELECT_SIZE_COLOR_QTY.tr),
+                          //               ),
+                          //               actions: [
+                          //                 TextButton(
+                          //                     onPressed: () async {
+                          //                       DialogService.popDialog();
+                          //                       await Scrollable.ensureVisible(
+                          //                         variationSelectionCardKey.currentContext!,
+                          //                         alignment: 0.50,
+                          //                       );
+                          //                     },
+                          //                     child: Text("OK")),
+                          //               ],
+                          //             ),
+                          //           );
+                          //         } else {
+                          //           var res = await controller.buyNow(productData!, selectedQty,
+                          //               context, selectedSize, selectedColor);
+                          //           if (res != null && res == true) {
+                          //             final cartRes =
+                          //                 await locator<APIService>().getCartProductItemList();
+                          //             if (cartRes != null) {
+                          //               await locator<CartLocalStoreService>()
+                          //                   .setCartList(cartRes);
+                          //               locator<CartCountController>()
+                          //                   .setCartCount(cartRes.length);
+                          //             }
 
-                                        Navigator.push(
-                                          context,
-                                          PageTransition(
-                                            child: CartView(
-                                              productId: productData!.key!,
-                                            ),
-                                            type:
-                                                PageTransitionType.rightToLeft,
-                                          ),
-                                        );
-                                      }
-                                    }
-                                  } else {
-                                    await BaseController.showLoginPopup(
-                                      nextView: "buynow",
-                                      shouldNavigateToNextScreen: false,
-                                    );
-                                  }
-                                },
-                                child: Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.40,
-                                  padding: EdgeInsets.symmetric(
-                                    vertical: 10,
-                                  ),
-                                  margin: EdgeInsets.only(
-                                    right: 4.0,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: lightGreen,
-                                    ),
-                                    color: lightGreen,
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      PRODUCTSCREEN_BUY_NOW.tr,
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: subtitleFontSizeStyle,
+                          //             print(
+                          //                 "UserDetails: ${locator<HomeController>().details?.toJson()}");
+
+                          //             if (locator<HomeController>().details?.measure == null) {
+                          //               await BaseController.showSizePopup();
+                          //             }
+
+                          //             Navigator.push(
+                          //               context,
+                          //               PageTransition(
+                          //                 child: CartView(
+                          //                   productId: productData!.key!,
+                          //                 ),
+                          //                 type: PageTransitionType.rightToLeft,
+                          //               ),
+                          //             );
+                          //           }
+                          //         }
+                          //       } else {
+                          //         await BaseController.showLoginPopup(
+                          //           nextView: "buynow",
+                          //           shouldNavigateToNextScreen: false,
+                          //         );
+                          //       }
+                          //     },
+                          //     child: Container(
+                          //       width: MediaQuery.of(context).size.width * 0.40,
+                          //       padding: EdgeInsets.symmetric(
+                          //         vertical: 10,
+                          //       ),
+                          //       margin: EdgeInsets.only(
+                          //         right: 4.0,
+                          //       ),
+                          //       decoration: BoxDecoration(
+                          //         border: Border.all(
+                          //           color: lightGreen,
+                          //         ),
+                          //         color: lightGreen,
+                          //         borderRadius: BorderRadius.circular(5),
+                          //       ),
+                          //       child: Center(
+                          //         child: Text(
+                          //           PRODUCTSCREEN_BUY_NOW.tr,
+                          //           style: TextStyle(
+                          //             color: Colors.white,
+                          //             fontWeight: FontWeight.bold,
+                          //             fontSize: subtitleFontSizeStyle,
+                          //           ),
+                          //         ),
+                          //       ),
+                          //     ),
+                          //   ),
+                          GestureDetector(
+                            onTap: () async {
+                              if (locator<HomeController>().isLoggedIn) {
+                                if (disabledAddToCartBtn ||
+                                    selectedQty == 0 ||
+                                    selectedColor == "" ||
+                                    selectedSize == "") {
+                                  await DialogService.showCustomDialog(
+                                    AlertDialog(
+                                      title: FittedBox(
+                                        fit: BoxFit.scaleDown,
+                                        child: Text(PRODUCTSCREEN_SELECT_SIZE_COLOR_QTY.tr),
                                       ),
+                                      actions: [
+                                        TextButton(
+                                            onPressed: () async {
+                                              DialogService.popDialog();
+                                              await Scrollable.ensureVisible(
+                                                variationSelectionCardKey.currentContext!,
+                                                alignment: 0.50,
+                                              );
+                                            },
+                                            child: Text("OK")),
+                                      ],
                                     ),
-                                  ),
-                                ),
-                              ),
-                            GestureDetector(
-                              onTap: () async {
-                                if (locator<HomeController>().isLoggedIn) {
-                                  if (disabledAddToCartBtn ||
-                                      selectedQty == 0 ||
-                                      selectedColor == "" ||
-                                      selectedSize == "") {
-                                    await DialogService.showCustomDialog(
-                                      AlertDialog(
-                                        title: FittedBox(
-                                          fit: BoxFit.scaleDown,
-                                          child: Text(
-                                              PRODUCTSCREEN_SELECT_SIZE_COLOR_QTY
-                                                  .tr),
-                                        ),
-                                        actions: [
-                                          TextButton(
-                                              onPressed: () async {
-                                                DialogService.popDialog();
-                                                await Scrollable.ensureVisible(
-                                                  variationSelectionCardKey
-                                                      .currentContext!,
-                                                  alignment: 0.50,
-                                                );
-                                              },
-                                              child: Text("OK")),
-                                        ],
-                                      ),
-                                    );
-                                  } else {
-                                    setState(() {
-                                      disabledAddToCartBtn = true;
-                                    });
-
-                                    var res = await controller.addToCart(
-                                        productData!,
-                                        selectedQty,
-                                        context,
-                                        selectedSize,
-                                        selectedColor,
-                                        fromCart: widget.fromCart,
-                                        onProductAdded: widget.fromCart
-                                            ? () => Navigator.pop(context)
-                                            : null);
-
-                                    if (res == 0)
-                                      _errorHandlingService
-                                          .showError(Errors.CouldNotAddToCart);
-                                    else if (res == 1) {
-                                      locator<CartCountController>()
-                                          .incrementCartCount();
-                                    }
-
-                                    setState(() {
-                                      disabledAddToCartBtn = false;
-                                    });
-
-                                    showTutorial(context, cartKey: cartKey);
-                                  }
-                                } else {
-                                  await BaseController.showLoginPopup(
-                                    nextView: "addtocart",
-                                    shouldNavigateToNextScreen: false,
                                   );
+                                } else {
+                                  setState(() {
+                                    disabledAddToCartBtn = true;
+                                  });
+
+                                  var res = await controller.addToCart(productData!, selectedQty,
+                                      context, selectedSize, selectedColor,
+                                      fromCart: widget.fromCart,
+                                      onProductAdded:
+                                          widget.fromCart ? () => Navigator.pop(context) : null);
+
+                                  if (res == 0)
+                                    _errorHandlingService.showError(Errors.CouldNotAddToCart);
+                                  else if (res == 1) {
+                                    locator<CartCountController>().incrementCartCount();
+                                  }
+
+                                  setState(() {
+                                    disabledAddToCartBtn = false;
+                                  });
+
+                                  showTutorial(context, cartKey: cartKey);
                                 }
-                              },
-                              child: Container(
-                                width: MediaQuery.of(context).size.width *
-                                    (widget.fromCart ? 0.80 : 0.40),
-                                padding: EdgeInsets.symmetric(
-                                  vertical: 10,
-                                ),
-                                margin: EdgeInsets.symmetric(
-                                  horizontal: 4.0,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: widget.fromCart
-                                      ? lightGreen
-                                      : Colors.white,
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    PRODUCTSCREEN_ADD_TO_BAG.tr,
-                                    style: TextStyle(
-                                      color: widget.fromCart
-                                          ? Colors.white
-                                          : Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: subtitleFontSizeStyle +
-                                          (widget.fromCart ? 2 : 0),
-                                    ),
+                              } else {
+                                await BaseController.showLoginPopup(
+                                  nextView: "addtocart",
+                                  shouldNavigateToNextScreen: false,
+                                );
+                              }
+                            },
+                            child: Container(
+                              width: MediaQuery.of(context).size.width *
+                                  (widget.fromCart ? 0.80 : 0.40),
+                              padding: EdgeInsets.symmetric(
+                                vertical: 10,
+                              ),
+                              margin: EdgeInsets.symmetric(
+                                horizontal: 4.0,
+                              ),
+                              decoration: BoxDecoration(
+                                color: widget.fromCart ? lightGreen : logoRed,
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  PRODUCTSCREEN_ADD_TO_BAG.tr,
+                                  style: TextStyle(
+                                    color: widget.fromCart ? Colors.white : Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: subtitleFontSizeStyle + (widget.fromCart ? 2 : 0),
                                   ),
                                 ),
                               ),
                             ),
-                            Container(
-                              width: MediaQuery.of(context).size.width * 0.20,
-                              margin: EdgeInsets.symmetric(horizontal: 4.0),
-                              child: Column(
-                                children: [
-                                  InkWell(
-                                    key: cartKey,
-                                    onTap: () async => locator<HomeController>()
-                                            .isLoggedIn
-                                        ? await BaseController.cart()
-                                        : await BaseController.showLoginPopup(
-                                            nextView: CartViewRoute,
-                                            shouldNavigateToNextScreen: true,
-                                          ),
-                                    child: Obx(
-                                      () => CartIconWithBadge(
-                                        count: locator<CartCountController>()
-                                            .count
-                                            .value,
-                                        iconColor: appBarIconColor,
-                                      ),
-                                    ),
-                                  ),
-                                  Text(
-                                    PRODUCTSCREEN_VIEW_BAG.tr,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 8,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                Positioned(
+                  right: 4,
+                  top: 4,
+                  child: Container(
+                    padding: EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(color: Colors.black26, blurRadius: 2),
+                      ],
+                    ),
+                    // width: MediaQuery.of(context).size.width * 0.20,
+                    // margin: EdgeInsets.symmetric(horizontal: 4.0),
+                    child: InkWell(
+                      key: cartKey,
+                      onTap: () async => locator<HomeController>().isLoggedIn
+                          ? await BaseController.cart()
+                          : await BaseController.showLoginPopup(
+                              nextView: CartViewRoute,
+                              shouldNavigateToNextScreen: true,
                             ),
-                          ],
+                      child: Obx(
+                        () => CartIconWithBadge(
+                          count: locator<CartCountController>().count.value,
+                          iconColor: appBarIconColor,
                         ),
                       ),
                     ),
                   ),
+                ),
                 Positioned(
                   top: 4,
                   left: 4,
@@ -1646,6 +1528,9 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(color: Colors.black26, blurRadius: 2),
+                      ],
                     ),
                     child: InkWell(
                       child: Icon(
@@ -1667,9 +1552,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
       context,
       MaterialPageRoute(
         builder: (context) => GalleryPhotoViewWrapper(
-          galleryItems: [
-            "${BASE_URL}sellers/$sellerId/categories/$cid/sizechart"
-          ],
+          galleryItems: ["${BASE_URL}sellers/$sellerId/categories/$cid/sizechart"],
           scrollDirection: Axis.horizontal,
           initialIndex: 0,
           showImageLabel: false,
@@ -1688,8 +1571,10 @@ class _ProductIndiViewState extends State<ProductIndiView> {
       ),
     );
   }
+
   Future<void> checkshowSizeChart() async {
-    var abs = await get(Uri.parse("${BASE_URL}sellers/${productData!.account!.key}/categories/${productData!.category!.id}/sizechart"));
+    var abs = await get(Uri.parse(
+        "${BASE_URL}sellers/${productData!.account!.key}/categories/${productData!.category!.id}/sizechart"));
     if (abs.statusCode == 400 || abs.statusCode == 404)
       showSizechart = false;
     else
@@ -1708,8 +1593,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
           ),
         );
       } else {
-        await NavigationService.to(SellerIndiViewRoute,
-            arguments: productData?.seller);
+        await NavigationService.to(SellerIndiViewRoute, arguments: productData?.seller);
       }
     } else {
       await BaseController.showLoginPopup(
@@ -1758,62 +1642,138 @@ class _ProductIndiViewState extends State<ProductIndiView> {
             ],
           ),
         ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: <Widget>[
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
+        // Column(
+        //   crossAxisAlignment: CrossAxisAlignment.start,
+        //   children: [
+        //     Row(
+        //       children: <Widget>[
+        //         Column(
+        //           crossAxisAlignment: CrossAxisAlignment.end,
+        //           children: [
+        //             Row(
+        //               children: [
+        //                 if (productDiscount != 0.0 && showPrice)
+        //                   Padding(
+        //                     padding: const EdgeInsets.only(right: 8.0),
+        //                     child: Row(
+        //                       crossAxisAlignment: CrossAxisAlignment.end,
+        //                       children: <Widget>[
+        //                         Text(
+        //                           '${BaseController.formatPrice(actualPrice)}',
+        //                           style: TextStyle(
+        //                             fontSize: 8,
+        //                             color: Colors.grey[500],
+        //                             decoration: TextDecoration.lineThrough,
+        //                           ),
+        //                         ),
+        //                       ],
+        //                     ),
+        //                   ),
+        //                 if (available!)
+        //                   Text(
+        //                     '${showPrice ? BaseController.formatPrice(productPrice) : ' - '}',
+        //                     style: TextStyle(
+        //                       fontSize: 14,
+        //                       fontWeight: FontWeight.bold,
+        //                       color: lightGreen,
+        //                     ),
+        //                   )
+        //                 else
+        //                   Text(
+        //                     PRODUCTSCREEN_SOLD_OUT.tr,
+        //                     style: TextStyle(
+        //                       fontSize: 14,
+        //                       fontWeight: FontWeight.bold,
+        //                       color: logoRed,
+        //                     ),
+        //                   ),
+        //               ],
+        //             ),
+        //             if (available!)
+        //               Text(
+        //                 "(${PRODUCTSCREEN_TAXES_AND_CHARGES.tr})",
+        //                 style: TextStyle(
+        //                   fontSize: 8,
+        //                 ),
+        //               ),
+        //           ],
+        //         ),
+        //       ],
+        //     ),
+        //   ],
+        // ),
+      ],
+    );
+  }
+
+  Widget productPriceDetail(
+    {
+    productName,
+    designerName,
+    productPrice,
+    actualPrice,
+    bool showPrice = true,
+    bool isClothMeterial = false,
+  }
+  ) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: <Widget>[
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
                   children: [
-                    Row(
-                      children: [
-                        if (productDiscount != 0.0 && showPrice)
-                          Padding(
-                            padding: const EdgeInsets.only(right: 8.0),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: <Widget>[
-                                Text(
-                                  '${BaseController.formatPrice(actualPrice)}',
-                                  style: TextStyle(
-                                    fontSize: 8,
-                                    color: Colors.grey[500],
-                                    decoration: TextDecoration.lineThrough,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        if (available!)
-                          Text(
-                            '${showPrice ? BaseController.formatPrice(productPrice) : ' - '}',
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: lightGreen,
-                            ),
-                          )
-                        else
-                          Text(
-                            PRODUCTSCREEN_SOLD_OUT.tr,
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: logoRed,
-                            ),
-                          ),
-                      ],
-                    ),
+                    
                     if (available!)
                       Text(
-                        "(${PRODUCTSCREEN_TAXES_AND_CHARGES.tr})",
+                        '${showPrice ? BaseController.formatPrice(productPrice) : ' - '}',
                         style: TextStyle(
-                          fontSize: 8,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: logoRed,
+                        ),
+                      )
+                    else
+                      Text(
+                        PRODUCTSCREEN_SOLD_OUT.tr,
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: logoRed,
                         ),
                       ),
+                      SizedBox(width: 4,),
+if (productDiscount != 0.0 && showPrice)
+                      Padding(
+                        padding: const EdgeInsets.only(right: 8.0),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: <Widget>[
+                            Text(
+                              '${BaseController.formatPrice(actualPrice)}',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.grey[500],
+                                decoration: TextDecoration.lineThrough,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
                   ],
                 ),
+                if (available!)
+                  Text(
+                    "(${PRODUCTSCREEN_TAXES_AND_CHARGES.tr})",
+                    style: TextStyle(
+                      fontSize: 8,
+                      color: Colors.black54
+                    ),
+                  ),
               ],
             ),
           ],
@@ -1826,37 +1786,26 @@ class _ProductIndiViewState extends State<ProductIndiView> {
     List<Widget> allChips = [];
     List<String> sizes = [];
     for (int i = 0; i < variations.length; i++) {
-      if (!sizes.contains(variations[i].size) &&
-          (variations[i].quantity != 0)) {
+      if (!sizes.contains(variations[i].size) && (variations[i].quantity != 0)) {
         allChips.add(ChoiceChip(
           backgroundColor: Colors.white,
           selectedShadowColor: Colors.white,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
               side: BorderSide(
-                color: selectedSize == variations[i].size
-                    ? darkRedSmooth
-                    : Colors.black,
+                color: selectedSize == variations[i].size ? darkRedSmooth : Colors.black,
                 width: 0.5,
               )),
           labelStyle: TextStyle(
             fontSize: 12,
-            fontWeight: selectedSize == variations[i].size
-                ? FontWeight.w600
-                : FontWeight.normal,
-            color: selectedSize == variations[i].size
-                ? darkRedSmooth
-                : Colors.black,
+            fontWeight: selectedSize == variations[i].size ? FontWeight.w600 : FontWeight.normal,
+            color: selectedSize == variations[i].size ? darkRedSmooth : Colors.black,
           ),
           selectedColor: Colors.white,
           label: Text(variations[i].size),
           selected: selectedSize == variations[i].size,
           onSelected: (val) {
-            setState(() => {
-                  selectedSize = variations[i].size,
-                  selectedIndex = i,
-                  selectedQty = 0
-                });
+            setState(() => {selectedSize = variations[i].size, selectedIndex = i, selectedQty = 0});
           },
         ));
         sizes.add(variations[i].size);
@@ -1885,9 +1834,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
     List<Widget> allColorChips = [];
     var uniqueColor = new Map();
     for (var color in colors) {
-      print("check this" +
-          (uniqueColor.containsKey(color.color)).toString() +
-          color.color);
+      print("check this" + (uniqueColor.containsKey(color.color)).toString() + color.color);
       if (selectedSize != color.size) {
         continue;
       }
@@ -1902,15 +1849,12 @@ class _ProductIndiViewState extends State<ProductIndiView> {
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5),
             side: BorderSide(
-              color:
-                  selectedColor == color.color ? darkRedSmooth : Colors.black,
+              color: selectedColor == color.color ? darkRedSmooth : Colors.black,
               width: 0.5,
             )),
         labelStyle: TextStyle(
             fontSize: 12,
-            fontWeight: selectedColor == color.color
-                ? FontWeight.w600
-                : FontWeight.normal,
+            fontWeight: selectedColor == color.color ? FontWeight.w600 : FontWeight.normal,
             color: selectedColor == color.color ? darkRedSmooth : Colors.black),
         selectedColor: Colors.white,
         label: Text(color.color),
@@ -1947,8 +1891,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
   }
 
   int calculateSavedCost(Cost cost) {
-    num actualCost =
-        (cost.cost + cost.convenienceCharges!.cost! + cost.gstCharges!.cost!);
+    num actualCost = (cost.cost + cost.convenienceCharges!.cost! + cost.gstCharges!.cost!);
     return (actualCost - cost.costToCustomer).round();
   }
 
@@ -1964,12 +1907,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
     date = DateTime.now().toString();
     uniqueKey = UniqueKey();
     dateParse = DateTime.parse(date!);
-    newDate = new DateTime(
-        dateParse!.year,
-        dateParse!.month,
-        dateParse!.day +
-                (data.shipment?.days == null ? 0 : data.shipment!.days! + 1)
-            as int);
+    newDate = new DateTime(dateParse!.year, dateParse!.month,
+        dateParse!.day + (data.shipment?.days == null ? 0 : data.shipment!.days! + 1) as int);
     dateParse = DateTime.parse(newDate.toString());
     formattedDate =
         "${weekday[dateParse!.weekday - 1]} , ${dateParse!.day + 4} ${month[dateParse!.month - 1]}";
@@ -1991,9 +1930,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
   void showTutorial(BuildContext context,
       {GlobalKey? photosKey, GlobalKey? knowDesignerKey, GlobalKey? cartKey}) {
     SharedPreferences.getInstance().then((prefs) {
-      if (prefs.getBool(cartKey == null
-              ? ShouldShowProductPageTutorial
-              : ShouldShowCartTutorial) ??
+      if (prefs.getBool(cartKey == null ? ShouldShowProductPageTutorial : ShouldShowCartTutorial) ??
           true) {
         late TutorialCoachMark tutorialCoachMark;
         List<TargetFocus> targets = <TargetFocus>[
@@ -2108,15 +2045,9 @@ class _ProductIndiViewState extends State<ProductIndiView> {
               });
             },
             onSkip: () async => await prefs.setBool(
-                cartKey == null
-                    ? ShouldShowProductPageTutorial
-                    : ShouldShowCartTutorial,
-                false),
+                cartKey == null ? ShouldShowProductPageTutorial : ShouldShowCartTutorial, false),
             onFinish: () async => await prefs.setBool(
-                cartKey == null
-                    ? ShouldShowProductPageTutorial
-                    : ShouldShowCartTutorial,
-                false),
+                cartKey == null ? ShouldShowProductPageTutorial : ShouldShowCartTutorial, false),
           )..show();
         });
       }
@@ -2137,7 +2068,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
     return Padding(
       padding: const EdgeInsets.symmetric(
         vertical: 4.0,
-        horizontal: 25.0,
+        horizontal: 0.0,
       ),
       child: Divider(
         color: Colors.grey[300],

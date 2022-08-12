@@ -156,8 +156,8 @@ class _ProductTileUI2State extends State<ProductTileUI2> {
                   ? InkWell(
                       child: WishListIcon(
                         filled: isWishlistIconFilled,
-                        width: 18,
-                        height: 18,
+                        width: 10,
+                        height: 10,
                       ),
                       onTap: (locator<HomeController>().isLoggedIn)
                           ? () async {

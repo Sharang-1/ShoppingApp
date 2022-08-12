@@ -17,11 +17,18 @@ class WishListIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SvgPicture.asset(
-      "assets/svg/wishlist.svg",
-      color: filled ? logoRed : Colors.grey[200],
-      height: height,
-      width: width,
+    return Container(
+      height: 30, width: 30,
+      padding: EdgeInsets.all(2),
+      decoration: BoxDecoration(shape : BoxShape.circle, color: Colors.white),
+      child: Center(
+        child: SvgPicture.asset(
+          "assets/svg/wishlist.svg",
+          color: filled ? logoRed : Colors.grey[300],
+          height: height,
+          width: width,
+        ),
+      ),
     );
   }
 }
