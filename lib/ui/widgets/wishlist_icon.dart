@@ -20,7 +20,7 @@ class WishListIcon extends StatelessWidget {
     return Container(
       height: 30, width: 30,
       padding: EdgeInsets.all(2),
-      decoration: BoxDecoration(shape : BoxShape.circle, color: Colors.white),
+      decoration: BoxDecoration(shape : BoxShape.circle, color: Colors.white, boxShadow: [BoxShadow(color: Colors.black12)]),
       child: Center(
         child: SvgPicture.asset(
           "assets/svg/wishlist.svg",

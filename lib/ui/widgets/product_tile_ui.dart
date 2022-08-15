@@ -139,7 +139,7 @@ class _ProductTileUIState extends State<ProductTileUI> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5),
           ),
-          elevation: 0,
+          elevation: 1,
           clipBehavior: Clip.antiAlias,
           color: Colors.white,
           child: Column(
@@ -170,8 +170,9 @@ class _ProductTileUIState extends State<ProductTileUI> {
                             child: Text(
                               capitalizeString(productName),
                               overflow: TextOverflow.ellipsis,
+                              maxLines: 2,
                               style: TextStyle(
-                                fontSize: titleFontSize,
+                                fontSize: titleFontSize-1,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -222,8 +223,8 @@ class _ProductTileUIState extends State<ProductTileUI> {
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.left,
                         style: TextStyle(
-                          fontSize: subtitleFontSize,
-                          fontWeight: FontWeight.bold,
+                          fontSize: subtitleFontSize-2,
+                          fontWeight: FontWeight.normal,
                           color: Colors.grey,
                         ),
                       ),

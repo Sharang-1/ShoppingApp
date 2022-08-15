@@ -864,7 +864,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                           }
                                         },
                                         child: Container(
-                                          width: MediaQuery.of(context).size.width * 0.40,
+                                          width : double.maxFinite,
                                           padding: EdgeInsets.symmetric(
                                             vertical: 10,
                                           ),
@@ -913,6 +913,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                 ),
                                 elevation: 0,
                                 child: Container(
+                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: Colors.grey[100]),
+                                  padding: EdgeInsets.all(5),
                                   width: MediaQuery.of(context).size.width,
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -1178,12 +1180,12 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                 margin: EdgeInsets.symmetric(vertical: 5),
                                 padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
                                 width: double.maxFinite,
-                                decoration: BoxDecoration(color: logoRed),
+                                decoration: BoxDecoration(color: Colors.grey[300]),
                                 child: Text(
                                   "Recommended Products",
                                   // PRODUCTSCREEN_RECOMMENDED_PRODUCTS.tr,
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    color: Colors.black,
                                     fontSize: 14,
                                     letterSpacing: 0.4,
                                     fontWeight: FontWeight.w600,
@@ -1212,12 +1214,12 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                   margin: EdgeInsets.symmetric(vertical: 5),
                                   padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
                                   width: double.maxFinite,
-                                  decoration: BoxDecoration(color: logoRed),
+                                  decoration: BoxDecoration(color: Colors.grey[300]),
                                   child: Text(
                                     "More from Designer",
                                     // PRODUCTSCREEN_MORE_FROM_DESIGNER.tr,
                                     style: TextStyle(
-                                      color: Colors.white,
+                                      color: Colors.black,
                                       fontSize: 14,
                                       letterSpacing: 0.4,
                                       fontWeight: FontWeight.w600,
