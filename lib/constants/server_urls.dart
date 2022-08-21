@@ -1,6 +1,6 @@
 // kReleaseMode
 
-const bool releaseMode = false;
+const bool releaseMode = true;
 
 const String BASE_URL =
     releaseMode ? "https://dzor.in/api/" : "https://dev.dzor.in/api/";
