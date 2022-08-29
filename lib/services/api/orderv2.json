@@ -1,0 +1,795 @@
+{
+  "groupOrder": {
+    "payment": {
+      "queueId": "string",
+      "option": {
+        "id": 0,
+        "name": "string"
+      },
+      "receiptId": "string",
+      "orderId": "string",
+      "paymentId": "string",
+      "status": "string",
+      "message": "string",
+      "signature": "string",
+      "date": "2022-08-21T05:47:27.066Z"
+    },
+    "customerDetails": {
+      "name": "string",
+      "customerId": "string",
+      "customerPhone": {
+        "code": "string",
+        "mobile": "string",
+        "display": "string"
+      },
+      "customerMeasure": {
+        "shoulders": 0,
+        "chest": 0,
+        "waist": 0,
+        "hips": 0,
+        "height": 0,
+        "empty": true
+      },
+      "phone": {
+        "code": "string",
+        "mobile": "string",
+        "display": "string"
+      },
+      "address": "string",
+      "city": "string",
+      "state": "string",
+      "country": "string",
+      "pincode": 0,
+      "email": "string"
+    },
+    "orders": [
+      {
+        "key": "string",
+        "id": 0,
+        "uuid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "name": "string",
+        "description": "string",
+        "enabled": true,
+        "created": "2022-08-21T05:47:27.066Z",
+        "modified": "2022-08-21T05:47:27.066Z",
+        "orderCost": {
+          "productPrice": 0,
+          "quantity": 0,
+          "productDiscount": {
+            "cost": 0,
+            "rate": 0
+          },
+          "convenienceCharges": {
+            "rate": 0,
+            "cost": 0
+          },
+          "promocodeDiscount": {
+            "promocodeId": "string",
+            "promocode": "string",
+            "cost": 0
+          },
+          "promotionDiscount": {
+            "promotionId": "string",
+            "rate": 0,
+            "cost": 0
+          },
+          "gstCharges": {
+            "rate": 0,
+            "cost": 0
+          },
+          "deliveryCharges": {
+            "key": "string",
+            "id": 0,
+            "uuid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "name": "string",
+            "description": "string",
+            "enabled": true,
+            "created": "2022-08-21T05:47:27.066Z",
+            "modified": "2022-08-21T05:47:27.066Z",
+            "cost": 0,
+            "note": "string"
+          },
+          "cost": 0,
+          "costForSeller": 0,
+          "note": "string"
+        },
+        "sellerId": "string",
+        "productId": "string",
+        "product": {
+          "key": "string",
+          "id": 0,
+          "uuid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+          "name": "string",
+          "description": "string",
+          "enabled": true,
+          "created": "2022-08-21T05:47:27.066Z",
+          "modified": "2022-08-21T05:47:27.066Z",
+          "account": {
+            "key": "string",
+            "id": 0,
+            "uuid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "name": "string",
+            "description": "string",
+            "enabled": true,
+            "created": "2022-08-21T05:47:27.066Z",
+            "modified": "2022-08-21T05:47:27.066Z",
+            "account": "string",
+            "owner": {
+              "key": "string",
+              "id": 0,
+              "uuid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+              "name": "string",
+              "description": "string",
+              "enabled": true,
+              "created": "2022-08-21T05:47:27.066Z",
+              "modified": "2022-08-21T05:47:27.066Z",
+              "account": "string",
+              "owner": "string",
+              "firstName": "string",
+              "lastName": "string",
+              "email": "string",
+              "contact": {
+                "googleAddress": "string",
+                "address": "string",
+                "city": "string",
+                "state": "string",
+                "country": "string",
+                "pincode": 0,
+                "phone": {
+                  "code": "string",
+                  "mobile": "string",
+                  "display": "string"
+                }
+              },
+              "age": {
+                "id": 0,
+                "name": "string"
+              },
+              "gender": {
+                "id": 0,
+                "name": "string"
+              },
+              "measure": {
+                "shoulders": 0,
+                "chest": 0,
+                "waist": 0,
+                "hips": 0,
+                "height": 0,
+                "empty": true
+              },
+              "deviceTokens": ["string"],
+              "login": "2022-08-21T05:47:27.066Z",
+              "appUser": true,
+              "facebookUser": true,
+              "mobileUser": true,
+              "facebookLogin": true,
+              "mobileLogin": true,
+              "photo": {
+                "path": "string",
+                "name": "string",
+                "originalName": "string",
+                "created": "2022-08-21T05:47:27.066Z"
+              },
+              "password": "string"
+            },
+            "contact": {
+              "address": "string",
+              "city": "string",
+              "state": "string",
+              "pincode": 0,
+              "residentialAddress": "string",
+              "email": "string",
+              "primaryNumber": {
+                "code": "string",
+                "mobile": "string",
+                "display": "string"
+              },
+              "secondaryNumber": {
+                "code": "string",
+                "mobile": "string",
+                "display": "string"
+              },
+              "geoLocation": {
+                "latitude": 0,
+                "longitude": 0
+              }
+            },
+            "rating": {
+              "rate": 0
+            },
+            "accountType": "SELLER",
+            "approved": true,
+            "photo": {
+              "path": "string",
+              "name": "string",
+              "originalName": "string",
+              "created": "2022-08-21T05:47:27.066Z"
+            },
+            "categories": [
+              {
+                "id": 0,
+                "name": "string",
+                "enabled": true,
+                "banner": {
+                  "path": "string",
+                  "name": "string",
+                  "originalName": "string",
+                  "created": "2022-08-21T05:47:27.066Z"
+                },
+                "order": 0,
+                "filter": "string",
+                "caption": "string",
+                "forApp": true,
+                "supportSizeChart": true,
+                "productFor": {
+                  "id": 0,
+                  "name": "string"
+                },
+                "masterCategories": [
+                  {
+                    "id": 0,
+                    "name": "string"
+                  }
+                ]
+              }
+            ],
+            "establishmentTypeId": 0,
+            "timing": {
+              "sunday": {
+                "open": true,
+                "start": 0,
+                "end": 0
+              },
+              "monday": {
+                "open": true,
+                "start": 0,
+                "end": 0
+              },
+              "tuesday": {
+                "open": true,
+                "start": 0,
+                "end": 0
+              },
+              "wednesday": {
+                "open": true,
+                "start": 0,
+                "end": 0
+              },
+              "thursday": {
+                "open": true,
+                "start": 0,
+                "end": 0
+              },
+              "friday": {
+                "open": true,
+                "start": 0,
+                "end": 0
+              },
+              "saturday": {
+                "open": true,
+                "start": 0,
+                "end": 0
+              }
+            },
+            "subscriptionTypeId": 0,
+            "bio": "string",
+            "known": "string",
+            "designs": "string",
+            "operations": "string",
+            "works": "string",
+            "ethnicBackground": "string",
+            "yourself": "string",
+            "intro": "string",
+            "serviceAgreement": true,
+            "details": ["BASIC"],
+            "replacementPolicy": {
+              "supported": true,
+              "days": 0,
+              "modified": "2022-08-21T05:47:27.066Z",
+              "created": "2022-08-21T05:47:27.066Z",
+              "url": "string"
+            },
+            "returnPolicy": {
+              "supported": true,
+              "days": 0,
+              "modified": "2022-08-21T05:47:27.066Z",
+              "created": "2022-08-21T05:47:27.066Z",
+              "url": "string"
+            },
+            "confidential": {
+              "gstNumber": "string",
+              "pancardNumber": "string",
+              "aadharNumber": "string",
+              "bankAccountNumber": "string",
+              "bankIfsc": "string"
+            },
+            "subscriptionType": {
+              "id": 0,
+              "name": "string"
+            },
+            "establishmentType": {
+              "id": 0,
+              "name": "string"
+            },
+            "designation": "string",
+            "education": "string"
+          },
+          "owner": {
+            "key": "string",
+            "id": 0,
+            "uuid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "name": "string",
+            "description": "string",
+            "enabled": true,
+            "created": "2022-08-21T05:47:27.066Z",
+            "modified": "2022-08-21T05:47:27.066Z",
+            "account": "string",
+            "owner": "string",
+            "firstName": "string",
+            "lastName": "string",
+            "email": "string",
+            "contact": {
+              "googleAddress": "string",
+              "address": "string",
+              "city": "string",
+              "state": "string",
+              "country": "string",
+              "pincode": 0,
+              "phone": {
+                "code": "string",
+                "mobile": "string",
+                "display": "string"
+              }
+            },
+            "age": {
+              "id": 0,
+              "name": "string"
+            },
+            "gender": {
+              "id": 0,
+              "name": "string"
+            },
+            "measure": {
+              "shoulders": 0,
+              "chest": 0,
+              "waist": 0,
+              "hips": 0,
+              "height": 0,
+              "empty": true
+            },
+            "deviceTokens": ["string"],
+            "login": "2022-08-21T05:47:27.066Z",
+            "appUser": true,
+            "facebookUser": true,
+            "mobileUser": true,
+            "facebookLogin": true,
+            "mobileLogin": true,
+            "photo": {
+              "path": "string",
+              "name": "string",
+              "originalName": "string",
+              "created": "2022-08-21T05:47:27.066Z"
+            },
+            "password": "string"
+          },
+          "available": true,
+          "explore": true,
+          "margin": true,
+          "canCan": true,
+          "hangings": true,
+          "price": 0,
+          "breadth": 0,
+          "discount": 0,
+          "flair": 0,
+          "heelHeight": 0,
+          "length": 0,
+          "oldPrice": 0,
+          "pricePerMeter": 0,
+          "waist": 0,
+          "fabricDetails": "string",
+          "typeOfWork": "string",
+          "art": "string",
+          "backCut": "string",
+          "bottomStyle": "string",
+          "closureType": "string",
+          "dimensions": "string",
+          "fittingType": "string",
+          "neck": "string",
+          "neckCut": "string",
+          "occasionToWearIn": "string",
+          "riseStyle": "string",
+          "style": "string",
+          "typeOfSaree": "string",
+          "washing": "string",
+          "weaveType": "string",
+          "variations": [
+            {
+              "size": "string",
+              "quantity": 0,
+              "color": "string"
+            }
+          ],
+          "workOn": [
+            {
+              "id": 0
+            }
+          ],
+          "made": {
+            "id": 0
+          },
+          "shipment": {
+            "name": "string",
+            "fare": 0,
+            "days": 0
+          },
+          "productFor": {
+            "id": 0,
+            "name": "string"
+          },
+          "masterCategory": {
+            "id": 0,
+            "name": "string"
+          },
+          "category": {
+            "id": 0,
+            "name": "string",
+            "enabled": true,
+            "banner": {
+              "path": "string",
+              "name": "string",
+              "originalName": "string",
+              "created": "2022-08-21T05:47:27.066Z"
+            },
+            "order": 0,
+            "filter": "string",
+            "caption": "string",
+            "forApp": true,
+            "supportSizeChart": true,
+            "productFor": {
+              "id": 0,
+              "name": "string"
+            },
+            "masterCategories": [
+              {
+                "id": 0,
+                "name": "string"
+              }
+            ]
+          },
+          "blousePadding": {
+            "id": 0
+          },
+          "lengthOfKurta": {
+            "id": 0
+          },
+          "pieces": {
+            "id": 0
+          },
+          "sleeveLength": {
+            "id": 0
+          },
+          "stitchingType": {
+            "id": 0
+          },
+          "topsLength": {
+            "id": 0
+          },
+          "whatDoesItHave": {
+            "id": 0
+          },
+          "whoMadeIt": {
+            "id": 0
+          },
+          "demographics": [
+            {
+              "id": 0,
+              "name": "string"
+            }
+          ],
+          "photo": {
+            "photos": [
+              {
+                "path": "string",
+                "name": "string",
+                "originalName": "string",
+                "created": "2022-08-21T05:47:27.066Z"
+              }
+            ]
+          },
+          "video": {
+            "videos": [
+              {
+                "path": "string",
+                "name": "string",
+                "originalName": "string",
+                "created": "2022-08-21T05:47:27.066Z"
+              }
+            ]
+          },
+          "rating": {
+            "rate": 0
+          },
+          "customization": {
+            "supported": true,
+            "maxSize": 0
+          },
+          "seller": {
+            "documentId": "string",
+            "key": "string",
+            "accountType": "SELLER",
+            "name": "string",
+            "created": "2022-08-21T05:47:27.066Z",
+            "modified": "2022-08-21T05:47:27.066Z",
+            "approved": true,
+            "enabled": true,
+            "bio": "string",
+            "known": "string",
+            "designs": "string",
+            "works": "string",
+            "operations": "string",
+            "education": "string",
+            "designation": "string",
+            "intro": "string",
+            "establishmentTypeId": 0,
+            "subscriptionTypeId": 0,
+            "photo": {
+              "path": "string",
+              "name": "string",
+              "originalName": "string",
+              "created": "2022-08-21T05:47:27.066Z"
+            },
+            "contact": {
+              "address": "string",
+              "city": "string",
+              "state": "string",
+              "pincode": 0,
+              "geoLocation": {
+                "latitude": 0,
+                "longitude": 0
+              },
+              "email": "string",
+              "primaryNumber": {
+                "code": "string",
+                "mobile": "string",
+                "display": "string"
+              }
+            },
+            "owner": {
+              "key": "string",
+              "name": "string"
+            },
+            "timing": {
+              "sunday": {
+                "open": true,
+                "start": 0,
+                "end": 0
+              },
+              "monday": {
+                "open": true,
+                "start": 0,
+                "end": 0
+              },
+              "tuesday": {
+                "open": true,
+                "start": 0,
+                "end": 0
+              },
+              "wednesday": {
+                "open": true,
+                "start": 0,
+                "end": 0
+              },
+              "thursday": {
+                "open": true,
+                "start": 0,
+                "end": 0
+              },
+              "friday": {
+                "open": true,
+                "start": 0,
+                "end": 0
+              },
+              "saturday": {
+                "open": true,
+                "start": 0,
+                "end": 0
+              }
+            },
+            "replacementPolicy": {
+              "supported": true,
+              "days": 0,
+              "modified": "2022-08-21T05:47:27.066Z",
+              "created": "2022-08-21T05:47:27.066Z",
+              "url": "string"
+            },
+            "returnPolicy": {
+              "supported": true,
+              "days": 0,
+              "modified": "2022-08-21T05:47:27.066Z",
+              "created": "2022-08-21T05:47:27.066Z",
+              "url": "string"
+            },
+            "ratingAverage": {
+              "rating": 0,
+              "total": 0,
+              "person": 0
+            },
+            "subscriptionType": {
+              "id": 0,
+              "name": "string"
+            },
+            "establishmentType": {
+              "id": 0,
+              "name": "string"
+            }
+          },
+          "promocodes": [
+            {
+              "key": "string",
+              "id": 0,
+              "uuid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+              "name": "string",
+              "description": "string",
+              "enabled": true,
+              "created": "2022-08-21T05:47:27.066Z",
+              "modified": "2022-08-21T05:47:27.066Z",
+              "code": "string",
+              "discount": 0,
+              "customers": 0,
+              "minimumOrderValue": 0,
+              "validTill": "2022-08-21T05:47:27.066Z",
+              "used": 0,
+              "lastUsed": "2022-08-21T05:47:27.066Z"
+            }
+          ],
+          "cost": {
+            "cost": 0,
+            "costToCustomer": 0,
+            "productDiscount": {
+              "cost": 0,
+              "rate": 0
+            },
+            "convenienceCharges": {
+              "rate": 0,
+              "cost": 0
+            },
+            "gstCharges": {
+              "rate": 0,
+              "cost": 0
+            },
+            "note": "string"
+          },
+          "new": true
+        },
+        "quantity": 0,
+        "shipment": {
+          "name": "string",
+          "fare": 0,
+          "days": 0
+        },
+        "variation": {
+          "size": "string",
+          "quantity": 0,
+          "color": "string"
+        },
+        "promotionId": "string",
+        "promocode": "string",
+        "deliveryDate": "2022-08-21T05:47:27.066Z",
+        "groupId": "string",
+        "orderQueue": {
+          "groupQueueId": "string",
+          "queueId": "string",
+          "clientQueueId": "string"
+        },
+        "payment": {
+          "queueId": "string",
+          "option": {
+            "id": 0,
+            "name": "string"
+          },
+          "receiptId": "string",
+          "orderId": "string",
+          "paymentId": "string",
+          "status": "string",
+          "message": "string",
+          "signature": "string",
+          "date": "2022-08-21T05:47:27.066Z"
+        },
+        "customerDetails": {
+          "name": "string",
+          "customerId": "string",
+          "customerPhone": {
+            "code": "string",
+            "mobile": "string",
+            "display": "string"
+          },
+          "customerMeasure": {
+            "shoulders": 0,
+            "chest": 0,
+            "waist": 0,
+            "hips": 0,
+            "height": 0,
+            "empty": true
+          },
+          "phone": {
+            "code": "string",
+            "mobile": "string",
+            "display": "string"
+          },
+          "address": "string",
+          "city": "string",
+          "state": "string",
+          "country": "string",
+          "pincode": 0,
+          "email": "string"
+        },
+        "customization": {
+          "label": "string"
+        },
+        "status": {
+          "id": 0,
+          "note": "string",
+          "created": "2022-08-21T05:47:27.066Z",
+          "modified": "2022-08-21T05:47:27.066Z",
+          "ownerId": 0,
+          "next": "string",
+          "returnPayment": {
+            "queueId": "string",
+            "option": {
+              "id": 0,
+              "name": "string"
+            },
+            "receiptId": "string",
+            "orderId": "string",
+            "paymentId": "string",
+            "status": "string",
+            "message": "string",
+            "signature": "string",
+            "date": "2022-08-21T05:47:27.066Z"
+          },
+          "orderState": "PRE_PLACED"
+        },
+        "allowedStates": ["PRE_PLACED"]
+      }
+    ]
+  },
+  "user": {
+    "accountNonLocked": true,
+    "credentialsNonExpired": true,
+    "accountNonExpired": true,
+    "enabled": true,
+    "username": "string",
+    "roles": ["string"],
+    "accountId": 0,
+    "accountType": 0,
+    "subscriptionTypeId": 0,
+    "userId": 0,
+    "roleId": 0,
+    "facebookLogin": true,
+    "mobileLogin": true,
+    "role": {
+      "permissions": [
+        {
+          "type": {
+            "type": 0
+          },
+          "level": {
+            "level": 0
+          }
+        }
+      ]
+    },
+    "permission": {
+      "type": {
+        "type": 0
+      },
+      "level": {
+        "level": 0
+      }
+    },
+    "watch": true,
+    "password": "string",
+    "facebookToken": "string",
+    "token": "string"
+  }
+}

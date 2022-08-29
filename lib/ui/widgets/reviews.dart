@@ -29,159 +29,168 @@ class ReviewWidget extends StatelessWidget {
         global: false,
         builder: (controller) => Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  isSeller!
-                      ? DESIGNER_SCREEN_REVIEWS.tr
-                      : PRODUCTSCREEN_VIEW_REVIEWS.tr,
-                  style: TextStyle(
-                    fontSize: 14,
-                    letterSpacing: 1.0,
-                  ),
-                  textAlign: TextAlign.start,
-                ),
-                (controller.reviews!.ratingAverage != null) &&
-                        ((controller.reviews!.ratingAverage?.person ?? 0) > 0)
-                    ? Column(
-                        children: <Widget>[
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                              vertical: 4.0,
-                              horizontal: 8.0,
-                            ),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Tools.getColorAccordingToRattings(
-                                  controller.reviews!.items!.isNotEmpty
-                                      ? controller
-                                              .reviews!.ratingAverage?.rating ??
-                                          5
-                                      : 5,
-                                ),
-                              ),
-                              borderRadius: BorderRadius.circular(5),
-                              color: Colors.white,
-                            ),
-                            child: Text(
-                              controller.reviews!.ratingAverage!.rating != null
-                                  ? '${controller.reviews!.ratingAverage!.rating!.toStringAsFixed(1)}'
-                                  : "0",
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: Tools.getColorAccordingToRattings(
-                                  controller.reviews!.items!.isNotEmpty
-                                      ? controller
-                                              .reviews!.ratingAverage?.rating ??
-                                          5
-                                      : 5,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Text(
-                            controller.reviews!.ratingAverage!.person != null
-                                ? "${controller.reviews!.ratingAverage!.person} Reviews"
-                                : "0 Reviews",
-                            style: TextStyle(
-                              fontSize: subtitleFontSize - 2,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ],
-                      )
-                    : Container(),
-              ],
-            ),
-            Column(
-              children: [
-                if (controller.busy)
-                  LinearProgressIndicator(
-                    backgroundColor: Colors.white,
-                  ),
-                if (!controller.busy)
-                  if ((controller.reviews!.items?.length ?? 0) == 0)
-                    Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: CustomText(
-                        NO_REVIEWS.tr,
-                        fontSize: subtitleFontSize - 2,
-                      ),
+            Container(
+              color: Colors.grey[200],
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 2),
+              
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    isSeller!
+                        ? DESIGNER_SCREEN_REVIEWS.tr
+                        : PRODUCTSCREEN_VIEW_REVIEWS.tr,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
                     ),
-                if (controller.reviews != null &&
-                    controller.reviews!.items!.length > 0)
-                  ...controller.reviews!.items!
-                      .sublist(
-                          0,
-                          controller.reviews!.items!.length < 3
-                              ? controller.reviews!.items!.length
-                              : 3)
-                      .map(
-                        (Review r) => reviewCard(r),
-                      ),
-                Column(
-                  children: [
-                    verticalSpaceSmall,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        if (isSeller! &&
-                            ((controller.reviews!.items ?? [])
-                                .where((e) =>
-                                    e.userId ==
-                                    locator<HomeController>().details!.key)
-                                .toList()
-                                .isEmpty))
-                          TextButton(
-                            onPressed: () {
-                              Get.bottomSheet(
-                                  WriteReviewBottomsheet(
-                                    id!,
-                                    isSeller: isSeller ?? false,
-                                    onSubmit: () {
-                                      onSubmit();
-                                    },
+                    textAlign: TextAlign.start,
+                  ),
+                  (controller.reviews!.ratingAverage != null) &&
+                          ((controller.reviews!.ratingAverage?.person ?? 0) > 0)
+                      ? Column(
+                          children: <Widget>[
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                vertical: 4.0,
+                                horizontal: 8.0,
+                              ),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Tools.getColorAccordingToRattings(
+                                    controller.reviews!.items!.isNotEmpty
+                                        ? controller
+                                                .reviews!.ratingAverage?.rating ??
+                                            5
+                                        : 5,
                                   ),
-                                  isScrollControlled: true);
-                            },
-                            style: TextButton.styleFrom(
-                              primary: Colors.white,
-                              backgroundColor: logoRed,
-                              textStyle: TextStyle(
+                                ),
+                                borderRadius: BorderRadius.circular(5),
+                                color: Colors.white,
+                              ),
+                              child: Text(
+                                controller.reviews!.ratingAverage!.rating != null
+                                    ? '${controller.reviews!.ratingAverage!.rating!.toStringAsFixed(1)}'
+                                    : "0",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: Tools.getColorAccordingToRattings(
+                                    controller.reviews!.items!.isNotEmpty
+                                        ? controller
+                                                .reviews!.ratingAverage?.rating ??
+                                            5
+                                        : 5,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Text(
+                              controller.reviews!.ratingAverage!.person != null
+                                  ? "${controller.reviews!.ratingAverage!.person} Reviews"
+                                  : "0 Reviews",
+                              style: TextStyle(
+                                fontSize: subtitleFontSize - 2,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ],
+                        )
+                      : Container(),
+                ],
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                children: [
+                  if (controller.busy)
+                    LinearProgressIndicator(
+                      backgroundColor: Colors.white,
+                    ),
+                  if (!controller.busy)
+                    if ((controller.reviews!.items?.length ?? 0) == 0)
+                      Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: CustomText(
+                          NO_REVIEWS.tr,
+                          fontSize: subtitleFontSize - 2,
+                        ),
+                      ),
+                  if (controller.reviews != null &&
+                      controller.reviews!.items!.length > 0)
+                    ...controller.reviews!.items!
+                        .sublist(
+                            0,
+                            controller.reviews!.items!.length < 3
+                                ? controller.reviews!.items!.length
+                                : 3)
+                        .map(
+                          (Review r) => reviewCard(r),
+                        ),
+                  Column(
+                    children: [
+                      verticalSpaceSmall,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          if (isSeller! &&
+                              ((controller.reviews!.items ?? [])
+                                  .where((e) =>
+                                      e.userId ==
+                                      locator<HomeController>().details!.key)
+                                  .toList()
+                                  .isEmpty))
+                            TextButton(
+                              onPressed: () {
+                                Get.bottomSheet(
+                                    WriteReviewBottomsheet(
+                                      id!,
+                                      isSeller: isSeller ?? false,
+                                      onSubmit: () {
+                                        onSubmit();
+                                      },
+                                    ),
+                                    isScrollControlled: true);
+                              },
+                              style: TextButton.styleFrom(
+                                primary: Colors.white,
+                                backgroundColor: logoRed,
+                                textStyle: TextStyle(
+                                  fontSize: subtitleFontSize,
+                                ),
+                              ),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.edit,
+                                    size: 18,
+                                  ),
+                                  horizontalSpaceTiny,
+                                  Text(
+                                    WRITE_REVIEW.tr,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          if ((controller.reviews!.items?.length ?? 0) > 3)
+                            InkWell(
+                              onTap: () => NavigationService.to(ReviewScreenRoute,
+                                  arguments: controller.reviews),
+                              child: CustomText(
+                                VIEW_ALL.tr,
+                                color: textIconBlue,
                                 fontSize: subtitleFontSize,
                               ),
                             ),
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Icons.edit,
-                                  size: 18,
-                                ),
-                                horizontalSpaceTiny,
-                                Text(
-                                  WRITE_REVIEW.tr,
-                                ),
-                              ],
-                            ),
-                          ),
-                        if ((controller.reviews!.items?.length ?? 0) > 3)
-                          InkWell(
-                            onTap: () => NavigationService.to(ReviewScreenRoute,
-                                arguments: controller.reviews),
-                            child: CustomText(
-                              VIEW_ALL.tr,
-                              color: textIconBlue,
-                              fontSize: subtitleFontSize,
-                            ),
-                          ),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ],
         ),

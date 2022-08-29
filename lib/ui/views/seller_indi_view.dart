@@ -74,8 +74,16 @@ class _SellerIndiState extends State<SellerIndi> {
     DESIGNER_SCREEN_TYPE.tr: "assets/svg/online.svg",
   };
 
+  // Map<int, String> icons = {
+  //   1: "assets/svg/tumblr_badge.svg",
+  //   2: "assets/svg/fabric.svg",
+  //   3: "assets/svg/crease.svg",
+  //   4: "assets/svg/dressmaker.svg",
+  //   5: "assets/svg/online.svg",
+  // };
+
   final double headFont = 16;
-  final double subHeadFont = 14;
+  final double subHeadFont = 12;
   final double smallFont = 10;
   String? selectedTime;
   int? selectedIndex;
@@ -101,8 +109,7 @@ class _SellerIndiState extends State<SellerIndi> {
   String getTimeString(Timing timing) {
     DateTime _dateTime = DateTime.now();
     Map<String, dynamic> timingJson = timing.toJson();
-    Day today = Day.fromJson(
-        timingJson[DateFormat('EEEE').format(_dateTime).toLowerCase()]);
+    Day today = Day.fromJson(timingJson[DateFormat('EEEE').format(_dateTime).toLowerCase()]);
     if (today.start == 0 && today.end == 0) return "";
     return "${getTime(today.start as int? ?? 0)} - ${getTime(today.end as int? ?? 0)}";
   }
@@ -110,8 +117,7 @@ class _SellerIndiState extends State<SellerIndi> {
   bool isOpenNow(Timing timing) {
     DateTime _dateTime = DateTime.now();
     Map<String, dynamic> timingJson = timing.toJson();
-    Day today = Day.fromJson(
-        timingJson[DateFormat('EEEE').format(_dateTime).toLowerCase()]);
+    Day today = Day.fromJson(timingJson[DateFormat('EEEE').format(_dateTime).toLowerCase()]);
     if (today.open ?? false) {
       if ((_dateTime.hour >= today.start!) && (_dateTime.hour < today.end!))
         return true;
@@ -125,18 +131,16 @@ class _SellerIndiState extends State<SellerIndi> {
   void initState() {
     super.initState();
     try {
-      _analyticsService.sendAnalyticsEvent(
-          eventName: "seller_view",
-          parameters: <String, dynamic>{
-            "seller_id": widget.data.key,
-            "seller_name": widget.data.name,
-            "subscription_id": widget.data.subscriptionType?.id?.toString(),
-            "subscription_name": widget.data.subscriptionType?.name,
-            "establishment_id": widget.data.establishmentType?.id?.toString(),
-            "establishment_name": widget.data.establishmentType?.name,
-            "user_id": locator<HomeController>().details!.key,
-            "user_name": locator<HomeController>().details!.name,
-          });
+      _analyticsService.sendAnalyticsEvent(eventName: "seller_view", parameters: <String, dynamic>{
+        "seller_id": widget.data.key,
+        "seller_name": widget.data.name,
+        "subscription_id": widget.data.subscriptionType?.id?.toString(),
+        "subscription_name": widget.data.subscriptionType?.name,
+        "establishment_id": widget.data.establishmentType?.id?.toString(),
+        "establishment_name": widget.data.establishmentType?.name,
+        "user_id": locator<HomeController>().details!.key,
+        "user_name": locator<HomeController>().details!.name,
+      });
     } catch (e) {}
     showTutorial(
       context,
@@ -154,12 +158,9 @@ class _SellerIndiState extends State<SellerIndi> {
       DESIGNER_DETAILS_KEY.tr: data.key ?? "",
       DESIGNER_DETAILS_NAME.tr: data.name ?? "",
       DESIGNER_DETAILS_TYPE.tr: data.establishmentType?.name?.toString() ?? "",
-      DESIGNER_DETAILS_RATTINGS.tr:
-          data.ratingAverage?.rating?.toString() ?? "",
-      DESIGNER_DETAILS_LAT.tr:
-          data.contact?.geoLocation?.latitude?.toString() ?? "",
-      DESIGNER_DETAILS_LON.tr:
-          data.contact?.geoLocation?.longitude?.toString() ?? "",
+      DESIGNER_DETAILS_RATTINGS.tr: data.ratingAverage?.rating?.toString() ?? "",
+      DESIGNER_DETAILS_LAT.tr: data.contact?.geoLocation?.latitude?.toString() ?? "",
+      DESIGNER_DETAILS_LON.tr: data.contact?.geoLocation?.longitude?.toString() ?? "",
       DESIGNER_DETAILS_APPOINTMENT.tr: "false",
       DESIGNER_DETAILS_ADDRESS.tr: data.contact?.address ?? "",
       DESIGNER_DETAILS_CITY.tr: data.contact?.city ?? "",
@@ -227,8 +228,7 @@ class _SellerIndiState extends State<SellerIndi> {
             paddingFocus: 5,
             onClickOverlay: (targetFocus) => tutorialCoachMark.next(),
             onClickTarget: (targetFocus) => tutorialCoachMark.next(),
-            onFinish: () async =>
-                await prefs.setBool(ShouldShowDesignerProfileTutorial, false),
+            onFinish: () async => await prefs.setBool(ShouldShowDesignerProfileTutorial, false),
             hideSkip: true,
           );
         }
@@ -243,8 +243,7 @@ class _SellerIndiState extends State<SellerIndi> {
 
     setupSellerDetails(widget.data);
 
-    String designerProfilePicUrl =
-        "$DESIGNER_PROFILE_PHOTO_BASE_URL/${sellerData.owner?.key}";
+    String designerProfilePicUrl = "$DESIGNER_PROFILE_PHOTO_BASE_URL/${sellerData.owner?.key}";
 
     Timing _timing = sellerData.timing!;
 
@@ -254,8 +253,7 @@ class _SellerIndiState extends State<SellerIndi> {
         bottomNavigationBar: Container(
           color: Colors.grey[200],
           child: Padding(
-            padding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).padding.bottom + 4.0, top: 4.0),
+            padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom + 4.0, top: 4.0),
             child: Container(
               key: appointmentBtnKey,
               color: Colors.grey[200],
@@ -270,11 +268,9 @@ class _SellerIndiState extends State<SellerIndi> {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         elevation: 0,
-                        primary:
-                            sellerDetails[DESIGNER_DETAILS_APPOINTMENT.tr] !=
-                                    "true"
-                                ? lightGreen
-                                : textIconOrange,
+                        primary: sellerDetails[DESIGNER_DETAILS_APPOINTMENT.tr] != "true"
+                            ? logoRed
+                            : textIconOrange,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5),
                         ),
@@ -282,13 +278,11 @@ class _SellerIndiState extends State<SellerIndi> {
                       onPressed: () {
                         BaseController.vibrate(duration: 50);
                         _showBottomSheet(context, sellerDetails);
-                        if (sellerDetails[DESIGNER_DETAILS_APPOINTMENT.tr] !=
-                            "true") {}
+                        if (sellerDetails[DESIGNER_DETAILS_APPOINTMENT.tr] != "true") {}
                       },
                       child: Container(
                         padding: const EdgeInsets.symmetric(vertical: 12),
-                        child: sellerDetails[DESIGNER_DETAILS_APPOINTMENT.tr] !=
-                                "true"
+                        child: sellerDetails[DESIGNER_DETAILS_APPOINTMENT.tr] != "true"
                             ? CustomText(
                                 DESIGNER_DETAILS_BOOK_APPOINTMENT.tr,
                                 align: TextAlign.center,
@@ -308,7 +302,7 @@ class _SellerIndiState extends State<SellerIndi> {
                                   ),
                                   verticalSpace(10),
                                   CustomText(
-                                    "(12/6/20 4:30 am)",
+                                    "(12/6/20 4:25 am)",
                                     align: TextAlign.center,
                                     color: Colors.white,
                                     isBold: true,
@@ -320,36 +314,33 @@ class _SellerIndiState extends State<SellerIndi> {
                   ),
                   horizontalSpaceSmall,
                   if (widget.data.subscriptionType != null && widget.data.subscriptionType!.id != 3)
-                  Expanded(
-                    flex: 5,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        elevation: 0,
-                        primary: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5),
+                    Expanded(
+                      flex: 5,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          elevation: 0,
+                          primary: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
                         ),
-                      ),
-                      onPressed: () async => await BaseController
-                          .goToProductListPage(ProductPageArg(
-                              subCategory:
-                                  sellerDetails[DESIGNER_DETAILS_NAME.tr],
-                              queryString:
-                                  "accountKey=${sellerDetails[DESIGNER_DETAILS_KEY.tr]};",
-                              sellerPhoto:
-                                  "$SELLER_PHOTO_BASE_URL/${sellerDetails[DESIGNER_DETAILS_KEY.tr]}")),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 12),
-                        child: CustomText(
-                          DESIGNER_EXPLORE_COLLECTION.tr,
-                          align: TextAlign.center,
-                          color: Colors.black,
-                          isBold: true,
-                          fontSize: 14,
+                        onPressed: () async => await BaseController.goToProductListPage(ProductPageArg(
+                            subCategory: sellerDetails[DESIGNER_DETAILS_NAME.tr],
+                            queryString: "accountKey=${sellerDetails[DESIGNER_DETAILS_KEY.tr]};",
+                            sellerPhoto:
+                                "$SELLER_PHOTO_BASE_URL/${sellerDetails[DESIGNER_DETAILS_KEY.tr]}")),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          child: CustomText(
+                            DESIGNER_EXPLORE_COLLECTION.tr,
+                            align: TextAlign.center,
+                            color: Colors.black,
+                            isBold: true,
+                            fontSize: 14,
+                          ),
                         ),
                       ),
                     ),
-                  ),
                 ],
               ),
             ),
@@ -382,15 +373,17 @@ class _SellerIndiState extends State<SellerIndi> {
               color: Color.fromRGBO(255, 255, 255, 1),
               shape: BoxShape.circle,
               border: Border.all(
-                color: Color.fromRGBO(255, 255, 255, 0.1),
+                color: Color.fromRGBO(255, 255, 255, 1),
                 width: 8.0,
               ),
+              boxShadow: [BoxShadow(color: Colors.black)],
             ),
           ),
-          floatingPosition: FloatingPosition(left: media - 10, top: -22),
+          floatingPosition: FloatingPosition(top: -22, right: 20),
           expandedHeight: 250.0,
           slivers: [
             SliverAppBar(
+              elevation: 0,
               expandedHeight: 250.0,
               floating: false,
               pinned: true,
@@ -418,26 +411,20 @@ class _SellerIndiState extends State<SellerIndi> {
                   ),
                   child: InkWell(
                     onTap: () async {
-                      await Share.share(await _dynamicLinkService
-                              .createLink(sellerLink + sellerData.key!) ??
-                          "");
+                      await Share.share(
+                          await _dynamicLinkService.createLink(sellerLink + sellerData.key!) ?? "");
                       try {
                         await _analyticsService.sendAnalyticsEvent(
                             eventName: "seller_shared",
                             parameters: <String, dynamic>{
                               "seller_id": sellerData.key,
                               "seller_name": sellerData.name,
-                              "subscription_id":
-                                  widget.data.subscriptionType?.id?.toString(),
-                              "subscription_name":
-                                  widget.data.subscriptionType?.name,
-                              "establishment_id":
-                                  widget.data.establishmentType?.id?.toString(),
-                              "establishment_name":
-                                  widget.data.establishmentType?.name,
+                              "subscription_id": widget.data.subscriptionType?.id?.toString(),
+                              "subscription_name": widget.data.subscriptionType?.name,
+                              "establishment_id": widget.data.establishmentType?.id?.toString(),
+                              "establishment_name": widget.data.establishmentType?.name,
                               "user_id": locator<HomeController>().details!.key,
-                              "user_name":
-                                  locator<HomeController>().details!.name,
+                              "user_name": locator<HomeController>().details!.name,
                             });
                       } catch (e) {}
                     },
@@ -467,68 +454,12 @@ class _SellerIndiState extends State<SellerIndi> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          FutureBuilder<Reviews?>(
-                            future: locator<APIService>().getReviews(
-                                sellerDetails[DESIGNER_DETAILS_KEY.tr]!,
-                                isSellerReview: true),
-                            builder: (context, snapshot) => ((snapshot
-                                            .connectionState ==
-                                        ConnectionState.done) &&
-                                    ((snapshot.data?.ratingAverage?.rating ??
-                                            0) >
-                                        0))
-                                ? FittedBox(
-                                    fit: BoxFit.scaleDown,
-                                    child: Column(
-                                      children: [
-                                        Container(
-                                          padding: EdgeInsets.symmetric(
-                                            vertical: 2,
-                                            horizontal: 5,
-                                          ),
-                                          decoration: BoxDecoration(
-                                            border: Border.all(
-                                              color: Tools
-                                                  .getColorAccordingToRattings(
-                                                snapshot.data!.ratingAverage!
-                                                        .rating ??
-                                                    0,
-                                              ),
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(5),
-                                          ),
-                                          child: Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: <Widget>[
-                                              CustomText(
-                                                snapshot.data!.ratingAverage!
-                                                    .rating!
-                                                    .toStringAsFixed(1),
-                                                color: Tools
-                                                    .getColorAccordingToRattings(
-                                                  snapshot.data!.ratingAverage!
-                                                          .rating ??
-                                                      0,
-                                                ),
-                                                isBold: true,
-                                                fontSize: 14,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                : Container(),
-                          ),
                           SizedBox(
                             width: (Get.width / 2) - 80,
                             child: Align(
-                              alignment: Alignment.centerRight,
+                              alignment: Alignment.centerLeft,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -546,8 +477,7 @@ class _SellerIndiState extends State<SellerIndi> {
                                           fit: BoxFit.scaleDown,
                                           alignment: Alignment.centerLeft,
                                           child: Text(
-                                            sellerDetails[
-                                                DESIGNER_DETAILS_CITY.tr]!,
+                                            sellerDetails[DESIGNER_DETAILS_CITY.tr]!,
                                             overflow: TextOverflow.ellipsis,
                                             textAlign: TextAlign.end,
                                             style: TextStyle(
@@ -563,15 +493,12 @@ class _SellerIndiState extends State<SellerIndi> {
                                   verticalSpaceTiny,
                                   Wrap(
                                     direction: Axis.horizontal,
-                                    crossAxisAlignment:
-                                        WrapCrossAlignment.center,
+                                    crossAxisAlignment: WrapCrossAlignment.center,
                                     children: [
                                       Icon(
                                         Icons.circle,
                                         size: 14,
-                                        color: isOpenNow(_timing)
-                                            ? Colors.green
-                                            : Colors.grey,
+                                        color: isOpenNow(_timing) ? Colors.green : Colors.grey,
                                       ),
                                       horizontalSpaceTiny,
                                       Text(
@@ -584,8 +511,7 @@ class _SellerIndiState extends State<SellerIndi> {
                                           fontSize: 12,
                                         ),
                                       ),
-                                      if (isOpenNow(_timing))
-                                        horizontalSpaceTiny,
+                                      if (isOpenNow(_timing)) horizontalSpaceTiny,
                                       if (isOpenNow(_timing))
                                         Text(
                                           "(${getTimeString(_timing)})",
@@ -601,12 +527,52 @@ class _SellerIndiState extends State<SellerIndi> {
                               ),
                             ),
                           ),
+                          // horizontalSpaceSmall,
+                          // FutureBuilder<Reviews?>(
+                          //   future: locator<APIService>().getReviews(
+                          //       sellerDetails[DESIGNER_DETAILS_KEY.tr]!,
+                          //       isSellerReview: true),
+                          //   builder: (context, snapshot) =>
+                          //       ((snapshot.connectionState == ConnectionState.done) &&
+                          //               ((snapshot.data?.ratingAverage?.rating ?? 0) > 0))
+                          //           ? FittedBox(
+                          //               fit: BoxFit.scaleDown,
+                          //               child: Column(
+                          //                 children: [
+                          //                   Container(
+                          //                     padding: EdgeInsets.symmetric(
+                          //                       vertical: 5,
+                          //                       horizontal: 10,
+                          //                     ),
+                          //                     decoration: BoxDecoration(
+                          //                       border: Border.all(
+                          //                         color: Tools.getColorAccordingToRattings(
+                          //                           snapshot.data!.ratingAverage!.rating ?? 0,
+                          //                         ),
+                          //                       ),
+                          //                       borderRadius: BorderRadius.circular(5),
+                          //                     ),
+                          //                     child: CustomText(
+                          //                       snapshot.data!.ratingAverage!.rating!
+                          //                           .toStringAsFixed(1),
+                          //                       color: Tools.getColorAccordingToRattings(
+                          //                         snapshot.data!.ratingAverage!.rating ?? 0,
+                          //                       ),
+                          //                       isBold: true,
+                          //                       fontSize: 16,
+                          //                     ),
+                          //                   ),
+                          //                 ],
+                          //               ),
+                          //             )
+                          //           : Container(),
+                          // ),
                         ],
                       ),
                     ),
                     verticalSpace(10),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
@@ -614,208 +580,162 @@ class _SellerIndiState extends State<SellerIndi> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Expanded(
-                                      child: CustomText(
-                                        sellerDetails[
-                                            DESIGNER_DETAILS_NAME.tr]!,
-                                        textStyle: TextStyle(
-                                          fontSize: headFont + 2,
-                                          fontFamily: headingFont,
-                                          fontWeight: FontWeight.w600,
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(
+                                        child: CustomText(
+                                          sellerDetails[DESIGNER_DETAILS_NAME.tr]!,
+                                          textStyle: TextStyle(
+                                            fontSize: headFont + 2,
+                                            fontFamily: headingFont,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                          dotsAfterOverFlow: true,
                                         ),
-                                        dotsAfterOverFlow: true,
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 8.0),
-                                      child: Row(
-                                        children: [
-                                          Image.asset(
-                                            "assets/images/mask.png",
-                                            height: 30,
-                                            width: 30,
-                                          ),
-                                          horizontalSpaceTiny,
-                                          Image.asset(
-                                            "assets/images/sanitiser.png",
-                                            height: 30,
-                                            width: 30,
-                                          ),
-                                        ],
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 8.0),
+                                        child: Row(
+                                          children: [
+                                            Image.asset(
+                                              "assets/images/mask.png",
+                                              height: 30,
+                                              width: 30,
+                                            ),
+                                            horizontalSpaceTiny,
+                                            Image.asset(
+                                              "assets/images/sanitiser.png",
+                                              height: 30,
+                                              width: 30,
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                                Divider(
-                                  color: Colors.grey,
-                                  thickness: 1,
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    CustomText(
-                                      sellerDetails[DESIGNER_DETAILS_TYPE.tr]!,
-                                      fontSize: subHeadFont,
-                                      fontWeight: FontWeight.w500,
-                                      fontFamily: headingFont,
-                                      dotsAfterOverFlow: true,
-                                      color: textIconBlue,
-                                    ),
-                                  ],
-                                ),
+                                // Divider(
+                                //   color: Colors.grey,
+                                //   thickness: 1,
+                                // ),
+                                verticalSpaceSmall,
+                                Container(
+                                  width: double.infinity,
+                                  margin: EdgeInsets.all(2),
+                                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(5),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black26,
+                                          blurRadius: 2,
+                                        ),
+                                      ]),
+                                  child: CustomText(
+                                    sellerDetails[DESIGNER_DETAILS_TYPE.tr]!,
+                                    fontSize: subHeadFont,
+                                    fontWeight: FontWeight.w500,
+                                    fontFamily: textFont,
+                                    dotsAfterOverFlow: true,
+                                    color: Colors.black54,
+                                  ),
+                                )
                               ],
                             ),
                           ),
                         ],
                       ),
                     ),
-                    sectionDivider(),
+                    verticalSpaceMedium,
                     Container(
                       width: MediaQuery.of(context).size.width,
-                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      // padding: EdgeInsets.symmetric(horizontal: 16),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          CustomText(
-                            DESIGNER_SCREEN_KNOW_THE_DESIGNER.tr,
-                            textStyle: TextStyle(
-                              fontSize: subHeadFont,
-                              letterSpacing: 1.2,
-                              color: Colors.black,
+                          Container(
+                            padding: EdgeInsets.symmetric(vertical: 5, horizontal: 16),
+                            width: double.infinity,
+                            color: Colors.grey[200],
+                            child: CustomText(
+                              DESIGNER_SCREEN_KNOW_THE_DESIGNER.tr,
+                              textStyle: TextStyle(
+                                  fontSize: headFont,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
                           verticalSpace(10),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              ClipOval(
-                                child: FadeInImage(
-                                    width: 80,
-                                    height: 80,
-                                    fadeInCurve: Curves.easeIn,
-                                    fit: BoxFit.cover,
-                                    placeholder:
-                                        AssetImage("assets/images/user.png"),
-                                    image: NetworkImage(
-                                        "$designerProfilePicUrl",
-                                        headers: {
-                                          "Authorization":
-                                              "Bearer ${locator<HomeController>().prefs!.getString(Authtoken) ?? ''}",
-                                        }),
-                                    imageErrorBuilder:
-                                        (context, error, stackTrace) {
-                                      print("Image Error: $error $stackTrace");
-                                      return Image.asset(
-                                        "assets/images/user.png",
-                                        width: 80,
-                                        height: 80,
-                                        fit: BoxFit.cover,
-                                      );
-                                    }),
-                              ),
-                              horizontalSpaceSmall,
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    CustomText(
-                                      sellerDetails[
-                                          DESIGNER_DETAILS_OWNER_NAME.tr]!,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: titleFontSize,
-                                      dotsAfterOverFlow: true,
-                                    ),
-                                    if ((sellerData.education != null) ||
-                                        (sellerData.designation != null))
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                            child: CustomText(
-                                              "${sellerData.education ?? ''} ${sellerData.designation ?? ''}",
-                                              fontSize: subtitleFontSize,
-                                              fontWeight: FontWeight.w400,
-                                              color: Colors.grey.shade600,
-                                              dotsAfterOverFlow: true,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ReadMoreText(
-                                      sellerData.intro ??
-                                          sellerDetails[
-                                              DESIGNER_DETAILS_NOTE_FROM_DESIGNER
-                                                  .tr]!,
-                                      trimLines: ((sellerData.education ==
-                                                  null) &&
-                                              (sellerData.designation == null))
-                                          ? 3
-                                          : 2,
-                                      colorClickableText: logoRed,
-                                      trimMode: TrimMode.Line,
-                                      style: TextStyle(
-                                        fontSize: subtitleFontSize - 2,
-                                        color: Colors.grey[600],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          elementDivider(),
-                          CustomText(
-                            DESIGNER_SCREEN_LOCATION.tr,
-                            fontSize: subHeadFont,
-                            letterSpacing: 1.2,
-                            color: Colors.black,
-                          ),
-                          verticalSpaceSmall,
-                          CustomText(
-                            sellerDetails[DESIGNER_DETAILS_ADDRESS.tr]!,
-                            fontSize: subtitleFontSize,
-                            color: Colors.grey,
-                          ),
-                          verticalSpaceSmall,
-                          InkWell(
-                            onTap: () {
-                              MapUtils.openMap(
-                                  double.parse(
-                                      sellerDetails[DESIGNER_DETAILS_LAT.tr] ??
-                                          "0"),
-                                  double.parse(
-                                      sellerDetails[DESIGNER_DETAILS_LON.tr] ??
-                                          "0"));
-                            },
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Container(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 8.0, vertical: 4.0),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: logoRed,
-                                    ),
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Icon(
-                                        Icons.directions,
-                                        color: logoRed,
-                                      ),
-                                      horizontalSpaceTiny,
+                              children: [
+                                ClipOval(
+                                  child: FadeInImage(
+                                      width: 50,
+                                      height: 50,
+                                      fadeInCurve: Curves.easeIn,
+                                      fit: BoxFit.cover,
+                                      placeholder: AssetImage("assets/images/user.png"),
+                                      image: NetworkImage("$designerProfilePicUrl", headers: {
+                                        "Authorization":
+                                            "Bearer ${locator<HomeController>().prefs!.getString(Authtoken) ?? ''}",
+                                      }),
+                                      imageErrorBuilder: (context, error, stackTrace) {
+                                        print("Image Error: $error $stackTrace");
+                                        return Image.asset(
+                                          "assets/images/user.png",
+                                          width: 50,
+                                          height: 50,
+                                          fit: BoxFit.cover,
+                                        );
+                                      }),
+                                ),
+                                horizontalSpaceSmall,
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
                                       CustomText(
-                                        DESIGNER_SCREEN_DIRECTION.tr,
-                                        fontSize: subHeadFont,
-                                        color: logoRed,
+                                        sellerDetails[DESIGNER_DETAILS_OWNER_NAME.tr]!,
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: headFont,
+                                        dotsAfterOverFlow: true,
+                                      ),
+                                      if ((sellerData.education != null) ||
+                                          (sellerData.designation != null))
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: CustomText(
+                                                "${sellerData.education ?? ''} ${sellerData.designation ?? ''}",
+                                                fontSize: subHeadFont,
+                                                fontWeight: FontWeight.w400,
+                                                color: Colors.grey.shade600,
+                                                dotsAfterOverFlow: true,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ReadMoreText(
+                                        sellerData.intro ??
+                                            sellerDetails[DESIGNER_DETAILS_NOTE_FROM_DESIGNER.tr]!,
+                                        trimLines: ((sellerData.education == null) &&
+                                                (sellerData.designation == null))
+                                            ? 3
+                                            : 2,
+                                        colorClickableText: logoRed,
+                                        trimMode: TrimMode.Line,
+                                        style: TextStyle(
+                                          fontSize: subHeadFont - 2,
+                                          color: Colors.black54,
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -823,110 +743,168 @@ class _SellerIndiState extends State<SellerIndi> {
                               ],
                             ),
                           ),
+                          verticalSpaceSmall,
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 16,
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.location_on,
+                                  color: logoRed,
+                                ),
+                                SizedBox(
+                                  width: 15,
+                                ),
+                                Container(
+                                  width: Get.width*0.8,
+                                  child: Text(
+                                    sellerDetails[DESIGNER_DETAILS_ADDRESS.tr]!,
+                                    maxLines: 3,
+                                    style: TextStyle(
+                                      fontSize: subtitleFontSize,
+                                      color: Colors.grey,
+                                    ),
+                                    
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+
+                          // CustomText(
+                          //   DESIGNER_SCREEN_LOCATION.tr,
+                          //   fontSize: subHeadFont,
+                          //   color: Colors.black,
+                          // ),
+                          // verticalSpaceSmall,
+
+                          // verticalSpaceSmall,
+                          // InkWell(
+                          //   onTap: () {
+                          //     MapUtils.openMap(
+                          //         double.parse(sellerDetails[DESIGNER_DETAILS_LAT.tr] ?? "0"),
+                          //         double.parse(sellerDetails[DESIGNER_DETAILS_LON.tr] ?? "0"));
+                          //   },
+                          //   child: Row(
+                          //     crossAxisAlignment: CrossAxisAlignment.center,
+                          //     mainAxisAlignment: MainAxisAlignment.start,
+                          //     children: <Widget>[
+                          //       Container(
+                          //         padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                          //         decoration: BoxDecoration(
+                          //           border: Border.all(
+                          //             color: logoRed,
+                          //           ),
+                          //           borderRadius: BorderRadius.circular(5),
+                          //         ),
+                          //         child: Row(
+                          //           children: <Widget>[
+                          //             Icon(
+                          //               Icons.directions,
+                          //               color: logoRed,
+                          //             ),
+                          //             horizontalSpaceTiny,
+                          //             CustomText(
+                          //               DESIGNER_SCREEN_DIRECTION.tr,
+                          //               fontSize: subHeadFont,
+                          //               color: logoRed,
+                          //             ),
+                          //           ],
+                          //         ),
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
                         ],
                       ),
                     ),
-                    sectionDivider(),
+                    verticalSpaceMedium,
                     Container(
-                      width: MediaQuery.of(context).size.width,
-                      padding: EdgeInsets.symmetric(horizontal: 16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          CustomText(
-                            DESIGNER_DETAILS.tr,
-                            fontSize: headFont - 2,
-                            fontFamily: headingFont,
-                            letterSpacing: 1.2,
-                          ),
-                          verticalSpace(20),
-                          Card(
-                            elevation: 0,
-                            clipBehavior: Clip.antiAlias,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(curve15),
-                            ),
-                            child: Container(
-                              width: MediaQuery.of(context).size.width,
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 16,
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: allDetails.map(
-                                  (String key) {
-                                    return Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        key == DESIGNER_SCREEN_SPECIALITY.tr
-                                            ? SvgPicture.asset(
-                                                icons[key]!,
-                                                height: 30,
-                                                width: 30,
-                                                color: Colors.blue[500],
-                                              )
-                                            : SvgPicture.asset(
-                                                icons[key]!,
-                                                height: 30,
-                                                width: 30,
-                                              ),
-                                        SizedBox(
-                                          width: 20,
-                                        ),
-                                        Expanded(
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: <Widget>[
-                                              verticalSpace(5),
-                                              CustomText(
-                                                key,
-                                                fontSize: titleFontSize,
-                                                align: TextAlign.left,
-                                                color: Colors.grey,
-                                              ),
-                                              verticalSpaceSmall,
-                                              CustomText(
-                                                sellerDetails[key]!,
-                                                fontSize: subtitleFontSize,
-                                                color: Colors.grey[700]!,
-                                                align: TextAlign.left,
-                                              ),
-                                              key == DESIGNER_SCREEN_TYPE.tr
-                                                  ? Container()
-                                                  : Container(
-                                                      padding:
-                                                          EdgeInsets.symmetric(
-                                                              vertical: 10),
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width *
-                                                              0.6,
-                                                      child: Divider(
-                                                        thickness: 1,
-                                                        color: Colors.grey[400]!
-                                                            .withOpacity(0.1),
-                                                      ),
-                                                    ),
-                                            ],
+                      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 16),
+                      width: double.infinity,
+                      color: Colors.grey[200],
+                      child: CustomText(
+                        DESIGNER_DETAILS.tr,
+                        fontSize: headFont,
+                        fontFamily: headingFont,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Container(
+                      height: 220,
+                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                      child: Center(
+                        child: Wrap(
+                          runSpacing: 10,
+                          spacing: 10,
+                          alignment: WrapAlignment.center,
+                          children: allDetails.map(
+                            (String key) {
+                              return Container(
+                                height: 100,
+                                width: Get.width / 3 - 15,
+                                padding: EdgeInsets.all(8),
+                                decoration: BoxDecoration(color: Colors.white, boxShadow: [
+                                  BoxShadow(color: Colors.black12, blurRadius: 1),
+                                ],
+                                borderRadius: BorderRadius.circular(8)
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    key == DESIGNER_SCREEN_SPECIALITY.tr
+                                        ? SvgPicture.asset(
+                                            icons[key]!,
+                                            height: 30,
+                                            width: 30,
+                                            color: Colors.blue[500],
+                                          )
+                                        : SvgPicture.asset(
+                                            icons[key]!,
+                                            height: 25,
+                                            width: 25,
                                           ),
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                ).toList(),
-                              ),
-                            ),
-                          ),
-                        ],
+                                    SizedBox(
+                                      width: 20,
+                                    ),
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                          verticalSpace(5),
+                                          CustomText(
+                                            key,
+                                            fontSize: titleFontSize,
+                                            align: TextAlign.center,
+                                            color: Colors.black,
+                                          ),
+                                          verticalSpaceTiny,
+                                          CustomText(
+                                            sellerDetails[key]!,
+                                            fontSize: subtitleFontSize,
+                                            color: Colors.black45,
+                                            align: TextAlign.center,
+                                          ),
+                                          key == DESIGNER_SCREEN_TYPE.tr ? Container() : Container()
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ).toList(),
+                        ),
                       ),
                     ),
-                    sectionDivider(),
+                    verticalSpaceMedium,
                     Container(
                       width: MediaQuery.of(context).size.width,
-                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      // padding: EdgeInsets.symmetric(horizontal: 16),
                       child: ReviewWidget(
                           key: reviewKey,
                           id: sellerDetails[DESIGNER_DETAILS_KEY.tr],
@@ -937,13 +915,10 @@ class _SellerIndiState extends State<SellerIndi> {
                             });
                           }),
                     ),
-                    if (sellerData.subscriptionTypeId == 1 &&
-                        showExploreSection)
-                      sectionDivider(),
-                    if (sellerData.subscriptionTypeId == 1 &&
-                        showExploreSection)
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    if (sellerData.subscriptionTypeId == 1 && showExploreSection)
+                      Container(
+                        color: Colors.grey[200],
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 5),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -955,13 +930,11 @@ class _SellerIndiState extends State<SellerIndi> {
                                   fit: BoxFit.scaleDown,
                                   alignment: Alignment.centerLeft,
                                   child: Text(
-                                    DESIGNER_SCREEN_EXPLORE_DESIGNER_COLLECTION
-                                        .tr
-                                        .toUpperCase(),
+                                    DESIGNER_SCREEN_EXPLORE_DESIGNER_COLLECTION.tr,
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
-                                      fontSize: titleFontSizeStyle,
-                                      letterSpacing: 1.2,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                 ),
@@ -983,10 +956,8 @@ class _SellerIndiState extends State<SellerIndi> {
                                   ProductsListRoute,
                                   arguments: ProductPageArg(
                                     subCategory: sellerData.name,
-                                    queryString:
-                                        "accountKey=${sellerData.key};",
-                                    sellerPhoto:
-                                        "$SELLER_PHOTO_BASE_URL/${sellerData.key}",
+                                    queryString: "accountKey=${sellerData.key};",
+                                    sellerPhoto: "$SELLER_PHOTO_BASE_URL/${sellerData.key}",
                                   ),
                                 );
                               },
@@ -994,11 +965,8 @@ class _SellerIndiState extends State<SellerIndi> {
                           ],
                         ),
                       ),
-                    if (sellerData.subscriptionTypeId == 1 &&
-                        showExploreSection)
-                      verticalSpace(5),
-                    if (sellerData.subscriptionTypeId == 1 &&
-                        showExploreSection)
+                    if (sellerData.subscriptionTypeId == 1 && showExploreSection) verticalSpace(5),
+                    if (sellerData.subscriptionTypeId == 1 && showExploreSection)
                       SectionBuilder(
                         key: productKey,
                         context: context,
@@ -1006,8 +974,7 @@ class _SellerIndiState extends State<SellerIndi> {
                           accountKey: sellerData.key,
                         ),
                         layoutType: LayoutType.PRODUCT_LAYOUT_2,
-                        controller: ProductsGridViewBuilderController(
-                            randomize: true, limit: 6),
+                        controller: ProductsGridViewBuilderController(randomize: true, limit: 6),
                         scrollDirection: Axis.horizontal,
                         onEmptyList: () async {
                           await Future.delayed(
@@ -1020,9 +987,10 @@ class _SellerIndiState extends State<SellerIndi> {
                           );
                         },
                       ),
-                    sectionDivider(),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    Container(
+                      
+                      color: Colors.grey[200],
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 5),
                       child: Row(
                         children: <Widget>[
                           Expanded(
@@ -1031,9 +999,7 @@ class _SellerIndiState extends State<SellerIndi> {
                               child: Text(
                                 DESIGNER_SCREEN_SIMILAR_DESIGNERS.tr,
                                 style: TextStyle(
-                                  letterSpacing: 1.2,
-                                  color: Colors.grey[800],
-                                  fontSize: titleFontSize,
+                                  fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black
                                 ),
                               ),
                             ),
@@ -1105,8 +1071,7 @@ class MapUtils {
   MapUtils._();
 
   static Future<void> openMap(double latitude, double longitude) async {
-    String googleUrl =
-        'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
+    String googleUrl = 'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
     if (await canLaunch(googleUrl)) {
       await launch(googleUrl);
     } else {
