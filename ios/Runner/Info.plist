@@ -4,6 +4,8 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>CFBundleDisplayName</key>
+	<string>INotification</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -11,78 +13,19 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>Dzor</string>
+	<string>$(PRODUCT_NAME)</string>
 	<key>CFBundlePackageType</key>
-	<string>APPL</string>
+	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
 	<string>$(MARKETING_VERSION)</string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
-	<key>EnableBackgroundLocationUpdates</key>
-	<true/>
-	<key>FirebaseAppDelegateProxyEnabled</key>
-	<false/>
-	<key>FirebaseDynamicLinksCustomDomains</key>
-	<array>
-		<string>https://dzor.in/product</string>
-		<string>https://dzor.in/seller</string>
-		<string>https://dzor.in/promotion</string>
-	</array>
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-		<string>itms-beta</string>
-		<string>itms</string>
-	</array>
-	<key>LSRequiresIPhoneOS</key>
-	<true/>
-	<key>NSAppTransportSecurity</key>
+	<key>NSExtension</key>
 	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
+		<key>NSExtensionPointIdentifier</key>
+		<string>com.apple.usernotifications.service</string>
+		<key>NSExtensionPrincipalClass</key>
+		<string>NotificationService</string>
 	</dict>
-	<key>NSAppleMusicUsageDescription</key>
-	<string>Dzor App does not require access to Apple Music.</string>
-	<key>NSCalendarsUsageDescription</key>
-	<string>Dzor App does not require access to calender. </string>
-	<key>NSContactsUsageDescription</key>
-	<string>Dzor App does not require access to contacts.</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Dzor App uses your location to show designers around you</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Dzor App uses your location to show designers around you.</string>
-	<key>NSMotionUsageDescription</key>
-	<string>Dzor App does not require access to motion sensors.</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Dzor App does not require access to photo library.</string>
-	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>Dzor App does not require access speech recognition.</string>
-	<key>UIBackgroundModes</key>
-	<array>
-		<string>fetch</string>
-		<string>remote-notification</string>
-	</array>
-	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
-	<key>UIMainStoryboardFile</key>
-	<string>Main</string>
-	<key>UISupportedInterfaceOrientations</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>UISupportedInterfaceOrientations~ipad</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false/>
-	<key>io.flutter.embeded_views_preview</key>
-	<true/>
 </dict>
 </plist>
