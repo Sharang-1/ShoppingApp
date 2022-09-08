@@ -5,6 +5,8 @@ import 'package:dio/dio.dart' as dio;
 // import 'package:dio_retry/dio_retry.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get_connect/http/src/multipart/multipart_file.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -22,6 +24,8 @@ import '../../models/cart.dart' as CartModule;
 import '../../models/categorys.dart';
 import '../../models/lookups.dart';
 import '../../models/order.dart' as OrderModule;
+import '../../models/orderV2.dart' as OrderV2;
+import '../../models/orderV2_response.dart';
 import '../../models/orders.dart';
 import '../../models/payment_options.dart';
 import '../../models/products.dart';
@@ -183,6 +187,64 @@ class APIService {
     }
 
     return list;
+  }
+
+  Future<OrderV2.Order2?> createGroupOrder({
+    OrderV2.CustomerDetails? customerDetails,
+    OrderV2.Payment? payment,
+    List<OrderV2.Orderv2>? products,
+  }) async {
+    try {
+      try {
+        print("--------- api testing ----------");
+        // print(customerDetails);
+        // print(products![0].productId);
+        // print(payment);
+        // print(locator<HomeController>().details!.key);
+
+        final response = await apiWrapper("v2/orders",
+            authenticated: true,
+            options: dio.Options(headers: {'excludeToken': false}, method: "POST"),
+            data: {
+              // "customerDetails": customerDetails,
+              // "orders": products,
+              // "payment": payment
+              "customerDetails": {
+                "address": "test billing address",
+                "city": "test billing city",
+                "state": "test billing state",
+                "pincode": "380060",
+                "country": "india"
+              },
+              "orders": [
+                {
+                  "productId": 83885946,
+                  "variation": {"size": "xl", "quantity": 1, "color": "pink"},
+                  "orderQueue": {"clientQueueId": 1}
+                }
+              ]
+            });
+        print("response data");
+        print(response);
+
+        if (response != null) {
+          final orderResponse = GroupOrderReponseModel.fromJson(response);
+          print("order response");
+          print(orderResponse);
+        }
+      } catch (e) {
+        print(e.toString());
+      }
+    } on SocketException catch (_) {
+      Fluttertoast.showToast(
+          msg: "No Internet Connection",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.CENTER,
+          backgroundColor: Colors.black,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    }
+    return null;
   }
 
   Future<AppInfo?> getAppInfo() async {
@@ -439,7 +501,7 @@ class APIService {
   }
 
   Future<PromoCode?> applyPromocode(
-    String productId, int qty, String code, String promotion) async {
+      String productId, int qty, String code, String promotion) async {
     final quantity = qty >= 1 ? qty : 1;
     code = code.trim();
     final promoCodeData = await apiWrapper(
@@ -514,6 +576,7 @@ class APIService {
         }
       },
     );
+    print(orderData);
     print(" $pincode pincode1");
     print("------------$billingAddress-----------------xyz--");
     if (orderData != null) {

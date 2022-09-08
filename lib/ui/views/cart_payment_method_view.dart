@@ -1,5 +1,7 @@
 import 'package:compound/app/app.dart';
+import 'package:compound/models/orderV2_response.dart';
 import 'package:compound/services/api/api_service.dart';
+import 'package:compound/services/api/orderV2_api.dart';
 import 'package:compound/utils/lang/translation_keys.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -50,8 +52,7 @@ class PaymentMethod extends StatefulWidget {
 class _PaymentMethodState extends State<PaymentMethod> {
   int paymentMethodRadioValue = 2;
   int paymentMethodGrpValue = 2;
-  final ErrorHandlingService _errorHandlingService =
-      locator<ErrorHandlingService>();
+  final ErrorHandlingService _errorHandlingService = locator<ErrorHandlingService>();
 
   Map<int, Widget> iconpaymentMethodMap = {
     1: Tab(icon: Image.asset("assets/images/cash_icon.png")),
@@ -139,9 +140,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
                         context: context,
                         builder: (context) => OrderDetailsBottomsheet(
                           orderDetails: widget.orderDetails,
-                          buttonText: paymentMethodGrpValue == 2
-                              ? PROCEED_TO_PAY.tr
-                              : PLACE_ORDER.tr,
+                          buttonText:
+                              paymentMethodGrpValue == 2 ? PROCEED_TO_PAY.tr : PLACE_ORDER.tr,
                           onButtonPressed: controller.busy
                               ? () {}
                               : () async {
@@ -182,17 +182,13 @@ class _PaymentMethodState extends State<PaymentMethod> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    onPressed: controller.busy
-                        ? null
-                        : () async => await makePayment(controller),
+                    onPressed: controller.busy ? null : () async => await makePayment(controller),
                     child: Padding(
                       padding: const EdgeInsets.all(10),
                       child: Container(
                         alignment: Alignment.center,
                         child: Text(
-                          paymentMethodGrpValue == 2
-                              ? PROCEED_TO_PAY.tr
-                              : PLACE_ORDER.tr,
+                          paymentMethodGrpValue == 2 ? PROCEED_TO_PAY.tr : PLACE_ORDER.tr,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
@@ -262,13 +258,11 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                   onTap: () {
                                     print(controller.paymentOptions);
                                     setState(() {
-                                      paymentMethodGrpValue =
-                                          paymentMethodRadioValue = key;
+                                      paymentMethodGrpValue = paymentMethodRadioValue = key;
                                     });
                                   },
                                   child: Container(
-                                    margin: EdgeInsets.only(
-                                        bottom: spaceBetweenCards),
+                                    margin: EdgeInsets.only(bottom: spaceBetweenCards),
                                     decoration: BoxDecoration(
                                       border: Border(
                                         bottom: BorderSide(
@@ -279,12 +273,10 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                     child: Card(
                                       elevation: 0,
                                       shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(curve15),
+                                        borderRadius: BorderRadius.circular(curve15),
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            0, 8, 8, 8),
+                                        padding: const EdgeInsets.fromLTRB(0, 8, 8, 8),
                                         child: Row(
                                           children: <Widget>[
                                             Radio(
@@ -299,34 +291,25 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                             ),
                                             Expanded(
                                               child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   CustomText(
-                                                    controller.paymentOptions[
-                                                            key] ??
-                                                        "",
-                                                    fontSize:
-                                                        titleFontSizeStyle,
+                                                    controller.paymentOptions[key] ?? "",
+                                                    fontSize: titleFontSizeStyle,
                                                     isBold: true,
                                                     color: Colors.grey[700]!,
                                                   ),
-                                                  if (key == 1)
-                                                    verticalSpaceTiny,
+                                                  if (key == 1) verticalSpaceTiny,
                                                   if (key == 1)
                                                     CustomText(
                                                       "No Cash Accepted",
-                                                      fontSize:
-                                                      titleFontSize - 4,
+                                                      fontSize: titleFontSize - 4,
                                                     ),
-
-                                                  if (key == 2)
-                                                    verticalSpaceTiny,
+                                                  if (key == 2) verticalSpaceTiny,
                                                   if (key == 2)
                                                     CustomText(
                                                       "Debit Card, Credit Card, UPI, \nNetBanking",
-                                                      fontSize:
-                                                          titleFontSize - 4,
+                                                      fontSize: titleFontSize - 4,
                                                     )
                                                 ],
                                               ),
@@ -354,18 +337,20 @@ class _PaymentMethodState extends State<PaymentMethod> {
 
   Future<void> makePayment(controller) async {
     appVar.previousOrders = (await locator<APIService>().getAllOrders())!.orders!;
-    final Order res = await controller.createOrder(
-        widget.billingAddress.address! +
-            '\n' +
-            widget.billingAddress.googleAddress!,
-        widget.productId,
-        widget.promoCode,
-        widget.promoCodeId,
-        widget.size,
-        widget.color,
-        widget.qty,
-        paymentMethodRadioValue,
-        widget.billingAddress.pincode);
+    // final Order res = await controller.createOrder(
+    //     widget.billingAddress.address! +
+    //         '\n' +
+    //         widget.billingAddress.googleAddress!,
+    //     widget.productId,
+    //     widget.promoCode,
+    //     widget.promoCodeId,
+    //     widget.size,
+    //     widget.color,
+    //     widget.qty,
+    //     paymentMethodRadioValue,
+    //     widget.billingAddress.pincode);
+
+    final GroupOrderReponseModel res = await controller.createGroupOrder();
 
     print("res = $res");
     if (res != null) {

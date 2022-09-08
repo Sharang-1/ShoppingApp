@@ -1,5 +1,6 @@
 import '../locator.dart';
 import '../models/order.dart';
+import '../models/orderV2.dart';
 import '../services/api/api_service.dart';
 import '../services/payment_service.dart';
 import 'base_controller.dart';
@@ -39,6 +40,18 @@ class CartPaymentMethodController extends BaseController {
     // }
     update();
 
+    return null;
+  }
+
+  Future<Order2?> createGroupOrder() async {
+    setBusy(true);
+    final order = await _apiService.createGroupOrder();
+    if (order != null) {
+      setBusy(false);
+      return order;
+    }
+
+    setBusy(false);
     return null;
   }
 

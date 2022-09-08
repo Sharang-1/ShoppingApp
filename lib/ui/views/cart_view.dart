@@ -80,7 +80,7 @@ class _CartViewState extends State<CartView> {
         //         fontSize: 14,
         //       )),
         // ),
-        
+
         body: SafeArea(
           top: true,
           left: false,
@@ -145,26 +145,23 @@ class _CartViewState extends State<CartView> {
                     // ? cart item tile
                     FutureBuilder(
                       future: Future.delayed(Duration(seconds: 1)),
-                      builder: (c, s) => s.connectionState ==
-                              ConnectionState.done
+                      builder: (c, s) => s.connectionState == ConnectionState.done
                           ? Column(
                               children: [
                                 SectionBuilder(
                                   key: uniqueKey ?? UniqueKey(),
                                   context: context,
-                                  filter:
-                                      CartFilter(productId: widget.productId),
+                                  filter: CartFilter(productId: widget.productId),
                                   layoutType: LayoutType.VIEW_CART_LAYOUT,
                                   controller: CartGridViewBuilderController(),
                                   onEmptyList: () {},
                                   scrollDirection: Axis.horizontal,
-                                  tileBuilder: (BuildContext context, data,
-                                      index, onDelete, onUpdate) {
+                                  tileBuilder:
+                                      (BuildContext context, data, index, onDelete, onUpdate) {
                                     Fimber.d("test");
                                     print((data as Item).toJson());
                                     final Item dItem = data;
-                                    exceptProductIDs
-                                        .add(dItem.product!.key ?? "");
+                                    exceptProductIDs.add(dItem.product!.key ?? "");
 
                                     return CartTile(
                                       index: index,
@@ -174,14 +171,11 @@ class _CartViewState extends State<CartView> {
                                         print("Delete product index: $index");
                                         if (!value) return;
                                         await controller
-                                            .removeFromCartLocalStore(
-                                                dItem.productId.toString());
-                                        locator<CartCountController>()
-                                            .decrementCartCount();
+                                            .removeFromCartLocalStore(dItem.productId.toString());
+                                        locator<CartCountController>().decrementCartCount();
                                         try {
                                           await controller
-                                              .removeProductFromCartEvent(
-                                                  dItem.product!);
+                                              .removeProductFromCartEvent(dItem.product!);
                                         } catch (e) {
                                           print(e);
                                         }
@@ -232,41 +226,106 @@ class _CartViewState extends State<CartView> {
                                       ? Column(
                                           children: [
                                             verticalSpace(10),
-                                            SizedBox(
-                                              height: 100,
-                                              // child: PairItWithWidget(
-                                              //   exceptProductIDs:
-                                              //       exceptProductIDs,
-                                              //   onEmpty: () async {
-                                              //     await Future.delayed(
-                                              //       Duration(
-                                              //         milliseconds: 5,
-                                              //       ),
-                                              //     );
-                                              //     controller.hidePairItWith();
-                                              //   },
-                                              //   onProductClicked:
-                                              //       (product) async {
-                                              //     showModalBottomSheet(
-                                              //       context: context,
-                                              //       builder: (context) =>
-                                              //           Container(
-                                              //         height:
-                                              //             MediaQuery.of(context)
-                                              //                     .size
-                                              //                     .height *
-                                              //                 0.9,
-                                              //         child: ProductIndiView(
-                                              //           data: product,
-                                              //           fromCart: true,
-                                              //         ),
-                                              //       ),
-                                              //       isScrollControlled: true,
-                                              //     ).then((void v) => setState(
-                                              //         () =>
-                                              //             {key = UniqueKey()}));
-                                              //   },
-                                              // ),
+                                            Row(
+                                              children: [
+                                                SizedBox(
+                                                  height: 40,
+                                                  child: OutlinedButton(
+                                                    style: ElevatedButton.styleFrom(
+                                                      elevation: 0,
+                                                      primary: Colors.white,
+                                                      shape: RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius.circular(10),
+                                                        side: BorderSide(
+                                                          color: logoRed,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    onPressed: () {},
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.symmetric(vertical: 8),
+                                                      child: Row(
+                                                        children: [
+                                                          Image.asset(
+                                                            'assets/images/coupon_icon.png',
+                                                            // color: Colors.black,
+                                                            height: 30,
+                                                            width: 30,
+                                                          ),
+                                                          horizontalSpaceSmall,
+                                                          Text(
+                                                            APPLY_COUPON.tr,
+                                                            style: TextStyle(
+                                                              color: logoRed,
+                                                              fontSize: 12,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                horizontalSpaceSmall,
+                                                SizedBox(
+                                                  height: 40,
+                                                  child: ElevatedButton(
+                                                    style: ElevatedButton.styleFrom(
+                                                      elevation: 0,
+                                                      primary: logoRed,
+                                                      shape: RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius.circular(10),
+                                                      ),
+                                                    ),
+                                                    onPressed: () {},
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.symmetric(vertical: 8),
+                                                      child: Text(
+                                                        PROCEED_TO_ORDER.tr,
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontWeight: FontWeight.bold,
+                                                          fontSize: 12,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  // child: PairItWithWidget(
+                                                  //   exceptProductIDs:
+                                                  //       exceptProductIDs,
+                                                  //   onEmpty: () async {
+                                                  //     await Future.delayed(
+                                                  //       Duration(
+                                                  //         milliseconds: 5,
+                                                  //       ),
+                                                  //     );
+                                                  //     controller.hidePairItWith();
+                                                  //   },
+                                                  //   onProductClicked:
+                                                  //       (product) async {
+                                                  //     showModalBottomSheet(
+                                                  //       context: context,
+                                                  //       builder: (context) =>
+                                                  //           Container(
+                                                  //         height:
+                                                  //             MediaQuery.of(context)
+                                                  //                     .size
+                                                  //                     .height *
+                                                  //                 0.9,
+                                                  //         child: ProductIndiView(
+                                                  //           data: product,
+                                                  //           fromCart: true,
+                                                  //         ),
+                                                  //       ),
+                                                  //       isScrollControlled: true,
+                                                  //     ).then((void v) => setState(
+                                                  //         () =>
+                                                  //             {key = UniqueKey()}));
+                                                  //   },
+                                                  // ),
+                                                ),
+                                              ],
                                             ),
                                             verticalSpace(15),
                                           ],

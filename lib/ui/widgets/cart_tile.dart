@@ -125,7 +125,8 @@ class _CartTileState extends State<CartTile> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        SizedBox(
+        Container(
+          decoration: BoxDecoration(border: Border.all()),
           height: 150,
           child: CartProductTileUI(
             item: item,
@@ -142,69 +143,70 @@ class _CartTileState extends State<CartTile> {
             orderDetails: orderDetails,
           ),
         ),
-        verticalSpaceTiny,
-        Row(
-          children: <Widget>[
-            OutlinedButton(
-              style: ElevatedButton.styleFrom(
-                elevation: 0,
-                primary: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  side: BorderSide(
-                    color: logoRed,
-                  ),
-                ),
-              ),
-              onPressed: applyCoupon,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: Row(
-                  children: [
-                    Image.asset(
-                      'assets/images/coupon_icon.png',
-                      // color: Colors.black,
-                      height: 30,
-                      width: 30,
-                    ),
-                    horizontalSpaceSmall,
-                    Text(
-                      APPLY_COUPON.tr,
-                      style: TextStyle(
-                        color: logoRed,
-                        fontSize: 12,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            horizontalSpaceSmall,
-            Expanded(
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  elevation: 0,
-                  primary: lightGreen,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                onPressed: proceedToOrder,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: Text(
-                    PROCEED_TO_ORDER.tr,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 12,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
+        // verticalSpaceTiny,
+        // Row(
+        //   children: <Widget>[
+        //     OutlinedButton(
+        //       style: ElevatedButton.styleFrom(
+        //         elevation: 0,
+        //         primary: Colors.white,
+        //         shape: RoundedRectangleBorder(
+        //           borderRadius: BorderRadius.circular(10),
+        //           side: BorderSide(
+        //             color: logoRed,
+        //           ),
+        //         ),
+        //       ),
+        //       onPressed: applyCoupon,
+        //       child: Padding(
+        //         padding: const EdgeInsets.symmetric(vertical: 8),
+        //         child: Row(
+        //           children: [
+        //             Image.asset(
+        //               'assets/images/coupon_icon.png',
+        //               // color: Colors.black,
+        //               height: 30,
+        //               width: 30,
+        //             ),
+        //             horizontalSpaceSmall,
+        //             Text(
+        //               APPLY_COUPON.tr,
+        //               style: TextStyle(
+        //                 color: logoRed,
+        //                 fontSize: 12,
+        //               ),
+        //             ),
+        //           ],
+        //         ),
+        //       ),
+        //     ),
+        //     horizontalSpaceSmall,
+        //     Expanded(
+        //       child: ElevatedButton(
+        //         style: ElevatedButton.styleFrom(
+        //           elevation: 0,
+        //           primary: lightGreen,
+        //           shape: RoundedRectangleBorder(
+        //             borderRadius: BorderRadius.circular(10),
+        //           ),
+        //         ),
+        //         onPressed: proceedToOrder,
+        //         child: Padding(
+        //           padding: const EdgeInsets.symmetric(vertical: 8),
+        //           child: Text(
+        //             PROCEED_TO_ORDER.tr,
+        //             style: TextStyle(
+        //               color: Colors.white,
+        //               fontWeight: FontWeight.bold,
+        //               fontSize: 12,
+        //             ),
+        //           ),
+        //         ),
+        //       ),
+        //     ),
+        //   ],
+        // ),
+       
         Divider(
           color: Colors.grey[500],
         ),
