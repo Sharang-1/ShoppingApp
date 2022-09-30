@@ -1,8 +1,11 @@
+import 'package:compound/models/orderV2.dart';
+import 'package:compound/services/api/api_service.dart';
 import 'package:compound/ui/widgets/section_builder.dart';
 import 'package:compound/utils/lang/translation_keys.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../controllers/cart_controller.dart';
@@ -17,6 +20,7 @@ import '../shared/ui_helpers.dart';
 import '../widgets/cart_tile.dart';
 import '../widgets/custom_stepper.dart';
 import '../widgets/custom_text.dart';
+import 'cart_select_delivery_view.dart';
 
 class CartView extends StatefulWidget {
   final String productId;
@@ -160,6 +164,7 @@ class _CartViewState extends State<CartView> {
                                       (BuildContext context, data, index, onDelete, onUpdate) {
                                     Fimber.d("test");
                                     print((data as Item).toJson());
+                                    
                                     final Item dItem = data;
                                     exceptProductIDs.add(dItem.product!.key ?? "");
 
@@ -277,7 +282,7 @@ class _CartViewState extends State<CartView> {
                                                         borderRadius: BorderRadius.circular(10),
                                                       ),
                                                     ),
-                                                    onPressed: () {},
+                                                    onPressed: proccedToOrder,
                                                     child: Padding(
                                                       padding:
                                                           const EdgeInsets.symmetric(vertical: 8),
@@ -344,5 +349,40 @@ class _CartViewState extends State<CartView> {
         ),
       ),
     );
+  }
+
+  proccedToOrder()async{
+    var data = await locator<APIService>().getCart();
+    if(data != null){
+      var _cartItems = data.items;
+      var _cartProducts = [];
+    for (var i = 0; i < locator<CartCountController>().count.value; i++) {
+      var cartItem = {};
+      cartItem["productId"] = _cartItems![i].productId;
+
+      cartItem["variation"] = {};
+      cartItem["variation"]["size"] = _cartItems[i].size;
+      cartItem["variation"]["quantity"] = _cartItems[i].quantity;
+      cartItem["variation"]["color"] = _cartItems[i].color;
+
+      cartItem["orderQueue"] = {};
+      cartItem["orderQueue"]["clientQueueId"] = i + 1;
+
+      _cartProducts.add(cartItem);
+      print("hi");
+      // print(cartItem);
+
+      Navigator.push(
+          context,
+          PageTransition(
+            child: SelectAddress(
+              products: _cartProducts,
+            ),
+            type: PageTransitionType.rightToLeft,
+          ),
+        );
+    }
+    print(_cartProducts);
+    }
   }
 }

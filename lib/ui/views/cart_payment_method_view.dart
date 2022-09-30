@@ -1,4 +1,5 @@
 import 'package:compound/app/app.dart';
+import 'package:compound/models/orderV2.dart';
 import 'package:compound/models/orderV2_response.dart';
 import 'package:compound/services/api/api_service.dart';
 import 'package:compound/services/api/orderV2_api.dart';
@@ -22,27 +23,29 @@ import '../widgets/custom_text.dart';
 import '../widgets/order_details_bottomsheet.dart';
 
 class PaymentMethod extends StatefulWidget {
-  final String finalTotal;
-  final UserDetailsContact billingAddress;
-  final String productId;
-  final String promoCode;
-  final String? promoCodeId;
-  final String? size;
-  final String? color;
-  final int? qty;
-  final OrderDetails orderDetails;
+  final CustomerDetails customerDetails;
+  // final String finalTotal;
+  // final UserDetailsContact billingAddress;
+  // final String productId;
+  // final String promoCode;
+  // final String? promoCodeId;
+  // final String? size;
+  // final String? color;
+  // final int? qty;
+  // final OrderDetails orderDetails;
 
   const PaymentMethod({
     Key? key,
-    required this.productId,
-    this.promoCode = "",
-    this.promoCodeId = "",
-    this.size,
-    this.color,
-    this.qty,
-    required this.billingAddress,
-    required this.finalTotal,
-    required this.orderDetails,
+    required this.customerDetails,
+    // required this.productId,
+    // this.promoCode = "",
+    // this.promoCodeId = "",
+    // this.size,
+    // this.color,
+    // this.qty,
+    // required this.billingAddress,
+    // required this.finalTotal,
+    // required this.orderDetails,
   }) : super(key: key);
 
   @override
@@ -61,18 +64,18 @@ class _PaymentMethodState extends State<PaymentMethod> {
 
   @override
   void initState() {
-    print("Cart Payment");
-    print("final totle " + widget.finalTotal);
-    print("billing add " +
-        widget.billingAddress.address! +
-        '\n' +
-        widget.billingAddress.googleAddress!);
-    print("product id " + widget.productId);
-    print("promo code " + widget.promoCode);
-    print("promo id" + widget.promoCodeId!);
-    print("size " + widget.size!);
-    print("color " + widget.color!);
-    print("qty" + widget.qty.toString());
+    // print("Cart Payment");
+    // print("final totle " + widget.finalTotal);
+    // print("billing add " +
+    //     widget.billingAddress.address! +
+    //     '\n' +
+    //     widget.billingAddress.googleAddress!);
+    // print("product id " + widget.productId);
+    // print("promo code " + widget.promoCode);
+    // print("promo id" + widget.promoCodeId!);
+    // print("size " + widget.size!);
+    // print("color " + widget.color!);
+    // print("qty" + widget.qty.toString());
     super.initState();
     // WidgetsBinding.instance.addPostFrameCallback(
     //   (_) async {
@@ -93,7 +96,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
     //   });
     // }
     return GetBuilder<CartPaymentMethodController>(
-      init: CartPaymentMethodController(city: widget.billingAddress.city ?? ""),
+      init: CartPaymentMethodController(city: widget.customerDetails.city ?? ""),
       builder: (controller) => Scaffold(
         backgroundColor: newBackgroundColor2,
         appBar: AppBar(
@@ -128,40 +131,42 @@ class _PaymentMethodState extends State<PaymentMethod> {
                 InkWell(
                   onTap: () {
                     {
-                      showModalBottomSheet<void>(
-                        clipBehavior: Clip.antiAlias,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(10),
-                            topRight: Radius.circular(10),
-                          ),
-                        ),
-                        isScrollControlled: true,
-                        context: context,
-                        builder: (context) => OrderDetailsBottomsheet(
-                          orderDetails: widget.orderDetails,
-                          buttonText:
-                              paymentMethodGrpValue == 2 ? PROCEED_TO_PAY.tr : PLACE_ORDER.tr,
-                          onButtonPressed: controller.busy
-                              ? () {}
-                              : () async {
-                                  NavigationService.back();
-                                  await makePayment(controller);
-                                },
-                          isPromocodeApplied: widget.promoCode.isNotEmpty,
-                        ),
-                      );
+                      // showModalBottomSheet<void>(
+                      //   clipBehavior: Clip.antiAlias,
+                      //   shape: RoundedRectangleBorder(
+                      //     borderRadius: BorderRadius.only(
+                      //       topLeft: Radius.circular(10),
+                      //       topRight: Radius.circular(10),
+                      //     ),
+                      //   ),
+                      //   isScrollControlled: true,
+                      //   context: context,
+                      //   builder: (context) => OrderDetailsBottomsheet(
+                      //     orderDetails: widget.orderDetails,
+                      //     buttonText:
+                      //         paymentMethodGrpValue == 2 ? PROCEED_TO_PAY.tr : PLACE_ORDER.tr,
+                      //     onButtonPressed: controller.busy
+                      //         ? () {}
+                      //         : () async {
+                      //             NavigationService.back();
+                      //             await makePayment(controller);
+                      //           },
+                      //     isPromocodeApplied: widget.promoCode.isNotEmpty,
+                      //   ),
+                      // );
                     }
                   },
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      CustomText(
-                        "${BaseController.formatPrice(num.parse(widget.finalTotal.replaceAll("₹", "")))}",
-                        fontSize: 12,
-                        isBold: true,
-                      ),
+
+                      //! total price of products
+                      // CustomText(
+                      //   "${BaseController.formatPrice(num.parse(widget.finalTotal.replaceAll("₹", "")))}",
+                      //   fontSize: 12,
+                      //   isBold: true,
+                      // ),
                       CustomText(
                         VIEW_DETAILS.tr,
                         textStyle: TextStyle(
@@ -348,7 +353,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
     //     widget.color,
     //     widget.qty,
     //     paymentMethodRadioValue,
-    //     widget.billingAddress.pincode);
+    //     widget.billingAddress.pincode
+    //     );
 
     final GroupOrderReponseModel res = await controller.createGroupOrder();
 

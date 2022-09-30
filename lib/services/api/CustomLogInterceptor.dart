@@ -1,9 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:fimber/fimber.dart';
+import 'package:flutter/foundation.dart';
 
 class CustomLogInterceptor extends Interceptor {
   CustomLogInterceptor() {
-    print("interceptor called");
+    if(kDebugMode) print("interceptor called");
   }
 
   @override
@@ -11,7 +12,7 @@ class CustomLogInterceptor extends Interceptor {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    print("On req");
+    if(kDebugMode) print("On req");
     Fimber.d(
         "--> ${options.method != null ? options.method.toUpperCase() : 'METHOD'} ${"" + (options.baseUrl) + (options.path)}");
     Fimber.d("Headers:");
@@ -31,7 +32,7 @@ class CustomLogInterceptor extends Interceptor {
 
   @override
   Future onError(DioError dioError, ErrorInterceptorHandler handle) async {
-    print("On err");
+    if(kDebugMode) print("On err");
     // Fimber.e(
     //     "<-- ${dioError.message} ${(dioError.response.request != null ? (dioError.response.request.baseUrl + dioError.response.request.path) : 'URL')}");
     // Fimber.e(
@@ -45,7 +46,7 @@ class CustomLogInterceptor extends Interceptor {
   @override
   Future onResponse(
       Response response, ResponseInterceptorHandler handler) async {
-    print("On resp");
+    if(kDebugMode) print("On resp");
     // Fimber.d(
     //     "<-- ${response.statusCode} ${(response.request != null ? (response.request.baseUrl + response.request.path) : 'URL')}");
     // Fimber.d("Headers:");

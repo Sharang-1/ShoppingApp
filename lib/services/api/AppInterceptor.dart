@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants/shared_pref.dart';
@@ -13,7 +14,7 @@ class AppInterceptors extends Interceptor {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    print("in App Interceptor");
+    if(kDebugMode) print("in App Interceptor");
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.get(Authtoken);
     String device = locator<PushNotificationService>().fcmToken;
@@ -21,7 +22,7 @@ class AppInterceptors extends Interceptor {
       "Authorization": "Bearer $token",
       "Device": "$device",
     });
-    print(options);
+    if(kDebugMode) print(options);
     return handler.next(options);
   }
 }

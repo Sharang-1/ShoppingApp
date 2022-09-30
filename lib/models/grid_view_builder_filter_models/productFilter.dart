@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 import 'base_filter_model.dart';
 
 class ProductFilter implements BaseFilterModel {
@@ -40,36 +42,50 @@ class ProductFilter implements BaseFilterModel {
       if (!_queryString.contains("freeText"))
         _queryString += "freeText=$fullText;";
       else
-        _queryString = _queryString.replaceFirst(
-            RegExp("freeText(.*?);"), "freeText=$fullText;");
+        _queryString = _queryString.replaceFirst(RegExp("freeText(.*?);"), "freeText=$fullText;");
     }
 
     if (accountKey != null) {
       if (!_queryString.contains("accountKey"))
         _queryString += "accountKey=$accountKey;";
       else
-        _queryString = _queryString.replaceFirst(
-            RegExp("accountKey(.*?);"), "accountKey=$accountKey;");
+        _queryString =
+            _queryString.replaceFirst(RegExp("accountKey(.*?);"), "accountKey=$accountKey;");
     }
+    // !...................
     if (subCategories != null) {
+      print(categories.toString());
       if (!_queryString.contains("category"))
-        _queryString +=
-            subCategories!.map((String value) => "category=$value;").join("");
+        _queryString += subCategories!.map((String value) => "category=$value;").join("");
       else {
         _queryString = _queryString.replaceAll(RegExp("category(.*?);"), "");
-        _queryString +=
-            subCategories!.map((String value) => "category=$value;").join("");
+        _queryString += subCategories!.map((String value) => "category=$value;").join("");
       }
+    }
+
+    // if (categories != null) {
+    //   print(categories.toString());
+    //   if (!_queryString.contains("category"))
+    //     _queryString += categories!.map((String value) => "category=$value;").join("");
+    //   else {
+    //     _queryString = _queryString.replaceAll(RegExp("category(.*?);"), "");
+    //     _queryString += subCategories!.map((String value) => "category=$value;").join("");
+    //   }
+    // }
+
+    if (categories != null) {
+      if (!_queryString.contains("category"))
+        _queryString += "category=$categories;";
+      else
+        _queryString = _queryString.replaceFirst(RegExp("category(.*?);"), "category=$categories;");
     }
 
     if ((demographicIds?.length ?? 0) > 0) {
       if (!_queryString.contains("demographic"))
-        _queryString +=
-            demographicIds!.map((int value) => "demographic=$value;").join("");
+        _queryString += demographicIds!.map((int value) => "demographic=$value;").join("");
       else {
         _queryString = _queryString.replaceAll(RegExp("demographic(.*?);"), "");
-        _queryString +=
-            demographicIds!.map((int value) => "demographic=$value;").join("");
+        _queryString += demographicIds!.map((int value) => "demographic=$value;").join("");
       }
     }
 
@@ -85,50 +101,46 @@ class ProductFilter implements BaseFilterModel {
       if (!_queryString.contains("minPrice"))
         _queryString += "minPrice=$minPrice;";
       else
-        _queryString = _queryString.replaceFirst(
-            RegExp("minPrice(.*?);"), "minPrice=$minPrice;");
+        _queryString = _queryString.replaceFirst(RegExp("minPrice(.*?);"), "minPrice=$minPrice;");
     }
     if (maxPrice != null) {
       if (!_queryString.contains("maxPrice"))
         _queryString += "maxPrice=$maxPrice;";
       else
-        _queryString = _queryString.replaceFirst(
-            RegExp("maxPrice(.*?);"), "maxPrice=$maxPrice;");
+        _queryString = _queryString.replaceFirst(RegExp("maxPrice(.*?);"), "maxPrice=$maxPrice;");
     }
     if (minDiscount != null) {
       if (!_queryString.contains("minDiscount"))
         _queryString += "minDiscount=$minDiscount;";
       else
-        _queryString = _queryString.replaceFirst(
-            RegExp("minDiscount(.*?);"), "minDiscount=$minDiscount;");
+        _queryString =
+            _queryString.replaceFirst(RegExp("minDiscount(.*?);"), "minDiscount=$minDiscount;");
     }
 
     if (explore != null) {
       if (!_queryString.contains("explore"))
         _queryString += "explore=true;";
       else
-        _queryString =
-            _queryString.replaceFirst(RegExp("explore(.*?);"), "explore=true;");
+        _queryString = _queryString.replaceFirst(RegExp("explore(.*?);"), "explore=true;");
     }
 
     if (sortField != null) {
       if (!_queryString.contains("sortField"))
         _queryString += "sortField=$sortField;";
       else
-        _queryString = _queryString.replaceFirst(
-            RegExp("sortField(.*?);"), "sortField=$sortField;");
+        _queryString =
+            _queryString.replaceFirst(RegExp("sortField(.*?);"), "sortField=$sortField;");
     }
     if (isSortOrderDesc != null) {
       if (!_queryString.contains("sortOrder"))
-        _queryString +=
-            "sortField=price;sortOrder=${isSortOrderDesc ?? false ? 'desc' : 'asc'};";
+        _queryString += "sortField=price;sortOrder=${isSortOrderDesc ?? false ? 'desc' : 'asc'};";
       else
-        _queryString = _queryString.replaceFirst(RegExp("sortOrder(.*?);"),
-            "sortOrder=${isSortOrderDesc ?? false ? 'desc' : 'asc'};");
+        _queryString = _queryString.replaceFirst(
+            RegExp("sortOrder(.*?);"), "sortOrder=${isSortOrderDesc ?? false ? 'desc' : 'asc'};");
     }
 
-    print("query string for product filter");
-    print(_queryString);
+    if (kDebugMode) print("query string for product filter");
+    if (kDebugMode) print(_queryString);
   }
 
   @override

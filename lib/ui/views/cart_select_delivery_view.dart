@@ -1,9 +1,12 @@
+import 'package:compound/controllers/home_controller.dart';
+import 'package:compound/models/orderV2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:provider/provider.dart';
 import '../../controllers/base_controller.dart';
 import '../../controllers/cart_select_delivery_controller.dart';
 import '../../locator.dart';
@@ -23,27 +26,29 @@ import 'address_input_form_view.dart';
 import 'cart_payment_method_view.dart';
 
 class SelectAddress extends StatefulWidget {
-  final String finalTotal;
-  final String productId;
-  final String promoCode;
-  final String promoCodeId;
-  final String size;
-  final String color;
-  final int qty;
-  final OrderDetails orderDetails;
-  final bool isPromocodeApplied;
+  final List<dynamic> products;
+  // final String finalTotal;
+  // final String productId;
+  // final String promoCode;
+  // final String promoCodeId;
+  // final String size;
+  // final String color;
+  // final int qty;
+  // final OrderDetails orderDetails;
+  // final bool isPromocodeApplied;
 
   const SelectAddress({
     Key? key,
-    required this.productId,
-    required this.promoCode,
-    required this.promoCodeId,
-    required this.size,
-    required this.color,
-    required this.qty,
-    required this.finalTotal,
-    required this.orderDetails,
-    this.isPromocodeApplied = false,
+    required this.products,
+    // required this.productId,
+    // required this.promoCode,
+    // required this.promoCodeId,
+    // required this.size,
+    // required this.color,
+    // required this.qty,
+    // required this.finalTotal,
+    // required this.orderDetails,
+    // this.isPromocodeApplied = false,
   }) : super(key: key);
 
   @override
@@ -55,13 +60,13 @@ class _SelectAddressState extends State<SelectAddress> {
   UserDetailsContact addressGrpValue = UserDetailsContact();
   bool disabledPayment = true;
   String? deliveryCharges = "";
-  late OrderDetails orderDetails;
+  // late OrderDetails orderDetails;
 
-  @override
-  void initState() {
-    orderDetails = widget.orderDetails;
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   orderDetails = widget.orderDetails;
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -100,34 +105,34 @@ class _SelectAddressState extends State<SelectAddress> {
               children: [
                 InkWell(
                   onTap: () {
-                    showBottomSheet(
-                      clipBehavior: Clip.antiAlias,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(10),
-                          topRight: Radius.circular(10),
-                        ),
-                      ),
-                      // isScrollControlled: true,
-                      
-                      context: context,
-                      builder: (context) => OrderDetailsBottomsheet(
-                        orderDetails: orderDetails,
-                        buttonText: MAKE_PAYMENT.tr,
-                        buttonIcon: FontAwesomeIcons.lock,
-                        onButtonPressed: disabledPayment
-                            ? () {}
-                            : () async => await makePayment(controller),
-                        isPromocodeApplied: widget.isPromocodeApplied,
-                      ),
-                    );
+                    // showBottomSheet(
+                    //   clipBehavior: Clip.antiAlias,
+                    //   shape: RoundedRectangleBorder(
+                    //     borderRadius: BorderRadius.only(
+                    //       topLeft: Radius.circular(10),
+                    //       topRight: Radius.circular(10),
+                    //     ),
+                    //   ),
+                    //   // isScrollControlled: true,
+
+                    //   context: context,
+                    //   builder: (context) => OrderDetailsBottomsheet(
+                    //     orderDetails: orderDetails,
+                    //     buttonText: MAKE_PAYMENT.tr,
+                    //     buttonIcon: FontAwesomeIcons.lock,
+                    //     onButtonPressed:
+                    //         disabledPayment ? () {} : () async => await makePayment(controller),
+                    //     isPromocodeApplied: widget.isPromocodeApplied,
+                    //   ),
+                    // );
                   },
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       CustomText(
-                        "${BaseController.formatPrice(num.parse(orderDetails.total!.replaceAll("₹", "")))}",
+                        // "${BaseController.formatPrice(num.parse(orderDetails.total!.replaceAll("₹", "")))}",
+                        "200",
                         fontSize: 12,
                         isBold: true,
                       ),
@@ -151,9 +156,7 @@ class _SelectAddressState extends State<SelectAddress> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    onPressed: disabledPayment
-                        ? null
-                        : () async => await makePayment(controller),
+                    onPressed: disabledPayment ? null : () async => await makePayment(controller),
                     child: Padding(
                       padding: const EdgeInsets.all(10),
                       child: Center(
@@ -185,8 +188,7 @@ class _SelectAddressState extends State<SelectAddress> {
         body: SafeArea(
           child: SingleChildScrollView(
             child: Padding(
-              padding:
-                  EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+              padding: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -201,9 +203,7 @@ class _SelectAddressState extends State<SelectAddress> {
                       child: Text(
                         MY_ADDRESSES.tr,
                         style: TextStyle(
-                            fontFamily: headingFont,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 20),
+                            fontFamily: headingFont, fontWeight: FontWeight.w700, fontSize: 20),
                       ),
                     ),
                   verticalSpace(15),
@@ -224,22 +224,19 @@ class _SelectAddressState extends State<SelectAddress> {
                                 },
                               );
 
-                              final calculatedPrice = await calculatePrice();
-                              if (calculatedPrice != null) {
-                                deliveryCharges = calculatedPrice
-                                    .deliveryCharges?.cost
-                                    ?.toStringAsFixed(2);
-                                setState(() {
-                                  orderDetails.deliveryCharges =
-                                      rupeeUnicode + deliveryCharges!;
-                                  orderDetails.total =
-                                      "$rupeeUnicode${calculatedPrice.cost?.toStringAsFixed(2)}";
-                                });
-                              }
+                              // final calculatedPrice = await calculatePrice();
+                              // if (calculatedPrice != null) {
+                              //   deliveryCharges =
+                              //       calculatedPrice.deliveryCharges?.cost?.toStringAsFixed(2);
+                              //   setState(() {
+                              //     orderDetails.deliveryCharges = rupeeUnicode + deliveryCharges!;
+                              //     orderDetails.total =
+                              //         "$rupeeUnicode${calculatedPrice.cost?.toStringAsFixed(2)}";
+                              //   });
+                              // }
                             },
                             child: Container(
-                              margin:
-                                  EdgeInsets.only(bottom: spaceBetweenCards),
+                              margin: EdgeInsets.only(bottom: spaceBetweenCards),
                               decoration: BoxDecoration(
                                 border: Border(
                                   bottom: BorderSide(
@@ -254,46 +251,40 @@ class _SelectAddressState extends State<SelectAddress> {
                                 ),
                                 elevation: 0,
                                 child: Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(0, 8, 8, 8),
+                                  padding: const EdgeInsets.fromLTRB(0, 8, 8, 8),
                                   child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
                                     children: <Widget>[
                                       Radio(
                                         value: address,
                                         groupValue: addressGrpValue,
-
                                         onChanged: (val) async {
                                           setState(
-                                                () {
+                                            () {
                                               addressGrpValue = addressRadioValue = address;
                                               disabledPayment = false;
                                             },
                                           );
 
-                                          final calculatedPrice = await calculatePrice();
-                                          if (calculatedPrice != null) {
-                                            deliveryCharges = calculatedPrice
-                                                .deliveryCharges?.cost
-                                                ?.toStringAsFixed(2);
-                                            setState(() {
-                                              orderDetails.deliveryCharges =
-                                                  rupeeUnicode + deliveryCharges!;
-                                              orderDetails.total =
-                                              "$rupeeUnicode${calculatedPrice.cost?.toStringAsFixed(2)}";
-                                            });
-                                          }
+                                          // final calculatedPrice = await calculatePrice();
+                                          // if (calculatedPrice != null) {
+                                          //   deliveryCharges = calculatedPrice.deliveryCharges?.cost
+                                          //       ?.toStringAsFixed(2);
+                                          //   setState(() {
+                                          //     orderDetails.deliveryCharges =
+                                          //         rupeeUnicode + deliveryCharges!;
+                                          //     orderDetails.total =
+                                          //         "$rupeeUnicode${calculatedPrice.cost?.toStringAsFixed(2)}";
+                                          //   });
+                                          // }
                                         },
                                       ),
                                       Expanded(
                                         child: Stack(
                                           children: [
                                             Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              mainAxisAlignment: MainAxisAlignment.center,
                                               children: <Widget>[
                                                 CustomText(
                                                   MY_ADDRESS.tr,
@@ -353,15 +344,14 @@ class _SelectAddressState extends State<SelectAddress> {
                           //   ),
                           // );
 
-                            UserDetailsContact userAdd =
-                                await showMaterialModalBottomSheet(
-                              expand: true,
-                              context: context,
-                              builder: (_) => BottomSheetForAddress(),
-                            );
-                            if (userAdd != null) {
-                              controller.addAddress(userAdd);
-                            }
+                          UserDetailsContact userAdd = await showMaterialModalBottomSheet(
+                            expand: true,
+                            context: context,
+                            builder: (_) => BottomSheetForAddress(),
+                          );
+                          if (userAdd != null) {
+                            controller.addAddress(userAdd);
+                          }
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -392,44 +382,46 @@ class _SelectAddressState extends State<SelectAddress> {
       ),
     );
   }
-
-  Future<CalculatedPrice?> calculatePrice() =>
-      locator<APIService>().calculateProductPrice(
-        widget.productId,
-        widget.qty,
-        addressRadioValue.pincode.toString(),
-        promocode: widget.promoCode,
-      );
+  //! calculate total price for group order
+  // Future<CalculatedPrice?> calculatePrice() => locator<APIService>().calculateProductPrice(
+  //       widget.productId,
+  //       widget.qty,
+  //       addressRadioValue.pincode.toString(),
+  //       promocode: widget.promoCode,
+  //     );
 
   Future<void> makePayment(controller) async {
-    final serviceAvailability = await locator<APIService>().checkPincode(
-        productId: widget.productId,
-        pincode: addressRadioValue.pincode.toString());
+    // final serviceAvailability = await locator<APIService>()
+    //     .checkPincode(productId: widget.productId, pincode: addressRadioValue.pincode.toString());
 
-    if (serviceAvailability == null) return;
+    // if (serviceAvailability == null) return;
 
-    if (serviceAvailability.serviceAvailable ?? false) {
+    // if (serviceAvailability.serviceAvailable ?? false) {
       Navigator.push(
         context,
         PageTransition(
             child: PaymentMethod(
-              billingAddress: (addressRadioValue == null
-                  ? controller.addresses[0]
-                  : addressRadioValue),
-              color: widget.color,
-              productId: widget.productId,
-              promoCode: widget.promoCode,
-              promoCodeId: widget.promoCodeId,
-              qty: widget.qty,
-              size: widget.size,
-              finalTotal: orderDetails.total ?? "",
-              orderDetails: orderDetails,
+              // billingAddress:
+              //     (addressRadioValue == null ? controller.addresses[0] : addressRadioValue),
+              // color: widget.color,
+              // productId: widget.productId,
+              // promoCode: widget.promoCode,
+              // promoCodeId: widget.promoCodeId,
+              // qty: widget.qty,
+              // size: widget.size,
+              // finalTotal: orderDetails.total ?? "",
+              // orderDetails: orderDetails,
+              customerDetails: CustomerDetails(
+              address: controller.addresses[0],
+              name: locator<HomeController>().details!.firstName.toString() + locator<HomeController>().details!.lastName.toString(),
+              customerPhone: CustomerPhone(code: "+91", mobile: "7838063139"),
+              email: "anuragdl2276@gmail.com"
+              ),
             ),
             type: PageTransitionType.rightToLeft),
       );
-    } else {
-      DialogService.showNotDeliveringDialog(
-          msg: serviceAvailability.message ?? "");
-    }
+    // } else {
+    //   DialogService.showNotDeliveringDialog(msg: serviceAvailability.message ?? "");
+    // }
   }
 }

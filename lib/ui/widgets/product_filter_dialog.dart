@@ -1,5 +1,6 @@
 import 'package:fimber/fimber.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../controllers/lookup_controller.dart';
@@ -11,9 +12,10 @@ import '../shared/ui_helpers.dart';
 
 class ProductFilterDialog extends StatefulWidget {
   final ProductFilter oldFilter;
+  final String? category;
   final bool showCategories;
   const ProductFilterDialog(
-      {Key? key, required this.oldFilter, this.showCategories = true})
+      {Key? key, required this.oldFilter, this.showCategories = true, this.category})
       : super(key: key);
 
   @override
@@ -67,6 +69,8 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
       subCategoriesValues.addAll({e.name!: false});
     });
 
+    if (kDebugMode) print("hue hue hue ----- ${widget.oldFilter.categories}");
+
     if (widget.oldFilter.categories != null) {
       if (widget.oldFilter.categories == "1")
         categoriesRadioValue = 1;
@@ -74,14 +78,14 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
     }
 
     if (widget.oldFilter.subCategories != null) {
-      print(">>>>>>>>> subCategories <<<<<<<<<<<<<<<<<<<<<<<");
-      print(widget.oldFilter.subCategories);
+      if (kDebugMode) print(">>>>>>>>> subCategories <<<<<<<<<<<<<<<<<<<<<<<");
+      if (kDebugMode) print(widget.oldFilter.subCategories);
       widget.oldFilter.subCategories?.forEach((v) {
-        print(">>>>>>>>> subCategories - value <<<<<<<<<<<<<<<<<<<<<<<");
-        print(v);
+        if (kDebugMode) print(">>>>>>>>> subCategories - value <<<<<<<<<<<<<<<<<<<<<<<");
+        if (kDebugMode) print(v);
         String sKey = subCategoriesAPIIntToValue[int.parse(v)] ?? "";
-        print(">>>>>>>>> subCategories - key <<<<<<<<<<<<<<<<<<<<<<<");
-        print(sKey);
+        if (kDebugMode) print(">>>>>>>>> subCategories - key <<<<<<<<<<<<<<<<<<<<<<<");
+        if (kDebugMode) print(sKey);
         subCategoriesValues[sKey] = true;
       });
 
@@ -115,8 +119,9 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
       fontWeight: FontWeight.bold,
     );
 
-    print("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDd ");
-    print(widget.oldFilter.subCategories);
+    if (kDebugMode) print("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDd ");
+    if (kDebugMode) print(widget.oldFilter.subCategories);
+    if (kDebugMode) print("helowo   " + widget.oldFilter.categories.toString());
 
     return Scaffold(
         backgroundColor: Colors.grey[50],
@@ -132,18 +137,17 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
                 style: TextStyle(color: Colors.white),
               ),
               elevation: 0,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
               icon: Icon(Icons.done),
               onPressed: () {
                 setUpFilterObject();
-                print("Typing---------------------------------->>>>>>>>>>>>>>");
+                if (kDebugMode) print("Typing---------------------------------->>>>>>>>>>>>>>");
+                if (kDebugMode) print("product filter dialog : " + categories.toString());
                 NavigationService.back<ProductFilter>(
                   result: ProductFilter(
                     fullText: fullText,
-                    categories: categories,
-                    subCategories:
-                        subCategoriesValues["All"] != null ? [] : subCategories,
+                    categories: widget.category,
+                    subCategories: subCategoriesValues["All"] != null ? [] : subCategories,
                     size: size,
                     minPrice: minPrice,
                     maxPrice: maxPrice,
@@ -183,8 +187,7 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
                   minDiscount = 0;
                   sortByRadioValue = sortField = "price";
                   isSortOrderDesc = false;
-                  sortOrderRadioValue =
-                      isSortOrderDesc == true ? 'desc' : 'asc';
+                  sortOrderRadioValue = isSortOrderDesc == true ? 'desc' : 'asc';
 
                   for (var key in subCategoriesValues.keys) {
                     subCategoriesValues[key] = false;
@@ -211,8 +214,7 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   verticalSpaceSmall,
-                  if (widget.showCategories)
-                    Text('Categories', style: titleTextStyle),
+                  if (widget.showCategories) Text('Categories', style: titleTextStyle),
                   if (widget.showCategories) verticalSpaceTiny,
                   if (widget.showCategories)
                     Wrap(
@@ -226,10 +228,7 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(5),
                                 side: BorderSide(
-                                  color: subCategoriesValues[sKey] !=
-                                          null
-                                      ? green
-                                      : Colors.grey,
+                                  color: subCategoriesValues[sKey] != null ? green : Colors.grey,
                                   width: 0.5,
                                 )),
                             labelStyle: TextStyle(
@@ -237,9 +236,7 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
                                 fontWeight: subCategoriesValues[sKey] != null
                                     ? FontWeight.w600
                                     : FontWeight.normal,
-                                color: subCategoriesValues[sKey] != null
-                                    ? green
-                                    : Colors.grey),
+                                color: subCategoriesValues[sKey] != null ? green : Colors.grey),
                             label: Text(sKey),
                             selected: subCategoriesValues[sKey]!,
                             onSelected: (val) {
@@ -269,8 +266,7 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
                   verticalSpaceTiny,
                   Align(
                     alignment: Alignment.center,
-                    child: Text('Rs. $minPrice - Rs. $maxPrice',
-                        style: TextStyle(fontSize: 14)),
+                    child: Text('Rs. $minPrice - Rs. $maxPrice', style: TextStyle(fontSize: 14)),
                   ),
                   RangeSlider(
                     min: 0,
@@ -278,8 +274,7 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
                     divisions: 100,
                     inactiveColor: Colors.grey.withOpacity(0.38),
                     activeColor: darkRedSmooth,
-                    values:
-                        RangeValues(minPrice.toDouble(), maxPrice.toDouble()),
+                    values: RangeValues(minPrice.toDouble(), maxPrice.toDouble()),
                     onChanged: (val) {
                       setState(() {
                         minPrice = val.start.toInt();
@@ -331,29 +326,25 @@ class _ProductFilterDialogState extends State<ProductFilterDialog> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5),
                             side: BorderSide(
-                              color:
-                                  sortOrderRadioValue == sortOrderRadioMap[sKey]
-                                      ? green
-                                      : Colors.grey,
+                              color: sortOrderRadioValue == sortOrderRadioMap[sKey]
+                                  ? green
+                                  : Colors.grey,
                               width: 0.5,
                             )),
                         labelStyle: TextStyle(
                             fontSize: 14,
-                            fontWeight:
-                                sortOrderRadioValue == sortOrderRadioMap[sKey]
-                                    ? FontWeight.w600
-                                    : FontWeight.normal,
-                            color:
-                                sortOrderRadioValue == sortOrderRadioMap[sKey]
-                                    ? green
-                                    : Colors.grey),
+                            fontWeight: sortOrderRadioValue == sortOrderRadioMap[sKey]
+                                ? FontWeight.w600
+                                : FontWeight.normal,
+                            color: sortOrderRadioValue == sortOrderRadioMap[sKey]
+                                ? green
+                                : Colors.grey),
                         selectedColor: Colors.white,
                         label: Text(sKey),
-                        selected:
-                            sortOrderRadioValue == sortOrderRadioMap[sKey],
+                        selected: sortOrderRadioValue == sortOrderRadioMap[sKey],
                         onSelected: (val) {
-                          setState(() => sortOrderRadioValue =
-                              val ? sortOrderRadioMap[sKey] ?? "" : "");
+                          setState(
+                              () => sortOrderRadioValue = val ? sortOrderRadioMap[sKey] ?? "" : "");
                         },
                       );
                     }).toList(),

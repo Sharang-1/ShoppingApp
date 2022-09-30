@@ -69,9 +69,9 @@ class OrderDetailsBottomsheet extends StatelessWidget {
     return FractionallySizedBox(
       heightFactor: MediaQuery.of(context).size.height > 600
           ? MediaQuery.of(context).size.height > 800
-              ? 0.70
-              : 0.80
-          : 0.90,
+              ? 0.60
+              : 0.70
+          : 0.80,
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
@@ -282,79 +282,79 @@ class OrderDetailsBottomsheet extends StatelessWidget {
                       .expand((element) => element)
                       .toList(),
                 ),
-                if (proceedToOrder != null) verticalSpaceMedium,
-                if (proceedToOrder != null)
-                  Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            elevation: 0,
-                            primary: lightGreen,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                          onPressed: () {
-                            proceedToOrder!(
-                                qty: int.parse(orderDetails.qty ?? "0"),
-                                total: orderDetails.total);
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 15),
-                            child: Text(
-                              orderDetails.total! + "\t" + "Proceed to Order ",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                // if (proceedToOrder != null) verticalSpaceMedium,
+                // if (proceedToOrder != null)
+                //   Row(
+                //     children: <Widget>[
+                //       Expanded(
+                //         child: ElevatedButton(
+                //           style: ElevatedButton.styleFrom(
+                //             elevation: 0,
+                //             primary: lightGreen,
+                //             shape: RoundedRectangleBorder(
+                //               borderRadius: BorderRadius.circular(10),
+                //             ),
+                //           ),
+                //           onPressed: () {
+                //             proceedToOrder!(
+                //                 qty: int.parse(orderDetails.qty ?? "0"),
+                //                 total: orderDetails.total);
+                //           },
+                //           child: Padding(
+                //             padding: const EdgeInsets.symmetric(vertical: 15),
+                //             child: Text(
+                //               orderDetails.total! + "\t" + "Proceed to Order ",
+                //               style: TextStyle(
+                //                 color: Colors.white,
+                //                 fontWeight: FontWeight.bold,
+                //               ),
+                //             ),
+                //           ),
+                //         ),
+                //       ),
+                //     ],
+                //   ),
                 if (buttonText != null) verticalSpaceMedium,
-                if (buttonText != null)
-                  Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            elevation: 0,
-                            primary: lightGreen,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                          onPressed: () {
-                            onButtonPressed();
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 15),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                if (buttonIcon != null)
-                                  Icon(
-                                    buttonIcon,
-                                    size: 16,
-                                  ),
-                                if (buttonIcon != null) horizontalSpaceSmall,
-                                Text(
-                                  buttonText ?? "",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  )
+                // if (buttonText != null)
+                //   Row(
+                //     children: <Widget>[
+                //       Expanded(
+                //         child: ElevatedButton(
+                //           style: ElevatedButton.styleFrom(
+                //             elevation: 0,
+                //             primary: lightGreen,
+                //             shape: RoundedRectangleBorder(
+                //               borderRadius: BorderRadius.circular(10),
+                //             ),
+                //           ),
+                //           onPressed: () {
+                //             onButtonPressed();
+                //           },
+                //           child: Padding(
+                //             padding: const EdgeInsets.symmetric(vertical: 15),
+                //             child: Row(
+                //               mainAxisAlignment: MainAxisAlignment.center,
+                //               children: [
+                //                 if (buttonIcon != null)
+                //                   Icon(
+                //                     buttonIcon,
+                //                     size: 16,
+                //                   ),
+                //                 if (buttonIcon != null) horizontalSpaceSmall,
+                //                 Text(
+                //                   buttonText ?? "",
+                //                   style: TextStyle(
+                //                     color: Colors.white,
+                //                     fontWeight: FontWeight.bold,
+                //                   ),
+                //                 ),
+                //               ],
+                //             ),
+                //           ),
+                //         ),
+                //       ),
+                //     ],
+                //   )
               ],
             ),
           ),

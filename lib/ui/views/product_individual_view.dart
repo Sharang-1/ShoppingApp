@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:compound/ui/widgets/product_detail_card.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
@@ -425,6 +426,29 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                   ],
                                 ),
                               ),
+                              Container(
+                                margin: EdgeInsets.symmetric(vertical: 10),
+                                padding: EdgeInsets.all(10),
+                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Colors.white, boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 5)]),
+                                child: Row(children: [
+                                Image.asset("assets/icons/hand-made.png", height: 75,),
+                                horizontalSpaceSmall,
+                                Container(
+                                  width: MediaQuery.of(context).size.width - 130,
+                                  child: Column(
+                                    children: [
+                                      Text("All products on Dzor are handmade and made to order.", 
+                                      maxLines: 5,
+                                      style: TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.normal),
+                                      ),
+                                      Text("Creators really appreciate your patience in getting the products from their home to yours.", 
+                                      maxLines: 5,
+                                      style: TextStyle(color: Colors.grey, fontSize: 12, fontWeight: FontWeight.normal),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],),),
 
                               elementDivider(),
                               if (available!)

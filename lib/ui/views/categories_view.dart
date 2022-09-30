@@ -43,10 +43,6 @@ class _CategoriesViewState extends State<CategoriesView> {
       ),
       backgroundColor: newBackgroundColor2,
       body: SafeArea(
-        top: false,
-        left: false,
-        right: false,
-        bottom: false,
         child: SmartRefresher(
           enablePullDown: true,
           header: WaterDropHeader(

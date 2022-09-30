@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:compound/constants/server_urls.dart';
 import 'package:compound/services/navigation_service.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/state_manager.dart';
@@ -22,8 +23,7 @@ class CategoryIndiView extends StatefulWidget {
   final String? subCategory;
   final String? categoryPhoto;
 
-  const CategoryIndiView(
-      {Key? key, this.queryString, this.subCategory, this.categoryPhoto})
+  const CategoryIndiView({Key? key, this.queryString, this.subCategory, this.categoryPhoto})
       : super(key: key);
 
   @override
@@ -38,6 +38,7 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
 
   @override
   void initState() {
+    if (kDebugMode) print("heloo" + widget.subCategory.toString());
     filter = ProductFilter(existingQueryString: widget.queryString! + ";");
     super.initState();
   }
@@ -46,18 +47,40 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
 
   int next(int min, int max) => min + _random.nextInt(max - min);
 
+// create map to find cateogry no
+  Map<String, String> categoryNameToNum = {
+    "Kurtas": "1",
+    "Dresses": "2",
+    "Gowns": "3",
+    "Chaniya Cholis": "4",
+    "Suit sets": "5",
+    "Indo-Western": "6",
+    "Blouses": "7",
+    "Duppatta": "8",
+    "Bags": "9",
+    "Footwear": "10",
+    "Jewellery": "11",
+    "Saree": "12",
+    "Cloth Materials": "13",
+    "Lenghas": "14",
+    "Face Masks": "15",
+    "Bottoms": "16",
+    "Kaftans": "17",
+    "Tops": "18",
+    "Shrugs & Jackets": "19",
+    "Hair Accessories": "20",
+    "Home Decor": "21",
+  };
+
   @override
   Widget build(BuildContext context) {
+    var categoryNo = categoryNameToNum[widget.subCategory];
+
     return GetBuilder(
       init: CategoriesController()..init(subCategory: widget.subCategory ?? ''),
       builder: (controller) => Scaffold(
-
         backgroundColor: newBackgroundColor,
         body: SafeArea(
-          top: true,
-          left: false,
-          right: false,
-          bottom: false,
           child: SmartRefresher(
             enablePullDown: true,
             header: WaterDropHeader(
@@ -87,7 +110,6 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
               slivers: <Widget>[
                 SliverAppBar(
                   toolbarHeight: 150,
-
                   leading: InkWell(
                     onTap: () => NavigationService.back(),
                     child: Container(
@@ -106,14 +128,12 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
                   actions: [
                     IconButton(
                       iconSize: 50,
-                      icon: Icon(FontAwesomeIcons.slidersH,
-                          color: Colors.black, size: 20),
+                      icon: Icon(FontAwesomeIcons.slidersH, color: Colors.black, size: 20),
                       onPressed: () async {
                         ProductFilter filterDialogResponse = await showModalBottomSheet(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(20),
-                                topRight: Radius.circular(20)),
+                                topLeft: Radius.circular(20), topRight: Radius.circular(20)),
                           ),
                           isScrollControlled: true,
                           clipBehavior: Clip.antiAlias,
@@ -122,7 +142,9 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
                             return FractionallySizedBox(
                                 heightFactor: 0.75,
                                 child: ProductFilterDialog(
-                                  oldFilter: filter,
+                                  category: categoryNo,
+                                  oldFilter:
+                                      ProductFilter(existingQueryString: widget.queryString! + ";"),
                                   showCategories: false,
                                 ));
                           },
@@ -142,7 +164,9 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
                   title: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SizedBox(height: 10,),
+                      SizedBox(
+                        height: 10,
+                      ),
                       SizedBox(
                         height: 80,
                         child: FadeInImage.assetNetwork(
@@ -152,8 +176,7 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
                           image: widget.categoryPhoto != null
                               ? '$CATEGORY_PHOTO_BASE_URL/${widget.categoryPhoto}'
                               : 'assets/images/category_preloading.png',
-                          imageErrorBuilder: (context, error, stackTrace) =>
-                              Image.asset(
+                          imageErrorBuilder: (context, error, stackTrace) => Image.asset(
                             "assets/images/category_preloading.png",
                             fit: BoxFit.fill,
                           ),
@@ -179,8 +202,7 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
                       children: <Widget>[
                         FutureBuilder(
                           future: Future.delayed(Duration(milliseconds: 500)),
-                          builder: (c, s) => s.connectionState ==
-                                  ConnectionState.done
+                          builder: (c, s) => s.connectionState == ConnectionState.done
                               ? GridListWidget<Products, Product>(
                                   key: key,
                                   context: context,
@@ -195,13 +217,12 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
                                     limit: 1000,
                                   ),
                                   childAspectRatio: 0.7,
-                                  tileBuilder: (BuildContext context, data,
-                                      index, onUpdate, onDelete) {
+                                  tileBuilder:
+                                      (BuildContext context, data, index, onUpdate, onDelete) {
                                     return ProductTileUI(
                                       data: data,
                                       cardPadding: EdgeInsets.zero,
-                                      onClick: () =>
-                                          BaseController.goToProductPage(data),
+                                      onClick: () => BaseController.goToProductPage(data),
                                       index: index,
                                     );
                                   },

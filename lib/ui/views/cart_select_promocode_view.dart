@@ -339,14 +339,15 @@ class _SelectPromocodeState extends State<SelectPromocode> {
         context,
         PageTransition(
             child: SelectAddress(
-              productId: widget.productId,
-              promoCode: res.promocodeDiscount!.promocode ?? "",
-              promoCodeId: res.promocodeDiscount!.promocodeId ?? "",
-              size: widget.size,
-              color: widget.color,
-              qty: widget.qty,
-              finalTotal: res.cost!.toStringAsFixed(2),
-              orderDetails: orderDetails,
+              products: [],
+              // productId: widget.productId,
+              // promoCode: res.promocodeDiscount!.promocode ?? "",
+              // promoCodeId: res.promocodeDiscount!.promocodeId ?? "",
+              // size: widget.size,
+              // color: widget.color,
+              // qty: widget.qty,
+              // finalTotal: res.cost!.toStringAsFixed(2),
+              // orderDetails: orderDetails,
             ),
             type: PageTransitionType.rightToLeft),
       );
@@ -368,14 +369,15 @@ class _SelectPromocodeState extends State<SelectPromocode> {
       context,
       PageTransition(
           child: SelectAddress(
-            productId: widget.productId,
-            promoCode: widget.promoCode,
-            promoCodeId: widget.promoCodeId,
-            size: widget.size,
-            color: widget.color,
-            qty: widget.qty,
-            finalTotal: widget.finalTotal,
-            orderDetails: widget.orderDetails,
+            products:[]
+            // productId: widget.productId,
+            // promoCode: widget.promoCode,
+            // promoCodeId: widget.promoCodeId,
+            // size: widget.size,
+            // color: widget.color,
+            // qty: widget.qty,
+            // finalTotal: widget.finalTotal,
+            // orderDetails: widget.orderDetails,
           ),
           type: PageTransitionType.rightToLeft),
     );

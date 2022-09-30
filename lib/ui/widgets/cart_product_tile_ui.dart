@@ -115,22 +115,25 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(curve10),
-                    child: FadeInImage.assetNetwork(
-                      width: 100,
-                      fadeInCurve: Curves.easeIn,
-                      placeholder: "assets/images/product_preloading.png",
-                      image: productImage != null
-                          ? '$PRODUCT_PHOTO_BASE_URL/${widget.item.productId}/$productImage-small.png'
-                          : "https://images.unsplashr.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-                      imageErrorBuilder: (context, error, stackTrace) =>
-                          Image.asset(
-                        "assets/images/product_preloading.png",
+                  Container(
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(curve10),border: Border.all(width: 0.2, color: Colors.black26)),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(curve10),
+                      child: FadeInImage.assetNetwork(
                         width: 100,
+                        fadeInCurve: Curves.easeIn,
+                        placeholder: "assets/images/product_preloading.png",
+                        image: productImage != null
+                            ? '$PRODUCT_PHOTO_BASE_URL/${widget.item.productId}/$productImage-small.png'
+                            : "https://images.unsplashr.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
+                        imageErrorBuilder: (context, error, stackTrace) =>
+                            Image.asset(
+                          "assets/images/product_preloading.png",
+                          width: 100,
+                          fit: BoxFit.fitWidth,
+                        ),
                         fit: BoxFit.fitWidth,
                       ),
-                      fit: BoxFit.fitWidth,
                     ),
                   ),
                   Expanded(
@@ -159,10 +162,17 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                                 onTap: () {
                                   widget.onRemove();
                                 },
-                                child: Icon(
-                                  FontAwesomeIcons.trashAlt,
-                                  color: Colors.grey,
-                                  size: 16,
+                                child: Container(
+                                  padding: EdgeInsets.all(2),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: logoRed,
+                                  ),
+                                  child: Icon(
+                                    Icons.delete_outline_rounded,
+                                    color: Colors.white,
+                                    size: 18,
+                                  ),
                                 ),
                               ),
                             ],
@@ -171,62 +181,68 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Row(
-                                children: [
-                                  CustomText(
-                                    "Qty : ",
-                                    dotsAfterOverFlow: true,
-                                    color: Colors.grey,
-                                    fontSize: subtitleFontSize - 2,
-                                  ),
-                                  InkWell(
-                                    child: Text(
-                                      "-",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: subtitleFontSize - 2,
+                              Container(
+                                padding: EdgeInsets.all(2),
+                                margin: EdgeInsets.symmetric(vertical :1),
+                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),color: Color(0xffeeeeee)),
+                                child: Row(
+                                  children: [
+                                    horizontalSpaceSmall,
+                                    
+                                    InkWell(
+                                      child: Text(
+                                        "-",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: subtitleFontSize+2,
+                                        ),
                                       ),
+                                      onTap: () {
+                                        num qty =
+                                            num.parse(orderDetails.qty ?? "0");
+                                        if (qty > 1)
+                                          setState(() {
+                                            qty--;
+                                            widget.decreaseQty();
+                                            updateDetails(qty: qty);
+                                          });
+                                        setUpProductPrices(qty as int? ?? 0);
+                                      },
                                     ),
-                                    onTap: () {
-                                      num qty =
-                                          num.parse(orderDetails.qty ?? "0");
-                                      if (qty > 1)
+                                    horizontalSpaceSmall,
+                                    
+                                    CustomText(
+                                      "${orderDetails.qty}",
+                                      dotsAfterOverFlow: true,
+                                      color: Colors.grey,
+                                      fontSize: subtitleFontSize ,
+                                    ),
+                                   
+
+                                    horizontalSpaceSmall,
+                                    InkWell(
+                                      child: Text(
+                                        "+",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: subtitleFontSize+2,
+                                        ),
+                                      ),
+                                      onTap: () {
+                                        num qty =
+                                            num.parse(orderDetails.qty ?? "0");
                                         setState(() {
-                                          qty--;
-                                          widget.decreaseQty();
+                                          qty++;
+                                          widget.increaseQty();
                                           updateDetails(qty: qty);
                                         });
-                                      setUpProductPrices(qty as int? ?? 0);
-                                    },
-                                  ),
-                                  horizontalSpaceTiny,
-                                  CustomText(
-                                    "${orderDetails.qty}",
-                                    dotsAfterOverFlow: true,
-                                    color: Colors.grey,
-                                    fontSize: subtitleFontSize - 2,
-                                  ),
-                                  horizontalSpaceTiny,
-                                  InkWell(
-                                    child: Text(
-                                      "+",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: subtitleFontSize - 2,
-                                      ),
+                                        setUpProductPrices(qty as int? ?? 0);
+                                      },
                                     ),
-                                    onTap: () {
-                                      num qty =
-                                          num.parse(orderDetails.qty ?? "0");
-                                      setState(() {
-                                        qty++;
-                                        widget.increaseQty();
-                                        updateDetails(qty: qty);
-                                      });
-                                      setUpProductPrices(qty as int? ?? 0);
-                                    },
-                                  ),
-                                ],
+                                    horizontalSpaceSmall,
+
+                                  ],
+                                ),
                               ),
                               if ((double.parse(orderDetails.saved!
                                       .replaceAll(rupeeUnicode, ""))) >
@@ -242,7 +258,7 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                                 ),
                             ],
                           ),
-                          verticalSpaceTiny,
+                          // verticalSpaceTiny,
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -289,7 +305,7 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                 ],
               ),
             ),
-            verticalSpaceSmall,
+            verticalSpaceTiny,
             InkWell(
               onTap: () {
                 onTap();

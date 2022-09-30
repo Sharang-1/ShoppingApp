@@ -12,12 +12,14 @@ class CustomText extends StatelessWidget {
   final bool isTitle;
   final TextAlign? align;
   final double? letterSpacing;
+  final int? maxLines;
 
   CustomText(this.text,
       {this.color = Colors.black,
       this.fontSize = 16,
       this.isBold = false,
       this.textStyle,
+      this.maxLines,
       this.dotsAfterOverFlow = false,
       this.fontFamily = "",
       this.fontWeight,
@@ -29,17 +31,16 @@ class CustomText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      overflow:
-          dotsAfterOverFlow ? TextOverflow.ellipsis : TextOverflow.visible,
+      maxLines: maxLines,
+      overflow: dotsAfterOverFlow ? TextOverflow.ellipsis : TextOverflow.visible,
       textAlign: align != null ? align : TextAlign.start,
       style: textStyle != null
           ? textStyle
           : TextStyle(
               fontSize: fontSize,
               fontFamily: isTitle ? "Poppins" : fontFamily,
-              fontWeight: isBold
-                  ? FontWeight.bold
-                  : (fontWeight != null ? fontWeight : FontWeight.normal),
+              fontWeight:
+                  isBold ? FontWeight.bold : (fontWeight != null ? fontWeight : FontWeight.normal),
               color: color,
               letterSpacing: letterSpacing ?? 0.2,
             ),

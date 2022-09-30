@@ -49,8 +49,7 @@ class _CartTileState extends State<CartTile> {
     item = widget.item;
     quantity = item.quantity! >= 1 ? item.quantity as int : 1;
     item.quantity = item.quantity! >= 1 ? item.quantity : 1;
-    finalTotal =
-        (item.product!.cost!.costToCustomer! * item.quantity!).toString();
+    finalTotal = (item.product!.cost!.costToCustomer! * item.quantity!).toString();
     setUpOrderDetails();
     super.initState();
   }
@@ -63,8 +62,7 @@ class _CartTileState extends State<CartTile> {
 
   void setUpProductPrices() async {
     setState(() {
-      finalTotal =
-          (item.product!.cost!.costToCustomer! * quantity).toStringAsFixed(2);
+      finalTotal = (item.product!.cost!.costToCustomer! * quantity).toStringAsFixed(2);
     });
     orderDetails.total = rupeeUnicode + finalTotal;
   }
@@ -76,23 +74,17 @@ class _CartTileState extends State<CartTile> {
       size: widget.item.size != null && widget.item.size != ""
           ? (widget.item.size == 'N/A' ? '-' : widget.item.size)
           : "No Size given",
-      color: widget.item.color != null && widget.item.color != ""
-          ? widget.item.color
-          : "-",
+      color: widget.item.color != null && widget.item.color != "" ? widget.item.color : "-",
       promocode: promoCode,
       promocodeDiscount: '$rupeeUnicode$promoCodeDiscount',
-      price: rupeeUnicode +
-          (widget.item.quantity! * widget.item.product!.cost!.cost!).toString(),
+      price: rupeeUnicode + (widget.item.quantity! * widget.item.product!.cost!.cost!).toString(),
       discount: "${widget.item.product!.discount.toString()} %",
       discountedPrice: rupeeUnicode +
           (((widget.item.product!.price! -
-                      (widget.item.product!.price! *
-                          widget.item.product!.discount! /
-                          100)) *
+                      (widget.item.product!.price! * widget.item.product!.discount! / 100)) *
                   (widget.item.quantity ?? 0))
               .toString()),
-      convenienceCharges:
-          '${widget.item.product?.cost?.convenienceCharges?.rate} %',
+      convenienceCharges: '${widget.item.product?.cost?.convenienceCharges?.rate} %',
       gst:
           '$rupeeUnicode${((widget.item.quantity ?? 1) * (widget.item.product?.cost?.gstCharges?.cost ?? 0)).toStringAsFixed(2)} (${widget.item.product?.cost?.gstCharges?.rate}%)',
       deliveryCharges: "-",
@@ -126,7 +118,12 @@ class _CartTileState extends State<CartTile> {
     return Column(
       children: <Widget>[
         Container(
-          decoration: BoxDecoration(border: Border.all()),
+          margin: EdgeInsets.all(2),
+          padding: EdgeInsets.all(2),
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(15),
+              boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 2)]),
           height: 150,
           child: CartProductTileUI(
             item: item,
@@ -206,35 +203,35 @@ class _CartTileState extends State<CartTile> {
         //     ),
         //   ],
         // ),
-       
-        Divider(
-          color: Colors.grey[500],
-        ),
+
+        // Divider(
+        //   color: Colors.grey[500],
+        // ),
       ],
     );
   }
 
   void proceedToOrder({int? qty, String? total}) async {
     BaseController.vibrate(duration: 50);
-    final product =
-        await _apiService.getProductById(productId: item.productId.toString());
+    final product = await _apiService.getProductById(productId: item.productId.toString());
     if ((product!.available ?? false) && (product.enabled ?? false))
-      Navigator.push(
-        context,
-        PageTransition(
-          child: SelectAddress(
-            productId: item.productId.toString(),
-            promoCode: promoCode,
-            promoCodeId: promoCodeId,
-            size: item.size ?? "",
-            color: item.color ?? "",
-            qty: qty ?? quantity,
-            finalTotal: total ?? finalTotal,
-            orderDetails: orderDetails,
-          ),
-          type: PageTransitionType.rightToLeft,
-        ),
-      );
+      // Navigator.push(
+      //   context,
+      //   PageTransition(
+      //     child: SelectAddress(
+      //       productId: item.productId.toString(),
+      //       promoCode: promoCode,
+      //       promoCodeId: promoCodeId,
+      //       size: item.size ?? "",
+      //       color: item.color ?? "",
+      //       qty: qty ?? quantity,
+      //       finalTotal: total ?? finalTotal,
+      //       orderDetails: orderDetails,
+      //     ),
+      //     type: PageTransitionType.rightToLeft,
+      //   ),
+      // );
+      print("navigate to select address screen");
     else
       DialogService.showCustomDialog(AlertDialog(
         content: FittedBox(
@@ -249,8 +246,8 @@ class _CartTileState extends State<CartTile> {
 
   void applyCoupon({int? qty, String? total}) async {
     BaseController.vibrate(duration: 50);
-    final product = await _apiService.getProductById(
-        productId: item.productId.toString(), withCoupons: true);
+    final product =
+        await _apiService.getProductById(productId: item.productId.toString(), withCoupons: true);
     if ((product?.available ?? false) && (product!.enabled ?? false))
       Navigator.push(
         context,
