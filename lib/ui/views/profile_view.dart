@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
+// import 'package:image_picker/image_picker.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../../constants/server_urls.dart';
@@ -36,17 +36,17 @@ class _ProfileViewState extends State<ProfileView> {
   final _formKey = GlobalKey<FormState>();
   File? _image;
 
-  Future _getImage() async {
-    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-    setState(() {
-      if (image != null) {
-        _image = File(image.path);
-        print(_image);
-      } else {
-        print('No image selected');
-      }
-    });
-  }
+  // Future _getImage() async {
+  //   final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+  //   setState(() {
+  //     if (image != null) {
+  //       _image = File(image.path);
+  //       print(_image);
+  //     } else {
+  //       print('No image selected');
+  //     }
+  //   });
+  // }
 
   void initState() {
     super.initState();

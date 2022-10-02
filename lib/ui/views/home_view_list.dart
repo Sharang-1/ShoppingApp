@@ -1,32 +1,24 @@
-// import 'package:compound/models/cart.dart';
-import 'package:compound/app/app.dart';
-import 'package:compound/models/orderV2.dart';
-import 'package:compound/models/products.dart';
-import 'package:compound/models/promotions.dart';
-import 'package:compound/services/api/orderV2_api.dart';
-import 'package:compound/ui/widgets/product_tile_ui.dart';
-
-import '../../locator.dart';
-import '../../services/api/api_service.dart';
-import '../widgets/home_view_list_header.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../app/app.dart';
+import '../../models/products.dart';
+import '../../models/promotions.dart';
+import '../widgets/home_view_list_header.dart';
 import '../../controllers/base_controller.dart';
 import '../../controllers/grid_view_builder/products_grid_view_builder_controller.dart';
 import '../../controllers/grid_view_builder/sellers_grid_view_builder_controller.dart';
 import '../../controllers/home_controller.dart';
 import '../../models/grid_view_builder_filter_models/productFilter.dart';
 import '../../models/productPageArg.dart';
-// import '../../services/remote_config_service.dart';
 import '../../utils/lang/translation_keys.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
+import '../widgets/product_tile_ui.dart';
 import '../widgets/promotion_slider.dart';
 import '../widgets/section_builder.dart';
 import '../widgets/shimmer/shimmer_widget.dart';
-import '../../models/orderV2.dart' as OrderV2;
 
 class HomeViewList extends StatefulWidget {
   final HomeController? controller;
@@ -83,18 +75,7 @@ class _HomeViewListState extends State<HomeViewList> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // if ((controller.topPromotion.length) == 0)
-                          //   Container(
-                          //     height: 150,
-                          //     child: ShimmerWidget(),
-                          //     // Center(
-                          //     //   child: Image.asset(
-                          //     //     "assets/images/loading_img.gif",
-                          //     //     height: 50,
-                          //     //     width: 50,
-                          //     //   ),
-                          //     // ),
-                          //   ),
+                          
                           if ((controller.topPromotion.length) > 0) ...[
                             HomeViewListHeader(title: "Featured Home Grown Brands!"),
                             // title: controller.remoteConfig!
@@ -1015,6 +996,7 @@ class SectionDivider extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class DynamicSectionBuilder extends StatelessWidget {
   final SectionHeader? header;
   List<num> products = [];

@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:compound/constants/server_urls.dart';
 import 'package:compound/services/navigation_service.dart';
-import 'package:compound/ui/widgets/product_tile_ui_2.dart';
 import 'package:compound/ui/widgets/product_tile_ui_3.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +17,6 @@ import '../../models/products.dart';
 import '../shared/app_colors.dart';
 import '../widgets/grid_list_widget.dart';
 import '../widgets/product_filter_dialog.dart';
-import '../widgets/product_tile_ui.dart';
 
 class CategoryIndiView extends StatefulWidget {
   final String? queryString;

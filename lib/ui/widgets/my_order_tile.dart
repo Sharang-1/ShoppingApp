@@ -1,4 +1,3 @@
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:grouped_list/grouped_list.dart';
@@ -6,7 +5,6 @@ import 'package:intl/intl.dart';
 
 import '../../constants/server_urls.dart';
 import '../../controllers/home_controller.dart';
-import '../../controllers/user_details_controller.dart';
 import '../../locator.dart';
 import '../../models/orders.dart';
 import '../../services/analytics_service.dart';

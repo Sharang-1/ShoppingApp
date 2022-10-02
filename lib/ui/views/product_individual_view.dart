@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:compound/ui/widgets/product_detail_card.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';

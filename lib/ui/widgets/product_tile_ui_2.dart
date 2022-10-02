@@ -13,7 +13,6 @@ import '../../locator.dart';
 import '../../models/products.dart';
 import '../../services/wishlist_service.dart';
 import '../../utils/lang/translation_keys.dart';
-import '../../utils/stringUtils.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
@@ -110,21 +109,21 @@ class _ProductTileUI2State extends State<ProductTileUI2> {
     final photo = widget.data.photo ?? null;
     final photos = photo != null ? photo.photos ?? null : null;
     final String photoURL = photos != null ? photos[0].name ?? "" : "";
-    final String productName = widget.data.name ?? "No name";
+    // final String productName = widget.data.name ?? "No name";
     final double? productDiscount = (widget.data.cost!.productDiscount != null &&
             widget.data.cost!.productDiscount!.rate != null)
         ? widget.data.cost!.productDiscount!.rate as double?
         : 0.0;
-    final int productPrice = widget.data.cost?.costToCustomer.round() ?? 0;
-    final int actualCost;
-    if (widget.data.cost != null && widget.data.cost!.gstCharges != null) {
-      actualCost = (widget.data.cost!.cost +
-              widget.data.cost!.convenienceCharges!.cost! +
-              widget.data.cost!.gstCharges!.cost!)
-          .round();
-    } else {
-      actualCost = 0;
-    }
+    // final int productPrice = widget.data.cost?.costToCustomer.round() ?? 0;
+    // final int actualCost;
+    // if (widget.data.cost != null && widget.data.cost!.gstCharges != null) {
+    //   actualCost = (widget.data.cost!.cost +
+    //           widget.data.cost!.convenienceCharges!.cost! +
+    //           widget.data.cost!.gstCharges!.cost!)
+    //       .round();
+    // } else {
+    //   actualCost = 0;
+    // }
 
     return GestureDetector(
       onTap: () {

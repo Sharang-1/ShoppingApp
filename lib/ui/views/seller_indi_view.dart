@@ -25,14 +25,11 @@ import '../../controllers/home_controller.dart';
 import '../../locator.dart';
 import '../../models/grid_view_builder_filter_models/productFilter.dart';
 import '../../models/productPageArg.dart';
-import '../../models/reviews.dart';
 import '../../models/sellers.dart';
 import '../../services/analytics_service.dart';
-import '../../services/api/api_service.dart';
 import '../../services/dynamic_link_service.dart';
 import '../../services/navigation_service.dart';
 import '../../utils/lang/translation_keys.dart';
-import '../../utils/tools.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
@@ -238,7 +235,7 @@ class _SellerIndiState extends State<SellerIndi> {
 
   @override
   Widget build(BuildContext context) {
-    double media = ((MediaQuery.of(context).size.width - 100) / 2);
+    // double media = ((MediaQuery.of(context).size.width - 100) / 2);
     double multiplyer = 0.8;
 
     setupSellerDetails(widget.data);

@@ -20,7 +20,6 @@ import '../../models/products.dart';
 import '../../models/sellers.dart';
 import '../../services/analytics_service.dart';
 import '../../services/navigation_service.dart';
-import '../shared/app_colors.dart';
 import '../shared/ui_helpers.dart';
 import 'categoryTileUI.dart';
 import 'explore_designer_tile.dart';

@@ -1,9 +1,6 @@
 import 'dart:convert';
 
-import 'package:compound/controllers/home_controller.dart';
-import 'package:compound/models/calculatedPrice.dart';
 import 'package:compound/models/groupOrderModel.dart' as groupOrder;
-import 'package:compound/models/orderV2.dart' as orderV2;
 import 'package:compound/services/api/api_service.dart';
 import 'package:compound/ui/widgets/section_builder.dart';
 import 'package:compound/utils/lang/translation_keys.dart';

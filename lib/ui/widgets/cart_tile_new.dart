@@ -3,10 +3,8 @@ import 'package:compound/ui/shared/shared_styles.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/server_urls.dart';
-import '../../locator.dart';
 import '../../models/cart.dart';
 import '../../models/order_details.dart';
-import '../../services/api/api_service.dart';
 import '../../utils/stringUtils.dart';
 import '../shared/ui_helpers.dart';
 import 'custom_text.dart';
@@ -27,7 +25,6 @@ class NewCartTile extends StatefulWidget {
 }
 
 class _NewCartTileState extends State<NewCartTile> {
-  final APIService _apiService = locator<APIService>();
   final _controller = new TextEditingController();
 
   bool isPromoCodeApplied = false;
