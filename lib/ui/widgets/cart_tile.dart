@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:compound/app/groupOrderData.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:page_transition/page_transition.dart';
@@ -101,7 +105,10 @@ class _CartTileState extends State<CartTile> {
     setState(() {
       item.quantity = item.quantity! + 1;
       quantity++;
+      print(quantity);
       setUpProductPrices();
+      APIService().addToCart(item.productId.toString(), quantity,
+          item.size.toString(), item.color.toString());
     });
   }
 
@@ -110,6 +117,8 @@ class _CartTileState extends State<CartTile> {
       item.quantity = item.quantity! - 1;
       quantity--;
       setUpProductPrices();
+      APIService().addToCart(
+          item.productId.toString(), quantity, item.size.toString(), item.color.toString());
     });
   }
 

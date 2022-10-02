@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:compound/constants/server_urls.dart';
 import 'package:compound/services/navigation_service.dart';
+import 'package:compound/ui/widgets/product_tile_ui_2.dart';
+import 'package:compound/ui/widgets/product_tile_ui_3.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -207,7 +209,7 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
                                   key: key,
                                   context: context,
                                   filter: filter,
-                                  gridCount: 2,
+                                  gridCount: 1,
                                   onEmptyList: () {},
                                   emptyListWidget: EmptyListWidget(
                                       text:
@@ -216,10 +218,10 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
                                     randomize: showRandomProducts,
                                     limit: 1000,
                                   ),
-                                  childAspectRatio: 0.7,
+                                  childAspectRatio: 3,
                                   tileBuilder:
                                       (BuildContext context, data, index, onUpdate, onDelete) {
-                                    return ProductTileUI(
+                                    return ProductTileUI3(
                                       data: data,
                                       cardPadding: EdgeInsets.zero,
                                       onClick: () => BaseController.goToProductPage(data),

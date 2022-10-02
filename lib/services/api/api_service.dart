@@ -193,7 +193,7 @@ class APIService {
   Future<OrderV2.Order2?> createGroupOrder({
     OrderV2.CustomerDetails? customerDetails,
     OrderV2.Payment? payment,
-    List<OrderV2.Orderv2>? products,
+    List<dynamic>? products,
   }) async {
     try {
       try {
@@ -209,7 +209,7 @@ class APIService {
             data: {
               "customerDetails": jsonEncode(customerDetails),
               "orders": jsonEncode(products),
-              "payment": jsonEncode(payment),
+              // "payment": jsonEncode(payment),
               // "customerDetails": {
               //   "address": "test billing address",
               //   "city": "test billing city",

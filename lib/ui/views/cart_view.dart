@@ -1,13 +1,20 @@
-import 'package:compound/models/orderV2.dart';
+import 'dart:convert';
+
+import 'package:compound/controllers/home_controller.dart';
+import 'package:compound/models/calculatedPrice.dart';
+import 'package:compound/models/groupOrderModel.dart' as groupOrder;
+import 'package:compound/models/orderV2.dart' as orderV2;
 import 'package:compound/services/api/api_service.dart';
 import 'package:compound/ui/widgets/section_builder.dart';
 import 'package:compound/utils/lang/translation_keys.dart';
 import 'package:fimber/fimber.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../../app/groupOrderData.dart';
 import '../../controllers/cart_controller.dart';
 import '../../controllers/cart_count_controller.dart';
 import '../../controllers/grid_view_builder/cart_grid_view_builder_controller.dart';
@@ -151,6 +158,7 @@ class _CartViewState extends State<CartView> {
                       future: Future.delayed(Duration(seconds: 1)),
                       builder: (c, s) => s.connectionState == ConnectionState.done
                           ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 SectionBuilder(
                                   key: uniqueKey ?? UniqueKey(),
@@ -164,7 +172,7 @@ class _CartViewState extends State<CartView> {
                                       (BuildContext context, data, index, onDelete, onUpdate) {
                                     Fimber.d("test");
                                     print((data as Item).toJson());
-                                    
+
                                     final Item dItem = data;
                                     exceptProductIDs.add(dItem.product!.key ?? "");
 
@@ -188,50 +196,17 @@ class _CartViewState extends State<CartView> {
                                     );
                                   },
                                 ),
-                                // GridListWidget<Cart, Item>(
-                                //   context: context,
-                                //   filter:
-                                //       CartFilter(productId: widget.productId),
-                                //   gridCount: 1,
-                                //   disablePagination: true,
-                                //   controller: CartGridViewBuilderController(),
-                                //   childAspectRatio: 1.5,
-                                //   tileBuilder: (BuildContext context, data,
-                                //       index, onDelete, onUpdate) {
-                                //     Fimber.d("test");
-                                //     print((data as Item).toJson());
-                                //     final Item dItem = data as Item;
-                                //     exceptProductIDs.add(dItem.product.key);
-                                //     return CartTile(
-                                //       index: index,
-                                //       item: dItem,
-                                //       onDelete: (int index) async {
-                                //         final value = await onDelete(index);
-                                //         print("Delete product index: $index");
-                                //         if (!value) return;
-                                //         await controller
-                                //             .removeFromCartLocalStore(
-                                //                 dItem.productId.toString());
-                                //         locator<CartCountController>()
-                                //             .decrementCartCount();
-                                //         try {
-                                //           await controller
-                                //               .removeProductFromCartEvent(
-                                //                   dItem?.product);
-                                //         } catch (e) {}
-                                //       },
-                                //     );
-                                //   },
-                                // ),
                                 FutureBuilder<bool>(
                                   initialData: false,
                                   future: controller.hasProducts(),
                                   builder: (c, s) => (!controller.isCartEmpty &&
                                           controller.showPairItWith)
                                       ? Column(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
                                           children: [
                                             verticalSpace(10),
                                             Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                               children: [
                                                 SizedBox(
                                                   height: 40,
@@ -351,38 +326,48 @@ class _CartViewState extends State<CartView> {
     );
   }
 
-  proccedToOrder()async{
+  proccedToOrder() async {
+    GroupOrderData.cartProducts.clear();
+    var total = 0.0;
     var data = await locator<APIService>().getCart();
-    if(data != null){
+    if (data != null) {
       var _cartItems = data.items;
-      var _cartProducts = [];
-    for (var i = 0; i < locator<CartCountController>().count.value; i++) {
-      var cartItem = {};
-      cartItem["productId"] = _cartItems![i].productId;
-
-      cartItem["variation"] = {};
-      cartItem["variation"]["size"] = _cartItems[i].size;
-      cartItem["variation"]["quantity"] = _cartItems[i].quantity;
-      cartItem["variation"]["color"] = _cartItems[i].color;
-
-      cartItem["orderQueue"] = {};
-      cartItem["orderQueue"]["clientQueueId"] = i + 1;
-
-      _cartProducts.add(cartItem);
-      print("hi");
-      // print(cartItem);
-
-      Navigator.push(
-          context,
-          PageTransition(
-            child: SelectAddress(
-              products: _cartProducts,
-            ),
-            type: PageTransitionType.rightToLeft,
+      // var _cartProducts = [];
+      for (var i = 0; i < _cartItems!.length; i++) {
+        var finalTotal = _cartItems[i].product!.cost!.costToCustomer!.toDouble() *
+            _cartItems[i].quantity!.toInt();
+        total = total + finalTotal;
+        groupOrder.GroupOrderModel cartItem = groupOrder.GroupOrderModel(
+          productId: _cartItems[i].productId.toString(),
+          variation: groupOrder.Variation(
+            size: _cartItems[i].size.toString(),
+            quantity: _cartItems[i].quantity?.toInt(),
+            color: _cartItems[i].color.toString(),
+          ),
+          orderQueue: groupOrder.OrderQueue(
+            clientQueueId: (i + 1).toString(),
           ),
         );
+
+        GroupOrderData.cartProducts.add(cartItem);
+        if (kDebugMode) print("hi");
+        String jsonObj = jsonEncode(cartItem);
+        if (kDebugMode) print(jsonObj);
+      }
+      Navigator.push(
+        context,
+        PageTransition(
+          child: SelectAddress(
+            products: GroupOrderData.cartProducts,
+            payTotal: total,
+          ),
+          type: PageTransitionType.rightToLeft,
+        ),
+      );
     }
-    print(_cartProducts);
-    }
+    print(total);
+    if (kDebugMode) print("cart products");
+    String cartJson = jsonEncode(GroupOrderData.cartProducts);
+    if (kDebugMode) print(cartJson);
   }
 }

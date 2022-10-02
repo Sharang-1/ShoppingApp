@@ -1,54 +1,33 @@
+import 'dart:convert';
+
 import 'package:compound/controllers/home_controller.dart';
 import 'package:compound/models/orderV2.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:provider/provider.dart';
-import '../../controllers/base_controller.dart';
 import '../../controllers/cart_select_delivery_controller.dart';
 import '../../locator.dart';
-import '../../models/calculatedPrice.dart';
-import '../../models/order_details.dart';
 import '../../models/user_details.dart';
-import '../../services/api/api_service.dart';
-import '../../services/dialog_service.dart';
 import '../../utils/lang/translation_keys.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
 import '../widgets/custom_stepper.dart';
 import '../widgets/custom_text.dart';
-import '../widgets/order_details_bottomsheet.dart';
 import 'address_input_form_view.dart';
 import 'cart_payment_method_view.dart';
 
 class SelectAddress extends StatefulWidget {
   final List<dynamic> products;
-  // final String finalTotal;
-  // final String productId;
-  // final String promoCode;
-  // final String promoCodeId;
-  // final String size;
-  // final String color;
-  // final int qty;
-  // final OrderDetails orderDetails;
-  // final bool isPromocodeApplied;
+  final double? payTotal;
 
   const SelectAddress({
     Key? key,
     required this.products,
-    // required this.productId,
-    // required this.promoCode,
-    // required this.promoCodeId,
-    // required this.size,
-    // required this.color,
-    // required this.qty,
-    // required this.finalTotal,
-    // required this.orderDetails,
-    // this.isPromocodeApplied = false,
+    this.payTotal,
   }) : super(key: key);
 
   @override
@@ -60,13 +39,7 @@ class _SelectAddressState extends State<SelectAddress> {
   UserDetailsContact addressGrpValue = UserDetailsContact();
   bool disabledPayment = true;
   String? deliveryCharges = "";
-  // late OrderDetails orderDetails;
-
-  // @override
-  // void initState() {
-  //   orderDetails = widget.orderDetails;
-  //   super.initState();
-  // }
+  TextEditingController _emailcontroller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -132,15 +105,15 @@ class _SelectAddressState extends State<SelectAddress> {
                     children: [
                       CustomText(
                         // "${BaseController.formatPrice(num.parse(orderDetails.total!.replaceAll("₹", "")))}",
-                        "200",
-                        fontSize: 12,
+                        rupeeUnicode + widget.payTotal.toString(),
+                        fontSize: 18,
                         isBold: true,
+                        color: logoRed,
                       ),
                       CustomText(
-                        VIEW_DETAILS.tr,
+                        "Order Total",
                         textStyle: TextStyle(
                           fontSize: 12,
-                          decoration: TextDecoration.underline,
                         ),
                       ),
                     ],
@@ -160,21 +133,11 @@ class _SelectAddressState extends State<SelectAddress> {
                     child: Padding(
                       padding: const EdgeInsets.all(10),
                       child: Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              FontAwesomeIcons.lock,
-                              size: 16,
-                            ),
-                            horizontalSpaceSmall,
-                            CustomText(
-                              MAKE_PAYMENT.tr,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                              fontSize: 16,
-                            ),
-                          ],
+                        child: CustomText(
+                          MAKE_PAYMENT.tr,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          fontSize: 16,
                         ),
                       ),
                     ),
@@ -195,6 +158,40 @@ class _SelectAddressState extends State<SelectAddress> {
                   verticalSpace(10),
                   const CutomStepper(
                     step: 2,
+                  ),
+                  verticalSpace(10),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Text(
+                      "Communication Mail",
+                      style: TextStyle(
+                          fontFamily: headingFont, fontWeight: FontWeight.w700, fontSize: 20),
+                    ),
+                  ),
+                  verticalSpace(10),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black26),
+                        borderRadius: BorderRadius.circular(curve15)),
+                    child: TextFormField(
+                      controller: _emailcontroller,
+                      maxLines: 1,
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: InputDecoration(
+                          icon: Icon(Icons.email),
+                          hintText: "Email Address",
+                          border: InputBorder.none),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Provide email to recieve invoice";
+                        }
+                        if (!value.isEmail) {
+                          return "Invalid Email";
+                        }
+                        return null;
+                      },
+                    ),
                   ),
                   verticalSpace(20),
                   if (controller.addresses.length != 0)
@@ -224,16 +221,6 @@ class _SelectAddressState extends State<SelectAddress> {
                                 },
                               );
 
-                              // final calculatedPrice = await calculatePrice();
-                              // if (calculatedPrice != null) {
-                              //   deliveryCharges =
-                              //       calculatedPrice.deliveryCharges?.cost?.toStringAsFixed(2);
-                              //   setState(() {
-                              //     orderDetails.deliveryCharges = rupeeUnicode + deliveryCharges!;
-                              //     orderDetails.total =
-                              //         "$rupeeUnicode${calculatedPrice.cost?.toStringAsFixed(2)}";
-                              //   });
-                              // }
                             },
                             child: Container(
                               margin: EdgeInsets.only(bottom: spaceBetweenCards),
@@ -266,17 +253,6 @@ class _SelectAddressState extends State<SelectAddress> {
                                             },
                                           );
 
-                                          // final calculatedPrice = await calculatePrice();
-                                          // if (calculatedPrice != null) {
-                                          //   deliveryCharges = calculatedPrice.deliveryCharges?.cost
-                                          //       ?.toStringAsFixed(2);
-                                          //   setState(() {
-                                          //     orderDetails.deliveryCharges =
-                                          //         rupeeUnicode + deliveryCharges!;
-                                          //     orderDetails.total =
-                                          //         "$rupeeUnicode${calculatedPrice.cost?.toStringAsFixed(2)}";
-                                          //   });
-                                          // }
                                         },
                                       ),
                                       Expanded(
@@ -382,44 +358,57 @@ class _SelectAddressState extends State<SelectAddress> {
       ),
     );
   }
-  //! calculate total price for group order
-  // Future<CalculatedPrice?> calculatePrice() => locator<APIService>().calculateProductPrice(
-  //       widget.productId,
-  //       widget.qty,
-  //       addressRadioValue.pincode.toString(),
-  //       promocode: widget.promoCode,
-  //     );
 
   Future<void> makePayment(controller) async {
+    var orderJson = {
+      'customerDetails': jsonEncode(
+        CustomerDetails(
+          address: controller.addresses[0].address.toString(),
+          pincode: controller.addresses[0].pincode,
+          city: controller.addresses[0].city,
+          state: controller.addresses[0].state,
+          country: "India",
+          // name: locator<HomeController>().details!.firstName.toString() +
+          //     locator<HomeController>().details!.lastName.toString(),
+          customerPhone: CustomerPhone(
+            code: locator<HomeController>().details!.contact!.phone!.code,
+            mobile: locator<HomeController>().details!.contact!.phone!.mobile,
+          ),
+          email: _emailcontroller.text.trim(),
+        ),
+      )
+    };
+    if(kDebugMode) print(orderJson);
+
     // final serviceAvailability = await locator<APIService>()
     //     .checkPincode(productId: widget.productId, pincode: addressRadioValue.pincode.toString());
 
     // if (serviceAvailability == null) return;
 
     // if (serviceAvailability.serviceAvailable ?? false) {
-      Navigator.push(
-        context,
-        PageTransition(
-            child: PaymentMethod(
-              // billingAddress:
-              //     (addressRadioValue == null ? controller.addresses[0] : addressRadioValue),
-              // color: widget.color,
-              // productId: widget.productId,
-              // promoCode: widget.promoCode,
-              // promoCodeId: widget.promoCodeId,
-              // qty: widget.qty,
-              // size: widget.size,
-              // finalTotal: orderDetails.total ?? "",
-              // orderDetails: orderDetails,
-              customerDetails: CustomerDetails(
-              address: controller.addresses[0],
-              name: locator<HomeController>().details!.firstName.toString() + locator<HomeController>().details!.lastName.toString(),
-              customerPhone: CustomerPhone(code: "+91", mobile: "7838063139"),
-              email: "anuragdl2276@gmail.com"
+    Navigator.push(
+      context,
+      PageTransition(
+          child: PaymentMethod(
+            products: widget.products,
+            finalTotal: widget.payTotal,
+            customerDetails: CustomerDetails(
+               address: controller.addresses[0].address.toString(),
+              pincode: controller.addresses[0].pincode,
+              city: controller.addresses[0].city,
+              state: controller.addresses[0].state,
+              country: "India",
+              // name: locator<HomeController>().details!.firstName.toString() +
+              //     locator<HomeController>().details!.lastName.toString(),
+              customerPhone: CustomerPhone(
+                code: locator<HomeController>().details!.contact!.phone!.code,
+                mobile: locator<HomeController>().details!.contact!.phone!.mobile,
               ),
+              email: _emailcontroller.text.trim(),
             ),
-            type: PageTransitionType.rightToLeft),
-      );
+          ),
+          type: PageTransitionType.rightToLeft),
+    );
     // } else {
     //   DialogService.showNotDeliveringDialog(msg: serviceAvailability.message ?? "");
     // }

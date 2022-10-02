@@ -43,14 +43,30 @@ class CartPaymentMethodController extends BaseController {
     return null;
   }
 
-  Future<Order2?> createGroupOrder() async {
+  Future<Order2?> createGroupOrder(
+    double orderCost,
+    CustomerDetails customerDetails,
+    List<dynamic> products,
+  ) async {
     setBusy(true);
-    final order = await _apiService.createGroupOrder();
+    final order = await _apiService.createGroupOrder(
+      customerDetails: customerDetails,
+      products: products,
+    );
     if (order != null) {
-      setBusy(false);
-      return order;
-    }
+      if (order.payment!.option!.id != 2) {
+        setBusy(false);
+        return order;
+      }
 
+      await _paymentService.makePayment(
+        amount: orderCost,
+        contactNo: customerDetails.customerPhone!.mobile.toString(),
+        orderId: order.payment!.orderId!,
+        receiptId: order.payment!.receiptId!,
+        dzorOrderId: order.payment!.orderId!,
+      );
+    }
     setBusy(false);
     return null;
   }
@@ -65,10 +81,9 @@ class CartPaymentMethodController extends BaseController {
       int qty,
       int paymentOptionId,
       int pincode) async {
-
     setBusy(true);
-    final order = await _apiService.createOrder(billingAddress, productId,
-        promoCode, promoCodeId, size, color, qty, paymentOptionId, pincode);
+    final order = await _apiService.createOrder(billingAddress, productId, promoCode, promoCodeId,
+        size, color, qty, paymentOptionId, pincode);
     if (order != null) {
       if (order.payment!.option!.id != 2) {
         setBusy(false);

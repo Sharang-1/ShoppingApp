@@ -4,6 +4,8 @@ Order2 orderFromJson(String str) => Order2.fromJson(json.decode(str));
 
 String orderToJson(Order2 data) => json.encode(data.toJson());
 
+// String orderv2ToJson(Orderv2 data) => json.encode(data.toJson());
+
 class Order2 {
   Payment? payment;
   CustomerDetails? customerDetails;
@@ -18,20 +20,20 @@ class Order2 {
         payment: Payment.fromJson(json["payment"]),
         customerDetails: CustomerDetails.fromJson(json["customerDetail"]),
         orderv2: List<Orderv2>.from(json["orders"].map((x) => Orderv2.fromJson(x))),
-  );
+      );
 
   Map<String, dynamic> toJson() => {
         "payment": payment?.toJson(),
         "customerDetails": customerDetails?.toJson(),
-        "orders": List<dynamic>.from(orderv2!.map((x) => x.toJson())),
+        "orders": List<Orderv2>.from(orderv2!.map((x) => x.toJson())),
       };
 }
 
 class CustomerDetails {
-  String? name;
-  String? customerId;
+  // String? name;
+  // String? customerId;
   CustomerPhone? customerPhone;
-  CustomerMeasure? customerMeasure;
+  // CustomerMeasure? customerMeasure;
   String? address;
   String? city;
   String? state;
@@ -43,30 +45,30 @@ class CustomerDetails {
     this.address,
     this.city,
     this.country,
-    this.customerId,
-    this.customerMeasure,
+    // this.customerId,
+    // this.customerMeasure,
     this.customerPhone,
     this.email,
-    this.name,
+    // this.name,
     this.pincode,
     this.state,
   });
 
   factory CustomerDetails.fromJson(Map<String, dynamic> json) => CustomerDetails(
-        name: json["name"],
-        customerId: json["customerId"],
+        // name: json["name"],
+        // customerId: json["customerId"],
         address: json["address"],
         city: json["city"],
         country: json["country"],
         state: json["state"],
         pincode: json["pincode"],
         email: json["email"],
-        customerMeasure: CustomerMeasure.fromJson(json["customerMeasure"]),
+        // customerMeasure: CustomerMeasure.fromJson(json["customerMeasure"]),
         customerPhone: CustomerPhone.fromJson(json["customerPhone"]),
       );
   Map<String, dynamic> toJson() => {
-        "name": name,
-        "customerMeasure": customerMeasure?.toJson(),
+        // "name": name,
+        // "customerMeasure": customerMeasure?.toJson(),
         "customerPhone": customerPhone?.toJson(),
         "address": address,
         "city": city,
@@ -74,7 +76,7 @@ class CustomerDetails {
         "state": state,
         "pincode": pincode,
         "email": email,
-        "customerId": customerId,
+        // "customerId": customerId,
       };
 }
 

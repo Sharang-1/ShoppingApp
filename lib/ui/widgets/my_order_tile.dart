@@ -38,12 +38,7 @@ class MyordersTileState extends State<MyOrdersTile> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             if (widget.controller.busy) Column(children: myOrderShimmerEffect()),
-            //widget.loader,
-            // Image.asset(
-            //   "assets/images/loading_img.gif",
-            //   height: 50,
-            //   width: 50,
-            // ),
+            
             if (!widget.controller.busy && widget.controller.mOrders != null)
               GroupedListView(
                 shrinkWrap: true,
@@ -84,168 +79,154 @@ class MyordersTileState extends State<MyOrdersTile> {
                     ),
                   );
                 },
-                itemBuilder: (BuildContext context, Order order) => Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: SizedBox(
-                    height: 180,
-                    child: GestureDetector(
-                      child: Card(
-                        clipBehavior: Clip.antiAlias,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(curve15),
+                itemBuilder: (BuildContext context, Order order) => GestureDetector(
+                  child: Container(
+                    height: 130,
+                    padding: EdgeInsets.only(left: 12, right: 8),
+                    margin: EdgeInsets.symmetric(vertical: 5),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(curve15),
+                        boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 5)]),
+                    child: Column(
+                      children: [
+                        verticalSpaceSmall,
+                        Row(
+                          children: [
+                            Text(
+                              order.status!.state ?? "",
+                              style: TextStyle(
+                                color: (<int>[0, 1, 2, 3, 4, 5, 7].contains(order.status!.id))
+                                    ? Colors.black45
+                                    : logoRed,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12.0,
+                              ),
+                            ),
+                            horizontalSpaceSmall,
+                            // Text("${order.status!.id}"),
+                            Text(
+                              (<int>[
+                                1,
+                                2,
+                                3,
+                                4,
+                                5,
+                              ].contains(order.status!.id))
+                                  ? 'on ${order.created}'
+                                  : (order.status!.id == 7)
+                                      ? 'on ${order.deliveryDate}'
+                                      : "",
+                              style: TextStyle(
+                                fontSize: 12.0,
+                                color: Colors.black45,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
-                        elevation: 0,
-                        child: Container(
-                          child: Column(
-                            children: [
-                              verticalSpaceSmall,
-                              Padding(
-                                padding: const EdgeInsets.only(left: 16.0),
-                                child: Row(
+                        verticalSpaceSmall,
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            
+                            Expanded(
+                                child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                CustomText(
+                                  order.product!.name!.capitalizeFirst ?? "",
+                                  isBold: true,
+                                  color: Colors.black87,
+                                  dotsAfterOverFlow: true,
+                                  fontSize: titleFontSize + 2,
+                                ),
+                                verticalSpaceSmall,
+                                Row(
                                   children: [
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          order.status!.state ?? "",
-                                          style: TextStyle(
-                                            color: (<int>[0, 1, 2, 3, 4, 5, 7]
-                                                    .contains(order.status!.id))
-                                                ? Color(0xFF17a17f)
-                                                : logoRed,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 14.0,
-                                          ),
-                                        ),
-                                        Text(
-                                          (<int>[
-                                            1,
-                                            2,
-                                            3,
-                                            4,
-                                            5,
-                                          ].contains(order.status!.id))
-                                              ? 'on ${order.created}'
-                                              : (order.status!.id == 7)
-                                                  ? 'on ${order.deliveryDate}'
-                                                  : "",
-                                          style: TextStyle(
-                                            fontSize: 12.0,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                    CustomText("Qty: ",
+                                        dotsAfterOverFlow: true,
+                                        color: Colors.black45,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: subtitleFontSize),
+                                    horizontalSpaceSmall,
+                                    CustomText((order.orderCost!.quantity ?? 0).toString(),
+                                        dotsAfterOverFlow: true,
+                                        color: Colors.grey,
+                                        fontSize: subtitleFontSize),
                                   ],
                                 ),
-                              ),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(curve15),
-                                      child: FadeInImage.assetNetwork(
-                                        width: 100,
-                                        height: 100,
-                                        fadeInCurve: Curves.easeIn,
-                                        placeholder: "assets/images/product_preloading.png",
-                                        image:
-                                            "$PRODUCT_PHOTO_BASE_URL/${order.product!.key}/${order.product?.photo?.photos?.first.name ?? 'photo'}-small.png",
-                                        imageErrorBuilder: (context, error, stackTrace) =>
-                                            Image.asset(
-                                          "assets/images/product_preloading.png",
-                                          width: 100,
-                                          height: 100,
-                                          fit: BoxFit.cover,
-                                        ),
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
-                                  horizontalSpaceTiny,
-                                  Expanded(
-                                      child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      CustomText(
-                                        order.product!.name!.capitalizeFirst ?? "",
-                                        isBold: true,
-                                        color: Colors.grey[800]!,
-                                        dotsAfterOverFlow: true,
-                                        fontSize: titleFontSize + 4,
-                                      ),
-                                      verticalSpaceSmall,
-                                      Row(
-                                        children: [
-                                          CustomText("Qty: ",
-                                              dotsAfterOverFlow: true,
-                                              color: Colors.black54,
-                                              fontSize: subtitleFontSize),
-                                          horizontalSpaceSmall,
-                                          CustomText((order.orderCost!.quantity ?? 0).toString(),
-                                              dotsAfterOverFlow: true,
-                                              color: Colors.grey,
-                                              fontSize: subtitleFontSize),
-                                        ],
-                                      ),
-                                      if (order.variation!.size != 'N/A')
-                                        Row(
-                                          children: [
-                                            CustomText("Size: ",
-                                                dotsAfterOverFlow: true,
-                                                color: Colors.black54,
-                                                fontSize: subtitleFontSize),
-                                            horizontalSpaceSmall,
-                                            CustomText(order.variation!.size ?? "",
-                                                dotsAfterOverFlow: true,
-                                                color: Colors.grey,
-                                                fontSize: subtitleFontSize),
-                                          ],
-                                        ),
-                                      verticalSpaceTiny,
-                                      CustomText(
-                                        rupeeUnicode + order.orderCost!.cost.toString(),
-                                        dotsAfterOverFlow: true,
-                                        fontSize: titleFontSize,
-                                        isBold: true,
-                                        color: textIconOrange,
-                                      ),
+                                if (order.variation!.size != 'N/A')
+                                  Row(
+                                    children: [
+                                      CustomText("Size: ",
+                                          dotsAfterOverFlow: true,
+                                          color: Colors.black45,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: subtitleFontSize),
+                                      horizontalSpaceSmall,
+                                      CustomText(order.variation!.size ?? "",
+                                          dotsAfterOverFlow: true,
+                                          color: Colors.grey,
+                                          fontSize: subtitleFontSize),
                                     ],
-                                  )),
-                                  IconButton(
-                                    icon: Icon(
-                                      Icons.arrow_forward_ios,
-                                      color: Colors.grey,
-                                    ),
-                                    onPressed: () {},
-                                  )
-                                ],
+                                  ),
+                                verticalSpaceTiny,
+                                CustomText(
+                                  rupeeUnicode + order.orderCost!.cost.toString(),
+                                  dotsAfterOverFlow: true,
+                                  fontSize: titleFontSize,
+                                  isBold: true,
+                                  color: lightGreen,
+                                ),
+                              ],
+                            )),
+                            
+                            Padding(
+                              padding: EdgeInsets.all(2.0),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(curve15),
+                                child: FadeInImage.assetNetwork(
+                                  width: 80,
+                                  height: 80,
+                                  fadeInCurve: Curves.easeIn,
+                                  placeholder: "assets/images/product_preloading.png",
+                                  image:
+                                      "$PRODUCT_PHOTO_BASE_URL/${order.product!.key}/${order.product?.photo?.photos?.first.name ?? 'photo'}-small.png",
+                                  imageErrorBuilder: (context, error, stackTrace) => Image.asset(
+                                    "assets/images/product_preloading.png",
+                                    width: 80,
+                                    height: 80,
+                                    fit: BoxFit.cover,
+                                  ),
+                                  fit: BoxFit.cover,
+                                ),
                               ),
-                            ],
-                          ),
+                            ),
+                            
+                          ],
                         ),
-                      ),
-                      onTap: () async {
-                       await  _analyticsService.sendAnalyticsEvent(
-                            eventName: "order_history_view",
-                            parameters: <String, dynamic>{
-                              "order_id": order.productId,
-                              "user_id": locator<HomeController>().details!.key,
-                              "user_name": locator<HomeController>().details!.name,
-                              "user_contact": locator<HomeController>().details!.contact,
-                            });
-                        Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                            builder: (context) => MyOrdersDetailsView(order),
-                          ),
-                        );
-                      },
+                      ],
                     ),
                   ),
+                  onTap: () async {
+                    print("order history");
+                    await _analyticsService.sendAnalyticsEvent(
+                        eventName: "order_history_view",
+                        parameters: <String, dynamic>{
+                          "order_id": order.productId,
+                          "user_id": locator<HomeController>().details!.key,
+                          "user_name": locator<HomeController>().details!.name,
+                          "user_contact": locator<HomeController>().details!.contact!.phone!.mobile,
+                        });
+                    Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                        builder: (context) => MyOrdersDetailsView(order),
+                      ),
+                    );
+                  },
                 ),
               ),
             if (!widget.controller.busy && widget.controller.mOrders?.orders?.length == 0)

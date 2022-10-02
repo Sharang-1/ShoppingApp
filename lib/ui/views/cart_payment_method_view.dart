@@ -13,6 +13,7 @@ import '../../locator.dart';
 import '../../models/order.dart';
 import '../../models/order_details.dart';
 import '../../models/user_details.dart';
+import '../../services/dialog_service.dart';
 import '../../services/error_handling_service.dart';
 import '../../services/navigation_service.dart';
 import '../shared/app_colors.dart';
@@ -20,11 +21,12 @@ import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
 import '../widgets/custom_stepper.dart';
 import '../widgets/custom_text.dart';
-import '../widgets/order_details_bottomsheet.dart';
 
 class PaymentMethod extends StatefulWidget {
+  final List<dynamic> products;
+
   final CustomerDetails customerDetails;
-  // final String finalTotal;
+  final double? finalTotal;
   // final UserDetailsContact billingAddress;
   // final String productId;
   // final String promoCode;
@@ -37,6 +39,7 @@ class PaymentMethod extends StatefulWidget {
   const PaymentMethod({
     Key? key,
     required this.customerDetails,
+    required this.products,
     // required this.productId,
     // this.promoCode = "",
     // this.promoCodeId = "",
@@ -44,7 +47,7 @@ class PaymentMethod extends StatefulWidget {
     // this.color,
     // this.qty,
     // required this.billingAddress,
-    // required this.finalTotal,
+    required this.finalTotal,
     // required this.orderDetails,
   }) : super(key: key);
 
@@ -77,19 +80,19 @@ class _PaymentMethodState extends State<PaymentMethod> {
     // print("color " + widget.color!);
     // print("qty" + widget.qty.toString());
     super.initState();
-    // WidgetsBinding.instance.addPostFrameCallback(
-    //   (_) async {
-    //     await DialogService.showDialog(
-    //       title: CART_ALERT_DIALOG_TITLE.tr,
-    //       description: CART_ALERT_DIALOG_DESCRIPTION.tr,
-    //     );
-    //   },
-    // );
+    WidgetsBinding.instance?.addPostFrameCallback(
+      (_) async {
+        await DialogService.showDialog(
+          title: CART_ALERT_DIALOG_TITLE.tr,
+          description: CART_ALERT_DIALOG_DESCRIPTION.tr,
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    // if (widget.billingAddress.city != null) {
+    // if (widget.customerDetails.address != null) {
     //   setState(() {
     //     paymentMethodRadioValue = 2;
     //     paymentMethodGrpValue = 2;
@@ -161,12 +164,12 @@ class _PaymentMethodState extends State<PaymentMethod> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
 
-                      //! total price of products
-                      // CustomText(
-                      //   "${BaseController.formatPrice(num.parse(widget.finalTotal.replaceAll("₹", "")))}",
-                      //   fontSize: 12,
-                      //   isBold: true,
-                      // ),
+                      CustomText(
+                        rupeeUnicode + widget.finalTotal.toString(),
+                        fontSize: 18,
+                        isBold: true,
+                        color: logoRed,
+                      ),
                       CustomText(
                         VIEW_DETAILS.tr,
                         textStyle: TextStyle(
@@ -356,7 +359,9 @@ class _PaymentMethodState extends State<PaymentMethod> {
     //     widget.billingAddress.pincode
     //     );
 
-    final GroupOrderReponseModel res = await controller.createGroupOrder();
+    final GroupOrderReponseModel res = await controller.createGroupOrder(
+      widget.finalTotal, widget.customerDetails, widget.products
+    );
 
     print("res = $res");
     if (res != null) {
