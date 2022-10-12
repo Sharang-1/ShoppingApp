@@ -1,40 +1,39 @@
-class GroupOrderReponseModel {
-  List<RequestedOrders>? requestedOrders;
-  String? groupQueueid;
-
-  GroupOrderReponseModel({
-    this.groupQueueid,
-    this.requestedOrders,
+class GroupOrderResponseModel {
+  GroupOrderResponseModel({
+    required this.requestedOrders,
+    required this.groupQueueId,
   });
 
-  GroupOrderReponseModel.fromJson(Map<String, dynamic> json) {
-    groupQueueid = json['groupQueueId'];
-    requestedOrders = json['requestedOrders'][0];
-  }
+  List<RequestedOrders> requestedOrders;
+  String groupQueueId;
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['requestedOrders'] = this.requestedOrders;
-    data['groupQueueId'] = this.groupQueueid;
-    return data;
-  }
+  factory GroupOrderResponseModel.fromJson(Map<String, dynamic> json) => GroupOrderResponseModel(
+        requestedOrders: List<RequestedOrders>.from(
+            json["requestedOrders"].map((x) => RequestedOrders.fromJson(x))),
+        groupQueueId: json["groupQueueId"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "requestedOrders": List<dynamic>.from(requestedOrders.map((x) => x.toJson())),
+        "groupQueueId": groupQueueId,
+      };
 }
 
 class RequestedOrders {
   String? queueId;
   String? clientQueueId;
-  String? orderId;
   String? status;
-  String? httpStatus;
-  String? error;
-  String? field;
+  // String? orderId;
+  // String? httpStatus;
+  // String? error;
+  // String? field;
 
   RequestedOrders({
     this.clientQueueId,
-    this.error,
-    this.field,
-    this.httpStatus,
-    this.orderId,
+    // this.error,
+    // this.field,
+    // this.httpStatus,
+    // this.orderId,
     this.queueId,
     this.status,
   });
@@ -42,22 +41,22 @@ class RequestedOrders {
   RequestedOrders.fromJson(Map<String, dynamic> json) {
     queueId = json['queueId'];
     clientQueueId = json['clientQueueId'];
-    orderId = json['orderId'];
     status = json['status'];
-    httpStatus = json['httpStatus'];
-    error = json['error'];
-    field = json['field'];
+    // orderId = json['orderId'];
+    // httpStatus = json['httpStatus'];
+    // error = json['error'];
+    // field = json['field'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['queueId'] = this.queueId;
     data['clientQueueId'] = this.clientQueueId;
-    data['orderId'] = this.orderId;
     data['status'] = this.status;
-    data['httpStatus'] = this.httpStatus;
-    data['error'] = this.error;
-    data['field'] = this.field;
+    // data['orderId'] = this.orderId;
+    // data['httpStatus'] = this.httpStatus;
+    // data['error'] = this.error;
+    // data['field'] = this.field;
 
     return data;
   }

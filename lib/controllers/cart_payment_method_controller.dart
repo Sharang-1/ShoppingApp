@@ -1,3 +1,5 @@
+import 'package:compound/models/orderV2_response.dart';
+
 import '../locator.dart';
 import '../models/order.dart';
 import '../models/orderV2.dart';
@@ -43,29 +45,35 @@ class CartPaymentMethodController extends BaseController {
     return null;
   }
 
-  Future<Order2?> createGroupOrder(
+  Future<GroupOrderResponseModel?> createGroupOrder(
     double orderCost,
     CustomerDetails customerDetails,
     List<dynamic> products,
   ) async {
     setBusy(true);
-    final order = await _apiService.createGroupOrder(
+    final GroupOrderResponseModel? order = await _apiService.createGroupOrder(
       customerDetails: customerDetails,
       products: products,
     );
     if (order != null) {
-      if (order.payment!.option!.id != 2) {
+      // if (order.payment!.option!.id != 2) {
+      //   setBusy(false);
+      //   return order;
+      // }
+
+      if (order.groupQueueId != null) {
         setBusy(false);
         return order;
       }
 
-      await _paymentService.makePayment(
-        amount: orderCost,
-        contactNo: customerDetails.customerPhone!.mobile.toString(),
-        orderId: order.payment!.orderId!,
-        receiptId: order.payment!.receiptId!,
-        dzorOrderId: order.payment!.orderId!,
-      );
+      // ? razorpay payment redirect
+      // await _paymentService.makePayment(
+      //   amount: orderCost,
+      //   contactNo: customerDetails.customerPhone!.mobile.toString(),
+      //   orderId: order.payment!.orderId!,
+      //   receiptId: order.payment!.receiptId!,
+      //   dzorOrderId: order.payment!.orderId!,
+      // );
     }
     setBusy(false);
     return null;

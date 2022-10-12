@@ -234,6 +234,7 @@ class _HomeViewListState extends State<HomeViewList> {
                           // ),
                           // if ((controller.bottomPromotion.length) > 0) ...[
                           //   SectionDivider(),
+                          //   // Text("HI"),
                           //   BottomPromotion(promotion: controller.bottomPromotion[0])
                           // ],
                           if (appVar.dynamicSectionKeys.length > i)

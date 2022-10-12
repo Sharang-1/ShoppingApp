@@ -1,6 +1,7 @@
 import 'package:compound/app/app.dart';
 import 'package:compound/controllers/home_controller.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -19,6 +20,7 @@ import 'ui/views/startup_view.dart';
 void main() async {
   await setup();
   SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.setInt("promotion_product_share", 0);
   String lang =
       prefs.getString(CurrentLanguage) ?? LocalizationService.langs[0];
   await Firebase.initializeApp();
@@ -36,7 +38,7 @@ void main() async {
   setupLogger();
   // Register all the models and services before the app starts
   setupLocator();
-  appVar.currentUrl = appVar.liveUrl;
+  kDebugMode? appVar.currentUrl = appVar.devUrl : appVar.currentUrl = appVar.liveUrl;
   // if (kReleaseMode)
   //   appVar.currentUrl = appVar.liveUrl;
   // else

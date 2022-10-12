@@ -1,7 +1,9 @@
 import 'package:fimber/fimber.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constants/route_names.dart';
 import '../locator.dart';
@@ -21,8 +23,7 @@ import 'home_controller.dart';
 import 'wishlist_controller.dart';
 
 class ProductController extends BaseController {
-  final CartLocalStoreService _cartLocalStoreService =
-      locator<CartLocalStoreService>();
+  final CartLocalStoreService _cartLocalStoreService = locator<CartLocalStoreService>();
   final APIService _apiService = locator<APIService>();
   final AnalyticsService _analyticsService = locator<AnalyticsService>();
   final WishListService _wishListService = locator<WishListService>();
@@ -37,60 +38,53 @@ class ProductController extends BaseController {
   List<Coupon> coupons = [];
   bool isWishlistIconFilled = false;
 
-  ProductController(this.sellerId,
-      {this.productId = "", this.productName = ""});
+  ProductController(this.sellerId, {this.productId = "", this.productName = ""});
 
   void init() async {
-    isWishlistIconFilled =
-        locator<WishListController>().list.indexOf(productId) != -1;
+    isWishlistIconFilled = locator<WishListController>().list.indexOf(productId) != -1;
     productData = await refreshProduct(productId);
     reviews = await _apiService.getReviews(productId, isSellerReview: false);
     update();
 
-    await _analyticsService.sendAnalyticsEvent(
-        eventName: "product_view",
-        parameters: <String, dynamic>{
-          "product_id": productData?.key,
-          "product_name": productData?.name,
-          "category_id": productData?.category?.id?.toString(),
-          "category_name": productData?.category?.name,
-          "user_id": locator<HomeController>().details!.key,
-          "user_name": locator<HomeController>().details!.name,
-        });
+    await _analyticsService
+        .sendAnalyticsEvent(eventName: "product_view", parameters: <String, dynamic>{
+      "product_id": productData?.key,
+      "product_name": productData?.name,
+      "category_id": productData?.category?.id?.toString(),
+      "category_name": productData?.category?.name,
+      "user_id": locator<HomeController>().details!.key,
+      "user_name": locator<HomeController>().details!.name,
+    });
   }
 
   Future<List<Lookups>> getLookups() {
     return _apiService.getLookups();
   }
 
-  Future<int> addToCart(Product product, int qty,BuildContext context, String size, String color,
+  Future<int> addToCart(Product product, int qty, BuildContext context, String size, String color,
       {bool showDialog: true,
       bool fromBuyNow = false,
       bool fromCart = false,
-
       Function? onProductAdded}) async {
     print("Cart added");
     print(product.key);
 
     if (!fromBuyNow)
-      await _analyticsService.sendAnalyticsEvent(
-          eventName: "add_to_cart",
-          parameters: <String, dynamic>{
-            "product_id": product.key,
-            "product_name": product.name,
-            "category_id": product.category?.id?.toString(),
-            "category_name": product.category?.name,
-            "user_id": locator<HomeController>().details!.key,
-            "user_name": locator<HomeController>().details!.name,
-          });
+      await _analyticsService
+          .sendAnalyticsEvent(eventName: "add_to_cart", parameters: <String, dynamic>{
+        "product_id": product.key,
+        "product_name": product.name,
+        "category_id": product.category?.id?.toString(),
+        "category_name": product.category?.name,
+        "user_id": locator<HomeController>().details!.key,
+        "user_name": locator<HomeController>().details!.name,
+      });
 
-    final res =
-        await _apiService.addToCart(product.key ?? "", qty, size, color);
+    final res = await _apiService.addToCart(product.key ?? "", qty, size, color);
     if (res != null) {
       await BaseController.vibrate(duration: 10);
 
-      final localStoreResult =
-          await _cartLocalStoreService.addToCartLocalStore(product.key!);
+      final localStoreResult = await _cartLocalStoreService.addToCartLocalStore(product.key!);
       if (localStoreResult == -1) {
         if (fromCart) {
           if (onProductAdded != null) onProductAdded();
@@ -128,10 +122,8 @@ class ProductController extends BaseController {
     return null;
   }
 
-  Future<bool> buyNow(
-      Product product, int qty, context,  String size, String color) async {
-    await _analyticsService
-        .sendAnalyticsEvent(eventName: "buy_now", parameters: <String, dynamic>{
+  Future<bool> buyNow(Product product, int qty, context, String size, String color) async {
+    await _analyticsService.sendAnalyticsEvent(eventName: "buy_now", parameters: <String, dynamic>{
       "product_id": product.key,
       "product_name": product.name,
       "category_id": product.category?.id?.toString(),
@@ -141,7 +133,7 @@ class ProductController extends BaseController {
       "user_name": locator<HomeController>().details!.name,
     });
 
-    var res = await addToCart(product, qty,context, size, color,
+    var res = await addToCart(product, qty, context, size, color,
         showDialog: false, fromBuyNow: true, onProductAdded: () {});
     if (res != null) {
       return true;
@@ -172,20 +164,25 @@ class ProductController extends BaseController {
     }
   }
 
-  Future<void> shareProductEvent(
-      {String productId = '', String productName = ''}) async {
+  Future<void> shareProductEvent({String productId = '', String productName = ''}) async {
     try {
-      await _analyticsService.sendAnalyticsEvent(
-          eventName: "product_shared",
-          parameters: <String, dynamic>{
-            "product_id": productId,
-            "product_name": productName,
-            "category_id": productData?.category?.id?.toString(),
-            "category_name": productData?.category?.name,
-            "user_id": locator<HomeController>().details!.key,
-            "user_name": locator<HomeController>().details!.name,
-          });
-    } catch (e) {}
+      final prefs = await SharedPreferences.getInstance();
+      int? counter = prefs.getInt('promotion_product_share');
+      counter = (counter! + 1);
+      await prefs.setInt("promotion_product_share", counter);
+
+      await _analyticsService
+          .sendAnalyticsEvent(eventName: "product_shared", parameters: <String, dynamic>{
+        "product_id": productId,
+        "product_name": productName,
+        "category_id": productData?.category?.id?.toString(),
+        "category_name": productData?.category?.name,
+        "user_id": locator<HomeController>().details!.key,
+        "user_name": locator<HomeController>().details!.name,
+      });
+    } catch (e) {
+      if (kDebugMode) printError(info: 'share product error $e');
+    }
   }
 
   Future getProducts() async {

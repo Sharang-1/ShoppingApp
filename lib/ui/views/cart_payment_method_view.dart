@@ -3,6 +3,7 @@ import 'package:compound/models/orderV2.dart';
 import 'package:compound/models/orderV2_response.dart';
 import 'package:compound/services/api/api_service.dart';
 import 'package:compound/utils/lang/translation_keys.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../constants/route_names.dart';
@@ -60,30 +61,30 @@ class _PaymentMethodState extends State<PaymentMethod> {
     2: Tab(icon: Image.asset("assets/images/online_payment.png")),
   };
 
-  @override
-  void initState() {
-    // print("Cart Payment");
-    // print("final totle " + widget.finalTotal);
-    // print("billing add " +
-    //     widget.billingAddress.address! +
-    //     '\n' +
-    //     widget.billingAddress.googleAddress!);
-    // print("product id " + widget.productId);
-    // print("promo code " + widget.promoCode);
-    // print("promo id" + widget.promoCodeId!);
-    // print("size " + widget.size!);
-    // print("color " + widget.color!);
-    // print("qty" + widget.qty.toString());
-    super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback(
-      (_) async {
-        await DialogService.showDialog(
-          title: CART_ALERT_DIALOG_TITLE.tr,
-          description: CART_ALERT_DIALOG_DESCRIPTION.tr,
-        );
-      },
-    );
-  }
+  // @override
+  // void initState() {
+  //   // print("Cart Payment");
+  //   // print("final totle " + widget.finalTotal);
+  //   // print("billing add " +
+  //   //     widget.billingAddress.address! +
+  //   //     '\n' +
+  //   //     widget.billingAddress.googleAddress!);
+  //   // print("product id " + widget.productId);
+  //   // print("promo code " + widget.promoCode);
+  //   // print("promo id" + widget.promoCodeId!);
+  //   // print("size " + widget.size!);
+  //   // print("color " + widget.color!);
+  //   // print("qty" + widget.qty.toString());
+  //   super.initState();
+  //   WidgetsBinding.instance?.addPostFrameCallback(
+  //     (_) async {
+  //       await DialogService.showDialog(
+  //         title: CART_ALERT_DIALOG_TITLE.tr,
+  //         description: CART_ALERT_DIALOG_DESCRIPTION.tr,
+  //       );
+  //     },
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -340,30 +341,23 @@ class _PaymentMethodState extends State<PaymentMethod> {
 
   Future<void> makePayment(controller) async {
     appVar.previousOrders = (await locator<APIService>().getAllOrders())!.orders!;
-    // final Order res = await controller.createOrder(
-    //     widget.billingAddress.address! +
-    //         '\n' +
-    //         widget.billingAddress.googleAddress!,
-    //     widget.productId,
-    //     widget.promoCode,
-    //     widget.promoCodeId,
-    //     widget.size,
-    //     widget.color,
-    //     widget.qty,
-    //     paymentMethodRadioValue,
-    //     widget.billingAddress.pincode
-    //     );
-
-    final GroupOrderReponseModel res = await controller.createGroupOrder(
+    final GroupOrderResponseModel res = await controller.createGroupOrder(
       widget.finalTotal, widget.customerDetails, widget.products
     );
 
-    print("res = $res");
+    if(kDebugMode) print("res = $res");
     if (res != null) {
       NavigationService.off(PaymentFinishedScreenRoute);
     } else if (paymentMethodGrpValue != 2) {
       _errorHandlingService.showError(Errors.CouldNotPlaceAnOrder);
       NavigationService.offAll(HomeViewRoute);
     }
+    // print("res = $res");
+    // if (res != null) {
+    //   NavigationService.off(PaymentFinishedScreenRoute);
+    // } else if (paymentMethodGrpValue != 2) {
+    //   _errorHandlingService.showError(Errors.CouldNotPlaceAnOrder);
+    //   NavigationService.offAll(HomeViewRoute);
+    // }
   }
 }

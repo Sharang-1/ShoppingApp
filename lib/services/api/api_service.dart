@@ -100,15 +100,15 @@ class APIService {
     dio.Options? options,
     bool authenticated = false,
   }) async {
-   if(kDebugMode) print("IN API Wrapper $path");
+    if (kDebugMode) print("IN API Wrapper $path");
 
     if (authenticated) {
-     if(kDebugMode) print("AUTHENTICATED");
+      if (kDebugMode) print("AUTHENTICATED");
 
       if (options == null) {
         options = dio.Options(headers: {'excludeToken': true});
       }
-     if(kDebugMode) print("options $options");
+      if (kDebugMode) print("options $options");
       // options.headers!["excludeToken"] = true;
     }
 
@@ -125,14 +125,14 @@ class APIService {
         res = await apiClient.put(path,
             data: data, queryParameters: queryParameters, options: options);
       }
-     if(kDebugMode) print("res = $res and path = $path");
+      if (kDebugMode) print("res = $res and path = $path");
       if (res.statusCode == 401) {
         return null;
       }
 
-     if(kDebugMode) print("Fetched Raw Response From API");
+      if (kDebugMode) print("Fetched Raw Response From API");
       Map resJSON = res.data;
-     if(kDebugMode) print("Response converted to json");
+      if (kDebugMode) print("Response converted to json");
 
       if (resJSON.containsKey("error") == true) {
         throw Exception(resJSON["error"]);
@@ -190,51 +190,35 @@ class APIService {
     return list;
   }
 
-  Future<OrderV2.Order2?> createGroupOrder({
+  Future<GroupOrderResponseModel?> createGroupOrder({
     OrderV2.CustomerDetails? customerDetails,
     OrderV2.Payment? payment,
     List<dynamic>? products,
   }) async {
     try {
       try {
-       if(kDebugMode) print("--------- api testing ----------");
-        //if(kDebugMode) print(customerDetails);
-        //if(kDebugMode) print(products![0].productId);
-        //if(kDebugMode) print(payment);
-        //if(kDebugMode) print(locator<HomeController>().details!.key);
+        var orderBody = {"customerDetails": customerDetails, "orders": products};
+
+        var orderJson = jsonEncode(orderBody);
+
+        if (kDebugMode) print("--------- api testing ----------");
 
         final response = await apiWrapper("v2/orders",
             authenticated: true,
             options: dio.Options(headers: {'excludeToken': false}, method: "POST"),
-            data: {
-              "customerDetails": jsonEncode(customerDetails),
-              "orders": jsonEncode(products),
-              // "payment": jsonEncode(payment),
-              // "customerDetails": {
-              //   "address": "test billing address",
-              //   "city": "test billing city",
-              //   "state": "test billing state",
-              //   "pincode": "380060",
-              //   "country": "india"
-              // },
-              // "orders": [
-              //   {
-              //     "productId": 83885946,
-              //     "variation": {"size": "xl", "quantity": 1, "color": "pink"},
-              //     "orderQueue": {"clientQueueId": 1}
-              //   }
-              // ]
-            });
-       if(kDebugMode) print("response data");
-       if(kDebugMode) print(response);
+            data: orderJson);
+        if (kDebugMode) print("response data");
+        if (kDebugMode) print(response);
 
         if (response != null) {
-          final orderResponse = GroupOrderReponseModel.fromJson(response);
-         if(kDebugMode) print("order response");
-         if(kDebugMode) print(orderResponse);
+          final orderResponse = GroupOrderResponseModel.fromJson(response);
+          
+          if (kDebugMode) print("order response");
+          if (kDebugMode) print(orderResponse);
+          return orderResponse;
         }
       } catch (e) {
-       if(kDebugMode) print(e.toString());
+        if (kDebugMode) print(e.toString());
       }
     } on SocketException catch (_) {
       Fluttertoast.showToast(
@@ -254,7 +238,7 @@ class APIService {
     appInfo = AppInfo.fromJson(json);
     // if (json != null) appInfo = AppInfo.fromJson(json);
     if ((appInfo.pollWaitTime ?? 0) > 0) pollWaitTime = appInfo.pollWaitTime!;
-   if(kDebugMode) print("appInfo is $appInfo");
+    if (kDebugMode) print("appInfo is $appInfo");
     return appInfo;
   }
 
@@ -353,7 +337,7 @@ class APIService {
         Fimber.d("promotions : " + promotions.promotions!.map((o) => o.name).toString());
         return promotions;
       } catch (e) {
-       if(kDebugMode) print(e);
+        if (kDebugMode) print(e);
         // Fimber.e("TestError");
         // Fimber.e(e);
         return Promotions();
@@ -421,7 +405,7 @@ class APIService {
         Fimber.d("Cart : " + cart.items!.map((o) => o.productId).toString());
         return cart;
       } catch (err) {
-       if(kDebugMode) print(err);
+        if (kDebugMode) print(err);
         return CartModule.Cart();
       }
     }
@@ -432,7 +416,7 @@ class APIService {
     var cartData;
     cartData = await apiWrapper("carts/my?context=productDetails",
         authenticated: true, options: dio.Options(headers: {'excludeToken': false}));
-   if(kDebugMode) print("cartData is $cartData");
+    if (kDebugMode) print("cartData is $cartData");
     if (cartData != null) {
       try {
         CartModule.Cart cart = CartModule.Cart.fromJson(cartData);
@@ -440,8 +424,8 @@ class APIService {
         final list = cart.items!.map((e) => e.productId.toString()).toList();
         return list;
       } catch (err) {
-       if(kDebugMode) print("Error in api_service.dart > getCartProductItemList");
-       if(kDebugMode) print(err);
+        if (kDebugMode) print("Error in api_service.dart > getCartProductItemList");
+        if (kDebugMode) print(err);
         return null;
       }
     }
@@ -494,7 +478,7 @@ class APIService {
         CalculatedPrice calPrice = CalculatedPrice.fromJson(calculatedPriceData);
         return calPrice;
       } catch (err) {
-       if(kDebugMode) print("Calculated Price Error : ${err.toString()}");
+        if (kDebugMode) print("Calculated Price Error : ${err.toString()}");
         return null;
       }
     }
@@ -577,9 +561,9 @@ class APIService {
         }
       },
     );
-   if(kDebugMode) print(orderData);
-   if(kDebugMode) print(" $pincode pincode1");
-   if(kDebugMode) print("------------$billingAddress-----------------xyz--");
+    if (kDebugMode) print(orderData);
+    if (kDebugMode) print(" $pincode pincode1");
+    if (kDebugMode) print("------------$billingAddress-----------------xyz--");
     if (orderData != null) {
       try {
         Queue queue = Queue.fromJson(orderData);
@@ -655,7 +639,7 @@ class APIService {
         return null;
       }
     }
-   if(kDebugMode) print("Razor Success: ${json.toString()}");
+    if (kDebugMode) print("Razor Success: ${json.toString()}");
     return null;
   }
 
@@ -707,7 +691,7 @@ class APIService {
         return true;
       }
     } catch (e) {
-     if(kDebugMode) print("Error: $e");
+      if (kDebugMode) print("Error: $e");
       return false;
     }
     return false;
@@ -729,7 +713,7 @@ class APIService {
           method: "post",
         ));
     if (res != null) {
-      if (kDebugMode)if(kDebugMode) print("image uploaded successfully");
+      if (kDebugMode) if (kDebugMode) print("image uploaded successfully");
       return true;
     }
     return false;

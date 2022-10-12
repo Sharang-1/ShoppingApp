@@ -3,6 +3,7 @@ import 'package:compound/ui/views/home_screen.dart';
 import 'package:compound/ui/views/myAppointments_view.dart';
 import 'package:compound/ui/views/myorders_view.dart';
 import 'package:compound/ui/views/settings_page_view.dart';
+import 'package:compound/ui/widgets/confetti.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -36,7 +37,7 @@ int _activeIndex = 2;
 
   @override
   Widget build(BuildContext context) {
-  List _screens = [CategoriesView(),MyOrdersView(), HomeScreen(args: widget.args), MyAppointments(), SettingsView()];
+  List _screens = [CategoriesView(),MyOrdersView(), AllConfettiWidget(child: HomeScreen(args: widget.args)), MyAppointments(), SettingsView()];
 
     return GetBuilder<HomeController>(
         init: controller,
