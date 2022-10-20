@@ -1,8 +1,16 @@
-import 'dart:math';
+// import 'dart:math';
 
+import 'package:compound/models/promotions.dart';
+import 'package:compound/ui/shared/app_colors.dart';
 import 'package:compound/ui/shared/shared_styles.dart';
+import 'package:compound/ui/shared/ui_helpers.dart';
+import 'package:compound/ui/views/promotion_recieved_screen.dart';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'custom_text.dart';
 
 class AllConfettiWidget extends StatefulWidget {
   final Widget child;
@@ -22,27 +30,36 @@ class _AllConfettiWidgetState extends State<AllConfettiWidget> {
   @override
   void initState() {
     super.initState();
-
-    controller = ConfettiController(duration: Duration(seconds: 5));
-    controller.play();
+    checkPromotion();
   }
 
-  static final double right = 0;
-  static final double down = pi / 2;
-  static final double left = pi;
-  static final double top = -pi / 2;
+  checkPromotion() async {
+    final prefs = await SharedPreferences.getInstance();
 
-  final double blastDirection = left;
+    int? counter = prefs.getInt('promotion_product_share');
+    bool? isPromotionActive = prefs.getBool('promotion_won');
+    if (isPromotionActive ?? false) {
+      setState(() {
+        isPromotionWon = true;
+        controller = ConfettiController(duration: Duration(seconds: 5));
+        controller.play();
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black12,
       body: SafeArea(
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,
-          onTap: () {
-            controller.stop();
+          onTap: () async {
+            final prefs = await SharedPreferences.getInstance();
+            await prefs.setInt("promotion_product_share", 0);
+            await prefs.setBool('promotion_won', false);
             setState(() {
+            controller.stop();
               isPromotionWon = false;
             });
             // if (controller.state == ConfettiControllerState.playing) {
@@ -54,8 +71,8 @@ class _AllConfettiWidgetState extends State<AllConfettiWidget> {
           child: Stack(
             children: [
               widget.child,
-              if(isPromotionWon)showPromotionDialog(),
-              if(isPromotionWon)buildConfetti(),
+              if (isPromotionWon) showPromotionDialog(),
+              if (isPromotionWon) buildConfetti(),
             ],
           ),
         ),
@@ -67,7 +84,7 @@ class _AllConfettiWidgetState extends State<AllConfettiWidget> {
         alignment: Alignment.center,
         child: Container(
           padding: EdgeInsets.all(10),
-          height: 150,
+          height: 400,
           width: MediaQuery.of(context).size.width * 0.7,
           decoration: BoxDecoration(
             color: Colors.white,
@@ -78,8 +95,42 @@ class _AllConfettiWidgetState extends State<AllConfettiWidget> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text("You have a chance to win a product for free"),
-              Text("Tap to dismiss!"),
+              // Row()
+              Text(
+                "Thanks for sharing !",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: logoRed),
+              ),
+              Lottie.asset('assets/icons/ruffle-gift.json'),
+              verticalSpaceSmall,
+              Text(
+                "You have a chance to win a product for free. Keep Sharing!",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Colors.black),
+              ),
+              verticalSpaceSmall,
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  elevation: 0,
+                  primary: lightGreen,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (_) => PromotionScreen()));
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Center(
+                    child: CustomText(
+                      "View Product",
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),

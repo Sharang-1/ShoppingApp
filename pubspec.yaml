@@ -60,6 +60,7 @@ dependencies:
   libphonenumber: ^2.0.2
   location: ^4.3.0
   logger: ^1.1.0
+  lottie: ^1.4.2
   md2_tab_indicator: ^1.0.2
   modal_bottom_sheet: ^2.0.0
   overlay_support: ^1.2.1

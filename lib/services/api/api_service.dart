@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:compound/app/app.dart';
 import 'package:dio/dio.dart' as dio;
 // import 'package:dio/dio.dart';
 // import 'package:dio_retry/dio_retry.dart';
@@ -190,6 +191,13 @@ class APIService {
     return list;
   }
 
+  Future<Promotion>? getPromotedProduct() async {
+    var res = apiWrapper('promotions/86798078');
+    Promotion promotion = Promotion.fromJson(res as Map<String, dynamic>);
+    
+    return promotion;
+  }
+
   Future<GroupOrderResponseModel?> createGroupOrder({
     OrderV2.CustomerDetails? customerDetails,
     OrderV2.Payment? payment,
@@ -212,7 +220,7 @@ class APIService {
 
         if (response != null) {
           final orderResponse = GroupOrderResponseModel.fromJson(response);
-          
+
           if (kDebugMode) print("order response");
           if (kDebugMode) print(orderResponse);
           return orderResponse;

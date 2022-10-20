@@ -33,11 +33,18 @@ class _HomeViewState extends State<HomeView> {
 
   final GlobalKey logoKey = GlobalKey();
 
-int _activeIndex = 2;
+  int _activeIndex = 2;
 
   @override
   Widget build(BuildContext context) {
-  List _screens = [CategoriesView(),MyOrdersView(), AllConfettiWidget(child: HomeScreen(args: widget.args)), MyAppointments(), SettingsView()];
+    List _screens = [
+      CategoriesView(),
+      MyOrdersView(),
+      // AllConfettiWidget(child: HomeScreen(args: widget.args)),
+      HomeScreen(args: widget.args),
+      MyAppointments(),
+      SettingsView(),
+    ];
 
     return GetBuilder<HomeController>(
         init: controller,
@@ -71,7 +78,8 @@ int _activeIndex = 2;
                   TabItem(
                     title: '',
                     icon: Container(
-                    decoration: BoxDecoration(shape: BoxShape.circle,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
                         color: backgroundWhiteCreamColor,
                       ),
                       child: Padding(
@@ -92,10 +100,11 @@ int _activeIndex = 2;
                         ? SvgPicture.asset("assets/icons/appointment1.svg")
                         : SvgPicture.asset("assets/icons/appointment0.svg"),
                   ),
-                 
                   TabItem(
                     title: NAVBAR_PROFILE.tr,
-                    icon: _activeIndex==4? SvgPicture.asset("assets/icons/profile1.svg"): SvgPicture.asset("assets/icons/profile0.svg"),
+                    icon: _activeIndex == 4
+                        ? SvgPicture.asset("assets/icons/profile1.svg")
+                        : SvgPicture.asset("assets/icons/profile0.svg"),
                   ),
                 ],
                 backgroundColor: Colors.white,
@@ -104,7 +113,7 @@ int _activeIndex = 2;
                 initialActiveIndex: 2,
                 // onTabNotify: controller.bottomNavigationOnTap,
                 elevation: 5,
-                onTap: (i)=> setState(() {
+                onTap: (i) => setState(() {
                   _activeIndex = i;
                 }),
               ),

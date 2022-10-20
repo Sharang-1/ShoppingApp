@@ -30,8 +30,8 @@ class Order2 {
 }
 
 class CustomerDetails {
-  // String? name;
-  // String? customerId;
+  String? name;
+  String? customerId;
   CustomerPhone? customerPhone;
   // CustomerMeasure? customerMeasure;
   String? address;
@@ -45,18 +45,18 @@ class CustomerDetails {
     this.address,
     this.city,
     this.country,
-    // this.customerId,
+    this.customerId,
     // this.customerMeasure,
     this.customerPhone,
     this.email,
-    // this.name,
+    this.name,
     this.pincode,
     this.state,
   });
 
   factory CustomerDetails.fromJson(Map<String, dynamic> json) => CustomerDetails(
-        // name: json["name"],
-        // customerId: json["customerId"],
+        name: json["name"],
+        customerId: json["customerId"],
         address: json["address"],
         city: json["city"],
         country: json["country"],
@@ -67,7 +67,7 @@ class CustomerDetails {
         customerPhone: CustomerPhone.fromJson(json["customerPhone"]),
       );
   Map<String, dynamic> toJson() => {
-        // "name": name,
+        "name": name,
         // "customerMeasure": customerMeasure?.toJson(),
         "customerPhone": customerPhone?.toJson(),
         "address": address,
@@ -76,7 +76,7 @@ class CustomerDetails {
         "state": state,
         "pincode": pincode,
         "email": email,
-        // "customerId": customerId,
+        "customerId": customerId,
       };
 }
 

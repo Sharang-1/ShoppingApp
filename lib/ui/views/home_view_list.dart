@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../app/app.dart';
 import '../../models/products.dart';
@@ -39,6 +40,8 @@ class HomeViewList extends StatefulWidget {
 }
 
 class _HomeViewListState extends State<HomeViewList> {
+  
+
   final Map<String, Duration> sectionDelay = {
     "SECTION1": Duration(seconds: 0),
     "SECTION2": Duration(seconds: 2),
@@ -56,7 +59,7 @@ class _HomeViewListState extends State<HomeViewList> {
     "SECTION14": Duration(seconds: 10),
     "LAST_SECTION": Duration(seconds: 10),
   };
-
+  
   @override
   Widget build(BuildContext context) {
     int i = 0;
@@ -75,7 +78,8 @@ class _HomeViewListState extends State<HomeViewList> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          
+                          // Text(counter.toString()),
+                          // Text(DzorConst().promotedProduct.toString()),
                           if ((controller.topPromotion.length) > 0) ...[
                             HomeViewListHeader(title: "Featured Home Grown Brands!"),
                             // title: controller.remoteConfig!

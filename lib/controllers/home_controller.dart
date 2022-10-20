@@ -100,6 +100,14 @@ class HomeController extends BaseController {
     categoryKey = UniqueKey();
     promotionKey = UniqueKey();
 
+    // int? counter;
+    // checkCount() async {
+    //   final prefs = await SharedPreferences.getInstance();
+
+    //   counter = prefs.getInt('promotion_product_share');
+    //   // return counter;
+    // }
+
     List<Promotion> promotions = await getPromotions();
     topPromotion = promotions.where((element) => element.position!.toLowerCase() == "top").toList();
     bottomPromotion =
@@ -223,6 +231,8 @@ class HomeController extends BaseController {
           }
         },
       );
+
+      // APIService().getPromotedProduct();
     }
   }
 
@@ -374,6 +384,7 @@ class HomeController extends BaseController {
 
   Future<List<Promotion>> getPromotions() async {
     final promotions = await _apiService.getPromotions();
+    print("promotions list here");
     return promotions.promotions!;
   }
 
@@ -491,10 +502,16 @@ Future getProducts(String promotionKey) async {
 
   final resBody = await jsonDecode(res.body);
   var promotion = Promotion.fromJson(resBody);
+  if (promotionKey == 86798078.toString()) {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('promoted_product', promotion.products![0].toString());
+    DzorConst().promotedProduct = promotion.products?[0];
+    print("abcdefg ${promotion.products?[0]}");
+  }
   if (res.statusCode >= 200 && res.statusCode < 300) {
-    print(resBody);
+    print("$resBody");
   } else {
-    print(res.reasonPhrase);
+    print("${res.reasonPhrase}");
   }
   return promotion;
 }
@@ -545,5 +562,5 @@ Future getDynamicKeys() async {
       continue;
     }
   }
-  print(appVar.dynamicSectionKeys);
+  print("hello ${appVar.dynamicSectionKeys}");
 }

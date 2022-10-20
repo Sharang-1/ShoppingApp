@@ -220,7 +220,6 @@ class _SelectAddressState extends State<SelectAddress> {
                                   disabledPayment = false;
                                 },
                               );
-
                             },
                             child: Container(
                               margin: EdgeInsets.only(bottom: spaceBetweenCards),
@@ -252,7 +251,6 @@ class _SelectAddressState extends State<SelectAddress> {
                                               disabledPayment = false;
                                             },
                                           );
-
                                         },
                                       ),
                                       Expanded(
@@ -378,7 +376,7 @@ class _SelectAddressState extends State<SelectAddress> {
         ),
       )
     };
-    if(kDebugMode) print(orderJson);
+    if (kDebugMode) print(orderJson);
 
     // final serviceAvailability = await locator<APIService>()
     //     .checkPincode(productId: widget.productId, pincode: addressRadioValue.pincode.toString());
@@ -393,13 +391,15 @@ class _SelectAddressState extends State<SelectAddress> {
             products: widget.products,
             finalTotal: widget.payTotal,
             customerDetails: CustomerDetails(
-               address: controller.addresses[0].address.toString(),
+              address: controller.addresses[0].address.toString(),
               pincode: controller.addresses[0].pincode,
               city: controller.addresses[0].city,
               state: controller.addresses[0].state,
               country: "India",
-              // name: locator<HomeController>().details!.firstName.toString() +
-              //     locator<HomeController>().details!.lastName.toString(),
+              // TODO : name and customer id null issue
+              name: locator<HomeController>().details!.firstName.toString() +
+                  locator<HomeController>().details!.lastName.toString(),
+              customerId: locator<HomeController>().details!.key.toString(),
               customerPhone: CustomerPhone(
                 code: locator<HomeController>().details!.contact!.phone!.code,
                 mobile: locator<HomeController>().details!.contact!.phone!.mobile,
