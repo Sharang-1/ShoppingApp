@@ -1,13 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:compound/models/products.dart';
-import 'package:compound/services/api/api_service.dart';
 import 'package:compound/ui/shared/app_colors.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants/server_urls.dart';
 import '../../controllers/base_controller.dart';
+import '../../services/navigation_service.dart';
 import '../widgets/custom_text.dart';
 import '../widgets/date_count_down.dart';
 
@@ -51,6 +50,16 @@ class _PromotionScreenState extends State<PromotionScreen> {
 
   @override
   Widget build(BuildContext context) {
+    DateTime today = DateTime.now();
+    DateTime nextSat = today.add(
+      Duration(
+        days: (DateTime.saturday - today.weekday) % DateTime.daysPerWeek,
+        hours: (24 - DateTime.now().hour),
+        minutes: (60 - DateTime.now().minute),
+        seconds: (60 - DateTime.now().second),
+      ),
+    );
+
     String photoUrl = widget.data!.photo!.photos![0].name.toString();
     return Scaffold(
       body: SafeArea(
@@ -62,20 +71,20 @@ class _PromotionScreenState extends State<PromotionScreen> {
                 verticalSpaceSmall,
                 Align(
                   alignment: Alignment.topLeft,
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Container(
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.chevron_left,
-                            color: Colors.black,
-                          ),
-                          Text("Back")
-                        ],
+                  child: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(color: Colors.black26, blurRadius: 2),
+                      ],
+                    ),
+                    child: InkWell(
+                      child: Icon(
+                        Icons.navigate_before,
+                        size: 40,
                       ),
+                      onTap: () => NavigationService.back(),
                     ),
                   ),
                 ),
@@ -106,19 +115,27 @@ class _PromotionScreenState extends State<PromotionScreen> {
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    gradient: LinearGradient(
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                      colors: [
-                        Color(0xff6c2f08),
-                        Color(0xff9a4f13),
-                        Color(0xffff8c00),
-                      ],
-                    ),
-                  ),
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black26,
+                          blurRadius: 5,
+                        ),
+                      ]
+                      // gradient: LinearGradient(
+                      //   begin: Alignment.centerLeft,
+                      //   end: Alignment.centerRight,
+                      //   colors: [
+                      //     Color(0xff6c2f08),
+                      //     Color(0xff9a4f13),
+                      //     Color(0xffff8c00),
+                      //   ],
+                      // ),
+                      ),
                   child: CountDownText(
-                    due: DateTime.parse("2022-10-22 00:00:00"),
+                    due: nextSat,
+                    // due: DateTime.parse("2022-10-22 00:00:00"),
                     finishedText: "Done",
                     showLabel: true,
                     longDateName: false,
@@ -126,14 +143,15 @@ class _PromotionScreenState extends State<PromotionScreen> {
                     hoursTextLong: " Hr ",
                     minutesTextLong: " Min ",
                     secondsTextLong: " S ",
-                    style:
-                        TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        color: cityTextBlueColor, fontSize: 30, fontWeight: FontWeight.bold),
                   ),
                 ),
                 // verticalSpaceSmall,
                 Text(
                   "Until we announce the Lucky winners!",
-                  style: TextStyle(color: logoRed, fontSize: 18, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      color: cityTextBlueColor, fontSize: 18, fontWeight: FontWeight.bold),
                   textAlign: TextAlign.center,
                 ),
                 verticalSpaceSmall,
