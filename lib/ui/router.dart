@@ -2,7 +2,6 @@ import 'package:compound/controllers/user_details_controller.dart';
 import 'package:compound/models/orders.dart';
 import 'package:compound/models/reviews.dart';
 import 'package:compound/models/sellers.dart';
-import 'package:compound/ui/widgets/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -169,7 +168,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case ProductIndividualRoute:
       return _getPageRoute(
         routeName: settings.name!,
-        viewToShow: AllConfettiWidget(child: ProductIndiView(data: (pageArguments as Product))),
+        viewToShow: ProductIndiView(data: (pageArguments as Product)),
         pageArguments: pageArguments,
         pageTransitionType: PageTransitionType.rightToLeft,
       );
@@ -185,7 +184,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return _getPageRoute(
           pageArguments: pageArguments,
           routeName: settings.name!,
-          viewToShow: AllConfettiWidget(child: ProductIndiView(data: pageArguments as Product)),
+          viewToShow: ProductIndiView(data: pageArguments as Product),
           pageTransitionType: PageTransitionType.rightToLeft);
 
     case PaymentFinishedScreenRoute:

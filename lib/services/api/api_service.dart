@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'package:compound/app/app.dart';
 import 'package:dio/dio.dart' as dio;
 // import 'package:dio/dio.dart';
 // import 'package:dio_retry/dio_retry.dart';

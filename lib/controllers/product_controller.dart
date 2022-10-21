@@ -172,6 +172,8 @@ class ProductController extends BaseController {
       await prefs.setInt("promotion_product_share", counter);
       await prefs.setBool("promotion_won", true);
 
+      
+
       await _analyticsService
           .sendAnalyticsEvent(eventName: "product_shared", parameters: <String, dynamic>{
         "product_id": productId,

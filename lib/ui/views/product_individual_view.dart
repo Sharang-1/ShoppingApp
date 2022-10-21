@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:compound/ui/views/promotion_recieved_screen.dart';
+import 'package:compound/ui/widgets/confetti.dart';
 import 'package:compound/ui/widgets/product_detail_card.dart';
 import 'package:http/http.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -7,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:readmore/readmore.dart';
@@ -136,6 +139,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
   bool? available;
   List<String>? imageURLs;
   double height = 100;
+  Product? _promotedProductInfo;
 
   bool showHeader = false;
   bool showSizechart = false;
@@ -149,12 +153,132 @@ class _ProductIndiViewState extends State<ProductIndiView> {
       productId: widget.data.key!,
       productName: widget.data.name!,
     )..init();
+    getPromotedProduct();
     super.initState();
   }
 
   @override
   void dispose() {
     super.dispose();
+  }
+
+  getPromotedProduct() async {
+    final prefs = await SharedPreferences.getInstance();
+    String? promotedProduct;
+
+    promotedProduct = prefs.getString('promoted_product');
+
+    print("hehehe ${promotedProduct.toString()}");
+
+    _promotedProductInfo = await getProductInfo(promotedProduct.toString());
+  }
+
+  Future<Product> getProductInfo(String promotedProduct) async {
+    final product = (await APIService().getProductById(productId: promotedProduct.toString()))!;
+    print("Product details fetched");
+    return product;
+  }
+
+  void showCustomDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierLabel: "Barrier",
+      barrierDismissible: true,
+      barrierColor: Colors.black.withOpacity(0.5),
+      // transitionDuration: Duration(milliseconds: 700),
+      builder: (_) {
+        return AlertDialog(
+          backgroundColor: Colors.transparent,
+          content: Center(
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+              // height: 500,
+
+              width: MediaQuery.of(context).size.width * 0.8,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(curve15),
+                boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 5)],
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Icon(
+                        Icons.cancel_outlined,
+                        size: 20,
+                      ),
+                    ),
+                  ),
+                  Text(
+                    "Thanks for sharing !",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: logoRed),
+                  ),
+                  Lottie.asset('assets/icons/ruffle-gift.json'),
+                  verticalSpaceSmall,
+                  Text(
+                    "You have a chance to win a product for free. Keep Sharing!",
+                    textAlign: TextAlign.center,
+                    style:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Colors.black),
+                  ),
+                  verticalSpaceSmall,
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      elevation: 0,
+                      primary: lightGreen,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => AllConfettiWidget(child: PromotionScreen(data: _promotedProductInfo))));
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Center(
+                        child: CustomText(
+                          "View Product",
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+      // transitionBuilder: (_, anim, __, child) {
+      //   Tween<Offset> tween;
+      //   if (anim.status == AnimationStatus.reverse) {
+      //     tween = Tween(begin: Offset(-1, 0), end: Offset.zero);
+      //   } else {
+      //     tween = Tween(begin: Offset(1, 0), end: Offset.zero);
+      //   }
+
+      //   return SlideTransition(
+      //     position: tween.animate(anim),
+      //     child: FadeTransition(
+      //       opacity: anim,
+      //       child: child,
+      //     ),
+      //   );
+      // },
+    );
   }
 
   @override
@@ -249,10 +373,9 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                               child: Container(
                                 padding: EdgeInsets.all(8.0),
                                 decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(30),
-                                  boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 1)]
-                                ),
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(30),
+                                    boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 1)]),
                                 child: Row(
                                   children: [
                                     Container(
@@ -285,6 +408,9 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                           );
                                           await controller.shareProductEvent(
                                               productId: productId!, productName: productName!);
+
+                                          showCustomDialog(context);
+                                          // Future.delayed(Duration(seconds: 90), showCustomDialog(context));
                                         },
                                         child: Icon(
                                           Platform.isIOS ? CupertinoIcons.share : Icons.share,
@@ -428,26 +554,43 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                               Container(
                                 margin: EdgeInsets.symmetric(vertical: 10),
                                 padding: EdgeInsets.all(10),
-                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Colors.white, boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 5)]),
-                                child: Row(children: [
-                                Image.asset("assets/icons/hand-made.png", height: 75,),
-                                horizontalSpaceSmall,
-                                Container(
-                                  width: MediaQuery.of(context).size.width - 130,
-                                  child: Column(
-                                    children: [
-                                      Text("All products on Dzor are handmade and made to order.", 
-                                      maxLines: 5,
-                                      style: TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.normal),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.white,
+                                    boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 5)]),
+                                child: Row(
+                                  children: [
+                                    Image.asset(
+                                      "assets/icons/hand-made.png",
+                                      height: 75,
+                                    ),
+                                    horizontalSpaceSmall,
+                                    Container(
+                                      width: MediaQuery.of(context).size.width - 130,
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            "All products on Dzor are handmade and made to order.",
+                                            maxLines: 5,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.normal),
+                                          ),
+                                          Text(
+                                            "Creators really appreciate your patience in getting the products from their home to yours.",
+                                            maxLines: 5,
+                                            style: TextStyle(
+                                                color: Colors.grey,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.normal),
+                                          ),
+                                        ],
                                       ),
-                                      Text("Creators really appreciate your patience in getting the products from their home to yours.", 
-                                      maxLines: 5,
-                                      style: TextStyle(color: Colors.grey, fontSize: 12, fontWeight: FontWeight.normal),
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              ],),),
+                                    )
+                                  ],
+                                ),
+                              ),
 
                               elementDivider(),
                               if (available!)
@@ -887,7 +1030,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                           }
                                         },
                                         child: Container(
-                                          width : double.maxFinite,
+                                          width: double.maxFinite,
                                           padding: EdgeInsets.symmetric(
                                             vertical: 10,
                                           ),
@@ -913,10 +1056,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                     verticalSpaceTiny,
                                     Text(
                                       "${PRODUCTSCREEN_DELIVERY_BY.tr} : $shipment",
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.black54
-                                      ),
+                                      style: TextStyle(fontSize: 12, color: Colors.black54),
                                     ),
                                   ],
                                 ),
@@ -936,7 +1076,9 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                 ),
                                 elevation: 0,
                                 child: Container(
-                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: Colors.grey[100]),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      color: Colors.grey[100]),
                                   padding: EdgeInsets.all(5),
                                   width: MediaQuery.of(context).size.width,
                                   child: Column(
@@ -1324,8 +1466,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         // price dalna
                         children: [
-productPriceDetail(
-  productName: productData!.name,
+                          productPriceDetail(
+                            productName: productData!.name,
                             designerName: productData!.seller?.name ?? "No Name",
                             productPrice: productPrice,
                             actualPrice: (productData!.cost!.cost +
@@ -1334,8 +1476,7 @@ productPriceDetail(
                                 .round(),
                             showPrice: (available!),
                             isClothMeterial: (productData!.category!.id == 13),
-),
-
+                          ),
 
                           // ? buy now button commented
                           // if (!widget.fromCart)
@@ -1731,16 +1872,14 @@ productPriceDetail(
     );
   }
 
-  Widget productPriceDetail(
-    {
+  Widget productPriceDetail({
     productName,
     designerName,
     productPrice,
     actualPrice,
     bool showPrice = true,
     bool isClothMeterial = false,
-  }
-  ) {
+  }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -1751,7 +1890,6 @@ productPriceDetail(
               children: [
                 Row(
                   children: [
-                    
                     if (available!)
                       Text(
                         '${showPrice ? BaseController.formatPrice(productPrice) : ' - '}',
@@ -1770,8 +1908,10 @@ productPriceDetail(
                           color: logoRed,
                         ),
                       ),
-                      SizedBox(width: 4,),
-if (productDiscount != 0.0 && showPrice)
+                    SizedBox(
+                      width: 4,
+                    ),
+                    if (productDiscount != 0.0 && showPrice)
                       Padding(
                         padding: const EdgeInsets.only(right: 8.0),
                         child: Row(
@@ -1788,16 +1928,12 @@ if (productDiscount != 0.0 && showPrice)
                           ],
                         ),
                       ),
-
                   ],
                 ),
                 if (available!)
                   Text(
                     "(${PRODUCTSCREEN_TAXES_AND_CHARGES.tr})",
-                    style: TextStyle(
-                      fontSize: 8,
-                      color: Colors.black54
-                    ),
+                    style: TextStyle(fontSize: 8, color: Colors.black54),
                   ),
               ],
             ),

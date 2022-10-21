@@ -1,51 +1,173 @@
-import 'dart:convert';
-
-import 'package:compound/models/cart.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:compound/models/products.dart';
 import 'package:compound/services/api/api_service.dart';
+import 'package:compound/ui/shared/app_colors.dart';
+import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../app/app.dart';
+import '../../constants/server_urls.dart';
+import '../../controllers/base_controller.dart';
+import '../widgets/custom_text.dart';
+import '../widgets/date_count_down.dart';
 
 class PromotionScreen extends StatefulWidget {
-  const PromotionScreen({Key? key}) : super(key: key);
+  final Product? data;
+  const PromotionScreen({Key? key, this.data}) : super(key: key);
 
   @override
   State<PromotionScreen> createState() => _PromotionScreenState();
 }
 
 class _PromotionScreenState extends State<PromotionScreen> {
-  String? promotedProduct;
-  Product _productInfo = Product();
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    getPromotedProduct();
-  }
+  // String? promotedProduct;
+  // Product _productInfo = Product();
+  // Product? data;
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   getPromotedProduct();
+  // }
 
-  getPromotedProduct() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-    promotedProduct = prefs.getString('promoted_product');
-      
-    });
-    print("hehehe ${promotedProduct.toString()}");
+  // getPromotedProduct() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   setState(() {
+  //     promotedProduct = prefs.getString('promoted_product');
+  //   });
+  //   print("hehehe ${promotedProduct.toString()}");
 
-    // if (promotedProduct != null) {
-    //   _productInfo = APIService().getProductById(productId: promotedProduct!);
-    //   print("voila ${_productInfo.name}");
-    // }
-  }
+  //   _productInfo = await getProductInfo();
+
+  //   setState(() {
+  //     data = _productInfo;
+  //   });
+  // }
+
+  // Future<Product> getProductInfo() async {
+  //   final product = (await APIService().getProductById(productId: promotedProduct.toString()))!;
+  //   print("Product details fetched");
+  //   return product;
+  // }
 
   @override
   Widget build(BuildContext context) {
+    String photoUrl = widget.data!.photo!.photos![0].name.toString();
     return Scaffold(
-      body: Center(
-        child: Container(
-            child: Text(promotedProduct.toString()),
+      body: SafeArea(
+        child: Center(
+          child: Container(
+            child: Column(
+              // mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                verticalSpaceSmall,
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.chevron_left,
+                            color: Colors.black,
+                          ),
+                          Text("Back")
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                // Text(data!.name.toString()),
+                verticalSpaceLarge,
+                verticalSpaceLarge,
+                // Text(promotedProduct.toString()),
+                Container(
+                  height: 250,
+                  width: 250,
+                  padding: EdgeInsets.all(2),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(color: Colors.black12, blurRadius: 5),
+                    ],
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: CachedNetworkImage(
+                      imageUrl: '$PRODUCT_PHOTO_BASE_URL/${widget.data?.key}/$photoUrl-small.png',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                verticalSpaceLarge,
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    gradient: LinearGradient(
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                      colors: [
+                        Color(0xff6c2f08),
+                        Color(0xff9a4f13),
+                        Color(0xffff8c00),
+                      ],
+                    ),
+                  ),
+                  child: CountDownText(
+                    due: DateTime.parse("2022-10-22 00:00:00"),
+                    finishedText: "Done",
+                    showLabel: true,
+                    longDateName: false,
+                    daysTextLong: " Day ",
+                    hoursTextLong: " Hr ",
+                    minutesTextLong: " Min ",
+                    secondsTextLong: " S ",
+                    style:
+                        TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                // verticalSpaceSmall,
+                Text(
+                  "Until we announce the Lucky winners!",
+                  style: TextStyle(color: logoRed, fontSize: 18, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
+                verticalSpaceSmall,
+                Container(
+                  width: 200,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      elevation: 0,
+                      primary: lightGreen,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    onPressed: () {
+                      // Navigator.push(context, MaterialPageRoute(builder: (_) => PromotionScreen()));
+                      BaseController.goToProductPage(widget.data!);
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Center(
+                        child: CustomText(
+                          "View Product",
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
+          ),
+        ),
       ),
     );
   }
