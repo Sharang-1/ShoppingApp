@@ -505,8 +505,8 @@ Future getProducts(String promotionKey) async {
   if (promotionKey == 86798078.toString()) {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('promoted_product', promotion.products![0].toString());
-    DzorConst().promotedProduct = promotion.products?[0];
-    print("abcdefg ${promotion.products?[0]}");
+    DzorConst().promotedProduct = promotion.products?[1];
+    print("abcdefg ${promotion.products?[1]}");
   }
   if (res.statusCode >= 200 && res.statusCode < 300) {
     print("$resBody");

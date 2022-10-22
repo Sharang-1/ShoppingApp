@@ -89,8 +89,15 @@ class _PromotionScreenState extends State<PromotionScreen> {
                   ),
                 ),
                 // Text(data!.name.toString()),
-                verticalSpaceLarge,
-                verticalSpaceLarge,
+                verticalSpaceSmall,
+                Text(
+                   "Stand a chance to win this!",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: logoRed),
+                ),
+                // verticalSpaceLarge,
+                verticalSpaceSmall,
+
                 // Text(promotedProduct.toString()),
                 Container(
                   height: 250,
@@ -144,14 +151,15 @@ class _PromotionScreenState extends State<PromotionScreen> {
                     minutesTextLong: " Min ",
                     secondsTextLong: " S ",
                     style: TextStyle(
-                        color: cityTextBlueColor, fontSize: 30, fontWeight: FontWeight.bold),
+                        color: Colors.black, fontSize: 30, fontWeight: FontWeight.bold),
                   ),
                 ),
-                // verticalSpaceSmall,
+
+                verticalSpaceSmall,
                 Text(
-                  "Until we announce the Lucky winners!",
+                  "Until we announce the Lucky winner!",
                   style: TextStyle(
-                      color: cityTextBlueColor, fontSize: 18, fontWeight: FontWeight.bold),
+                      color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
                   textAlign: TextAlign.center,
                 ),
                 verticalSpaceSmall,
