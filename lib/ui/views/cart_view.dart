@@ -155,7 +155,7 @@ class _CartViewState extends State<CartView> {
                       future: Future.delayed(Duration(seconds: 1)),
                       builder: (c, s) => s.connectionState == ConnectionState.done
                           ? Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 SectionBuilder(
                                   key: uniqueKey ?? UniqueKey(),
@@ -199,7 +199,7 @@ class _CartViewState extends State<CartView> {
                                   builder: (c, s) => (!controller.isCartEmpty &&
                                           controller.showPairItWith)
                                       ? Column(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
                                           children: [
                                             verticalSpace(10),
                                             Row(
@@ -325,6 +325,7 @@ class _CartViewState extends State<CartView> {
 
   proccedToOrder() async {
     GroupOrderData.cartProducts.clear();
+    GroupOrderData.sellersList.clear();
     var total = 0.0;
     var data = await locator<APIService>().getCart();
     if (data != null) {
@@ -333,6 +334,7 @@ class _CartViewState extends State<CartView> {
       for (var i = 0; i < _cartItems!.length; i++) {
         var finalTotal = _cartItems[i].product!.cost!.costToCustomer!.toDouble() *
             _cartItems[i].quantity!.toInt();
+        var sellerName = _cartItems[i].product!.owner!;
         total = total + finalTotal;
         groupOrder.GroupOrderModel cartItem = groupOrder.GroupOrderModel(
           productId: _cartItems[i].productId.toString(),
@@ -345,7 +347,7 @@ class _CartViewState extends State<CartView> {
             clientQueueId: (i + 1).toString(),
           ),
         );
-
+        GroupOrderData.sellersList.add(sellerName);
         GroupOrderData.cartProducts.add(cartItem);
         if (kDebugMode) print("hi");
         String jsonObj = jsonEncode(cartItem);
