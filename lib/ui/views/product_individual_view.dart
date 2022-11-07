@@ -296,10 +296,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
         builder: (controller) => Scaffold(
           backgroundColor: Colors.white,
           body: SafeArea(
-            top: true,
-            left: false,
-            right: false,
-            bottom: false,
+            
             child: Stack(
               fit: StackFit.expand,
               children: [
@@ -1454,7 +1451,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: Container(
-                      height: 60,
+                      // height: 60,
                       color: Colors.grey[200],
                       padding: EdgeInsets.only(
                         left: 10,
@@ -1628,6 +1625,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                               }
                             },
                             child: Container(
+                              height: 40,
                               width: MediaQuery.of(context).size.width *
                                   (widget.fromCart ? 0.80 : 0.40),
                               padding: EdgeInsets.symmetric(
@@ -1887,6 +1885,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
           children: <Widget>[
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Row(
                   children: [

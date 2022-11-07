@@ -20,33 +20,34 @@ class OrderPlacedView extends StatelessWidget {
               ),
             ),
             Positioned(
-              bottom: 40,
+              bottom: 50,
               child: Padding(
                 padding: const EdgeInsets.all(20),
                 child: Text(
-                  "Your order has been received.",
+                  "Your order has been received",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: headingFont,
-                    color: Colors.grey[600],
+                    color: Colors.black,
                     fontWeight: FontWeight.w500,
-                    fontSize: titleFontSize,
+                    fontSize: titleFontSize + 1,
                   ),
                 ),
               ),
             ),
             Positioned(
-              top: 40,
-              child: Padding(
+              top: 50,
+              child: Container(
+                constraints : BoxConstraints(maxWidth : MediaQuery.of(context).size.width - 20),
                 padding: const EdgeInsets.all(20),
                 child: Text(
                   "Thanks for making ${GroupOrderData.sellersList[0]}, ${GroupOrderData.sellersList[0]}'s day!",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: headingFont,
-                    color: Colors.grey[600],
+                    color: Colors.black,
                     fontWeight: FontWeight.w500,
-                    fontSize: titleFontSize,
+                    fontSize: titleFontSize + 1,
                   ),
                 ),
               ),

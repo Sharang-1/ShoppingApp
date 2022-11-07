@@ -8,6 +8,7 @@ const String NAVBAR_ORDERS = "navbar_orders";
 const String NAVBAR_APPOINTMENTS = "navbar_appointments";
 const String NAVBAR_MAPS = "navbar_maps";
 const String NAVBAR_PROFILE = "navbar_profile";
+const String NAVBAR_WISHLIST = "navbaar_wishlist";
 
 // LoginScreen
 const String LOGIN_PHONE_NO_VALIDATION_MSG = "login_phone_no_validation_msg";

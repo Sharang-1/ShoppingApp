@@ -13,6 +13,7 @@ Map<String, String> guIN = {
   NAVBAR_APPOINTMENTS: "આપોઈંટમેંટ",
   NAVBAR_MAPS: "નકશો",
   NAVBAR_PROFILE : "પ્રોફાઇલ",
+  NAVBAR_WISHLIST : "વિશલિસ્ટ",
 
   // LoginScreen
   LOGIN_PHONE_NO_VALIDATION_MSG: "મહેરબાની કરી ૧૦ આંકડા નો મોબાઇલ નંબર લખો",

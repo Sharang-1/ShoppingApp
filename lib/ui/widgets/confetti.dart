@@ -26,7 +26,7 @@ class _AllConfettiWidgetState extends State<AllConfettiWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black12,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,

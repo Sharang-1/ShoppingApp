@@ -3,6 +3,7 @@ import 'package:compound/ui/views/home_screen.dart';
 import 'package:compound/ui/views/myAppointments_view.dart';
 import 'package:compound/ui/views/myorders_view.dart';
 import 'package:compound/ui/views/settings_page_view.dart';
+import 'package:compound/ui/views/wishlist_view.dart';
 import 'package:compound/ui/widgets/confetti.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +43,8 @@ class _HomeViewState extends State<HomeView> {
       MyOrdersView(),
       // AllConfettiWidget(child: HomeScreen(args: widget.args)),
       HomeScreen(args: widget.args),
-      MyAppointments(),
+      // MyAppointments(),
+      WishlistView(),
       SettingsView(),
     ];
 
@@ -97,8 +99,8 @@ class _HomeViewState extends State<HomeView> {
                   TabItem(
                     title: NAVBAR_APPOINTMENTS.tr,
                     icon: _activeIndex == 3
-                        ? SvgPicture.asset("assets/icons/appointment1.svg")
-                        : SvgPicture.asset("assets/icons/appointment0.svg"),
+                        ? SvgPicture.asset("assets/icons/wish1.svg")
+                        : SvgPicture.asset("assets/icons/wish0.svg"),
                   ),
                   TabItem(
                     title: NAVBAR_PROFILE.tr,

@@ -12,6 +12,7 @@ const Map<String, String> enUS = {
   NAVBAR_APPOINTMENTS: "Appointments",
   NAVBAR_MAPS: "Maps",
   NAVBAR_PROFILE : "Profile",
+  NAVBAR_WISHLIST : "Wishlist",
 
   // LoginScreen
   LOGIN_PHONE_NO_VALIDATION_MSG:

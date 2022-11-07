@@ -13,6 +13,7 @@ Map<String, String> hiIN = {
   NAVBAR_APPOINTMENTS: "अपॉइंटमेंट्स",
   NAVBAR_MAPS: "मैप्स",
   NAVBAR_PROFILE : "प्रोफ़ाइल",
+  NAVBAR_WISHLIST : "इच्छा-सूची",
 
   // LoginScreen
   LOGIN_PHONE_NO_VALIDATION_MSG: "कृप्या १० अंक का योग्य फ़ोन नंबर डाले",
