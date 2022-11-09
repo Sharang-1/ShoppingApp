@@ -242,7 +242,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (_) => AllConfettiWidget(child: PromotionScreen(data: _promotedProductInfo))));
+                              builder: (_) => AllConfettiWidget(
+                                  child: PromotionScreen(data: _promotedProductInfo))));
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(10),
@@ -296,7 +297,6 @@ class _ProductIndiViewState extends State<ProductIndiView> {
         builder: (controller) => Scaffold(
           backgroundColor: Colors.white,
           body: SafeArea(
-            
             child: Stack(
               fit: StackFit.expand,
               children: [
@@ -1651,6 +1651,30 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                             ),
                           ),
                         ],
+                      ),
+                    ),
+                  ),
+                if (available == false)
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Container(
+                      color: Colors.red,
+                      height: 50,
+                      width: MediaQuery.of(context).size.width,
+                      alignment: Alignment.center,
+                      padding: EdgeInsets.only(
+                        left: 10,
+                        right: 10,
+                        top: 8.0,
+                        bottom: MediaQuery.of(context).padding.bottom + 8.0,
+                      ),
+                      child: Text(
+                        "SOLD OUT",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),

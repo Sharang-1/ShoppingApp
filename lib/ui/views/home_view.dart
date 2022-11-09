@@ -1,10 +1,7 @@
 import 'package:compound/ui/views/categories_view.dart';
 import 'package:compound/ui/views/home_screen.dart';
-import 'package:compound/ui/views/myAppointments_view.dart';
 import 'package:compound/ui/views/myorders_view.dart';
 import 'package:compound/ui/views/settings_page_view.dart';
-import 'package:compound/ui/views/wishlist_view.dart';
-import 'package:compound/ui/widgets/confetti.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -15,6 +12,7 @@ import '../../locator.dart';
 import '../../utils/lang/translation_keys.dart';
 import '../shared/app_colors.dart';
 import 'bottom_nav_style.dart';
+import 'product_wishlist_view.dart';
 
 class HomeView extends StatefulWidget {
   HomeView({Key? key, this.args}) : super(key: key);
@@ -44,7 +42,7 @@ class _HomeViewState extends State<HomeView> {
       // AllConfettiWidget(child: HomeScreen(args: widget.args)),
       HomeScreen(args: widget.args),
       // MyAppointments(),
-      WishlistView(),
+      WishList(),
       SettingsView(),
     ];
 
@@ -97,7 +95,7 @@ class _HomeViewState extends State<HomeView> {
                     ),
                   ),
                   TabItem(
-                    title: NAVBAR_APPOINTMENTS.tr,
+                    title: NAVBAR_WISHLIST.tr,
                     icon: _activeIndex == 3
                         ? SvgPicture.asset("assets/icons/wish1.svg")
                         : SvgPicture.asset("assets/icons/wish0.svg"),
