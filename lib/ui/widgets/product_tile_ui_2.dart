@@ -150,7 +150,7 @@ class _ProductTileUI2State extends State<ProductTileUI2> {
             ),
 
             Positioned(
-              bottom: 10, right: 10,
+              top: 10, right: 10,
               child: widget.onAddToCartClicked == null
                   ? InkWell(
                       child: WishListIcon(
@@ -301,11 +301,11 @@ class _ProductTileUI2State extends State<ProductTileUI2> {
         discount != 0.0
             ? Positioned(
                 top: 0,
-                right: 0,
+                left: 0,
                 child: Container(
                   decoration: BoxDecoration(
                       color: logoRed,
-                      borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10))),
+                      borderRadius: BorderRadius.only(bottomRight: Radius.circular(10))),
                   width: 40,
                   height: 20,
                   child: Center(

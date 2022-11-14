@@ -299,220 +299,247 @@ class _SellerIndi2State extends State<SellerIndi2> {
               children: [
                 Stack(
                   children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: 450,
-                      decoration: BoxDecoration(
-                        color: Colors.blue,
-                        
-                        image: DecorationImage(image: AssetImage("assets/images/product_preloading.png",),fit: BoxFit.cover),
-                        
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(20),
-                          bottomRight: Radius.circular(20),
-                        ),
+                    ClipRRect(
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(20),
+                        bottomRight: Radius.circular(20),
                       ),
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: 160,
-                          ),
-                          Stack(
-                            clipBehavior: Clip.none,
-                            children: [
-                              Container(
-                                padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-                                height: 270,
-                                // width: 200,
-                                width: MediaQuery.of(context).size.width - 40,
-
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(22),
-                                  boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 5,)]
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    verticalSpaceMedium,
-                                    CustomText(
-                                      sellerDetails[DESIGNER_DETAILS_NAME.tr]!,
-                                      textStyle: TextStyle(
-                                        fontSize: headFont + 6,
-                                        fontFamily: headingFont,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                      dotsAfterOverFlow: true,
-                                    ),
-                                    // verticalSpaceTiny,
-                                    CustomText(
-                                      "${sellerDetails[DESIGNER_DETAILS_OWNER_NAME.tr]!} • ${sellerDetails[DESIGNER_DETAILS_TYPE.tr]!}",
-                                      fontSize: headFont - 2,
-                                      fontWeight: FontWeight.w500,
-                                      fontFamily: textFont,
-                                      dotsAfterOverFlow: true,
-                                      color: Colors.black54,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        Icon(
-                                          FontAwesomeIcons.mapMarkerAlt,
-                                          size: 15,
-                                          color: Colors.black54,
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 450,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey.shade100),
+                          boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black26,
+                                          blurRadius: 5,
                                         ),
-                                        horizontalSpaceTiny,
-                                        Expanded(
-                                          child: FittedBox(
-                                            fit: BoxFit.scaleDown,
-                                            alignment: Alignment.centerLeft,
-                                            child: Text(
-                                              sellerDetails[DESIGNER_DETAILS_CITY.tr]!,
-                                              overflow: TextOverflow.ellipsis,
-                                              textAlign: TextAlign.end,
-                                              style: TextStyle(
-                                                color: Colors.black54,
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: 12,
+                                      ],
+                          color: Colors.blue,
+                          image: DecorationImage(
+                            image: AssetImage(
+                              "assets/images/product_preloading.png",
+                            ),
+                            fit: BoxFit.cover,
+                          ),
+                          // border: Border.all(),
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(20),
+                            bottomRight: Radius.circular(20),
+                          ),
+                        ),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 160,
+                            ),
+                            Stack(
+                              clipBehavior: Clip.none,
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                                  height: 270,
+                                  // width: 200,
+                                  width: MediaQuery.of(context).size.width - 40,
+
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(22),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black26,
+                                          blurRadius: 5,
+                                        ),
+                                      ],),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      verticalSpaceMedium,
+                                      CustomText(
+                                        sellerDetails[DESIGNER_DETAILS_NAME.tr]!,
+                                        textStyle: TextStyle(
+                                          fontSize: headFont + 6,
+                                          fontFamily: headingFont,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                        dotsAfterOverFlow: true,
+                                      ),
+                                      // verticalSpaceTiny,
+                                      CustomText(
+                                        "${sellerDetails[DESIGNER_SCREEN_SERVICES_OFFERED.tr]!} • ${sellerDetails[DESIGNER_DETAILS_TYPE.tr]!}",
+                                        fontSize: headFont - 2,
+                                        fontWeight: FontWeight.w500,
+                                        fontFamily: textFont,
+                                        dotsAfterOverFlow: true,
+                                        color: Colors.black54,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          Icon(
+                                            FontAwesomeIcons.mapMarkerAlt,
+                                            size: 15,
+                                            color: Colors.black54,
+                                          ),
+                                          horizontalSpaceTiny,
+                                          Expanded(
+                                            child: FittedBox(
+                                              fit: BoxFit.scaleDown,
+                                              alignment: Alignment.centerLeft,
+                                              child: Text(
+                                                sellerDetails[DESIGNER_DETAILS_CITY.tr]!,
+                                                overflow: TextOverflow.ellipsis,
+                                                textAlign: TextAlign.end,
+                                                style: TextStyle(
+                                                  color: Colors.black54,
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 12,
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    // Row(
-                                    //   children: [
-                                    //     Icon(
-                                    //       Icons.location_on,
-                                    //       color: logoRed,
-                                    //     ),
-                                    //     SizedBox(
-                                    //       width: 15,
-                                    //     ),
-                                    //     Container(
-                                    //       width: Get.width * 0.7,
-                                    //       child: Text(
-                                    //         sellerDetails[DESIGNER_DETAILS_ADDRESS.tr]!,
-                                    //         maxLines: 3,
-                                    //         style: TextStyle(
-                                    //           fontSize: subtitleFontSize,
-                                    //           color: Colors.grey,
-                                    //         ),
-                                    //       ),
-                                    //     ),
-                                    //   ],
-                                    // ),
-                                    verticalSpaceSmall,
-                                    ReadMoreText(
-                                      sellerData.intro ??
-                                          sellerDetails[DESIGNER_DETAILS_NOTE_FROM_DESIGNER.tr]!,
-                                      trimLines: ((sellerData.education == null) &&
-                                              (sellerData.designation == null))
-                                          ? 3
-                                          : 2,
-                                      colorClickableText: logoRed,
-                                      trimMode: TrimMode.Line,
-                                      style: TextStyle(
-                                        fontSize: headFont,
-                                        color: Colors.black54,
+                                        ],
                                       ),
-                                    ),
-                                    // verticalSpaceMedium,
-                                    Spacer(),
-                                    Row(
-                                      children: [
-                                        Icon(
-                                          Icons.shopping_bag_outlined,
-                                          color: Colors.black54,
-                                          size: 17,
-                                        ),
-                                        horizontalSpaceSmall,
-                                        CustomText(
-                                          "Delivery Across India",
-                                          fontSize: headFont - 2,
-                                          fontWeight: FontWeight.w500,
-                                          fontFamily: textFont,
-                                          dotsAfterOverFlow: true,
-                                          color: Colors.black54,
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Icon(
-                                          Icons.currency_rupee,
-                                          color: Colors.black54,
-                                          size: 17,
-                                        ),
-                                        horizontalSpaceSmall,
-                                        CustomText(
-                                          "Delivery fee will apply",
-                                          fontSize: headFont - 2,
-                                          fontWeight: FontWeight.w500,
-                                          fontFamily: textFont,
-                                          dotsAfterOverFlow: true,
-                                          color: Colors.black54,
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Icon(
-                                          Icons.local_shipping_outlined,
-                                          color: Colors.black54,
-                                          size: 17,
-                                        ),
-                                        horizontalSpaceSmall,
-                                        CustomText(
-                                          "All orders will be delivered by Dzor",
-                                          fontSize: headFont - 2,
-                                          fontWeight: FontWeight.w500,
-                                          fontFamily: textFont,
-                                          dotsAfterOverFlow: true,
+                                      // Row(
+                                      //   children: [
+                                      //     Icon(
+                                      //       Icons.location_on,
+                                      //       color: logoRed,
+                                      //     ),
+                                      //     SizedBox(
+                                      //       width: 15,
+                                      //     ),
+                                      //     Container(
+                                      //       width: Get.width * 0.7,
+                                      //       child: Text(
+                                      //         sellerDetails[DESIGNER_DETAILS_ADDRESS.tr]!,
+                                      //         maxLines: 3,
+                                      //         style: TextStyle(
+                                      //           fontSize: subtitleFontSize,
+                                      //           color: Colors.grey,
+                                      //         ),
+                                      //       ),
+                                      //     ),
+                                      //   ],
+                                      // ),
+                                      verticalSpaceSmall,
+                                      ReadMoreText(
+                                        sellerData.intro ??
+                                            sellerDetails[DESIGNER_DETAILS_NOTE_FROM_DESIGNER.tr]!,
+                                        trimLines: ((sellerData.education == null) &&
+                                                (sellerData.designation == null))
+                                            ? 3
+                                            : 2,
+                                        colorClickableText: logoRed,
+                                        trimMode: TrimMode.Line,
+                                        style: TextStyle(
+                                          fontSize: headFont,
                                           color: Colors.black54,
                                         ),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Positioned(
-                                left: 15,
-                                top: -40,
-                                child: Container(
-                                  // padding: EdgeInsets.all(10),
-                                  height: 70,
-                                  width: 70,
-                                  decoration: BoxDecoration(
-                                    // color: Colors.red,
-                                    borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      // verticalSpaceMedium,
+                                      Spacer(),
+                                      Row(
+                                        children: [
+                                          Icon(
+                                            Icons.shopping_bag_outlined,
+                                            color: Colors.black54,
+                                            size: 17,
+                                          ),
+                                          horizontalSpaceSmall,
+                                          CustomText(
+                                            "Delivering Across India",
+                                            fontSize: headFont - 2,
+                                            fontWeight: FontWeight.w500,
+                                            fontFamily: textFont,
+                                            dotsAfterOverFlow: true,
+                                            color: Colors.black54,
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Icon(
+                                            Icons.currency_rupee,
+                                            color: Colors.black54,
+                                            size: 17,
+                                          ),
+                                          horizontalSpaceSmall,
+                                          CustomText(
+                                            "Delivery fee will apply",
+                                            fontSize: headFont - 2,
+                                            fontWeight: FontWeight.w500,
+                                            fontFamily: textFont,
+                                            dotsAfterOverFlow: true,
+                                            color: Colors.black54,
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Icon(
+                                            Icons.local_shipping_outlined,
+                                            color: Colors.black54,
+                                            size: 17,
+                                          ),
+                                          horizontalSpaceSmall,
+                                          CustomText(
+                                            "All orders will be delivered by Dzor",
+                                            fontSize: headFont - 2,
+                                            fontWeight: FontWeight.w500,
+                                            fontFamily: textFont,
+                                            dotsAfterOverFlow: true,
+                                            color: Colors.black54,
+                                          ),
+                                        ],
+                                      )
+                                    ],
                                   ),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(20),
-                                    child: FadeInImage.assetNetwork(
-                                      width: 100 * multiplyer,
-                                      height: 100 * multiplyer,
-                                      fadeInCurve: Curves.easeIn,
-                                      placeholder: "assets/images/product_preloading.png",
-                                      image: sellerData.key != null
-                                          ? "$SELLER_PHOTO_BASE_URL/${sellerData.key}"
-                                          : "https://images.unsplash.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-                                      imageErrorBuilder: (context, error, stackTrace) =>
-                                          Image.asset(
-                                        "assets/images/product_preloading.png",
+                                ),
+                                Positioned(
+                                  left: 15,
+                                  top: -40,
+                                  child: Container(
+                                    // padding: EdgeInsets.all(10),
+                                    height: 70,
+                                    width: 70,
+                                    decoration: BoxDecoration(
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black26,
+                                          blurRadius: 5,
+                                        ),
+                                      ],
+                                      // color: Colors.red,
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(20),
+                                      child: FadeInImage.assetNetwork(
                                         width: 100 * multiplyer,
                                         height: 100 * multiplyer,
+                                        fadeInCurve: Curves.easeIn,
+                                        placeholder: "assets/images/product_preloading.png",
+                                        image: sellerData.key != null
+                                            ? "$SELLER_PHOTO_BASE_URL/${sellerData.key}"
+                                            : "https://images.unsplash.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
+                                        imageErrorBuilder: (context, error, stackTrace) =>
+                                            Image.asset(
+                                          "assets/images/product_preloading.png",
+                                          width: 100 * multiplyer,
+                                          height: 100 * multiplyer,
+                                          fit: BoxFit.cover,
+                                        ),
                                         fit: BoxFit.cover,
                                       ),
-                                      fit: BoxFit.cover,
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     Align(
@@ -521,16 +548,14 @@ class _SellerIndi2State extends State<SellerIndi2> {
                         onTap: () => NavigationService.back(),
                         child: Container(
                           decoration: BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.circle,
-                                  boxShadow: [
+                              color: Colors.white,
+                              shape: BoxShape.circle,
+                              boxShadow: [
                                 BoxShadow(
                                   color: Colors.black26,
                                   blurRadius: 5,
                                 )
-                              ]
-
-                          ),
+                              ]),
                           margin: EdgeInsets.all(8.0),
                           child: Icon(
                             Icons.navigate_before,
@@ -544,17 +569,13 @@ class _SellerIndi2State extends State<SellerIndi2> {
                       child: Container(
                         margin: EdgeInsets.only(right: 8, top: 8),
                         padding: EdgeInsets.all(8.0),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.white,
-                                  boxShadow: [
+                        decoration:
+                            BoxDecoration(shape: BoxShape.circle, color: Colors.white, boxShadow: [
                           BoxShadow(
                             color: Colors.black26,
                             blurRadius: 5,
                           )
-                        ]
-
-                        ),
+                        ]),
                         child: InkWell(
                           onTap: () async {
                             await Share.share(await _dynamicLinkService
@@ -583,86 +604,10 @@ class _SellerIndi2State extends State<SellerIndi2> {
                         ),
                       ),
                     )
-                    // FadeInImage.assetNetwork(
-                    //   width: 100 * multiplyer,
-                    //   height: 100 * multiplyer,
-                    //   fadeInCurve: Curves.easeIn,
-                    //   placeholder: "assets/images/product_preloading.png",
-                    //   image: sellerData.key != null
-                    //       ? "$SELLER_PHOTO_BASE_URL/${sellerData.key}"
-                    //       : "https://images.unsplash.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-                    //   imageErrorBuilder: (context, error, stackTrace) => Image.asset(
-                    //     "assets/images/product_preloading.png",
-                    //     width: 100 * multiplyer,
-                    //     height: 100 * multiplyer,
-                    //     fit: BoxFit.cover,
-                    //   ),
-                    //   fit: BoxFit.cover,
-                    // ),
+                    
                   ],
                 ),
-                // SliverAppBar(
-                //   elevation: 0,
-                //   expandedHeight: 250.0,
-                //   floating: false,
-                //   pinned: true,
-                //   leading: InkWell(
-                //     onTap: () => NavigationService.back(),
-                //     child: Container(
-                //       decoration: BoxDecoration(
-                //         color: Colors.white,
-                //         shape: BoxShape.circle,
-                //       ),
-                //       margin: EdgeInsets.all(8.0),
-                //       child: Icon(
-                //         Icons.navigate_before,
-                //         size: 40,
-                //       ),
-                //     ),
-                //   ),
-                //   actions: [
-                //     Container(
-                //       margin: EdgeInsets.only(right: 4.0),
-                //       padding: EdgeInsets.all(4.0),
-                //       decoration: BoxDecoration(
-                //         shape: BoxShape.circle,
-                //         color: Colors.white,
-                //       ),
-                //       child: InkWell(
-                //         onTap: () async {
-                //           await Share.share(
-                //               await _dynamicLinkService.createLink(sellerLink + sellerData.key!) ?? "");
-                //           try {
-                //             await _analyticsService.sendAnalyticsEvent(
-                //                 eventName: "seller_shared",
-                //                 parameters: <String, dynamic>{
-                //                   "seller_id": sellerData.key,
-                //                   "seller_name": sellerData.name,
-                //                   "subscription_id": widget.data.subscriptionType?.id?.toString(),
-                //                   "subscription_name": widget.data.subscriptionType?.name,
-                //                   "establishment_id": widget.data.establishmentType?.id?.toString(),
-                //                   "establishment_name": widget.data.establishmentType?.name,
-                //                   "user_id": locator<HomeController>().details!.key,
-                //                   "user_name": locator<HomeController>().details!.name,
-                //                 });
-                //           } catch (e) {}
-                //         },
-                //         child: Icon(
-                //           Platform.isIOS ? CupertinoIcons.share : Icons.share,
-                //           size: 25,
-                //         ),
-                //       ),
-                //     ),
-                //   ],
-                //   backgroundColor: Colors.white,
-                //   iconTheme: IconThemeData(color: appBarIconColor),
-                //   flexibleSpace: FlexibleSpaceBar(
-                //     background: SellerProfilePhotos(
-                //       accountId: sellerDetails[DESIGNER_DETAILS_KEY.tr]!,
-                //     ),
-                //   ),
-                // ),
-
+               
                 Container(
                   padding: EdgeInsets.symmetric(
                     vertical: 8.0,
@@ -670,342 +615,121 @@ class _SellerIndi2State extends State<SellerIndi2> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      
                       verticalSpace(10),
-                      // Padding(
-                      //   padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      //   child: Row(
-                      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //     children: <Widget>[
-                      //       Expanded(
-                      //         child: Column(
-                      //           crossAxisAlignment: CrossAxisAlignment.start,
-                      //           children: <Widget>[
-                      //             Padding(
-                      //               padding: const EdgeInsets.symmetric(horizontal: 6.0),
-                      //               child: Row(
-                      //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //                 children: [
-                      //                   Expanded(
-                      //                     child: CustomText(
-                      //                       sellerDetails[DESIGNER_DETAILS_NAME.tr]!,
-                      //                       textStyle: TextStyle(
-                      //                         fontSize: headFont + 2,
-                      //                         fontFamily: headingFont,
-                      //                         fontWeight: FontWeight.w600,
-                      //                       ),
-                      //                       dotsAfterOverFlow: true,
-                      //                     ),
-                      //                   ),
-                      //                   Padding(
-                      //                     padding: const EdgeInsets.only(left: 8.0),
-                      //                     child: Row(
-                      //                       children: [
-                      //                         Image.asset(
-                      //                           "assets/images/mask.png",
-                      //                           height: 30,
-                      //                           width: 30,
-                      //                         ),
-                      //                         horizontalSpaceTiny,
-                      //                         Image.asset(
-                      //                           "assets/images/sanitiser.png",
-                      //                           height: 30,
-                      //                           width: 30,
-                      //                         ),
-                      //                       ],
-                      //                     ),
-                      //                   ),
-                      //                 ],
-                      //               ),
-                      //             ),
-                      //             // Divider(
-                      //             //   color: Colors.grey,
-                      //             //   thickness: 1,
-                      //             // ),
-                      //             verticalSpaceSmall,
-                      //             Container(
-                      //               width: double.infinity,
-                      //               margin: EdgeInsets.all(2),
-                      //               padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                      //               decoration: BoxDecoration(
-                      //                   color: Colors.white,
-                      //                   borderRadius: BorderRadius.circular(5),
-                      //                   boxShadow: [
-                      //                     BoxShadow(
-                      //                       color: Colors.black26,
-                      //                       blurRadius: 2,
-                      //                     ),
-                      //                   ]),
-                      //               child: CustomText(
-                      //                 sellerDetails[DESIGNER_DETAILS_TYPE.tr]!,
-                      //                 fontSize: subHeadFont,
-                      //                 fontWeight: FontWeight.w500,
-                      //                 fontFamily: textFont,
-                      //                 dotsAfterOverFlow: true,
-                      //                 color: Colors.black54,
-                      //               ),
-                      //             )
-                      //           ],
-                      //         ),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
-                      // verticalSpaceMedium,
-                      // Container(
-                      //   width: MediaQuery.of(context).size.width,
-                      //   // padding: EdgeInsets.symmetric(horizontal: 16),
-                      //   child: Column(
-                      //     crossAxisAlignment: CrossAxisAlignment.start,
-                      //     children: <Widget>[
-                      //       Container(
-                      //         padding: EdgeInsets.symmetric(vertical: 5, horizontal: 16),
-                      //         width: double.infinity,
-                      //         color: Colors.grey[200],
-                      //         child: CustomText(
-                      //           DESIGNER_SCREEN_KNOW_THE_DESIGNER.tr,
-                      //           textStyle: TextStyle(
-                      //               fontSize: headFont,
-                      //               color: Colors.black,
-                      //               fontWeight: FontWeight.bold),
-                      //         ),
-                      //       ),
-                      //       verticalSpace(10),
-                      //       Padding(
-                      //         padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      //         child: Row(
-                      //           crossAxisAlignment: CrossAxisAlignment.center,
-                      //           children: [
-                      //             ClipOval(
-                      //               child: FadeInImage(
-                      //                   width: 50,
-                      //                   height: 50,
-                      //                   fadeInCurve: Curves.easeIn,
-                      //                   fit: BoxFit.cover,
-                      //                   placeholder: AssetImage("assets/images/user.png"),
-                      //                   image: NetworkImage("$designerProfilePicUrl", headers: {
-                      //                     "Authorization":
-                      //                         "Bearer ${locator<HomeController>().prefs!.getString(Authtoken) ?? ''}",
-                      //                   }),
-                      //                   imageErrorBuilder: (context, error, stackTrace) {
-                      //                     print("Image Error: $error $stackTrace");
-                      //                     return Image.asset(
-                      //                       "assets/images/user.png",
-                      //                       width: 50,
-                      //                       height: 50,
-                      //                       fit: BoxFit.cover,
-                      //                     );
-                      //                   }),
-                      //             ),
-                      //             horizontalSpaceSmall,
-                      //             Expanded(
-                      //               child: Column(
-                      //                 crossAxisAlignment: CrossAxisAlignment.start,
-                      //                 mainAxisAlignment: MainAxisAlignment.start,
-                      //                 children: [
-                      //                   CustomText(
-                      //                     sellerDetails[DESIGNER_DETAILS_OWNER_NAME.tr]!,
-                      //                     fontWeight: FontWeight.normal,
-                      //                     fontSize: headFont,
-                      //                     dotsAfterOverFlow: true,
-                      //                   ),
-                      //                   if ((sellerData.education != null) ||
-                      //                       (sellerData.designation != null))
-                      //                     Row(
-                      //                       children: [
-                      //                         Expanded(
-                      //                           child: CustomText(
-                      //                             "${sellerData.education ?? ''} ${sellerData.designation ?? ''}",
-                      //                             fontSize: subHeadFont,
-                      //                             fontWeight: FontWeight.w400,
-                      //                             color: Colors.grey.shade600,
-                      //                             dotsAfterOverFlow: true,
-                      //                           ),
-                      //                         ),
-                      //                       ],
-                      //                     ),
-                      //                   ReadMoreText(
-                      //                     sellerData.intro ??
-                      //                         sellerDetails[
-                      //                             DESIGNER_DETAILS_NOTE_FROM_DESIGNER.tr]!,
-                      //                     trimLines: ((sellerData.education == null) &&
-                      //                             (sellerData.designation == null))
-                      //                         ? 3
-                      //                         : 2,
-                      //                     colorClickableText: logoRed,
-                      //                     trimMode: TrimMode.Line,
-                      //                     style: TextStyle(
-                      //                       fontSize: subHeadFont - 2,
-                      //                       color: Colors.black54,
-                      //                     ),
-                      //                   ),
-                      //                 ],
-                      //               ),
-                      //             ),
-                      //           ],
-                      //         ),
-                      //       ),
-                      //       verticalSpaceSmall,
-                      //       Padding(
-                      //         padding: EdgeInsets.symmetric(
-                      //           horizontal: 16,
-                      //         ),
-                      //         child: Row(
-                      //           children: [
-                      //             Icon(
-                      //               Icons.location_on,
-                      //               color: logoRed,
-                      //             ),
-                      //             SizedBox(
-                      //               width: 15,
-                      //             ),
-                      //             Container(
-                      //               width: Get.width * 0.8,
-                      //               child: Text(
-                      //                 sellerDetails[DESIGNER_DETAILS_ADDRESS.tr]!,
-                      //                 maxLines: 3,
-                      //                 style: TextStyle(
-                      //                   fontSize: subtitleFontSize,
-                      //                   color: Colors.grey,
-                      //                 ),
-                      //               ),
-                      //             ),
-                      //           ],
-                      //         ),
-                      //       )
-
-                      //       // CustomText(
-                      //       //   DESIGNER_SCREEN_LOCATION.tr,
-                      //       //   fontSize: subHeadFont,
-                      //       //   color: Colors.black,
-                      //       // ),
-                      //       // verticalSpaceSmall,
-
-                      //       // verticalSpaceSmall,
-                      //       // InkWell(
-                      //       //   onTap: () {
-                      //       //     MapUtils.openMap(
-                      //       //         double.parse(sellerDetails[DESIGNER_DETAILS_LAT.tr] ?? "0"),
-                      //       //         double.parse(sellerDetails[DESIGNER_DETAILS_LON.tr] ?? "0"));
-                      //       //   },
-                      //       //   child: Row(
-                      //       //     crossAxisAlignment: CrossAxisAlignment.center,
-                      //       //     mainAxisAlignment: MainAxisAlignment.start,
-                      //       //     children: <Widget>[
-                      //       //       Container(
-                      //       //         padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-                      //       //         decoration: BoxDecoration(
-                      //       //           border: Border.all(
-                      //       //             color: logoRed,
-                      //       //           ),
-                      //       //           borderRadius: BorderRadius.circular(5),
-                      //       //         ),
-                      //       //         child: Row(
-                      //       //           children: <Widget>[
-                      //       //             Icon(
-                      //       //               Icons.directions,
-                      //       //               color: logoRed,
-                      //       //             ),
-                      //       //             horizontalSpaceTiny,
-                      //       //             CustomText(
-                      //       //               DESIGNER_SCREEN_DIRECTION.tr,
-                      //       //               fontSize: subHeadFont,
-                      //       //               color: logoRed,
-                      //       //             ),
-                      //       //           ],
-                      //       //         ),
-                      //       //       ),
-                      //       //     ],
-                      //       //   ),
-                      //       // ),
-                      //     ],
-                      //   ),
-                      // ),
-                      // verticalSpaceMedium,
-                      // Container(
-                      //   padding: EdgeInsets.symmetric(vertical: 5, horizontal: 16),
-                      //   width: double.infinity,
-                      //   color: Colors.grey[200],
-                      //   child: CustomText(
-                      //     DESIGNER_DETAILS.tr,
-                      //     fontSize: headFont,
-                      //     fontFamily: headingFont,
-                      //     fontWeight: FontWeight.bold,
-                      //   ),
-                      // ),
-                      // Container(
-                      //   height: 220,
-                      //   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-                      //   child: Center(
-                      //     child: Wrap(
-                      //       runSpacing: 10,
-                      //       spacing: 10,
-                      //       alignment: WrapAlignment.center,
-                      //       children: allDetails.map(
-                      //         (String key) {
-                      //           return Container(
-                      //             height: 100,
-                      //             width: Get.width / 3 - 15,
-                      //             padding: EdgeInsets.all(8),
-                      //             decoration: BoxDecoration(
-                      //                 color: Colors.white,
-                      //                 boxShadow: [
-                      //                   BoxShadow(color: Colors.black12, blurRadius: 1),
-                      //                 ],
-                      //                 borderRadius: BorderRadius.circular(8)),
-                      //             child: Column(
-                      //               crossAxisAlignment: CrossAxisAlignment.center,
-                      //               mainAxisSize: MainAxisSize.min,
-                      //               children: <Widget>[
-                      //                 key == DESIGNER_SCREEN_SPECIALITY.tr
-                      //                     ? SvgPicture.asset(
-                      //                         icons[key]!,
-                      //                         height: 30,
-                      //                         width: 30,
-                      //                         color: Colors.blue[500],
-                      //                       )
-                      //                     : SvgPicture.asset(
-                      //                         icons[key]!,
-                      //                         height: 25,
-                      //                         width: 25,
-                      //                       ),
-                      //                 SizedBox(
-                      //                   width: 20,
-                      //                 ),
-                      //                 Expanded(
-                      //                   child: Column(
-                      //                     mainAxisAlignment: MainAxisAlignment.center,
-                      //                     crossAxisAlignment: CrossAxisAlignment.center,
-                      //                     children: <Widget>[
-                      //                       verticalSpace(5),
-                      //                       CustomText(
-                      //                         key,
-                      //                         fontSize: titleFontSize,
-                      //                         align: TextAlign.center,
-                      //                         color: Colors.black,
-                      //                       ),
-                      //                       verticalSpaceTiny,
-                      //                       CustomText(
-                      //                         sellerDetails[key]!,
-                      //                         fontSize: subtitleFontSize,
-                      //                         color: Colors.black45,
-                      //                         align: TextAlign.center,
-                      //                       ),
-                      //                       key == DESIGNER_SCREEN_TYPE.tr
-                      //                           ? Container()
-                      //                           : Container()
-                      //                     ],
-                      //                   ),
-                      //                 ),
-                      //               ],
-                      //             ),
-                      //           );
-                      //         },
-                      //       ).toList(),
-                      //     ),
-                      //   ),
-                      // ),
-                      // verticalSpaceMedium,
+                      Container(
+                        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 16),
+                        width: double.infinity,
+                        color: Colors.grey[200],
+                        child: CustomText(
+                          DESIGNER_SCREEN_KNOW_THE_DESIGNER.tr,
+                          textStyle: TextStyle(
+                              fontSize: headFont, color: Colors.black, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      verticalSpace(10),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            ClipOval(
+                              child: FadeInImage(
+                                  width: 50,
+                                  height: 50,
+                                  fadeInCurve: Curves.easeIn,
+                                  fit: BoxFit.cover,
+                                  placeholder: AssetImage("assets/images/user.png"),
+                                  image: NetworkImage("$designerProfilePicUrl", headers: {
+                                    "Authorization":
+                                        "Bearer ${locator<HomeController>().prefs!.getString(Authtoken) ?? ''}",
+                                  }),
+                                  imageErrorBuilder: (context, error, stackTrace) {
+                                    print("Image Error: $error $stackTrace");
+                                    return Image.asset(
+                                      "assets/images/user.png",
+                                      width: 50,
+                                      height: 50,
+                                      fit: BoxFit.cover,
+                                    );
+                                  }),
+                            ),
+                            horizontalSpaceSmall,
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  CustomText(
+                                    sellerDetails[DESIGNER_DETAILS_OWNER_NAME.tr]!,
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: headFont,
+                                    dotsAfterOverFlow: true,
+                                  ),
+                                  if ((sellerData.education != null) ||
+                                      (sellerData.designation != null))
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: CustomText(
+                                            "${sellerData.education ?? ''} ${sellerData.designation ?? ''}",
+                                            fontSize: subHeadFont,
+                                            fontWeight: FontWeight.w400,
+                                            color: Colors.grey.shade600,
+                                            dotsAfterOverFlow: true,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ReadMoreText(
+                                    sellerData.intro ??
+                                        sellerDetails[DESIGNER_DETAILS_NOTE_FROM_DESIGNER.tr]!,
+                                    trimLines: ((sellerData.education == null) &&
+                                            (sellerData.designation == null))
+                                        ? 3
+                                        : 2,
+                                    colorClickableText: logoRed,
+                                    trimMode: TrimMode.Line,
+                                    style: TextStyle(
+                                      fontSize: subHeadFont - 2,
+                                      color: Colors.black54,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      verticalSpaceSmall,
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 16,
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.location_on,
+                                  color: logoRed,
+                                ),
+                                SizedBox(
+                                  width: 15,
+                                ),
+                                Container(
+                                  width: Get.width*0.8,
+                                  child: Text(
+                                    sellerDetails[DESIGNER_DETAILS_ADDRESS.tr]!,
+                                    maxLines: 3,
+                                    style: TextStyle(
+                                      fontSize: subtitleFontSize,
+                                      color: Colors.grey,
+                                    ),
+                                    
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                      verticalSpaceMedium,
                       
                       if (sellerData.subscriptionTypeId == 1 && showExploreSection)
                         Container(
@@ -1080,40 +804,40 @@ class _SellerIndi2State extends State<SellerIndi2> {
                             );
                           },
                         ),
-                      Container(
-                        color: Colors.grey[200],
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 5),
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 0.0),
-                                child: Text(
-                                  DESIGNER_SCREEN_SIMILAR_DESIGNERS.tr,
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      verticalSpaceSmall,
-                      SectionBuilder(
-                        key: UniqueKey(),
-                        context: context,
-                        layoutType: LayoutType.DESIGNER_ID_3_LAYOUT,
-                        fromHome: true,
-                        onEmptyList: () {},
-                        controller: SellersGridViewBuilderController(
-                          removeId: sellerData.key!,
-                          subscriptionType: sellerData.subscriptionTypeId!,
-                          random: true,
-                        ),
-                        scrollDirection: Axis.horizontal,
-                      ),
+                      // Container(
+                      //   color: Colors.grey[200],
+                      //   padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 5),
+                      //   child: Row(
+                      //     children: <Widget>[
+                      //       Expanded(
+                      //         child: Padding(
+                      //           padding: const EdgeInsets.only(left: 0.0),
+                      //           child: Text(
+                      //             DESIGNER_SCREEN_SIMILAR_DESIGNERS.tr,
+                      //             style: TextStyle(
+                      //                 fontSize: 16,
+                      //                 fontWeight: FontWeight.bold,
+                      //                 color: Colors.black),
+                      //           ),
+                      //         ),
+                      //       )
+                      //     ],
+                      //   ),
+                      // ),
+                      // verticalSpaceSmall,
+                      // SectionBuilder(
+                      //   key: UniqueKey(),
+                      //   context: context,
+                      //   layoutType: LayoutType.DESIGNER_ID_3_LAYOUT,
+                      //   fromHome: true,
+                      //   onEmptyList: () {},
+                      //   controller: SellersGridViewBuilderController(
+                      //     removeId: sellerData.key!,
+                      //     subscriptionType: sellerData.subscriptionTypeId!,
+                      //     random: true,
+                      //   ),
+                      //   scrollDirection: Axis.horizontal,
+                      // ),
                       Container(
                         width: MediaQuery.of(context).size.width,
                         // padding: EdgeInsets.symmetric(horizontal: 16),

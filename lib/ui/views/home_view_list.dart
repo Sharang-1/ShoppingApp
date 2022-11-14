@@ -1,21 +1,21 @@
+import 'package:compound/ui/views/dynamic_section_builder2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../app/app.dart';
-import '../../models/products.dart';
-import '../../models/promotions.dart';
-import '../widgets/home_view_list_header.dart';
 import '../../controllers/base_controller.dart';
 import '../../controllers/grid_view_builder/products_grid_view_builder_controller.dart';
 import '../../controllers/grid_view_builder/sellers_grid_view_builder_controller.dart';
 import '../../controllers/home_controller.dart';
 import '../../models/grid_view_builder_filter_models/productFilter.dart';
 import '../../models/productPageArg.dart';
+import '../../models/products.dart';
+import '../../models/promotions.dart';
 import '../../utils/lang/translation_keys.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
+import '../widgets/home_view_list_header.dart';
 import '../widgets/product_tile_ui.dart';
 import '../widgets/promotion_slider.dart';
 import '../widgets/section_builder.dart';
@@ -40,16 +40,14 @@ class HomeViewList extends StatefulWidget {
 }
 
 class _HomeViewListState extends State<HomeViewList> {
-  
-
   final Map<String, Duration> sectionDelay = {
     "SECTION1": Duration(seconds: 0),
-    "SECTION2": Duration(seconds: 2),
-    "SECTION3": Duration(seconds: 4),
-    "SECTION4": Duration(seconds: 5),
-    "SECTION5": Duration(seconds: 6),
-    "SECTION6": Duration(seconds: 7),
-    "SECTION7": Duration(seconds: 8),
+    "SECTION2": Duration(seconds: 0),
+    "SECTION3": Duration(seconds: 2),
+    "SECTION4": Duration(seconds: 4),
+    "SECTION5": Duration(seconds: 4),
+    "SECTION6": Duration(seconds: 6),
+    "SECTION7": Duration(seconds: 6),
     "SECTION8": Duration(seconds: 8),
     "SECTION9": Duration(seconds: 8),
     "SECTION10": Duration(seconds: 8),
@@ -59,7 +57,7 @@ class _HomeViewListState extends State<HomeViewList> {
     "SECTION14": Duration(seconds: 10),
     "LAST_SECTION": Duration(seconds: 10),
   };
-  
+
   @override
   Widget build(BuildContext context) {
     int i = 0;
@@ -73,7 +71,8 @@ class _HomeViewListState extends State<HomeViewList> {
                 if (data.connectionState == ConnectionState.done)
                   return Container(
                     // height: MediaQuery.of(context).size.height,
-                    padding: EdgeInsets.fromLTRB(screenPadding - 15, 5, screenPadding - 15, 5),
+                    // padding: EdgeInsets.fromLTRB(screenPadding - 15, 5, screenPadding - 15, 5),
+                    padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
                     child: SingleChildScrollView(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -148,21 +147,104 @@ class _HomeViewListState extends State<HomeViewList> {
 
                                   if (data.hasData)
                                     return Container(
-                                      child: DynamicSectionBuilder(
-                                        header: SectionHeader(
-                                          title: (data.data as Promotion).name,
-                                          subTitle: "",
-                                          viewAll: () {
-                                            BaseController.goToProductListPage(ProductPageArg(
-                                              promotionKey: (data.data as Promotion).key,
-                                              subCategory: 'Designer',
-                                              queryString: "",
-                                              title: (data.data as Promotion).name,
-                                              sellerPhoto: "",
-                                            ));
-                                          },
-                                        ),
-                                        products: (data.data as Promotion).products ?? [],
+                                      height: 260,
+                                      width: double.infinity,
+                                      child: Stack(
+                                        children: [
+                                          Positioned(
+                                            bottom: 30,
+                                            child: Container(
+                                              margin: EdgeInsets.symmetric(horizontal: 5),
+                                              color: logoRed,
+                                              height: 180,
+                                              width: Get.width - 20,
+                                              // child: Image.asset("assets/icons/bg.png"),
+                                            ),
+                                          ),
+                                          Container(
+                                            height: 255,
+                                            width: double.infinity,
+                                            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                                            margin:
+                                                EdgeInsets.symmetric(horizontal: 30, vertical: 2),
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(curve15),
+                                              color: Colors.white,
+                                              boxShadow: [
+                                                BoxShadow(color: Colors.black26, blurRadius: 2)
+                                              ],
+                                            ),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text("Editor's Pick",
+                                                style: TextStyle(
+                                                    color: Colors.black45,
+
+                                                    letterSpacing: 0.4,
+                                                    fontSize: titleFontSizeStyle - 2,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                                Text("${(data.data as Promotion).name}",
+                                                style: TextStyle(
+                                                    // color: Colors.black45,
+                                                    color: Colors.grey[800],
+
+                                                    // letterSpacing: 0.4,
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                                Spacer(),
+                                                GestureDetector(
+                                                  onTap: (){
+                                                    BaseController.goToProductListPage(
+                                                        ProductPageArg(
+                                                      promotionKey: (data.data as Promotion).key,
+                                                      subCategory: 'Designer',
+                                                      queryString: "",
+                                                      title: (data.data as Promotion).name,
+                                                      sellerPhoto: "",
+                                                    ));
+                                                  },
+                                                  child: Text("View All  ->",
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      // letterSpacing: 0.4,
+                                                      fontSize: titleFontSizeStyle - 2,
+                                                      fontWeight: FontWeight.w600,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Positioned(
+                                            // alignment: Alignment.bottomCenter,
+                                            bottom: 40,
+                                            child: Container(
+                                              margin: EdgeInsets.only(left: 15),
+                                              child: DynamicSectionBuilder2(
+                                                header: SectionHeader(
+                                                  title: (data.data as Promotion).name,
+                                                  subTitle: "",
+                                                  viewAll: () {
+                                                    BaseController.goToProductListPage(
+                                                        ProductPageArg(
+                                                      promotionKey: (data.data as Promotion).key,
+                                                      subCategory: 'Designer',
+                                                      queryString: "",
+                                                      title: (data.data as Promotion).name,
+                                                      sellerPhoto: "",
+                                                    ));
+                                                  },
+                                                ),
+                                                products: (data.data as Promotion).products ?? [],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     );
                                   return Container();
@@ -1012,6 +1094,8 @@ class DynamicSectionBuilder extends StatelessWidget {
   Widget build(BuildContext context) {
     products.shuffle();
     return Container(
+      // margin: EdgeInsets.symmetric(horizontal: 2),
+      width: Get.width,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [

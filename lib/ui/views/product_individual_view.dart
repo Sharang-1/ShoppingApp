@@ -302,7 +302,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
             top: true,
             left: false,
             right: false,
-            bottom: false,
+            bottom: true,
             child: Stack(
               fit: StackFit.expand,
               children: [
@@ -1666,7 +1666,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                     alignment: Alignment.bottomCenter,
                     child: Container(
                       color: Colors.red,
-                      height: 80,
+                      height: 50,
                       width: MediaQuery.of(context).size.width,
                       alignment: Alignment.center,
                       padding: EdgeInsets.only(

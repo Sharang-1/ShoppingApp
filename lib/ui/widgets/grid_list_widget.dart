@@ -310,24 +310,26 @@ class EmptyListWidget extends StatelessWidget {
     return Center(
       child: SizedBox(
         height: Get.size.height * 0.7,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              text,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.grey[400],
-                fontSize: 16,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                text,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.grey[400],
+                  fontSize: 16,
+                ),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
-            ),
-            verticalSpaceMedium,
-            FittedBox(
-              fit: BoxFit.scaleDown,
-              child: Image.asset(img),
-            ),
-          ],
+              verticalSpaceMedium,
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Image.asset(img),
+              ),
+            ],
+          ),
         ),
       ),
     );
