@@ -35,6 +35,7 @@ import 'views/profile_view.dart';
 import 'views/reviews_screen.dart';
 import 'views/search_view.dart';
 import 'views/seller_indi_view.dart';
+import 'views/seller_indi_view2.dart';
 import 'views/settings_page_view.dart';
 import 'views/verify_otp.dart';
 
@@ -250,7 +251,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return _getPageRoute(
           pageArguments: pageArguments,
           routeName: settings.name!,
-          viewToShow: SellerIndi(data: pageArguments as Seller),
+          viewToShow: SellerIndi2(data: pageArguments as Seller),
           pageTransitionType: PageTransitionType.rightToLeft);
 
     case MyAppointmentViewRoute:

@@ -239,6 +239,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                       ),
                     ),
                     onPressed: () {
+                      Navigator.pop(context);
+
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -297,6 +299,10 @@ class _ProductIndiViewState extends State<ProductIndiView> {
         builder: (controller) => Scaffold(
           backgroundColor: Colors.white,
           body: SafeArea(
+            top: true,
+            left: false,
+            right: false,
+            bottom: false,
             child: Stack(
               fit: StackFit.expand,
               children: [
@@ -1125,7 +1131,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        "Know your Designer",
+                                        "Know the Creator",
                                         // PRODUCTSCREEN_KNOW_YOUR_DESIGNER.tr,
                                         style: TextStyle(
                                           fontSize: 14,
@@ -1457,10 +1463,11 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                         left: 10,
                         right: 10,
                         top: 8.0,
-                        bottom: MediaQuery.of(context).padding.bottom + 8.0,
+                        bottom: 8.0,
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        // mainAxisSize: MainAxisSize.min,
                         // price dalna
                         children: [
                           productPriceDetail(
@@ -1659,20 +1666,20 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                     alignment: Alignment.bottomCenter,
                     child: Container(
                       color: Colors.red,
-                      height: 50,
+                      height: 80,
                       width: MediaQuery.of(context).size.width,
                       alignment: Alignment.center,
                       padding: EdgeInsets.only(
                         left: 10,
                         right: 10,
                         top: 8.0,
-                        bottom: MediaQuery.of(context).padding.bottom + 8.0,
+                        bottom: MediaQuery.of(context).padding.bottom + 10.0,
                       ),
                       child: Text(
                         "SOLD OUT",
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 16,
+                          fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -1904,12 +1911,12 @@ class _ProductIndiViewState extends State<ProductIndiView> {
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
       children: [
         Row(
           children: <Widget>[
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
               children: [
                 Row(
                   children: [
@@ -2156,7 +2163,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
             ),
           if (knowDesignerKey != null)
             TargetFocus(
-              identify: "Know Your Designer",
+              identify: "Know the Creator",
               keyTarget: knowDesignerKey,
               shape: ShapeLightFocus.RRect,
               contents: [
@@ -2167,7 +2174,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          "Know Your Designer",
+                          "Know the Creator",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
