@@ -1,4 +1,5 @@
 import 'package:compound/ui/views/dynamic_section_builder2.dart';
+import 'package:compound/ui/views/dynamic_section_builder3.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -152,13 +153,27 @@ class _HomeViewListState extends State<HomeViewList> {
                                       child: Stack(
                                         children: [
                                           Positioned(
-                                            bottom: 30,
+                                            bottom: 5,
+                                            left: -80,
                                             child: Container(
-                                              margin: EdgeInsets.symmetric(horizontal: 5),
-                                              color: logoRed,
-                                              height: 180,
-                                              width: Get.width - 20,
-                                              // child: Image.asset("assets/icons/bg.png"),
+                                              // margin: EdgeInsets.symmetric(horizontal: 5),
+                                              // color: logoRed,
+                                              height: 240,
+                                              width: Get.width*0.7,
+                                              
+                                              child: Image.asset("assets/images/bg-1.jpg", fit: BoxFit.cover,),
+                                            ),
+                                          ),
+                                          Positioned(
+                                            bottom: 60,
+                                            right: -80,
+                                            child: Container(
+                                              // margin: EdgeInsets.symmetric(horizontal: 5),
+                                              // color: logoRed,
+                                              height: 200,
+                                              width: Get.width*0.7,
+                                              
+                                              child: Image.asset("assets/images/bg-1.jpg", fit: BoxFit.cover,),
                                             ),
                                           ),
                                           Container(
@@ -220,6 +235,7 @@ class _HomeViewListState extends State<HomeViewList> {
                                               ],
                                             ),
                                           ),
+                                          
                                           Positioned(
                                             // alignment: Alignment.bottomCenter,
                                             bottom: 40,
@@ -262,7 +278,10 @@ class _HomeViewListState extends State<HomeViewList> {
                                       }
                                       if (data.hasData)
                                         return Container(
-                                          child: DynamicSectionBuilder(
+                                          
+                                          width: double.infinity,
+                                          margin: EdgeInsets.symmetric(horizontal: 5),
+                                          child: DynamicSectionBuilder3(
                                             header: SectionHeader(
                                               title: (data.data as Promotion).name,
                                               subTitle: "",
