@@ -26,7 +26,7 @@ class DynamicSectionBuilder3 extends StatelessWidget {
       children: [
         if (header != null)
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal : 8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Text(
               header!.title!,
               style: TextStyle(
@@ -48,7 +48,7 @@ class DynamicSectionBuilder3 extends StatelessWidget {
               crossAxisCount: 2,
               crossAxisSpacing: 2.0,
               mainAxisSpacing: 4.0,
-              childAspectRatio: 1.5, 
+              childAspectRatio: 1.5,
               // gridDelegate: SliverGridDelegate(),
               children: [
                 FutureBuilder<Product>(
@@ -302,9 +302,11 @@ class DynamicSectionBuilder3 extends StatelessWidget {
           ),
         ),
         GestureDetector(
-          onTap: () => header!.viewAll,
+          onTap: () {
+            header!.viewAll!();
+          },
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal : 8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Text(
               "View All  ->",
               style: TextStyle(

@@ -149,46 +149,7 @@ class _ProductTileUI4State extends State<ProductTileUI4> {
               ),
             ),
 
-            Positioned(
-              top: 10,
-              right: 10,
-              child: widget.onAddToCartClicked == null
-                  ? InkWell(
-                      child: WishListIcon(
-                        filled: isWishlistIconFilled,
-                        width: 10,
-                        height: 10,
-                      ),
-                      onTap: (locator<HomeController>().isLoggedIn)
-                          ? () async {
-                              if (locator<WishListController>()
-                                      .list
-                                      .indexOf(widget.data.key ?? "") !=
-                                  -1) {
-                                removeFromWishList(widget.data.key);
-                                setState(() {
-                                  isWishlistIconFilled = false;
-                                });
-                              } else {
-                                addToWishList(widget.data.key);
-                                setState(() {
-                                  isWishlistIconFilled = true;
-                                });
-                              }
-                            }
-                          : () async {
-                              await BaseController.showLoginPopup(
-                                nextView: WishListRoute,
-                                shouldNavigateToNextScreen: true,
-                              );
-                            },
-                    )
-                  : InkWell(
-                      child: Icon(
-                      FontAwesomeIcons.heart,
-                      color: Colors.white,
-                    )),
-            ),
+            
 
             // Expanded(
             //   flex: 7,

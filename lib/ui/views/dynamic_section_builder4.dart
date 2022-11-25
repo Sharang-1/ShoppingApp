@@ -1,4 +1,5 @@
 import 'package:compound/ui/widgets/product_tile_ui_2.dart';
+import 'package:compound/ui/widgets/product_tile_ui_4.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -48,7 +49,7 @@ class DynamicSectionBuilder4 extends StatelessWidget {
                 return Container(
                   height: 150,
                   width: 200,
-                  child: ProductTileUI2(
+                  child: ProductTileUI4(
                     data: _product!,
                     cardPadding: EdgeInsets.zero,
                     onClick: () => BaseController.goToProductPage(_product),

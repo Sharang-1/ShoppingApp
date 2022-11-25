@@ -133,6 +133,7 @@ class HomeController extends BaseController {
 
   Future<void> updateIsLoggedIn() async {
     isLoggedIn = await _authService.isUserLoggedIn();
+    App.isUserLoggedIn = isLoggedIn;
   }
 
   Future<void> updateUserDetails() async {

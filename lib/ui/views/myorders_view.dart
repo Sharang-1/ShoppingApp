@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../../app/app.dart';
 import '../../constants/route_names.dart';
+import '../../controllers/base_controller.dart';
 import '../../controllers/orders_controller.dart';
 import '../../services/navigation_service.dart';
 import '../../utils/lang/translation_keys.dart';
@@ -57,7 +59,28 @@ class _MyOrdersViewState extends State<MyOrdersView> {
             top: true,
             left: false,
             right: false,
-            child: SmartRefresher(
+            child: App.isUserLoggedIn == false
+                ? Center(
+                    child: Column(children: [
+                      Text("Login to Add products to cart"),
+                      Image.asset("assets/images/empty_cart.png"),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: lightGreen,
+                          onPrimary: Colors.white,
+                          elevation: 0,
+                        ),
+                        onPressed: () async {
+                          await BaseController.showLoginPopup(
+                            nextView: HomeViewRoute,
+                            shouldNavigateToNextScreen: true,
+                          );
+                        },
+                        child: Text("Login"),
+                      ),
+                    ]),
+                  )
+                :  SmartRefresher(
               enablePullDown: true,
               footer: null,
               header: WaterDropHeader(

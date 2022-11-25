@@ -1,4 +1,5 @@
 import 'package:compound/app/app.dart';
+import 'package:compound/constants/server_urls.dart';
 import 'package:compound/controllers/home_controller.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
@@ -38,7 +39,7 @@ void main() async {
   setupLogger();
   // Register all the models and services before the app starts
   setupLocator();
-  kDebugMode? appVar.currentUrl = appVar.devUrl : appVar.currentUrl = appVar.liveUrl;
+  !(releaseMode) ? appVar.currentUrl = appVar.devUrl : appVar.currentUrl = appVar.liveUrl;
   // if (kReleaseMode)
   //   appVar.currentUrl = appVar.liveUrl;
   // else

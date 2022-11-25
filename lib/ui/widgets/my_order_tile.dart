@@ -36,7 +36,7 @@ class MyordersTileState extends State<MyOrdersTile> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             if (widget.controller.busy) Column(children: myOrderShimmerEffect()),
-            
+            if (widget.controller.mOrders == null) EmptyListWidget(),
             if (!widget.controller.busy && widget.controller.mOrders != null)
               GroupedListView(
                 shrinkWrap: true,

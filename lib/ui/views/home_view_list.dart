@@ -1,5 +1,6 @@
 import 'package:compound/ui/views/dynamic_section_builder2.dart';
 import 'package:compound/ui/views/dynamic_section_builder3.dart';
+import 'package:compound/ui/views/dynamic_section_builder4.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -159,9 +160,12 @@ class _HomeViewListState extends State<HomeViewList> {
                                               // margin: EdgeInsets.symmetric(horizontal: 5),
                                               // color: logoRed,
                                               height: 240,
-                                              width: Get.width*0.7,
-                                              
-                                              child: Image.asset("assets/images/bg-1.jpg", fit: BoxFit.cover,),
+                                              width: Get.width * 0.7,
+
+                                              child: Image.asset(
+                                                "assets/images/bg-1.jpg",
+                                                fit: BoxFit.cover,
+                                              ),
                                             ),
                                           ),
                                           Positioned(
@@ -171,15 +175,19 @@ class _HomeViewListState extends State<HomeViewList> {
                                               // margin: EdgeInsets.symmetric(horizontal: 5),
                                               // color: logoRed,
                                               height: 200,
-                                              width: Get.width*0.7,
-                                              
-                                              child: Image.asset("assets/images/bg-1.jpg", fit: BoxFit.cover,),
+                                              width: Get.width * 0.7,
+
+                                              child: Image.asset(
+                                                "assets/images/bg-1.jpg",
+                                                fit: BoxFit.cover,
+                                              ),
                                             ),
                                           ),
                                           Container(
                                             height: 255,
                                             width: double.infinity,
-                                            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                                            padding:
+                                                EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                                             margin:
                                                 EdgeInsets.symmetric(horizontal: 30, vertical: 2),
                                             decoration: BoxDecoration(
@@ -192,17 +200,18 @@ class _HomeViewListState extends State<HomeViewList> {
                                             child: Column(
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
-                                                Text("Editor's Pick",
-                                                style: TextStyle(
+                                                Text(
+                                                  "Editor's Pick",
+                                                  style: TextStyle(
                                                     color: Colors.black45,
-
                                                     letterSpacing: 0.4,
                                                     fontSize: titleFontSizeStyle - 2,
                                                     fontWeight: FontWeight.w600,
                                                   ),
                                                 ),
-                                                Text("${(data.data as Promotion).name}",
-                                                style: TextStyle(
+                                                Text(
+                                                  "${(data.data as Promotion).name}",
+                                                  style: TextStyle(
                                                     // color: Colors.black45,
                                                     color: Colors.grey[800],
 
@@ -213,7 +222,7 @@ class _HomeViewListState extends State<HomeViewList> {
                                                 ),
                                                 Spacer(),
                                                 GestureDetector(
-                                                  onTap: (){
+                                                  onTap: () {
                                                     BaseController.goToProductListPage(
                                                         ProductPageArg(
                                                       promotionKey: (data.data as Promotion).key,
@@ -223,8 +232,9 @@ class _HomeViewListState extends State<HomeViewList> {
                                                       sellerPhoto: "",
                                                     ));
                                                   },
-                                                  child: Text("View All  ->",
-                                                  style: TextStyle(
+                                                  child: Text(
+                                                    "View All  ->",
+                                                    style: TextStyle(
                                                       color: Colors.black,
                                                       // letterSpacing: 0.4,
                                                       fontSize: titleFontSizeStyle - 2,
@@ -235,7 +245,6 @@ class _HomeViewListState extends State<HomeViewList> {
                                               ],
                                             ),
                                           ),
-                                          
                                           Positioned(
                                             // alignment: Alignment.bottomCenter,
                                             bottom: 40,
@@ -278,7 +287,6 @@ class _HomeViewListState extends State<HomeViewList> {
                                       }
                                       if (data.hasData)
                                         return Container(
-                                          
                                           width: double.infinity,
                                           margin: EdgeInsets.symmetric(horizontal: 5),
                                           child: DynamicSectionBuilder3(
@@ -450,21 +458,134 @@ class _HomeViewListState extends State<HomeViewList> {
                                       if (data.hasData)
                                         return Column(children: [
                                           SectionDivider(),
-                                          DynamicSectionBuilder(
-                                            header: SectionHeader(
-                                              title: (data.data as Promotion).name,
-                                              subTitle: "",
-                                              viewAll: () {
-                                                BaseController.goToProductListPage(ProductPageArg(
-                                                  promotionKey: (data.data as Promotion).key,
-                                                  subCategory: 'Designer',
-                                                  queryString: "",
-                                                  sellerPhoto: "",
-                                                ));
-                                              },
+                                          Container(
+                                            height: 260,
+                                            width: double.infinity,
+                                            child: Stack(
+                                              children: [
+                                                Positioned(
+                                                  bottom: 5,
+                                                  left: -80,
+                                                  child: Container(
+                                                    // margin: EdgeInsets.symmetric(horizontal: 5),
+                                                    // color: logoRed,
+                                                    height: 240,
+                                                    width: Get.width * 0.7,
+
+                                                    child: Image.asset(
+                                                      "assets/images/bg-1.jpg",
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Positioned(
+                                                  bottom: 60,
+                                                  right: -80,
+                                                  child: Container(
+                                                    // margin: EdgeInsets.symmetric(horizontal: 5),
+                                                    // color: logoRed,
+                                                    height: 200,
+                                                    width: Get.width * 0.7,
+
+                                                    child: Image.asset(
+                                                      "assets/images/bg-1.jpg",
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  height: 255,
+                                                  width: double.infinity,
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 10, horizontal: 15),
+                                                  margin: EdgeInsets.symmetric(
+                                                      horizontal: 30, vertical: 2),
+                                                  decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(curve15),
+                                                    color: Colors.white,
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                          color: Colors.black26, blurRadius: 2)
+                                                    ],
+                                                  ),
+                                                  child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                        "Editor's Pick",
+                                                        style: TextStyle(
+                                                          color: Colors.black45,
+                                                          letterSpacing: 0.4,
+                                                          fontSize: titleFontSizeStyle - 2,
+                                                          fontWeight: FontWeight.w600,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        "${(data.data as Promotion).name}",
+                                                        style: TextStyle(
+                                                          // color: Colors.black45,
+                                                          color: Colors.grey[800],
+
+                                                          // letterSpacing: 0.4,
+                                                          fontSize: 20,
+                                                          fontWeight: FontWeight.w600,
+                                                        ),
+                                                      ),
+                                                      Spacer(),
+                                                      GestureDetector(
+                                                        onTap: () {
+                                                          BaseController.goToProductListPage(
+                                                              ProductPageArg(
+                                                            promotionKey:
+                                                                (data.data as Promotion).key,
+                                                            subCategory: 'Designer',
+                                                            queryString: "",
+                                                            title: (data.data as Promotion).name,
+                                                            sellerPhoto: "",
+                                                          ));
+                                                        },
+                                                        child: Text(
+                                                          "View All  ->",
+                                                          style: TextStyle(
+                                                            color: Colors.black,
+                                                            // letterSpacing: 0.4,
+                                                            fontSize: titleFontSizeStyle - 2,
+                                                            fontWeight: FontWeight.w600,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                Positioned(
+                                                  // alignment: Alignment.bottomCenter,
+                                                  bottom: 40,
+                                                  child: Container(
+                                                    margin: EdgeInsets.only(left: 15),
+                                                    child: DynamicSectionBuilder2(
+                                                      header: SectionHeader(
+                                                        title: (data.data as Promotion).name,
+                                                        subTitle: "",
+                                                        viewAll: () {
+                                                          BaseController.goToProductListPage(
+                                                              ProductPageArg(
+                                                            promotionKey:
+                                                                (data.data as Promotion).key,
+                                                            subCategory: 'Designer',
+                                                            queryString: "",
+                                                            title: (data.data as Promotion).name,
+                                                            sellerPhoto: "",
+                                                          ));
+                                                        },
+                                                      ),
+                                                      products:
+                                                          (data.data as Promotion).products ?? [],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                            products: (data.data as Promotion).products ?? [],
-                                          ),
+                                          )
                                         ]);
                                       return Container();
                                     }),
@@ -637,7 +758,7 @@ class _HomeViewListState extends State<HomeViewList> {
                                   if (data.hasData)
                                     return Column(children: [
                                       SectionDivider(),
-                                      DynamicSectionBuilder(
+                                      DynamicSectionBuilder3(
                                         header: SectionHeader(
                                           title: (data.data as Promotion).name,
                                           subTitle: "",
@@ -729,7 +850,7 @@ class _HomeViewListState extends State<HomeViewList> {
                                     return Column(
                                       children: [
                                         SectionDivider(),
-                                        DynamicSectionBuilder(
+                                        DynamicSectionBuilder4(
                                           header: SectionHeader(
                                             title: (data.data as Promotion).name,
                                             subTitle: "",

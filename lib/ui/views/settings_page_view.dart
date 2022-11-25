@@ -310,7 +310,9 @@ class _SettingsViewState extends State<SettingsView> {
                             child: Row(
                               children: [
                                 CustomText(
-                                  "${SETTINGS_MY_CITY.tr}: ${controller.mUserDetails?.contact?.city}",
+                                  // "${SETTINGS_MY_CITY.tr}: ${controller.mUserDetails?.contact?.city}",
+                                  "${SETTINGS_MY_CITY.tr}: ${controller.mUserDetails?.contact?.city ?? " Ahemdabad "}",
+
                                   isBold: true,
                                   fontSize: 14,
                                 ),

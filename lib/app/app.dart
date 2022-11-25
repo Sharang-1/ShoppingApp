@@ -6,7 +6,7 @@ class App {
   late List<Order> previousOrders;
   late List<Order> currentOrders;
   List<String> dynamicSectionKeys = [];
-
+  static bool isUserLoggedIn = false;
   String devUrl = "https://dev.dzor.in/api/";
   String liveUrl = "https://www.dzor.in/api/";
   String currentUrl = "";

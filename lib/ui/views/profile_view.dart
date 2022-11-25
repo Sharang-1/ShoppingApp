@@ -565,7 +565,7 @@ class _ProfileViewState extends State<ProfileView> {
                                                             0) >
                                                         0
                                                     ? CustomText(
-                                                        controller.mUserDetails!.contact!.address!,
+                                                        "${controller.mUserDetails!.contact!.address ?? ""}, ${controller.mUserDetails!.contact!.city ?? ""}, ${controller.mUserDetails!.contact!.state ?? ""}",
                                                         color: Colors.grey[800]!,
                                                         fontWeight: FontWeight.w400,
                                                         fontSize: subtitleFontSizeStyle,
