@@ -13,7 +13,7 @@ import 'cart_controller.dart';
 class OrdersController extends BaseController {
   final APIService _apiService = locator<APIService>();
 
- Orders? mOrders;
+ late Orders mOrders;
   Future getOrders() async {
     setBusy(true);
     final result = await _apiService.getAllOrders();

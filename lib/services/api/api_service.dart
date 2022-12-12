@@ -193,7 +193,7 @@ class APIService {
   Future<Promotion>? getPromotedProduct() async {
     var res = apiWrapper('promotions/86798078');
     Promotion promotion = Promotion.fromJson(res as Map<String, dynamic>);
-    
+
     return promotion;
   }
 
@@ -204,9 +204,37 @@ class APIService {
   }) async {
     try {
       try {
-        var orderBody = {"customerDetails": customerDetails, "orders": products};
+        // var orderBody = {"customerDetails": customerDetails, "orders": products};
 
-        var orderJson = jsonEncode(orderBody);
+        // var orderJson = jsonEncode(orderBody);
+
+        var orderJson = {
+          "customerDetails": {
+            "address": "test billing address",
+            "city": "test billing city",
+            "state": "test billing state",
+            "pincode": "380060",
+            "country": "india"
+          },
+          "orders": [
+            {
+              "productId": 89755650,
+              "variation": {"size": "s", "quantity": 1, "color": "blue"},
+              "clientQueueId": 1
+            },
+            {
+              "productId": 83885946,
+              "variation": {"size": "X", "quantity": 1, "color": "pink"},
+              "clientQueueId": 2,
+              "customization": {"label": "Mr Ashok"}
+            },
+            {
+              "productId": 87250459,
+              "variation": {"size": "XS", "quantity": 2, "color": "red"},
+              "clientQueueId": 3
+            }
+          ]
+        };
 
         if (kDebugMode) print("--------- api testing ----------");
 

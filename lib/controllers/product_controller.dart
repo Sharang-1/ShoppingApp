@@ -52,8 +52,8 @@ class ProductController extends BaseController {
       "product_name": productData?.name,
       "category_id": productData?.category?.id?.toString(),
       "category_name": productData?.category?.name,
-      "user_id": locator<HomeController>().details!.key,
-      "user_name": locator<HomeController>().details!.name,
+      "user_id": locator<HomeController>().details?.key,
+      "user_name": locator<HomeController>().details?.name,
     });
   }
 

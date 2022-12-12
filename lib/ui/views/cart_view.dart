@@ -334,7 +334,7 @@ class _CartViewState extends State<CartView> {
       for (var i = 0; i < _cartItems!.length; i++) {
         var finalTotal = _cartItems[i].product!.cost!.costToCustomer!.toDouble() *
             _cartItems[i].quantity!.toInt();
-        var sellerName = _cartItems[i].product!.whoMadeIt!.name!;
+        // var sellerName = _cartItems[i].product!.whoMadeIt!.name!;
         total = total + finalTotal;
         groupOrder.GroupOrderModel cartItem = groupOrder.GroupOrderModel(
           productId: _cartItems[i].productId.toString(),
@@ -347,7 +347,7 @@ class _CartViewState extends State<CartView> {
             clientQueueId: (i + 1).toString(),
           ),
         );
-        GroupOrderData.sellersList.add(sellerName);
+        // GroupOrderData.sellersList.add(sellerName);
         GroupOrderData.cartProducts.add(cartItem);
         if (kDebugMode) print("hi");
         String jsonObj = jsonEncode(cartItem);
