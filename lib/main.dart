@@ -2,7 +2,6 @@ import 'package:compound/app/app.dart';
 import 'package:compound/constants/server_urls.dart';
 import 'package:compound/controllers/home_controller.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -21,9 +20,7 @@ import 'ui/views/startup_view.dart';
 void main() async {
   await setup();
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  await prefs.setInt("promotion_product_share", 0);
-  String lang =
-      prefs.getString(CurrentLanguage) ?? LocalizationService.langs[0];
+  String lang = prefs.getString(CurrentLanguage) ?? LocalizationService.langs[0];
   await Firebase.initializeApp();
 
   runApp(
@@ -33,27 +30,22 @@ void main() async {
   );
 }
 
- setup() async {
+setup() async {
 // Setup logger level
   appVar = App();
   setupLogger();
   // Register all the models and services before the app starts
   setupLocator();
-  !(releaseMode) ? appVar.currentUrl = appVar.devUrl : appVar.currentUrl = appVar.liveUrl;
-  // if (kReleaseMode)
-  //   appVar.currentUrl = appVar.liveUrl;
-  // else
-  //   appVar.currentUrl = appVar.devUrl;
-  await getDynamicKeys();
+  releaseMode ? appVar.currentUrl = appVar.liveUrl : appVar.currentUrl = appVar.devUrl;
   // Running flutter app
   WidgetsFlutterBinding.ensureInitialized();
-  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
   //precache
   await Future.wait([
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]),
+    getDynamicKeys(),
     precachePicture(
-      ExactAssetPicture(
-          SvgPicture.svgStringDecoderBuilder, "assets/svg/logo.svg"),
+      ExactAssetPicture(SvgPicture.svgStringDecoderBuilder, "assets/svg/logo.svg"),
       null,
     ),
   ]);
@@ -61,8 +53,7 @@ void main() async {
 
 class CustomScrollOverlayBehaviour extends ScrollBehavior {
   @override
-  Widget buildViewportChrome(
-      BuildContext context, Widget child, AxisDirection axisDirection) {
+  Widget buildViewportChrome(BuildContext context, Widget child, AxisDirection axisDirection) {
     return child;
   }
 }
@@ -73,10 +64,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-        statusBarColor: logoRed,
-        statusBarIconBrightness: Brightness.light
-      ),
+      SystemUiOverlayStyle(statusBarColor: logoRed, statusBarIconBrightness: Brightness.light),
     );
 
     return GetMaterialApp(
@@ -85,7 +73,10 @@ class MyApp extends StatelessWidget {
       navigatorObservers: [],
       builder: (context, child) => ScrollConfiguration(
         behavior: CustomScrollOverlayBehaviour(),
-        child: child ?? Container(),
+        child: MediaQuery(
+          child: child ?? Container(),
+          data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+        ),
       ),
       theme: ThemeData(
         // brightness: Brightness.dark,

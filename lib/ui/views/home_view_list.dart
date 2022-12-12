@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:compound/ui/views/dynamic_section_builder2.dart';
 import 'package:compound/ui/views/dynamic_section_builder3.dart';
 import 'package:compound/ui/views/dynamic_section_builder4.dart';
@@ -101,6 +102,7 @@ class _HomeViewListState extends State<HomeViewList> {
                                 fit: BoxFit.fill,
                               )),
                           verticalSpaceSmall,
+
                           FutureSectionBuilder(
                             duration: sectionDelay['SECTION1']!,
                             child: Column(
@@ -137,7 +139,8 @@ class _HomeViewListState extends State<HomeViewList> {
                             ),
                           ),
                           SectionDivider(),
-                          if (appVar.dynamicSectionKeys.length > i)
+                          if (appVar.dynamicSectionKeys.length > i &&
+                              appVar.dynamicSectionKeys[i] != "67409233")
                             FutureBuilder(
                                 future: getProducts(appVar.dynamicSectionKeys[i++]),
                                 builder: (context, data) {
@@ -209,8 +212,9 @@ class _HomeViewListState extends State<HomeViewList> {
                                                     fontWeight: FontWeight.w600,
                                                   ),
                                                 ),
-                                                Text(
+                                                AutoSizeText(
                                                   "${(data.data as Promotion).name}",
+                                                  maxLines: 1,
                                                   style: TextStyle(
                                                     // color: Colors.black45,
                                                     color: Colors.grey[800],
@@ -232,14 +236,23 @@ class _HomeViewListState extends State<HomeViewList> {
                                                       sellerPhoto: "",
                                                     ));
                                                   },
-                                                  child: Text(
-                                                    "View All  ->",
-                                                    style: TextStyle(
-                                                      color: Colors.black,
-                                                      // letterSpacing: 0.4,
-                                                      fontSize: titleFontSizeStyle - 2,
-                                                      fontWeight: FontWeight.w600,
-                                                    ),
+                                                  child: Row(
+                                                    children: [
+                                                      Text(
+                                                        "View All",
+                                                        style: TextStyle(
+                                                          color: Colors.black,
+                                                          // letterSpacing: 0.4,
+                                                          fontSize: titleFontSizeStyle - 2,
+                                                          fontWeight: FontWeight.w600,
+                                                        ),
+                                                      ),
+                                                      horizontalSpaceTiny,
+                                                      Icon(
+                                                        Icons.arrow_forward,
+                                                        size: 12,
+                                                      ),
+                                                    ],
                                                   ),
                                                 ),
                                               ],
@@ -275,7 +288,8 @@ class _HomeViewListState extends State<HomeViewList> {
                                   return Container();
                                 }),
 
-                          if (appVar.dynamicSectionKeys.length > i)
+                          if (appVar.dynamicSectionKeys.length > i &&
+                              appVar.dynamicSectionKeys[i] != "67409233")
                             Column(
                               children: [
                                 SectionDivider(),
@@ -295,6 +309,7 @@ class _HomeViewListState extends State<HomeViewList> {
                                               subTitle: "",
                                               viewAll: () {
                                                 BaseController.goToProductListPage(ProductPageArg(
+                                                  title: (data.data as Promotion).name,
                                                   promotionKey: (data.data as Promotion).key,
                                                   subCategory: 'Designer',
                                                   queryString: "",
@@ -350,7 +365,8 @@ class _HomeViewListState extends State<HomeViewList> {
                           //   // Text("HI"),
                           //   BottomPromotion(promotion: controller.bottomPromotion[0])
                           // ],
-                          if (appVar.dynamicSectionKeys.length > i)
+                          if (appVar.dynamicSectionKeys.length > i &&
+                              appVar.dynamicSectionKeys[i] != "67409233")
                             FutureBuilder(
                                 future: getProducts(appVar.dynamicSectionKeys[i++]),
                                 builder: (context, data) {
@@ -367,6 +383,7 @@ class _HomeViewListState extends State<HomeViewList> {
                                           subTitle: "",
                                           viewAll: () {
                                             BaseController.goToProductListPage(ProductPageArg(
+                                              title: (data.data as Promotion).name,
                                               promotionKey: (data.data as Promotion).key,
                                               subCategory: 'Designer',
                                               queryString: "",
@@ -379,6 +396,41 @@ class _HomeViewListState extends State<HomeViewList> {
                                     ]);
                                   return Container();
                                 }),
+                          FutureBuilder(
+                              future: getProducts(67409233.toString()),
+                              builder: (context, data) {
+                                if (data.connectionState == ConnectionState.active) {
+                                  return ShimmerWidget(type: LayoutType.PRODUCT_LAYOUT_2);
+                                }
+
+                                if (data.hasData)
+                                  return Container(
+                                    width: Get.width,
+                                    child: Column(
+                                      children: [
+                                        SectionDivider(),
+                                        DynamicSectionBuilder4(
+                                          header: SectionHeader(
+                                            title: (data.data as Promotion).name,
+                                            subTitle: "",
+                                            viewAll: () {
+                                              BaseController.goToProductListPage(ProductPageArg(
+                                                promotionKey: (data.data as Promotion).key,
+                                                title: (data.data as Promotion).name,
+                                                subCategory: 'Designer',
+                                                queryString: "",
+                                                sellerPhoto: "",
+                                              ));
+                                            },
+                                          ),
+                                          products: (data.data as Promotion).products ?? [],
+                                        ),
+                                        // SectionDivider(),
+                                      ],
+                                    ),
+                                  );
+                                return Container();
+                              }),
                           FutureSectionBuilder(
                             duration: sectionDelay['SECTION2']!,
                             child: Column(
@@ -405,6 +457,7 @@ class _HomeViewListState extends State<HomeViewList> {
                                     //     .getString(HOMESCREEN_SECTION_2_SUBTITLE_EN),
                                     viewAll: () {
                                       BaseController.goToProductListPage(ProductPageArg(
+                                        title: "Best deals all day long",
                                         queryString: 'minDiscount=5;',
                                         subCategory: '',
                                       ));
@@ -444,7 +497,8 @@ class _HomeViewListState extends State<HomeViewList> {
                             ),
                           ),
 
-                          if (appVar.dynamicSectionKeys.length > i)
+                          if (appVar.dynamicSectionKeys.length > i &&
+                              appVar.dynamicSectionKeys[i] != "67409233")
                             Column(
                               children: [
                                 // SectionDivider(),
@@ -520,8 +574,9 @@ class _HomeViewListState extends State<HomeViewList> {
                                                           fontWeight: FontWeight.w600,
                                                         ),
                                                       ),
-                                                      Text(
+                                                      AutoSizeText(
                                                         "${(data.data as Promotion).name}",
+                                                        maxLines: 1,
                                                         style: TextStyle(
                                                           // color: Colors.black45,
                                                           color: Colors.grey[800],
@@ -544,14 +599,23 @@ class _HomeViewListState extends State<HomeViewList> {
                                                             sellerPhoto: "",
                                                           ));
                                                         },
-                                                        child: Text(
-                                                          "View All  ->",
-                                                          style: TextStyle(
-                                                            color: Colors.black,
-                                                            // letterSpacing: 0.4,
-                                                            fontSize: titleFontSizeStyle - 2,
-                                                            fontWeight: FontWeight.w600,
-                                                          ),
+                                                        child: Row(
+                                                          children: [
+                                                            Text(
+                                                              "View All",
+                                                              style: TextStyle(
+                                                                color: Colors.black,
+                                                                // letterSpacing: 0.4,
+                                                                fontSize: titleFontSizeStyle - 2,
+                                                                fontWeight: FontWeight.w600,
+                                                              ),
+                                                            ),
+                                                            horizontalSpaceTiny,
+                                                            Icon(
+                                                              Icons.arrow_forward,
+                                                              size: 12,
+                                                            ),
+                                                          ],
                                                         ),
                                                       ),
                                                     ],
@@ -669,6 +733,7 @@ class _HomeViewListState extends State<HomeViewList> {
                                     //     .getString(HOMESCREEN_SECTION_1_SUBTITLE_EN),
                                     viewAll: () {
                                       BaseController.goToProductListPage(ProductPageArg(
+                                        title: "SHOP DESIGNER COLLECTION BELOW ₹999",
                                         queryString: 'maxPrice=750;',
                                         subCategory: '',
                                       ));
@@ -747,7 +812,8 @@ class _HomeViewListState extends State<HomeViewList> {
                           //     ],
                           //   ),
                           // ),
-                          if (appVar.dynamicSectionKeys.length > i)
+                          if (appVar.dynamicSectionKeys.length > i &&
+                              appVar.dynamicSectionKeys[i] != "67409233")
                             FutureBuilder(
                                 future: getProducts(appVar.dynamicSectionKeys[i++]),
                                 builder: (context, data) {
@@ -764,6 +830,7 @@ class _HomeViewListState extends State<HomeViewList> {
                                           subTitle: "",
                                           viewAll: () {
                                             BaseController.goToProductListPage(ProductPageArg(
+                                              title: (data.data as Promotion).name,
                                               promotionKey: (data.data as Promotion).key,
                                               subCategory: 'Designer',
                                               queryString: "",
@@ -776,7 +843,8 @@ class _HomeViewListState extends State<HomeViewList> {
                                     ]);
                                   return Container();
                                 }),
-                          if (appVar.dynamicSectionKeys.length > i)
+                          if (appVar.dynamicSectionKeys.length > i &&
+                              appVar.dynamicSectionKeys[i] != "67409233")
                             FutureBuilder(
                                 future: getProducts(appVar.dynamicSectionKeys[i++]),
                                 builder: (context, data) {
@@ -794,6 +862,7 @@ class _HomeViewListState extends State<HomeViewList> {
                                             subTitle: "",
                                             viewAll: () {
                                               BaseController.goToProductListPage(ProductPageArg(
+                                                title: (data.data as Promotion).name,
                                                 promotionKey: (data.data as Promotion).key,
                                                 subCategory: 'Designer',
                                                 queryString: "",
@@ -807,7 +876,8 @@ class _HomeViewListState extends State<HomeViewList> {
                                     );
                                   return Container();
                                 }),
-                          if (appVar.dynamicSectionKeys.length > i)
+                          if (appVar.dynamicSectionKeys.length > i &&
+                              appVar.dynamicSectionKeys[i] != "67409233")
                             FutureBuilder(
                                 future: getProducts(appVar.dynamicSectionKeys[i++]),
                                 builder: (context, data) {
@@ -825,6 +895,7 @@ class _HomeViewListState extends State<HomeViewList> {
                                             subTitle: "",
                                             viewAll: () {
                                               BaseController.goToProductListPage(ProductPageArg(
+                                                title: (data.data as Promotion).name,
                                                 promotionKey: (data.data as Promotion).key,
                                                 subCategory: 'Designer',
                                                 queryString: "",
@@ -838,7 +909,8 @@ class _HomeViewListState extends State<HomeViewList> {
                                     );
                                   return Container();
                                 }),
-                          if (appVar.dynamicSectionKeys.length > i)
+                          if (appVar.dynamicSectionKeys.length > i &&
+                              appVar.dynamicSectionKeys[i] != "67409233")
                             FutureBuilder(
                                 future: getProducts(appVar.dynamicSectionKeys[i++]),
                                 builder: (context, data) {
@@ -850,12 +922,13 @@ class _HomeViewListState extends State<HomeViewList> {
                                     return Column(
                                       children: [
                                         SectionDivider(),
-                                        DynamicSectionBuilder4(
+                                        DynamicSectionBuilder(
                                           header: SectionHeader(
                                             title: (data.data as Promotion).name,
                                             subTitle: "",
                                             viewAll: () {
                                               BaseController.goToProductListPage(ProductPageArg(
+                                                title: (data.data as Promotion).name,
                                                 promotionKey: (data.data as Promotion).key,
                                                 subCategory: 'Designer',
                                                 queryString: "",
@@ -1080,6 +1153,7 @@ class _HomeViewListState extends State<HomeViewList> {
                                     //     .getString(HOMESCREEN_SECTION_13_SUBTITLE_EN),
                                     viewAll: () {
                                       BaseController.goToProductListPage(ProductPageArg(
+                                        title: "Explore Designer collection",
                                         queryString: '',
                                         subCategory: '',
                                       ));

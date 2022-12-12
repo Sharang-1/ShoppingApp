@@ -1,22 +1,17 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
-import '../../constants/route_names.dart';
 import '../../constants/server_urls.dart';
-import '../../controllers/base_controller.dart';
-import '../../controllers/home_controller.dart';
 import '../../controllers/wishlist_controller.dart';
 import '../../locator.dart';
 import '../../models/products.dart';
 import '../../services/wishlist_service.dart';
 import '../../utils/lang/translation_keys.dart';
-import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
-import 'wishlist_icon.dart';
+import 'date_count_down.dart';
 
 class ProductTileUI4 extends StatefulWidget {
   final Product data;
@@ -101,6 +96,16 @@ class _ProductTileUI4State extends State<ProductTileUI4> {
 
   @override
   Widget build(BuildContext context) {
+    DateTime today = DateTime.now();
+    DateTime nextSat = today.add(
+      Duration(
+        days: (DateTime.saturday - today.weekday) % DateTime.daysPerWeek,
+        hours: (24 - DateTime.now().hour),
+        minutes: (60 - DateTime.now().minute),
+        seconds: (60 - DateTime.now().second),
+      ),
+    );
+
     EdgeInsetsGeometry paddingCard = widget.index % 2 == 0
         ? const EdgeInsets.fromLTRB(screenPadding, 0, 0, 10)
         : const EdgeInsets.fromLTRB(0, 0, screenPadding, 10);
@@ -130,97 +135,136 @@ class _ProductTileUI4State extends State<ProductTileUI4> {
         print("Hello World ${widget.data.coupons}");
         widget.onClick();
       },
-      child: Container(
-        margin: EdgeInsets.all(3),
-        height: 50,
-        width: 50,
-        decoration: BoxDecoration(
-          // border: Border.all()
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Stack(
-          children: <Widget>[
-            Container(
-              child: _imageStackview(
-                photoURL,
-                productDiscount,
-                priceFontSize,
-                handcrafted: (widget.data.whoMadeIt?.id == 2),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            width: Get.height - 80,
+            height: 180,
+            child: _imageStackview(
+              photoURL,
+              productDiscount,
+              priceFontSize,
+              handcrafted: (widget.data.whoMadeIt?.id == 2),
+            ),
+          ),
+
+          // Expanded(
+          //   flex: 7,
+          //   child: Padding(
+          //     padding: const EdgeInsets.fromLTRB(10, 8.0, 6, 6),
+          //     child: Column(
+          //       mainAxisAlignment: MainAxisAlignment.spaceAround,
+          //       crossAxisAlignment: CrossAxisAlignment.start,
+          //       children: <Widget>[
+          //         Row(
+          //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //           crossAxisAlignment: CrossAxisAlignment.center,
+          //           children: <Widget>[
+          //             Expanded(
+          //               child: Text(
+          //                 capitalizeString(productName),
+          //                 overflow: TextOverflow.ellipsis,
+          //                 style: TextStyle(
+          //                   fontSize: titleFontSize,
+          //                   fontWeight: FontWeight.bold,
+          //                 ),
+          //               ),
+          //             ),
+
+          //           ],
+          //         ),
+          verticalSpaceTiny,
+          Padding(
+            padding: const EdgeInsets.only(left: 12.0),
+            child: Text(
+              "Win this product",
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                fontSize: titleFontSize + 4,
+                fontWeight: FontWeight.normal,
+                color: Colors.black,
               ),
             ),
-
-            
-
-            // Expanded(
-            //   flex: 7,
-            //   child: Padding(
-            //     padding: const EdgeInsets.fromLTRB(10, 8.0, 6, 6),
-            //     child: Column(
-            //       mainAxisAlignment: MainAxisAlignment.spaceAround,
-            //       crossAxisAlignment: CrossAxisAlignment.start,
-            //       children: <Widget>[
-            //         Row(
-            //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //           crossAxisAlignment: CrossAxisAlignment.center,
-            //           children: <Widget>[
-            //             Expanded(
-            //               child: Text(
-            //                 capitalizeString(productName),
-            //                 overflow: TextOverflow.ellipsis,
-            //                 style: TextStyle(
-            //                   fontSize: titleFontSize,
-            //                   fontWeight: FontWeight.bold,
-            //                 ),
-            //               ),
-            //             ),
-
-            //           ],
-            //         ),
-            //         Text(
-            //           "By ${widget.data.seller?.name.toString() ?? 'No Name'}",
-            //           overflow: TextOverflow.ellipsis,
-            //           textAlign: TextAlign.left,
-            //           style: TextStyle(
-            //             fontSize: subtitleFontSize,
-            //             fontWeight: FontWeight.bold,
-            //             color: Colors.grey,
-            //           ),
-            //         ),
-            //         Row(
-            //           children: [
-            //             Padding(
-            //               padding: EdgeInsets.only(right: 5.0),
-            //               child: Text(
-            //                 "${BaseController.formatPrice(productPrice)}",
-            //                 overflow: TextOverflow.ellipsis,
-            //                 textAlign: TextAlign.left,
-            //                 style: TextStyle(
-            //                   color: lightGreen,
-            //                   fontWeight: FontWeight.bold,
-            //                   fontSize: priceFontSize,
-            //                 ),
-            //               ),
-            //             ),
-            //             if ((productDiscount != null) && (productDiscount != 0.0))
-            //               Text(
-            //                 "${BaseController.formatPrice(actualCost)}",
-            //                 overflow: TextOverflow.ellipsis,
-            //                 textAlign: TextAlign.left,
-            //                 style: TextStyle(
-            //                   color: Colors.grey,
-            //                   decoration: TextDecoration.lineThrough,
-            //                   fontWeight: FontWeight.bold,
-            //                   fontSize: priceFontSize - 2,
-            //                 ),
-            //               ),
-            //           ],
-            //         ),
-            //       ],
-            //     ),
-            //   ),
-            // ),
-          ],
-        ),
+          ),
+          verticalSpaceTiny,
+          Padding(
+            padding: const EdgeInsets.only(left: 12.0),
+            child: Text(
+              "Share any product on the app to stand a chance to win this product for free.",
+              overflow: TextOverflow.ellipsis,
+              maxLines: 4,
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                fontSize: titleFontSize,
+                fontWeight: FontWeight.w300,
+                color: Colors.black,
+              ),
+            ),
+          ),
+          verticalSpaceTiny,
+          Padding(
+            padding: EdgeInsets.only(left: 12),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  CountDownText(
+                    due: nextSat,
+                    finishedText: "Done",
+                    showLabel: true,
+                    longDateName: false,
+                    daysTextLong: " Day ",
+                    hoursTextLong: " Hr ",
+                    minutesTextLong: " Min ",
+                    secondsTextLong: " S ",
+                    style: TextStyle(color: Colors.grey, fontSize: 12, fontWeight: FontWeight.bold),
+                  ),
+                  horizontalSpaceTiny,
+                  Text(
+                    "until winners are announced!",
+                    style: TextStyle(color: Colors.grey, fontSize: 12, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          verticalSpaceSmall,
+          //         Row(
+          //           children: [
+          //             Padding(
+          //               padding: EdgeInsets.only(right: 5.0),
+          //               child: Text(
+          //                 "${BaseController.formatPrice(productPrice)}",
+          //                 overflow: TextOverflow.ellipsis,
+          //                 textAlign: TextAlign.left,
+          //                 style: TextStyle(
+          //                   color: lightGreen,
+          //                   fontWeight: FontWeight.bold,
+          //                   fontSize: priceFontSize,
+          //                 ),
+          //               ),
+          //             ),
+          //             if ((productDiscount != null) && (productDiscount != 0.0))
+          //               Text(
+          //                 "${BaseController.formatPrice(actualCost)}",
+          //                 overflow: TextOverflow.ellipsis,
+          //                 textAlign: TextAlign.left,
+          //                 style: TextStyle(
+          //                   color: Colors.grey,
+          //                   decoration: TextDecoration.lineThrough,
+          //                   fontWeight: FontWeight.bold,
+          //                   fontSize: priceFontSize - 2,
+          //                 ),
+          //               ),
+          //           ],
+          //         ),
+          //       ],
+          //     ),
+          //   ),
+          // ),
+        ],
       ),
     );
   }
@@ -234,10 +278,13 @@ class _ProductTileUI4State extends State<ProductTileUI4> {
             widthFactor: 1,
             child: Container(
               decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
-              padding: const EdgeInsets.all(3.0),
+              padding: const EdgeInsets.all(0.0),
               child: ClipRRect(
                 clipBehavior: Clip.antiAlias,
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(12),
+                  topRight: Radius.circular(12),
+                ),
                 child: ColorFiltered(
                   colorFilter:
                       ColorFilter.mode(Colors.transparent.withOpacity(0.12), BlendMode.srcATop),
@@ -261,33 +308,33 @@ class _ProductTileUI4State extends State<ProductTileUI4> {
             ),
           ),
         ),
-        discount != 0.0
-            ? Positioned(
-                top: 0,
-                left: 0,
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: logoRed,
-                      borderRadius: BorderRadius.only(bottomRight: Radius.circular(10))),
-                  width: 40,
-                  height: 20,
-                  child: Center(
-                    child: Text(
-                      discount.round().toString() + "%",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: priceFontSize - 4),
-                    ),
-                  ),
-                ))
-            : Container(),
+        // discount != 0.0
+        //     ? Positioned(
+        //         top: 0,
+        //         left: 0,
+        //         child: Container(
+        //           decoration: BoxDecoration(
+        //               color: logoRed,
+        //               borderRadius: BorderRadius.only(bottomRight: Radius.circular(10))),
+        //           width: 40,
+        //           height: 20,
+        //           child: Center(
+        //             child: Text(
+        //               discount.round().toString() + "%",
+        //               style: TextStyle(
+        //                   color: Colors.white,
+        //                   fontWeight: FontWeight.bold,
+        //                   fontSize: priceFontSize - 4),
+        //             ),
+        //           ),
+        //         ))
+        //     : Container(),
         if (handcrafted)
           Positioned(
-            bottom: 8,
-            left: 8,
+            top: 12,
+            left: 12,
             child: Container(
-              height: 14,
+              height: 20,
               padding: EdgeInsets.symmetric(horizontal: 8.0),
               decoration: BoxDecoration(
                 color: Color.fromRGBO(251, 233, 209, 1),
@@ -301,7 +348,7 @@ class _ProductTileUI4State extends State<ProductTileUI4> {
                   style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
-                    fontSize: priceFontSize - 4,
+                    fontSize: priceFontSize - 2,
                   ),
                 ),
               ),

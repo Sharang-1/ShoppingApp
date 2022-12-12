@@ -62,7 +62,7 @@ class _MyOrdersViewState extends State<MyOrdersView> {
             child: App.isUserLoggedIn == false
                 ? Center(
                     child: Column(children: [
-                      Text("Login to Add products to cart"),
+                      Text("Login to view order history"),
                       Image.asset("assets/images/empty_cart.png"),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
