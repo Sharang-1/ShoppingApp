@@ -215,7 +215,7 @@ class _PaginatedGridViewState<I> extends State<PaginatedGridView> {
   late int rangeEnd;
   late int currentPage;
   int? pages;
-  int threshold = 5;
+  int threshold = 4;
   CancelableOperation? itemOperation;
 
   @override
@@ -224,7 +224,7 @@ class _PaginatedGridViewState<I> extends State<PaginatedGridView> {
     // itemsView =
     // copyRange(itemsView, 0, items);
     // copyItems(items, itemsView, 0, 30);
-    pages = (widget.data.items.length / 30).ceil();
+    pages = (widget.data.items.length / 20).ceil();
     currentPage = 1;
     mapItems();
     _rangeSet();
@@ -237,14 +237,11 @@ class _PaginatedGridViewState<I> extends State<PaginatedGridView> {
       // handle last items
       var e = k * 20;
       var s = e - 20;
-      var end = e;
 
       if (e > items.length) {
-        end = items.length;
-      } else {
-        end = e;
-      }
-      for (var i = s; i < end; i++) {
+      e = items.length;
+      } 
+      for (var i = s; i < e; i++) {
         temp.add(items[i]);
       }
 
@@ -268,15 +265,17 @@ class _PaginatedGridViewState<I> extends State<PaginatedGridView> {
   }
 
   void nextPage() {
-    setState(() {
-      currentPage++;
-    });
+    if (currentPage < pages!)
+      setState(() {
+        currentPage++;
+      });
   }
 
   void prevPage() {
-    setState(() {
-      currentPage--;
-    });
+    if (currentPage > pages!)
+      setState(() {
+        currentPage--;
+      });
   }
 
   @override
@@ -323,12 +322,11 @@ class _PaginatedGridViewState<I> extends State<PaginatedGridView> {
       onNotification: !(widget.disablePagination) ? onNotification : null,
       child: paginatedItems[currentPage]?.length != 0
           ? Container(
-            height: Get.height,
-            child: Column(
+              height: Get.height,
+              child: Column(
                 children: [
                   Expanded(
                     child: GridView.builder(
-                      
                       shrinkWrap: widget.scrollDirection == Axis.vertical,
                       scrollDirection: widget.scrollDirection,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -343,92 +341,98 @@ class _PaginatedGridViewState<I> extends State<PaginatedGridView> {
                           context, paginatedItems[currentPage]?[index], index, onDelete, null),
                     ),
                   ),
-                  widget.disablePagination ? Container() : Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        InkWell(
-                          onTap: () => navigatePages(1),
-                          child: Stack(
+                  widget.disablePagination
+                      ? Container()
+                      : Container(
+                          margin: EdgeInsets.symmetric(vertical: 10),
+                          padding: const EdgeInsets.all(10.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              _defaultControlButton(iconToFirst),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          width: 4,
-                        ),
-                        InkWell(
-                          onTap: () => prevPage(),
-                          child: Stack(
-                            children: [
-                              _defaultControlButton(iconPrevious),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        ...List.generate(
-                          rangeEnd <= pages! ? 5 : pages! % threshold,
-                          (idx) => Flexible(
-                            child: InkWell(
-                              splashColor: Colors.transparent,
-                              highlightColor: Colors.transparent,
-                              onTap: () => navigatePages(idx + 1 + rangeStart),
-                              child: Container(
-                                margin: const EdgeInsets.all(4),
-                                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                                decoration: BoxDecoration(
-                                  color:
-                                      (currentPage - 1) % threshold == idx ? logoRed : Colors.black,
-                                  borderRadius: BorderRadius.all(Radius.circular(4)),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey,
-                                      offset: Offset(0.0, 1.0), //(x,y)
-                                      blurRadius: 6.0,
-                                    ),
+                              InkWell(
+                                onTap: () => navigatePages(1),
+                                child: Stack(
+                                  children: [
+                                    _defaultControlButton(iconToFirst),
                                   ],
                                 ),
-                                child: Text(
-                                  '${idx + 1 + rangeStart}',
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    color:
-                                        (currentPage - 1) % threshold == idx ? Colors.black : logoRed,
+                              ),
+                              SizedBox(
+                                width: 4,
+                              ),
+                              InkWell(
+                                onTap: () => prevPage(),
+                                child: Stack(
+                                  children: [
+                                    _defaultControlButton(iconPrevious),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              ...List.generate(
+                                rangeEnd <= pages! ? threshold : pages! % threshold,
+                                (idx) => Flexible(
+                                  child: InkWell(
+                                    splashColor: Colors.transparent,
+                                    highlightColor: Colors.transparent,
+                                    onTap: () => navigatePages(idx + 1 + rangeStart),
+                                    child: Container(
+                                      margin: const EdgeInsets.all(4),
+                                      padding:
+                                          const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                                      decoration: BoxDecoration(
+                                        color: (currentPage - 1) % threshold == idx
+                                            ? logoRed
+                                            : Colors.white,
+                                        borderRadius: BorderRadius.all(Radius.circular(4)),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.grey,
+                                            offset: Offset(0.0, 1.0), //(x,y)
+                                            blurRadius: 6.0,
+                                          ),
+                                        ],
+                                      ),
+                                      child: Text(
+                                        '${idx + 1 + rangeStart}',
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          color: (currentPage - 1) % threshold == idx
+                                              ? Colors.white
+                                              : logoRed,
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        InkWell(
-                          onTap: () => nextPage(),
-                          child: Stack(
-                            children: [
-                              _defaultControlButton(iconNext),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              InkWell(
+                                onTap: () => nextPage(),
+                                child: Stack(
+                                  children: [
+                                    _defaultControlButton(iconNext),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                width: 4,
+                              ),
+                              InkWell(
+                                onTap: () => navigatePages(pages!),
+                                child: Stack(
+                                  children: [
+                                    _defaultControlButton(iconToLast),
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
                         ),
-                        SizedBox(
-                          width: 4,
-                        ),
-                        InkWell(
-                          onTap: () => navigatePages(pages!),
-                          child: Stack(
-                            children: [
-                              _defaultControlButton(iconToLast),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
                   // Row(
                   //   children: [
                   //     // button for prev
@@ -437,7 +441,7 @@ class _PaginatedGridViewState<I> extends State<PaginatedGridView> {
                   // )
                 ],
               ),
-          )
+            )
           : widget.emptyListWidget!,
     );
   }
