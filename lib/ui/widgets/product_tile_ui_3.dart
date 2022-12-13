@@ -151,15 +151,15 @@ class _ProductTileUI3State extends State<ProductTileUI3> {
                       handcrafted: (widget.data.whoMadeIt?.id == 2),
                     ),
                   ),
-                  Positioned(
-                    left: 0,
-                    top: 0,
-                    child: Container(
-                      color: Colors.white,
-                      padding: EdgeInsets.all(5),
-                      child: Text(widget.index.toString()),
-                    ),
-                  ),
+                  // Positioned(
+                  //   left: 0,
+                  //   top: 0,
+                  //   child: Container(
+                  //     color: Colors.white,
+                  //     padding: EdgeInsets.all(5),
+                  //     child: Text(widget.index.toString()),
+                  //   ),
+                  // ),
                   Positioned(
                     bottom: 5,
                     right: 5,

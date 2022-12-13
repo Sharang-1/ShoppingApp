@@ -109,7 +109,7 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
             child: CustomScrollView(
               slivers: <Widget>[
                 SliverAppBar(
-                  toolbarHeight: 150,
+                  toolbarHeight: 120,
                   leading: InkWell(
                     onTap: () => NavigationService.back(),
                     child: Container(
@@ -168,7 +168,7 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
                         height: 10,
                       ),
                       SizedBox(
-                        height: 80,
+                        height: 60,
                         child: FadeInImage.assetNetwork(
                           fit: BoxFit.fill,
                           fadeInCurve: Curves.easeIn,
@@ -192,47 +192,45 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
                       ),
                     ],
                   ),
-                  floating: true,
+                  floating: false,
                   backgroundColor: Colors.white,
                 ),
                 SliverList(
                   delegate: SliverChildBuilderDelegate(
-                    (context, index) => SingleChildScrollView(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          FutureBuilder(
-                            future: Future.delayed(Duration(milliseconds: 500)),
-                            builder: (c, s) => s.connectionState == ConnectionState.done
-                                ? GridListWidget<Products, Product>(
-                                    key: key,
-                                    context: context,
-                                    filter: filter,
-                                    gridCount: 1,
-                                    onEmptyList: () {},
-                                    emptyListWidget: EmptyListWidget(
-                                        text:
-                                            "We're out of all ${widget.subCategory}.\nCheck Back Later!"),
-                                    controller: ProductsGridViewBuilderController(
-                                      randomize: showRandomProducts,
-                                      limit: 1000,
-                                    ),
-                                    childAspectRatio: 3,
-                                    tileBuilder:
-                                        (BuildContext context, data, index, onUpdate, onDelete) {
-                                      debugPrint("category data $data");
-                                      return ProductTileUI3(
-                                        data: data,
-                                        cardPadding: EdgeInsets.zero,
-                                        onClick: () => BaseController.goToProductPage(data),
-                                        index: index,
-                                      );
-                                    },
-                                  )
-                                : Container(),
-                          ),
-                        ],
-                      ),
+                    (context, index) => Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        FutureBuilder(
+                          future: Future.delayed(Duration(milliseconds: 500)),
+                          builder: (c, s) => s.connectionState == ConnectionState.done
+                              ? GridListWidget<Products, Product>(
+                                  key: key,
+                                  context: context,
+                                  filter: filter,
+                                  gridCount: 1,
+                                  onEmptyList: () {},
+                                  emptyListWidget: EmptyListWidget(
+                                      text:
+                                          "We're out of all ${widget.subCategory}.\nCheck Back Later!"),
+                                  controller: ProductsGridViewBuilderController(
+                                    randomize: showRandomProducts,
+                                    limit: 1000,
+                                  ),
+                                  childAspectRatio: 3,
+                                  tileBuilder:
+                                      (BuildContext context, data, index, onUpdate, onDelete) {
+                                    debugPrint("category data $data");
+                                    return ProductTileUI3(
+                                      data: data,
+                                      cardPadding: EdgeInsets.zero,
+                                      onClick: () => BaseController.goToProductPage(data),
+                                      index: index,
+                                    );
+                                  },
+                                )
+                              : Container(),
+                        ),
+                      ],
                     ),
                     childCount: 1,
                   ),
