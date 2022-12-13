@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:compound/ui/views/promotion_recieved_screen.dart';
 import 'package:compound/ui/widgets/confetti.dart';
 import 'package:compound/ui/widgets/product_detail_card.dart';
@@ -477,83 +478,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                 ],
                               ),
                               elementDivider(),
-                              SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      "Free Delivery",
-                                      style: TextStyle(
-                                          color: Colors.black, fontWeight: FontWeight.w600),
-                                    ),
-                                    Row(
-                                      children: [
-                                        PRODUCTSCREEN_ASSURED.tr,
-                                        if (available! &&
-                                            (totalQuantity != 0) &&
-                                            locator<HomeController>().cityName.toLowerCase() ==
-                                                'ahmedabad')
-                                          PRODUCTSCREEN_COD.tr,
-                                        PRODUCTSCREEN_RETURNS.tr,
-                                        if (available! && (totalQuantity != 0))
-                                          PRODUCTSCREEN_IN_STOCK.tr,
-                                        if ((available! && (totalQuantity == 0)) || !available!)
-                                          PRODUCTSCREEN_SOLD_OUT.tr,
-                                        PRODUCTSCREEN_JUST_HERE.tr,
-                                        if ((productData?.stitchingType?.id ?? -1) == 2)
-                                          PRODUCTSCREEN_UNSTITCHED.tr,
-                                        if (productData!.whoMadeIt!.id == 2)
-                                          PRODUCTSCREEN_HANDCRAFTED.tr,
-                                        if (totalQuantity == 1) PRODUCTSCREEN_ONE_IN_MARKET.tr,
-                                      ]
-                                          .map(
-                                            (e) => InkWell(
-                                              onTap: e.contains(PRODUCTSCREEN_RETURNS.tr)
-                                                  ? () async => await showModalBottomSheet(
-                                                        isScrollControlled: true,
-                                                        shape: RoundedRectangleBorder(
-                                                          borderRadius: BorderRadius.vertical(
-                                                            top: Radius.circular(curve10),
-                                                          ),
-                                                        ),
-                                                        clipBehavior: Clip.antiAlias,
-                                                        context: context,
-                                                        builder: (con) => HelpView(),
-                                                      )
-                                                  : null,
-                                              child: Container(
-                                                margin: EdgeInsets.symmetric(
-                                                  vertical: 4.0,
-                                                  horizontal: 8.0,
-                                                ),
-                                                child: Row(
-                                                  children: [
-                                                    if (e.contains(PRODUCTSCREEN_ASSURED.tr)) ...[
-                                                      Image.asset(
-                                                        "assets/images/assured.png",
-                                                        color: Colors.blueAccent,
-                                                        height: 16,
-                                                        width: 16,
-                                                      ),
-                                                      horizontalSpaceTiny,
-                                                    ],
-                                                    Text(
-                                                      e,
-                                                      style: TextStyle(
-                                                        fontSize: 12.0,
-                                                        color: tagColors[e] ?? Colors.grey,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          )
-                                          .toList(),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                              
                               Container(
                                 margin: EdgeInsets.symmetric(vertical: 10),
                                 padding: EdgeInsets.all(10),
@@ -749,20 +674,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                 fontSize: subtitleFontSizeStyle - 2,
                                               ),
                                             ),
-                                            verticalSpaceTiny,
-                                            GestureDetector(
-                                              onTap: () async {
-                                                if (await canLaunch(RETURN_POLICY_URL))
-                                                  await launch(RETURN_POLICY_URL);
-                                              },
-                                              child: Text(
-                                                "Return Policy",
-                                                style: TextStyle(
-                                                    color: Colors.grey,
-                                                    fontSize: subtitleFontSizeStyle - 2,
-                                                    decoration: TextDecoration.underline),
-                                              ),
-                                            ),
+                                            
                                           ],
                                         ),
                                       ),
@@ -1073,6 +985,20 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                     Text(
                                       "${PRODUCTSCREEN_DELIVERY_BY.tr} : $shipment",
                                       style: TextStyle(fontSize: 12, color: Colors.black54),
+                                    ),
+                                    verticalSpaceTiny,
+                                    GestureDetector(
+                                      onTap: () async {
+                                        if (await canLaunch(RETURN_POLICY_URL))
+                                          await launch(RETURN_POLICY_URL);
+                                      },
+                                      child: Text(
+                                        "View Seller Shipment Policy",
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: subtitleFontSizeStyle,
+                                            decoration: TextDecoration.underline),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -1826,16 +1752,14 @@ class _ProductIndiViewState extends State<ProductIndiView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              FittedBox(
-                alignment: Alignment.centerLeft,
-                fit: BoxFit.scaleDown,
-                child: Text(
-                  capitalizeString(productName.toString()),
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontFamily: headingFont,
-                    fontWeight: FontWeight.bold,
-                  ),
+              AutoSizeText(
+                capitalizeString(productName.toString()),
+                maxFontSize: 18,
+                maxLines: 2,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontFamily: headingFont,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
               GestureDetector(

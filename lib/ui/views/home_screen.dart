@@ -37,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
       },
       builder: (controller) {
         return SafeArea(
-          top: true,
+          top: false,
           left: false,
           right: false,
           bottom: false,
@@ -52,8 +52,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 SliverAppBar(
                   systemOverlayStyle: SystemUiOverlayStyle(
                     statusBarColor: logoRed,
-                    statusBarBrightness: Brightness.light,
-                    statusBarIconBrightness: Brightness.light,
+                    // statusBarBrightness: Brightness.light,
+                    // statusBarIconBrightness: Brightness.light,
                   ),
                   elevation: 0,
                   iconTheme: IconThemeData(color: Colors.white),
