@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'package:dio/dio.dart' as dio;
 // import 'package:dio/dio.dart';
@@ -314,6 +315,7 @@ class APIService {
     if (productData != null) {
       Products products = Products.fromJson(productData);
       Fimber.d("products : " + products.items!.map((o) => o.name).toString());
+      // log("product data $productData");
       return products;
     }
     return null;

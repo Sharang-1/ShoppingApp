@@ -134,6 +134,76 @@ class _ProductTileUI3State extends State<ProductTileUI3> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Container(
+              margin: EdgeInsets.all(3),
+              height: double.maxFinite,
+              width: 120,
+              decoration: BoxDecoration(
+                // border: Border.all()
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Stack(
+                children: <Widget>[
+                  Container(
+                    child: _imageStackview(
+                      photoURL,
+                      productDiscount,
+                      priceFontSize,
+                      handcrafted: (widget.data.whoMadeIt?.id == 2),
+                    ),
+                  ),
+                  Positioned(
+                    left: 0,
+                    top: 0,
+                    child: Container(
+                      color: Colors.white,
+                      padding: EdgeInsets.all(5),
+                      child: Text(widget.index.toString()),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 5,
+                    right: 5,
+                    child: widget.onAddToCartClicked == null
+                        ? InkWell(
+                            child: WishListIcon(
+                              filled: isWishlistIconFilled,
+                              width: 10,
+                              height: 10,
+                            ),
+                            onTap: (locator<HomeController>().isLoggedIn)
+                                ? () async {
+                                    if (locator<WishListController>()
+                                            .list
+                                            .indexOf(widget.data.key ?? "") !=
+                                        -1) {
+                                      removeFromWishList(widget.data.key);
+                                      setState(() {
+                                        isWishlistIconFilled = false;
+                                      });
+                                    } else {
+                                      addToWishList(widget.data.key);
+                                      setState(() {
+                                        isWishlistIconFilled = true;
+                                      });
+                                    }
+                                  }
+                                : () async {
+                                    await BaseController.showLoginPopup(
+                                      nextView: WishListRoute,
+                                      shouldNavigateToNextScreen: true,
+                                    );
+                                  },
+                          )
+                        : InkWell(
+                            child: Icon(
+                            FontAwesomeIcons.heart,
+                            color: Colors.white,
+                          )),
+                  ),
+                ],
+              ),
+            ),
+            Container(
               // padding: EdgeInsets.only(top: widget.data.whoMadeIt?.id == 2?0: 8, left: 12, bottom: 5, right: 12),
               padding: EdgeInsets.symmetric(vertical: 6, horizontal: 12),
               width: MediaQuery.of(context).size.width * 0.9 - 100,
@@ -218,7 +288,7 @@ class _ProductTileUI3State extends State<ProductTileUI3> {
 
                   Text(
                     widget.data.description.toString(),
-                    maxLines: 2,
+                    maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       color: Colors.grey,
@@ -226,67 +296,6 @@ class _ProductTileUI3State extends State<ProductTileUI3> {
                       fontSize: subtitleFontSize,
                     ),
                   )
-                ],
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.all(3),
-              height: double.maxFinite,
-              width: 120,
-              decoration: BoxDecoration(
-                // border: Border.all()
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Stack(
-                children: <Widget>[
-                  Container(
-                    child: _imageStackview(
-                      photoURL,
-                      productDiscount,
-                      priceFontSize,
-                      handcrafted: (widget.data.whoMadeIt?.id == 2),
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 5,
-                    right: 5,
-                    child: widget.onAddToCartClicked == null
-                        ? InkWell(
-                            child: WishListIcon(
-                              filled: isWishlistIconFilled,
-                              width: 10,
-                              height: 10,
-                            ),
-                            onTap: (locator<HomeController>().isLoggedIn)
-                                ? () async {
-                                    if (locator<WishListController>()
-                                            .list
-                                            .indexOf(widget.data.key ?? "") !=
-                                        -1) {
-                                      removeFromWishList(widget.data.key);
-                                      setState(() {
-                                        isWishlistIconFilled = false;
-                                      });
-                                    } else {
-                                      addToWishList(widget.data.key);
-                                      setState(() {
-                                        isWishlistIconFilled = true;
-                                      });
-                                    }
-                                  }
-                                : () async {
-                                    await BaseController.showLoginPopup(
-                                      nextView: WishListRoute,
-                                      shouldNavigateToNextScreen: true,
-                                    );
-                                  },
-                          )
-                        : InkWell(
-                            child: Icon(
-                            FontAwesomeIcons.heart,
-                            color: Colors.white,
-                          )),
-                  ),
                 ],
               ),
             ),

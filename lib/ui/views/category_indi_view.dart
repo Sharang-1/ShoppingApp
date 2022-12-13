@@ -197,39 +197,42 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
                 ),
                 SliverList(
                   delegate: SliverChildBuilderDelegate(
-                    (context, index) => Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        FutureBuilder(
-                          future: Future.delayed(Duration(milliseconds: 500)),
-                          builder: (c, s) => s.connectionState == ConnectionState.done
-                              ? GridListWidget<Products, Product>(
-                                  key: key,
-                                  context: context,
-                                  filter: filter,
-                                  gridCount: 1,
-                                  onEmptyList: () {},
-                                  emptyListWidget: EmptyListWidget(
-                                      text:
-                                          "We're out of all ${widget.subCategory}.\nCheck Back Later!"),
-                                  controller: ProductsGridViewBuilderController(
-                                    randomize: showRandomProducts,
-                                    limit: 1000,
-                                  ),
-                                  childAspectRatio: 3,
-                                  tileBuilder:
-                                      (BuildContext context, data, index, onUpdate, onDelete) {
-                                    return ProductTileUI3(
-                                      data: data,
-                                      cardPadding: EdgeInsets.zero,
-                                      onClick: () => BaseController.goToProductPage(data),
-                                      index: index,
-                                    );
-                                  },
-                                )
-                              : Container(),
-                        ),
-                      ],
+                    (context, index) => SingleChildScrollView(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          FutureBuilder(
+                            future: Future.delayed(Duration(milliseconds: 500)),
+                            builder: (c, s) => s.connectionState == ConnectionState.done
+                                ? GridListWidget<Products, Product>(
+                                    key: key,
+                                    context: context,
+                                    filter: filter,
+                                    gridCount: 1,
+                                    onEmptyList: () {},
+                                    emptyListWidget: EmptyListWidget(
+                                        text:
+                                            "We're out of all ${widget.subCategory}.\nCheck Back Later!"),
+                                    controller: ProductsGridViewBuilderController(
+                                      randomize: showRandomProducts,
+                                      limit: 1000,
+                                    ),
+                                    childAspectRatio: 3,
+                                    tileBuilder:
+                                        (BuildContext context, data, index, onUpdate, onDelete) {
+                                      debugPrint("category data $data");
+                                      return ProductTileUI3(
+                                        data: data,
+                                        cardPadding: EdgeInsets.zero,
+                                        onClick: () => BaseController.goToProductPage(data),
+                                        index: index,
+                                      );
+                                    },
+                                  )
+                                : Container(),
+                          ),
+                        ],
+                      ),
                     ),
                     childCount: 1,
                   ),

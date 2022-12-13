@@ -960,6 +960,19 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+                                    productPriceDetail2(
+                                      productName: productData!.name,
+                                      designerName: productData!.seller?.name ?? "No Name",
+                                      productPrice: productPrice,
+                                      actualPrice: (productData!.cost!.cost +
+                                              productData!.cost!.convenienceCharges!.cost! +
+                                              productData!.cost!.gstCharges!.cost!)
+                                          .round(),
+                                      showPrice: (available!),
+                                      isClothMeterial: (productData!.category!.id == 13),
+                                    ),
+
+
                                     if (!widget.fromCart)
                                       GestureDetector(
                                         onTap: () async {
@@ -1969,6 +1982,79 @@ class _ProductIndiViewState extends State<ProductIndiView> {
             ),
           ],
         ),
+      ],
+    );
+  }
+
+  Widget productPriceDetail2({
+    productName,
+    designerName,
+    productPrice,
+    actualPrice,
+    bool showPrice = true,
+    bool isClothMeterial = false,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Row(
+          children: <Widget>[
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    if (available!)
+                      Text(
+                        '${showPrice ? BaseController.formatPrice(productPrice) : ' - '}',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      )
+                    else
+                      Text(
+                        PRODUCTSCREEN_SOLD_OUT.tr,
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: logoRed,
+                        ),
+                      ),
+                    SizedBox(
+                      width: 4,
+                    ),
+                    if (productDiscount != 0.0 && showPrice)
+                      Padding(
+                        padding: const EdgeInsets.only(right: 8.0),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: <Widget>[
+                            Text(
+                              '${BaseController.formatPrice(actualPrice)}',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.grey[500],
+                                decoration: TextDecoration.lineThrough,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                  ],
+                ),
+                if (available!)
+                  Text(
+                    "(${PRODUCTSCREEN_TAXES_AND_CHARGES.tr})",
+                    style: TextStyle(fontSize: 10, color: Colors.black54),
+                  ),
+              ],
+            ),
+          ],
+        ),
+        verticalSpaceSmall,
       ],
     );
   }

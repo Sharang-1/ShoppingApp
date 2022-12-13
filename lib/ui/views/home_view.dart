@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
+import '../../constants/route_names.dart';
+import '../../controllers/base_controller.dart';
 import '../../controllers/home_controller.dart';
 import '../../locator.dart';
 import '../../utils/lang/translation_keys.dart';
@@ -113,9 +115,19 @@ class _HomeViewState extends State<HomeView> {
                 initialActiveIndex: 2,
                 // onTabNotify: controller.bottomNavigationOnTap,
                 elevation: 5,
-                onTap: (i) => setState(() {
-                  _activeIndex = i;
-                }),
+                onTap: (i) async{
+                  setState(() {
+                    _activeIndex = i;
+                  });
+                  if(i == 1 || i == 3){
+                    controller.isLoggedIn
+                                ? (){}
+                                : await BaseController.showLoginPopup(
+                                    nextView: HomeViewRoute,
+                                    shouldNavigateToNextScreen: true,
+                                  );
+                  }
+                },
               ),
             ),
             body: _screens[_activeIndex],

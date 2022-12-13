@@ -503,7 +503,7 @@ Future getProducts(String promotionKey) async {
 
   final resBody = await jsonDecode(res.body);
   var promotion = Promotion.fromJson(resBody);
-  if (promotionKey == 86798078.toString()) {
+  if (promotionKey == (releaseMode ? 67409233.toString() : 86798078.toString())) {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('promoted_product', promotion.products![0].toString());
     DzorConst().promotedProduct = promotion.products?[1];

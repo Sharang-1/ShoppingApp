@@ -74,6 +74,7 @@ class _CategoriesViewState extends State<CategoriesView> {
                       child: SectionBuilder(
                         key: categoriesGridKey,
                         context: context,
+                        
                         layoutType: LayoutType.CATEGORY_LAYOUT_4,
                         onEmptyList: () {},
                         controller: CategoriesGridViewBuilderController(),

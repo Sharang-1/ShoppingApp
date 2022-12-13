@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../app/app.dart';
+import '../../constants/server_urls.dart';
 import '../../controllers/base_controller.dart';
 import '../../controllers/grid_view_builder/products_grid_view_builder_controller.dart';
 import '../../controllers/grid_view_builder/sellers_grid_view_builder_controller.dart';
@@ -397,7 +398,8 @@ class _HomeViewListState extends State<HomeViewList> {
                                   return Container();
                                 }),
                           FutureBuilder(
-                              future: getProducts(67409233.toString()),
+                              future: getProducts(
+                                  (releaseMode ? 67409233.toString() : 86798078.toString())),
                               builder: (context, data) {
                                 if (data.connectionState == ConnectionState.active) {
                                   return ShimmerWidget(type: LayoutType.PRODUCT_LAYOUT_2);

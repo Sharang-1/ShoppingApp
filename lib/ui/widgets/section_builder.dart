@@ -71,6 +71,7 @@ class SectionBuilder extends StatelessWidget {
   final LayoutType layoutType;
   Key? key;
   BuildContext context;
+  bool disablePagination;
   BaseFilterModel? filter;
   BaseGridViewBuilderController controller;
   int gridCount;
@@ -95,6 +96,7 @@ class SectionBuilder extends StatelessWidget {
     this.gridCount = 1,
     this.filter,
     key,
+    this.disablePagination = false,
     this.spacer = verticalSpaceSmall,
     this.height,
     this.scrollDirection = Axis.vertical,
@@ -591,7 +593,7 @@ class SectionBuilder extends StatelessWidget {
         return 260;
       case LayoutType.PRODUCT_LAYOUT_4:
         return 150;
-      
+
       case LayoutType.PRODUCT_LAYOUT_3:
         return null;
 
