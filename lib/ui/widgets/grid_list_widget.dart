@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:async/async.dart';
 import 'package:compound/ui/shared/app_colors.dart';
 import 'package:fimber/fimber.dart';
@@ -215,14 +213,15 @@ class _PaginatedGridViewState<I> extends State<PaginatedGridView> {
   late int currentPage;
   int? pages;
   int threshold = 3;
+  int itemsPerPage = 40;
   CancelableOperation? itemOperation;
 
   @override
   void initState() {
     items = widget.data.items;
-    pages = (widget.data.items.length / 30).ceil();
+    pages = (widget.data.items.length / itemsPerPage).ceil();
     currentPage = 1;
-    mapItems();
+    if(items.length > 0) mapItems();
     _rangeSet();
     super.initState();
   }
@@ -231,12 +230,12 @@ class _PaginatedGridViewState<I> extends State<PaginatedGridView> {
     for (var k = 1; k <= pages!; k++) {
       List<I> temp = [];
       // handle last items
-      var e = k * 30;
-      var s = e - 30;
+      var e = k * itemsPerPage;
+      var s = e - itemsPerPage;
 
       if (e > items.length) {
-      e = items.length;
-      } 
+        e = items.length;
+      }
       for (var i = s; i < e; i++) {
         temp.add(items[i]);
       }
@@ -244,7 +243,6 @@ class _PaginatedGridViewState<I> extends State<PaginatedGridView> {
       paginatedItems[k] = temp;
     }
   }
-
 
   void navigatePages(int pageNumber) {
     setState(() {
@@ -257,17 +255,15 @@ class _PaginatedGridViewState<I> extends State<PaginatedGridView> {
     if (currentPage < pages!)
       setState(() {
         currentPage++;
-      _rangeSet();
-
+        _rangeSet();
       });
   }
 
   void prevPage() {
-    if (currentPage > pages!)
+    if (currentPage > 1)
       setState(() {
         currentPage--;
-      _rangeSet();
-
+        _rangeSet();
       });
   }
 
@@ -309,17 +305,17 @@ class _PaginatedGridViewState<I> extends State<PaginatedGridView> {
 
   @override
   Widget build(BuildContext context) {
-    if ((widget.onEmptyList != null) && (paginatedItems[currentPage]!.isEmpty))
+    if ((widget.onEmptyList != null) && (items.isEmpty))
       widget.onEmptyList!();
     return NotificationListener(
       onNotification: !(widget.disablePagination) ? onNotification : null,
-      child: paginatedItems[currentPage]?.length != 0
+      child: (items.isNotEmpty) && paginatedItems[currentPage]?.length != 0
           ? Container(
-              height: Get.height-130,
+              height: Get.height - 130,
               child: Stack(
                 children: [
                   Container(
-                    margin : EdgeInsets.only(bottom: widget.disablePagination ?  0 : 60),
+                    margin: EdgeInsets.only(bottom: widget.disablePagination ? 0 : 60),
                     child: GridView.builder(
                       shrinkWrap: widget.scrollDirection == Axis.vertical,
                       scrollDirection: widget.scrollDirection,
@@ -339,9 +335,9 @@ class _PaginatedGridViewState<I> extends State<PaginatedGridView> {
                   widget.disablePagination
                       ? Container()
                       : Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Container(
-                          color: Colors.white,
+                          alignment: Alignment.bottomCenter,
+                          child: Container(
+                            color: Colors.white,
                             margin: EdgeInsets.symmetric(vertical: 5),
                             padding: const EdgeInsets.all(10.0),
                             child: Row(
@@ -349,19 +345,14 @@ class _PaginatedGridViewState<I> extends State<PaginatedGridView> {
                               children: [
                                 InkWell(
                                   onTap: () => navigatePages(1),
-                                  child: 
-                                      _defaultControlButton(iconToFirst),
-                                    
-                                  
+                                  child: _defaultControlButton(iconToFirst),
                                 ),
                                 SizedBox(
                                   width: 4,
                                 ),
                                 InkWell(
                                   onTap: () => prevPage(),
-                                  child: 
-                                      _defaultControlButton(iconPrevious),
-                                    
+                                  child: _defaultControlButton(iconPrevious),
                                 ),
                                 SizedBox(
                                   width: 10,
@@ -377,9 +368,9 @@ class _PaginatedGridViewState<I> extends State<PaginatedGridView> {
                                         margin: const EdgeInsets.all(4),
                                         height: 40,
                                         width: 40,
-                                        
+
                                         // padding:
-                                            // const EdgeInsets.symmetric(vertical: 10, horizontal: ),
+                                        // const EdgeInsets.symmetric(vertical: 10, horizontal: ),
                                         decoration: BoxDecoration(
                                           color: (currentPage - 1) % threshold == idx
                                               ? logoRed
@@ -413,23 +404,19 @@ class _PaginatedGridViewState<I> extends State<PaginatedGridView> {
                                 ),
                                 InkWell(
                                   onTap: () => nextPage(),
-                                  child: 
-                                      _defaultControlButton(iconNext),
-                                   
+                                  child: _defaultControlButton(iconNext),
                                 ),
                                 SizedBox(
                                   width: 4,
                                 ),
                                 InkWell(
                                   onTap: () => navigatePages(pages!),
-                                  child: 
-                                      _defaultControlButton(iconToLast),
-                                    
+                                  child: _defaultControlButton(iconToLast),
                                 ),
                               ],
                             ),
                           ),
-                      ),
+                        ),
                   // Row(
                   //   children: [
                   //     // button for prev

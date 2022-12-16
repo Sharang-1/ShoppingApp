@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -16,9 +15,7 @@ import '../../constants/dynamic_links.dart';
 import '../../constants/route_names.dart';
 import '../../constants/server_urls.dart';
 import '../../constants/shared_pref.dart';
-import '../../controllers/base_controller.dart';
 import '../../controllers/grid_view_builder/products_grid_view_builder_controller.dart';
-import '../../controllers/grid_view_builder/sellers_grid_view_builder_controller.dart';
 import '../../controllers/home_controller.dart';
 import '../../locator.dart';
 import '../../models/grid_view_builder_filter_models/productFilter.dart';
@@ -372,6 +369,7 @@ class _SellerIndi2State extends State<SellerIndi2> {
                                         fontWeight: FontWeight.w500,
                                         fontFamily: textFont,
                                         dotsAfterOverFlow: true,
+                                        maxLines: 4,
                                         color: Colors.black54,
                                       ),
                                       Row(

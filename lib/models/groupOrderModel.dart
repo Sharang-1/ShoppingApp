@@ -49,8 +49,23 @@ class OrderQueue {
   Map<String, dynamic> toJson() => {'clientQueueId': clientQueueId};
 }
 
-class CustomerDetails {
-  
+class GroupOrderCostEstimateModel {
+  String? productId;
+  int? quantity;
+  String? promoCode;
+
+  GroupOrderCostEstimateModel({this.productId, this.promoCode, this.quantity});
+
+  factory GroupOrderCostEstimateModel.fromJson(Map<String, dynamic> json) =>
+      GroupOrderCostEstimateModel(
+        productId: json['productId'],
+        promoCode: json['promocode'],
+        quantity: json['quantity'],
+      );
+
+  Map<String, dynamic> toJson() => {
+    'productId' : productId,
+    'quantity' : quantity,
+    'promocode' : promoCode ?? null  
+  };
 }
-
-

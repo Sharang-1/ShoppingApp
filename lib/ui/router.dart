@@ -34,7 +34,6 @@ import 'views/product_wishlist_view.dart';
 import 'views/profile_view.dart';
 import 'views/reviews_screen.dart';
 import 'views/search_view.dart';
-import 'views/seller_indi_view.dart';
 import 'views/seller_indi_view2.dart';
 import 'views/settings_page_view.dart';
 import 'views/verify_otp.dart';

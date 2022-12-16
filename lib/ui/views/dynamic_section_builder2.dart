@@ -6,8 +6,6 @@ import '../../controllers/base_controller.dart';
 import '../../controllers/home_controller.dart';
 import '../../models/products.dart';
 import '../shared/ui_helpers.dart';
-import '../widgets/home_view_list_header.dart';
-import '../widgets/product_tile_ui.dart';
 import '../widgets/section_builder.dart';
 
 // ignore: must_be_immutable

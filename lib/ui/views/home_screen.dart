@@ -36,12 +36,8 @@ class _HomeScreenState extends State<HomeScreen> {
         controller.showTutorial(context, searchKey: searchKey, logoKey: logoKey);
       },
       builder: (controller) {
-        return SafeArea(
-          top: false,
-          left: false,
-          right: false,
-          bottom: false,
-          child: RefreshIndicator(
+        return Scaffold(
+          body: RefreshIndicator(
             displacement: 10,
             edgeOffset: 50,
             onRefresh: () async {

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:compound/app/app.dart';
 import 'package:compound/models/orderV2.dart';
 import 'package:compound/models/orderV2_response.dart';
@@ -6,10 +8,10 @@ import 'package:compound/utils/lang/translation_keys.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../app/groupOrderData.dart';
 import '../../constants/route_names.dart';
 import '../../controllers/cart_payment_method_controller.dart';
 import '../../locator.dart';
-import '../../services/dialog_service.dart';
 import '../../services/error_handling_service.dart';
 import '../../services/navigation_service.dart';
 import '../shared/app_colors.dart';
@@ -54,6 +56,7 @@ class PaymentMethod extends StatefulWidget {
 class _PaymentMethodState extends State<PaymentMethod> {
   int paymentMethodRadioValue = 2;
   int paymentMethodGrpValue = 2;
+  double paymentTotal = 0;
   final ErrorHandlingService _errorHandlingService = locator<ErrorHandlingService>();
 
   Map<int, Widget> iconpaymentMethodMap = {
@@ -61,30 +64,26 @@ class _PaymentMethodState extends State<PaymentMethod> {
     2: Tab(icon: Image.asset("assets/images/online_payment.png")),
   };
 
-  // @override
-  // void initState() {
-  //   // print("Cart Payment");
-  //   // print("final totle " + widget.finalTotal);
-  //   // print("billing add " +
-  //   //     widget.billingAddress.address! +
-  //   //     '\n' +
-  //   //     widget.billingAddress.googleAddress!);
-  //   // print("product id " + widget.productId);
-  //   // print("promo code " + widget.promoCode);
-  //   // print("promo id" + widget.promoCodeId!);
-  //   // print("size " + widget.size!);
-  //   // print("color " + widget.color!);
-  //   // print("qty" + widget.qty.toString());
-  //   super.initState();
-  //   WidgetsBinding.instance?.addPostFrameCallback(
-  //     (_) async {
-  //       await DialogService.showDialog(
-  //         title: CART_ALERT_DIALOG_TITLE.tr,
-  //         description: CART_ALERT_DIALOG_DESCRIPTION.tr,
-  //       );
-  //     },
-  //   );
-  // }
+  @override
+  void initState() {
+    getOrderCostEstimate(2);
+    super.initState();
+  }
+
+  Future getOrderCostEstimate(int paymentOption) async {
+    var res = await APIService().getOrderCostEstimate(
+      // payment: ,
+      paymentOption: paymentOption,
+      products: GroupOrderData.cartEstimateItems,
+      customerDetails: widget.customerDetails,
+    );
+
+    if (res != null) {
+      setState(() {
+        paymentTotal = res.cost ?? 0;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -159,9 +158,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-
                       CustomText(
-                        rupeeUnicode + widget.finalTotal.toString(),
+                        rupeeUnicode + paymentTotal.toStringAsFixed(2),
                         fontSize: 18,
                         isBold: true,
                         color: logoRed,
@@ -263,6 +261,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                     print(controller.paymentOptions);
                                     setState(() {
                                       paymentMethodGrpValue = paymentMethodRadioValue = key;
+                                      getOrderCostEstimate(paymentMethodGrpValue);
                                     });
                                   },
                                   child: Container(
@@ -290,6 +289,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                                 print(val);
                                                 paymentMethodGrpValue =
                                                     paymentMethodRadioValue = key;
+                                                getOrderCostEstimate(paymentMethodGrpValue);
+
                                                 setState(() {});
                                               },
                                             ),
@@ -342,22 +343,14 @@ class _PaymentMethodState extends State<PaymentMethod> {
   Future<void> makePayment(controller) async {
     appVar.previousOrders = (await locator<APIService>().getAllOrders())!.orders!;
     final GroupOrderResponseModel res = await controller.createGroupOrder(
-      widget.finalTotal, widget.customerDetails, widget.products
-    );
+        widget.finalTotal, widget.customerDetails, widget.products);
 
-    if(kDebugMode) print("res = $res");
+    if (kDebugMode) print("res = $res");
     if (res != null) {
       NavigationService.off(PaymentFinishedScreenRoute);
     } else if (paymentMethodGrpValue != 2) {
       _errorHandlingService.showError(Errors.CouldNotPlaceAnOrder);
       NavigationService.offAll(HomeViewRoute);
     }
-    // print("res = $res");
-    // if (res != null) {
-    //   NavigationService.off(PaymentFinishedScreenRoute);
-    // } else if (paymentMethodGrpValue != 2) {
-    //   _errorHandlingService.showError(Errors.CouldNotPlaceAnOrder);
-    //   NavigationService.offAll(HomeViewRoute);
-    // }
   }
 }

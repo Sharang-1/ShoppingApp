@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'package:compound/models/groupOrderModel.dart';
+import 'package:compound/models/ordersV2.dart';
 import 'package:dio/dio.dart' as dio;
 // import 'package:dio/dio.dart';
 // import 'package:dio_retry/dio_retry.dart';
@@ -24,6 +26,7 @@ import '../../models/app_info.dart';
 import '../../models/calculatedPrice.dart';
 import '../../models/cart.dart' as CartModule;
 import '../../models/categorys.dart';
+import '../../models/groupOrderCostEstimateModel.dart';
 import '../../models/lookups.dart';
 import '../../models/order.dart' as OrderModule;
 import '../../models/orderV2.dart' as OrderV2;
@@ -198,6 +201,43 @@ class APIService {
     return promotion;
   }
 
+  Future<CostEstimateModel?> getOrderCostEstimate({
+    // OrderV2.Payment? payment,
+    int? paymentOption,
+    List<dynamic>? products,
+    OrderV2.CustomerDetails? customerDetails,
+  }) async {
+    var pincode = customerDetails?.pincode;
+
+    var payLoad = {
+      "payment": {
+        "option": {"id": paymentOption}
+      },
+      "pincode": pincode,
+      "items": products
+    };
+    var payLoadJson = jsonEncode(payLoad);
+
+    if (kDebugMode) print("---------cost  estimate api testing ----------");
+
+    final response = await apiWrapper("v2/orders/estimate",
+        authenticated: true,
+        options: dio.Options(headers: {'excludeToken': false}, method: "POST"),
+        data: payLoadJson);
+    if (kDebugMode) print("response data");
+    if (kDebugMode) print(response);
+    log(response.toString());
+
+    if (response != null) {
+      final costEstimate = CostEstimateModel.fromJson(response);
+
+      if (kDebugMode) print("order response");
+      if (kDebugMode) print(costEstimate);
+      return costEstimate;
+    }
+    return null;
+  }
+
   Future<GroupOrderResponseModel?> createGroupOrder({
     OrderV2.CustomerDetails? customerDetails,
     OrderV2.Payment? payment,
@@ -205,37 +245,41 @@ class APIService {
   }) async {
     try {
       try {
-        // var orderBody = {"customerDetails": customerDetails, "orders": products};
-
-        // var orderJson = jsonEncode(orderBody);
-
-        var orderJson = {
-          "customerDetails": {
-            "address": "test billing address",
-            "city": "test billing city",
-            "state": "test billing state",
-            "pincode": "380060",
-            "country": "india"
-          },
-          "orders": [
-            {
-              "productId": 89755650,
-              "variation": {"size": "s", "quantity": 1, "color": "blue"},
-              "clientQueueId": 1
-            },
-            {
-              "productId": 83885946,
-              "variation": {"size": "X", "quantity": 1, "color": "pink"},
-              "clientQueueId": 2,
-              "customization": {"label": "Mr Ashok"}
-            },
-            {
-              "productId": 87250459,
-              "variation": {"size": "XS", "quantity": 2, "color": "red"},
-              "clientQueueId": 3
-            }
-          ]
+        bool isGroupOrder = products?.length == 1;
+        var orderBody = {
+          "customerDetails": customerDetails,
+          "orders": products,
+          "groupOrder": isGroupOrder
         };
+        var orderJson = jsonEncode(orderBody);
+
+        // var orderJson = {
+        //   "customerDetails": {
+        //     "address": "test billing address",
+        //     "city": "test billing city",
+        //     "state": "test billing state",
+        //     "pincode": "380060",
+        //     "country": "india"
+        //   },
+        //   "orders": [
+        //     {
+        //       "productId": 89755650,
+        //       "variation": {"size": "s", "quantity": 1, "color": "blue"},
+        //       "clientQueueId": 1
+        //     },
+        //     {
+        //       "productId": 83885946,
+        //       "variation": {"size": "X", "quantity": 1, "color": "pink"},
+        //       "clientQueueId": 2,
+        //       "customization": {"label": "Mr Ashok"}
+        //     },
+        //     {
+        //       "productId": 87250459,
+        //       "variation": {"size": "XS", "quantity": 2, "color": "red"},
+        //       "clientQueueId": 3
+        //     }
+        //   ]
+        // };
 
         if (kDebugMode) print("--------- api testing ----------");
 
@@ -457,7 +501,10 @@ class APIService {
     if (cartData != null) {
       try {
         CartModule.Cart cart = CartModule.Cart.fromJson(cartData);
+        log("qwerty");
         Fimber.d("Cart : " + cart.items!.map((o) => o.productId).toString());
+        log("yuiop");
+
         final list = cart.items!.map((e) => e.productId.toString()).toList();
         return list;
       } catch (err) {
@@ -627,8 +674,8 @@ class APIService {
     return null;
   }
 
-  Future<Orders?> getAllOrders() async {
-    var ordersData = await apiWrapper("orders;product=true", authenticated: true);
+  Future<Orders?> getAllOrdersV2() async {
+    var ordersData = await apiWrapper("v2/orders;product=true", authenticated: true);
     if (ordersData != null) {
       Orders orders = Orders.fromJson(ordersData);
       orders.orders!.sort((a, b) {
@@ -638,6 +685,24 @@ class APIService {
             "${b.created!.substring(6, 10)}${b.created!.substring(3, 5)}${b.created!.substring(0, 2)}");
         return bDateTime.compareTo(aDateTime);
       });
+      log(ordersData.toString());
+      return orders;
+    }
+    return null;
+  }
+
+  Future<OrdersV2?> getAllOrders() async {
+    var ordersData = await apiWrapper("v2/orders;product=true", authenticated: true);
+    if (ordersData != null) {
+      OrdersV2 orders = OrdersV2.fromJson(ordersData);
+      orders.orders!.sort((a, b) {
+        DateTime aDateTime = DateTime.parse(
+            "${a.created!.substring(6, 10)}${a.created!.substring(3, 5)}${a.created!.substring(0, 2)}");
+        DateTime bDateTime = DateTime.parse(
+            "${b.created!.substring(6, 10)}${b.created!.substring(3, 5)}${b.created!.substring(0, 2)}");
+        return bDateTime.compareTo(aDateTime);
+      });
+      log(ordersData.toString());
       return orders;
     }
     return null;

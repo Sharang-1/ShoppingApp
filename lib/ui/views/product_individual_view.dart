@@ -55,7 +55,6 @@ import '../widgets/shimmer/shimmer_widget.dart';
 import '../widgets/wishlist_icon.dart';
 import 'cart_view.dart';
 import 'gallery_view.dart';
-import 'help_view.dart';
 
 const weekday = ["Monday", "Tuesday", "wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
@@ -141,10 +140,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
   List<String>? imageURLs;
   double height = 100;
   Product? _promotedProductInfo;
-
   bool showHeader = false;
   bool showSizechart = false;
-
   GlobalKey cartKey = GlobalKey();
 
   @override
@@ -186,7 +183,6 @@ class _ProductIndiViewState extends State<ProductIndiView> {
       barrierLabel: "Barrier",
       barrierDismissible: true,
       barrierColor: Colors.black.withOpacity(0.5),
-      // transitionDuration: Duration(milliseconds: 700),
       builder: (_) {
         return AlertDialog(
           backgroundColor: Colors.transparent,
@@ -266,22 +262,6 @@ class _ProductIndiViewState extends State<ProductIndiView> {
           ),
         );
       },
-      // transitionBuilder: (_, anim, __, child) {
-      //   Tween<Offset> tween;
-      //   if (anim.status == AnimationStatus.reverse) {
-      //     tween = Tween(begin: Offset(-1, 0), end: Offset.zero);
-      //   } else {
-      //     tween = Tween(begin: Offset(1, 0), end: Offset.zero);
-      //   }
-
-      //   return SlideTransition(
-      //     position: tween.animate(anim),
-      //     child: FadeTransition(
-      //       opacity: anim,
-      //       child: child,
-      //     ),
-      //   );
-      // },
     );
   }
 

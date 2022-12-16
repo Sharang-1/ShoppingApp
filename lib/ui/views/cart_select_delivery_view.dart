@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:compound/controllers/home_controller.dart';
 import 'package:compound/models/orderV2.dart';
@@ -22,11 +23,15 @@ import 'cart_payment_method_view.dart';
 
 class SelectAddress extends StatefulWidget {
   final List<dynamic> products;
+  final List<dynamic>? estimateItems;
+  final List<dynamic>? sellers;
   final double? payTotal;
 
   const SelectAddress({
     Key? key,
     required this.products,
+    this.estimateItems,
+    this.sellers,
     this.payTotal,
   }) : super(key: key);
 
@@ -105,7 +110,7 @@ class _SelectAddressState extends State<SelectAddress> {
                     children: [
                       CustomText(
                         // "${BaseController.formatPrice(num.parse(orderDetails.total!.replaceAll("₹", "")))}",
-                        rupeeUnicode + widget.payTotal.toString(),
+                        rupeeUnicode + widget.payTotal!.toStringAsFixed(2),
                         fontSize: 18,
                         isBold: true,
                         color: logoRed,
@@ -366,8 +371,8 @@ class _SelectAddressState extends State<SelectAddress> {
           city: controller.addresses[0].city,
           state: controller.addresses[0].state,
           country: "India",
-          // name: locator<HomeController>().details!.firstName.toString() +
-          //     locator<HomeController>().details!.lastName.toString(),
+          name: locator<HomeController>().details!.firstName.toString() +
+              locator<HomeController>().details!.lastName.toString(),
           customerPhone: CustomerPhone(
             code: locator<HomeController>().details!.contact!.phone!.code,
             mobile: locator<HomeController>().details!.contact!.phone!.mobile,
@@ -376,7 +381,7 @@ class _SelectAddressState extends State<SelectAddress> {
         ),
       )
     };
-    if (kDebugMode) print(orderJson);
+    if (kDebugMode) log(orderJson.toString());
 
     // final serviceAvailability = await locator<APIService>()
     //     .checkPincode(productId: widget.productId, pincode: addressRadioValue.pincode.toString());

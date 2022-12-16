@@ -35,23 +35,23 @@ class OrderPlacedView extends StatelessWidget {
                 ),
               ),
             ),
-            Positioned(
-              top: 50,
-              child: Container(
-                constraints : BoxConstraints(maxWidth : MediaQuery.of(context).size.width - 20),
-                padding: const EdgeInsets.all(20),
-                child: Text(
-                  "Thanks for making ${GroupOrderData.sellersList[0]}, ${GroupOrderData.sellersList[0]}'s day!",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: headingFont,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w500,
-                    fontSize: titleFontSize + 1,
-                  ),
-                ),
-              ),
-            ),
+            // Positioned(
+            //   top: 50,
+            //   child: Container(
+            //     constraints : BoxConstraints(maxWidth : MediaQuery.of(context).size.width - 20),
+            //     padding: const EdgeInsets.all(20),
+            //     child: Text(
+            //       "Thanks for making ${GroupOrderData.sellersList[0]}, ${GroupOrderData.sellersList[0]}'s day!",
+            //       textAlign: TextAlign.center,
+            //       style: TextStyle(
+            //         fontFamily: headingFont,
+            //         color: Colors.black,
+            //         fontWeight: FontWeight.w500,
+            //         fontSize: titleFontSize + 1,
+            //       ),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),

@@ -167,7 +167,7 @@ class _CartViewState extends State<CartView> {
                                   scrollDirection: Axis.horizontal,
                                   tileBuilder:
                                       (BuildContext context, data, index, onDelete, onUpdate) {
-                                    Fimber.d("test");
+                                    Fimber.d("testying");
                                     print((data as Item).toJson());
 
                                     final Item dItem = data;
@@ -326,16 +326,23 @@ class _CartViewState extends State<CartView> {
   proccedToOrder() async {
     GroupOrderData.cartProducts.clear();
     GroupOrderData.sellersList.clear();
+    GroupOrderData.cartEstimateItems.clear();
     var total = 0.0;
     var data = await locator<APIService>().getCart();
     if (data != null) {
       var _cartItems = data.items;
       // var _cartProducts = [];
       for (var i = 0; i < _cartItems!.length; i++) {
+        // ? calculating item cost
         var finalTotal = _cartItems[i].product!.cost!.costToCustomer!.toDouble() *
             _cartItems[i].quantity!.toInt();
-        // var sellerName = _cartItems[i].product!.whoMadeIt!.name!;
         total = total + finalTotal;
+
+        //? seller name to give credit upon purchase
+        // var sellerName = _cartItems[i].product!;
+        // GroupOrderData.sellersList.add(sellerName);
+
+        // ? cart items json to pass for payload
         groupOrder.GroupOrderModel cartItem = groupOrder.GroupOrderModel(
           productId: _cartItems[i].productId.toString(),
           variation: groupOrder.Variation(
@@ -347,8 +354,16 @@ class _CartViewState extends State<CartView> {
             clientQueueId: (i + 1).toString(),
           ),
         );
-        // GroupOrderData.sellersList.add(sellerName);
         GroupOrderData.cartProducts.add(cartItem);
+
+        // ? items to calculate order cost estimate
+        groupOrder.GroupOrderCostEstimateModel item = groupOrder.GroupOrderCostEstimateModel(
+          productId: _cartItems[i].productId.toString(),
+          quantity: _cartItems[i].quantity?.toInt(),
+        );
+        GroupOrderData.cartEstimateItems.add(item);
+
+        // GroupOrderData.sellersList.add(sellerName);
         if (kDebugMode) print("hi");
         String jsonObj = jsonEncode(cartItem);
         if (kDebugMode) print(jsonObj);
@@ -358,6 +373,8 @@ class _CartViewState extends State<CartView> {
         PageTransition(
           child: SelectAddress(
             products: GroupOrderData.cartProducts,
+            estimateItems: GroupOrderData.cartEstimateItems,
+            sellers: GroupOrderData.sellersList,
             payTotal: total,
           ),
           type: PageTransitionType.rightToLeft,

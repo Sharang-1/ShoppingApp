@@ -2,6 +2,7 @@ import 'dart:convert';
 
 // import 'package:compound/models/cart.dart';
 import 'package:compound/app/app.dart';
+import '../models/ordersV2.dart' as ov2;
 import 'package:compound/models/products.dart';
 import 'package:compound/models/sellers.dart';
 // import 'package:firebase_remote_config/firebase_remote_config.dart';
@@ -172,37 +173,39 @@ class HomeController extends BaseController {
     await updateIsLoggedIn();
 
     if (isLoggedIn) {
-      final lastDeliveredProduct = await getLastDeliveredProduct();
-      if (lastDeliveredProduct != null)
-        await DialogService.showCustomDialog(
-          RatingDialog(
-            onSubmitted: (val) async {
-              await postReview(lastDeliveredProduct['id']!, val.rating.toDouble());
-            },
-            submitButtonText: "Submit",
-            image: Image.network(
-              lastDeliveredProduct["image"]!,
-              height: 150,
-              width: 150,
-              errorBuilder: (context, error, stackTrace) => Image.asset(
-                'assets/images/product_preloading.png',
-                height: 150,
-                width: 150,
-              ),
-            ),
-            title: Text(lastDeliveredProduct["name"] ?? ""),
-            message: Text("Tap a star to give your review."),
-            starColor: logoRed,
-            // positiveComment: "We’re glad you liked it!! 😊",
-            // negativeComment:
-            //     "Please reach us out and help us understand your concerns!",
-            // accentColor: logoRed,
-            // onSubmitPressed: (int rating) async {
-            //   await postReview(lastDeliveredProduct['id']!, rating.toDouble());
-            // },
-          ),
-          barrierDismissible: true,
-        );
+
+      // ? get review of last delivered products
+      // final lastDeliveredProduct = await getLastDeliveredProduct();
+      // if (lastDeliveredProduct != null)
+      //   await DialogService.showCustomDialog(
+      //     RatingDialog(
+      //       onSubmitted: (val) async {
+      //         await postReview(lastDeliveredProduct['id']!, val.rating.toDouble());
+      //       },
+      //       submitButtonText: "Submit",
+      //       image: Image.network(
+      //         lastDeliveredProduct["image"]!,
+      //         height: 150,
+      //         width: 150,
+      //         errorBuilder: (context, error, stackTrace) => Image.asset(
+      //           'assets/images/product_preloading.png',
+      //           height: 150,
+      //           width: 150,
+      //         ),
+      //       ),
+      //       title: Text(lastDeliveredProduct["name"] ?? ""),
+      //       message: Text("Tap a star to give your review."),
+      //       starColor: logoRed,
+      //       // positiveComment: "We’re glad you liked it!! 😊",
+      //       // negativeComment:
+      //       //     "Please reach us out and help us understand your concerns!",
+      //       // accentColor: logoRed,
+      //       // onSubmitPressed: (int rating) async {
+      //       //   await postReview(lastDeliveredProduct['id']!, rating.toDouble());
+      //       // },
+      //     ),
+      //     barrierDismissible: true,
+      //   );
 
       final RateMyApp rateMyApp = RateMyApp(
         preferencesPrefix: 'rateMyApp_',
@@ -316,28 +319,28 @@ class HomeController extends BaseController {
     }
   }
 
-  Future<Map<String, String>?> getLastDeliveredProduct() async {
-    Order lastDeliveredOrder =
-        (await _apiService.getAllOrders())!.orders!.where((e) => e.status!.id == 7).first;
+  // Future<Map<String, String>?> getLastDeliveredProduct() async {
+  //   ov2.Order lastDeliveredOrder =
+  //       (await _apiService.getAllOrders())!.orders!.where((e) => e.status!.id == 7).first;
 
-    if (lastDeliveredOrder == null) return {};
-    if (prefs == null) prefs = await SharedPreferences.getInstance();
+  //   if (lastDeliveredOrder == null) return {};
+  //   if (prefs == null) prefs = await SharedPreferences.getInstance();
 
-    String lastStoredOrderKey = prefs!.getString("lastDeliveredOrderKey")!;
-    if (lastDeliveredOrder.key != null && (lastDeliveredOrder.key == lastStoredOrderKey)) return {};
-    try {
-      if (await _apiService.hasReviewed(lastDeliveredOrder.productId!)) return {};
-    } catch (e) {
-      print(e.toString());
-    }
-    await prefs!.setString("lastDeliveredOrderKey", lastDeliveredOrder.key!);
-    return {
-      "id": lastDeliveredOrder.productId!,
-      "name": lastDeliveredOrder.product!.name!,
-      "image":
-          '$PRODUCT_PHOTO_BASE_URL/${lastDeliveredOrder.productId}/${lastDeliveredOrder.product!.photo!.photos!.first.name}-small.png',
-    };
-  }
+  //   String lastStoredOrderKey = prefs!.getString("lastDeliveredOrderKey")!;
+  //   if (lastDeliveredOrder.key != null && (lastDeliveredOrder.key == lastStoredOrderKey)) return {};
+  //   try {
+  //     if (await _apiService.hasReviewed(lastDeliveredOrder.productId!)) return {};
+  //   } catch (e) {
+  //     print(e.toString());
+  //   }
+  //   await prefs!.setString("lastDeliveredOrderKey", lastDeliveredOrder.key!);
+  //   return {
+  //     "id": lastDeliveredOrder.productId!,
+  //     "name": lastDeliveredOrder.product!.name!,
+  //     "image":
+  //         '$PRODUCT_PHOTO_BASE_URL/${lastDeliveredOrder.productId}/${lastDeliveredOrder.product!.photo!.photos!.first.name}-small.png',
+  //   };
+  // }
 
   Future postReview(String key, double ratings) async {
     try {

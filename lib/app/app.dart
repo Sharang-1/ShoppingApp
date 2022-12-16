@@ -1,4 +1,4 @@
-import 'package:compound/models/orders.dart';
+import 'package:compound/models/ordersV2.dart';
 
 late App appVar;
 
