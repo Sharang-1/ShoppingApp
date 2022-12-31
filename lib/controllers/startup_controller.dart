@@ -58,7 +58,7 @@ class StartUpController extends BaseController {
           content: Text("Please, Update App to New Version."),
           actions: [
             TextButton(
-              child: Text("Update App"),
+              child : Text("Update App"),
               onPressed: ()  {
                  Platform.isAndroid
                     ? launch(

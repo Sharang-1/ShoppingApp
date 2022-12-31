@@ -19,18 +19,18 @@ class OrderPlacedView extends StatelessWidget {
                 "assets/images/order_placed.gif",
               ),
             ),
-            Positioned(
-              bottom: 50,
+            Align(
+              alignment: Alignment.bottomCenter,
               child: Padding(
                 padding: const EdgeInsets.all(20),
                 child: Text(
-                  "Your order has been received",
+                  "Your order has been received \n Thank You for shopping with us!",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: headingFont,
                     color: Colors.black,
                     fontWeight: FontWeight.w500,
-                    fontSize: titleFontSize + 1,
+                    fontSize: titleFontSize + 2,
                   ),
                 ),
               ),

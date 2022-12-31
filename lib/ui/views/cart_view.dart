@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:compound/models/groupOrderModel.dart' as groupOrder;
 import 'package:compound/services/api/api_service.dart';
@@ -168,7 +169,7 @@ class _CartViewState extends State<CartView> {
                                   tileBuilder:
                                       (BuildContext context, data, index, onDelete, onUpdate) {
                                     Fimber.d("testying");
-                                    print((data as Item).toJson());
+                                    log((data as Item).toString());
 
                                     final Item dItem = data;
                                     exceptProductIDs.add(dItem.product!.key ?? "");
@@ -205,45 +206,45 @@ class _CartViewState extends State<CartView> {
                                             Row(
                                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                               children: [
-                                                SizedBox(
-                                                  height: 40,
-                                                  child: OutlinedButton(
-                                                    style: ElevatedButton.styleFrom(
-                                                      elevation: 0,
-                                                      primary: Colors.white,
-                                                      shape: RoundedRectangleBorder(
-                                                        borderRadius: BorderRadius.circular(10),
-                                                        side: BorderSide(
-                                                          color: logoRed,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    onPressed: () {},
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.symmetric(vertical: 8),
-                                                      child: Row(
-                                                        children: [
-                                                          Image.asset(
-                                                            'assets/images/coupon_icon.png',
-                                                            // color: Colors.black,
-                                                            height: 30,
-                                                            width: 30,
-                                                          ),
-                                                          horizontalSpaceSmall,
-                                                          Text(
-                                                            APPLY_COUPON.tr,
-                                                            style: TextStyle(
-                                                              color: logoRed,
-                                                              fontSize: 12,
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                horizontalSpaceSmall,
+                                                // SizedBox(
+                                                //   height: 40,
+                                                //   child: OutlinedButton(
+                                                //     style: ElevatedButton.styleFrom(
+                                                //       elevation: 0,
+                                                //       primary: Colors.white,
+                                                //       shape: RoundedRectangleBorder(
+                                                //         borderRadius: BorderRadius.circular(10),
+                                                //         side: BorderSide(
+                                                //           color: logoRed,
+                                                //         ),
+                                                //       ),
+                                                //     ),
+                                                //     onPressed: () {},
+                                                //     child : Padding(
+                                                //       padding:
+                                                //           const EdgeInsets.symmetric(vertical: 8),
+                                                //       child: Row(
+                                                //         children: [
+                                                //           Image.asset(
+                                                //             'assets/images/coupon_icon.png',
+                                                //             // color: Colors.black,
+                                                //             height: 30,
+                                                //             width: 30,
+                                                //           ),
+                                                //           horizontalSpaceSmall,
+                                                //           Text(
+                                                //             APPLY_COUPON.tr,
+                                                //             style: TextStyle(
+                                                //               color: logoRed,
+                                                //               fontSize: 12,
+                                                //             ),
+                                                //           ),
+                                                //         ],
+                                                //       ),
+                                                //     ),
+                                                //   ),
+                                                // ),
+                                                // horizontalSpaceSmall,
                                                 SizedBox(
                                                   height: 40,
                                                   child: ElevatedButton(
@@ -304,7 +305,7 @@ class _CartViewState extends State<CartView> {
                                                 ),
                                               ],
                                             ),
-                                            verticalSpace(15),
+                                            verticalSpace(10),
                                           ],
                                         )
                                       : Container(),

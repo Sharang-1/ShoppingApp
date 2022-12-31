@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 
 import '../../constants/server_urls.dart';
 import '../../models/cart.dart';
 import '../../models/order_details.dart';
+import '../../utils/lang/translation_keys.dart';
 import '../../utils/stringUtils.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
@@ -14,6 +16,7 @@ class CartProductTileUI extends StatefulWidget {
   final Item item;
   final bool isPromoCodeApplied;
   final String finalTotal;
+  final int index;
   final String promoCode;
   final String promoCodeDiscount;
   final Function({int qty, String total}) proceedToOrder;
@@ -24,6 +27,7 @@ class CartProductTileUI extends StatefulWidget {
 
   CartProductTileUI({
     Key? key,
+    required this.index,
     required this.item,
     this.isPromoCodeApplied = true,
     this.finalTotal = "",
@@ -76,19 +80,15 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
       size: widget.item.size != null && widget.item.size != ""
           ? (widget.item.size == 'N/A' ? '-' : widget.item.size)
           : "No Size given",
-      color: widget.item.color != null && widget.item.color != ""
-          ? widget.item.color
-          : "-",
+      color: widget.item.color != null && widget.item.color != "" ? widget.item.color : "-",
       promocode: widget.promoCode,
       promocodeDiscount: '$rupeeUnicode${widget.promoCodeDiscount}',
       price: rupeeUnicode +
-          ((qty ?? widget.item.quantity)! * widget.item.product!.cost!.cost!)
-              .toString(),
+          ((qty ?? widget.item.quantity)! * widget.item.product!.cost!.cost!).toString(),
       discount: discount.toString() + "%",
-      discountedPrice: rupeeUnicode +
-          ((discountedPrice * (qty ?? widget.item.quantity!))).toString(),
-      convenienceCharges:
-          '${widget.item.product?.cost?.convenienceCharges?.rate} %',
+      discountedPrice:
+          rupeeUnicode + ((discountedPrice * (qty ?? widget.item.quantity!))).toString(),
+      convenienceCharges: '${widget.item.product?.cost?.convenienceCharges?.rate} %',
       gst:
           '$rupeeUnicode${(((qty ?? widget.item.quantity) ?? 1) * (widget.item.product?.cost?.gstCharges?.cost ?? 0)).toStringAsFixed(2)} (${widget.item.product?.cost?.gstCharges?.rate}%)',
       deliveryCharges: "-",
@@ -115,7 +115,9 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(curve10),border: Border.all(width: 0.2, color: Colors.black26)),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(curve10),
+                        border: Border.all(width: 0.2, color: Colors.black26)),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(curve10),
                       child: FadeInImage.assetNetwork(
@@ -125,8 +127,7 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                         image: productImage != null
                             ? '$PRODUCT_PHOTO_BASE_URL/${widget.item.productId}/$productImage-small.png'
                             : "https://images.unsplashr.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-                        imageErrorBuilder: (context, error, stackTrace) =>
-                            Image.asset(
+                        imageErrorBuilder: (context, error, stackTrace) => Image.asset(
                           "assets/images/product_preloading.png",
                           width: 100,
                           fit: BoxFit.fitWidth,
@@ -182,23 +183,23 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                             children: [
                               Container(
                                 padding: EdgeInsets.all(2),
-                                margin: EdgeInsets.symmetric(vertical :1),
-                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),color: Color(0xffeeeeee)),
+                                margin: EdgeInsets.symmetric(vertical: 1),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: Color(0xffeeeeee)),
                                 child: Row(
                                   children: [
                                     horizontalSpaceSmall,
-                                    
                                     InkWell(
                                       child: Text(
                                         "-",
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          fontSize: subtitleFontSize+2,
+                                          fontSize: subtitleFontSize + 2,
                                         ),
                                       ),
                                       onTap: () {
-                                        num qty =
-                                            num.parse(orderDetails.qty ?? "0");
+                                        num qty = num.parse(orderDetails.qty ?? "0");
                                         if (qty > 1)
                                           setState(() {
                                             qty--;
@@ -209,27 +210,23 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                                       },
                                     ),
                                     horizontalSpaceSmall,
-                                    
                                     CustomText(
                                       "${orderDetails.qty}",
                                       dotsAfterOverFlow: true,
                                       color: Colors.grey,
-                                      fontSize: subtitleFontSize ,
+                                      fontSize: subtitleFontSize,
                                     ),
-                                   
-
                                     horizontalSpaceSmall,
                                     InkWell(
                                       child: Text(
                                         "+",
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          fontSize: subtitleFontSize+2,
+                                          fontSize: subtitleFontSize + 2,
                                         ),
                                       ),
                                       onTap: () {
-                                        num qty =
-                                            num.parse(orderDetails.qty ?? "0");
+                                        num qty = num.parse(orderDetails.qty ?? "0");
                                         setState(() {
                                           qty++;
                                           widget.increaseQty();
@@ -239,12 +236,10 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                                       },
                                     ),
                                     horizontalSpaceSmall,
-
                                   ],
                                 ),
                               ),
-                              if ((double.parse(orderDetails.saved!
-                                      .replaceAll(rupeeUnicode, ""))) >
+                              if ((double.parse(orderDetails.saved!.replaceAll(rupeeUnicode, ""))) >
                                   0)
                                 CustomText(
                                   orderDetails.actualPrice ?? "",
@@ -285,8 +280,7 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                                 color: Colors.grey,
                                 fontSize: subtitleFontSize - 2,
                               ),
-                              if ((double.parse(orderDetails.saved!
-                                      .replaceAll(rupeeUnicode, ""))) >
+                              if ((double.parse(orderDetails.saved!.replaceAll(rupeeUnicode, ""))) >
                                   0)
                                 CustomText(
                                   "You Saved: ${orderDetails.saved}",
@@ -305,31 +299,83 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
               ),
             ),
             verticalSpaceTiny,
-            InkWell(
-              onTap: () {
-                onTap();
-              },
-              child: Container(
-                padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
-                color: Colors.grey[50],
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CustomText(
-                      "Product Details",
-                      fontSize: 14,
-                      isBold: true,
-                      color: Colors.grey[500]!,
+            Row(
+              children: [
+                SizedBox(
+                  height: 40,
+                  child: OutlinedButton(
+                    style: ElevatedButton.styleFrom(
+                      elevation: 0,
+                      primary: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        side: BorderSide(
+                          color: logoRed,
+                        ),
+                      ),
                     ),
-                    Icon(
-                      !clicked
-                          ? Icons.keyboard_arrow_down
-                          : Icons.keyboard_arrow_up,
-                      color: Colors.grey,
+                    onPressed: () {
+                      onTap();
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          CustomText(
+                            "Product Details",
+                            fontSize: 14,
+                            isBold: true,
+                            color: Colors.grey[500]!,
+                          ),
+                          Icon(
+                            !clicked ? Icons.keyboard_arrow_down : Icons.keyboard_arrow_up,
+                            color: Colors.grey,
+                          ),
+                        ],
+                      ),
                     ),
-                  ],
+                  ),
                 ),
-              ),
+                Spacer(),
+                SizedBox(
+                  height: 40,
+                  child: OutlinedButton(
+                    style: ElevatedButton.styleFrom(
+                      elevation: 0,
+                      primary: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        side: BorderSide(
+                          color: logoRed,
+                        ),
+                      ),
+                    ),
+                    onPressed: () {},
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      child: Row(
+                        children: [
+                          Image.asset(
+                            'assets/images/coupon_icon.png',
+                            // color: Colors.black,
+                            height: 30,
+                            width: 30,
+                          ),
+                          horizontalSpaceSmall,
+                          Text(
+                            APPLY_COUPON.tr,
+                            style: TextStyle(
+                              color: logoRed,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
@@ -339,8 +385,8 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
 
   void setUpProductPrices(int qty) async {
     setState(() {
-      orderDetails.total = rupeeUnicode +
-          (widget.item.product!.cost!.costToCustomer! * qty).toStringAsFixed(2);
+      orderDetails.total =
+          rupeeUnicode + (widget.item.product!.cost!.costToCustomer! * qty).toStringAsFixed(2);
     });
   }
 

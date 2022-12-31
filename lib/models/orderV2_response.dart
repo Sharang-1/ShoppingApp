@@ -1,78 +1,67 @@
+// To parse this JSON data, do
+//
+//     final groupOrderResponseModel = groupOrderResponseModelFromJson(jsonString);
+
+import 'dart:convert';
+
+GroupOrderResponseModel groupOrderResponseModelFromJson(String str) =>
+    GroupOrderResponseModel.fromJson(json.decode(str));
+
+String groupOrderResponseModelToJson(GroupOrderResponseModel data) => json.encode(data.toJson());
+
 class GroupOrderResponseModel {
   GroupOrderResponseModel({
-    required this.requestedOrders,
-    required this.groupQueueId,
-  });
-
-  List<RequestedOrders> requestedOrders;
-  String groupQueueId;
-
-  factory GroupOrderResponseModel.fromJson(Map<String, dynamic> json) => GroupOrderResponseModel(
-        requestedOrders: List<RequestedOrders>.from(
-            json["requestedOrders"].map((x) => RequestedOrders.fromJson(x))),
-        groupQueueId: json["groupQueueId"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "requestedOrders": List<dynamic>.from(requestedOrders.map((x) => x.toJson())),
-        "groupQueueId": groupQueueId,
-      };
-}
-
-class RequestedOrders {
-  String? queueId;
-  String? clientQueueId;
-  String? status;
-  // String? orderId;
-  // String? httpStatus;
-  // String? error;
-  // String? field;
-
-  RequestedOrders({
-    this.clientQueueId,
-    // this.error,
-    // this.field,
-    // this.httpStatus,
-    // this.orderId,
-    this.queueId,
+    this.groupQueueId,
+    this.requestedOrders,
     this.status,
   });
 
-  RequestedOrders.fromJson(Map<String, dynamic> json) {
-    queueId = json['queueId'];
-    clientQueueId = json['clientQueueId'];
-    status = json['status'];
-    // orderId = json['orderId'];
-    // httpStatus = json['httpStatus'];
-    // error = json['error'];
-    // field = json['field'];
-  }
+  String? groupQueueId;
+  List<RequestedOrder>? requestedOrders;
+  String? status;
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['queueId'] = this.queueId;
-    data['clientQueueId'] = this.clientQueueId;
-    data['status'] = this.status;
-    // data['orderId'] = this.orderId;
-    // data['httpStatus'] = this.httpStatus;
-    // data['error'] = this.error;
-    // data['field'] = this.field;
+  factory GroupOrderResponseModel.fromJson(Map<String, dynamic> json) => GroupOrderResponseModel(
+        groupQueueId: json["groupQueueId"] == null ? null : json["groupQueueId"],
+        requestedOrders: json["requestedOrders"] == null
+            ? null
+            : List<RequestedOrder>.from(
+                json["requestedOrders"].map((x) => RequestedOrder.fromJson(x))),
+        status: json["status"] == null ? null : json["status"],
+      );
 
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+        "groupQueueId": groupQueueId == null ? null : groupQueueId,
+        "requestedOrders": requestedOrders == null
+            ? null
+            : List<dynamic>.from(requestedOrders!.map((x) => x.toJson())),
+        "status": status == null ? null : status,
+      };
 }
 
-// {
-//   "requestedOrders": [
-//     {
-//       "queueId": "string",
-//       "clientQueueId": "string",
-//       "orderId": "string",
-//       "status": "QUEUE",
-//       "httpStatus": "100 CONTINUE",
-//       "error": "string",
-//       "field": "string"
-//     }
-//   ],
-//   "groupQueueId": "string"
-// }
+class RequestedOrder {
+  RequestedOrder({
+    this.queueId,
+    this.orderId,
+    this.status,
+    this.httpStatus,
+  });
+
+  String? queueId;
+  String? orderId;
+  String? status;
+  String? httpStatus;
+
+  factory RequestedOrder.fromJson(Map<String, dynamic> json) => RequestedOrder(
+        queueId: json["queueId"] == null ? null : json["queueId"],
+        orderId: json["orderId"] == null ? null : json["orderId"],
+        status: json["status"] == null ? null : json["status"],
+        httpStatus: json["httpStatus"] == null ? null : json["httpStatus"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "queueId": queueId == null ? null : queueId,
+        "orderId": orderId == null ? null : orderId,
+        "status": status == null ? null : status,
+        "httpStatus": httpStatus == null ? null : httpStatus,
+      };
+}

@@ -164,13 +164,13 @@ class _PaymentMethodState extends State<PaymentMethod> {
                         isBold: true,
                         color: logoRed,
                       ),
-                      CustomText(
-                        VIEW_DETAILS.tr,
-                        textStyle: TextStyle(
-                          fontSize: 12,
-                          decoration: TextDecoration.underline,
-                        ),
-                      ),
+                      // CustomText(
+                      //   VIEW_DETAILS.tr,
+                      //   textStyle: TextStyle(
+                      //     fontSize: 12,
+                      //     decoration: TextDecoration.underline,
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),
@@ -184,7 +184,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    onPressed: controller.busy ? null : () async => await makePayment(controller),
+                    onPressed: controller.busy ? null : () async => await makePayment(controller, paymentMethodGrpValue),
                     child: Padding(
                       padding: const EdgeInsets.all(10),
                       child: Container(
@@ -310,6 +310,13 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                                       "No Cash Accepted",
                                                       fontSize: titleFontSize - 4,
                                                     ),
+                                                  if (key == 1)
+                                                    CustomText(
+                                                      "+ $rupeeUnicode 50",
+                                                      fontSize: titleFontSize,
+                                                      color: Colors.green,
+                                                      isBold: true,
+                                                    ),
                                                   if (key == 2) verticalSpaceTiny,
                                                   if (key == 2)
                                                     CustomText(
@@ -340,10 +347,10 @@ class _PaymentMethodState extends State<PaymentMethod> {
     );
   }
 
-  Future<void> makePayment(controller) async {
+  Future<void> makePayment(controller, paymentOption) async {
     appVar.previousOrders = (await locator<APIService>().getAllOrders())!.orders!;
     final GroupOrderResponseModel res = await controller.createGroupOrder(
-        widget.finalTotal, widget.customerDetails, widget.products);
+        widget.finalTotal, widget.customerDetails, widget.products, paymentOption);
 
     if (kDebugMode) print("res = $res");
     if (res != null) {

@@ -9,5 +9,6 @@
     "homescreen",
     "indi"
   ],
-  "cSpell.enabled": false
+  "cSpell.enabled": false,
+  "dart.flutterSdkPath": "D:\\app dev\\flutter2.10.5"
 }

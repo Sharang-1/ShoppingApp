@@ -219,7 +219,7 @@ class _SellerIndiState extends State<SellerIndi> {
           ];
 
           tutorialCoachMark = TutorialCoachMark(
-            context,
+            
             targets: targets,
             colorShadow: Colors.black45,
             paddingFocus: 5,

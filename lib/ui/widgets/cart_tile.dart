@@ -126,8 +126,9 @@ class _CartTileState extends State<CartTile> {
               color: Colors.white,
               borderRadius: BorderRadius.circular(15),
               boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 2)]),
-          height: 150,
+          height: 160,
           child: CartProductTileUI(
+            index : widget.index,
             item: item,
             finalTotal: finalTotal,
             promoCode: promoCode,

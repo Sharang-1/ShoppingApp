@@ -217,7 +217,7 @@ class HomeController extends BaseController {
         appStoreIdentifier: '1562083632',
       );
 
-      WidgetsBinding.instance?.addPostFrameCallback(
+      WidgetsBinding.instance.addPostFrameCallback(
         (_) async {
           await rateMyApp.init();
           if (prefs == null) prefs = await SharedPreferences.getInstance();
@@ -480,7 +480,7 @@ class HomeController extends BaseController {
         ),
       ];
       tutorialCoachMark = TutorialCoachMark(
-        context,
+        
         targets: targets,
         colorShadow: Colors.black45,
         paddingFocus: 5,
@@ -488,7 +488,7 @@ class HomeController extends BaseController {
         onClickTarget: (targetFocus) => tutorialCoachMark.next(),
         onSkip: () async => await prefs!.setBool(ShouldShowHomeTutorial, false),
         onFinish: () async => await prefs!.setBool(ShouldShowHomeTutorial, false),
-      )..show();
+      )..show(context: context);
       try {
         await prefs!.setBool(ShouldShowHomeTutorial, false);
       } catch (e) {}

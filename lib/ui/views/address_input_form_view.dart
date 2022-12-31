@@ -2,12 +2,12 @@
 import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+// import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../controllers/address_controller.dart';
 import '../../locator.dart';
 import '../../models/user_details.dart';
-import '../../packages/google_maps_place_picker/google_maps_place_picker.dart';
+// import '../../packages/google_maps_place_picker/google_maps_place_picker.dart';
 import '../../services/location_service.dart';
 import '../../utils/lang/translation_keys.dart';
 import '../shared/app_colors.dart';
@@ -32,23 +32,23 @@ class _AddressInputPageState extends State<AddressInputPage> {
         body: SafeArea(
           child: Stack(
             children: [
-              PlacePicker(
-                initialPosition: new LatLng(_locationService.currentLocation.latitude ?? 23.0204975,
-                    _locationService.currentLocation.longitude ?? 72.43931),
-                useCurrentLocation: true,
-                selectInitialPosition: true,
-                enableMapTypeButton: false,
-                region: 'in',
-                apiKey: "AIzaSyCQo523YX7WkavuVVYLdFNXf79sJ89X2Ns",
-                onGeocodingSearchFailed: (data) {
-                  Fimber.e(data);
-                },
-                onPlacePicked: (r) {
-                  Fimber.e(r.formattedAddress ?? "Picked Address should be here");
-                  (controller as AddressController).selectedResult = r;
-                  Navigator.of(context).pop<PickResult>(r);
-                },
-              ),
+              // PlacePicker(
+              //   initialPosition: new LatLng(_locationService.currentLocation.latitude ?? 23.0204975,
+              //       _locationService.currentLocation.longitude ?? 72.43931),
+              //   useCurrentLocation: true,
+              //   selectInitialPosition: true,
+              //   enableMapTypeButton: false,
+              //   region: 'in',
+              //   apiKey: "AIzaSyCQo523YX7WkavuVVYLdFNXf79sJ89X2Ns",
+              //   onGeocodingSearchFailed: (data) {
+              //     Fimber.e(data);
+              //   },
+              //   onPlacePicked: (r) {
+              //     Fimber.e(r.formattedAddress ?? "Picked Address should be here");
+              //     (controller as AddressController).selectedResult = r;
+              //     Navigator.of(context).pop<PickResult>(r);
+              //   },
+              // ),
             ],
           ),
         ),
@@ -114,7 +114,7 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
       String pickedCity = _cityController.text.trim();
 
       final userInputAddressString =
-          "${_userInputedAddressString1Controller.text}, \n${_userInputedAddressString2Controller.text}";
+          "${_userInputedAddressString1Controller.text}, ${_userInputedAddressString2Controller.text}";
       String googleAddresString = "";
       // _googleAddressStringController
       //     .text;

@@ -46,6 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: CustomScrollView(
               slivers: <Widget>[
                 SliverAppBar(
+                  automaticallyImplyLeading: false,
                   systemOverlayStyle: SystemUiOverlayStyle(
                     statusBarColor: logoRed,
                     // statusBarBrightness: Brightness.light,

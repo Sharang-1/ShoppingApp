@@ -15,7 +15,7 @@ import 'cart_controller.dart';
 class OrdersController extends BaseController {
   final APIService _apiService = locator<APIService>();
 
- late ov2.OrdersV2 mOrders;
+  late ov2.OrdersV2 mOrders;
   Future getOrders() async {
     setBusy(true);
     final result = await _apiService.getAllOrders();
@@ -28,7 +28,6 @@ class OrdersController extends BaseController {
 
   static Future orderPlaced(context) async {
     Future.delayed(Duration(milliseconds: 2500), () async {
-
       List<ov2.Order> allOrders = (await locator<APIService>().getAllOrders())!.orders!;
       late ov2.Order o;
       if (appVar.previousOrders.length != 0) {
@@ -41,8 +40,7 @@ class OrdersController extends BaseController {
             break;
           }
         }
-      }
-      else{
+      } else {
         o = allOrders.first;
       }
       await Navigator.pushAndRemoveUntil(
@@ -50,12 +48,10 @@ class OrdersController extends BaseController {
         MaterialPageRoute(
           // builder: (context) => MyOrdersDetailsView(o),
           builder: (context) => HomeView(),
-
         ),
         ModalRoute.withName(HomeViewRoute),
       );
-      if (await CartController().hasProducts())
-        await NavigationService.to(CartViewRoute);
+      if (await CartController().hasProducts()) await NavigationService.to(CartViewRoute);
     });
   }
 

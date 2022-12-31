@@ -162,7 +162,7 @@ class ReviewWidget extends StatelessWidget {
                                   fontSize: subtitleFontSize,
                                 ),
                               ),
-                              child: Row(
+                              child : Row(
                                 children: [
                                   Icon(
                                     Icons.edit,

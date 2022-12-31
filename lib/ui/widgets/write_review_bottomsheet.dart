@@ -118,14 +118,14 @@ class _WriteReviewBottomsheetState extends State<WriteReviewBottomsheet> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                new TextButton(
+                                TextButton(
                                   style: TextButton.styleFrom(
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(5),
                                     ),
                                     backgroundColor: logoRed,
                                   ),
-                                  child: new CustomText(
+                                  child : new CustomText(
                                     SUBMIT.tr,
                                     fontSize: titleFontSize,
                                     color: Colors.white,

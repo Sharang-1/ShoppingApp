@@ -2201,7 +2201,6 @@ class _ProductIndiViewState extends State<ProductIndiView> {
         ];
         Future.delayed(Duration(milliseconds: 300), () {
           tutorialCoachMark = TutorialCoachMark(
-            context,
             targets: targets,
             colorShadow: Colors.black45,
             paddingFocus: 5,
@@ -2229,7 +2228,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                 cartKey == null ? ShouldShowProductPageTutorial : ShouldShowCartTutorial, false),
             onFinish: () async => await prefs.setBool(
                 cartKey == null ? ShouldShowProductPageTutorial : ShouldShowCartTutorial, false),
-          )..show();
+          )..show(context: context);
         });
       }
     });

@@ -1,15 +1,16 @@
 // To parse this JSON data, do
 //
-//     final ordersV2 = ordersV2FromJson(jsonString);
+//     final groupOrderByGroupId = groupOrderByGroupIdFromJson(jsonString);
 
 import 'dart:convert';
 
-OrdersV2 ordersV2FromJson(String str) => OrdersV2.fromJson(json.decode(str));
+GroupOrderByGroupId groupOrderByGroupIdFromJson(String str) =>
+    GroupOrderByGroupId.fromJson(json.decode(str));
 
-String ordersV2ToJson(OrdersV2 data) => json.encode(data.toJson());
+String groupOrderByGroupIdToJson(GroupOrderByGroupId data) => json.encode(data.toJson());
 
-class OrdersV2 {
-  OrdersV2({
+class GroupOrderByGroupId {
+  GroupOrderByGroupId({
     this.records,
     this.startIndex,
     this.limit,
@@ -21,18 +22,20 @@ class OrdersV2 {
   int? limit;
   List<Order>? orders;
 
-  factory OrdersV2.fromJson(Map<String, dynamic> json) => OrdersV2(
-        records: json["records"],
-        startIndex: json["startIndex"],
-        limit: json["limit"],
-        orders: List<Order>.from(json["orders"].map((x) => Order.fromJson(x))),
+  factory GroupOrderByGroupId.fromJson(Map<String, dynamic> json) => GroupOrderByGroupId(
+        records: json["records"] == null ? null : json["records"],
+        startIndex: json["startIndex"] == null ? null : json["startIndex"],
+        limit: json["limit"] == null ? null : json["limit"],
+        orders: json["orders"] == null
+            ? null
+            : List<Order>.from(json["orders"].map((x) => Order.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "records": records,
-        "startIndex": startIndex,
-        "limit": limit,
-        "orders": List<dynamic>.from(orders!.map((x) => x.toJson())),
+        "records": records == null ? null : records,
+        "startIndex": startIndex == null ? null : startIndex,
+        "limit": limit == null ? null : limit,
+        "orders": orders == null ? null : List<dynamic>.from(orders!.map((x) => x.toJson())),
       };
 }
 
@@ -71,11 +74,11 @@ class Order {
   String? queueId;
   bool? singleItem;
   String? groupId;
-  Status? status;
   Status? statusFlow;
+  Status? status;
   CommonField? commonField;
 
-   factory Order.fromJson(Map<String, dynamic> json) => Order(
+  factory Order.fromJson(Map<String, dynamic> json) => Order(
         key: json["key"] == null ? null : json["key"],
         enabled: json["enabled"] == null ? null : json["enabled"],
         created: json["created"] == null ? null : json["created"],
@@ -174,32 +177,34 @@ class CustomerDetails {
   String? city;
   String? state;
   String? country;
-  String? pincode;
+  int? pincode;
 
   factory CustomerDetails.fromJson(Map<String, dynamic> json) => CustomerDetails(
-        name: json["name"],
-        customerId: json["customerId"],
-        customerPhone: Phone.fromJson(json["customerPhone"]),
-        customerMeasure: CustomerMeasure.fromJson(json["customerMeasure"]),
-        phone: Phone.fromJson(json["phone"]),
-        address: json["address"],
-        city: json["city"],
-        state: json["state"],
-        country: json["country"],
-        pincode: json["pincode"].toString(),
+        name: json["name"] == null ? null : json["name"],
+        customerId: json["customerId"] == null ? null : json["customerId"],
+        customerPhone: json["customerPhone"] == null ? null : Phone.fromJson(json["customerPhone"]),
+        customerMeasure: json["customerMeasure"] == null
+            ? null
+            : CustomerMeasure.fromJson(json["customerMeasure"]),
+        phone: json["phone"] == null ? null : Phone.fromJson(json["phone"]),
+        address: json["address"] == null ? null : json["address"],
+        city: json["city"] == null ? null : json["city"],
+        state: json["state"] == null ? null : json["state"],
+        country: json["country"] == null ? null : json["country"],
+        pincode: json["pincode"] == null ? null : json["pincode"],
       );
 
   Map<String, dynamic> toJson() => {
-        "name": name,
-        "customerId": customerId,
-        "customerPhone": customerPhone?.toJson(),
-        "customerMeasure": customerMeasure?.toJson(),
-        "phone": phone?.toJson(),
-        "address": address,
-        "city": city,
-        "state": state,
-        "country": country,
-        "pincode": pincode,
+        "name": name == null ? null : name,
+        "customerId": customerId == null ? null : customerId,
+        "customerPhone": customerPhone == null ? null : customerPhone?.toJson(),
+        "customerMeasure": customerMeasure == null ? null : customerMeasure?.toJson(),
+        "phone": phone == null ? null : phone?.toJson(),
+        "address": address == null ? null : address,
+        "city": city == null ? null : city,
+        "state": state == null ? null : state,
+        "country": country == null ? null : country,
+        "pincode": pincode == null ? null : pincode,
       };
 }
 
@@ -221,21 +226,21 @@ class CustomerMeasure {
   bool? empty;
 
   factory CustomerMeasure.fromJson(Map<String, dynamic> json) => CustomerMeasure(
-        shoulders: json["shoulders"],
-        chest: json["chest"],
-        waist: json["waist"],
-        hips: json["hips"],
-        height: json["height"],
-        empty: json["empty"],
+        shoulders: json["shoulders"] == null ? null : json["shoulders"],
+        chest: json["chest"] == null ? null : json["chest"],
+        waist: json["waist"] == null ? null : json["waist"],
+        hips: json["hips"] == null ? null : json["hips"],
+        height: json["height"] == null ? null : json["height"],
+        empty: json["empty"] == null ? null : json["empty"],
       );
 
   Map<String, dynamic> toJson() => {
-        "shoulders": shoulders,
-        "chest": chest,
-        "waist": waist,
-        "hips": hips,
-        "height": height,
-        "empty": empty,
+        "shoulders": shoulders == null ? null : shoulders,
+        "chest": chest == null ? null : chest,
+        "waist": waist == null ? null : waist,
+        "hips": hips == null ? null : hips,
+        "height": height == null ? null : height,
+        "empty": empty == null ? null : empty,
       };
 }
 
@@ -251,15 +256,15 @@ class Phone {
   String? display;
 
   factory Phone.fromJson(Map<String, dynamic> json) => Phone(
-        code: json["code"],
-        mobile: json["mobile"],
-        display: json["display"],
+        code: json["code"] == null ? null : json["code"],
+        mobile: json["mobile"] == null ? null : json["mobile"],
+        display: json["display"] == null ? null : json["display"],
       );
 
   Map<String, dynamic> toJson() => {
-        "code": code,
-        "mobile": mobile,
-        "display": display,
+        "code": code == null ? null : code,
+        "mobile": mobile == null ? null : mobile,
+        "display": display == null ? null : display,
       };
 }
 
@@ -271,8 +276,6 @@ class Status {
     this.ownerId,
     this.state,
     this.orderState,
-    this.note,
-    this.next,
   });
 
   int? id;
@@ -281,8 +284,6 @@ class Status {
   int? ownerId;
   String? state;
   String? orderState;
-  String? note;
-  Status? next;
 
   factory Status.fromJson(Map<String, dynamic> json) => Status(
         id: json["id"] == null ? null : json["id"],
@@ -291,8 +292,6 @@ class Status {
         ownerId: json["ownerId"] == null ? null : json["ownerId"],
         state: json["state"] == null ? null : json["state"],
         orderState: json["orderState"] == null ? null : json["orderState"],
-        note: json["note"] == null ? null : json["note"],
-        next: json["next"] == null ? null : Status.fromJson(json["next"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -302,9 +301,6 @@ class Status {
         "ownerId": ownerId == null ? null : ownerId,
         "state": state == null ? null : state,
         "orderState": orderState == null ? null : orderState,
-        "note": note == null ? null : note,
-        "next": next == null ? null : next?.toJson(),
-
       };
 }
 
@@ -313,26 +309,28 @@ class OrderCost {
     this.convenienceCharges,
     this.cost,
     this.deliveryChargesList,
-    this.codCharges,
     this.individualTotalOrderCost,
     this.note,
   });
 
-  ProductDiscount? convenienceCharges;
+  ConvenienceCharges? convenienceCharges;
   double? cost;
   List<DeliveryChargesList>? deliveryChargesList;
-  CodCharges? codCharges;
   double? individualTotalOrderCost;
   String? note;
 
   factory OrderCost.fromJson(Map<String, dynamic> json) => OrderCost(
-        convenienceCharges: json['convenienceCharges'] == null ? null : ProductDiscount.fromJson(json["convenienceCharges"]),
+        convenienceCharges: json["convenienceCharges"] == null
+            ? null
+            : ConvenienceCharges.fromJson(json["convenienceCharges"]),
         cost: json["cost"] == null ? null : json["cost"].toDouble(),
-        deliveryChargesList: json["deliveryChargesList"] == null ? null : List<DeliveryChargesList>.from(
-            json["deliveryChargesList"].map((x) => DeliveryChargesList.fromJson(x))),
-        codCharges: json["codCharges"] == null ? null : CodCharges.fromJson(json["codCharges"]) ,
-        individualTotalOrderCost: json["individualTotalOrderCost"]  == null ? null : json["individualTotalOrderCost"].toDouble(),
-        note: json["note"] ==  null ? null : json["note"],
+        deliveryChargesList: json["deliveryChargesList"] == null
+            ? null
+            : List<DeliveryChargesList>.from(
+                json["deliveryChargesList"].map((x) => DeliveryChargesList.fromJson(x))),
+        individualTotalOrderCost:
+            json["individualTotalOrderCost"] == null ? null : json["individualTotalOrderCost"],
+        note: json["note"] == null ? null : json["note"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -341,30 +339,14 @@ class OrderCost {
         "deliveryChargesList": deliveryChargesList == null
             ? null
             : List<dynamic>.from(deliveryChargesList!.map((x) => x.toJson())),
-        "codCharges": codCharges == null ? null : codCharges?.toJson(),
-        "individualTotalOrderCost": individualTotalOrderCost == null ? null : individualTotalOrderCost,
+        "individualTotalOrderCost":
+            individualTotalOrderCost == null ? null : individualTotalOrderCost,
         "note": note == null ? null : note,
       };
 }
 
-class CodCharges {
-  CodCharges({
-    this.cost,
-  });
-
-  double? cost;
-
-  factory CodCharges.fromJson(Map<String, dynamic> json) => CodCharges(
-        cost:  json["cost"] == null ? null : json["cost"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "cost": cost == null ? null : cost,
-      };
-}
-
-class ProductDiscount {
-  ProductDiscount({
+class ConvenienceCharges {
+  ConvenienceCharges({
     this.rate,
     this.cost,
   });
@@ -372,14 +354,14 @@ class ProductDiscount {
   double? rate;
   double? cost;
 
-  factory ProductDiscount.fromJson(Map<String, dynamic> json) => ProductDiscount(
-        rate: json["rate"],
-        cost: json["cost"].toDouble(),
+  factory ConvenienceCharges.fromJson(Map<String, dynamic> json) => ConvenienceCharges(
+        rate: json["rate"] == null ? null : json["rate"],
+        cost: json["cost"] == null ? null : json["cost"].toDouble(),
       );
 
   Map<String, dynamic> toJson() => {
-        "rate": rate,
-        "cost": cost,
+        "rate": rate == null ? null : rate,
+        "cost": cost == null ? null : cost,
       };
 }
 
@@ -393,32 +375,44 @@ class DeliveryChargesList {
   double? cost;
 
   factory DeliveryChargesList.fromJson(Map<String, dynamic> json) => DeliveryChargesList(
-        sellerId: json["sellerId"],
-        cost: json["cost"],
+        sellerId: json["sellerId"] == null ? null : json["sellerId"],
+        cost: json["cost"] == null ? null : json["cost"],
       );
 
   Map<String, dynamic> toJson() => {
-        "sellerId": sellerId,
-        "cost": cost,
+        "sellerId": sellerId == null ? null : sellerId,
+        "cost": cost == null ? null : cost,
       };
 }
 
 class Payment {
   Payment({
     this.option,
+    this.receiptId,
+    this.orderId,
+    this.status,
     this.online,
   });
 
   Option? option;
+  String? receiptId;
+  String? orderId;
+  String? status;
   bool? online;
 
   factory Payment.fromJson(Map<String, dynamic> json) => Payment(
         option: json["option"] == null ? null : Option.fromJson(json["option"]),
+        receiptId: json["receiptId"] == null ? null : json["receiptId"],
+        orderId: json["orderId"] == null ? null : json["orderId"],
+        status: json["status"] == null ? null : json["status"],
         online: json["online"] == null ? null : json["online"],
       );
 
   Map<String, dynamic> toJson() => {
         "option": option == null ? null : option?.toJson(),
+        "receiptId": receiptId == null ? null : receiptId,
+        "orderId": orderId == null ? null : orderId,
+        "status": status == null ? null : status,
         "online": online == null ? null : online,
       };
 }
@@ -433,13 +427,13 @@ class Option {
   String? name;
 
   factory Option.fromJson(Map<String, dynamic> json) => Option(
-        id: json["id"],
-        name: json["name"],
+        id: json["id"] == null ? null : json["id"],
+        name: json["name"] == null ? null : json["name"],
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
+        "id": id == null ? null : id,
+        "name": name == null ? null : name,
       };
 }
 
@@ -447,37 +441,31 @@ class ItemCost {
   ItemCost({
     this.productPrice,
     this.quantity,
-    this.productDiscount,
     this.gstCharges,
     this.cost,
     this.costForSeller,
     this.note,
   });
 
-  double? productPrice;
   int? quantity;
-  ProductDiscount? productDiscount;
+  double? productPrice;
   GstCharges? gstCharges;
   double? cost;
   double? costForSeller;
   String? note;
 
   factory ItemCost.fromJson(Map<String, dynamic> json) => ItemCost(
-        productPrice: json["productPrice"] == null ? null : json["productPrice"],
+        productPrice: json["productPrice"] == null ? null : json["productPrice"].toDouble(),
         quantity: json["quantity"] == null ? null : json["quantity"],
-        productDiscount: json["productDiscount"] == null
-            ? null
-            : ProductDiscount.fromJson(json["productDiscount"]),
         gstCharges: json["gstCharges"] == null ? null : GstCharges.fromJson(json["gstCharges"]),
-        cost: json["cost"] == null ? null : json["cost"],
-        costForSeller: json["costForSeller"] == null ? null : json["costForSeller"],
+        cost: json["cost"] == null ? null : json["cost"].toDouble(),
+        costForSeller: json["costForSeller"] == null ? null : json["costForSeller"].toDouble(),
         note: json["note"] == null ? null : json["note"],
       );
 
   Map<String, dynamic> toJson() => {
         "productPrice": productPrice == null ? null : productPrice,
         "quantity": quantity == null ? null : quantity,
-        "productDiscount": productDiscount == null ? null : productDiscount?.toJson(),
         "gstCharges": gstCharges == null ? null : gstCharges?.toJson(),
         "cost": cost == null ? null : cost,
         "costForSeller": costForSeller == null ? null : costForSeller,
@@ -497,9 +485,9 @@ class GstCharges {
   double? productPrice;
 
   factory GstCharges.fromJson(Map<String, dynamic> json) => GstCharges(
-        rate: json["rate"] == null ? null : json["rate"].toDouble(),
-        cost: json["cost"] == null ? null : json["cost"].toDouble(),
-        productPrice: json["productPrice"] == null ? null : json["productPrice"].toDouble(),
+        rate: json["rate"] == null ? null : json["rate"],
+        cost: json["cost"] == null ? null : json["cost"],
+        productPrice: json["productPrice"] == null ? null : json["productPrice"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -517,11 +505,11 @@ class Shipment {
   int? days;
 
   factory Shipment.fromJson(Map<String, dynamic> json) => Shipment(
-        days: json["days"],
+        days: json["days"] == null ? null : json["days"],
       );
 
   Map<String, dynamic> toJson() => {
-        "days": days,
+        "days": days == null ? null : days,
       };
 }
 
@@ -537,14 +525,14 @@ class Variation {
   String? color;
 
   factory Variation.fromJson(Map<String, dynamic> json) => Variation(
-        size: json["size"],
-        quantity: json["quantity"],
-        color: json["color"],
+        size: json["size"] == null ? null : json["size"],
+        quantity: json["quantity"] == null ? null : json["quantity"],
+        color: json["color"] == null ? null : json["color"],
       );
 
   Map<String, dynamic> toJson() => {
-        "size": size,
-        "quantity": quantity,
-        "color": color,
+        "size": size == null ? null : size,
+        "quantity": quantity == null ? null : quantity,
+        "color": color == null ? null : color,
       };
 }

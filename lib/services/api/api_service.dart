@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'package:compound/models/groupOrderByGoupId.dart';
 import 'package:compound/models/groupOrderModel.dart';
 import 'package:compound/models/ordersV2.dart';
 import 'package:dio/dio.dart' as dio;
@@ -240,7 +241,7 @@ class APIService {
 
   Future<GroupOrderResponseModel?> createGroupOrder({
     OrderV2.CustomerDetails? customerDetails,
-    OrderV2.Payment? payment,
+    int? paymentOption,
     List<dynamic>? products,
   }) async {
     try {
@@ -249,9 +250,13 @@ class APIService {
         var orderBody = {
           "customerDetails": customerDetails,
           "orders": products,
-          "groupOrder": isGroupOrder
+          "groupOrder": isGroupOrder,
+          "payment": {
+            "option": {"id": paymentOption}
+          }
         };
         var orderJson = jsonEncode(orderBody);
+        log("order body ${orderJson.toString()}");
 
         // var orderJson = {
         //   "customerDetails": {
@@ -312,7 +317,130 @@ class APIService {
     return null;
   }
 
+  Future<GroupOrderResponseModel?> getGroupOrderStatus({
+    String? groupQueueId,
+  }) async {
+    var json = await apiWrapper("v2/orders/groupqueue/$groupQueueId/status");
+    if (json != null) {
+      return GroupOrderResponseModel.fromJson(json);
+    }
+    log("group order status ${json.toString()}");
+    return null;
+  }
+
+  Future<GroupOrderByGroupId?> getOrderbyGroupqueueid({String? groupQueueId}) async {
+    var json = await apiWrapper("v2/orders;groupId=$groupQueueId") as Map<String, dynamic>;
+    var jsonbody = {
+      "records": 1,
+      "startIndex": 0,
+      "limit": 100,
+      "orders": [
+        {
+          "key": "93289510",
+          "enabled": true,
+          "created": "26-12-2022 21:04:39",
+          "modified": "26-12-2022 21:04:39",
+          "version": "V2",
+          "itemCost": {
+            "productPrice": 100.0,
+            "quantity": 1,
+            "gstCharges": {"rate": 12.0, "cost": 12.0, "productPrice": 100.0},
+            "cost": 112.0,
+            "costForSeller": 100.0,
+            "note": "Product price 100.0 + 12.0 GST (12.0%)"
+          },
+          "sellerId": "46065533",
+          "productId": "48145223",
+          "shipment": {"days": 2},
+          "variation": {"size": "N/A", "quantity": 1, "color": "Red"},
+          "deliveryDate": "28-12-2022 21:04:39",
+          "queueId": "4ba7ad7f-3eaf-4cf9-9d69-6c0111dac307",
+          "singleItem": false,
+          "groupId": "95172d23-1bf4-4cc3-bdac-3e200159d78e",
+          "status": {
+            "id": 0,
+            "created": "26-12-2022 21:04:39",
+            "modified": "26-12-2022 21:04:39",
+            "ownerId": 64316671,
+            "state": "Pre Placed",
+            "orderState": "PRE_PLACED"
+          },
+          "statusFlow": {
+            "id": 0,
+            "created": "26-12-2022 21:04:39",
+            "modified": "26-12-2022 21:04:39",
+            "ownerId": 64316671,
+            "state": "Pre Placed",
+            "orderState": "PRE_PLACED"
+          },
+          "commonField": {
+            "groupQueueId": "95172d23-1bf4-4cc3-bdac-3e200159d78e",
+            "payment": {
+              "option": {"id": 2, "name": "Razor pay"},
+              "receiptId": "185f1ee0-86de-42bf-a880-9e4a69503b41",
+              "orderId": "order_KwadVsFgLUg3s8",
+              "status": "created",
+              "online": true
+            },
+            "customerDetails": {
+              "name": "nullnull",
+              "customerId": "64316671",
+              "customerPhone": {"code": "91", "mobile": "7838063139", "display": "+91-7838063139"},
+              "customerMeasure": {
+                "shoulders": 40,
+                "chest": 46,
+                "waist": 46,
+                "hips": 34,
+                "height": 56,
+                "empty": false
+              },
+              "phone": {"code": "91", "mobile": "7838063139", "display": "+91-7838063139"},
+              "address": "House No 75, Gali no 13, \nVipin Garden Extension, Dwarka Mor ",
+              "city": "New Delhi",
+              "state": "Delhi",
+              "country": "India",
+              "pincode": 110059
+            },
+            "orderCost": {
+              "convenienceCharges": {"rate": 5.0, "cost": 5.6},
+              "cost": 197.6,
+              "deliveryChargesList": [
+                {"sellerId": "46065533", "cost": 80.0}
+              ],
+              "individualTotalOrderCost": 112.0,
+              "note":
+                  "Total individual order cost 112.0 + 5.6 Convenience Fee (5.0%) + 80.0 Delivery charges"
+            },
+            "groupOrderStatus": {
+              "id": 0,
+              "created": "26-12-2022 21:04:39",
+              "modified": "26-12-2022 21:04:39",
+              "ownerId": 64316671,
+              "state": "Pre Placed",
+              "orderState": "PRE_PLACED"
+            }
+          }
+        }
+      ]
+    };
+
+    try {
+      var response = GroupOrderByGroupId.fromJson(jsonbody);
+      log("order id in api : ${response.records}");
+      log("order id in api : ${response.orders?.length}");
+      log("order id in api : ${response.orders?.first.groupId}");
+      log("order id in api : ${response.orders?.first.itemCost?.cost}");
+      log("order id in api : ${response.orders?.first.commonField?.orderCost?.note}");
+      log("order id in api : ${response.orders?.first.commonField?.payment?.orderId}");
+      return response;
+    } catch (e) {
+      print(e.toString());
+    }
+    return null;
+  }
+
   Future<AppInfo?> getAppInfo() async {
+    log("appinfo");
     late AppInfo appInfo;
     var json = await apiWrapper("app/info");
     appInfo = AppInfo.fromJson(json);
@@ -381,6 +509,7 @@ class APIService {
         ? await apiWrapper("products/$productId;seller=true;active=true;promocode=true")
         : await apiWrapper("products/$productId;seller=true;active=true");
     if (productData == null) return null;
+    log(productData.toString());
     Product product = Product.fromJson(productData);
     return product;
   }
@@ -674,22 +803,22 @@ class APIService {
     return null;
   }
 
-  Future<Orders?> getAllOrdersV2() async {
-    var ordersData = await apiWrapper("v2/orders;product=true", authenticated: true);
-    if (ordersData != null) {
-      Orders orders = Orders.fromJson(ordersData);
-      orders.orders!.sort((a, b) {
-        DateTime aDateTime = DateTime.parse(
-            "${a.created!.substring(6, 10)}${a.created!.substring(3, 5)}${a.created!.substring(0, 2)}");
-        DateTime bDateTime = DateTime.parse(
-            "${b.created!.substring(6, 10)}${b.created!.substring(3, 5)}${b.created!.substring(0, 2)}");
-        return bDateTime.compareTo(aDateTime);
-      });
-      log(ordersData.toString());
-      return orders;
-    }
-    return null;
-  }
+  // Future<Orders?> getAllOrdersV2() async {
+  //   var ordersData = await apiWrapper("v2/orders;product=true", authenticated: true);
+  //   if (ordersData != null) {
+  //     Orders orders = Orders.fromJson(ordersData);
+  //     orders.orders!.sort((a, b) {
+  //       DateTime aDateTime = DateTime.parse(
+  //           "${a.created!.substring(6, 10)}${a.created!.substring(3, 5)}${a.created!.substring(0, 2)}");
+  //       DateTime bDateTime = DateTime.parse(
+  //           "${b.created!.substring(6, 10)}${b.created!.substring(3, 5)}${b.created!.substring(0, 2)}");
+  //       return bDateTime.compareTo(aDateTime);
+  //     });
+  //     log(ordersData.toString());
+  //     return orders;
+  //   }
+  //   return null;
+  // }
 
   Future<OrdersV2?> getAllOrders() async {
     var ordersData = await apiWrapper("v2/orders;product=true", authenticated: true);
@@ -702,10 +831,23 @@ class APIService {
             "${b.created!.substring(6, 10)}${b.created!.substring(3, 5)}${b.created!.substring(0, 2)}");
         return bDateTime.compareTo(aDateTime);
       });
-      log(ordersData.toString());
+      // log(ordersData.toString());
       return orders;
     }
     return null;
+  }
+
+  Future verifyGroupPayment(
+      {String? groupId, String? paymentId, String? signature, bool success = true}) async {
+    var json = await apiWrapper("v2/orders/$groupId/payment?groupOrder=true",
+        authenticated: true,
+        options: dio.Options(headers: {'excludeToken': false}, method: "post"),
+        data: {
+          if (paymentId != null) "paymentId": paymentId,
+          if (signature != null) "signature": signature,
+          "status": success ? "succeed" : "failed",
+        });
+    log("verify group payment ${json.toString()}");
   }
 
   Future<OrderModule.Order?> verifyPayment(

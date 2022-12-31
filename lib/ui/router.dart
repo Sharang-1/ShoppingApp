@@ -1,11 +1,11 @@
-import 'package:compound/controllers/user_details_controller.dart';
-import 'package:compound/models/orders.dart';
-import 'package:compound/models/reviews.dart';
-import 'package:compound/models/sellers.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
+import '../controllers/user_details_controller.dart';
 import '../constants/route_names.dart';
+import '../models/reviews.dart';
+import '../models/sellers.dart';
+import '../models/ordersV2.dart';
 import '../models/productPageArg.dart';
 import '../models/products.dart';
 import '../models/route_argument.dart';
@@ -173,12 +173,12 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         pageTransitionType: PageTransitionType.rightToLeft,
       );
 
-    case MapViewRoute:
-      return _getPageRoute(
-          pageArguments: pageArguments,
-          routeName: settings.name!,
-          viewToShow: MapView(sellerKey: (pageArguments as String)),
-          pageTransitionType: PageTransitionType.rightToLeft);
+    // case MapViewRoute:
+    //   return _getPageRoute(
+    //       pageArguments: pageArguments,
+    //       routeName: settings.name!,
+    //       viewToShow: MapView(sellerKey: (pageArguments as String)),
+    //       pageTransitionType: PageTransitionType.rightToLeft);
 
     case ProductIndividualRoute:
       return _getPageRoute(

@@ -279,18 +279,18 @@ class _SelectAddressState extends State<SelectAddress> {
                                                 ),
                                               ],
                                             ),
-                                            if (deliveryCharges != null &&
-                                                addressGrpValue == address)
-                                              Positioned(
-                                                top: 0,
-                                                right: 0,
-                                                child: CustomText(
-                                                  deliveryCharges == "0.00"
-                                                      ? "Free Delivery"
-                                                      : "+ ₹$deliveryCharges",
-                                                  fontSize: subtitleFontSize,
-                                                ),
-                                              ),
+                                            // if (deliveryCharges != null &&
+                                            //     addressGrpValue == address)
+                                            //   Positioned(
+                                            //     top: 0,
+                                            //     right: 0,
+                                            //     child: CustomText(
+                                            //       deliveryCharges == "0.00"
+                                            //           ? "Free Delivery"
+                                            //           : "+ ₹$deliveryCharges",
+                                            //       fontSize: subtitleFontSize,
+                                            //     ),
+                                            //   ),
                                           ],
                                         ),
                                       ),
@@ -366,13 +366,12 @@ class _SelectAddressState extends State<SelectAddress> {
     var orderJson = {
       'customerDetails': jsonEncode(
         CustomerDetails(
-          address: controller.addresses[0].address.toString(),
-          pincode: controller.addresses[0].pincode,
-          city: controller.addresses[0].city,
-          state: controller.addresses[0].state,
+          address: controller.addresses[2].address.toString(),
+          pincode: controller.addresses[2].pincode,
+          city: controller.addresses[2].city,
+          state: controller.addresses[2].state,
           country: "India",
-          name: locator<HomeController>().details!.firstName.toString() +
-              locator<HomeController>().details!.lastName.toString(),
+          name: locator<HomeController>().details!.name,
           customerPhone: CustomerPhone(
             code: locator<HomeController>().details!.contact!.phone!.code,
             mobile: locator<HomeController>().details!.contact!.phone!.mobile,
@@ -382,6 +381,7 @@ class _SelectAddressState extends State<SelectAddress> {
       )
     };
     if (kDebugMode) log(orderJson.toString());
+    if (kDebugMode) log(controller.addresses[2].address.toString());
 
     // final serviceAvailability = await locator<APIService>()
     //     .checkPincode(productId: widget.productId, pincode: addressRadioValue.pincode.toString());
@@ -396,14 +396,12 @@ class _SelectAddressState extends State<SelectAddress> {
             products: widget.products,
             finalTotal: widget.payTotal,
             customerDetails: CustomerDetails(
-              address: controller.addresses[0].address.toString(),
-              pincode: controller.addresses[0].pincode,
-              city: controller.addresses[0].city,
-              state: controller.addresses[0].state,
+              address: controller.addresses[2].address.toString(),
+              pincode: controller.addresses[2].pincode,
+              city: controller.addresses[2].city,
+              state: controller.addresses[2].state,
               country: "India",
-              // TODO : name and customer id null issue
-              name: locator<HomeController>().details!.firstName.toString() +
-                  locator<HomeController>().details!.lastName.toString(),
+              name: locator<HomeController>().details!.name,
               customerId: locator<HomeController>().details!.key.toString(),
               customerPhone: CustomerPhone(
                 code: locator<HomeController>().details!.contact!.phone!.code,

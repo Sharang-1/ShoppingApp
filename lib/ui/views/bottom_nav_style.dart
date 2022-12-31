@@ -10,9 +10,9 @@ class BottomNavigationStyle extends StyleHook {
 
   @override
   double get iconSize => 25;
-
+  
   @override
-  TextStyle textStyle(Color color) {
+  TextStyle textStyle(Color color, String? fontFamily) {
     return TextStyle(fontSize: 10, color: color);
   }
 }

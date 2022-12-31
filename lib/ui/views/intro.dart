@@ -1,7 +1,6 @@
 import 'package:compound/ui/shared/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:intro_slider/intro_slider.dart';
-import 'package:intro_slider/slide_object.dart';
 
 import '../../constants/route_names.dart';
 import '../../services/navigation_service.dart';

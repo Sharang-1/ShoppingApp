@@ -63,6 +63,7 @@ class _HomeViewState extends State<HomeView> {
               bottomNavigationBar: StyleProvider(
                 style: BottomNavigationStyle(),
                 child: ConvexAppBar(
+                  
                   style: TabStyle.fixedCircle,
                   color: logoRed,
                   items: [

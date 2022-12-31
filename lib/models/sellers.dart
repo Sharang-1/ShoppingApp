@@ -171,7 +171,7 @@ class Contact {
         "address": address,
         "city": city,
         "state": state,
-        "pincode": num?.parse(pincode!),
+        "pincode": num.parse(pincode!),
       };
 }
 
