@@ -310,122 +310,119 @@ class _PaginatedGridViewState<I> extends State<PaginatedGridView> {
     return NotificationListener(
       onNotification: !(widget.disablePagination) ? onNotification : null,
       child: (items.isNotEmpty) && paginatedItems[currentPage]?.length != 0
-          ? Container(
-              height: Get.height - 130,
-              child: Stack(
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(bottom: widget.disablePagination ? 0 : 60),
-                    child: GridView.builder(
-                      shrinkWrap: widget.scrollDirection == Axis.vertical,
-                      scrollDirection: widget.scrollDirection,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount:
-                            widget.scrollDirection == Axis.vertical ? widget.gridCount : 1,
-                        childAspectRatio: widget.childAspectRatio,
-                      ),
-                      // controller: _scrollController,
-                      itemCount: paginatedItems[currentPage]?.length,
-                      physics: ScrollPhysics(),
-                      // physics: NeverScrollableScrollPhysics(),
-                      itemBuilder: (_, index) => widget.tileBuilder(
-                          context, paginatedItems[currentPage]?[index], index, onDelete, null),
-                    ),
+          ? SingleChildScrollView(
+            physics: ScrollPhysics(),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              // mainAxisSize: MainAxisSize.min,
+              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                GridView.builder(
+                  shrinkWrap: widget.scrollDirection == Axis.vertical,
+                  scrollDirection: widget.scrollDirection,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount:
+                        widget.scrollDirection == Axis.vertical ? widget.gridCount : 1,
+                    childAspectRatio: widget.childAspectRatio,
                   ),
-                  widget.disablePagination
-                      ? Container()
-                      : Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Container(
-                            color: Colors.white,
-                            margin: EdgeInsets.symmetric(vertical: 5),
-                            padding: const EdgeInsets.all(10.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                InkWell(
-                                  onTap: () => navigatePages(1),
-                                  child: _defaultControlButton(iconToFirst),
-                                ),
-                                SizedBox(
-                                  width: 4,
-                                ),
-                                InkWell(
-                                  onTap: () => prevPage(),
-                                  child: _defaultControlButton(iconPrevious),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                ...List.generate(
-                                  rangeEnd <= pages! ? threshold : pages! % threshold,
-                                  (idx) => Flexible(
-                                    child: InkWell(
-                                      splashColor: Colors.transparent,
-                                      highlightColor: Colors.transparent,
-                                      onTap: () => navigatePages(idx + 1 + rangeStart),
-                                      child: Container(
-                                        margin: const EdgeInsets.all(4),
-                                        height: 40,
-                                        width: 40,
-
-                                        // padding:
-                                        // const EdgeInsets.symmetric(vertical: 10, horizontal: ),
-                                        decoration: BoxDecoration(
-                                          color: (currentPage - 1) % threshold == idx
-                                              ? logoRed
-                                              : Colors.white,
-                                          borderRadius: BorderRadius.all(Radius.circular(4)),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Colors.grey,
-                                              offset: Offset(0.0, 1.0), //(x,y)
-                                              blurRadius: 6.0,
-                                            ),
-                                          ],
-                                        ),
-                                        child: Center(
-                                          child: Text(
-                                            '${idx + 1 + rangeStart}',
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              color: (currentPage - 1) % threshold == idx
-                                                  ? Colors.white
-                                                  : logoRed,
-                                            ),
-                                          ),
-                                        ),
+                  // controller: _scrollController,
+                  itemCount: paginatedItems[currentPage]?.length,
+                  physics: NeverScrollableScrollPhysics(),
+                  // physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (_, index) => widget.tileBuilder(
+                      context, paginatedItems[currentPage]?[index], index, onDelete, null),
+                ),
+                (widget.disablePagination || pages! < 2)
+                    ? Container()
+                    : Container(
+                      color: Colors.white,
+                      margin: EdgeInsets.symmetric(vertical: 5),
+                      padding: const EdgeInsets.symmetric(horizontal : 10.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          InkWell(
+                            onTap: () => navigatePages(1),
+                            child: _defaultControlButton(iconToFirst),
+                          ),
+                          SizedBox(
+                            width: 4,
+                          ),
+                          InkWell(
+                            onTap: () => prevPage(),
+                            child: _defaultControlButton(iconPrevious),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          ...List.generate(
+                            rangeEnd <= pages! ? threshold : pages! % threshold,
+                            (idx) => Flexible(
+                              child: InkWell(
+                                splashColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
+                                onTap: () => navigatePages(idx + 1 + rangeStart),
+                                child: Container(
+                                  margin: const EdgeInsets.all(4),
+                                  height: 40,
+                                  width: 40,
+          
+                                  // padding:
+                                  // const EdgeInsets.symmetric(vertical: 10, horizontal: ),
+                                  decoration: BoxDecoration(
+                                    color: (currentPage - 1) % threshold == idx
+                                        ? logoRed
+                                        : Colors.white,
+                                    borderRadius: BorderRadius.all(Radius.circular(4)),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey,
+                                        offset: Offset(0.0, 1.0), //(x,y)
+                                        blurRadius: 6.0,
+                                      ),
+                                    ],
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      '${idx + 1 + rangeStart}',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: (currentPage - 1) % threshold == idx
+                                            ? Colors.white
+                                            : logoRed,
                                       ),
                                     ),
                                   ),
                                 ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                InkWell(
-                                  onTap: () => nextPage(),
-                                  child: _defaultControlButton(iconNext),
-                                ),
-                                SizedBox(
-                                  width: 4,
-                                ),
-                                InkWell(
-                                  onTap: () => navigatePages(pages!),
-                                  child: _defaultControlButton(iconToLast),
-                                ),
-                              ],
+                              ),
                             ),
                           ),
-                        ),
-                  // Row(
-                  //   children: [
-                  //     // button for prev
-                  //     // button for next
-                  //   ],
-                  // )
-                ],
-              ),
-            )
+                          SizedBox(
+                            width: 10,
+                          ),
+                          InkWell(
+                            onTap: () => nextPage(),
+                            child: _defaultControlButton(iconNext),
+                          ),
+                          SizedBox(
+                            width: 4,
+                          ),
+                          InkWell(
+                            onTap: () => navigatePages(pages!),
+                            child: _defaultControlButton(iconToLast),
+                          ),
+                        ],
+                      ),
+                    ),
+                // Row(
+                //   children: [
+                //     // button for prev
+                //     // button for next
+                //   ],
+                // )
+              ],
+            ),
+          )
           : widget.emptyListWidget!,
     );
   }

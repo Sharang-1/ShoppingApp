@@ -60,45 +60,47 @@ class _WishListState extends State<WishList> {
           left: false,
           right: false,
           bottom: false,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              verticalSpace(20),
-              FutureBuilder(
-                future: Future.delayed(Duration(milliseconds: 500)),
-                builder: (c, s) => s.connectionState == ConnectionState.done
-                    ? GridListWidget<Products, Product>(
-                        key: wishListKey,
-                        context: context,
-                        filter: filter,
-                        onEmptyList: () {},
-                        emptyListWidget: EmptyListWidget(
-                                    text:
-                                        "Add items to wishlist to see them here!"),
-                        gridCount: 1,
-                        disablePagination: true,
-                        controller: WishListGridViewBuilderController(),
-                        childAspectRatio: 3,
-                        tileBuilder: (BuildContext context, data, index,
-                            onDelete, onUpdate) {
-                          final Product dProduct = data as Product;
-                          return ProductTileUI3(
-                            index: index,
-                            cardPadding: EdgeInsets.zero,
-                            data: data,
-                            onClick: () {
-                              BaseController.goToProductPage(dProduct)
-                                  .then((value) => setState(() {
-                                        wishListKey = UniqueKey();
-                                      }));
-                            },
-                          );
-                        },
-                      )
-                    : Container(),
-              )
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                verticalSpace(20),
+                FutureBuilder(
+                  future: Future.delayed(Duration(milliseconds: 500)),
+                  builder: (c, s) => s.connectionState == ConnectionState.done
+                      ? GridListWidget<Products, Product>(
+                          key: wishListKey,
+                          context: context,
+                          filter: filter,
+                          onEmptyList: () {},
+                          emptyListWidget: EmptyListWidget(
+                                      text:
+                                          "Add items to wishlist to see them here!"),
+                          gridCount: 1,
+                          disablePagination: true,
+                          controller: WishListGridViewBuilderController(),
+                          childAspectRatio: 3,
+                          tileBuilder: (BuildContext context, data, index,
+                              onDelete, onUpdate) {
+                            final Product dProduct = data as Product;
+                            return ProductTileUI3(
+                              index: index,
+                              cardPadding: EdgeInsets.zero,
+                              data: data,
+                              onClick: () {
+                                BaseController.goToProductPage(dProduct)
+                                    .then((value) => setState(() {
+                                          wishListKey = UniqueKey();
+                                        }));
+                              },
+                            );
+                          },
+                        )
+                      : Container(),
+                )
+              ],
+            ),
           ),
         ),
       ),
