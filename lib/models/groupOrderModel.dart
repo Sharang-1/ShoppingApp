@@ -2,19 +2,22 @@ class GroupOrderModel {
   String? productId;
   Variation? variation;
   OrderQueue? orderQueue;
+  String? promocode;
 
-  GroupOrderModel({this.productId, this.orderQueue, this.variation});
+  GroupOrderModel({this.productId, this.orderQueue, this.variation, this.promocode});
 
   factory GroupOrderModel.fromJson(Map<String, dynamic> json) => GroupOrderModel(
         orderQueue: json['orderQueue'],
         productId: json['productId'],
         variation: json['variation'],
+        promocode: json['promocode'],
       );
 
   Map<String, dynamic> toJson() => {
         'productId': productId,
         'orderQueue': orderQueue,
         'variation': variation,
+        'promocode' : promocode,
       };
 }
 
@@ -63,9 +66,6 @@ class GroupOrderCostEstimateModel {
         quantity: json['quantity'],
       );
 
-  Map<String, dynamic> toJson() => {
-    'productId' : productId,
-    'quantity' : quantity,
-    'promocode' : promoCode ?? null  
-  };
+  Map<String, dynamic> toJson() =>
+      {'productId': productId, 'quantity': quantity, 'promocode': promoCode ?? null};
 }

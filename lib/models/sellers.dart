@@ -105,7 +105,7 @@ class Seller {
         contact:
             json["contact"] == null ? null : Contact.fromJson(json["contact"]),
         owner: json["owner"] == null ? null : Owner.fromJson(json["owner"]),
-        timing: Timing.fromJson(json["timing"]),
+        timing: json["timing"] == null ? null : Timing.fromJson(json["timing"]),
         establishmentTypeId: json["establishmentTypeId"],
         subscriptionTypeId: json["subscriptionTypeId"],
         subscriptionType: Type.fromJson(json["subscriptionType"]),
@@ -206,8 +206,8 @@ class AryNumber {
   String? mobile;
 
   factory AryNumber.fromJson(Map<String, dynamic> json) => AryNumber(
-        code: json["code"],
-        mobile: json["mobile"],
+        code: json["code"] == null ? null : json["code"],
+        mobile: json["mobile"] == null ? null : json["mobile"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -226,8 +226,8 @@ class Type {
   String? name;
 
   factory Type.fromJson(Map<String, dynamic> json) => Type(
-        id: json["id"],
-        name: json["name"],
+        id: json["id"] == null ? null : json["id"],
+        name: json["name"] == null ? null : json["name"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -246,8 +246,8 @@ class Owner {
   String? name;
 
   factory Owner.fromJson(Map<String, dynamic> json) => Owner(
-        key: json["key"],
-        name: json["name"],
+        key: json["key"] == null ? null : json["key"],
+        name: json["name"] == null ? null : json["name"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -276,23 +276,23 @@ class Timing {
   Day? saturday;
 
   factory Timing.fromJson(Map<String, dynamic> json) => Timing(
-        sunday: Day.fromJson(json["sunday"]),
-        monday: Day.fromJson(json["monday"]),
-        tuesday: Day.fromJson(json["tuesday"]),
-        wednesday: Day.fromJson(json["wednesday"]),
-        thursday: Day.fromJson(json["thursday"]),
-        friday: Day.fromJson(json["friday"]),
-        saturday: Day.fromJson(json["saturday"]),
+        sunday: json["sunday"] == null ? null : Day.fromJson(json["sunday"]),
+        monday: json["monday"] == null ? null : Day.fromJson(json["monday"]),
+        tuesday: json["tuesday"] == null ? null : Day.fromJson(json["tuesday"]),
+        wednesday: json["wednesday"] == null ? null : Day.fromJson(json["wednesday"]),
+        thursday: json["thurday"] == null ? null : Day.fromJson(json["thursday"]),
+        friday: json["friday"] == null ? null : Day.fromJson(json["friday"]),
+        saturday: json["saturday"] == null ? null : Day.fromJson(json["saturday"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "sunday": sunday!.toJson(),
-        "monday": monday!.toJson(),
-        "tuesday": tuesday!.toJson(),
-        "wednesday": wednesday!.toJson(),
-        "thursday": thursday!.toJson(),
-        "friday": friday!.toJson(),
-        "saturday": saturday!.toJson(),
+        "sunday": sunday?.toJson(),
+        "monday": monday?.toJson(),
+        "tuesday": tuesday?.toJson(),
+        "wednesday": wednesday?.toJson(),
+        "thursday": thursday?.toJson(),
+        "friday": friday?.toJson(),
+        "saturday": saturday?.toJson(),
       };
 }
 

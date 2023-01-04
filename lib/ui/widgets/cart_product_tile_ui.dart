@@ -1,9 +1,15 @@
+import 'package:compound/ui/views/cart_select_promocode_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
+import 'package:page_transition/page_transition.dart';
 
 import '../../constants/server_urls.dart';
+import '../../controllers/base_controller.dart';
+import '../../locator.dart';
 import '../../models/cart.dart';
 import '../../models/order_details.dart';
+import '../../services/api/api_service.dart';
+import '../../services/dialog_service.dart';
 import '../../utils/lang/translation_keys.dart';
 import '../../utils/stringUtils.dart';
 import '../shared/app_colors.dart';
@@ -15,7 +21,7 @@ import 'order_details_bottomsheet.dart';
 class CartProductTileUI extends StatefulWidget {
   final Item item;
   final bool isPromoCodeApplied;
-  final String finalTotal;
+  final double finalTotal;
   final int index;
   final String promoCode;
   final String promoCodeDiscount;
@@ -30,7 +36,7 @@ class CartProductTileUI extends StatefulWidget {
     required this.index,
     required this.item,
     this.isPromoCodeApplied = true,
-    this.finalTotal = "",
+    this.finalTotal = 0.0,
     this.promoCode = "",
     this.promoCodeDiscount = "",
     required this.increaseQty,
@@ -44,6 +50,8 @@ class CartProductTileUI extends StatefulWidget {
 }
 
 class _CartProductTileUIState extends State<CartProductTileUI> {
+  final APIService _apiService = locator<APIService>();
+
   late bool clicked;
   late double price;
   late double discount;
@@ -96,8 +104,8 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
           "$rupeeUnicode ${(((qty ?? widget.item.quantity) ?? 1) * ((widget.item.product?.cost?.cost ?? 0) + (widget.item.product?.cost?.gstCharges?.cost ?? 0)) + (widget.item.product?.cost?.convenienceCharges?.cost ?? 0)).toStringAsFixed(2)}",
       saved:
           // ignore: deprecated_member_use
-          "$rupeeUnicode ${((((qty ?? widget.item.quantity) ?? 1) * ((widget.item.product?.cost?.cost ?? 0) + (widget.item.product?.cost?.gstCharges?.cost ?? 0)) + (widget.item.product?.cost?.convenienceCharges?.cost ?? 0)) - (double.parse(widget.finalTotal, (s) => 0))).toStringAsFixed(2)}",
-      total: qty == null ? rupeeUnicode + widget.finalTotal : '-',
+          "$rupeeUnicode ${((((qty ?? widget.item.quantity) ?? 1) * ((widget.item.product?.cost?.cost ?? 0) + (widget.item.product?.cost?.gstCharges?.cost ?? 0)) + (widget.item.product?.cost?.convenienceCharges?.cost ?? 0)) - widget.finalTotal).toStringAsFixed(2)}",
+      total: qty == null ? rupeeUnicode + widget.finalTotal.toString() : '-',
     );
   }
 
@@ -351,7 +359,7 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                         ),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: applyCoupon,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8),
                       child: Row(
@@ -381,6 +389,41 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
         ),
       ),
     );
+  }
+
+  void applyCoupon({int? qty, String? total}) async {
+    BaseController.vibrate(duration: 50);
+    final product =
+        await _apiService.getProductById(productId: widget.item.productId.toString(), withCoupons: true);
+    if ((product?.available ?? false) && (product!.enabled ?? false))
+      Navigator.push(
+        context,
+        PageTransition(
+          child: SelectPromocode(
+            productId: widget.item.productId.toString(),
+            promoCode: widget.promoCode,
+            promoCodeId: "",
+            index : widget.index,
+            availableCoupons: product.coupons ?? [],
+            size: widget.item.size ?? "",
+            color: widget.item.color ?? "",
+            qty: (qty ?? widget.item.quantity) as int,
+            finalTotal: widget.finalTotal,
+            orderDetails: orderDetails,
+          ),
+          type: PageTransitionType.rightToLeft,
+        ),
+      );
+    else
+      DialogService.showCustomDialog(AlertDialog(
+        content: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Text(
+            "Sorry, product is currently not available",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
+      ));
   }
 
   void setUpProductPrices(int qty) async {

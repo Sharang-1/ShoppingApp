@@ -305,7 +305,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                   ),
                   controller: refreshController,
                   onRefresh: () async {
-                    Product? product = await controller.refreshProduct(productData!.key!);
+                    Product? product = await controller.refreshProduct(productData?.key ?? "");
                     if (product != null) {
                       setState(() {
                         setupProductDetails(product);
@@ -328,11 +328,11 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                       key: photosKey,
                                       imgList: imageURLs ?? [],
                                       sizeChartUrl: showSizechart == true
-                                          ? "${BASE_URL}sellers/${productData!.account!.key}/categories/${productData!.category!.id}/sizechart"
+                                          ? "${BASE_URL}sellers/${productData?.account?.key}/categories/${productData?.category?.id}/sizechart"
                                           : "",
                                       videoList: productData?.video?.videos
                                               .map((e) =>
-                                                  "${BASE_URL}products/${productData!.key}/videos/${e.name}")
+                                                  "${BASE_URL}products/${productData?.key}/videos/${e.name}")
                                               .toList() ??
                                           [],
                                       aspectRatio: 1,
@@ -344,7 +344,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                     imgList: imageURLs ?? [],
                                     videoList: productData?.video?.videos
                                             .map((e) =>
-                                                "${BASE_URL}products/${productData!.key}/videos/${e.name}")
+                                                "${BASE_URL}products/${productData?.key}/videos/${e.name}")
                                             .toList() ??
                                         [],
                                     aspectRatio: 1,
@@ -391,7 +391,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                 "",
                                           );
                                           await controller.shareProductEvent(
-                                              productId: productId!, productName: productName!);
+                                              productId: productId!, productName: productName ?? "Product");
 
                                           showCustomDialog(context);
                                           // Future.delayed(Duration(seconds: 90), showCustomDialog(context));
@@ -422,15 +422,15 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                   Container(
                                     width: MediaQuery.of(context).size.width * 0.8,
                                     child: productPriceInfo(
-                                      productName: productData!.name,
-                                      designerName: productData!.seller?.name ?? "No Name",
+                                      productName: productData?.name,
+                                      designerName: productData?.seller?.name ?? "No Name",
                                       productPrice: productPrice,
                                       actualPrice: (productData!.cost!.cost +
                                               productData!.cost!.convenienceCharges!.cost! +
                                               productData!.cost!.gstCharges!.cost!)
                                           .round(),
                                       showPrice: (available!),
-                                      isClothMeterial: (productData!.category!.id == 13),
+                                      isClothMeterial: (productData?.category?.id == 13),
                                     ),
                                   ),
                                   if ((productData?.discount ?? 0.0) != 0.0)
@@ -572,7 +572,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                   children: <Widget>[
                                                     elementDivider(),
                                                     Text(
-                                                      "Select ${(productData!.category!.id == 13) ? 'No. of Meters' : 'Qty'}"
+                                                      "Select ${(productData?.category?.id == 13) ? 'No. of Meters' : 'Qty'}"
                                                           .toUpperCase(),
                                                       style: TextStyle(
                                                         fontSize: 14,
@@ -853,7 +853,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     productPriceDetail2(
-                                      productName: productData!.name,
+                                      productName: productData?.name,
                                       designerName: productData!.seller?.name ?? "No Name",
                                       productPrice: productPrice,
                                       actualPrice: (productData!.cost!.cost +
@@ -1062,7 +1062,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                         padding: const EdgeInsets.only(right: 20.0),
                                         child: FutureBuilder<Reviews?>(
                                           future: locator<APIService>().getReviews(
-                                              productData!.seller!.key!,
+                                              productData?.seller?.key ?? "",
                                               isSellerReview: true),
                                           builder: (context, snapshot) => ((snapshot
                                                           .connectionState ==
@@ -1179,7 +1179,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                             size: 10,
                                                           ),
                                                           CustomText(
-                                                              productData!.seller!.contact!.city!,
+                                                              productData?.seller?.contact?.city ?? "Ahemdabad",
                                                               fontSize: 10,
                                                               color: textIconBlue),
                                                         ],
@@ -1390,15 +1390,15 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                         // price dalna
                         children: [
                           productPriceDetail(
-                            productName: productData!.name,
-                            designerName: productData!.seller?.name ?? "No Name",
+                            productName: productData?.name,
+                            designerName: productData?.seller?.name ?? "No Name",
                             productPrice: productPrice,
                             actualPrice: (productData!.cost!.cost +
                                     productData!.cost!.convenienceCharges!.cost! +
                                     productData!.cost!.gstCharges!.cost!)
                                 .round(),
                             showPrice: (available!),
-                            isClothMeterial: (productData!.category!.id == 13),
+                            isClothMeterial: (productData?.category?.id == 13),
                           ),
 
                           // ? buy now button commented
@@ -1688,7 +1688,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
 
   Future<void> checkshowSizeChart() async {
     var abs = await get(Uri.parse(
-        "${BASE_URL}sellers/${productData!.account!.key}/categories/${productData!.category!.id}/sizechart"));
+        "${BASE_URL}sellers/${productData?.account?.key}/categories/${productData?.category?.id}/sizechart"));
     if (abs.statusCode == 400 || abs.statusCode == 404)
       showSizechart = false;
     else

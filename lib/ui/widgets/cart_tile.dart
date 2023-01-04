@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -33,7 +32,7 @@ class _CartTileState extends State<CartTile> {
   final _controller = new TextEditingController();
 
   bool isPromoCodeApplied = false;
-  String finalTotal = "0";
+  double finalTotal = 0.0;
   String deliveryStatus = "";
   String promoCode = "";
   String promoCodeId = "";
@@ -46,7 +45,7 @@ class _CartTileState extends State<CartTile> {
     item = widget.item;
     quantity = item.quantity! >= 1 ? item.quantity as int : 1;
     item.quantity = item.quantity! >= 1 ? item.quantity : 1;
-    finalTotal = (item.product!.cost!.costToCustomer! * item.quantity!).toString();
+    finalTotal = (item.product!.cost!.costToCustomer! * item.quantity!).toDouble();
     setUpOrderDetails();
     super.initState();
   }
@@ -59,9 +58,9 @@ class _CartTileState extends State<CartTile> {
 
   void setUpProductPrices() async {
     setState(() {
-      finalTotal = (item.product!.cost!.costToCustomer! * quantity).toStringAsFixed(2);
+      finalTotal = (item.product!.cost!.costToCustomer! * quantity).toDouble();
     });
-    orderDetails.total = rupeeUnicode + finalTotal;
+    orderDetails.total = rupeeUnicode + finalTotal.toStringAsFixed(2);
   }
 
   void setUpOrderDetails() {
@@ -89,8 +88,8 @@ class _CartTileState extends State<CartTile> {
           "$rupeeUnicode ${((widget.item.quantity ?? 1) * ((widget.item.product?.cost?.cost ?? 0) + (widget.item.product?.cost?.gstCharges?.cost ?? 0)) + (widget.item.product?.cost?.convenienceCharges?.cost ?? 0)).toStringAsFixed(2)}",
       saved:
           // ignore: deprecated_member_use
-          "$rupeeUnicode ${(((widget.item.quantity ?? 1) * ((widget.item.product?.cost?.cost ?? 0) + (widget.item.product?.cost?.gstCharges?.cost ?? 0)) + (widget.item.product?.cost?.convenienceCharges?.cost ?? 0)) - (double.parse(finalTotal, (s) => 0))).toStringAsFixed(0)}",
-      total: rupeeUnicode + finalTotal,
+          "$rupeeUnicode ${(((widget.item.quantity ?? 1) * ((widget.item.product?.cost?.cost ?? 0) + (widget.item.product?.cost?.gstCharges?.cost ?? 0)) + (widget.item.product?.cost?.convenienceCharges?.cost ?? 0)) - finalTotal).toStringAsFixed(0)}",
+      total: rupeeUnicode + finalTotal.toStringAsFixed(2),
     );
   }
 
@@ -100,8 +99,8 @@ class _CartTileState extends State<CartTile> {
       quantity++;
       print(quantity);
       setUpProductPrices();
-      APIService().addToCart(item.productId.toString(), quantity,
-          item.size.toString(), item.color.toString());
+      APIService().addToCart(
+          item.productId.toString(), quantity, item.size.toString(), item.color.toString());
     });
   }
 
@@ -128,7 +127,7 @@ class _CartTileState extends State<CartTile> {
               boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 2)]),
           height: 160,
           child: CartProductTileUI(
-            index : widget.index,
+            index: widget.index,
             item: item,
             finalTotal: finalTotal,
             promoCode: promoCode,
@@ -261,9 +260,10 @@ class _CartTileState extends State<CartTile> {
             promoCodeId: promoCodeId,
             availableCoupons: product.coupons ?? [],
             size: item.size ?? "",
+            index: widget.index,
             color: item.color ?? "",
             qty: (qty ?? item.quantity) as int,
-            finalTotal: total ?? finalTotal,
+            finalTotal: finalTotal,
             orderDetails: orderDetails,
           ),
           type: PageTransitionType.rightToLeft,

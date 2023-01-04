@@ -258,34 +258,6 @@ class APIService {
         var orderJson = jsonEncode(orderBody);
         log("order body ${orderJson.toString()}");
 
-        // var orderJson = {
-        //   "customerDetails": {
-        //     "address": "test billing address",
-        //     "city": "test billing city",
-        //     "state": "test billing state",
-        //     "pincode": "380060",
-        //     "country": "india"
-        //   },
-        //   "orders": [
-        //     {
-        //       "productId": 89755650,
-        //       "variation": {"size": "s", "quantity": 1, "color": "blue"},
-        //       "clientQueueId": 1
-        //     },
-        //     {
-        //       "productId": 83885946,
-        //       "variation": {"size": "X", "quantity": 1, "color": "pink"},
-        //       "clientQueueId": 2,
-        //       "customization": {"label": "Mr Ashok"}
-        //     },
-        //     {
-        //       "productId": 87250459,
-        //       "variation": {"size": "XS", "quantity": 2, "color": "red"},
-        //       "clientQueueId": 3
-        //     }
-        //   ]
-        // };
-
         if (kDebugMode) print("--------- api testing ----------");
 
         final response = await apiWrapper("v2/orders",

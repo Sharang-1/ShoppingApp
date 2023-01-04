@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:page_transition/page_transition.dart';
 
+import '../../app/groupOrderData.dart';
 import '../../controllers/base_controller.dart';
 import '../../locator.dart';
 import '../../models/coupon.dart';
+import '../../models/groupOrderModel.dart';
 import '../../models/order_details.dart';
 import '../../services/api/api_service.dart';
 import '../../utils/lang/translation_keys.dart';
@@ -17,7 +19,7 @@ import '../widgets/order_details_bottomsheet.dart';
 import 'cart_select_delivery_view.dart';
 
 class SelectPromocode extends StatefulWidget {
-  final String finalTotal;
+  final double finalTotal;
   final String productId;
   final String promoCode;
   final List<Coupon> availableCoupons;
@@ -25,6 +27,7 @@ class SelectPromocode extends StatefulWidget {
   final String size;
   final String color;
   final int qty;
+  final int index;
   final OrderDetails orderDetails;
 
   const SelectPromocode({
@@ -36,6 +39,7 @@ class SelectPromocode extends StatefulWidget {
     required this.size,
     required this.color,
     required this.qty,
+    required this.index,
     required this.finalTotal,
     required this.orderDetails,
   }) : super(key: key);
@@ -52,7 +56,7 @@ class _SelectPromocodeState extends State<SelectPromocode> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: newBackgroundColor,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
@@ -82,46 +86,13 @@ class _SelectPromocodeState extends State<SelectPromocode> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              InkWell(
-                onTap: () {
-                  showModalBottomSheet<void>(
-                    clipBehavior: Clip.antiAlias,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(10),
-                        topRight: Radius.circular(10),
-                      ),
-                    ),
-                    isScrollControlled: true,
-                    context: context,
-                    builder: (context) => OrderDetailsBottomsheet(
-                      orderDetails: widget.orderDetails,
-                      buttonText: SELECT_ADDRESS.tr,
-                      onButtonPressed: selectAddress,
-                      isPromocodeApplied: false,
-                    ),
-                  );
-                },
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CustomText(
-                      "${BaseController.formatPrice(num.parse(widget.finalTotal.replaceAll("₹", "")))}",
-                      fontSize: 12,
-                      isBold: true,
-                    ),
-                    CustomText(
-                      VIEW_DETAILS.tr,
-                      textStyle: TextStyle(
-                        fontSize: 12,
-                        decoration: TextDecoration.underline,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              horizontalSpaceMedium,
+              // CustomText(
+              //   "${BaseController.formatPrice(num.parse(GroupOrderData.orderTotal.toString().replaceAll("₹", "")))}",
+              //   fontSize: 14,
+              //   color: logoRed,
+              //   isBold: true,
+              // ),
+              // horizontalSpaceMedium,
               Expanded(
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -131,14 +102,14 @@ class _SelectPromocodeState extends State<SelectPromocode> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  onPressed: selectAddress,
+                  onPressed: applyPromoCode,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                       vertical: 10.0,
                       horizontal: 10,
                     ),
                     child: Text(
-                      SELECT_ADDRESS.tr,
+                      APPLY_COUPON.tr,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
@@ -207,9 +178,7 @@ class _SelectPromocodeState extends State<SelectPromocode> {
                           onPressed: applyPromoCode,
                           child: Text(
                             APPLY.tr,
-                            style: TextStyle(
-                                color: darkRedSmooth,
-                                fontWeight: FontWeight.bold),
+                            style: TextStyle(color: darkRedSmooth, fontWeight: FontWeight.bold),
                           ),
                         ),
                       ],
@@ -217,6 +186,8 @@ class _SelectPromocodeState extends State<SelectPromocode> {
                   ),
                 ),
                 verticalSpace(35),
+                if (widget.availableCoupons.isEmpty)
+                  Text("No Available coupon codes for this product!"),
                 if (widget.availableCoupons.isNotEmpty)
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -254,7 +225,7 @@ class _SelectPromocodeState extends State<SelectPromocode> {
                               () {
                                 couponGrpValue = couponRadioValue = c.code!;
                                 _controller.text = c.code!;
-                                applyPromoCode();
+                                // applyPromoCode();
                               },
                             );
                           },
@@ -275,18 +246,16 @@ class _SelectPromocodeState extends State<SelectPromocode> {
                                   groupValue: couponGrpValue,
                                   onChanged: (val) {
                                     setState(() {
-                                      couponGrpValue =
-                                          couponRadioValue = val as String;
+                                      couponGrpValue = couponRadioValue = val as String;
                                       _controller.text = val;
-                                      applyPromoCode();
+                                      // applyPromoCode();
                                     });
                                     print(val);
                                   },
                                 ),
                                 Expanded(
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
                                       CustomText(
@@ -327,31 +296,52 @@ class _SelectPromocodeState extends State<SelectPromocode> {
 
       OrderDetails orderDetails = widget.orderDetails;
       orderDetails.promocode = res.promocodeDiscount!.promocode ?? "";
-      orderDetails.promocodeDiscount =
-          '$rupeeUnicode${res.promocodeDiscount!.cost}';
+      orderDetails.promocodeDiscount = '$rupeeUnicode${res.promocodeDiscount!.cost}';
       orderDetails.total = res.cost!.toStringAsFixed(2);
 
       ScaffoldMessenger.of(context).showSnackBar(
         new SnackBar(content: Text(COUPON_APPLIED.tr)),
       );
 
-      await Navigator.push(
-        context,
-        PageTransition(
-            child: SelectAddress(
-              products: [],
-              
-              // productId: widget.productId,
-              // promoCode: res.promocodeDiscount!.promocode ?? "",
-              // promoCodeId: res.promocodeDiscount!.promocodeId ?? "",
-              // size: widget.size,
-              // color: widget.color,
-              // qty: widget.qty,
-              // finalTotal: res.cost!.toStringAsFixed(2),
-              // orderDetails: orderDetails,
-            ),
-            type: PageTransitionType.rightToLeft),
+      var idx = widget.index;
+
+      GroupOrderData.cartProducts.clear();
+      GroupOrderData.sellersList.clear();
+      GroupOrderData.cartEstimateItems.clear();
+
+      GroupOrderModel cartItem = GroupOrderModel(
+        productId: widget.productId.toString(),
+        variation: Variation(
+          size: widget.size.toString(),
+          // quantity: widget.quantity?.toInt(),
+          color: widget.color.toString(),
+        ),
+        orderQueue: OrderQueue(
+          clientQueueId: (idx + 1).toString(),
+        ),
+        promocode: _controller.text.trim(),
       );
+      GroupOrderData.cartProducts.add(cartItem);
+
+      Navigator.pop(context);
+
+      // await Navigator.push(
+      //   context,
+      //   PageTransition(
+      //       child: SelectAddress(
+      //         products: [],
+
+      //         // productId: widget.productId,
+      //         // promoCode: res.promocodeDiscount!.promocode ?? "",
+      //         // promoCodeId: res.promocodeDiscount!.promocodeId ?? "",
+      //         // size: widget.size,
+      //         // color: widget.color,
+      //         // qty: widget.qty,
+      //         // finalTotal: res.cost!.toStringAsFixed(2),
+      //         // orderDetails: orderDetails,
+      //       ),
+      //       type: PageTransitionType.rightToLeft),
+      // );
     } else {
       setState(() {
         _controller.text = "";
@@ -365,22 +355,38 @@ class _SelectPromocodeState extends State<SelectPromocode> {
     }
   }
 
-  void selectAddress() {
-    Navigator.push(
-      context,
-      PageTransition(
-          child: SelectAddress(
-            products:[]
-            // productId: widget.productId,
-            // promoCode: widget.promoCode,
-            // promoCodeId: widget.promoCodeId,
-            // size: widget.size,
-            // color: widget.color,
-            // qty: widget.qty,
-            // finalTotal: widget.finalTotal,
-            // orderDetails: widget.orderDetails,
-          ),
-          type: PageTransitionType.rightToLeft),
-    );
+  void proceedToOrder() {
+    Navigator.pop(context);
+    // Navigator.push(
+    //   context,
+    //   PageTransition(
+    //     child: SelectAddress(
+    //       products: GroupOrderData.cartProducts,
+    //       estimateItems: GroupOrderData.cartEstimateItems,
+    //       sellers: GroupOrderData.sellersList,
+    //       payTotal: GroupOrderData.orderTotal,
+    //     ),
+    //     type: PageTransitionType.rightToLeft,
+    //   ),
+    // );
   }
+
+  // void selectAddress() {
+  //   Navigator.push(
+  //     context,
+  //     PageTransition(
+  //         child: SelectAddress(
+  //           products:[]
+  //           // productId: widget.productId,
+  //           // promoCode: widget.promoCode,
+  //           // promoCodeId: widget.promoCodeId,
+  //           // size: widget.size,
+  //           // color: widget.color,
+  //           // qty: widget.qty,
+  //           // finalTotal: widget.finalTotal,
+  //           // orderDetails: widget.orderDetails,
+  //         ),
+  //         type: PageTransitionType.rightToLeft),
+  //   );
+  // }
 }
