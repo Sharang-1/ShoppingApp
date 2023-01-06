@@ -53,14 +53,12 @@ class Product {
   bool? explore;
   String? typeOfWork;
   String? fabricDetails;
-
   String? art;
   String? bottomStyle;
   String? closureType;
   String? fittingType;
   String? riseStyle;
   String? weaveType;
-
   bool? margin;
   BlousePadding? productFor;
   BlousePadding? category;
@@ -98,6 +96,7 @@ class Product {
   num? pricePerMeter;
   List<Coupon>? coupons;
   Video? video;
+  List<dynamic>? demographics;
 
   Product({
     this.key,
@@ -169,10 +168,10 @@ class Product {
       created: json["created"],
       modified: json["modified"],
       account: json["account"] == null
-          ? Account(key: "")
+          ? null
           : Account.fromJson(json["account"]),
       owner: json["owner"] == null
-          ? Account(key: "")
+          ? null
           : Account.fromJson(json["owner"]),
       price: json["price"] ?? 0,
       whoMadeIt: json["whoMadeIt"] == null

@@ -3,6 +3,7 @@ import 'package:page_transition/page_transition.dart';
 
 import '../controllers/user_details_controller.dart';
 import '../constants/route_names.dart';
+import '../models/newSellers.dart';
 import '../models/reviews.dart';
 import '../models/sellers.dart';
 import '../models/ordersV2.dart';

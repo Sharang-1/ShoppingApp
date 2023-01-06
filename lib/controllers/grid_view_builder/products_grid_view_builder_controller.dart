@@ -67,8 +67,8 @@ class ProductsGridViewBuilderController
       res.items!.sort((a, b) =>
           a.shipment!.days!.toInt().compareTo(a.shipment!.days!.toInt()));
 
-      print("test ---------------------------------------------->>>>" +
-          res.items!.length.toString());
+      // print("test ---------------------------------------------->>>>" +
+      //     res.items!.length.toString());
 
       res.items = res.items!.take(6).toList();
     }

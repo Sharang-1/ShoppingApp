@@ -147,7 +147,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
   @override
   void initState() {
     productController = ProductController(
-      widget.data.account?.key,
+      widget.data.owner?.key,
       productId: widget.data.key!,
       productName: widget.data.name!,
     )..init();
@@ -423,7 +423,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                     width: MediaQuery.of(context).size.width * 0.8,
                                     child: productPriceInfo(
                                       productName: productData?.name,
-                                      designerName: productData?.seller?.name ?? "No Name",
+                                      designerName: productData?.seller?.name ?? "Hello" ,
                                       productPrice: productPrice,
                                       actualPrice: (productData!.cost!.cost +
                                               productData!.cost!.convenienceCharges!.cost! +
@@ -458,7 +458,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                 ],
                               ),
                               elementDivider(),
-                              
+                              // ? handmade product card
                               Container(
                                 margin: EdgeInsets.symmetric(vertical: 10),
                                 padding: EdgeInsets.all(10),
@@ -967,6 +967,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                       style: TextStyle(fontSize: 12, color: Colors.black54),
                                     ),
                                     verticalSpaceTiny,
+                                    //? seller shipment and replacement policy
                                     GestureDetector(
                                       onTap: () async {
                                         if (await canLaunch(RETURN_POLICY_URL))
@@ -1061,8 +1062,9 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                       Padding(
                                         padding: const EdgeInsets.only(right: 20.0),
                                         child: FutureBuilder<Reviews?>(
+                                          //! seller key null arhi
                                           future: locator<APIService>().getReviews(
-                                              productData?.seller?.key ?? "",
+                                              productData?.account?.key ?? "PIView",
                                               isSellerReview: true),
                                           builder: (context, snapshot) => ((snapshot
                                                           .connectionState ==
@@ -1114,6 +1116,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                   ),
                                   if (productData?.seller?.subscriptionTypeId != 2)
                                     verticalSpace(5),
+                                  //? seller detail card
                                   GestureDetector(
                                     onTap: () async => await goToSellerProfile(controller),
                                     child: Card(
@@ -1150,7 +1153,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                               placeholder: AssetImage(
                                                                   "assets/images/user.png"),
                                                               image: NetworkImage(
-                                                                "$DESIGNER_PROFILE_PHOTO_BASE_URL/${productData?.seller?.owner?.key}",
+                                                                "$DESIGNER_PROFILE_PHOTO_BASE_URL/${productData?.owner?.key}",
                                                                 headers: {
                                                                   "Authorization":
                                                                       "Bearer ${locator<HomeController>().prefs?.getString(Authtoken) ?? ''}",
@@ -1193,45 +1196,38 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                       mainAxisAlignment: MainAxisAlignment.center,
                                                       children: [
                                                         CustomText(
-                                                          "${productData?.seller?.owner?.name ?? ""}",
+                                                          "${productData?.seller?.owner?.name ?? "Seller Name"}",
                                                           fontWeight: FontWeight.w500,
                                                           fontSize: titleFontSize,
                                                           dotsAfterOverFlow: true,
                                                         ),
                                                         CustomText(
-                                                          "(${productData?.seller?.name ?? ''})",
+                                                          "(${productData?.seller?.name ?? 'Brand Name'})",
                                                           fontWeight: FontWeight.w500,
                                                           fontSize: subtitleFontSize,
                                                           dotsAfterOverFlow: true,
                                                         ),
-                                                        if ((productData?.seller?.education !=
-                                                                null) ||
-                                                            (productData?.seller?.designation !=
-                                                                null))
-                                                          Row(
-                                                            children: [
-                                                              Expanded(
-                                                                child: CustomText(
-                                                                  "${productData?.seller?.education ?? ''} ${productData?.seller?.designation ?? ''}",
-                                                                  fontSize: subtitleFontSize,
-                                                                  fontWeight: FontWeight.w400,
-                                                                  color: Colors.grey.shade600,
-                                                                  dotsAfterOverFlow: true,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
+                                                        // if ((productData?.seller?.education !=
+                                                        //         null) ||
+                                                        //     (productData?.seller?.designation !=
+                                                        //         null))
+                                                        //   Row(
+                                                        //     children: [
+                                                        //       Expanded(
+                                                        //         child: CustomText(
+                                                        //           "${productData?.seller?.education ?? ''} ${productData?.seller?.designation ?? ''}",
+                                                        //           fontSize: subtitleFontSize,
+                                                        //           fontWeight: FontWeight.w400,
+                                                        //           color: Colors.grey.shade600,
+                                                        //           dotsAfterOverFlow: true,
+                                                        //         ),
+                                                        //       ),
+                                                        //     ],
+                                                        //   ),
                                                         ReadMoreText(
-                                                          productData?.seller?.intro ??
-                                                              (productData?.seller?.bio ?? ""),
+                                                          productData?.seller?.intro ?? "",
                                                           trimLines:
-                                                              ((productData?.seller?.education ==
-                                                                          null) &&
-                                                                      (productData?.seller
-                                                                              ?.designation ==
-                                                                          null))
-                                                                  ? 2
-                                                                  : 1,
+                                                              2,
                                                           colorClickableText: logoRed,
                                                           trimMode: TrimMode.Line,
                                                           style: TextStyle(
@@ -1372,6 +1368,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                     ),
                   ),
                 ),
+                //? add to cart and product pricing
                 if (available!)
                   Align(
                     alignment: Alignment.bottomCenter,
@@ -1386,12 +1383,11 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        // mainAxisSize: MainAxisSize.min,
-                        // price dalna
+                        
                         children: [
                           productPriceDetail(
                             productName: productData?.name,
-                            designerName: productData?.seller?.name ?? "No Name",
+                            designerName: productData?.seller?.name ?? productData?.seller?.key ,
                             productPrice: productPrice,
                             actualPrice: (productData!.cost!.cost +
                                     productData!.cost!.convenienceCharges!.cost! +
@@ -1400,100 +1396,6 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                             showPrice: (available!),
                             isClothMeterial: (productData?.category?.id == 13),
                           ),
-
-                          // ? buy now button commented
-                          // if (!widget.fromCart)
-                          //   GestureDetector(
-                          //     onTap: () async {
-                          //       print("buy now clicked");
-                          //       if (locator<HomeController>().isLoggedIn) {
-                          //         if (selectedQty == 0 ||
-                          //             selectedColor == "" ||
-                          //             selectedSize == "") {
-                          //           await DialogService.showCustomDialog(
-                          //             AlertDialog(
-                          //               title: FittedBox(
-                          //                 fit: BoxFit.scaleDown,
-                          //                 child: Text(PRODUCTSCREEN_SELECT_SIZE_COLOR_QTY.tr),
-                          //               ),
-                          //               actions: [
-                          //                 TextButton(
-                          //                     onPressed: () async {
-                          //                       DialogService.popDialog();
-                          //                       await Scrollable.ensureVisible(
-                          //                         variationSelectionCardKey.currentContext!,
-                          //                         alignment: 0.50,
-                          //                       );
-                          //                     },
-                          //                     child: Text("OK")),
-                          //               ],
-                          //             ),
-                          //           );
-                          //         } else {
-                          //           var res = await controller.buyNow(productData!, selectedQty,
-                          //               context, selectedSize, selectedColor);
-                          //           if (res != null && res == true) {
-                          //             final cartRes =
-                          //                 await locator<APIService>().getCartProductItemList();
-                          //             if (cartRes != null) {
-                          //               await locator<CartLocalStoreService>()
-                          //                   .setCartList(cartRes);
-                          //               locator<CartCountController>()
-                          //                   .setCartCount(cartRes.length);
-                          //             }
-
-                          //             print(
-                          //                 "UserDetails: ${locator<HomeController>().details?.toJson()}");
-
-                          //             if (locator<HomeController>().details?.measure == null) {
-                          //               await BaseController.showSizePopup();
-                          //             }
-
-                          //             Navigator.push(
-                          //               context,
-                          //               PageTransition(
-                          //                 child: CartView(
-                          //                   productId: productData!.key!,
-                          //                 ),
-                          //                 type: PageTransitionType.rightToLeft,
-                          //               ),
-                          //             );
-                          //           }
-                          //         }
-                          //       } else {
-                          //         await BaseController.showLoginPopup(
-                          //           nextView: "buynow",
-                          //           shouldNavigateToNextScreen: false,
-                          //         );
-                          //       }
-                          //     },
-                          //     child: Container(
-                          //       width: MediaQuery.of(context).size.width * 0.40,
-                          //       padding: EdgeInsets.symmetric(
-                          //         vertical: 10,
-                          //       ),
-                          //       margin: EdgeInsets.only(
-                          //         right: 4.0,
-                          //       ),
-                          //       decoration: BoxDecoration(
-                          //         border: Border.all(
-                          //           color: lightGreen,
-                          //         ),
-                          //         color: lightGreen,
-                          //         borderRadius: BorderRadius.circular(5),
-                          //       ),
-                          //       child: Center(
-                          //         child: Text(
-                          //           PRODUCTSCREEN_BUY_NOW.tr,
-                          //           style: TextStyle(
-                          //             color: Colors.white,
-                          //             fontWeight: FontWeight.bold,
-                          //             fontSize: subtitleFontSizeStyle,
-                          //           ),
-                          //         ),
-                          //       ),
-                          //     ),
-                          //   ),
                           GestureDetector(
                             onTap: () async {
                               if (locator<HomeController>().isLoggedIn) {
@@ -1580,6 +1482,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                       ),
                     ),
                   ),
+                //? sold out text if product not available
                 if (available == false)
                   Align(
                     alignment: Alignment.bottomCenter,
@@ -1604,6 +1507,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                       ),
                     ),
                   ),
+                //? cart button
                 Positioned(
                   right: 4,
                   top: 4,
@@ -1635,6 +1539,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                     ),
                   ),
                 ),
+                //? back button
                 Positioned(
                   top: 4,
                   left: 4,
@@ -1672,13 +1577,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
           showImageLabel: false,
           isSizeChart: true,
           loadingBuilder: (context, e) => ShimmerWidget(),
-          // Center(
-          //   child: Image.asset(
-          //     "assets/images/loading_img.gif",
-          //     height: 50,
-          //     width: 50,
-          //   ),
-          // ),
+         
           backgroundDecoration: BoxDecoration(color: Colors.white),
           appbarColor: Colors.white,
         ),
@@ -1697,6 +1596,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
 
   Future<void> goToSellerProfile(controller) async {
     if (locator<HomeController>().isLoggedIn) {
+      //? Navigate to seller profile based on subscription type
       if (productData?.seller?.subscriptionTypeId == 2) {
         await NavigationService.to(
           ProductsListRoute,
@@ -1754,66 +1654,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
             ],
           ),
         ),
-        // Column(
-        //   crossAxisAlignment: CrossAxisAlignment.start,
-        //   children: [
-        //     Row(
-        //       children: <Widget>[
-        //         Column(
-        //           crossAxisAlignment: CrossAxisAlignment.end,
-        //           children: [
-        //             Row(
-        //               children: [
-        //                 if (productDiscount != 0.0 && showPrice)
-        //                   Padding(
-        //                     padding: const EdgeInsets.only(right: 8.0),
-        //                     child: Row(
-        //                       crossAxisAlignment: CrossAxisAlignment.end,
-        //                       children: <Widget>[
-        //                         Text(
-        //                           '${BaseController.formatPrice(actualPrice)}',
-        //                           style: TextStyle(
-        //                             fontSize: 8,
-        //                             color: Colors.grey[500],
-        //                             decoration: TextDecoration.lineThrough,
-        //                           ),
-        //                         ),
-        //                       ],
-        //                     ),
-        //                   ),
-        //                 if (available!)
-        //                   Text(
-        //                     '${showPrice ? BaseController.formatPrice(productPrice) : ' - '}',
-        //                     style: TextStyle(
-        //                       fontSize: 14,
-        //                       fontWeight: FontWeight.bold,
-        //                       color: lightGreen,
-        //                     ),
-        //                   )
-        //                 else
-        //                   Text(
-        //                     PRODUCTSCREEN_SOLD_OUT.tr,
-        //                     style: TextStyle(
-        //                       fontSize: 14,
-        //                       fontWeight: FontWeight.bold,
-        //                       color: logoRed,
-        //                     ),
-        //                   ),
-        //               ],
-        //             ),
-        //             if (available!)
-        //               Text(
-        //                 "(${PRODUCTSCREEN_TAXES_AND_CHARGES.tr})",
-        //                 style: TextStyle(
-        //                   fontSize: 8,
-        //                 ),
-        //               ),
-        //           ],
-        //         ),
-        //       ],
-        //     ),
-        //   ],
-        // ),
+        
       ],
     );
   }

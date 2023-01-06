@@ -124,14 +124,14 @@ class CommonField {
     this.groupQueueId,
     this.payment,
     this.customerDetails,
-    this.orderCost,
+    // this.orderCost,
     this.groupOrderStatus,
   });
 
   String? groupQueueId;
   Payment? payment;
   CustomerDetails? customerDetails;
-  OrderCost? orderCost;
+  // OrderCost? orderCost;
   Status? groupOrderStatus;
 
   factory CommonField.fromJson(Map<String, dynamic> json) => CommonField(
@@ -140,7 +140,7 @@ class CommonField {
         customerDetails: json["customerDetails"] == null
             ? null
             : CustomerDetails.fromJson(json["customerDetails"]),
-        orderCost: json["orderCost"] == null ? null : OrderCost.fromJson(json["orderCost"]),
+        // orderCost: json["orderCost"] == null ? null : OrderCost.fromJson(json["orderCost"]),
         groupOrderStatus:
             json["groupOrderStatus"] == null ? null : Status.fromJson(json["groupOrderStatus"]),
       );
@@ -149,7 +149,7 @@ class CommonField {
         "groupQueueId": groupQueueId == null ? null : groupQueueId,
         "payment": payment == null ? null : payment?.toJson(),
         "customerDetails": customerDetails == null ? null : customerDetails?.toJson(),
-        "orderCost": orderCost == null ? null : orderCost?.toJson(),
+        // "orderCost": orderCost == null ? null : orderCost?.toJson(),
         "groupOrderStatus": groupOrderStatus == null ? null : groupOrderStatus?.toJson(),
       };
 }

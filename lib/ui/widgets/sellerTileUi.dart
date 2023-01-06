@@ -435,8 +435,9 @@ class DesignerTileUi extends StatelessWidget {
                     Column(
                       children: [
                         FutureBuilder<Reviews?>(
+                          //! seller key null arhi
                           future: locator<APIService>()
-                              .getReviews(data.key!, isSellerReview: true),
+                              .getReviews(data.key ?? "ST2276", isSellerReview: true),
                           builder: (context, snapshot) => ((snapshot
                                           .connectionState ==
                                       ConnectionState.done) &&

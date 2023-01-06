@@ -4,11 +4,13 @@ import 'dart:convert';
 
 import 'package:compound/models/orderV2_response.dart';
 
+import '../constants/route_names.dart';
 import '../locator.dart';
 import '../models/groupOrderByGoupId.dart' as gId;
 import '../models/order.dart';
 import '../models/orderV2.dart';
 import '../services/api/api_service.dart';
+import '../services/navigation_service.dart';
 import '../services/payment_service.dart';
 import 'base_controller.dart';
 
@@ -60,32 +62,42 @@ class CartPaymentMethodController extends BaseController {
     final GroupOrderResponseModel? order = await _apiService.createGroupOrder(
         customerDetails: customerDetails, products: products, paymentOption: paymentOption);
     if (order != null) {
-    // if (order.payment!.option!.id != 2) {
-    //   setBusy(false);
-    //   return order;
-    // }
+      // if (order.payment!.option!.id != 2) {
+      //   setBusy(false);
+      //   return order;
+      // }
 
-    if (paymentOption != 2) {
-      setBusy(false);
-      return order;
-    }
+      if (paymentOption != 2) {
+        setBusy(false);
+        return order;
+      }
 
-    final gId.GroupOrderByGroupId? groupOrderbyId = await _apiService.getOrderbyGroupqueueid(groupQueueId: order.groupQueueId);
+      final gId.GroupOrderByGroupId? groupOrderbyId =
+          await _apiService.getOrderbyGroupqueueid(groupQueueId: order.groupQueueId);
 
-    if (groupOrderbyId != null) {
-      log("payment api called");
-      log("order id ${groupOrderbyId.orders!.first.commonField!.payment!.orderId!}");
-      log("receipt id ${groupOrderbyId.orders!.first.commonField!.payment!.receiptId!}");
-      // ? razorpay payment redirect
-      await _paymentService.makePayment(
-        amount: orderCost,
-        groupId: order.groupQueueId!,
-        contactNo: customerDetails.customerPhone!.mobile.toString(),
-        orderId: groupOrderbyId.orders![0].commonField!.payment!.orderId!,
-        receiptId: groupOrderbyId.orders![0].commonField!.payment!.receiptId!,
-        dzorOrderId: groupOrderbyId.orders![0].commonField!.payment!.orderId!,
-      );
-    }
+      for (var i = 0; i < (groupOrderbyId?.records ?? 0); i++ ){
+        if(groupOrderbyId?.orders?[i].statusFlow?.id == -1){
+          await NavigationService.off(
+            PaymentErrorScreenRoute,
+            arguments: "One of the items in cart is no longer available",
+          );
+        }
+      }
+      
+        if (groupOrderbyId != null) {
+          log("payment api called");
+          log("order id ${groupOrderbyId.orders!.first.commonField!.payment!.orderId!}");
+          log("receipt id ${groupOrderbyId.orders!.first.commonField!.payment!.receiptId!}");
+          // ? razorpay payment redirect
+          await _paymentService.makePayment(
+            amount: orderCost,
+            groupId: groupOrderbyId.orders![0].commonField!.groupQueueId!,
+            contactNo: customerDetails.customerPhone!.mobile.toString(),
+            orderId: groupOrderbyId.orders![0].commonField!.payment!.orderId!,
+            receiptId: groupOrderbyId.orders![0].commonField!.payment!.receiptId!,
+            dzorOrderId: groupOrderbyId.orders![0].commonField!.payment!.orderId!,
+          );
+        }
     }
     setBusy(false);
     return null;

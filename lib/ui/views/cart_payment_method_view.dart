@@ -699,7 +699,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                         "$rupeeUnicode${estimatedCost?.deliveryChargesList?[2].cost.toString() ?? 0}")
                                   ],
                                 ),
-                              if (estimatedCost!.deliveryChargesList!.length > 2)
+                              if (estimatedCost!.deliveryChargesList!.length > 3)
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
@@ -724,6 +724,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                 ),
                             ]),
                           )
+                      
                       ],
                     ),
                   ),

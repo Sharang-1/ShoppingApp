@@ -61,6 +61,8 @@ class Seller {
     this.subscriptionType,
     this.establishmentType,
     this.ratingAverage,
+    this.replacementPolicy,
+    this.returnPolicy,
   });
 
   String? documentId;
@@ -86,6 +88,11 @@ class Seller {
   Type? subscriptionType;
   Type? establishmentType;
   List<Product>? products;
+  // String? modified;
+  // bool? approved;
+  // bool? enabled;
+  Policy? replacementPolicy;
+  Policy? returnPolicy;
 
   factory Seller.fromJson(Map<String, dynamic> json) => Seller(
         documentId: json["documentId"],
@@ -110,6 +117,9 @@ class Seller {
         subscriptionTypeId: json["subscriptionTypeId"],
         subscriptionType: Type.fromJson(json["subscriptionType"]),
         establishmentType: Type.fromJson(json["establishmentType"]),
+        replacementPolicy:
+            json["replacementPolicy"] == null ? null : Policy.fromJson(json["replacementPolicy"]),
+        returnPolicy: json["returnPolicy"] == null ? null : Policy.fromJson(json["returnPolicy"]),
         ratingAverage: json["ratingAverage"] == null
             ? null
             : RatingAverage.fromJson(json["ratingAverage"]),
@@ -132,11 +142,39 @@ class Seller {
         "education": education == null ? null : education,
         "contact": contact?.toJson(),
         "timing": timing!.toJson(),
+        "replacementPolicy": replacementPolicy == null ? null : replacementPolicy?.toJson(),
+        "returnPolicy": returnPolicy == null ? null : returnPolicy?.toJson(),
+        
         "establishmentTypeId": establishmentTypeId,
         "subscriptionTypeId": subscriptionTypeId,
         "subscriptionType": subscriptionType!.toJson(),
         "ratingAverage": ratingAverage!.toJson(),
         "establishmentType": establishmentType!.toJson(),
+      };
+}
+
+
+class Policy {
+  Policy({
+    this.supported,
+    this.days,
+    this.note,
+  });
+
+  bool? supported;
+  int? days;
+  String? note;
+
+  factory Policy.fromJson(Map<String, dynamic> json) => Policy(
+        supported: json["supported"] == null ? null : json["supported"],
+        days: json["days"] == null ? null : json["days"],
+        note: json["note"] == null ? null : json["note"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "supported": supported == null ? null : supported,
+        "days": days == null ? null : days,
+        "note": note == null ? null : note,
       };
 }
 

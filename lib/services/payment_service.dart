@@ -58,10 +58,10 @@ class PaymentService {
         'receipt': receiptId,
         'name': appInfo?.payment.merchantName ?? name,
         'description': description,
-        'prefill': {
-          'contact': contactNo,
-          'email': email ?? (appInfo?.payment.email ?? "info@dzor.in")
-        },
+        // 'prefill': {
+        //   'contact': contactNo,
+        //   'email': email ?? (appInfo?.payment.email ?? "info@dzor.in")
+        // },
         'theme': {
           'color': '#bE505F',
         }
@@ -71,7 +71,7 @@ class PaymentService {
         log("Order Cost: $amount ${int.parse(amount.toStringAsFixed(2).replaceAll(".", ""))}");
 
       _razorpay?.on(Razorpay.EVENT_PAYMENT_SUCCESS, (PaymentSuccessResponse response) async {
-        if (kDebugMode) log("OrderId: " + response.orderId!);
+        // if (kDebugMode) log("OrderId: " + response.orderId!);
         if (kDebugMode) log("Payment Id: " + response.paymentId!);
         if (kDebugMode) log("Signature: " + response.signature!);
 
@@ -112,6 +112,7 @@ class PaymentService {
           arguments: OrderError.PAYMENT_ERROR,
         );
       });
+      
       _razorpay?.on(Razorpay.EVENT_EXTERNAL_WALLET, (ExternalWalletResponse response) {
         if (kDebugMode) log("RazorPay External Wallet: " + response.walletName!);
       });

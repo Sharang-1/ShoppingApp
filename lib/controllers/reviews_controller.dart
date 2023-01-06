@@ -22,7 +22,8 @@ class ReviewsController extends BaseController {
     super.onInit();
     if (id != null) {
       setBusy(true);
-      reviews = await _apiService.getReviews(id!, isSellerReview: isSeller);
+      //! seller with id not found
+      reviews = await _apiService.getReviews(id ?? "RC2276", isSellerReview: isSeller);
       setBusy(false);
       update();
     }

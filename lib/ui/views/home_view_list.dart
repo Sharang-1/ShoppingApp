@@ -124,16 +124,7 @@ class _HomeViewListState extends State<HomeViewList> {
                                   header: SectionHeader(
                                     title: "Amazing Products for you",
                                     subTitle: "Scroll right to see more",
-                                    // title: controller.remoteConfig!
-                                    //     .getString(HOMESCREEN_SECTION_2_TITLE_EN),
-                                    // subTitle: controller.remoteConfig!
-                                    //     .getString(HOMESCREEN_SECTION_2_SUBTITLE_EN),
-                                    // viewAll: () {
-                                    //   BaseController.goToProductListPage(ProductPageArg(
-                                    //     queryString: 'minDiscount=5;',
-                                    //     subCategory: '',
-                                    //   ));
-                                    // },
+                                    
                                   ),
                                 ),
                               ],
@@ -161,8 +152,6 @@ class _HomeViewListState extends State<HomeViewList> {
                                             bottom: 5,
                                             left: -80,
                                             child: Container(
-                                              // margin: EdgeInsets.symmetric(horizontal: 5),
-                                              // color: logoRed,
                                               height: 240,
                                               width: Get.width * 0.7,
 
@@ -176,8 +165,6 @@ class _HomeViewListState extends State<HomeViewList> {
                                             bottom: 60,
                                             right: -80,
                                             child: Container(
-                                              // margin: EdgeInsets.symmetric(horizontal: 5),
-                                              // color: logoRed,
                                               height: 200,
                                               width: Get.width * 0.7,
 

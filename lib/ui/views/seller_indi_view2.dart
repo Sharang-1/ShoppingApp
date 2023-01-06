@@ -19,6 +19,7 @@ import '../../controllers/grid_view_builder/products_grid_view_builder_controlle
 import '../../controllers/home_controller.dart';
 import '../../locator.dart';
 import '../../models/grid_view_builder_filter_models/productFilter.dart';
+import '../../models/newSellers.dart';
 import '../../models/productPageArg.dart';
 import '../../models/sellers.dart';
 import '../../services/analytics_service.dart';
@@ -149,19 +150,20 @@ class _SellerIndi2State extends State<SellerIndi2> {
       DESIGNER_DETAILS_KEY.tr: data.key ?? "",
       DESIGNER_DETAILS_NAME.tr: data.name ?? "",
       DESIGNER_DETAILS_TYPE.tr: data.establishmentType?.name?.toString() ?? "",
-      DESIGNER_DETAILS_RATTINGS.tr: data.ratingAverage?.rating?.toString() ?? "",
-      DESIGNER_DETAILS_LAT.tr: data.contact?.geoLocation?.latitude?.toString() ?? "",
-      DESIGNER_DETAILS_LON.tr: data.contact?.geoLocation?.longitude?.toString() ?? "",
+      // DESIGNER_DETAILS_RATTINGS.tr: data.ratingAverage?.rating?.toString() ?? "",
+      // DESIGNER_DETAILS_LAT.tr: data.contact?.geoLocation?.latitude?.toString() ?? "",
+      // DESIGNER_DETAILS_LON.tr: data.contact?.geoLocation?.longitude?.toString() ?? "",
       DESIGNER_DETAILS_APPOINTMENT.tr: "false",
       DESIGNER_DETAILS_ADDRESS.tr: data.contact?.address ?? "",
       DESIGNER_DETAILS_CITY.tr: data.contact?.city ?? "",
-      DESIGNER_SCREEN_SPECIALITY.tr: data.known ?? "",
-      DESIGNER_SCREEN_DESIGNES_CREATES.tr: data.designs ?? "",
-      DESIGNER_SCREEN_SERVICES_OFFERED.tr: data.operations ?? "",
-      DESIGNER_SCREEN_WORK_OFFERED.tr: data.works ?? "",
+      // DESIGNER_SCREEN_SPECIALITY.tr: data.known ?? "",
+      // DESIGNER_SCREEN_DESIGNES_CREATES.tr: data.designs ?? "",
+      // DESIGNER_SCREEN_SERVICES_OFFERED.tr: data.operations ?? "",
+      // DESIGNER_SCREEN_WORK_OFFERED.tr: data.works ?? "",
       DESIGNER_SCREEN_TYPE.tr: data.establishmentType?.name ??
           accountTypeValues.reverse[data.accountType ?? AccountType.SELLER]!,
-      DESIGNER_DETAILS_NOTE_FROM_DESIGNER.tr: data.bio ?? "",
+      DESIGNER_DETAILS_NOTE_FROM_DESIGNER.tr: data.intro ?? "",
+      // DESIGNER_DETAILS_NOTE_FROM_DESIGNER.tr: data.bio ?? "",
       DESIGNER_DETAILS_OWNER_NAME.tr: data.owner!.name ?? "",
     };
   }
@@ -235,7 +237,7 @@ class _SellerIndi2State extends State<SellerIndi2> {
 
     String designerProfilePicUrl = "$DESIGNER_PROFILE_PHOTO_BASE_URL/${sellerData.owner?.key}";
 
-    Timing _timing = sellerData.timing!;
+    // Timing _timing = sellerData.timing!;
 
     return Scaffold(
         backgroundColor: Colors.white,
@@ -421,20 +423,20 @@ class _SellerIndi2State extends State<SellerIndi2> {
                                       //   ],
                                       // ),
                                       verticalSpaceSmall,
-                                      ReadMoreText(
-                                        sellerData.intro ??
-                                            sellerDetails[DESIGNER_DETAILS_NOTE_FROM_DESIGNER.tr]!,
-                                        trimLines: ((sellerData.education == null) &&
-                                                (sellerData.designation == null))
-                                            ? 3
-                                            : 2,
-                                        colorClickableText: logoRed,
-                                        trimMode: TrimMode.Line,
-                                        style: TextStyle(
-                                          fontSize: headFont,
-                                          color: Colors.black54,
-                                        ),
-                                      ),
+                                      // ReadMoreText(
+                                      //   sellerData.intro ??
+                                      //       sellerDetails[DESIGNER_DETAILS_NOTE_FROM_DESIGNER.tr]!,
+                                      //   trimLines: ((sellerData.education == null) &&
+                                      //           (sellerData.designation == null))
+                                      //       ? 3
+                                      //       : 2,
+                                      //   colorClickableText: logoRed,
+                                      //   trimMode: TrimMode.Line,
+                                      //   style: TextStyle(
+                                      //     fontSize: headFont,
+                                      //     color: Colors.black54,
+                                      //   ),
+                                      // ),
                                       // verticalSpaceMedium,
                                       Spacer(),
                                       Row(
@@ -662,28 +664,25 @@ class _SellerIndi2State extends State<SellerIndi2> {
                                     fontSize: headFont,
                                     dotsAfterOverFlow: true,
                                   ),
-                                  if ((sellerData.education != null) ||
-                                      (sellerData.designation != null))
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: CustomText(
-                                            "${sellerData.education ?? ''} ${sellerData.designation ?? ''}",
-                                            fontSize: subHeadFont,
-                                            fontWeight: FontWeight.w400,
-                                            color: Colors.grey.shade600,
-                                            dotsAfterOverFlow: true,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                  // if ((sellerData.education != null) ||
+                                  //     (sellerData.designation != null))
+                                  //   Row(
+                                  //     children: [
+                                  //       Expanded(
+                                  //         child: CustomText(
+                                  //           "${sellerData.education ?? ''} ${sellerData.designation ?? ''}",
+                                  //           fontSize: subHeadFont,
+                                  //           fontWeight: FontWeight.w400,
+                                  //           color: Colors.grey.shade600,
+                                  //           dotsAfterOverFlow: true,
+                                  //         ),
+                                  //       ),
+                                  //     ],
+                                  //   ),
                                   ReadMoreText(
                                     sellerData.intro ??
                                         sellerDetails[DESIGNER_DETAILS_NOTE_FROM_DESIGNER.tr]!,
-                                    trimLines: ((sellerData.education == null) &&
-                                            (sellerData.designation == null))
-                                        ? 3
-                                        : 2,
+                                    trimLines: 2,
                                     colorClickableText: logoRed,
                                     trimMode: TrimMode.Line,
                                     style: TextStyle(

@@ -274,7 +274,7 @@ class _SellerIndiState extends State<SellerIndi> {
                       ),
                       onPressed: () {
                         BaseController.vibrate(duration: 50);
-                        _showBottomSheet(context, sellerDetails);
+                        // _showBottomSheet(context, sellerDetails);
                         if (sellerDetails[DESIGNER_DETAILS_APPOINTMENT.tr] != "true") {}
                       },
                       child: Container(
@@ -1026,23 +1026,23 @@ class _SellerIndiState extends State<SellerIndi> {
         ));
   }
 
-  void _showBottomSheet(context, sellerDetails) {
-    print("check this " + MediaQuery.of(context).size.height.toString());
-    showModalBottomSheet(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(curve30))),
-        isScrollControlled: true,
-        clipBehavior: Clip.antiAlias,
-        context: context,
-        builder: (context) {
-          return FractionallySizedBox(
-              heightFactor: 0.8,
-              child: SellerBottomSheetView(
-                sellerData: sellerData,
-                context: context,
-              ));
-        });
-  }
+  // void _showBottomSheet(context, sellerDetails) {
+  //   print("check this " + MediaQuery.of(context).size.height.toString());
+  //   showModalBottomSheet(
+  //       shape: RoundedRectangleBorder(
+  //           borderRadius: BorderRadius.vertical(top: Radius.circular(curve30))),
+  //       isScrollControlled: true,
+  //       clipBehavior: Clip.antiAlias,
+  //       context: context,
+  //       builder: (context) {
+  //         return FractionallySizedBox(
+  //             heightFactor: 0.8,
+  //             child: SellerBottomSheetView(
+  //               sellerData: sellerData,
+  //               context: context,
+  //             ));
+  //       });
+  // }
 
   Widget sectionDivider({double? thickness}) => Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),

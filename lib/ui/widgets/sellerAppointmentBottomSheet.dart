@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 
 import '../../constants/server_urls.dart';
 import '../../controllers/appointments_controller.dart';
+import '../../models/newSellers.dart';
 import '../../models/sellers.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';

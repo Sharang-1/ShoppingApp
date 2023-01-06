@@ -54,7 +54,8 @@ class ProductListView extends StatefulWidget {
 
 class _ProductListViewState extends State<ProductListView> {
   ProductFilter? filter;
-  String sellerKey = '';
+  //! seller key null arhi
+  String? sellerKey;
   Reviews? reviews;
   bool showRandomProducts = true;
   UniqueKey key = UniqueKey();
@@ -188,7 +189,7 @@ class _ProductListViewState extends State<ProductListView> {
               onTap: () async {
                 String link = (widget.promotionKey?.isNotEmpty ?? false)
                     ? (promotionLink + widget.promotionKey!)
-                    : (sellerLink + sellerKey);
+                    : (sellerLink + (sellerKey ?? "no_seller_key"));
                 await Share.share(
                   await _dynamicLinkService.createLink(link) ?? "",
                   sharePositionOrigin: Rect.fromCenter(
@@ -442,7 +443,7 @@ class _ProductListViewState extends State<ProductListView> {
               FutureBuilder<Reviews?>(
                 future: reviews == null
                     ? locator<APIService>().getReviews(
-                  sellerKey,
+                  sellerKey ?? "PL2276",
                   isSellerReview: true,
                 )
                     : Future.value(reviews),

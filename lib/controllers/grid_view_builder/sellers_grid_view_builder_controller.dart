@@ -122,7 +122,7 @@ class SellersGridViewBuilderController
       List<Seller> sellers = [];
       await Future.forEach<Seller>(res.items!, (e) async {
         Products? products = await _apiService.getProducts(
-            queryString: "startIndex=0;limit=3;accountKey=${e.key};");
+            queryString: "startIndex=0;limit=3;accountKey=${e.owner?.key};");
         if (!((products?.items?.length ?? 0) < 3)) {
           e.products = products!.items;
           sellers.add(e);
