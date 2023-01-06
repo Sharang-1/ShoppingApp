@@ -107,36 +107,36 @@ class BaseController extends GetxController {
   static Future<dynamic> goToSellerPage(String sellerId) async {
     Seller seller = await locator<APIService>().getSellerByID(sellerId);
     if (locator<HomeController>().isLoggedIn) {
-      if (seller.subscriptionTypeId == 2) {
-        return NavigationService.to(
-          ProductsListRoute,
-          arguments: ProductPageArg(
-            subCategory: seller.name,
-            queryString: "accountKey=$sellerId;",
-            sellerPhoto: "$SELLER_PHOTO_BASE_URL/$sellerId",
-          ),
-        );
-      } else {
+      // if (seller.subscriptionTypeId == 2) {
+      //   return NavigationService.to(
+      //     ProductsListRoute,
+      //     arguments: ProductPageArg(
+      //       subCategory: seller.name,
+      //       queryString: "accountKey=$sellerId;",
+      //       sellerPhoto: "$SELLER_PHOTO_BASE_URL/$sellerId",
+      //     ),
+      //   );
+      // } else {
         return NavigationService.to(SellerIndiViewRoute, arguments: seller);
-      }
+      // }
     } else {
-      if (seller.subscriptionTypeId == 2) {
-        await showLoginPopup(
-          nextView: ProductsListRoute,
-          shouldNavigateToNextScreen: true,
-          arguments: ProductPageArg(
-            subCategory: seller.name,
-            queryString: "accountKey=$sellerId;",
-            sellerPhoto: "$SELLER_PHOTO_BASE_URL/$sellerId",
-          ),
-        );
-      } else {
+      // if (seller.subscriptionTypeId == 2) {
+      //   await showLoginPopup(
+      //     nextView: ProductsListRoute,
+      //     shouldNavigateToNextScreen: true,
+      //     arguments: ProductPageArg(
+      //       subCategory: seller.name,
+      //       queryString: "accountKey=$sellerId;",
+      //       sellerPhoto: "$SELLER_PHOTO_BASE_URL/$sellerId",
+      //     ),
+      //   );
+      // } else {
         await showLoginPopup(
           nextView: SellerIndiViewRoute,
           shouldNavigateToNextScreen: true,
           arguments: seller,
         );
-      }
+      // }
     }
   }
 

@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:compound/ui/views/promotion_recieved_screen.dart';
@@ -120,6 +121,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
   String selectedColor = "";
   bool disabledAddToCartBtn = false;
   Product? productData;
+  Product? productInfo;
   bool showMoreFromDesigner = true;
   String? productName;
   String? productId;
@@ -146,6 +148,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
 
   @override
   void initState() {
+    getProductDetailInfo();
     productController = ProductController(
       widget.data.owner?.key,
       productId: widget.data.key!,
@@ -153,6 +156,14 @@ class _ProductIndiViewState extends State<ProductIndiView> {
     )..init();
     getPromotedProduct();
     super.initState();
+  }
+
+  getProductDetailInfo() async {
+    final prod = await APIService().getProductById(productId: widget.data.key!);
+    setState(() {
+      productInfo = prod;
+    });
+    log("hehehe ${prod?.seller?.key.toString()}");
   }
 
   @override
@@ -277,7 +288,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
             knowDesignerKey: knowDesignerKey as GlobalKey,
           );
         },
-        builder: (controller) => Scaffold(
+        builder: (controller) => productInfo == null ? Container() : Scaffold(
           backgroundColor: Colors.white,
           body: SafeArea(
             top: true,
@@ -391,7 +402,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                 "",
                                           );
                                           await controller.shareProductEvent(
-                                              productId: productId!, productName: productName ?? "Product");
+                                              productId: productId!,
+                                              productName: productName ?? "Product");
 
                                           showCustomDialog(context);
                                           // Future.delayed(Duration(seconds: 90), showCustomDialog(context));
@@ -423,7 +435,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                     width: MediaQuery.of(context).size.width * 0.8,
                                     child: productPriceInfo(
                                       productName: productData?.name,
-                                      designerName: productData?.seller?.name ?? "Hello" ,
+                                      designerName: productInfo?.seller?.name ?? "",
                                       productPrice: productPrice,
                                       actualPrice: (productData!.cost!.cost +
                                               productData!.cost!.convenienceCharges!.cost! +
@@ -526,7 +538,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                 ),
                                                 InkWell(
                                                   onTap: () {
-                                                    _showDialog(context, productData?.seller?.key,
+                                                    _showDialog(context, productInfo?.seller?.key,
                                                         productData?.category?.id ?? 1);
                                                   },
                                                   child: Text(
@@ -654,7 +666,6 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                 fontSize: subtitleFontSizeStyle - 2,
                                               ),
                                             ),
-                                            
                                           ],
                                         ),
                                       ),
@@ -854,7 +865,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                   children: [
                                     productPriceDetail2(
                                       productName: productData?.name,
-                                      designerName: productData!.seller?.name ?? "No Name",
+                                      designerName: productInfo!.seller?.name ?? "No Name",
                                       productPrice: productPrice,
                                       actualPrice: (productData!.cost!.cost +
                                               productData!.cost!.convenienceCharges!.cost! +
@@ -863,7 +874,6 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                       showPrice: (available!),
                                       isClothMeterial: (productData!.category!.id == 13),
                                     ),
-
 
                                     if (!widget.fromCart)
                                       GestureDetector(
@@ -1064,7 +1074,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                         child: FutureBuilder<Reviews?>(
                                           //! seller key null arhi
                                           future: locator<APIService>().getReviews(
-                                              productData?.account?.key ?? "PIView",
+                                              productInfo?.account?.key ?? "PIView",
                                               isSellerReview: true),
                                           builder: (context, snapshot) => ((snapshot
                                                           .connectionState ==
@@ -1153,7 +1163,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                               placeholder: AssetImage(
                                                                   "assets/images/user.png"),
                                                               image: NetworkImage(
-                                                                "$DESIGNER_PROFILE_PHOTO_BASE_URL/${productData?.owner?.key}",
+                                                                "$DESIGNER_PROFILE_PHOTO_BASE_URL/${productInfo?.owner?.key}",
                                                                 headers: {
                                                                   "Authorization":
                                                                       "Bearer ${locator<HomeController>().prefs?.getString(Authtoken) ?? ''}",
@@ -1182,7 +1192,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                             size: 10,
                                                           ),
                                                           CustomText(
-                                                              productData?.seller?.contact?.city ?? "Ahemdabad",
+                                                              productInfo?.seller?.contact?.city ??
+                                                                  "Ahemdabad",
                                                               fontSize: 10,
                                                               color: textIconBlue),
                                                         ],
@@ -1196,13 +1207,13 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                       mainAxisAlignment: MainAxisAlignment.center,
                                                       children: [
                                                         CustomText(
-                                                          "${productData?.seller?.owner?.name ?? "Seller Name"}",
+                                                          "${productInfo?.seller?.owner?.name ?? "Seller Name"}",
                                                           fontWeight: FontWeight.w500,
                                                           fontSize: titleFontSize,
                                                           dotsAfterOverFlow: true,
                                                         ),
                                                         CustomText(
-                                                          "(${productData?.seller?.name ?? 'Brand Name'})",
+                                                          "(${productInfo?.seller?.name ?? 'Brand Name'})",
                                                           fontWeight: FontWeight.w500,
                                                           fontSize: subtitleFontSize,
                                                           dotsAfterOverFlow: true,
@@ -1225,9 +1236,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                         //     ],
                                                         //   ),
                                                         ReadMoreText(
-                                                          productData?.seller?.intro ?? "",
-                                                          trimLines:
-                                                              2,
+                                                          productInfo?.seller?.bio ?? "",
+                                                          trimLines: 2,
                                                           colorClickableText: logoRed,
                                                           trimMode: TrimMode.Line,
                                                           style: TextStyle(
@@ -1383,11 +1393,10 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        
                         children: [
                           productPriceDetail(
                             productName: productData?.name,
-                            designerName: productData?.seller?.name ?? productData?.seller?.key ,
+                            designerName: productData?.seller?.name ?? productData?.seller?.key,
                             productPrice: productPrice,
                             actualPrice: (productData!.cost!.cost +
                                     productData!.cost!.convenienceCharges!.cost! +
@@ -1577,7 +1586,6 @@ class _ProductIndiViewState extends State<ProductIndiView> {
           showImageLabel: false,
           isSizeChart: true,
           loadingBuilder: (context, e) => ShimmerWidget(),
-         
           backgroundDecoration: BoxDecoration(color: Colors.white),
           appbarColor: Colors.white,
         ),
@@ -1597,18 +1605,19 @@ class _ProductIndiViewState extends State<ProductIndiView> {
   Future<void> goToSellerProfile(controller) async {
     if (locator<HomeController>().isLoggedIn) {
       //? Navigate to seller profile based on subscription type
-      if (productData?.seller?.subscriptionTypeId == 2) {
-        await NavigationService.to(
-          ProductsListRoute,
-          arguments: ProductPageArg(
-            subCategory: productData?.seller?.name,
-            queryString: "accountKey=${productData?.seller?.key};",
-            sellerPhoto: "$SELLER_PHOTO_BASE_URL/${productData?.seller?.key}",
-          ),
-        );
-      } else {
-        await NavigationService.to(SellerIndiViewRoute, arguments: productData?.seller);
-      }
+      // if (productData?.seller?.subscriptionTypeId == 2) {
+      //   await NavigationService.to(
+      //     ProductsListRoute,
+      //     arguments: ProductPageArg(
+      //       subCategory: productData?.seller?.name,
+      //       queryString: "accountKey=${productData?.seller?.key};",
+      //       sellerPhoto: "$SELLER_PHOTO_BASE_URL/${productData?.seller?.key}",
+      //     ),
+      //   );
+      // } else {
+      log(productInfo!.seller.toString());
+      await NavigationService.to(SellerIndiViewRoute, arguments: productInfo?.seller);
+      // }
     } else {
       await BaseController.showLoginPopup(
         nextView: SellerIndiViewRoute,
@@ -1654,7 +1663,6 @@ class _ProductIndiViewState extends State<ProductIndiView> {
             ],
           ),
         ),
-        
       ],
     );
   }

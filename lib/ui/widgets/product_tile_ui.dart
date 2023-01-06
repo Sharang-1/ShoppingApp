@@ -172,7 +172,7 @@ class _ProductTileUIState extends State<ProductTileUI> {
                               overflow: TextOverflow.ellipsis,
                               maxLines: 2,
                               style: TextStyle(
-                                fontSize: titleFontSize-1,
+                                fontSize: titleFontSize,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -218,16 +218,16 @@ class _ProductTileUIState extends State<ProductTileUI> {
                                 )
                         ],
                       ),
-                      Text(
-                        "By ${widget.data.seller?.name.toString() ?? 'No Name'}",
-                        overflow: TextOverflow.ellipsis,
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          fontSize: subtitleFontSize-2,
-                          fontWeight: FontWeight.normal,
-                          color: Colors.grey,
-                        ),
-                      ),
+                      // Text(
+                      //   "By ${widget.data.seller?.name.toString() ?? 'No Name'}",
+                      //   overflow: TextOverflow.ellipsis,
+                      //   textAlign: TextAlign.left,
+                      //   style: TextStyle(
+                      //     fontSize: subtitleFontSize-2,
+                      //     fontWeight: FontWeight.normal,
+                      //     color: Colors.grey,
+                      //   ),
+                      // ),
                       Row(
                         children: [
                           Padding(
@@ -239,7 +239,7 @@ class _ProductTileUIState extends State<ProductTileUI> {
                               style: TextStyle(
                                 color: lightGreen,
                                 fontWeight: FontWeight.bold,
-                                fontSize: priceFontSize,
+                                fontSize: priceFontSize + 3,
                               ),
                             ),
                           ),
@@ -253,7 +253,7 @@ class _ProductTileUIState extends State<ProductTileUI> {
                                 color: Colors.grey,
                                 decoration: TextDecoration.lineThrough,
                                 fontWeight: FontWeight.bold,
-                                fontSize: priceFontSize - 2,
+                                fontSize: priceFontSize ,
                               ),
                             ),
                         ],

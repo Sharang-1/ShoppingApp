@@ -318,16 +318,16 @@ class DesignerTileUi extends StatelessWidget {
       child: GestureDetector(
         onTap: () async {
           if (locator<HomeController>().isLoggedIn) {
-            if (data.subscriptionTypeId == 2)
-              return NavigationService.to(
-                ProductsListRoute,
-                arguments: ProductPageArg(
-                  subCategory: data.name,
-                  queryString: "accountKey=${data.key};",
-                  sellerPhoto: "$SELLER_PHOTO_BASE_URL/${data.key}",
-                ),
-              );
-            else
+            // if (data.subscriptionTypeId == 2)
+            //   return NavigationService.to(
+            //     ProductsListRoute,
+            //     arguments: ProductPageArg(
+            //       subCategory: data.name,
+            //       queryString: "accountKey=${data.key};",
+            //       sellerPhoto: "$SELLER_PHOTO_BASE_URL/${data.key}",
+            //     ),
+            //   );
+            // else
               return NavigationService.to(SellerIndiViewRoute, arguments: data);
           } else {
             await BaseController.showLoginPopup(

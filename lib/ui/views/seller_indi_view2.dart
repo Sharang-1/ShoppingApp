@@ -242,58 +242,10 @@ class _SellerIndi2State extends State<SellerIndi2> {
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: null,
-        // bottomNavigationBar: Container(
-        //   color: Colors.grey[200],
-        //   child: Padding(
-        //     padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom + 4.0, top: 4.0),
-        //     child: Container(
-        //       key: appointmentBtnKey,
-        //       color: Colors.grey[200],
-        //       padding: EdgeInsets.symmetric(
-        //         horizontal: 8,
-        //       ),
-        //       child: Row(
-        //         mainAxisAlignment: MainAxisAlignment.center,
-        //         children: [
-        //           if (widget.data.subscriptionType != null && widget.data.subscriptionType!.id != 3)
-        //             Expanded(
-        //               flex: 5,
-        //               child: ElevatedButton(
-        //                 style: ElevatedButton.styleFrom(
-        //                   elevation: 0,
-        //                   primary: logoRed,
-        //                   shape: RoundedRectangleBorder(
-        //                     borderRadius: BorderRadius.circular(5),
-        //                   ),
-        //                 ),
-        //                 onPressed: () async => await BaseController.goToProductListPage(ProductPageArg(
-        //                     subCategory: sellerDetails[DESIGNER_DETAILS_NAME.tr],
-        //                     queryString: "accountKey=${sellerDetails[DESIGNER_DETAILS_KEY.tr]};",
-        //                     sellerPhoto:
-        //                         "$SELLER_PHOTO_BASE_URL/${sellerDetails[DESIGNER_DETAILS_KEY.tr]}")),
-        //                 child: Container(
-        //                   padding: const EdgeInsets.symmetric(vertical: 12),
-        //                   child: CustomText(
-        //                     DESIGNER_EXPLORE_COLLECTION.tr,
-        //                     align: TextAlign.center,
-        //                     color: Colors.white,
-        //                     isBold: true,
-        //                     fontSize: 14,
-        //                   ),
-        //                 ),
-        //               ),
-        //             ),
-        //         ],
-        //       ),
-        //     ),
-        //   ),
-        // ),
+        
         body: SafeArea(
           child: SingleChildScrollView(
             child: Column(
-              // floatingWidget: ,
-              // floatingPosition: FloatingPosition(top: -22, right: 20),
-              // expandedHeight: 250.0,
               children: [
                 Stack(
                   children: [
@@ -355,7 +307,7 @@ class _SellerIndi2State extends State<SellerIndi2> {
                                     children: [
                                       verticalSpaceMedium,
                                       CustomText(
-                                        sellerDetails[DESIGNER_DETAILS_NAME.tr]!,
+                                        sellerDetails[DESIGNER_DETAILS_NAME.tr] ?? "Seller Name",
                                         textStyle: TextStyle(
                                           fontSize: headFont + 6,
                                           fontFamily: headingFont,
@@ -365,7 +317,7 @@ class _SellerIndi2State extends State<SellerIndi2> {
                                       ),
                                       // verticalSpaceTiny,
                                       CustomText(
-                                        "${sellerDetails[DESIGNER_SCREEN_SERVICES_OFFERED.tr]!} • ${sellerDetails[DESIGNER_DETAILS_TYPE.tr]!}",
+                                        "${sellerDetails[DESIGNER_DETAILS_TYPE.tr]}",
                                         fontSize: headFont - 2,
                                         fontWeight: FontWeight.w500,
                                         fontFamily: textFont,
@@ -387,7 +339,7 @@ class _SellerIndi2State extends State<SellerIndi2> {
                                               fit: BoxFit.scaleDown,
                                               alignment: Alignment.centerLeft,
                                               child: Text(
-                                                sellerDetails[DESIGNER_DETAILS_CITY.tr]!,
+                                                sellerDetails[DESIGNER_DETAILS_CITY.tr] ?? "Seller City",
                                                 overflow: TextOverflow.ellipsis,
                                                 textAlign: TextAlign.end,
                                                 style: TextStyle(
@@ -400,44 +352,21 @@ class _SellerIndi2State extends State<SellerIndi2> {
                                           ),
                                         ],
                                       ),
-                                      // Row(
-                                      //   children: [
-                                      //     Icon(
-                                      //       Icons.location_on,
-                                      //       color: logoRed,
-                                      //     ),
-                                      //     SizedBox(
-                                      //       width: 15,
-                                      //     ),
-                                      //     Container(
-                                      //       width: Get.width * 0.7,
-                                      //       child: Text(
-                                      //         sellerDetails[DESIGNER_DETAILS_ADDRESS.tr]!,
-                                      //         maxLines: 3,
-                                      //         style: TextStyle(
-                                      //           fontSize: subtitleFontSize,
-                                      //           color: Colors.grey,
-                                      //         ),
-                                      //       ),
-                                      //     ),
-                                      //   ],
-                                      // ),
+
+                                       ReadMoreText(
+                                        "${sellerData.bio ?? 'Seller bio'}",
+                                        // "${sellerDetails[DESIGNER_SCREEN_DESIGNES_CREATES.tr]} • ${sellerDetails[DESIGNER_SCREEN_SPECIALITY.tr]} • ${sellerDetails[DESIGNER_SCREEN_WORK_OFFERED.tr]}",
+                                        trimLines: 2,
+                                        colorClickableText: logoRed,
+                                        trimMode: TrimMode.Line,
+                                        style: TextStyle(
+                                          fontSize: headFont - 2,
+                                          color: Colors.black54,
+                                        ),
+                                      ),
+                                      
                                       verticalSpaceSmall,
-                                      // ReadMoreText(
-                                      //   sellerData.intro ??
-                                      //       sellerDetails[DESIGNER_DETAILS_NOTE_FROM_DESIGNER.tr]!,
-                                      //   trimLines: ((sellerData.education == null) &&
-                                      //           (sellerData.designation == null))
-                                      //       ? 3
-                                      //       : 2,
-                                      //   colorClickableText: logoRed,
-                                      //   trimMode: TrimMode.Line,
-                                      //   style: TextStyle(
-                                      //     fontSize: headFont,
-                                      //     color: Colors.black54,
-                                      //   ),
-                                      // ),
-                                      // verticalSpaceMedium,
+                                      
                                       Spacer(),
                                       Row(
                                         children: [

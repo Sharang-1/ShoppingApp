@@ -10,6 +10,7 @@ import '../../controllers/home_controller.dart';
 import '../../controllers/wishlist_controller.dart';
 import '../../locator.dart';
 import '../../models/products.dart';
+import '../../services/api/api_service.dart';
 import '../../services/wishlist_service.dart';
 import '../../utils/stringUtils.dart';
 import '../shared/app_colors.dart';
@@ -41,13 +42,22 @@ class _ProductTileUI3State extends State<ProductTileUI3> {
   final WishListService _wishListService = locator<WishListService>();
   bool toggle = false;
   bool isWishlistIconFilled = false;
+  Product? productInfo;
 
   @override
   void initState() {
     super.initState();
+    getProductDetailInfo();
     setState(() {
       isWishlistIconFilled =
           locator<WishListController>().list.indexOf(widget.data.key ?? "") != -1;
+    });
+  }
+
+  getProductDetailInfo() async {
+    final prod = await APIService().getProductById(productId: widget.data.key!);
+    setState(() {
+      productInfo = prod;
     });
   }
 
@@ -244,7 +254,7 @@ class _ProductTileUI3State extends State<ProductTileUI3> {
                   // verticalSpaceTiny,
 
                   Text(
-                    "By ${widget.data.seller?.name.toString() ?? 'Anonymous seller'}",
+                    "By ${productInfo?.seller?.name.toString() ?? 'Anonymous seller'}",
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.left,
@@ -285,7 +295,6 @@ class _ProductTileUI3State extends State<ProductTileUI3> {
                     ],
                   ),
                   verticalSpaceTiny,
-
                   Text(
                     widget.data.description.toString(),
                     maxLines: 1,

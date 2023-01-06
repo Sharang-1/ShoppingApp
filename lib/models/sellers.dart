@@ -39,7 +39,7 @@ class Sellers {
 
 class Seller {
   Seller({
-    this.documentId,
+    // this.documentId,
     this.key,
     this.accountType,
     this.photo,
@@ -65,7 +65,7 @@ class Seller {
     this.returnPolicy,
   });
 
-  String? documentId;
+  // String? documentId;
   String? key;
   RatingAverage? ratingAverage;
   AccountType? accountType;
@@ -95,7 +95,7 @@ class Seller {
   Policy? returnPolicy;
 
   factory Seller.fromJson(Map<String, dynamic> json) => Seller(
-        documentId: json["documentId"],
+        // documentId: json["documentId"] == null ? null : json['documentId'],
         key: json["key"],
         accountType: accountTypeValues.map![json["accountType"]],
         photo: json["photo"] == null ? null : Photo.fromMap(json["photo"]),
@@ -111,7 +111,7 @@ class Seller {
         education: json["education"] == null ? null : json["education"],
         contact:
             json["contact"] == null ? null : Contact.fromJson(json["contact"]),
-        owner: json["owner"] == null ? null : Owner.fromJson(json["owner"]),
+        owner: Owner.fromJson(json["owner"]),
         timing: json["timing"] == null ? null : Timing.fromJson(json["timing"]),
         establishmentTypeId: json["establishmentTypeId"],
         subscriptionTypeId: json["subscriptionTypeId"],
@@ -126,7 +126,7 @@ class Seller {
       );
 
   Map<String, dynamic> toJson() => {
-        "documentId": documentId,
+        // "documentId": documentId == null ? null : documentId,
         "key": key,
         "accountType": accountTypeValues.reverse[accountType],
         "photo": photo!.toMap(),
@@ -144,12 +144,12 @@ class Seller {
         "timing": timing!.toJson(),
         "replacementPolicy": replacementPolicy == null ? null : replacementPolicy?.toJson(),
         "returnPolicy": returnPolicy == null ? null : returnPolicy?.toJson(),
-        
+        "owner" : owner?.toJson(),
         "establishmentTypeId": establishmentTypeId,
         "subscriptionTypeId": subscriptionTypeId,
-        "subscriptionType": subscriptionType!.toJson(),
-        "ratingAverage": ratingAverage!.toJson(),
-        "establishmentType": establishmentType!.toJson(),
+        "subscriptionType": subscriptionType?.toJson(),
+        "ratingAverage": ratingAverage?.toJson(),
+        "establishmentType": establishmentType?.toJson(),
       };
 }
 
