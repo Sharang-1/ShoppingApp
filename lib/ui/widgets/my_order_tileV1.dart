@@ -1,4 +1,3 @@
-import 'package:compound/models/ordersV2.dart';
 import 'package:compound/ui/shared/app_colors.dart';
 import 'package:compound/ui/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
@@ -7,23 +6,25 @@ import 'package:get/get.dart';
 import '../../constants/server_urls.dart';
 import '../../controllers/home_controller.dart';
 import '../../locator.dart';
+import '../../models/orders.dart';
 import '../../models/products.dart';
 import '../../services/analytics_service.dart';
 import '../../services/api/api_service.dart';
 import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
 import '../views/myorders_details_view.dart';
+import '../views/myorders_details_viewV1.dart';
 import 'shimmer/my_orders_shimmer.dart';
 
-class OrderTileDetail extends StatefulWidget {
+class OrderTileDetailV1 extends StatefulWidget {
   final Order order;
-  const OrderTileDetail({Key? key, required this.order}) : super(key: key);
+  const OrderTileDetailV1({Key? key, required this.order}) : super(key: key);
 
   @override
-  State<OrderTileDetail> createState() => _OrderTileDetailState();
+  State<OrderTileDetailV1> createState() => _OrderTileDetailV1State();
 }
 
-class _OrderTileDetailState extends State<OrderTileDetail> {
+class _OrderTileDetailV1State extends State<OrderTileDetailV1> {
   final AnalyticsService _analyticsService = locator<AnalyticsService>();
   bool isLoading = true;
   Product? productDetail;
@@ -103,6 +104,7 @@ class _OrderTileDetailState extends State<OrderTileDetail> {
                         verticalSpaceSmall,
                         //order placed on date time
                         Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               widget.order.status!.state ?? "",
@@ -214,7 +216,7 @@ class _OrderTileDetailState extends State<OrderTileDetail> {
               Navigator.push(
                 context,
                 new MaterialPageRoute(
-                  builder: (context) => MyOrdersDetailsView(widget.order),
+                  builder: (context) => MyOrdersDetailsViewV1(widget.order),
                 ),
               );
             },

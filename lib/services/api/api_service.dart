@@ -227,7 +227,7 @@ class APIService {
         data: payLoadJson);
     if (kDebugMode) print("response data");
     if (kDebugMode) print(response);
-    log(response.toString());
+    // log(response.toString());
 
     if (response != null) {
       final costEstimate = CostEstimateModel.fromJson(response);
@@ -256,7 +256,7 @@ class APIService {
           }
         };
         var orderJson = jsonEncode(orderBody);
-        log("order body ${orderJson.toString()}");
+        // log("order body ${orderJson.toString()}");
 
         if (kDebugMode) print("--------- api testing ----------");
 
@@ -296,7 +296,7 @@ class APIService {
     if (json != null) {
       return GroupOrderResponseModel.fromJson(json);
     }
-    log("group order status ${json.toString()}");
+    // log("group order status ${json.toString()}");
     return null;
   }
 
@@ -485,17 +485,17 @@ class APIService {
       ]
     };
     try {
-      var response = GroupOrderByGroupId.fromJson(jsonb);
+      var response = GroupOrderByGroupId.fromJson(json);
 
-      log(json.toString());
+      // log(json.toString());
 
-      // var jsonc = await apiWrapper("v2/orders/${response.orders?.first.key}") as Map<String, dynamic>;
-      //   log(jsonc.toString());
+      // // var jsonc = await apiWrapper("v2/orders/${response.orders?.first.key}") as Map<String, dynamic>;
+      // //   log(jsonc.toString());
 
-      log("order len in api : ${response.orders?.length}");
-      log("order grpid in api : ${response.orders?.first.groupId}");
-      log("order cost in api : ${response.orders?.first.itemCost?.cost}");
-      log("order id in api : ${response.orders?.first.commonField?.payment?.orderId}");
+      // log("order len in api : ${response.orders?.length}");
+      // log("order grpid in api : ${response.orders?.first.groupId}");
+      // log("order cost in api : ${response.orders?.first.itemCost?.cost}");
+      // log("order id in api : ${response.orders?.first.commonField?.payment?.orderId}");
       return response;
     } catch (e) {
       print(e.toString());
@@ -524,7 +524,6 @@ class APIService {
       try {
         locator<CacheService>().addReviews(key, mReviews, isSeller: isSellerReview);
       } finally {}
-      log("reviews here $key $isSellerReview ${mReviews.toString()}");
       return mReviews;
     }
     return null;
@@ -552,7 +551,6 @@ class APIService {
     if (productData != null) {
       Products products = Products.fromJson(productData);
       Fimber.d("products : " + products.items!.map((o) => o.name).toString());
-      // log("product data $productData");
       return products;
     }
     return null;
@@ -574,7 +572,6 @@ class APIService {
         ? await apiWrapper("products/$productId;seller=true;active=true;promocode=true")
         : await apiWrapper("products/$productId;seller=true;active=true");
     if (productData == null) return null;
-    log(productData.toString());
     Product product = Product.fromJson(productData);
     return product;
   }
@@ -695,9 +692,7 @@ class APIService {
     if (cartData != null) {
       try {
         CartModule.Cart cart = CartModule.Cart.fromJson(cartData);
-        log("qwerty");
         Fimber.d("Cart : " + cart.items!.map((o) => o.productId).toString());
-        log("yuiop");
 
         final list = cart.items!.map((e) => e.productId.toString()).toList();
         return list;
@@ -879,7 +874,6 @@ class APIService {
             "${b.created!.substring(6, 10)}${b.created!.substring(3, 5)}${b.created!.substring(0, 2)}");
         return bDateTime.compareTo(aDateTime);
       });
-      log(ordersData.toString());
       return orders;
     }
     return null;
@@ -896,7 +890,6 @@ class APIService {
             "${b.created!.substring(6, 10)}${b.created!.substring(3, 5)}${b.created!.substring(0, 2)}");
         return bDateTime.compareTo(aDateTime);
       });
-      // log(ordersData.toString());
       return orders;
     }
     return null;

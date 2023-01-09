@@ -1,3 +1,4 @@
+import 'package:compound/ui/widgets/my_order_tileV1.dart';
 import 'package:compound/ui/widgets/my_order_tile_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -7,6 +8,7 @@ import 'package:intl/intl.dart';
 import '../../constants/server_urls.dart';
 import '../../controllers/home_controller.dart';
 import '../../locator.dart';
+import '../../models/orders.dart';
 import '../../models/ordersV2.dart';
 import '../../models/products.dart';
 import '../../services/analytics_service.dart';
@@ -30,6 +32,21 @@ class MyOrdersTile extends StatefulWidget {
 class MyordersTileState extends State<MyOrdersTile> {
   final AnalyticsService _analyticsService = locator<AnalyticsService>();
 
+  Orders? v1Orders;
+
+  @override
+  void initState() {
+    getV1Orders();
+    super.initState();
+  }
+
+  getV1Orders() async {
+    Orders? res = await APIService().getAllOrdersV1();
+    setState(() {
+      v1Orders = res;
+    });
+  }
+
   Widget build(BuildContext context) {
     List<Widget> myOrderShimmerEffect() => List<Widget>.generate(5, (index) => MyOrdersShimmer());
     return SingleChildScrollView(
@@ -44,9 +61,36 @@ class MyordersTileState extends State<MyOrdersTile> {
               ListView.builder(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
-                itemCount : widget.controller.mOrders.orders.length,
+                itemCount: widget.controller.mOrders.orders.length,
                 itemBuilder: (context, index) {
                   return OrderTileDetail(order: widget.controller.mOrders.orders[index]);
+                },
+              ),
+
+            if (v1Orders != null)
+              Column(
+                children: [
+                  verticalSpaceSmall,
+                  Divider(color : Colors.black45,),
+                  verticalSpaceTiny,
+                  Text(
+                    "Previous Orders",
+                    style: TextStyle(
+                      color: Colors.black54,
+                      fontSize: titleFontSize + 5,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  verticalSpaceTiny,
+                ],
+              ),
+            if (v1Orders != null)
+              ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: v1Orders!.orders!.length,
+                itemBuilder: (context, index) {
+                  return OrderTileDetailV1(order: v1Orders!.orders![index]);
                 },
               ),
             // GroupedListView(
