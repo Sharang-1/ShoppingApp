@@ -62,7 +62,7 @@ class ProductDescriptionTable extends StatelessWidget {
           return Table(
             children: [
               // divider
-              if ((product.art?.length ?? 0) > 0)
+              if (((product.art?.length ?? 0) > 0) && product.art!.trim() != "N/A")
                 getProductDetailsRow("Art", product.art),
               // divider,
               if (product.fabricDetails != null && product.fabricDetails != "" && product.fabricDetails!.trim() != 'N/A')
@@ -71,10 +71,10 @@ class ProductDescriptionTable extends StatelessWidget {
                   product.fabricDetails,
                 ),
               // divider
-              if ((product.weaveType?.length ?? 0) > 0)
+              if (((product.weaveType?.length ?? 0) > 0) && product.weaveType!.trim() != 'N/A')
                 getProductDetailsRow("Weave Type", product.weaveType),
               // divider,
-              if (product.pricePerMeter != null && product.pricePerMeter != 0)
+              if (product.pricePerMeter != null && product.pricePerMeter != 0 )
                 getProductDetailsRow(
                     "Price Per Meter", product.pricePerMeter?.toString()),
               // divider,
@@ -121,13 +121,13 @@ class ProductDescriptionTable extends StatelessWidget {
                   product.style,
                 ),
               // divider
-              if ((product.bottomStyle?.length ?? 0) > 0)
+              if ((product.bottomStyle?.length ?? 0) > 0 && product.bottomStyle!.trim() != 'N/A')
                 getProductDetailsRow("Bottom Style", product.bottomStyle),
               // divider
-              if ((product.fittingType?.length ?? 0) > 0)
+              if ((product.fittingType?.length ?? 0) > 0 && product.fittingType!.trim() != 'N/A')
                 getProductDetailsRow("Fitting Type", product.fittingType),
               // divider
-              if ((product.riseStyle?.length ?? 0) > 0)
+              if ((product.riseStyle?.length ?? 0) > 0 && product.riseStyle!.trim() != 'N/A')
                 getProductDetailsRow("Rise Style", product.riseStyle),
               // divider,
               if (product.flair != null && product.flair != 0)
@@ -177,7 +177,7 @@ class ProductDescriptionTable extends StatelessWidget {
                   product.backCut,
                 ),
               // divider
-              if ((product.closureType?.length ?? 0) > 0)
+              if ((product.closureType?.length ?? 0) > 0 && product.closureType!.trim() != 'N/A')
                 getProductDetailsRow("ClosureType", product.closureType),
               // divider,
               if ((product.washing != null) && (product.washing != '') && product.washing!.trim() != "N/A")

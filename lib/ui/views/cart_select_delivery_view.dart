@@ -1,13 +1,19 @@
+import 'package:compound/app/groupOrderData.dart';
 import 'package:compound/controllers/home_controller.dart';
+import 'package:compound/models/groupOrderModel.dart';
 import 'package:compound/models/orderV2.dart';
+import 'package:compound/services/api/api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import '../../constants/route_names.dart';
+import '../../controllers/cart_count_controller.dart';
 import '../../controllers/cart_select_delivery_controller.dart';
 import '../../locator.dart';
 import '../../models/user_details.dart';
+import '../../services/navigation_service.dart';
 import '../../utils/lang/translation_keys.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
@@ -18,9 +24,9 @@ import 'address_input_form_view.dart';
 import 'cart_payment_method_view.dart';
 
 class SelectAddress extends StatefulWidget {
-  final List<dynamic> products;
-  final List<dynamic>? estimateItems;
-  final List<dynamic>? sellers;
+  final List<GroupOrderModel> products;
+  final List<GroupOrderCostEstimateModel>? estimateItems;
+  final List<String>? sellers;
   final double? payTotal;
 
   const SelectAddress({
@@ -220,6 +226,8 @@ class _SelectAddressState extends State<SelectAddress> {
                                     onChanged: (val) async {
                                       setState(
                                         () {
+                          addressField = index;
+
                                           addressGrpValue = addressRadioValue = address;
                                           disabledPayment = false;
                                         },
@@ -247,7 +255,6 @@ class _SelectAddressState extends State<SelectAddress> {
                                             ),
                                           ],
                                         ),
-                                       
                                       ],
                                     ),
                                   ),
@@ -311,29 +318,52 @@ class _SelectAddressState extends State<SelectAddress> {
   }
 
   Future<void> makePayment(controller) async {
-    
-    Navigator.push(
-      context,
-      PageTransition(
-          child: PaymentMethod(
-            products: widget.products,
-            finalTotal: widget.payTotal,
-            customerDetails: CustomerDetails(
-              address: controller.addresses[addressField].address.toString(),
-              pincode: controller.addresses[addressField].pincode,
-              city: controller.addresses[addressField].city,
-              state: controller.addresses[addressField].state,
-              country: "India",
-              name: locator<HomeController>().details!.name,
-              customerId: locator<HomeController>().details!.key.toString(),
-              customerPhone: CustomerPhone(
-                code: locator<HomeController>().details!.contact!.phone!.code,
-                mobile: locator<HomeController>().details!.contact!.phone!.mobile,
+    bool success = true;
+    List<String> failedItems = [];
+
+    for (var i = 0 ; i < GroupOrderData.cartProducts.length; i++) {
+      var val = await APIService().getProductById(productId: GroupOrderData.cartProducts[i].productId!);
+      if (val != null && widget.products[i].productId! == val.key) {
+        if (val.available == false || val.enabled == false) {
+          success = false;
+          failedItems.add(GroupOrderData.cartProducts[i].productId!);
+          
+          await controller.removeFromCartLocalStore(GroupOrderData.cartProducts[i].productId!);
+          locator<CartCountController>().decrementCartCount();
+          
+        }
+      }
+    }
+
+    if (success == true) {
+      Navigator.push(
+        context,
+        PageTransition(
+            child: PaymentMethod(
+              products: widget.products,
+              finalTotal: widget.payTotal,
+              customerDetails: CustomerDetails(
+                address: controller.addresses[addressField].address.toString(),
+                pincode: controller.addresses[addressField].pincode,
+                city: controller.addresses[addressField].city,
+                state: controller.addresses[addressField].state,
+                country: "India",
+                name: locator<HomeController>().details!.name,
+                customerId: locator<HomeController>().details!.key.toString(),
+                customerPhone: CustomerPhone(
+                  code: locator<HomeController>().details!.contact!.phone!.code,
+                  mobile: locator<HomeController>().details!.contact!.phone!.mobile,
+                ),
+                email: _emailcontroller.text.trim(),
               ),
-              email: _emailcontroller.text.trim(),
             ),
-          ),
-          type: PageTransitionType.rightToLeft),
-    );
+            type: PageTransitionType.rightToLeft),
+      );
+    }else{
+      await NavigationService.off(
+        OrderFailedItemUnavailableScreenRoute,
+        arguments: failedItems,
+      );
+    }
   }
 }

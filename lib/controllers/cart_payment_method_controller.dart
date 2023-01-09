@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:convert';
 
 import 'package:compound/models/orderV2_response.dart';
+import 'package:compound/ui/views/order_item_unavailable_error.dart';
 
 import '../constants/route_names.dart';
 import '../locator.dart';
@@ -75,29 +76,38 @@ class CartPaymentMethodController extends BaseController {
       final gId.GroupOrderByGroupId? groupOrderbyId =
           await _apiService.getOrderbyGroupqueueid(groupQueueId: order.groupQueueId);
 
-      for (var i = 0; i < (groupOrderbyId?.records ?? 0); i++ ){
-        if(groupOrderbyId?.orders?[i].statusFlow?.id == -1){
-          await NavigationService.off(
-            PaymentErrorScreenRoute,
-            arguments: "One of the items in cart is no longer available",
-          );
+      bool success = true;
+      List<String> failedId = [];
+
+      for (var i = 0; i < (groupOrderbyId?.records ?? 0); i++) {
+        if (groupOrderbyId?.orders?[i].statusFlow?.id == -1) {
+          success = false;
+          failedId.add(groupOrderbyId!.orders![i].productId!.toString());
         }
       }
-      
-        if (groupOrderbyId != null) {
-          log("payment api called");
-          log("order id ${groupOrderbyId.orders!.first.commonField!.payment!.orderId!}");
-          log("receipt id ${groupOrderbyId.orders!.first.commonField!.payment!.receiptId!}");
-          // ? razorpay payment redirect
-          await _paymentService.makePayment(
-            amount: orderCost,
-            groupId: groupOrderbyId.orders![0].commonField!.groupQueueId!,
-            contactNo: customerDetails.customerPhone!.mobile.toString(),
-            orderId: groupOrderbyId.orders![0].commonField!.payment!.orderId!,
-            receiptId: groupOrderbyId.orders![0].commonField!.payment!.receiptId!,
-            dzorOrderId: groupOrderbyId.orders![0].commonField!.payment!.orderId!,
-          );
-        }
+
+      if(success == false){
+        await NavigationService.off(
+          OrderFailedItemUnavailableScreenRoute,
+          arguments: failedId,
+        );
+      }else{
+
+      if (groupOrderbyId != null) {
+        log("payment api called");
+        log("order id ${groupOrderbyId.orders!.first.commonField!.payment!.orderId!}");
+        log("receipt id ${groupOrderbyId.orders!.first.commonField!.payment!.receiptId!}");
+        // ? razorpay payment redirect
+        await _paymentService.makePayment(
+          amount: orderCost,
+          groupId: groupOrderbyId.orders![0].commonField!.groupQueueId!,
+          contactNo: customerDetails.customerPhone!.mobile.toString(),
+          orderId: groupOrderbyId.orders![0].commonField!.payment!.orderId!,
+          receiptId: groupOrderbyId.orders![0].commonField!.payment!.receiptId!,
+          dzorOrderId: groupOrderbyId.orders![0].commonField!.payment!.orderId!,
+        );
+      }
+    }
     }
     setBusy(false);
     return null;

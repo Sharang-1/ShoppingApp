@@ -269,6 +269,7 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                     ),
                                   ),
                                   verticalSpace(20),
+                                  if (!([6, 8, 9, 10, 11, 12].contains(mOrder.status?.id ?? -1)))
                                   Container(
                                     padding: EdgeInsets.all(10),
                                     decoration: BoxDecoration(
@@ -276,8 +277,6 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                     ),
                                     child: Column(
                                       children: [
-                                        if (!([6, 8, 9, 10, 11, 12]
-                                            .contains(mOrder.status?.id ?? -1)))
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: <Widget>[
@@ -579,7 +578,7 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: <Widget>[
                                             CustomText(
-                                              "Sub Total",
+                                              "Total",
                                               fontSize: subtitleFontSize - 1,
                                               color: Colors.grey,
                                               isBold: true,
@@ -611,24 +610,24 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                           ],
                                         ),
                                         // todo : add delivery cost
-                                        verticalSpaceSmall,
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: <Widget>[
-                                            CustomText(
-                                              "Shipping Charge",
-                                              isBold: true,
-                                              fontSize: subtitleFontSize - 1,
-                                              color: Colors.grey,
-                                            ),
-                                            CustomText(
-                                              "$rupeeUnicode${(mOrder.commonField!.orderCost!.cost! - mOrder.itemCost!.gstCharges!.cost! - mOrder.itemCost!.cost!).toStringAsFixed(0)}",
-                                              color: green,
-                                              fontSize: subtitleFontSize - 1,
-                                              isBold: true,
-                                            ),
-                                          ],
-                                        ),
+                                        // verticalSpaceSmall,
+                                        // Row(
+                                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        //   children: <Widget>[
+                                        //     CustomText(
+                                        //       "Shipping Charge",
+                                        //       isBold: true,
+                                        //       fontSize: subtitleFontSize - 1,
+                                        //       color: Colors.grey,
+                                        //     ),
+                                        //     CustomText(
+                                        //       "$rupeeUnicode${(mOrder.commonField!.orderCost!.cost! - mOrder.itemCost!.gstCharges!.cost! - mOrder.itemCost!.cost!).toStringAsFixed(0)}",
+                                        //       color: green,
+                                        //       fontSize: subtitleFontSize - 1,
+                                        //       isBold: true,
+                                        //     ),
+                                        //   ],
+                                        // ),
                                         verticalSpaceSmall,
                                         Divider(
                                           color: Colors.grey[300],
@@ -638,13 +637,13 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: <Widget>[
                                             CustomText(
-                                              "Total",
+                                              "Sub Total",
                                               fontSize: titleFontSize + 2,
                                               isBold: true,
                                               color: Colors.black,
                                             ),
                                             CustomText(
-                                              '$rupeeUnicode${mOrder.commonField?.orderCost?.cost}',
+                                              '$rupeeUnicode${(mOrder.itemCost?.cost ?? 0)  + (mOrder.itemCost?.gstCharges?.cost ?? 0)}',
                                               color: logoRed,
                                               fontSize: titleFontSize + 2,
                                               isBold: true,

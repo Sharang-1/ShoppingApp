@@ -100,7 +100,7 @@ class _OrderTileDetailState extends State<OrderTileDetail> {
                           dotsAfterOverFlow: true,
                           fontSize: titleFontSize + 2,
                         ),
-                        verticalSpaceTiny,
+                        verticalSpaceSmall,
                         //order placed on date time
                         Row(
                           children: [
@@ -137,14 +137,14 @@ class _OrderTileDetailState extends State<OrderTileDetail> {
                             ),
                           ],
                         ),
-                        verticalSpaceTiny,
-                        CustomText(
-                          "$rupeeUnicode${widget.order.commonField?.orderCost?.cost.toString()}",
-                          dotsAfterOverFlow: true,
-                          fontSize: titleFontSize + 2,
-                          isBold: true,
-                          color: Colors.black54,
-                        ),
+                        // verticalSpaceTiny,
+                        // CustomText(
+                        //   "$rupeeUnicode${widget.order.commonField?.orderCost?.cost.toString()}",
+                        //   dotsAfterOverFlow: true,
+                        //   fontSize: titleFontSize + 2,
+                        //   isBold: true,
+                        //   color: Colors.black54,
+                        // ),
                         // Column(
                         //   // mainAxisAlignment: MainAxisAlignment.spaceAround,
                         //   crossAxisAlignment: CrossAxisAlignment.start,

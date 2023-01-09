@@ -301,7 +301,7 @@ class APIService {
   }
 
   Future<GroupOrderByGroupId?> getOrderbyGroupqueueid({String? groupQueueId}) async {
-    // var json = await apiWrapper("v2/orders;groupId=$groupQueueId") as Map<String, dynamic>;
+    var json = await apiWrapper("v2/orders;groupId=$groupQueueId") as Map<String, dynamic>;
 
     var jsonb = {
       "records": 2,
@@ -309,10 +309,10 @@ class APIService {
       "limit": 100,
       "orders": [
         {
-          "key": "94097827",
+          "key": "94345697",
           "enabled": true,
-          "created": "06-01-2023 01:36:15",
-          "modified": "06-01-2023 01:36:15",
+          "created": "10-01-2023 00:01:23",
+          "modified": "10-01-2023 00:01:23",
           "version": "V2",
           "itemCost": {
             "productPrice": 1500.0,
@@ -322,36 +322,36 @@ class APIService {
             "costForSeller": 1500.0,
             "note": "Product price 1500.0 + 180.0 GST (12.0%)"
           },
-          "sellerId": "93620397",
-          "productId": "93620730",
-          "shipment": {"days": 2},
-          "variation": {"size": "N/A", "quantity": 1, "color": "red"},
-          "deliveryDate": "08-01-2023 01:36:15",
-          "queueId": "47997aba-8eff-4850-97bc-d082029fffc5",
+          "sellerId": "93933633",
+          "productId": "93933848",
+          "shipment": {"days": 5},
+          "variation": {"size": "XL", "quantity": 1, "color": "red"},
+          "deliveryDate": "15-01-2023 00:01:23",
+          "queueId": "149aad80-298a-4c4f-84f3-0fd33bce14e0",
           "singleItem": true,
-          "groupId": "38fcf698-ccf8-4139-8f22-220c0ed8d1af",
+          "groupId": "976e2375-d4de-4d62-8096-3ece915104a0",
           "status": {
             "id": 0,
-            "created": "06-01-2023 01:36:15",
-            "modified": "06-01-2023 01:36:15",
+            "created": "10-01-2023 00:01:23",
+            "modified": "10-01-2023 00:01:23",
             "ownerId": 64316671,
             "state": "Pre Placed",
             "orderState": "PRE_PLACED"
           },
           "statusFlow": {
             "id": 0,
-            "created": "06-01-2023 01:36:15",
-            "modified": "06-01-2023 01:36:15",
+            "created": "10-01-2023 00:01:23",
+            "modified": "10-01-2023 00:01:23",
             "ownerId": 64316671,
             "state": "Pre Placed",
             "orderState": "PRE_PLACED"
           },
           "commonField": {
-            "groupQueueId": "38fcf698-ccf8-4139-8f22-220c0ed8d1af",
+            "groupQueueId": "976e2375-d4de-4d62-8096-3ece915104a0",
             "payment": {
               "option": {"id": 2, "name": "Razor pay"},
-              "receiptId": "ec3f0cab-02b0-456e-b597-7c3208d3a903",
-              "orderId": "order_L0cbcbSkGrpnJn",
+              "receiptId": "045afb06-617a-4e28-872a-ddb9634b273a",
+              "orderId": "order_L2B7t7EKD6LDxt",
               "status": "created",
               "online": true
             },
@@ -368,27 +368,27 @@ class APIService {
                 "empty": false
               },
               "phone": {"code": "91", "mobile": "7838063139", "display": "+91-7838063139"},
-              "address": "line 1, line 2",
-              "city": "city test",
-              "state": "delhiiiii",
+              "address": "House No 75, Gali no 13, Vipin Garden Extension, Dwarka Mor ",
+              "city": "New Delhi",
+              "state": "Delhi",
               "country": "India",
-              "pincode": 110055
+              "pincode": 110059
             },
             "orderCost": {
-              "convenienceCharges": {"rate": 5.0, "cost": 131.25},
-              "cost": 2916.25,
+              "convenienceCharges": {"rate": 5.0, "cost": 168.0},
+              "cost": 3688.0,
               "deliveryChargesList": [
                 {"sellerId": "92800038", "cost": 80.0},
-                {"sellerId": "93620397", "cost": 80.0}
+                {"sellerId": "93933633", "cost": 80.0}
               ],
-              "individualTotalOrderCost": 2625.0,
+              "individualTotalOrderCost": 3360.0,
               "note":
-                  "Total individual order cost 2625.0 + 131.25 Convenience Fee (5.0%) + 160.0 Delivery charges"
+                  "Total individual order cost 3360.0 + 168.0 Convenience Fee (5.0%) + 160.0 Delivery charges"
             },
             "groupOrderStatus": {
               "id": 0,
-              "created": "06-01-2023 01:36:15",
-              "modified": "06-01-2023 01:36:15",
+              "created": "10-01-2023 00:01:23",
+              "modified": "10-01-2023 00:01:23",
               "ownerId": 64316671,
               "state": "Pre Placed",
               "orderState": "PRE_PLACED"
@@ -396,50 +396,49 @@ class APIService {
           }
         },
         {
-          "key": "94097812",
+          "key": "94345682",
           "enabled": true,
-          "created": "06-01-2023 01:36:15",
-          "modified": "06-01-2023 01:36:15",
+          "created": "10-01-2023 00:01:23",
+          "modified": "10-01-2023 00:01:23",
           "version": "V2",
           "itemCost": {
-            "productPrice": 1000.0,
+            "productPrice": 1500.0,
             "quantity": 1,
-            "productDiscount": {"cost": 100.0, "rate": 10.0},
-            "gstCharges": {"rate": 5.0, "cost": 45.0, "productPrice": 900.0},
-            "cost": 945.0,
-            "costForSeller": 900.0,
-            "note": "Product price 1000.0 - 100.0 Discount (10.0%) + 45.0 GST (5.0%)"
+            "gstCharges": {"rate": 12.0, "cost": 180.0, "productPrice": 1500.0},
+            "cost": 1680.0,
+            "costForSeller": 1500.0,
+            "note": "Product price 1500.0 + 180.0 GST (12.0%)"
           },
           "sellerId": "92800038",
-          "productId": "93082103",
+          "productId": "93052003",
           "shipment": {"days": 2},
-          "variation": {"size": "M", "quantity": 1, "color": "red"},
-          "deliveryDate": "08-01-2023 01:36:15",
-          "queueId": "c952f4c5-2706-4ec3-8aff-e46d2c036316",
+          "variation": {"size": "M", "quantity": 1, "color": "green"},
+          "deliveryDate": "12-01-2023 00:01:23",
+          "queueId": "174538d4-08a3-41b5-9c80-f9e4fd5c8386",
           "singleItem": true,
-          "groupId": "38fcf698-ccf8-4139-8f22-220c0ed8d1af",
+          "groupId": "976e2375-d4de-4d62-8096-3ece915104a0",
           "status": {
             "id": 0,
-            "created": "06-01-2023 01:36:15",
-            "modified": "06-01-2023 01:36:15",
+            "created": "10-01-2023 00:01:23",
+            "modified": "10-01-2023 00:01:23",
             "ownerId": 64316671,
             "state": "Pre Placed",
             "orderState": "PRE_PLACED"
           },
           "statusFlow": {
             "id": 0,
-            "created": "06-01-2023 01:36:15",
-            "modified": "06-01-2023 01:36:15",
+            "created": "10-01-2023 00:01:23",
+            "modified": "10-01-2023 00:01:23",
             "ownerId": 64316671,
             "state": "Pre Placed",
             "orderState": "PRE_PLACED"
           },
           "commonField": {
-            "groupQueueId": "38fcf698-ccf8-4139-8f22-220c0ed8d1af",
+            "groupQueueId": "976e2375-d4de-4d62-8096-3ece915104a0",
             "payment": {
               "option": {"id": 2, "name": "Razor pay"},
-              "receiptId": "ec3f0cab-02b0-456e-b597-7c3208d3a903",
-              "orderId": "order_L0cbcbSkGrpnJn",
+              "receiptId": "045afb06-617a-4e28-872a-ddb9634b273a",
+              "orderId": "order_L2B7t7EKD6LDxt",
               "status": "created",
               "online": true
             },
@@ -456,27 +455,27 @@ class APIService {
                 "empty": false
               },
               "phone": {"code": "91", "mobile": "7838063139", "display": "+91-7838063139"},
-              "address": "line 1, line 2",
-              "city": "city test",
-              "state": "delhiiiii",
+              "address": "House No 75, Gali no 13, Vipin Garden Extension, Dwarka Mor ",
+              "city": "New Delhi",
+              "state": "Delhi",
               "country": "India",
-              "pincode": 110055
+              "pincode": 110059
             },
             "orderCost": {
-              "convenienceCharges": {"rate": 5.0, "cost": 131.25},
-              "cost": 2916.25,
+              "convenienceCharges": {"rate": 5.0, "cost": 168.0},
+              "cost": 3688.0,
               "deliveryChargesList": [
                 {"sellerId": "92800038", "cost": 80.0},
-                {"sellerId": "93620397", "cost": 80.0}
+                {"sellerId": "93933633", "cost": 80.0}
               ],
-              "individualTotalOrderCost": 2625.0,
+              "individualTotalOrderCost": 3360.0,
               "note":
-                  "Total individual order cost 2625.0 + 131.25 Convenience Fee (5.0%) + 160.0 Delivery charges"
+                  "Total individual order cost 3360.0 + 168.0 Convenience Fee (5.0%) + 160.0 Delivery charges"
             },
             "groupOrderStatus": {
               "id": 0,
-              "created": "06-01-2023 01:36:15",
-              "modified": "06-01-2023 01:36:15",
+              "created": "10-01-2023 00:01:23",
+              "modified": "10-01-2023 00:01:23",
               "ownerId": 64316671,
               "state": "Pre Placed",
               "orderState": "PRE_PLACED"
@@ -869,22 +868,22 @@ class APIService {
     return null;
   }
 
-  // Future<Orders?> getAllOrdersV2() async {
-  //   var ordersData = await apiWrapper("v2/orders;product=true", authenticated: true);
-  //   if (ordersData != null) {
-  //     Orders orders = Orders.fromJson(ordersData);
-  //     orders.orders!.sort((a, b) {
-  //       DateTime aDateTime = DateTime.parse(
-  //           "${a.created!.substring(6, 10)}${a.created!.substring(3, 5)}${a.created!.substring(0, 2)}");
-  //       DateTime bDateTime = DateTime.parse(
-  //           "${b.created!.substring(6, 10)}${b.created!.substring(3, 5)}${b.created!.substring(0, 2)}");
-  //       return bDateTime.compareTo(aDateTime);
-  //     });
-  //     log(ordersData.toString());
-  //     return orders;
-  //   }
-  //   return null;
-  // }
+  Future<Orders?> getAllOrdersV1() async {
+    var ordersData = await apiWrapper("orders;product=true", authenticated: true);
+    if (ordersData != null) {
+      Orders orders = Orders.fromJson(ordersData);
+      orders.orders!.sort((a, b) {
+        DateTime aDateTime = DateTime.parse(
+            "${a.created!.substring(6, 10)}${a.created!.substring(3, 5)}${a.created!.substring(0, 2)}");
+        DateTime bDateTime = DateTime.parse(
+            "${b.created!.substring(6, 10)}${b.created!.substring(3, 5)}${b.created!.substring(0, 2)}");
+        return bDateTime.compareTo(aDateTime);
+      });
+      log(ordersData.toString());
+      return orders;
+    }
+    return null;
+  }
 
   Future<OrdersV2?> getAllOrders() async {
     var ordersData = await apiWrapper("v2/orders;product=true", authenticated: true);

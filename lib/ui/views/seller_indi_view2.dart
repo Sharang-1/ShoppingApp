@@ -256,7 +256,7 @@ class _SellerIndi2State extends State<SellerIndi2> {
                       ),
                       child: Container(
                         width: MediaQuery.of(context).size.width,
-                        height: 450,
+                        height: 460,
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.grey.shade100),
                           boxShadow: [
@@ -280,15 +280,14 @@ class _SellerIndi2State extends State<SellerIndi2> {
                         ),
                         child: Column(
                           children: [
-                            SizedBox(
-                              height: 160,
-                            ),
+                            Spacer(),
                             Stack(
                               clipBehavior: Clip.none,
                               children: [
                                 Container(
+                                  margin: EdgeInsets.only(bottom: 20),
                                   padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-                                  height: 270,
+                                  // height: 280,
                                   // width: 200,
                                   width: MediaQuery.of(context).size.width - 40,
 
@@ -316,15 +315,7 @@ class _SellerIndi2State extends State<SellerIndi2> {
                                         dotsAfterOverFlow: true,
                                       ),
                                       // verticalSpaceTiny,
-                                      CustomText(
-                                        "${sellerDetails[DESIGNER_DETAILS_TYPE.tr]}",
-                                        fontSize: headFont - 2,
-                                        fontWeight: FontWeight.w500,
-                                        fontFamily: textFont,
-                                        dotsAfterOverFlow: true,
-                                        maxLines: 4,
-                                        color: Colors.black54,
-                                      ),
+                                      
                                       Row(
                                         mainAxisAlignment: MainAxisAlignment.start,
                                         children: [
@@ -345,29 +336,39 @@ class _SellerIndi2State extends State<SellerIndi2> {
                                                 style: TextStyle(
                                                   color: Colors.black54,
                                                   fontWeight: FontWeight.w400,
-                                                  fontSize: 12,
+                                                  fontSize: headFont - 3,
                                                 ),
                                               ),
                                             ),
                                           ),
+                                          CustomText(
+                                            "${sellerDetails[DESIGNER_DETAILS_TYPE.tr]}",
+                                            fontSize: headFont - 3,
+                                            fontWeight: FontWeight.w500,
+                                            fontFamily: textFont,
+                                            dotsAfterOverFlow: true,
+                                            maxLines: 4,
+                                            color: Colors.black54,
+                                          ),
                                         ],
                                       ),
 
-                                       ReadMoreText(
+                                       Text(
                                         "${sellerData.bio ?? 'Seller bio'}",
                                         // "${sellerDetails[DESIGNER_SCREEN_DESIGNES_CREATES.tr]} • ${sellerDetails[DESIGNER_SCREEN_SPECIALITY.tr]} • ${sellerDetails[DESIGNER_SCREEN_WORK_OFFERED.tr]}",
-                                        trimLines: 2,
-                                        colorClickableText: logoRed,
-                                        trimMode: TrimMode.Line,
+                                        // trimLines: 2,
+                                        maxLines: 4,
+                                        overflow: TextOverflow.ellipsis,
+                                        // colorClickableText: logoRed,
+                                        // trimMode: TrimMode.Line,
                                         style: TextStyle(
                                           fontSize: headFont - 2,
                                           color: Colors.black54,
                                         ),
                                       ),
                                       
-                                      verticalSpaceSmall,
+                                      verticalSpaceMedium,
                                       
-                                      Spacer(),
                                       Row(
                                         children: [
                                           Icon(

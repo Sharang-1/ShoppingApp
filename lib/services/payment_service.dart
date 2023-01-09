@@ -50,6 +50,7 @@ class PaymentService {
     razorPayAPIKey = await getApiKey();
     // }
     if (razorPayAPIKey != null) {
+  
       var options = {
         'key': razorPayAPIKey,
         'amount': int.parse(amount.toStringAsFixed(2).replaceAll(".", "")),

@@ -10,6 +10,7 @@ import '../../controllers/home_controller.dart';
 import '../../controllers/wishlist_controller.dart';
 import '../../locator.dart';
 import '../../models/products.dart';
+import '../../services/api/api_service.dart';
 import '../../services/wishlist_service.dart';
 import '../../utils/lang/translation_keys.dart';
 import '../../utils/stringUtils.dart';
@@ -42,14 +43,22 @@ class _ProductTileUIState extends State<ProductTileUI> {
   final WishListService _wishListService = locator<WishListService>();
   bool toggle = false;
   bool isWishlistIconFilled = false;
+  Product? productInfo;
 
   @override
   void initState() {
     super.initState();
+    getProductDetailInfo();
     setState(() {
       isWishlistIconFilled =
-          locator<WishListController>().list.indexOf(widget.data.key ?? "") !=
-              -1;
+          locator<WishListController>().list.indexOf(widget.data.key ?? "") != -1;
+    });
+  }
+
+  getProductDetailInfo() async {
+    final prod = await APIService().getProductById(productId: widget.data.key!);
+    setState(() {
+      productInfo = prod;
     });
   }
 
@@ -62,14 +71,17 @@ class _ProductTileUIState extends State<ProductTileUI> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(18),
         ),
-        margin: EdgeInsets.only(
-            bottom: MediaQuery.of(context).size.height - 130,
-            right: 20,
-            left: 20),
+        margin:
+            EdgeInsets.only(bottom: MediaQuery.of(context).size.height - 130, right: 20, left: 20),
         content: Row(
           children: [
-            Icon(CupertinoIcons.checkmark_alt, color: Colors.white,),
-            SizedBox(width: 20,),
+            Icon(
+              CupertinoIcons.checkmark_alt,
+              color: Colors.white,
+            ),
+            SizedBox(
+              width: 20,
+            ),
             const Text('Added to Your wishlist'),
           ],
         ),
@@ -102,18 +114,16 @@ class _ProductTileUIState extends State<ProductTileUI> {
     EdgeInsetsGeometry paddingCard = widget.index % 2 == 0
         ? const EdgeInsets.fromLTRB(screenPadding, 0, 0, 10)
         : const EdgeInsets.fromLTRB(0, 0, screenPadding, 10);
-    paddingCard =
-        widget.cardPadding == null ? paddingCard : widget.cardPadding!;
+    paddingCard = widget.cardPadding == null ? paddingCard : widget.cardPadding!;
 
     final photo = widget.data.photo ?? null;
     final photos = photo != null ? photo.photos ?? null : null;
     final String photoURL = photos != null ? photos[0].name ?? "" : "";
     final String productName = widget.data.name ?? "No name";
-    final double? productDiscount =
-        (widget.data.cost!.productDiscount != null &&
-                widget.data.cost!.productDiscount!.rate != null)
-            ? widget.data.cost!.productDiscount!.rate as double?
-            : 0.0;
+    final double? productDiscount = (widget.data.cost!.productDiscount != null &&
+            widget.data.cost!.productDiscount!.rate != null)
+        ? widget.data.cost!.productDiscount!.rate as double?
+        : 0.0;
     final int productPrice = widget.data.cost?.costToCustomer.round() ?? 0;
     final int actualCost;
     if (widget.data.cost != null && widget.data.cost!.gstCharges != null) {
@@ -127,14 +137,12 @@ class _ProductTileUIState extends State<ProductTileUI> {
 
     return GestureDetector(
       onTap: () {
-         print("Hello World ${widget.data.coupons}");
+        print("Hello World ${widget.data.coupons}");
         widget.onClick();
       },
       child: Container(
         padding: paddingCard,
-        decoration: BoxDecoration(
-
-        ),
+        decoration: BoxDecoration(),
         child: Card(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5),
@@ -170,7 +178,7 @@ class _ProductTileUIState extends State<ProductTileUI> {
                             child: Text(
                               capitalizeString(productName),
                               overflow: TextOverflow.ellipsis,
-                              maxLines: 2,
+                              maxLines: 1,
                               style: TextStyle(
                                 fontSize: titleFontSize,
                                 fontWeight: FontWeight.bold,
@@ -188,8 +196,7 @@ class _ProductTileUIState extends State<ProductTileUI> {
                                       ? () async {
                                           if (locator<WishListController>()
                                                   .list
-                                                  .indexOf(
-                                                      widget.data.key ?? "") !=
+                                                  .indexOf(widget.data.key ?? "") !=
                                               -1) {
                                             removeFromWishList(widget.data.key);
                                             setState(() {
@@ -218,16 +225,17 @@ class _ProductTileUIState extends State<ProductTileUI> {
                                 )
                         ],
                       ),
-                      // Text(
-                      //   "By ${widget.data.seller?.name.toString() ?? 'No Name'}",
-                      //   overflow: TextOverflow.ellipsis,
-                      //   textAlign: TextAlign.left,
-                      //   style: TextStyle(
-                      //     fontSize: subtitleFontSize-2,
-                      //     fontWeight: FontWeight.normal,
-                      //     color: Colors.grey,
-                      //   ),
-                      // ),
+                      Text(
+                        "By ${productInfo?.seller?.name.toString() ?? ''}",
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.left,
+                        maxLines: 1,
+                        style: TextStyle(
+                          fontSize: subtitleFontSize - 2,
+                          fontWeight: FontWeight.normal,
+                          color: Colors.grey,
+                        ),
+                      ),
                       Row(
                         children: [
                           Padding(
@@ -243,8 +251,7 @@ class _ProductTileUIState extends State<ProductTileUI> {
                               ),
                             ),
                           ),
-                          if ((productDiscount != null) &&
-                              (productDiscount != 0.0))
+                          if ((productDiscount != null) && (productDiscount != 0.0))
                             Text(
                               "${BaseController.formatPrice(actualCost)}",
                               overflow: TextOverflow.ellipsis,
@@ -253,7 +260,7 @@ class _ProductTileUIState extends State<ProductTileUI> {
                                 color: Colors.grey,
                                 decoration: TextDecoration.lineThrough,
                                 fontWeight: FontWeight.bold,
-                                fontSize: priceFontSize ,
+                                fontSize: priceFontSize,
                               ),
                             ),
                         ],
@@ -269,8 +276,7 @@ class _ProductTileUIState extends State<ProductTileUI> {
     );
   }
 
-  Widget _imageStackview(photoURL, discount, priceFontSize,
-      {bool handcrafted = false}) {
+  Widget _imageStackview(photoURL, discount, priceFontSize, {bool handcrafted = false}) {
     return Stack(
       fit: StackFit.loose,
       children: <Widget>[
@@ -280,22 +286,22 @@ class _ProductTileUIState extends State<ProductTileUI> {
             child: ClipRRect(
               clipBehavior: Clip.antiAlias,
               child: ColorFiltered(
-                colorFilter: ColorFilter.mode(
-                    Colors.transparent.withOpacity(0.12), BlendMode.srcATop),
+                colorFilter:
+                    ColorFilter.mode(Colors.transparent.withOpacity(0.12), BlendMode.srcATop),
                 child: CachedNetworkImage(
                   errorWidget: (context, url, error) => Image.asset(
                     'assets/images/product_preloading.png',
                     fit: BoxFit.cover,
                   ),
                   imageUrl: photoURL == null
-                        ? 'https://images.pexels.com/photos/157675/fashion-men-s-individuality-black-and-white-157675.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
-                        : '$PRODUCT_PHOTO_BASE_URL/${widget.data.key}/$photoURL-small.png',
+                      ? 'https://images.pexels.com/photos/157675/fashion-men-s-individuality-black-and-white-157675.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
+                      : '$PRODUCT_PHOTO_BASE_URL/${widget.data.key}/$photoURL-small.png',
                   fit: BoxFit.contain,
                   fadeInCurve: Curves.easeIn,
-                  placeholder: (context, url) =>
-                      Image.asset('assets/images/product_preloading.png',
-                      fit: BoxFit.contain,
-                      ),
+                  placeholder: (context, url) => Image.asset(
+                    'assets/images/product_preloading.png',
+                    fit: BoxFit.contain,
+                  ),
                 ),
               ),
             ),
@@ -308,8 +314,7 @@ class _ProductTileUIState extends State<ProductTileUI> {
                 child: Container(
                   decoration: BoxDecoration(
                       color: logoRed,
-                      borderRadius:
-                          BorderRadius.only(bottomLeft: Radius.circular(10))),
+                      borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10))),
                   width: 40,
                   height: 20,
                   child: Center(

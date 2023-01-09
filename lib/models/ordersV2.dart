@@ -75,7 +75,7 @@ class Order {
   Status? statusFlow;
   CommonField? commonField;
 
-   factory Order.fromJson(Map<String, dynamic> json) => Order(
+  factory Order.fromJson(Map<String, dynamic> json) => Order(
         key: json["key"] == null ? null : json["key"],
         enabled: json["enabled"] == null ? null : json["enabled"],
         created: json["created"] == null ? null : json["created"],
@@ -304,7 +304,6 @@ class Status {
         "orderState": orderState == null ? null : orderState,
         "note": note == null ? null : note,
         "next": next == null ? null : next?.toJson(),
-
       };
 }
 
@@ -326,13 +325,19 @@ class OrderCost {
   String? note;
 
   factory OrderCost.fromJson(Map<String, dynamic> json) => OrderCost(
-        convenienceCharges: json['convenienceCharges'] == null ? null : ProductDiscount.fromJson(json["convenienceCharges"]),
+        convenienceCharges: json['convenienceCharges'] == null
+            ? null
+            : ProductDiscount.fromJson(json["convenienceCharges"]),
         cost: json["cost"] == null ? null : json["cost"].toDouble(),
-        deliveryChargesList: json["deliveryChargesList"] == null ? null : List<DeliveryChargesList>.from(
-            json["deliveryChargesList"].map((x) => DeliveryChargesList.fromJson(x))),
-        codCharges: json["codCharges"] == null ? null : CodCharges.fromJson(json["codCharges"]) ,
-        individualTotalOrderCost: json["individualTotalOrderCost"]  == null ? null : json["individualTotalOrderCost"].toDouble(),
-        note: json["note"] ==  null ? null : json["note"],
+        deliveryChargesList: json["deliveryChargesList"] == null
+            ? null
+            : List<DeliveryChargesList>.from(
+                json["deliveryChargesList"].map((x) => DeliveryChargesList.fromJson(x))),
+        codCharges: json["codCharges"] == null ? null : CodCharges.fromJson(json["codCharges"]),
+        individualTotalOrderCost: json["individualTotalOrderCost"] == null
+            ? null
+            : json["individualTotalOrderCost"].toDouble(),
+        note: json["note"] == null ? null : json["note"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -342,7 +347,8 @@ class OrderCost {
             ? null
             : List<dynamic>.from(deliveryChargesList!.map((x) => x.toJson())),
         "codCharges": codCharges == null ? null : codCharges?.toJson(),
-        "individualTotalOrderCost": individualTotalOrderCost == null ? null : individualTotalOrderCost,
+        "individualTotalOrderCost":
+            individualTotalOrderCost == null ? null : individualTotalOrderCost,
         "note": note == null ? null : note,
       };
 }
@@ -355,7 +361,7 @@ class CodCharges {
   double? cost;
 
   factory CodCharges.fromJson(Map<String, dynamic> json) => CodCharges(
-        cost:  json["cost"] == null ? null : json["cost"],
+        cost: json["cost"] == null ? null : json["cost"],
       );
 
   Map<String, dynamic> toJson() => {

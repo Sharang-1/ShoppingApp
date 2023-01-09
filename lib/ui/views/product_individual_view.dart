@@ -31,7 +31,6 @@ import '../../controllers/home_controller.dart';
 import '../../controllers/product_controller.dart';
 import '../../locator.dart';
 import '../../models/grid_view_builder_filter_models/productFilter.dart';
-import '../../models/productPageArg.dart';
 import '../../models/products.dart';
 import '../../models/reviews.dart';
 import '../../services/api/api_service.dart';
@@ -241,7 +240,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       elevation: 0,
-                      primary: lightGreen,
+                      backgroundColor: lightGreen,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -288,1291 +287,1391 @@ class _ProductIndiViewState extends State<ProductIndiView> {
             knowDesignerKey: knowDesignerKey as GlobalKey,
           );
         },
-        builder: (controller) => productInfo == null ? Container() : Scaffold(
-          backgroundColor: Colors.white,
-          body: SafeArea(
-            top: true,
-            left: false,
-            right: false,
-            bottom: true,
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                SmartRefresher(
-                  enablePullDown: true,
-                  footer: null,
-                  header: WaterDropHeader(
-                    waterDropColor: logoRed,
-                    refresh: Center(
-                      child: Center(
-                        child: Image.asset(
-                          "assets/images/loading_img.gif",
-                          height: 25,
-                          width: 25,
-                        ),
-                      ),
-                    ),
-                    complete: Container(),
-                  ),
-                  controller: refreshController,
-                  onRefresh: () async {
-                    Product? product = await controller.refreshProduct(productData?.key ?? "");
-                    if (product != null) {
-                      setState(() {
-                        setupProductDetails(product);
-                      });
-                    }
-                    await Future.delayed(Duration(milliseconds: 100));
-                    refreshController.refreshCompleted();
-                  },
-                  child: SingleChildScrollView(
-                    physics: ScrollPhysics(),
-                    child: Column(
-                      children: [
-                        Stack(
-                          children: <Widget>[
-                            FutureBuilder(
-                                future: checkshowSizeChart(),
-                                builder: (context, data) {
-                                  if (data.connectionState == ConnectionState.done) {
-                                    return HomeSlider(
-                                      key: photosKey,
-                                      imgList: imageURLs ?? [],
-                                      sizeChartUrl: showSizechart == true
-                                          ? "${BASE_URL}sellers/${productData?.account?.key}/categories/${productData?.category?.id}/sizechart"
-                                          : "",
-                                      videoList: productData?.video?.videos
-                                              .map((e) =>
-                                                  "${BASE_URL}products/${productData?.key}/videos/${e.name}")
-                                              .toList() ??
-                                          [],
-                                      aspectRatio: 1,
-                                      fromProduct: true,
-                                    );
-                                  }
-                                  return HomeSlider(
-                                    key: photosKey,
-                                    imgList: imageURLs ?? [],
-                                    videoList: productData?.video?.videos
-                                            .map((e) =>
-                                                "${BASE_URL}products/${productData?.key}/videos/${e.name}")
-                                            .toList() ??
-                                        [],
-                                    aspectRatio: 1,
-                                    fromProduct: true,
-                                  );
-                                }),
-                            Positioned(
-                              bottom: 32,
-                              right: 8,
-                              child: Container(
-                                padding: EdgeInsets.all(8.0),
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(30),
-                                    boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 1)]),
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      width: 20,
-                                      height: 20,
-                                      child: InkWell(
-                                        onTap: () async => locator<HomeController>().isLoggedIn
-                                            ? controller.onWishlistBtnClicked(productId!)
-                                            : await BaseController.showLoginPopup(
-                                                nextView: WishListRoute,
-                                                shouldNavigateToNextScreen: true,
-                                              ),
-                                        child: WishListIcon(
-                                          filled: controller.isWishlistIconFilled,
-                                          width: 20,
-                                          height: 20,
-                                        ),
-                                      ),
-                                    ),
-                                    horizontalSpaceSmall,
-                                    Container(
-                                      width: 20,
-                                      height: 20,
-                                      child: GestureDetector(
-                                        onTap: () async {
-                                          await Share.share(
-                                            await _dynamicLinkService
-                                                    .createLink(productLink + productId!) ??
-                                                "",
-                                          );
-                                          await controller.shareProductEvent(
-                                              productId: productId!,
-                                              productName: productName ?? "Product");
-
-                                          showCustomDialog(context);
-                                          // Future.delayed(Duration(seconds: 90), showCustomDialog(context));
-                                        },
-                                        child: Icon(
-                                          Platform.isIOS ? CupertinoIcons.share : Icons.share,
-                                          size: 20,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+        builder: (controller) => productInfo == null
+            ? Container()
+            : Scaffold(
+                backgroundColor: Colors.white,
+                body: SafeArea(
+                  top: true,
+                  left: false,
+                  right: false,
+                  bottom: true,
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      SmartRefresher(
+                        enablePullDown: true,
+                        footer: null,
+                        header: WaterDropHeader(
+                          waterDropColor: logoRed,
+                          refresh: Center(
+                            child: Center(
+                              child: Image.asset(
+                                "assets/images/loading_img.gif",
+                                height: 25,
+                                width: 25,
                               ),
                             ),
-                          ],
-                        ),
-                        Container(
-                          margin: EdgeInsets.symmetric(
-                            horizontal: 10,
-                            vertical: 20,
                           ),
+                          complete: Container(),
+                        ),
+                        controller: refreshController,
+                        onRefresh: () async {
+                          Product? product =
+                              await controller.refreshProduct(productData?.key ?? "");
+                          if (product != null) {
+                            setState(() {
+                              setupProductDetails(product);
+                            });
+                          }
+                          await Future.delayed(Duration(milliseconds: 100));
+                          refreshController.refreshCompleted();
+                        },
+                        child: SingleChildScrollView(
+                          physics: ScrollPhysics(),
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Container(
-                                    width: MediaQuery.of(context).size.width * 0.8,
-                                    child: productPriceInfo(
-                                      productName: productData?.name,
-                                      designerName: productInfo?.seller?.name ?? "",
-                                      productPrice: productPrice,
-                                      actualPrice: (productData!.cost!.cost +
-                                              productData!.cost!.convenienceCharges!.cost! +
-                                              productData!.cost!.gstCharges!.cost!)
-                                          .round(),
-                                      showPrice: (available!),
-                                      isClothMeterial: (productData?.category?.id == 13),
-                                    ),
-                                  ),
-                                  if ((productData?.discount ?? 0.0) != 0.0)
-                                    InkWell(
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          color: logoRed,
-                                          borderRadius: BorderRadius.circular(50),
-                                        ),
-                                        width: 40,
-                                        height: 40,
-                                        child: Center(
-                                          child: Text(
-                                            productData!.discount!.round().toString() + "%",
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: subtitleFontSize,
+                            children: [
+                              Stack(
+                                children: <Widget>[
+                                  FutureBuilder(
+                                      future: checkshowSizeChart(),
+                                      builder: (context, data) {
+                                        if (data.connectionState == ConnectionState.done) {
+                                          return HomeSlider(
+                                            key: photosKey,
+                                            imgList: imageURLs ?? [],
+                                            sizeChartUrl: showSizechart == true
+                                                ? "${BASE_URL}sellers/${productData?.account?.key}/categories/${productData?.category?.id}/sizechart"
+                                                : "",
+                                            videoList: productData?.video?.videos
+                                                    .map((e) =>
+                                                        "${BASE_URL}products/${productData?.key}/videos/${e.name}")
+                                                    .toList() ??
+                                                [],
+                                            aspectRatio: 1,
+                                            fromProduct: true,
+                                          );
+                                        }
+                                        return HomeSlider(
+                                          key: photosKey,
+                                          imgList: imageURLs ?? [],
+                                          videoList: productData?.video?.videos
+                                                  .map((e) =>
+                                                      "${BASE_URL}products/${productData?.key}/videos/${e.name}")
+                                                  .toList() ??
+                                              [],
+                                          aspectRatio: 1,
+                                          fromProduct: true,
+                                        );
+                                      }),
+                                  Positioned(
+                                    bottom: 32,
+                                    right: 8,
+                                    child: Container(
+                                      padding: EdgeInsets.all(8.0),
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.circular(30),
+                                          boxShadow: [
+                                            BoxShadow(color: Colors.black26, blurRadius: 1)
+                                          ]),
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            width: 20,
+                                            height: 20,
+                                            child: InkWell(
+                                              onTap: () async =>
+                                                  locator<HomeController>().isLoggedIn
+                                                      ? controller.onWishlistBtnClicked(productId!)
+                                                      : await BaseController.showLoginPopup(
+                                                          nextView: WishListRoute,
+                                                          shouldNavigateToNextScreen: true,
+                                                        ),
+                                              child: WishListIcon(
+                                                filled: controller.isWishlistIconFilled,
+                                                width: 20,
+                                                height: 20,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ),
-                                      onTap: () => NavigationService.back(),
-                                    ),
-                                ],
-                              ),
-                              elementDivider(),
-                              // ? handmade product card
-                              Container(
-                                margin: EdgeInsets.symmetric(vertical: 10),
-                                padding: EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: Colors.white,
-                                    boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 5)]),
-                                child: Row(
-                                  children: [
-                                    Image.asset(
-                                      "assets/icons/hand-made.png",
-                                      height: 75,
-                                    ),
-                                    horizontalSpaceSmall,
-                                    Container(
-                                      width: MediaQuery.of(context).size.width - 130,
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            "All products on Dzor are handmade and made to order.",
-                                            maxLines: 5,
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.normal),
-                                          ),
-                                          Text(
-                                            "Creators really appreciate your patience in getting the products from their home to yours.",
-                                            maxLines: 5,
-                                            style: TextStyle(
-                                                color: Colors.grey,
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.normal),
+                                          horizontalSpaceSmall,
+                                          Container(
+                                            width: 20,
+                                            height: 20,
+                                            child: GestureDetector(
+                                              onTap: () async {
+                                                await Share.share(
+                                                  await _dynamicLinkService
+                                                          .createLink(productLink + productId!) ??
+                                                      "",
+                                                );
+                                                await controller.shareProductEvent(
+                                                    productId: productId!,
+                                                    productName: productName ?? "Product");
+
+                                                showCustomDialog(context);
+                                                // Future.delayed(Duration(seconds: 90), showCustomDialog(context));
+                                              },
+                                              child: Icon(
+                                                Platform.isIOS ? CupertinoIcons.share : Icons.share,
+                                                size: 20,
+                                              ),
+                                            ),
                                           ),
                                         ],
                                       ),
-                                    )
-                                  ],
-                                ),
-                              ),
-
-                              elementDivider(),
-                              if (available!)
-                                Container(
-                                  // decoration: BoxDecoration(border: Border.all()),
-                                  width: MediaQuery.of(context).size.width,
-                                  // padding : EdgeInsets.symmetric(horizontal : 10),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      selectedSize == "N/A"
-                                          ? verticalSpace(0)
-                                          : Row(
-                                              children: <Widget>[
-                                                Expanded(
-                                                  child: Text(
-                                                    PRODUCTSCREEN_SELECT_SIZE.tr,
-                                                    style: TextStyle(
-                                                      fontWeight: FontWeight.normal,
-                                                      fontSize: 14,
-                                                      letterSpacing: 1.0,
-                                                      color: logoRed,
-                                                    ),
-                                                  ),
-                                                ),
-                                                InkWell(
-                                                  onTap: () {
-                                                    _showDialog(context, productInfo?.seller?.key,
-                                                        productData?.category?.id ?? 1);
-                                                  },
-                                                  child: Text(
-                                                    PRODUCTSCREEN_SIZE_CHART.tr,
-                                                    style: TextStyle(
-                                                      decoration: TextDecoration.underline,
-                                                      fontSize: 12,
-                                                    ),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                      verticalSpaceTiny,
-                                      allSizes(variations),
-                                      selectedSize == ""
-                                          ? Container()
-                                          : Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                selectedSize == "N/A"
-                                                    ? verticalSpace(0)
-                                                    : elementDivider(),
-                                                Text(
-                                                  PRODUCTSCREEN_SELECT_COLOR.tr,
-                                                  style: TextStyle(
-                                                    fontSize: 14,
-                                                    letterSpacing: 1.0,
-                                                    color: logoRed,
-                                                  ),
-                                                ),
-                                                verticalSpace(5),
-                                                allColors(
-                                                  variations,
-                                                ),
-                                              ],
-                                            ),
-                                      selectedColor == ""
-                                          ? Container()
-                                          : (productData!.category!.id != 13)
-                                              ? Container()
-                                              : Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: <Widget>[
-                                                    elementDivider(),
-                                                    Text(
-                                                      "Select ${(productData?.category?.id == 13) ? 'No. of Meters' : 'Qty'}"
-                                                          .toUpperCase(),
-                                                      style: TextStyle(
-                                                        fontSize: 14,
-                                                        letterSpacing: 1.0,
-                                                        color: logoRed,
-                                                      ),
-                                                    ),
-                                                    verticalSpaceSmall,
-                                                    FittedBox(
-                                                      fit: BoxFit.scaleDown,
-                                                      child: Container(
-                                                        height: 30,
-                                                        decoration: BoxDecoration(
-                                                          border: Border.all(
-                                                            color: darkRedSmooth,
-                                                          ),
-                                                          borderRadius: BorderRadius.circular(5),
-                                                        ),
-                                                        child: Row(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment.center,
-                                                          children: <Widget>[
-                                                            IconButton(
-                                                              padding: const EdgeInsets.symmetric(
-                                                                  vertical: 4.0),
-                                                              color: selectedQty == 0
-                                                                  ? Colors.grey
-                                                                  : darkRedSmooth,
-                                                              iconSize: 18,
-                                                              icon: Icon(Icons.remove),
-                                                              onPressed: () {
-                                                                if (selectedQty != 0) {
-                                                                  setState(() {
-                                                                    selectedQty = selectedQty - 1;
-                                                                  });
-                                                                }
-                                                              },
-                                                            ),
-                                                            Text(
-                                                              selectedQty.toString(),
-                                                              style: TextStyle(
-                                                                  color: darkRedSmooth,
-                                                                  fontSize: 12,
-                                                                  fontWeight: FontWeight.bold),
-                                                            ),
-                                                            IconButton(
-                                                              padding: const EdgeInsets.symmetric(
-                                                                  vertical: 4.0),
-                                                              iconSize: 18,
-                                                              color: maxQty == selectedQty
-                                                                  ? Colors.grey
-                                                                  : darkRedSmooth,
-                                                              icon: Icon(Icons.add),
-                                                              onPressed: () {
-                                                                print("maxQty" + maxQty.toString());
-                                                                if (maxQty != selectedQty) {
-                                                                  setState(() {
-                                                                    selectedQty = selectedQty + 1;
-                                                                  });
-                                                                }
-                                                              },
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                      verticalSpaceTiny,
-                                      Padding(
-                                        padding: EdgeInsets.only(top: 8.0),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              PRODUCTSCREEN_SELECTION_GUIDE.tr,
-                                              style: TextStyle(
-                                                color: Colors.grey,
-                                                fontSize: subtitleFontSizeStyle - 2,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
+                                    ),
                                   ),
+                                ],
+                              ),
+                              Container(
+                                margin: EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                  vertical: 20,
                                 ),
-
-                              if ((controller.productData?.coupons?.length ?? 0) > 0) ...[
-                                // sectionDivider(),
-                                elementDivider(),
-
-                                HomeViewListHeader(
-                                  title: PRODUCTSCREEN_AVAILABLE_COUPONS.tr,
-                                  padding: EdgeInsets.zero,
-                                ),
-                                verticalSpaceTiny,
-                                SingleChildScrollView(
-                                  scrollDirection: Axis.horizontal,
-                                  child: Row(
-                                      children: controller.productData?.coupons
-                                              ?.map(
-                                                (e) => InkWell(
-                                                  onTap: () async {
-                                                    await Get.bottomSheet(
-                                                      Container(
-                                                        padding: EdgeInsets.only(
-                                                          top: 16.0,
-                                                          right: 8.0,
-                                                          left: 8.0,
-                                                          bottom: MediaQuery.of(context)
-                                                                  .padding
-                                                                  .bottom +
-                                                              16.0,
-                                                        ),
-                                                        color: Colors.white,
-                                                        child: Column(
-                                                          mainAxisSize: MainAxisSize.min,
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment.start,
-                                                          children: [
-                                                            Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment.spaceBetween,
-                                                              children: [
-                                                                Row(
-                                                                  children: [
-                                                                    Image.asset(
-                                                                      'assets/images/discount_tag.png',
-                                                                      height: 22,
-                                                                      width: 22,
-                                                                      fit: BoxFit.cover,
-                                                                    ),
-                                                                    horizontalSpaceSmall,
-                                                                    Text(
-                                                                      "Deals",
-                                                                      style: TextStyle(
-                                                                        fontSize: 18,
-                                                                        color: logoRed,
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                                IconButton(
-                                                                  tooltip: "Close",
-                                                                  iconSize: 28,
-                                                                  icon: Icon(CupertinoIcons
-                                                                      .clear_circled_solid),
-                                                                  color: Colors.grey[500],
-                                                                  onPressed: () =>
-                                                                      NavigationService.back(),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                            verticalSpaceSmall,
-                                                            Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment.spaceBetween,
-                                                              children: [
-                                                                Container(
-                                                                  decoration: BoxDecoration(
-                                                                    border: Border.all(
-                                                                      color: logoRed,
-                                                                    ),
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                      5,
-                                                                    ),
-                                                                  ),
-                                                                  padding: EdgeInsets.symmetric(
-                                                                    vertical: 4.0,
-                                                                    horizontal: 8.0,
-                                                                  ),
-                                                                  child: Text(
-                                                                    e.code!.toUpperCase(),
-                                                                    style: TextStyle(
-                                                                      fontSize: 14,
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                ElevatedButton(
-                                                                  style: ElevatedButton.styleFrom(
-                                                                    primary: Colors.white,
-                                                                    elevation: 0,
-                                                                  ),
-                                                                  child: Text(
-                                                                    "COPY",
-                                                                    style: TextStyle(
-                                                                      color: logoRed,
-                                                                      fontWeight: FontWeight.bold,
-                                                                    ),
-                                                                  ),
-                                                                  onPressed: () async {
-                                                                    await Clipboard.setData(
-                                                                      ClipboardData(
-                                                                        text: e.code,
-                                                                      ),
-                                                                    );
-
-                                                                    Get.snackbar(
-                                                                      "Coupon Code Copied",
-                                                                      "Use this code while placing order.",
-                                                                      snackPosition:
-                                                                          SnackPosition.BOTTOM,
-                                                                    );
-                                                                  },
-                                                                ),
-                                                              ],
-                                                            ),
-                                                            verticalSpaceMedium,
-                                                            Text(
-                                                              "Get FLAT Rs. ${e.discount} off",
-                                                              style: TextStyle(
-                                                                fontSize: 14,
-                                                                fontWeight: FontWeight.bold,
-                                                              ),
-                                                            ),
-                                                            verticalSpaceTiny,
-                                                            Center(
-                                                              child: Divider(
-                                                                color: Colors.grey[500],
-                                                              ),
-                                                            ),
-                                                            verticalSpaceTiny,
-                                                            Text(
-                                                              "Use Code ${e.code!.toUpperCase()} and get FLAT Rs.${e.discount} off on order above Rs.${e.minimumOrderValue}.",
-                                                              style: TextStyle(
-                                                                fontSize: 12,
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    );
-                                                  },
-                                                  child: Container(
-                                                    margin: EdgeInsets.all(8.0),
-                                                    child: DottedBorder(
-                                                      color: logoRed,
-                                                      borderType: BorderType.RRect,
-                                                      radius: Radius.circular(5),
-                                                      child: Padding(
-                                                        padding: EdgeInsets.symmetric(
-                                                          vertical: 4.0,
-                                                          horizontal: 8.0,
-                                                        ),
-                                                        child: Row(
-                                                          children: [
-                                                            Image.asset(
-                                                              'assets/images/discount_tag.png',
-                                                              height: 16,
-                                                              width: 16,
-                                                              fit: BoxFit.cover,
-                                                            ),
-                                                            horizontalSpaceTiny,
-                                                            Text(
-                                                              e.name ?? "",
-                                                              style: TextStyle(
-                                                                fontSize: 10.0,
-                                                                color: logoRed,
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              )
-                                              .toList() ??
-                                          []),
-                                ),
-                              ],
-                              if (available!) elementDivider(),
-                              if (available!)
-                                Column(
+                                child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    productPriceDetail2(
-                                      productName: productData?.name,
-                                      designerName: productInfo!.seller?.name ?? "No Name",
-                                      productPrice: productPrice,
-                                      actualPrice: (productData!.cost!.cost +
-                                              productData!.cost!.convenienceCharges!.cost! +
-                                              productData!.cost!.gstCharges!.cost!)
-                                          .round(),
-                                      showPrice: (available!),
-                                      isClothMeterial: (productData!.category!.id == 13),
-                                    ),
-
-                                    if (!widget.fromCart)
-                                      GestureDetector(
-                                        onTap: () async {
-                                          print("buy now clicked");
-                                          if (locator<HomeController>().isLoggedIn) {
-                                            if (selectedQty == 0 ||
-                                                selectedColor == "" ||
-                                                selectedSize == "") {
-                                              await DialogService.showCustomDialog(
-                                                AlertDialog(
-                                                  title: FittedBox(
-                                                    fit: BoxFit.scaleDown,
-                                                    child: Text(
-                                                        PRODUCTSCREEN_SELECT_SIZE_COLOR_QTY.tr),
-                                                  ),
-                                                  actions: [
-                                                    TextButton(
-                                                        onPressed: () async {
-                                                          DialogService.popDialog();
-                                                          await Scrollable.ensureVisible(
-                                                            variationSelectionCardKey
-                                                                .currentContext!,
-                                                            alignment: 0.50,
-                                                          );
-                                                        },
-                                                        child: Text("OK")),
-                                                  ],
-                                                ),
-                                              );
-                                            } else {
-                                              var res = await controller.buyNow(
-                                                  productData!,
-                                                  selectedQty,
-                                                  context,
-                                                  selectedSize,
-                                                  selectedColor);
-                                              if (res != null && res == true) {
-                                                final cartRes = await locator<APIService>()
-                                                    .getCartProductItemList();
-                                                if (cartRes != null) {
-                                                  await locator<CartLocalStoreService>()
-                                                      .setCartList(cartRes);
-                                                  locator<CartCountController>()
-                                                      .setCartCount(cartRes.length);
-                                                }
-
-                                                print(
-                                                    "UserDetails: ${locator<HomeController>().details?.toJson()}");
-
-                                                if (locator<HomeController>().details?.measure ==
-                                                    null) {
-                                                  await BaseController.showSizePopup();
-                                                }
-
-                                                Navigator.push(
-                                                  context,
-                                                  PageTransition(
-                                                    child: CartView(
-                                                      productId: productData!.key!,
-                                                    ),
-                                                    type: PageTransitionType.rightToLeft,
-                                                  ),
-                                                );
-                                              }
-                                            }
-                                          } else {
-                                            await BaseController.showLoginPopup(
-                                              nextView: "buynow",
-                                              shouldNavigateToNextScreen: false,
-                                            );
-                                          }
-                                        },
-                                        child: Container(
-                                          width: double.maxFinite,
-                                          padding: EdgeInsets.symmetric(
-                                            vertical: 10,
-                                          ),
-                                          decoration: BoxDecoration(
-                                            border: Border.all(
-                                              color: lightGreen,
-                                            ),
-                                            color: lightGreen,
-                                            borderRadius: BorderRadius.circular(5),
-                                          ),
-                                          child: Center(
-                                            child: Text(
-                                              PRODUCTSCREEN_BUY_NOW.tr,
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: subtitleFontSizeStyle,
-                                              ),
-                                            ),
+                                  children: <Widget>[
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Container(
+                                          width: MediaQuery.of(context).size.width * 0.8,
+                                          child: productPriceInfo(
+                                            productName: productData?.name,
+                                            designerName: productInfo?.seller?.name ?? "",
+                                            productPrice: productPrice,
+                                            actualPrice: (productData!.cost!.cost +
+                                                    productData!.cost!.convenienceCharges!.cost! +
+                                                    productData!.cost!.gstCharges!.cost!)
+                                                .round(),
+                                            showPrice: (available!),
+                                            isClothMeterial: (productData?.category?.id == 13),
                                           ),
                                         ),
-                                      ),
-                                    verticalSpaceTiny,
-                                    Text(
-                                      "${PRODUCTSCREEN_DELIVERY_BY.tr} : $shipment",
-                                      style: TextStyle(fontSize: 12, color: Colors.black54),
+                                        if ((productData?.discount ?? 0.0) != 0.0)
+                                          InkWell(
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                color: logoRed,
+                                                borderRadius: BorderRadius.circular(50),
+                                              ),
+                                              width: 40,
+                                              height: 40,
+                                              child: Center(
+                                                child: Text(
+                                                  productData!.discount!.round().toString() + "%",
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: subtitleFontSize,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            onTap: () => NavigationService.back(),
+                                          ),
+                                      ],
                                     ),
-                                    verticalSpaceTiny,
-                                    //? seller shipment and replacement policy
-                                    GestureDetector(
-                                      onTap: () async {
-                                        if (await canLaunch(RETURN_POLICY_URL))
-                                          await launch(RETURN_POLICY_URL);
-                                      },
-                                      child: Text(
-                                        "View Seller Shipment Policy",
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: subtitleFontSizeStyle,
-                                            decoration: TextDecoration.underline),
+                                    elementDivider(),
+                                    // ? handmade product card
+                                    Container(
+                                      margin: EdgeInsets.symmetric(vertical: 10),
+                                      padding: EdgeInsets.all(10),
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10),
+                                          color: Colors.white,
+                                          boxShadow: [
+                                            BoxShadow(color: Colors.black12, blurRadius: 5)
+                                          ]),
+                                      child: Row(
+                                        children: [
+                                          Image.asset(
+                                            "assets/icons/hand-made.png",
+                                            height: 75,
+                                          ),
+                                          horizontalSpaceSmall,
+                                          Container(
+                                            width: MediaQuery.of(context).size.width - 130,
+                                            child: Column(
+                                              children: [
+                                                Text(
+                                                  "All products on Dzor are handmade and made to order.",
+                                                  maxLines: 5,
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.normal),
+                                                ),
+                                                Text(
+                                                  "Creators really appreciate your patience in getting the products from their home to yours.",
+                                                  maxLines: 5,
+                                                  style: TextStyle(
+                                                      color: Colors.grey,
+                                                      fontSize: 12,
+                                                      fontWeight: FontWeight.normal),
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        ],
                                       ),
                                     ),
-                                  ],
-                                ),
-                              // sectionDivider(),
-                              elementDivider(),
-                              CustomText(
-                                "Item Details",
-                                // PRODUCTSCREEN_ITEM_DETAILS.tr,
-                                fontSize: 14,
-                                letterSpacing: 0.4,
 
-                                fontWeight: FontWeight.w600,
-                              ),
-                              Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                elevation: 0,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      color: Colors.grey[100]),
-                                  padding: EdgeInsets.all(5),
-                                  width: MediaQuery.of(context).size.width,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      verticalSpace(5),
-                                      Padding(
-                                        padding: const EdgeInsets.all(10.0),
+                                    elementDivider(),
+                                    if (available!)
+                                      Container(
+                                        // decoration: BoxDecoration(border: Border.all()),
+                                        width: MediaQuery.of(context).size.width,
+                                        // padding : EdgeInsets.symmetric(horizontal : 10),
                                         child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Description',
-                                              textAlign: TextAlign.left,
-                                              style: TextStyle(
-                                                fontSize: 12,
-                                                color: Colors.grey,
-                                              ),
-                                            ),
-                                            verticalSpaceTiny,
-                                            Text(
-                                              productData?.description ?? "",
-                                              textAlign: TextAlign.justify,
-                                              style: TextStyle(
-                                                fontSize: 12,
-                                                color: Colors.black,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Divider(color: Colors.grey.withOpacity(0.5), height: 1),
-                                      ProductDescriptionTable(
-                                        product: productData!,
-                                        controller: controller,
-                                        workOnMap: workOnMap,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              elementDivider(),
-                              ProductDetailCard(
-                                key: knowDesignerKey,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        "Know the Creator",
-                                        // PRODUCTSCREEN_KNOW_YOUR_DESIGNER.tr,
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          letterSpacing: 0.4,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(right: 20.0),
-                                        child: FutureBuilder<Reviews?>(
-                                          //! seller key null arhi
-                                          future: locator<APIService>().getReviews(
-                                              productInfo?.account?.key ?? "PIView",
-                                              isSellerReview: true),
-                                          builder: (context, snapshot) => ((snapshot
-                                                          .connectionState ==
-                                                      ConnectionState.done) &&
-                                                  ((snapshot.data?.ratingAverage?.rating ?? 0) > 0))
-                                              ? FittedBox(
-                                                  fit: BoxFit.scaleDown,
-                                                  child: Container(
-                                                    padding: EdgeInsets.symmetric(
-                                                      vertical: 2,
-                                                      horizontal: 5,
-                                                    ),
-                                                    decoration: BoxDecoration(
-                                                      border: Border.all(
-                                                        color: Tools.getColorAccordingToRattings(
-                                                          snapshot.data!.ratingAverage!.rating!,
-                                                        ),
-                                                      ),
-                                                      borderRadius: BorderRadius.circular(5),
-                                                    ),
-                                                    child: Row(
-                                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                                      children: <Widget>[
-                                                        CustomText(
-                                                          snapshot.data!.ratingAverage!.rating!
-                                                              .toString(),
-                                                          color: Tools.getColorAccordingToRattings(
-                                                            snapshot.data!.ratingAverage!.rating!,
-                                                          ),
-                                                          isBold: true,
-                                                          fontSize: 12,
-                                                        ),
-                                                        horizontalSpaceTiny,
-                                                        Icon(
-                                                          Icons.star,
-                                                          color: Tools.getColorAccordingToRattings(
-                                                            snapshot.data!.ratingAverage!.rating!,
-                                                          ),
-                                                          size: 12,
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                )
-                                              : Container(),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  if (productData?.seller?.subscriptionTypeId != 2)
-                                    verticalSpace(5),
-                                  //? seller detail card
-                                  GestureDetector(
-                                    onTap: () async => await goToSellerProfile(controller),
-                                    child: Card(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(5),
-                                      ),
-                                      elevation: 0,
-                                      child: Container(
-                                        padding: EdgeInsets.all(8.0),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Expanded(
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: [
-                                                  Column(
-                                                    children: [
-                                                      Container(
-                                                        decoration: BoxDecoration(
-                                                          color: Color.fromRGBO(255, 255, 255, 1),
-                                                          shape: BoxShape.circle,
-                                                          border: Border.all(
-                                                            color: Colors.black38,
-                                                            width: 0.5,
-                                                          ),
-                                                        ),
-                                                        child: ClipOval(
-                                                          child: FadeInImage(
-                                                              width: 50,
-                                                              height: 50,
-                                                              fadeInCurve: Curves.easeIn,
-                                                              fit: BoxFit.cover,
-                                                              placeholder: AssetImage(
-                                                                  "assets/images/user.png"),
-                                                              image: NetworkImage(
-                                                                "$DESIGNER_PROFILE_PHOTO_BASE_URL/${productInfo?.owner?.key}",
-                                                                headers: {
-                                                                  "Authorization":
-                                                                      "Bearer ${locator<HomeController>().prefs?.getString(Authtoken) ?? ''}",
-                                                                },
-                                                              ),
-                                                              imageErrorBuilder:
-                                                                  (context, error, stackTrace) {
-                                                                print(
-                                                                    "Image Error: $error $stackTrace");
-                                                                return Image.asset(
-                                                                  "assets/images/user.png",
-                                                                  width: 50,
-                                                                  height: 50,
-                                                                  fit: BoxFit.cover,
-                                                                );
-                                                              }),
-                                                        ),
-                                                      ),
-                                                      verticalSpaceTiny,
-                                                      Row(
-                                                        mainAxisAlignment: MainAxisAlignment.center,
-                                                        children: [
-                                                          Icon(
-                                                            FontAwesomeIcons.mapMarkerAlt,
+                                          children: <Widget>[
+                                            selectedSize == "N/A"
+                                                ? verticalSpace(0)
+                                                : Row(
+                                                    children: <Widget>[
+                                                      Expanded(
+                                                        child: Text(
+                                                          PRODUCTSCREEN_SELECT_SIZE.tr,
+                                                          style: TextStyle(
+                                                            fontWeight: FontWeight.normal,
+                                                            fontSize: 14,
+                                                            letterSpacing: 1.0,
                                                             color: logoRed,
-                                                            size: 10,
                                                           ),
-                                                          CustomText(
-                                                              productInfo?.seller?.contact?.city ??
-                                                                  "Ahemdabad",
-                                                              fontSize: 10,
-                                                              color: textIconBlue),
-                                                        ],
+                                                        ),
+                                                      ),
+                                                      InkWell(
+                                                        onTap: () {
+                                                          _showDialog(
+                                                              context,
+                                                              productInfo?.seller?.key,
+                                                              productData?.category?.id ?? 1);
+                                                        },
+                                                        child: Text(
+                                                          PRODUCTSCREEN_SIZE_CHART.tr,
+                                                          style: TextStyle(
+                                                            decoration: TextDecoration.underline,
+                                                            fontSize: 12,
+                                                          ),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                            verticalSpaceTiny,
+                                            allSizes(variations),
+                                            selectedSize == ""
+                                                ? Container()
+                                                : Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: <Widget>[
+                                                      selectedSize == "N/A"
+                                                          ? verticalSpace(0)
+                                                          : elementDivider(),
+                                                      Text(
+                                                        PRODUCTSCREEN_SELECT_COLOR.tr,
+                                                        style: TextStyle(
+                                                          fontSize: 14,
+                                                          letterSpacing: 1.0,
+                                                          color: logoRed,
+                                                        ),
+                                                      ),
+                                                      verticalSpace(5),
+                                                      allColors(
+                                                        variations,
                                                       ),
                                                     ],
                                                   ),
-                                                  horizontalSpaceSmall,
-                                                  Expanded(
-                                                    child: Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      mainAxisAlignment: MainAxisAlignment.center,
-                                                      children: [
-                                                        CustomText(
-                                                          "${productInfo?.seller?.owner?.name ?? "Seller Name"}",
-                                                          fontWeight: FontWeight.w500,
-                                                          fontSize: titleFontSize,
-                                                          dotsAfterOverFlow: true,
-                                                        ),
-                                                        CustomText(
-                                                          "(${productInfo?.seller?.name ?? 'Brand Name'})",
-                                                          fontWeight: FontWeight.w500,
-                                                          fontSize: subtitleFontSize,
-                                                          dotsAfterOverFlow: true,
-                                                        ),
-                                                        // if ((productData?.seller?.education !=
-                                                        //         null) ||
-                                                        //     (productData?.seller?.designation !=
-                                                        //         null))
-                                                        //   Row(
-                                                        //     children: [
-                                                        //       Expanded(
-                                                        //         child: CustomText(
-                                                        //           "${productData?.seller?.education ?? ''} ${productData?.seller?.designation ?? ''}",
-                                                        //           fontSize: subtitleFontSize,
-                                                        //           fontWeight: FontWeight.w400,
-                                                        //           color: Colors.grey.shade600,
-                                                        //           dotsAfterOverFlow: true,
-                                                        //         ),
-                                                        //       ),
-                                                        //     ],
-                                                        //   ),
-                                                        ReadMoreText(
-                                                          productInfo?.seller?.bio ?? "",
-                                                          trimLines: 2,
-                                                          colorClickableText: logoRed,
-                                                          trimMode: TrimMode.Line,
-                                                          style: TextStyle(
-                                                            fontSize: subtitleFontSize - 2,
-                                                            color: Colors.grey[600],
+                                            selectedColor == ""
+                                                ? Container()
+                                                : (productData!.category!.id != 13)
+                                                    ? Container()
+                                                    : Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment.start,
+                                                        children: <Widget>[
+                                                          elementDivider(),
+                                                          Text(
+                                                            "Select ${(productData?.category?.id == 13) ? 'No. of Meters' : 'Qty'}"
+                                                                .toUpperCase(),
+                                                            style: TextStyle(
+                                                              fontSize: 14,
+                                                              letterSpacing: 1.0,
+                                                              color: logoRed,
+                                                            ),
                                                           ),
-                                                        ),
-                                                      ],
+                                                          verticalSpaceSmall,
+                                                          FittedBox(
+                                                            fit: BoxFit.scaleDown,
+                                                            child: Container(
+                                                              height: 30,
+                                                              decoration: BoxDecoration(
+                                                                border: Border.all(
+                                                                  color: darkRedSmooth,
+                                                                ),
+                                                                borderRadius:
+                                                                    BorderRadius.circular(5),
+                                                              ),
+                                                              child: Row(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment.center,
+                                                                children: <Widget>[
+                                                                  IconButton(
+                                                                    padding:
+                                                                        const EdgeInsets.symmetric(
+                                                                            vertical: 4.0),
+                                                                    color: selectedQty == 0
+                                                                        ? Colors.grey
+                                                                        : darkRedSmooth,
+                                                                    iconSize: 18,
+                                                                    icon: Icon(Icons.remove),
+                                                                    onPressed: () {
+                                                                      if (selectedQty != 0) {
+                                                                        setState(() {
+                                                                          selectedQty =
+                                                                              selectedQty - 1;
+                                                                        });
+                                                                      }
+                                                                    },
+                                                                  ),
+                                                                  Text(
+                                                                    selectedQty.toString(),
+                                                                    style: TextStyle(
+                                                                        color: darkRedSmooth,
+                                                                        fontSize: 12,
+                                                                        fontWeight:
+                                                                            FontWeight.bold),
+                                                                  ),
+                                                                  IconButton(
+                                                                    padding:
+                                                                        const EdgeInsets.symmetric(
+                                                                            vertical: 4.0),
+                                                                    iconSize: 18,
+                                                                    color: maxQty == selectedQty
+                                                                        ? Colors.grey
+                                                                        : darkRedSmooth,
+                                                                    icon: Icon(Icons.add),
+                                                                    onPressed: () {
+                                                                      print("maxQty" +
+                                                                          maxQty.toString());
+                                                                      if (maxQty != selectedQty) {
+                                                                        setState(() {
+                                                                          selectedQty =
+                                                                              selectedQty + 1;
+                                                                        });
+                                                                      }
+                                                                    },
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                            verticalSpaceTiny,
+                                            Padding(
+                                              padding: EdgeInsets.only(top: 8.0),
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    PRODUCTSCREEN_SELECTION_GUIDE.tr,
+                                                    style: TextStyle(
+                                                      color: Colors.grey,
+                                                      fontSize: subtitleFontSizeStyle - 2,
                                                     ),
                                                   ),
                                                 ],
                                               ),
                                             ),
-                                            Icon(
-                                              Icons.navigate_next,
-                                              color: lightGrey,
-                                              size: 40,
+                                          ],
+                                        ),
+                                      ),
+
+                                    if ((controller.productData?.coupons?.length ?? 0) > 0) ...[
+                                      // sectionDivider(),
+                                      elementDivider(),
+
+                                      HomeViewListHeader(
+                                        title: PRODUCTSCREEN_AVAILABLE_COUPONS.tr,
+                                        padding: EdgeInsets.zero,
+                                      ),
+                                      verticalSpaceTiny,
+                                      SingleChildScrollView(
+                                        scrollDirection: Axis.horizontal,
+                                        child: Row(
+                                            children: controller.productData?.coupons
+                                                    ?.map(
+                                                      (e) => InkWell(
+                                                        onTap: () async {
+                                                          await Get.bottomSheet(
+                                                            Container(
+                                                              padding: EdgeInsets.only(
+                                                                top: 16.0,
+                                                                right: 8.0,
+                                                                left: 8.0,
+                                                                bottom: MediaQuery.of(context)
+                                                                        .padding
+                                                                        .bottom +
+                                                                    16.0,
+                                                              ),
+                                                              color: Colors.white,
+                                                              child: Column(
+                                                                mainAxisSize: MainAxisSize.min,
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment.start,
+                                                                children: [
+                                                                  Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .spaceBetween,
+                                                                    children: [
+                                                                      Row(
+                                                                        children: [
+                                                                          Image.asset(
+                                                                            'assets/images/discount_tag.png',
+                                                                            height: 22,
+                                                                            width: 22,
+                                                                            fit: BoxFit.cover,
+                                                                          ),
+                                                                          horizontalSpaceSmall,
+                                                                          Text(
+                                                                            "Deals",
+                                                                            style: TextStyle(
+                                                                              fontSize: 18,
+                                                                              color: logoRed,
+                                                                            ),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                      IconButton(
+                                                                        tooltip: "Close",
+                                                                        iconSize: 28,
+                                                                        icon: Icon(CupertinoIcons
+                                                                            .clear_circled_solid),
+                                                                        color: Colors.grey[500],
+                                                                        onPressed: () =>
+                                                                            NavigationService
+                                                                                .back(),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                  verticalSpaceSmall,
+                                                                  Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .spaceBetween,
+                                                                    children: [
+                                                                      Container(
+                                                                        decoration: BoxDecoration(
+                                                                          border: Border.all(
+                                                                            color: logoRed,
+                                                                          ),
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(
+                                                                            5,
+                                                                          ),
+                                                                        ),
+                                                                        padding:
+                                                                            EdgeInsets.symmetric(
+                                                                          vertical: 4.0,
+                                                                          horizontal: 8.0,
+                                                                        ),
+                                                                        child: Text(
+                                                                          e.code!.toUpperCase(),
+                                                                          style: TextStyle(
+                                                                            fontSize: 14,
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                      ElevatedButton(
+                                                                        style: ElevatedButton
+                                                                            .styleFrom(
+                                                                          backgroundColor:
+                                                                              Colors.white,
+                                                                          elevation: 0,
+                                                                        ),
+                                                                        child: Text(
+                                                                          "COPY",
+                                                                          style: TextStyle(
+                                                                            color: logoRed,
+                                                                            fontWeight:
+                                                                                FontWeight.bold,
+                                                                          ),
+                                                                        ),
+                                                                        onPressed: () async {
+                                                                          await Clipboard.setData(
+                                                                            ClipboardData(
+                                                                              text: e.code,
+                                                                            ),
+                                                                          );
+
+                                                                          Get.snackbar(
+                                                                            "Coupon Code Copied",
+                                                                            "Use this code while placing order.",
+                                                                            snackPosition:
+                                                                                SnackPosition
+                                                                                    .BOTTOM,
+                                                                          );
+                                                                        },
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                  verticalSpaceMedium,
+                                                                  Text(
+                                                                    "Get FLAT Rs. ${e.discount} off",
+                                                                    style: TextStyle(
+                                                                      fontSize: 14,
+                                                                      fontWeight: FontWeight.bold,
+                                                                    ),
+                                                                  ),
+                                                                  verticalSpaceTiny,
+                                                                  Center(
+                                                                    child: Divider(
+                                                                      color: Colors.grey[500],
+                                                                    ),
+                                                                  ),
+                                                                  verticalSpaceTiny,
+                                                                  Text(
+                                                                    "Use Code ${e.code!.toUpperCase()} and get FLAT Rs.${e.discount} off on order above Rs.${e.minimumOrderValue}.",
+                                                                    style: TextStyle(
+                                                                      fontSize: 12,
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          );
+                                                        },
+                                                        child: Container(
+                                                          margin: EdgeInsets.all(8.0),
+                                                          child: DottedBorder(
+                                                            color: logoRed,
+                                                            borderType: BorderType.RRect,
+                                                            radius: Radius.circular(5),
+                                                            child: Padding(
+                                                              padding: EdgeInsets.symmetric(
+                                                                vertical: 4.0,
+                                                                horizontal: 8.0,
+                                                              ),
+                                                              child: Row(
+                                                                children: [
+                                                                  Image.asset(
+                                                                    'assets/images/discount_tag.png',
+                                                                    height: 16,
+                                                                    width: 16,
+                                                                    fit: BoxFit.cover,
+                                                                  ),
+                                                                  horizontalSpaceTiny,
+                                                                  Text(
+                                                                    e.name ?? "",
+                                                                    style: TextStyle(
+                                                                      fontSize: 10.0,
+                                                                      color: logoRed,
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    )
+                                                    .toList() ??
+                                                []),
+                                      ),
+                                    ],
+                                    if (available!) elementDivider(),
+                                    if (available!)
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          productPriceDetail2(
+                                            productName: productData?.name,
+                                            designerName: productInfo!.seller?.name ?? "No Name",
+                                            productPrice: productPrice,
+                                            actualPrice: (productData!.cost!.cost +
+                                                    productData!.cost!.convenienceCharges!.cost! +
+                                                    productData!.cost!.gstCharges!.cost!)
+                                                .round(),
+                                            showPrice: (available!),
+                                            isClothMeterial: (productData!.category!.id == 13),
+                                          ),
+
+                                          if (!widget.fromCart)
+                                            GestureDetector(
+                                              onTap: () async {
+                                                print("buy now clicked");
+                                                if (locator<HomeController>().isLoggedIn) {
+                                                  if (selectedQty == 0 ||
+                                                      selectedColor == "" ||
+                                                      selectedSize == "") {
+                                                    await DialogService.showCustomDialog(
+                                                      AlertDialog(
+                                                        title: FittedBox(
+                                                          fit: BoxFit.scaleDown,
+                                                          child: Text(
+                                                              PRODUCTSCREEN_SELECT_SIZE_COLOR_QTY
+                                                                  .tr),
+                                                        ),
+                                                        actions: [
+                                                          TextButton(
+                                                              onPressed: () async {
+                                                                DialogService.popDialog();
+                                                                await Scrollable.ensureVisible(
+                                                                  variationSelectionCardKey
+                                                                      .currentContext!,
+                                                                  alignment: 0.50,
+                                                                );
+                                                              },
+                                                              child: Text("OK")),
+                                                        ],
+                                                      ),
+                                                    );
+                                                  } else {
+                                                    var res = await controller.buyNow(
+                                                        productData!,
+                                                        selectedQty,
+                                                        context,
+                                                        selectedSize,
+                                                        selectedColor);
+                                                    if (res != null && res == true) {
+                                                      final cartRes = await locator<APIService>()
+                                                          .getCartProductItemList();
+                                                      if (cartRes != null) {
+                                                        await locator<CartLocalStoreService>()
+                                                            .setCartList(cartRes);
+                                                        locator<CartCountController>()
+                                                            .setCartCount(cartRes.length);
+                                                      }
+
+                                                      print(
+                                                          "UserDetails: ${locator<HomeController>().details?.toJson()}");
+
+                                                      if (locator<HomeController>()
+                                                              .details
+                                                              ?.measure ==
+                                                          null) {
+                                                        await BaseController.showSizePopup();
+                                                      }
+
+                                                      Navigator.push(
+                                                        context,
+                                                        PageTransition(
+                                                          child: CartView(
+                                                            productId: productData!.key!,
+                                                          ),
+                                                          type: PageTransitionType.rightToLeft,
+                                                        ),
+                                                      );
+                                                    }
+                                                  }
+                                                } else {
+                                                  await BaseController.showLoginPopup(
+                                                    nextView: "buynow",
+                                                    shouldNavigateToNextScreen: false,
+                                                  );
+                                                }
+                                              },
+                                              child: Container(
+                                                width: double.maxFinite,
+                                                padding: EdgeInsets.symmetric(
+                                                  vertical: 10,
+                                                ),
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color: lightGreen,
+                                                  ),
+                                                  color: lightGreen,
+                                                  borderRadius: BorderRadius.circular(5),
+                                                ),
+                                                child: Center(
+                                                  child: Text(
+                                                    PRODUCTSCREEN_BUY_NOW.tr,
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontWeight: FontWeight.bold,
+                                                      fontSize: subtitleFontSizeStyle,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          verticalSpaceTiny,
+                                          Text(
+                                            "${PRODUCTSCREEN_DELIVERY_BY.tr} : $shipment",
+                                            style: TextStyle(fontSize: 12, color: Colors.black54),
+                                          ),
+                                          verticalSpaceTiny,
+                                          //? seller shipment and replacement policy
+                                          if (productInfo?.seller?.replacementPolicy == null &&
+                                              productInfo?.seller?.returnPolicy != null)
+                                            GestureDetector(
+                                              onTap: () async {
+                                                if (await canLaunch(RETURN_POLICY_URL))
+                                                  await launch(RETURN_POLICY_URL);
+                                              },
+                                              child: Text(
+                                                "View Seller Shipment Policy",
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: subtitleFontSizeStyle,
+                                                    decoration: TextDecoration.underline),
+                                              ),
+                                            ),
+                                          if (productInfo?.seller?.replacementPolicy != null)
+                                            Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                verticalSpaceSmall,
+                                                Row(
+                                                  children: [
+                                                    Icon(
+                                                      Icons.production_quantity_limits_rounded,
+                                                      color: Colors.black54,
+                                                    ),
+                                                    horizontalSpaceSmall,
+                                                    Text("Replacement Policy",
+                                                        style: TextStyle(
+                                                          color: Colors.black54,
+                                                          fontWeight: FontWeight.bold,
+                                                          fontSize: titleFontSize + 2,
+                                                        ),
+                                                        ),
+                                                  ],
+                                                ),
+                                                verticalSpaceTiny,
+                                                Text(
+                                                    "${productInfo?.seller?.replacementPolicy?.note}"),
+                                              ],
+                                            ),
+                                          if (productInfo?.seller?.returnPolicy != null)
+                                            Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                verticalSpaceSmall,
+                                                Row(
+                                                  children: [
+                                                    Icon(
+                                                      Icons.assignment_return_rounded,
+                                                      color: Colors.black54,
+                                                    ),
+                                                    horizontalSpaceSmall,
+                                                    Text("Return Policy",
+                                                    style: TextStyle(
+                                                        color: Colors.black54,
+                                                        fontWeight: FontWeight.bold,
+                                                        fontSize: titleFontSize + 2,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                verticalSpaceTiny,
+                                                Text("${productInfo?.seller?.returnPolicy?.note}"),
+                                              ],
+                                            ),
+                                        ],
+                                      ),
+                                    // sectionDivider(),
+                                    elementDivider(),
+                                    CustomText(
+                                      "Item Details",
+                                      // PRODUCTSCREEN_ITEM_DETAILS.tr,
+                                      fontSize: 14,
+                                      letterSpacing: 0.4,
+
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                    Card(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      elevation: 0,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(5),
+                                            color: Colors.grey[100]),
+                                        padding: EdgeInsets.all(5),
+                                        width: MediaQuery.of(context).size.width,
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            verticalSpace(5),
+                                            Padding(
+                                              padding: const EdgeInsets.all(10.0),
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    'Description',
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                      fontSize: 12,
+                                                      color: Colors.grey,
+                                                    ),
+                                                  ),
+                                                  verticalSpaceTiny,
+                                                  Text(
+                                                    productData?.description ?? "",
+                                                    textAlign: TextAlign.justify,
+                                                    style: TextStyle(
+                                                      fontSize: 12,
+                                                      color: Colors.black,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Divider(color: Colors.grey.withOpacity(0.5), height: 1),
+                                            ProductDescriptionTable(
+                                              product: productData!,
+                                              controller: controller,
+                                              workOnMap: workOnMap,
                                             ),
                                           ],
                                         ),
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                              // sectionDivider(),
-                              // ReviewWidget(
-                              //   onSubmit: () {},
-                              //   id: productId,
-                              // ),
-
-                              Container(
-                                margin: EdgeInsets.symmetric(vertical: 5),
-                                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-                                width: double.maxFinite,
-                                decoration: BoxDecoration(color: Colors.grey[300]),
-                                child: Text(
-                                  "Recommended Products",
-                                  // PRODUCTSCREEN_RECOMMENDED_PRODUCTS.tr,
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 14,
-                                    letterSpacing: 0.4,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                              SectionBuilder(
-                                key: uniqueKey ?? UniqueKey(),
-                                context: context,
-                                onEmptyList: () {},
-                                filter: ProductFilter(
-                                  subCategories: ["${productData?.category?.id}"],
-                                ),
-                                // existingQueryString:
-                                //     "subCategory=${productData?.category?.id};"),
-                                layoutType: LayoutType.PRODUCT_LAYOUT_2,
-                                controller: ProductsGridViewBuilderController(
-                                  filteredProductKey: productData?.key,
-                                  randomize: true,
-                                ),
-                                scrollDirection: Axis.horizontal,
-                              ),
-                              // if (showMoreFromDesigner) sectionDivider(),
-                              if (showMoreFromDesigner)
-                                Container(
-                                  margin: EdgeInsets.symmetric(vertical: 5),
-                                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-                                  width: double.maxFinite,
-                                  decoration: BoxDecoration(color: Colors.grey[300]),
-                                  child: Text(
-                                    "More from Designer",
-                                    // PRODUCTSCREEN_MORE_FROM_DESIGNER.tr,
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 14,
-                                      letterSpacing: 0.4,
-                                      fontWeight: FontWeight.w600,
+                                    elementDivider(),
+                                    ProductDetailCard(
+                                      key: knowDesignerKey,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              "Know the Creator",
+                                              // PRODUCTSCREEN_KNOW_YOUR_DESIGNER.tr,
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                letterSpacing: 0.4,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(right: 20.0),
+                                              child: FutureBuilder<Reviews?>(
+                                                future: locator<APIService>().getReviews(
+                                                    productInfo?.account?.key ?? "",
+                                                    isSellerReview: true),
+                                                builder: (context, snapshot) => ((snapshot
+                                                                .connectionState ==
+                                                            ConnectionState.done) &&
+                                                        ((snapshot.data?.ratingAverage?.rating ??
+                                                                0) >
+                                                            0))
+                                                    ? FittedBox(
+                                                        fit: BoxFit.scaleDown,
+                                                        child: Container(
+                                                          padding: EdgeInsets.symmetric(
+                                                            vertical: 2,
+                                                            horizontal: 5,
+                                                          ),
+                                                          decoration: BoxDecoration(
+                                                            border: Border.all(
+                                                              color:
+                                                                  Tools.getColorAccordingToRattings(
+                                                                snapshot
+                                                                    .data!.ratingAverage!.rating!,
+                                                              ),
+                                                            ),
+                                                            borderRadius: BorderRadius.circular(5),
+                                                          ),
+                                                          child: Row(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment.center,
+                                                            children: <Widget>[
+                                                              CustomText(
+                                                                snapshot
+                                                                    .data!.ratingAverage!.rating!
+                                                                    .toString(),
+                                                                color: Tools
+                                                                    .getColorAccordingToRattings(
+                                                                  snapshot
+                                                                      .data!.ratingAverage!.rating!,
+                                                                ),
+                                                                isBold: true,
+                                                                fontSize: 12,
+                                                              ),
+                                                              horizontalSpaceTiny,
+                                                              Icon(
+                                                                Icons.star,
+                                                                color: Tools
+                                                                    .getColorAccordingToRattings(
+                                                                  snapshot
+                                                                      .data!.ratingAverage!.rating!,
+                                                                ),
+                                                                size: 12,
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      )
+                                                    : Container(),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        if (productData?.seller?.subscriptionTypeId != 2)
+                                          verticalSpace(5),
+                                        //? seller detail card
+                                        GestureDetector(
+                                          onTap: () async => await goToSellerProfile(controller),
+                                          child: Card(
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(5),
+                                            ),
+                                            elevation: 0,
+                                            child: Container(
+                                              padding: EdgeInsets.all(8.0),
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  Expanded(
+                                                    child: Row(
+                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                      children: [
+                                                        Column(
+                                                          children: [
+                                                            Container(
+                                                              decoration: BoxDecoration(
+                                                                color: Color.fromRGBO(
+                                                                    255, 255, 255, 1),
+                                                                shape: BoxShape.circle,
+                                                                border: Border.all(
+                                                                  color: Colors.black38,
+                                                                  width: 0.5,
+                                                                ),
+                                                              ),
+                                                              child: ClipOval(
+                                                                child: FadeInImage(
+                                                                    width: 50,
+                                                                    height: 50,
+                                                                    fadeInCurve: Curves.easeIn,
+                                                                    fit: BoxFit.cover,
+                                                                    placeholder: AssetImage(
+                                                                        "assets/images/user.png"),
+                                                                    image: NetworkImage(
+                                                                      "$DESIGNER_PROFILE_PHOTO_BASE_URL/${productInfo?.seller?.key}",
+                                                                      headers: {
+                                                                        "Authorization":
+                                                                            "Bearer ${locator<HomeController>().prefs?.getString(Authtoken) ?? ''}",
+                                                                      },
+                                                                    ),
+                                                                    imageErrorBuilder: (context,
+                                                                        error, stackTrace) {
+                                                                      print(
+                                                                          "Image Error: $error $stackTrace");
+                                                                      return Image.asset(
+                                                                        "assets/images/user.png",
+                                                                        width: 50,
+                                                                        height: 50,
+                                                                        fit: BoxFit.cover,
+                                                                      );
+                                                                    }),
+                                                              ),
+                                                            ),
+                                                            verticalSpaceTiny,
+                                                            Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment.center,
+                                                              children: [
+                                                                Icon(
+                                                                  FontAwesomeIcons.mapMarkerAlt,
+                                                                  color: logoRed,
+                                                                  size: 10,
+                                                                ),
+                                                                CustomText(
+                                                                    productInfo?.seller?.contact
+                                                                            ?.city ??
+                                                                        "Ahemdabad",
+                                                                    fontSize: 10,
+                                                                    color: textIconBlue),
+                                                              ],
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        horizontalSpaceSmall,
+                                                        Expanded(
+                                                          child: Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment.start,
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment.center,
+                                                            children: [
+                                                              CustomText(
+                                                                "${productInfo?.seller?.owner?.name ?? "Seller Name"}",
+                                                                fontWeight: FontWeight.w500,
+                                                                fontSize: titleFontSize,
+                                                                dotsAfterOverFlow: true,
+                                                              ),
+                                                              CustomText(
+                                                                "(${productInfo?.seller?.name ?? 'Brand Name'})",
+                                                                fontWeight: FontWeight.w500,
+                                                                fontSize: subtitleFontSize,
+                                                                dotsAfterOverFlow: true,
+                                                              ),
+                                                              // if ((productData?.seller?.education !=
+                                                              //         null) ||
+                                                              //     (productData?.seller?.designation !=
+                                                              //         null))
+                                                              //   Row(
+                                                              //     children: [
+                                                              //       Expanded(
+                                                              //         child: CustomText(
+                                                              //           "${productData?.seller?.education ?? ''} ${productData?.seller?.designation ?? ''}",
+                                                              //           fontSize: subtitleFontSize,
+                                                              //           fontWeight: FontWeight.w400,
+                                                              //           color: Colors.grey.shade600,
+                                                              //           dotsAfterOverFlow: true,
+                                                              //         ),
+                                                              //       ),
+                                                              //     ],
+                                                              //   ),
+                                                              ReadMoreText(
+                                                                productInfo?.seller?.bio ?? "",
+                                                                trimLines: 2,
+                                                                colorClickableText: logoRed,
+                                                                trimMode: TrimMode.Line,
+                                                                style: TextStyle(
+                                                                  fontSize: subtitleFontSize - 2,
+                                                                  color: Colors.grey[600],
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Icon(
+                                                    Icons.navigate_next,
+                                                    color: lightGrey,
+                                                    size: 40,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ),
+                                    // sectionDivider(),
+                                    // ReviewWidget(
+                                    //   onSubmit: () {},
+                                    //   id: productId,
+                                    // ),
+
+                                    Container(
+                                      margin: EdgeInsets.symmetric(vertical: 5),
+                                      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                                      width: double.maxFinite,
+                                      decoration: BoxDecoration(color: Colors.grey[300]),
+                                      child: Text(
+                                        "Recommended Products",
+                                        // PRODUCTSCREEN_RECOMMENDED_PRODUCTS.tr,
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 14,
+                                          letterSpacing: 0.4,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ),
+                                    SectionBuilder(
+                                      key: uniqueKey ?? UniqueKey(),
+                                      context: context,
+                                      onEmptyList: () {},
+                                      filter: ProductFilter(
+                                        subCategories: ["${productData?.category?.id}"],
+                                      ),
+                                      // existingQueryString:
+                                      //     "subCategory=${productData?.category?.id};"),
+                                      layoutType: LayoutType.PRODUCT_LAYOUT_2,
+                                      controller: ProductsGridViewBuilderController(
+                                        filteredProductKey: productData?.key,
+                                        randomize: true,
+                                      ),
+                                      scrollDirection: Axis.horizontal,
+                                    ),
+                                    // if (showMoreFromDesigner) sectionDivider(),
+                                    if (showMoreFromDesigner)
+                                      Container(
+                                        margin: EdgeInsets.symmetric(vertical: 5),
+                                        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                                        width: double.maxFinite,
+                                        decoration: BoxDecoration(color: Colors.grey[300]),
+                                        child: Text(
+                                          "More from Designer",
+                                          // PRODUCTSCREEN_MORE_FROM_DESIGNER.tr,
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 14,
+                                            letterSpacing: 0.4,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                    if (showMoreFromDesigner) verticalSpace(5),
+                                    if (showMoreFromDesigner)
+                                      SectionBuilder(
+                                        key: uniqueKey ?? UniqueKey(),
+                                        context: context,
+                                        filter: ProductFilter(
+                                            existingQueryString: productData?.account?.key != null
+                                                ? "accountKey=${productData?.account?.key};"
+                                                : ""),
+                                        layoutType: LayoutType.PRODUCT_LAYOUT_2,
+                                        controller: ProductsGridViewBuilderController(
+                                          filteredProductKey: productData?.key,
+                                          randomize: true,
+                                        ),
+                                        scrollDirection: Axis.horizontal,
+                                        onEmptyList: () async {
+                                          await Future.delayed(
+                                              Duration(milliseconds: 500),
+                                              () => setState(() {
+                                                    showMoreFromDesigner = false;
+                                                  }));
+                                        },
+                                      ),
+                                    verticalSpaceLarge,
+                                  ],
                                 ),
-                              if (showMoreFromDesigner) verticalSpace(5),
-                              if (showMoreFromDesigner)
-                                SectionBuilder(
-                                  key: uniqueKey ?? UniqueKey(),
-                                  context: context,
-                                  filter: ProductFilter(
-                                      existingQueryString: productData?.account?.key != null
-                                          ? "accountKey=${productData?.account?.key};"
-                                          : ""),
-                                  layoutType: LayoutType.PRODUCT_LAYOUT_2,
-                                  controller: ProductsGridViewBuilderController(
-                                    filteredProductKey: productData?.key,
-                                    randomize: true,
-                                  ),
-                                  scrollDirection: Axis.horizontal,
-                                  onEmptyList: () async {
-                                    await Future.delayed(
-                                        Duration(milliseconds: 500),
-                                        () => setState(() {
-                                              showMoreFromDesigner = false;
-                                            }));
-                                  },
-                                ),
-                              verticalSpaceLarge,
+                              ),
                             ],
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                ),
-                Visibility(
-                  visible: showHeader,
-                  child: Positioned(
-                    top: 0,
-                    right: 0,
-                    left: 0,
-                    child: AppBar(
-                      backgroundColor: Colors.white,
-                      iconTheme: IconThemeData(color: Colors.black),
-                      title: FittedBox(
-                        fit: BoxFit.scaleDown,
-                        child: CustomText(
-                          "${productData?.name?.capitalizeFirst ?? ''}",
-                          color: Colors.black,
-                          fontSize: 16,
+                      ),
+                      Visibility(
+                        visible: showHeader,
+                        child: Positioned(
+                          top: 0,
+                          right: 0,
+                          left: 0,
+                          child: AppBar(
+                            backgroundColor: Colors.white,
+                            iconTheme: IconThemeData(color: Colors.black),
+                            title: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: CustomText(
+                                "${productData?.name?.capitalizeFirst ?? ''}",
+                                color: Colors.black,
+                                fontSize: 16,
+                              ),
+                            ),
+                            actions: [
+                              if (available!)
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 8.0),
+                                  child: Center(
+                                      child: CustomText(
+                                          "${BaseController.formatPrice(productPrice)}")),
+                                ),
+                            ],
+                          ),
                         ),
                       ),
-                      actions: [
-                        if (available!)
-                          Padding(
-                            padding: const EdgeInsets.only(right: 8.0),
-                            child: Center(
-                                child: CustomText("${BaseController.formatPrice(productPrice)}")),
-                          ),
-                      ],
-                    ),
-                  ),
-                ),
-                //? add to cart and product pricing
-                if (available!)
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Container(
-                      // height: 60,
-                      color: Colors.grey[200],
-                      padding: EdgeInsets.only(
-                        left: 10,
-                        right: 10,
-                        top: 8.0,
-                        bottom: 8.0,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          productPriceDetail(
-                            productName: productData?.name,
-                            designerName: productData?.seller?.name ?? productData?.seller?.key,
-                            productPrice: productPrice,
-                            actualPrice: (productData!.cost!.cost +
-                                    productData!.cost!.convenienceCharges!.cost! +
-                                    productData!.cost!.gstCharges!.cost!)
-                                .round(),
-                            showPrice: (available!),
-                            isClothMeterial: (productData?.category?.id == 13),
-                          ),
-                          GestureDetector(
-                            onTap: () async {
-                              if (locator<HomeController>().isLoggedIn) {
-                                if (disabledAddToCartBtn ||
-                                    selectedQty == 0 ||
-                                    selectedColor == "" ||
-                                    selectedSize == "") {
-                                  await DialogService.showCustomDialog(
-                                    AlertDialog(
-                                      title: FittedBox(
-                                        fit: BoxFit.scaleDown,
-                                        child: Text(PRODUCTSCREEN_SELECT_SIZE_COLOR_QTY.tr),
-                                      ),
-                                      actions: [
-                                        TextButton(
-                                            onPressed: () async {
-                                              DialogService.popDialog();
-                                              await Scrollable.ensureVisible(
-                                                variationSelectionCardKey.currentContext!,
-                                                alignment: 0.50,
-                                              );
-                                            },
-                                            child: Text("OK")),
-                                      ],
+                      //? add to cart and product pricing
+                      if (available!)
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Container(
+                            // height: 60,
+                            color: Colors.grey[200],
+                            padding: EdgeInsets.only(
+                              left: 10,
+                              right: 10,
+                              top: 8.0,
+                              bottom: 8.0,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                productPriceDetail(
+                                  productName: productData?.name,
+                                  designerName:
+                                      productData?.seller?.name ?? productData?.seller?.key,
+                                  productPrice: productPrice,
+                                  actualPrice: (productData!.cost!.cost +
+                                          productData!.cost!.convenienceCharges!.cost! +
+                                          productData!.cost!.gstCharges!.cost!)
+                                      .round(),
+                                  showPrice: (available!),
+                                  isClothMeterial: (productData?.category?.id == 13),
+                                ),
+                                GestureDetector(
+                                  onTap: () async {
+                                    if (locator<HomeController>().isLoggedIn) {
+                                      if (disabledAddToCartBtn ||
+                                          selectedQty == 0 ||
+                                          selectedColor == "" ||
+                                          selectedSize == "") {
+                                        await DialogService.showCustomDialog(
+                                          AlertDialog(
+                                            title: FittedBox(
+                                              fit: BoxFit.scaleDown,
+                                              child: Text(PRODUCTSCREEN_SELECT_SIZE_COLOR_QTY.tr),
+                                            ),
+                                            actions: [
+                                              TextButton(
+                                                  onPressed: () async {
+                                                    DialogService.popDialog();
+                                                    await Scrollable.ensureVisible(
+                                                      variationSelectionCardKey.currentContext!,
+                                                      alignment: 0.50,
+                                                    );
+                                                  },
+                                                  child: Text("OK")),
+                                            ],
+                                          ),
+                                        );
+                                      } else {
+                                        setState(() {
+                                          disabledAddToCartBtn = true;
+                                        });
+
+                                        var res = await controller.addToCart(productData!,
+                                            selectedQty, context, selectedSize, selectedColor,
+                                            fromCart: widget.fromCart,
+                                            onProductAdded: widget.fromCart
+                                                ? () => Navigator.pop(context)
+                                                : null);
+
+                                        if (res == 0)
+                                          _errorHandlingService.showError(Errors.CouldNotAddToCart);
+                                        else if (res == 1) {
+                                          locator<CartCountController>().incrementCartCount();
+                                        }
+
+                                        setState(() {
+                                          disabledAddToCartBtn = false;
+                                        });
+
+                                        showTutorial(context, cartKey: cartKey);
+                                      }
+                                    } else {
+                                      await BaseController.showLoginPopup(
+                                        nextView: "addtocart",
+                                        shouldNavigateToNextScreen: false,
+                                      );
+                                    }
+                                  },
+                                  child: Container(
+                                    height: 40,
+                                    width: MediaQuery.of(context).size.width *
+                                        (widget.fromCart ? 0.80 : 0.40),
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: 10,
                                     ),
-                                  );
-                                } else {
-                                  setState(() {
-                                    disabledAddToCartBtn = true;
-                                  });
-
-                                  var res = await controller.addToCart(productData!, selectedQty,
-                                      context, selectedSize, selectedColor,
-                                      fromCart: widget.fromCart,
-                                      onProductAdded:
-                                          widget.fromCart ? () => Navigator.pop(context) : null);
-
-                                  if (res == 0)
-                                    _errorHandlingService.showError(Errors.CouldNotAddToCart);
-                                  else if (res == 1) {
-                                    locator<CartCountController>().incrementCartCount();
-                                  }
-
-                                  setState(() {
-                                    disabledAddToCartBtn = false;
-                                  });
-
-                                  showTutorial(context, cartKey: cartKey);
-                                }
-                              } else {
-                                await BaseController.showLoginPopup(
-                                  nextView: "addtocart",
-                                  shouldNavigateToNextScreen: false,
-                                );
-                              }
-                            },
-                            child: Container(
-                              height: 40,
-                              width: MediaQuery.of(context).size.width *
-                                  (widget.fromCart ? 0.80 : 0.40),
-                              padding: EdgeInsets.symmetric(
-                                vertical: 10,
-                              ),
-                              margin: EdgeInsets.symmetric(
-                                horizontal: 4.0,
-                              ),
-                              decoration: BoxDecoration(
-                                color: widget.fromCart ? lightGreen : logoRed,
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  PRODUCTSCREEN_ADD_TO_BAG.tr,
-                                  style: TextStyle(
-                                    color: widget.fromCart ? Colors.white : Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: subtitleFontSizeStyle + (widget.fromCart ? 2 : 0),
+                                    margin: EdgeInsets.symmetric(
+                                      horizontal: 4.0,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: widget.fromCart ? lightGreen : logoRed,
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        PRODUCTSCREEN_ADD_TO_BAG.tr,
+                                        style: TextStyle(
+                                          color: widget.fromCart ? Colors.white : Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize:
+                                              subtitleFontSizeStyle + (widget.fromCart ? 2 : 0),
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                 ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      //? sold out text if product not available
+                      if (available == false)
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Container(
+                            color: Colors.red,
+                            height: 50,
+                            width: MediaQuery.of(context).size.width,
+                            alignment: Alignment.center,
+                            padding: EdgeInsets.only(
+                              left: 10,
+                              right: 10,
+                              top: 8.0,
+                              bottom: MediaQuery.of(context).padding.bottom + 10.0,
+                            ),
+                            child: Text(
+                              "SOLD OUT",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                  ),
-                //? sold out text if product not available
-                if (available == false)
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Container(
-                      color: Colors.red,
-                      height: 50,
-                      width: MediaQuery.of(context).size.width,
-                      alignment: Alignment.center,
-                      padding: EdgeInsets.only(
-                        left: 10,
-                        right: 10,
-                        top: 8.0,
-                        bottom: MediaQuery.of(context).padding.bottom + 10.0,
-                      ),
-                      child: Text(
-                        "SOLD OUT",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
                         ),
-                      ),
-                    ),
-                  ),
-                //? cart button
-                Positioned(
-                  right: 4,
-                  top: 4,
-                  child: Container(
-                    padding: EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(color: Colors.black26, blurRadius: 2),
-                      ],
-                    ),
-                    // width: MediaQuery.of(context).size.width * 0.20,
-                    // margin: EdgeInsets.symmetric(horizontal: 4.0),
-                    child: InkWell(
-                      key: cartKey,
-                      onTap: () async => locator<HomeController>().isLoggedIn
-                          ? await BaseController.cart()
-                          : await BaseController.showLoginPopup(
-                              nextView: CartViewRoute,
-                              shouldNavigateToNextScreen: true,
+                      //? cart button
+                      Positioned(
+                        right: 4,
+                        top: 4,
+                        child: Container(
+                          padding: EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(color: Colors.black26, blurRadius: 2),
+                            ],
+                          ),
+                          // width: MediaQuery.of(context).size.width * 0.20,
+                          // margin: EdgeInsets.symmetric(horizontal: 4.0),
+                          child: InkWell(
+                            key: cartKey,
+                            onTap: () async => locator<HomeController>().isLoggedIn
+                                ? await BaseController.cart()
+                                : await BaseController.showLoginPopup(
+                                    nextView: CartViewRoute,
+                                    shouldNavigateToNextScreen: true,
+                                  ),
+                            child: Obx(
+                              () => CartIconWithBadge(
+                                count: locator<CartCountController>().count.value,
+                                iconColor: appBarIconColor,
+                              ),
                             ),
-                      child: Obx(
-                        () => CartIconWithBadge(
-                          count: locator<CartCountController>().count.value,
-                          iconColor: appBarIconColor,
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                ),
-                //? back button
-                Positioned(
-                  top: 4,
-                  left: 4,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(color: Colors.black26, blurRadius: 2),
-                      ],
-                    ),
-                    child: InkWell(
-                      child: Icon(
-                        Icons.navigate_before,
-                        size: 40,
+                      //? back button
+                      Positioned(
+                        top: 4,
+                        left: 4,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(color: Colors.black26, blurRadius: 2),
+                            ],
+                          ),
+                          child: InkWell(
+                            child: Icon(
+                              Icons.navigate_before,
+                              size: 40,
+                            ),
+                            onTap: () => NavigationService.back(),
+                          ),
+                        ),
                       ),
-                      onTap: () => NavigationService.back(),
-                    ),
+                    ],
                   ),
                 ),
-              ],
-            ),
-          ),
-        ),
+              ),
       );
 
   _showDialog(context, sellerId, cid) {

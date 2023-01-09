@@ -1,3 +1,4 @@
+import 'package:compound/ui/views/order_item_unavailable_error.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -112,8 +113,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case SearchViewRoute:
       return _getPageRoute(
         routeName: settings.name!,
-        viewToShow:
-            SearchView(showSellers: pageArguments == null ? false : true),
+        viewToShow: SearchView(showSellers: pageArguments == null ? false : true),
         pageArguments: pageArguments,
         pageTransitionType: transitionType,
       );
@@ -143,8 +143,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
           subCategory: (pageArguments).subCategory ?? "",
           sellerPhoto: (pageArguments).sellerPhoto ?? "",
           promotionKey: (pageArguments).promotionKey ?? "",
-          demographicIds:
-              (pageArguments).demographicIds ?? [],
+          demographicIds: (pageArguments).demographicIds ?? [],
         ),
         pageArguments: pageArguments,
         pageTransitionType: PageTransitionType.rightToLeft,
@@ -193,6 +192,15 @@ Route<dynamic> generateRoute(RouteSettings settings) {
           pageArguments: pageArguments,
           routeName: settings.name!,
           viewToShow: OrderPlacedView(),
+          pageTransitionType: PageTransitionType.rightToLeft);
+
+    case OrderFailedItemUnavailableScreenRoute:
+      return _getPageRoute(
+        pageArguments: pageArguments,
+          routeName: settings.name!,
+          viewToShow: OrderItemUnavailableErrorView(
+            products: pageArguments as List<String>,
+          ),
           pageTransitionType: PageTransitionType.rightToLeft);
 
     case PaymentErrorScreenRoute:
@@ -298,8 +306,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     default:
       return MaterialPageRoute(
           builder: (_) => Scaffold(
-                body: Center(
-                    child: Text('No route defined for ${settings.name}')),
+                body: Center(child: Text('No route defined for ${settings.name}')),
               ));
   }
 }
