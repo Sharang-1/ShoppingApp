@@ -11,10 +11,8 @@ import '../widgets/input_field.dart';
 
 class LoginView extends StatelessWidget {
   final phoneNoController = TextEditingController();
-  final fnameController = TextEditingController();
-  final lnameController = TextEditingController();
-  final _fnameFocus = FocusNode();
-  final _lnameFocus = FocusNode();
+  final nameController = TextEditingController();
+  final _nameFocus = FocusNode();
   final _mobileFocus = FocusNode();
 
   Widget inputFields(LoginController controller, context) => Center(
@@ -31,30 +29,15 @@ class LoginView extends StatelessWidget {
               ),
             ),
             verticalSpaceMedium,
-            Row(
-              children: [
-                InputField(
-                  fieldFocusNode: _fnameFocus,
-                  nextFocusNode: _lnameFocus,
-                  placeholder: 'First name',
-                  fontSize: 14,
-                  controller: fnameController,
-                  textInputType: TextInputType.text,
-                  validationMessage: controller.nameValidationMessage,
-                  onChanged: controller.validateName,
-                ),
-                horizontalSpaceTiny,
-                InputField(
-                  fieldFocusNode: _lnameFocus,
-                  nextFocusNode: _mobileFocus,
-                  placeholder: 'Last name',
-                  fontSize: 14,
-                  controller: lnameController,
-                  textInputType: TextInputType.text,
-                  validationMessage: controller.nameValidationMessage,
-                  onChanged: controller.validateName,
-                ),
-              ],
+            InputField(
+              fieldFocusNode: _nameFocus,
+              nextFocusNode: _mobileFocus,
+              placeholder: 'Enter your name',
+              fontSize: 14,
+              controller: nameController,
+              textInputType: TextInputType.text,
+              validationMessage: controller.nameValidationMessage,
+              onChanged: controller.validateName,
             ),
             InternationalPhoneNumberInput(
               focusNode: _mobileFocus,
@@ -255,27 +238,24 @@ class LoginView extends StatelessWidget {
                                 onTap: (controller.phoneNoValidationMessage == "" &&
                                         phoneNoController.text != "" &&
                                         controller.nameValidationMessage == "" &&
-                                        fnameController.text != "" &&
-                                        lnameController.text != "" &&
+                                        nameController.text != "" &&
                                         controller.selectedAgeId != -1 &&
                                         controller.selectedGenderId != -1)
                                     ? () async {
                                         await controller.login(
                                             phoneNo: (phoneNoController.text).replaceAll(" ", ""),
-                                            name: "${fnameController.text} ${lnameController.text}");
+                                            name: nameController.text);
                                       }
                                     : () async {},
                                 child: Container(
                                   height: 40,
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 15,
-                                  ),
+                                  padding: EdgeInsets.symmetric(horizontal: 15,),
                                   // margin: EdgeInsets.,
                                   decoration: BoxDecoration(
                                     color: (controller.phoneNoValidationMessage == "" &&
                                             phoneNoController.text != "" &&
                                             controller.nameValidationMessage == "" &&
-                                            fnameController.text != "" &&
+                                            nameController.text != "" &&
                                             controller.selectedAgeId != -1 &&
                                             controller.selectedGenderId != -1)
                                         ? logoRed
