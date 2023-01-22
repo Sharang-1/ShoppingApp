@@ -52,89 +52,93 @@ class _HomeViewState extends State<HomeView> {
         init: controller,
         initState: (state) {
           controller.onRefresh(context: context, args: widget.args);
-          controller.showTutorial(context, searchKey: searchKey, logoKey: logoKey);
+          controller.showTutorial(context,
+              searchKey: searchKey, logoKey: logoKey);
         },
         builder: (controller) {
-          return SafeArea(
-            child: Scaffold(
-              drawerEdgeDragWidth: 0,
-              primary: true,
-              backgroundColor: Colors.white,
-              bottomNavigationBar: StyleProvider(
-                style: BottomNavigationStyle(),
-                child: ConvexAppBar(
-                  
-                  style: TabStyle.fixedCircle,
-                  color: logoRed,
-                  items: [
-                    TabItem(
-                      title: NAVBAR_CATEGORIES.tr,
-                      icon: _activeIndex == 0
-                          ? SvgPicture.asset("assets/icons/categ1.svg")
-                          : SvgPicture.asset("assets/icons/categ0.svg"),
-                    ),
-                    TabItem(
-                      title: NAVBAR_ORDERS.tr,
-                      icon: _activeIndex == 1
-                          ? SvgPicture.asset("assets/icons/orders1.svg")
-                          : SvgPicture.asset("assets/icons/orders0.svg"),
-                    ),
-                    TabItem(
-                      title: '',
-                      icon: Container(
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: backgroundWhiteCreamColor,
+          return Container(
+              color: logoRed,
+              child: SafeArea(
+                top: true,
+                bottom: false,
+                child: Scaffold(
+                  drawerEdgeDragWidth: 0,
+                  primary: true,
+                  backgroundColor: Colors.white,
+                  bottomNavigationBar: StyleProvider(
+                    style: BottomNavigationStyle(),
+                    child: ConvexAppBar(
+                      style: TabStyle.fixedCircle,
+                      color: logoRed,
+                      items: [
+                        TabItem(
+                          title: NAVBAR_CATEGORIES.tr,
+                          icon: _activeIndex == 0
+                              ? SvgPicture.asset("assets/icons/categ1.svg")
+                              : SvgPicture.asset("assets/icons/categ0.svg"),
                         ),
-                        child: Padding(
-                          key: logoKey,
-                          padding: const EdgeInsets.all(4.0),
-                          child: Image.asset(
-                            "assets/images/logo.png",
-                            // color: logoRed,
-                            height: 15,
-                            width: 15,
+                        TabItem(
+                          title: NAVBAR_ORDERS.tr,
+                          icon: _activeIndex == 1
+                              ? SvgPicture.asset("assets/icons/orders1.svg")
+                              : SvgPicture.asset("assets/icons/orders0.svg"),
+                        ),
+                        TabItem(
+                          title: '',
+                          icon: Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: backgroundWhiteCreamColor,
+                            ),
+                            child: Padding(
+                              key: logoKey,
+                              padding: const EdgeInsets.all(4.0),
+                              child: Image.asset(
+                                "assets/images/logo.png",
+                                // color: logoRed,
+                                height: 15,
+                                width: 15,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
+                        TabItem(
+                          title: NAVBAR_WISHLIST.tr,
+                          icon: _activeIndex == 3
+                              ? SvgPicture.asset("assets/icons/wish1.svg")
+                              : SvgPicture.asset("assets/icons/wish0.svg"),
+                        ),
+                        TabItem(
+                          title: NAVBAR_PROFILE.tr,
+                          icon: _activeIndex == 4
+                              ? SvgPicture.asset("assets/icons/profile1.svg")
+                              : SvgPicture.asset("assets/icons/profile0.svg"),
+                        ),
+                      ],
+                      backgroundColor: Colors.white,
+                      activeColor: logoRed,
+                      disableDefaultTabController: true,
+                      initialActiveIndex: 2,
+                      // onTabNotify: controller.bottomNavigationOnTap,
+                      elevation: 5,
+                      onTap: (i) async {
+                        setState(() {
+                          _activeIndex = i;
+                        });
+                        if (i == 1 || i == 3) {
+                          controller.isLoggedIn
+                              ? () {}
+                              : await BaseController.showLoginPopup(
+                                  nextView: HomeViewRoute,
+                                  shouldNavigateToNextScreen: true,
+                                );
+                        }
+                      },
                     ),
-                    TabItem(
-                      title: NAVBAR_WISHLIST.tr,
-                      icon: _activeIndex == 3
-                          ? SvgPicture.asset("assets/icons/wish1.svg")
-                          : SvgPicture.asset("assets/icons/wish0.svg"),
-                    ),
-                    TabItem(
-                      title: NAVBAR_PROFILE.tr,
-                      icon: _activeIndex == 4
-                          ? SvgPicture.asset("assets/icons/profile1.svg")
-                          : SvgPicture.asset("assets/icons/profile0.svg"),
-                    ),
-                  ],
-                  backgroundColor: Colors.white,
-                  activeColor: logoRed,
-                  disableDefaultTabController: true,
-                  initialActiveIndex: 2,
-                  // onTabNotify: controller.bottomNavigationOnTap,
-                  elevation: 5,
-                  onTap: (i) async{
-                    setState(() {
-                      _activeIndex = i;
-                    });
-                    if(i == 1 || i == 3){
-                      controller.isLoggedIn
-                                  ? (){}
-                                  : await BaseController.showLoginPopup(
-                                      nextView: HomeViewRoute,
-                                      shouldNavigateToNextScreen: true,
-                                    );
-                    }
-                  },
+                  ),
+                  body: _screens[_activeIndex],
                 ),
-              ),
-              body: _screens[_activeIndex],
-            ),
-          );
+              ));
         });
   }
 }

@@ -203,11 +203,12 @@ class ProductDescriptionTable extends StatelessWidget {
               if (product.typeOfSaree != null && product.typeOfSaree != "" && product.typeOfSaree!.trim() != "N/A")
                 getProductDetailsRow("Type of Saree", product.typeOfSaree),
               // divider,
-              if (product.made != null && product.made?.id != -1)
-                getProductDetailsRow(
-                    "Made",
-                    getNameFromLookupId(
-                        productSection, "made", product.made?.id ?? 0)),
+              //changed on 21 jan '23
+              // if (product.made != null && product.made?.id != -1)
+              //   getProductDetailsRow(
+              //       "Made",
+              //       getNameFromLookupId(
+              //           productSection, "made", product.made?.id ?? 0)),
               if ((product.hangings != null) && (product.category?.id == 7))
                 getProductDetailsRow(
                   "Hangings",
@@ -215,11 +216,12 @@ class ProductDescriptionTable extends StatelessWidget {
                 ),
 
               // divider,
-              if ((product.made != null) && (product.made?.id != -1))
-                getProductDetailsRow(
-                  "Made",
-                  product.made?.id == 1 ? "Made on Demand" : "Ready Made",
-                ),
+              //changed on 21 jan '23
+              // if ((product.made != null) && (product.made?.id != -1))
+              //   getProductDetailsRow(
+              //     "Made",
+              //     product.made?.id == 1 ? "Made on Demand" : "Ready Made",
+              //   ),
 
               // divider,
               if ((product.canCan != null) && (product.category?.id == 14))

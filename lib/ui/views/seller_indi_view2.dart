@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:compound/models/sellerBackgroundImageModel.dart';
+import 'package:compound/services/api/api_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -84,7 +86,7 @@ class _SellerIndi2State extends State<SellerIndi2> {
 
   final DynamicLinkService _dynamicLinkService = locator<DynamicLinkService>();
   final AnalyticsService _analyticsService = locator<AnalyticsService>();
-
+  APIService apiService = APIService();
   String getTime(int time) {
     String meridien = "AM";
     print("time132  $time");
@@ -101,7 +103,8 @@ class _SellerIndi2State extends State<SellerIndi2> {
   String getTimeString(Timing timing) {
     DateTime _dateTime = DateTime.now();
     Map<String, dynamic> timingJson = timing.toJson();
-    Day today = Day.fromJson(timingJson[DateFormat('EEEE').format(_dateTime).toLowerCase()]);
+    Day today = Day.fromJson(
+        timingJson[DateFormat('EEEE').format(_dateTime).toLowerCase()]);
     if (today.start == 0 && today.end == 0) return "";
     return "${getTime(today.start as int? ?? 0)} - ${getTime(today.end as int? ?? 0)}";
   }
@@ -109,7 +112,8 @@ class _SellerIndi2State extends State<SellerIndi2> {
   bool isOpenNow(Timing timing) {
     DateTime _dateTime = DateTime.now();
     Map<String, dynamic> timingJson = timing.toJson();
-    Day today = Day.fromJson(timingJson[DateFormat('EEEE').format(_dateTime).toLowerCase()]);
+    Day today = Day.fromJson(
+        timingJson[DateFormat('EEEE').format(_dateTime).toLowerCase()]);
     if (today.open ?? false) {
       if ((_dateTime.hour >= today.start!) && (_dateTime.hour < today.end!))
         return true;
@@ -119,26 +123,55 @@ class _SellerIndi2State extends State<SellerIndi2> {
     return false;
   }
 
+  SellerBackImageModel? sellerBackImageModel = SellerBackImageModel();
   @override
   void initState() {
     super.initState();
     try {
-      _analyticsService.sendAnalyticsEvent(eventName: "seller_view", parameters: <String, dynamic>{
-        "seller_id": widget.data.key,
-        "seller_name": widget.data.name,
-        "subscription_id": widget.data.subscriptionType?.id?.toString(),
-        "subscription_name": widget.data.subscriptionType?.name,
-        "establishment_id": widget.data.establishmentType?.id?.toString(),
-        "establishment_name": widget.data.establishmentType?.name,
-        "user_id": locator<HomeController>().details!.key,
-        "user_name": locator<HomeController>().details!.name,
-      });
-    } catch (e) {}
+      _analyticsService.sendAnalyticsEvent(
+          eventName: "seller_view",
+          parameters: <String, dynamic>{
+            "seller_id": widget.data.key,
+            "seller_name": widget.data.name,
+            "subscription_id": widget.data.subscriptionType?.id?.toString(),
+            "subscription_name": widget.data.subscriptionType?.name,
+            "establishment_id": widget.data.establishmentType?.id?.toString(),
+            "establishment_name": widget.data.establishmentType?.name,
+            "user_id": locator<HomeController>().details!.key,
+            "user_name": locator<HomeController>().details!.name,
+          });
+    } catch (e) {
+      print(e);
+    }
+    print(
+        ".................. ggggggggggg ........ ${widget.data.toString()}.................");
+    
+    getImageName();
+    // var data2 = apiService.getSellerBackgroundImage();
+    // setState(() {
+    //   testimg = data2;
+    // });
+    // print(".................. 123432 ........ $data1.................");
+    //if(data1 != null)print(data1["photos"]);
     showTutorial(
       context,
       sellerAboutKey: sellerAboutKey,
       appointmentBtnKey: appointmentBtnKey,
     );
+  }
+
+  getImageName() async {
+    print(
+        ".................. ggggggggggg ........ ${widget.key.toString()}.................");
+    if (widget.data != null)
+      setState(() async {
+        sellerBackImageModel = await apiService.getImageData(widget.data.key!);
+      });
+    if (sellerBackImageModel != null) {
+      print(
+          ".................. 123432 ........ ${sellerBackImageModel!.key}.................");
+      //print(data1.data.toString());
+    }
   }
 
   late Seller sellerData;
@@ -220,7 +253,8 @@ class _SellerIndi2State extends State<SellerIndi2> {
             paddingFocus: 5,
             onClickOverlay: (targetFocus) => tutorialCoachMark.next(),
             onClickTarget: (targetFocus) => tutorialCoachMark.next(),
-            onFinish: () async => await prefs.setBool(ShouldShowDesignerProfileTutorial, false),
+            onFinish: () async =>
+                await prefs.setBool(ShouldShowDesignerProfileTutorial, false),
             hideSkip: true,
           );
         }
@@ -235,14 +269,14 @@ class _SellerIndi2State extends State<SellerIndi2> {
 
     setupSellerDetails(widget.data);
 
-    String designerProfilePicUrl = "$DESIGNER_PROFILE_PHOTO_BASE_URL/${sellerData.owner?.key}";
+    String designerProfilePicUrl =
+        "$DESIGNER_PROFILE_PHOTO_BASE_URL/${sellerData.owner?.key}";
 
     // Timing _timing = sellerData.timing!;
 
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: null,
-        
         body: SafeArea(
           child: SingleChildScrollView(
             child: Column(
@@ -260,16 +294,30 @@ class _SellerIndi2State extends State<SellerIndi2> {
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.grey.shade100),
                           boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black26,
-                                          blurRadius: 5,
-                                        ),
-                                      ],
-                          color: Colors.blue,
-                          image: DecorationImage(
-                            image: AssetImage(
+                            BoxShadow(
+                              color: Colors.black26,
+                              blurRadius: 5,
+                            ),
+                          ],
+                          color: Colors.white,
+                          // workingarea
+                          image:sellerBackImageModel != null ? DecorationImage(
+                            image:
+                             NetworkImage(
+                                "$SELLER_PROFILE_PHOTO_BASE_URL/${sellerData.key}/profile/${sellerBackImageModel!.photos![0].name}"),
+                            //     :AssetImage(
+                            //   "assets/images/product_preloading.png",
+                            // ),
+
+                            
+                            fit: BoxFit.cover,
+                          ):DecorationImage(
+                            image:
+                                AssetImage(
                               "assets/images/product_preloading.png",
                             ),
+
+                            
                             fit: BoxFit.cover,
                           ),
                           // border: Border.all(),
@@ -286,27 +334,32 @@ class _SellerIndi2State extends State<SellerIndi2> {
                               children: [
                                 Container(
                                   margin: EdgeInsets.only(bottom: 20),
-                                  padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 15, horizontal: 20),
                                   // height: 280,
                                   // width: 200,
                                   width: MediaQuery.of(context).size.width - 40,
 
                                   decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(22),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black26,
-                                          blurRadius: 5,
-                                        ),
-                                      ],),
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(22),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black26,
+                                        blurRadius: 5,
+                                      ),
+                                    ],
+                                  ),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       verticalSpaceMedium,
                                       CustomText(
-                                        sellerDetails[DESIGNER_DETAILS_NAME.tr] ?? "Seller Name",
+                                        sellerDetails[
+                                                DESIGNER_DETAILS_NAME.tr] ??
+                                            "Seller Name",
                                         textStyle: TextStyle(
                                           fontSize: headFont + 6,
                                           fontFamily: headingFont,
@@ -315,9 +368,10 @@ class _SellerIndi2State extends State<SellerIndi2> {
                                         dotsAfterOverFlow: true,
                                       ),
                                       // verticalSpaceTiny,
-                                      
+
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
                                         children: [
                                           Icon(
                                             FontAwesomeIcons.mapMarkerAlt,
@@ -330,7 +384,10 @@ class _SellerIndi2State extends State<SellerIndi2> {
                                               fit: BoxFit.scaleDown,
                                               alignment: Alignment.centerLeft,
                                               child: Text(
-                                                sellerDetails[DESIGNER_DETAILS_CITY.tr] ?? "Seller City",
+                                                sellerDetails[
+                                                        DESIGNER_DETAILS_CITY
+                                                            .tr] ??
+                                                    "Seller City",
                                                 overflow: TextOverflow.ellipsis,
                                                 textAlign: TextAlign.end,
                                                 style: TextStyle(
@@ -353,7 +410,7 @@ class _SellerIndi2State extends State<SellerIndi2> {
                                         ],
                                       ),
 
-                                       Text(
+                                      Text(
                                         "${sellerData.bio ?? 'Seller bio'}",
                                         // "${sellerDetails[DESIGNER_SCREEN_DESIGNES_CREATES.tr]} • ${sellerDetails[DESIGNER_SCREEN_SPECIALITY.tr]} • ${sellerDetails[DESIGNER_SCREEN_WORK_OFFERED.tr]}",
                                         // trimLines: 2,
@@ -366,9 +423,9 @@ class _SellerIndi2State extends State<SellerIndi2> {
                                           color: Colors.black54,
                                         ),
                                       ),
-                                      
+
                                       verticalSpaceMedium,
-                                      
+
                                       Row(
                                         children: [
                                           Icon(
@@ -449,12 +506,14 @@ class _SellerIndi2State extends State<SellerIndi2> {
                                         width: 100 * multiplyer,
                                         height: 100 * multiplyer,
                                         fadeInCurve: Curves.easeIn,
-                                        placeholder: "assets/images/product_preloading.png",
+                                        placeholder:
+                                            "assets/images/product_preloading.png",
                                         image: sellerData.key != null
                                             ? "$SELLER_PHOTO_BASE_URL/${sellerData.key}"
                                             : "https://images.unsplash.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-                                        imageErrorBuilder: (context, error, stackTrace) =>
-                                            Image.asset(
+                                        imageErrorBuilder:
+                                            (context, error, stackTrace) =>
+                                                Image.asset(
                                           "assets/images/product_preloading.png",
                                           width: 100 * multiplyer,
                                           height: 100 * multiplyer,
@@ -498,13 +557,15 @@ class _SellerIndi2State extends State<SellerIndi2> {
                       child: Container(
                         margin: EdgeInsets.only(right: 8, top: 8),
                         padding: EdgeInsets.all(8.0),
-                        decoration:
-                            BoxDecoration(shape: BoxShape.circle, color: Colors.white, boxShadow: [
-                          BoxShadow(
-                            color: Colors.black26,
-                            blurRadius: 5,
-                          )
-                        ]),
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black26,
+                                blurRadius: 5,
+                              )
+                            ]),
                         child: InkWell(
                           onTap: () async {
                             await Share.share(await _dynamicLinkService
@@ -516,13 +577,20 @@ class _SellerIndi2State extends State<SellerIndi2> {
                                   parameters: <String, dynamic>{
                                     "seller_id": sellerData.key,
                                     "seller_name": sellerData.name,
-                                    "subscription_id": widget.data.subscriptionType?.id?.toString(),
-                                    "subscription_name": widget.data.subscriptionType?.name,
-                                    "establishment_id":
-                                        widget.data.establishmentType?.id?.toString(),
-                                    "establishment_name": widget.data.establishmentType?.name,
-                                    "user_id": locator<HomeController>().details!.key,
-                                    "user_name": locator<HomeController>().details!.name,
+                                    "subscription_id": widget
+                                        .data.subscriptionType?.id
+                                        ?.toString(),
+                                    "subscription_name":
+                                        widget.data.subscriptionType?.name,
+                                    "establishment_id": widget
+                                        .data.establishmentType?.id
+                                        ?.toString(),
+                                    "establishment_name":
+                                        widget.data.establishmentType?.name,
+                                    "user_id":
+                                        locator<HomeController>().details!.key,
+                                    "user_name":
+                                        locator<HomeController>().details!.name,
                                   });
                             } catch (e) {}
                           },
@@ -533,10 +601,8 @@ class _SellerIndi2State extends State<SellerIndi2> {
                         ),
                       ),
                     )
-                    
                   ],
                 ),
-               
                 Container(
                   padding: EdgeInsets.symmetric(
                     vertical: 8.0,
@@ -546,13 +612,16 @@ class _SellerIndi2State extends State<SellerIndi2> {
                     children: <Widget>[
                       verticalSpace(10),
                       Container(
-                        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 16),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 5, horizontal: 16),
                         width: double.infinity,
                         color: Colors.grey[200],
                         child: CustomText(
                           DESIGNER_SCREEN_KNOW_THE_DESIGNER.tr,
                           textStyle: TextStyle(
-                              fontSize: headFont, color: Colors.black, fontWeight: FontWeight.bold),
+                              fontSize: headFont,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold),
                         ),
                       ),
                       verticalSpace(10),
@@ -567,12 +636,15 @@ class _SellerIndi2State extends State<SellerIndi2> {
                                   height: 50,
                                   fadeInCurve: Curves.easeIn,
                                   fit: BoxFit.cover,
-                                  placeholder: AssetImage("assets/images/user.png"),
-                                  image: NetworkImage("$designerProfilePicUrl", headers: {
-                                    "Authorization":
-                                        "Bearer ${locator<HomeController>().prefs!.getString(Authtoken) ?? ''}",
-                                  }),
-                                  imageErrorBuilder: (context, error, stackTrace) {
+                                  placeholder:
+                                      AssetImage("assets/images/user.png"),
+                                  image: NetworkImage("$designerProfilePicUrl",
+                                      headers: {
+                                        "Authorization":
+                                            "Bearer ${locator<HomeController>().prefs!.getString(Authtoken) ?? ''}",
+                                      }),
+                                  imageErrorBuilder:
+                                      (context, error, stackTrace) {
                                     print("Image Error: $error $stackTrace");
                                     return Image.asset(
                                       "assets/images/user.png",
@@ -589,7 +661,8 @@ class _SellerIndi2State extends State<SellerIndi2> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   CustomText(
-                                    sellerDetails[DESIGNER_DETAILS_OWNER_NAME.tr]!,
+                                    sellerDetails[
+                                        DESIGNER_DETAILS_OWNER_NAME.tr]!,
                                     fontWeight: FontWeight.normal,
                                     fontSize: headFont,
                                     dotsAfterOverFlow: true,
@@ -611,7 +684,9 @@ class _SellerIndi2State extends State<SellerIndi2> {
                                   //   ),
                                   ReadMoreText(
                                     sellerData.intro ??
-                                        sellerDetails[DESIGNER_DETAILS_NOTE_FROM_DESIGNER.tr]!,
+                                        sellerDetails[
+                                            DESIGNER_DETAILS_NOTE_FROM_DESIGNER
+                                                .tr]!,
                                     trimLines: 2,
                                     colorClickableText: logoRed,
                                     trimMode: TrimMode.Line,
@@ -627,40 +702,41 @@ class _SellerIndi2State extends State<SellerIndi2> {
                         ),
                       ),
                       verticalSpaceSmall,
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 16,
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 16,
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.location_on,
+                              color: logoRed,
                             ),
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Icons.location_on,
-                                  color: logoRed,
-                                ),
-                                SizedBox(
-                                  width: 15,
-                                ),
-                                Container(
-                                  width: Get.width*0.8,
-                                  child: Text(
-                                    sellerDetails[DESIGNER_DETAILS_ADDRESS.tr]!,
-                                    maxLines: 3,
-                                    style: TextStyle(
-                                      fontSize: subtitleFontSize,
-                                      color: Colors.grey,
-                                    ),
-                                    
-                                  ),
-                                ),
-                              ],
+                            SizedBox(
+                              width: 15,
                             ),
-                          ),
+                            Container(
+                              width: Get.width * 0.8,
+                              child: Text(
+                                sellerDetails[DESIGNER_DETAILS_ADDRESS.tr]!,
+                                maxLines: 3,
+                                style: TextStyle(
+                                  fontSize: subtitleFontSize,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                       verticalSpaceMedium,
-                      
-                      if (sellerData.subscriptionTypeId == 1 && showExploreSection)
+
+                      if (sellerData.subscriptionTypeId == 1 &&
+                          showExploreSection)
                         Container(
                           color: Colors.grey[200],
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 5),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16.0, vertical: 5),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -672,7 +748,8 @@ class _SellerIndi2State extends State<SellerIndi2> {
                                     fit: BoxFit.scaleDown,
                                     alignment: Alignment.centerLeft,
                                     child: Text(
-                                      DESIGNER_SCREEN_EXPLORE_DESIGNER_COLLECTION.tr,
+                                      DESIGNER_SCREEN_EXPLORE_DESIGNER_COLLECTION
+                                          .tr,
                                       textAlign: TextAlign.left,
                                       style: TextStyle(
                                         fontSize: 16,
@@ -698,8 +775,10 @@ class _SellerIndi2State extends State<SellerIndi2> {
                                     ProductsListRoute,
                                     arguments: ProductPageArg(
                                       subCategory: sellerData.name,
-                                      queryString: "accountKey=${sellerData.key};",
-                                      sellerPhoto: "$SELLER_PHOTO_BASE_URL/${sellerData.key}",
+                                      queryString:
+                                          "accountKey=${sellerData.key};",
+                                      sellerPhoto:
+                                          "$SELLER_PHOTO_BASE_URL/${sellerData.key}",
                                     ),
                                   );
                                 },
@@ -707,9 +786,11 @@ class _SellerIndi2State extends State<SellerIndi2> {
                             ],
                           ),
                         ),
-                      if (sellerData.subscriptionTypeId == 1 && showExploreSection)
+                      if (sellerData.subscriptionTypeId == 1 &&
+                          showExploreSection)
                         verticalSpace(5),
-                      if (sellerData.subscriptionTypeId == 1 && showExploreSection)
+                      if (sellerData.subscriptionTypeId == 1 &&
+                          showExploreSection)
                         SectionBuilder(
                           key: productKey,
                           context: context,
@@ -717,7 +798,8 @@ class _SellerIndi2State extends State<SellerIndi2> {
                             accountKey: sellerData.key,
                           ),
                           layoutType: LayoutType.PRODUCT_LAYOUT_2,
-                          controller: ProductsGridViewBuilderController(randomize: true, limit: 6),
+                          controller: ProductsGridViewBuilderController(
+                              randomize: true, limit: 6),
                           scrollDirection: Axis.horizontal,
                           onEmptyList: () async {
                             await Future.delayed(
@@ -828,7 +910,8 @@ class MapUtils {
   MapUtils._();
 
   static Future<void> openMap(double latitude, double longitude) async {
-    String googleUrl = 'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
+    String googleUrl =
+        'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
     if (await canLaunch(googleUrl)) {
       await launch(googleUrl);
     } else {

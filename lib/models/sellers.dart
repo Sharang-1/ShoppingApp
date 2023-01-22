@@ -69,7 +69,7 @@ class Seller {
     this.ratingAverage,
     this.designation,
     this.education,
-  });
+  }); 
 
   String? documentId;
   String? key;

@@ -20,7 +20,8 @@ import 'ui/views/startup_view.dart';
 void main() async {
   await setup();
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  String lang = prefs.getString(CurrentLanguage) ?? LocalizationService.langs[0];
+  String lang =
+      prefs.getString(CurrentLanguage) ?? LocalizationService.langs[0];
   await Firebase.initializeApp();
 
   runApp(
@@ -36,7 +37,9 @@ setup() async {
   setupLogger();
   // Register all the models and services before the app starts
   setupLocator();
-  releaseMode ? appVar.currentUrl = appVar.liveUrl : appVar.currentUrl = appVar.devUrl;
+  releaseMode
+      ? appVar.currentUrl = appVar.liveUrl
+      : appVar.currentUrl = appVar.devUrl;
   // Running flutter app
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -45,7 +48,8 @@ setup() async {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]),
     getDynamicKeys(),
     precachePicture(
-      ExactAssetPicture(SvgPicture.svgStringDecoderBuilder, "assets/svg/logo.svg"),
+      ExactAssetPicture(
+          SvgPicture.svgStringDecoderBuilder, "assets/svg/logo.svg"),
       null,
     ),
   ]);
@@ -53,7 +57,8 @@ setup() async {
 
 class CustomScrollOverlayBehaviour extends ScrollBehavior {
   @override
-  Widget buildViewportChrome(BuildContext context, Widget child, AxisDirection axisDirection) {
+  Widget buildViewportChrome(
+      BuildContext context, Widget child, AxisDirection axisDirection) {
     return child;
   }
 }
@@ -64,7 +69,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(statusBarColor: logoRed, statusBarIconBrightness: Brightness.light),
+      SystemUiOverlayStyle(
+          statusBarColor: logoRed, statusBarIconBrightness: Brightness.light),
     );
 
     return GetMaterialApp(
@@ -81,7 +87,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         // brightness: Brightness.dark,
         primaryColor: primaryColor,
-        appBarTheme: AppBarTheme(systemOverlayStyle: SystemUiOverlayStyle.dark),
+        appBarTheme:
+            AppBarTheme(
+              //color: logoRed,
+              //backgroundColor: logoRed,
+              systemOverlayStyle: SystemUiOverlayStyle.light),
         textTheme: Theme.of(context).textTheme.apply(
               fontFamily: 'Poppins',
             ),

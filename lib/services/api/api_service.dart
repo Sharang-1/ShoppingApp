@@ -39,6 +39,7 @@ import '../../models/promoCode.dart';
 import '../../models/promotions.dart';
 import '../../models/queue.dart';
 import '../../models/reviews.dart';
+import '../../models/sellerBackgroundImageModel.dart';
 import '../../models/sellerProfile.dart';
 import '../../models/sellers.dart';
 import '../../models/service_availability.dart';
@@ -75,7 +76,8 @@ class APIService {
       }));
 
   // final excludeToken = dio.Options(headers: {"excludeToken": true});
-  final ErrorHandlingService _errorHandlingService = locator<ErrorHandlingService>();
+  final ErrorHandlingService _errorHandlingService =
+      locator<ErrorHandlingService>();
 
   APIService() {
     apiClient
@@ -120,7 +122,8 @@ class APIService {
     try {
       late dio.Response res;
       if (data == null) {
-        res = await apiClient.get(path, options: options, queryParameters: queryParameters);
+        res = await apiClient.get(path,
+            options: options, queryParameters: queryParameters);
       } else if (options == null ||
           options.method == null ||
           options.method!.toLowerCase() == "post") {
@@ -175,7 +178,8 @@ class APIService {
     return apiWrapper("message/generateOtpToLogin", data: {"mobile": phoneNo});
   }
 
-  Future verifyOTP({required String phoneNo, required String otp, required String fcm}) {
+  Future verifyOTP(
+      {required String phoneNo, required String otp, required String fcm}) {
     return apiWrapper(
       "message/verifyOtpToLogin",
       data: {"mobile": phoneNo},
@@ -188,7 +192,8 @@ class APIService {
     var lookupRes = await apiClient.get("options");
     var lookupData = lookupRes.data;
     if (lookupData != null) {
-      List<Lookups> lookups = lookupData.map<Lookups>((e) => Lookups.fromJson(e)).toList();
+      List<Lookups> lookups =
+          lookupData.map<Lookups>((e) => Lookups.fromJson(e)).toList();
       return lookups;
     }
 
@@ -262,7 +267,8 @@ class APIService {
 
         final response = await apiWrapper("v2/orders",
             authenticated: true,
-            options: dio.Options(headers: {'excludeToken': false}, method: "POST"),
+            options:
+                dio.Options(headers: {'excludeToken': false}, method: "POST"),
             data: orderJson);
         if (kDebugMode) print("response data");
         if (kDebugMode) print(response);
@@ -300,10 +306,12 @@ class APIService {
     return null;
   }
 
-  Future<GroupOrderByGroupId?> getOrderbyGroupqueueid({String? groupQueueId}) async {
-    var json = await apiWrapper("v2/orders;groupId=$groupQueueId") as Map<String, dynamic>;
+  Future<GroupOrderByGroupId?> getOrderbyGroupqueueid(
+      {String? groupQueueId}) async {
+    var json = await apiWrapper("v2/orders;groupId=$groupQueueId")
+        as Map<String, dynamic>;
 
-    var jsonb = {
+    /*var jsonb = {
       "records": 2,
       "startIndex": 0,
       "limit": 100,
@@ -358,7 +366,11 @@ class APIService {
             "customerDetails": {
               "name": "Anurag",
               "customerId": "64316671",
-              "customerPhone": {"code": "91", "mobile": "7838063139", "display": "+91-7838063139"},
+              "customerPhone": {
+                "code": "91",
+                "mobile": "7838063139",
+                "display": "+91-7838063139"
+              },
               "customerMeasure": {
                 "shoulders": 40,
                 "chest": 46,
@@ -367,8 +379,13 @@ class APIService {
                 "height": 56,
                 "empty": false
               },
-              "phone": {"code": "91", "mobile": "7838063139", "display": "+91-7838063139"},
-              "address": "House No 75, Gali no 13, Vipin Garden Extension, Dwarka Mor ",
+              "phone": {
+                "code": "91",
+                "mobile": "7838063139",
+                "display": "+91-7838063139"
+              },
+              "address":
+                  "House No 75, Gali no 13, Vipin Garden Extension, Dwarka Mor ",
               "city": "New Delhi",
               "state": "Delhi",
               "country": "India",
@@ -445,7 +462,11 @@ class APIService {
             "customerDetails": {
               "name": "Anurag",
               "customerId": "64316671",
-              "customerPhone": {"code": "91", "mobile": "7838063139", "display": "+91-7838063139"},
+              "customerPhone": {
+                "code": "91",
+                "mobile": "7838063139",
+                "display": "+91-7838063139"
+              },
               "customerMeasure": {
                 "shoulders": 40,
                 "chest": 46,
@@ -454,8 +475,13 @@ class APIService {
                 "height": 56,
                 "empty": false
               },
-              "phone": {"code": "91", "mobile": "7838063139", "display": "+91-7838063139"},
-              "address": "House No 75, Gali no 13, Vipin Garden Extension, Dwarka Mor ",
+              "phone": {
+                "code": "91",
+                "mobile": "7838063139",
+                "display": "+91-7838063139"
+              },
+              "address":
+                  "House No 75, Gali no 13, Vipin Garden Extension, Dwarka Mor ",
               "city": "New Delhi",
               "state": "Delhi",
               "country": "India",
@@ -483,7 +509,7 @@ class APIService {
           }
         }
       ]
-    };
+    };*/
     try {
       var response = GroupOrderByGroupId.fromJson(json);
 
@@ -515,39 +541,48 @@ class APIService {
   }
 
   Future<Reviews?> getReviews(String key, {bool isSellerReview = false}) async {
-    var cacheReviews = locator<CacheService>().getReviews(key, isSeller: isSellerReview);
+    var cacheReviews =
+        locator<CacheService>().getReviews(key, isSeller: isSellerReview);
     if (cacheReviews != null) return cacheReviews;
-    String query = isSellerReview ? "sellers/$key/reviews" : "products/$key/reviews";
+    String query =
+        isSellerReview ? "sellers/$key/reviews" : "products/$key/reviews";
     var mReviewsData = await apiWrapper(query);
     if (mReviewsData != null) {
       Reviews mReviews = Reviews.fromJson(mReviewsData);
       try {
-        locator<CacheService>().addReviews(key, mReviews, isSeller: isSellerReview);
+        locator<CacheService>()
+            .addReviews(key, mReviews, isSeller: isSellerReview);
       } finally {}
       return mReviews;
     }
     return null;
   }
 
-  Future postReview(String key, double ratings, String description, {bool isSellerReview = false}) {
-    String query = isSellerReview ? "sellers/$key/reviews" : "products/$key/reviews";
+  Future postReview(String key, double ratings, String description,
+      {bool isSellerReview = false}) {
+    String query =
+        isSellerReview ? "sellers/$key/reviews" : "products/$key/reviews";
 
-    return apiWrapper(query, data: {"rating": ratings, "description": description});
+    return apiWrapper(query,
+        data: {"rating": ratings, "description": description});
   }
 
   Future<bool> hasReviewed(String productKey, {bool isSeller = false}) async {
     UserDetails? ud = await getUserData();
     Reviews? reviews = await getReviews(productKey, isSellerReview: isSeller);
     if (reviews != null) {
-      reviews.items = reviews.items!.where((element) => element.userId == ud!.key).toList();
+      reviews.items =
+          reviews.items!.where((element) => element.userId == ud!.key).toList();
       return reviews.items!.isNotEmpty;
     }
     return false;
   }
 
-  Future<Products?> getProducts({String queryString = "", bool explore = false}) async {
+  Future<Products?> getProducts(
+      {String queryString = "", bool explore = false}) async {
     var productData = await apiWrapper(
-        "products;${queryString}seller=true;active=true" + (explore ? ";explore=true" : ""));
+        "products;${queryString}seller=true;active=true" +
+            (explore ? ";explore=true" : ""));
     if (productData != null) {
       Products products = Products.fromJson(productData);
       Fimber.d("products : " + products.items!.map((o) => o.name).toString());
@@ -560,16 +595,20 @@ class APIService {
     Products? products;
     if (sellerKey != null)
       products = await getProducts(queryString: 'accountKey=$sellerKey;');
-    else if (category != null) products = await getProducts(queryString: 'category=$category;');
+    else if (category != null)
+      products = await getProducts(queryString: 'category=$category;');
 
-    products!.items = products.items!.where((p) => (p.enabled! && p.available!)).toList();
+    products!.items =
+        products.items!.where((p) => (p.enabled! && p.available!)).toList();
     return products.items!.isNotEmpty;
   }
 
-  Future<Product?> getProductById({required String productId, bool withCoupons = false}) async {
+  Future<Product?> getProductById(
+      {required String productId, bool withCoupons = false}) async {
     if (productId == null) return null;
     var productData = withCoupons
-        ? await apiWrapper("products/$productId;seller=true;active=true;promocode=true")
+        ? await apiWrapper(
+            "products/$productId;seller=true;active=true;promocode=true")
         : await apiWrapper("products/$productId;seller=true;active=true");
     if (productData == null) return null;
     Product product = Product.fromJson(productData);
@@ -580,7 +619,8 @@ class APIService {
     required List<String> list,
   }) async {
     final futureList = list.map<Future<Product>>((id) async {
-      final productData = await apiWrapper("products/$id;seller=true;active=true");
+      final productData =
+          await apiWrapper("products/$id;seller=true;active=true");
       if (productData != null) {
         Product singleProduct = Product.fromJson(productData);
         return singleProduct;
@@ -589,7 +629,8 @@ class APIService {
     });
 
     final resolvedList = await Future.wait(futureList);
-    final filteredList = resolvedList.where((element) => element != null).toList();
+    final filteredList =
+        resolvedList.where((element) => element != null).toList();
 
     Products data = Products(
       records: filteredList.length,
@@ -606,7 +647,8 @@ class APIService {
     if (promotionsData != null) {
       try {
         Promotions promotions = Promotions.fromJson(promotionsData);
-        Fimber.d("promotions : " + promotions.promotions!.map((o) => o.name).toString());
+        Fimber.d("promotions : " +
+            promotions.promotions!.map((o) => o.name).toString());
         return promotions;
       } catch (e) {
         if (kDebugMode) print(e);
@@ -622,14 +664,16 @@ class APIService {
     var category = await apiWrapper("categories?context=subCategory");
     if (category != null) {
       Categorys categoryData = Categorys.fromJson(category);
-      Fimber.d("Subcategories : " + categoryData.items!.map((o) => o.name).toString());
+      Fimber.d("Subcategories : " +
+          categoryData.items!.map((o) => o.name).toString());
       return categoryData;
     }
     return Categorys();
   }
 
   Future<Sellers> getSellers({String queryString = ""}) async {
-    var sellersData = await apiWrapper("sellers;$queryString;active=true;approved=true");
+    var sellersData =
+        await apiWrapper("sellers;$queryString;active=true;approved=true");
     if (sellersData != null) {
       Sellers sellers = Sellers.fromJson(sellersData);
       Fimber.d("Sellers : " + sellers.items!.map((o) => o.name).toString());
@@ -652,7 +696,8 @@ class APIService {
     var sellerProfileData = await apiWrapper("sellers/$id/profile");
     if (sellerProfileData != null) {
       SellerProfile sellerProfile = SellerProfile.fromMap(sellerProfileData);
-      Fimber.d("Sellers : " + sellerProfile.photos!.map((o) => o.name).toString());
+      Fimber.d(
+          "Sellers : " + sellerProfile.photos!.map((o) => o.name).toString());
       return sellerProfile;
     }
     return SellerProfile();
@@ -670,7 +715,8 @@ class APIService {
 
   Future<CartModule.Cart?> getCart({String queryString = ""}) async {
     var cartData = await apiWrapper("carts/my?context=productDetails",
-        authenticated: true, options: dio.Options(headers: {'excludeToken': false}));
+        authenticated: true,
+        options: dio.Options(headers: {'excludeToken': false}));
     if (cartData != null) {
       try {
         CartModule.Cart cart = CartModule.Cart.fromJson(cartData);
@@ -687,7 +733,8 @@ class APIService {
   Future<List<String>?> getCartProductItemList() async {
     var cartData;
     cartData = await apiWrapper("carts/my?context=productDetails",
-        authenticated: true, options: dio.Options(headers: {'excludeToken': false}));
+        authenticated: true,
+        options: dio.Options(headers: {'excludeToken': false}));
     if (kDebugMode) print("cartData is $cartData");
     if (cartData != null) {
       try {
@@ -697,7 +744,8 @@ class APIService {
         final list = cart.items!.map((e) => e.productId.toString()).toList();
         return list;
       } catch (err) {
-        if (kDebugMode) print("Error in api_service.dart > getCartProductItemList");
+        if (kDebugMode)
+          print("Error in api_service.dart > getCartProductItemList");
         if (kDebugMode) print(err);
         return null;
       }
@@ -705,13 +753,19 @@ class APIService {
     return null;
   }
 
-  Future<dynamic> addToCart(String productId, int qty, String size, String color) async {
+  Future<dynamic> addToCart(
+      String productId, int qty, String size, String color) async {
     var cartData = await apiWrapper("carts/?context=add",
         authenticated: true,
         options: dio.Options(headers: {'excludeToken': false}, method: "put"),
         data: {
           "items": [
-            {"productId": productId, "quantity": qty, "size": size, "color": color}
+            {
+              "productId": productId,
+              "quantity": qty,
+              "size": size,
+              "color": color
+            }
           ]
         });
     if (cartData != null) {
@@ -739,7 +793,8 @@ class APIService {
     return null;
   }
 
-  Future<CalculatedPrice?> calculateProductPrice(String productId, int qty, String pincode,
+  Future<CalculatedPrice?> calculateProductPrice(
+      String productId, int qty, String pincode,
       {String? promocode}) async {
     final quantity = qty >= 1 ? qty : 1;
     final calculatedPriceData = await apiWrapper(
@@ -748,7 +803,8 @@ class APIService {
         options: dio.Options(headers: {'excludeToken': false}));
     if (calculatedPriceData != null) {
       try {
-        CalculatedPrice calPrice = CalculatedPrice.fromJson(calculatedPriceData);
+        CalculatedPrice calPrice =
+            CalculatedPrice.fromJson(calculatedPriceData);
         return calPrice;
       } catch (err) {
         if (kDebugMode) print("Calculated Price Error : ${err.toString()}");
@@ -842,16 +898,18 @@ class APIService {
         Queue queue = Queue.fromJson(orderData);
         String queueId = queue.queueId ?? "";
         while ((queue.status == "QUEUE") || (queue.status == "PROCESS")) {
-          queue = Queue.fromJson(
-              await apiWrapper("orders​/queue/$queueId/status", authenticated: true));
+          queue = Queue.fromJson(await apiWrapper(
+              "orders​/queue/$queueId/status",
+              authenticated: true));
           await Future.delayed(
             Duration(
               seconds: pollWaitTime,
             ),
           );
         }
-        OrderModule.Order order = OrderModule.Order.fromJson(
-            await apiWrapper("orders/${queue.orderId};product=true", authenticated: true));
+        OrderModule.Order order = OrderModule.Order.fromJson(await apiWrapper(
+            "orders/${queue.orderId};product=true",
+            authenticated: true));
         Fimber.d("Order1 : " + order.key!);
         return order;
       } catch (err) {
@@ -864,7 +922,8 @@ class APIService {
   }
 
   Future<Orders?> getAllOrdersV1() async {
-    var ordersData = await apiWrapper("orders;product=true", authenticated: true);
+    var ordersData =
+        await apiWrapper("orders;product=true", authenticated: true);
     if (ordersData != null) {
       Orders orders = Orders.fromJson(ordersData);
       orders.orders!.sort((a, b) {
@@ -880,7 +939,8 @@ class APIService {
   }
 
   Future<OrdersV2?> getAllOrders() async {
-    var ordersData = await apiWrapper("v2/orders;product=true", authenticated: true);
+    var ordersData =
+        await apiWrapper("v2/orders;product=true", authenticated: true);
     if (ordersData != null) {
       OrdersV2 orders = OrdersV2.fromJson(ordersData);
       orders.orders!.sort((a, b) {
@@ -896,7 +956,10 @@ class APIService {
   }
 
   Future verifyGroupPayment(
-      {String? groupId, String? paymentId, String? signature, bool success = true}) async {
+      {String? groupId,
+      String? paymentId,
+      String? signature,
+      bool success = true}) async {
     var json = await apiWrapper("v2/orders/$groupId/verifyPayment",
         // queryParameters: {"groupOrder": true},
         authenticated: true,
@@ -929,11 +992,13 @@ class APIService {
         Queue queue = Queue.fromJson(json);
         String queueId = queue.queueId!;
         while ((queue.status == "QUEUE") || (queue.status == "PROCESS")) {
-          queue = Queue.fromJson(
-              await apiWrapper("orders​/payment/queue/$queueId/status", authenticated: true));
+          queue = Queue.fromJson(await apiWrapper(
+              "orders​/payment/queue/$queueId/status",
+              authenticated: true));
         }
-        OrderModule.Order order = OrderModule.Order.fromJson(
-            await apiWrapper("orders/${queue.orderId};product=true", authenticated: true));
+        OrderModule.Order order = OrderModule.Order.fromJson(await apiWrapper(
+            "orders/${queue.orderId};product=true",
+            authenticated: true));
         Fimber.d("Order : " + order.key!);
         return order;
       } catch (err) {
@@ -964,7 +1029,8 @@ class APIService {
     return name!;
   }
 
-  Future<UserDetails?> updateUserData(UserDetails mUserDetails, {bool onlyName = false}) async {
+  Future<UserDetails?> updateUserData(UserDetails mUserDetails,
+      {bool onlyName = false}) async {
     var userData = await apiWrapper("users/" + mUserDetails.key!,
         authenticated: true,
         data: onlyName
@@ -988,7 +1054,8 @@ class APIService {
           data: {
             "measure": measure.toJson(),
           },
-          options: dio.Options(headers: {'excludeToken': false}, method: "put"));
+          options:
+              dio.Options(headers: {'excludeToken': false}, method: "put"));
       if (res != null) {
         return true;
       }
@@ -1063,8 +1130,8 @@ class APIService {
     return null;
   }
 
-  Future<String?> bookAppointment(
-      String sellerId, String timeSlotStart, String timeSlotEnd, String customerMessage) async {
+  Future<String?> bookAppointment(String sellerId, String timeSlotStart,
+      String timeSlotEnd, String customerMessage) async {
     var res = await appointmentClient.post("", data: {
       "sellerId": sellerId,
       "timeSlotStart": timeSlotStart,
@@ -1081,6 +1148,14 @@ class APIService {
     var res = await apiClient.get("release/app");
 
     if (res.data != null) return AppUpdate.fromJson(res.data);
+    return null;
+  }
+
+  Future<SellerBackImageModel?> getImageData(String key) async {
+    var res = await apiClient.get("sellers/$key/profile");
+    //print(res.data);
+     print(".................. 12343233 ........ ${res.data["photos"]}.................");
+    if (res.data != null) return SellerBackImageModel.fromJson(res.data);
     return null;
   }
 }

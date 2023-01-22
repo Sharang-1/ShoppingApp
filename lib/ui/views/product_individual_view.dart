@@ -1596,21 +1596,21 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                           alignment: Alignment.bottomCenter,
                           child: Container(
                             color: Colors.red,
-                            height: 50,
-                            width: MediaQuery.of(context).size.width,
-                            alignment: Alignment.center,
-                            padding: EdgeInsets.only(
-                              left: 10,
+                             height: screenHeight(context)*0.05,
+                             width: MediaQuery.of(context).size.width,
+                            // alignment: Alignment.center,
+                             padding: EdgeInsets.only(
+                              left: screenWidth(context)*0.4,
                               right: 10,
                               top: 8.0,
-                              bottom: MediaQuery.of(context).padding.bottom + 10.0,
+                              bottom:   10.0,
                             ),
                             child: Text(
                               "SOLD OUT",
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 20,
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w400,
                               ),
                             ),
                           ),
