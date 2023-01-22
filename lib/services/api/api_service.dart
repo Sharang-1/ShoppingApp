@@ -1155,7 +1155,7 @@ class APIService {
     var res = await apiClient.get("sellers/$key/profile");
     //print(res.data);
      print(".................. 12343233 ........ ${res.data["photos"]}.................");
-    if (res.data != null) return SellerBackImageModel.fromJson(res.data);
+    if (res.data != null && res.data["key"] != null ) return SellerBackImageModel.fromJson(res.data);
     return null;
   }
 }

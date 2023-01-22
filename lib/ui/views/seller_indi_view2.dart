@@ -82,6 +82,7 @@ class _SellerIndi2State extends State<SellerIndi2> {
   String? selectedTime;
   int? selectedIndex;
 
+  SellerBackImageModel? sellerBackImageModel = SellerBackImageModel();
   late TutorialCoachMark tutorialCoachMark;
 
   final DynamicLinkService _dynamicLinkService = locator<DynamicLinkService>();
@@ -123,7 +124,6 @@ class _SellerIndi2State extends State<SellerIndi2> {
     return false;
   }
 
-  SellerBackImageModel? sellerBackImageModel = SellerBackImageModel();
   @override
   void initState() {
     super.initState();
@@ -145,7 +145,7 @@ class _SellerIndi2State extends State<SellerIndi2> {
     }
     print(
         ".................. ggggggggggg ........ ${widget.data.toString()}.................");
-    
+
     getImageName();
     // var data2 = apiService.getSellerBackgroundImage();
     // setState(() {
@@ -161,17 +161,18 @@ class _SellerIndi2State extends State<SellerIndi2> {
   }
 
   getImageName() async {
-    print(
-        ".................. ggggggggggg ........ ${widget.key.toString()}.................");
+    // print(
+    //     ".................. ggggggggggg ........ ${widget.key.toString()}.................");
     if (widget.data != null)
       setState(() async {
         sellerBackImageModel = await apiService.getImageData(widget.data.key!);
+
       });
-    if (sellerBackImageModel != null) {
-      print(
-          ".................. 123432 ........ ${sellerBackImageModel!.key}.................");
-      //print(data1.data.toString());
-    }
+    // if (sellerBackImageModel != null) {
+    //   print(
+    //       ".................. 123432 ........ ${sellerBackImageModel!.key}.................");
+    //   //print(data1.data.toString());
+    // }
   }
 
   late Seller sellerData;
@@ -288,7 +289,10 @@ class _SellerIndi2State extends State<SellerIndi2> {
                         bottomLeft: Radius.circular(20),
                         bottomRight: Radius.circular(20),
                       ),
-                      child: Container(
+                      child:FutureBuilder(
+    future: apiService.getImageData(widget.data.key!),
+    builder: (BuildContext context,AsyncSnapshot<SellerBackImageModel?> snapshot){
+    if( snapshot.hasData && snapshot.data != null ){ return Container(
                         width: MediaQuery.of(context).size.width,
                         height: 460,
                         decoration: BoxDecoration(
@@ -301,25 +305,26 @@ class _SellerIndi2State extends State<SellerIndi2> {
                           ],
                           color: Colors.white,
                           // workingarea
-                          image:sellerBackImageModel != null ? DecorationImage(
+                          image:  DecorationImage(
                             image:
                              NetworkImage(
-                                "$SELLER_PROFILE_PHOTO_BASE_URL/${sellerData.key}/profile/${sellerBackImageModel!.photos![0].name}"),
+                                "$SELLER_PROFILE_PHOTO_BASE_URL/${sellerData.key}/profile/${snapshot.data!.photos![0].name}"),
                             //     :AssetImage(
                             //   "assets/images/product_preloading.png",
                             // ),
 
-                            
-                            fit: BoxFit.cover,
-                          ):DecorationImage(
-                            image:
-                                AssetImage(
-                              "assets/images/product_preloading.png",
-                            ),
 
-                            
                             fit: BoxFit.cover,
                           ),
+                          //     :DecorationImage(
+                          //   image:
+                          //       AssetImage(
+                          //     "assets/images/product_preloading.png",
+                          //   ),
+                          //
+                          //
+                          //   fit: BoxFit.cover,
+                          // ),
                           // border: Border.all(),
                           borderRadius: BorderRadius.only(
                             bottomLeft: Radius.circular(20),
@@ -528,7 +533,236 @@ class _SellerIndi2State extends State<SellerIndi2> {
                             ),
                           ],
                         ),
-                      ),
+                      );}else{return Container(
+      width: MediaQuery.of(context).size.width,
+      height: 460,
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey.shade100),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black26,
+            blurRadius: 5,
+          ),
+        ],
+        color: Colors.white,
+        // workingarea
+        image:  DecorationImage(
+            image:
+                  AssetImage(
+                "assets/images/product_preloading.png",
+              ),
+              fit: BoxFit.cover,
+            ),
+            // border: Border.all(),
+            borderRadius: BorderRadius.only(
+        bottomLeft: Radius.circular(20),
+        bottomRight: Radius.circular(20),
+      ),
+    ),
+      child: Column(
+      children: [
+      Spacer(),
+      Stack(
+      clipBehavior: Clip.none,
+      children: [
+      Container(
+      margin: EdgeInsets.only(bottom: 20),
+      padding: EdgeInsets.symmetric(
+      vertical: 15, horizontal: 20),
+      // height: 280,
+      // width: 200,
+      width: MediaQuery.of(context).size.width - 40,
+
+      decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(22),
+      boxShadow: [
+      BoxShadow(
+      color: Colors.black26,
+      blurRadius: 5,
+      ),
+      ],
+      ),
+      child: Column(
+      crossAxisAlignment:
+      CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+      verticalSpaceMedium,
+      CustomText(
+      sellerDetails[
+      DESIGNER_DETAILS_NAME.tr] ??
+      "Seller Name",
+      textStyle: TextStyle(
+      fontSize: headFont + 6,
+      fontFamily: headingFont,
+      fontWeight: FontWeight.w600,
+      ),
+      dotsAfterOverFlow: true,
+      ),
+      // verticalSpaceTiny,
+
+      Row(
+      mainAxisAlignment:
+      MainAxisAlignment.start,
+      children: [
+      Icon(
+      FontAwesomeIcons.mapMarkerAlt,
+      size: 15,
+      color: Colors.black54,
+      ),
+      horizontalSpaceTiny,
+      Expanded(
+      child: FittedBox(
+      fit: BoxFit.scaleDown,
+      alignment: Alignment.centerLeft,
+      child: Text(
+      sellerDetails[
+      DESIGNER_DETAILS_CITY
+          .tr] ??
+      "Seller City",
+      overflow: TextOverflow.ellipsis,
+      textAlign: TextAlign.end,
+      style: TextStyle(
+      color: Colors.black54,
+      fontWeight: FontWeight.w400,
+      fontSize: headFont - 3,
+      ),
+      ),
+      ),
+      ),
+      CustomText(
+      "${sellerDetails[DESIGNER_DETAILS_TYPE.tr]}",
+      fontSize: headFont - 3,
+      fontWeight: FontWeight.w500,
+      fontFamily: textFont,
+      dotsAfterOverFlow: true,
+      maxLines: 4,
+      color: Colors.black54,
+      ),
+      ],
+      ),
+
+      Text(
+      "${sellerData.bio ?? 'Seller bio'}",
+      // "${sellerDetails[DESIGNER_SCREEN_DESIGNES_CREATES.tr]} • ${sellerDetails[DESIGNER_SCREEN_SPECIALITY.tr]} • ${sellerDetails[DESIGNER_SCREEN_WORK_OFFERED.tr]}",
+      // trimLines: 2,
+      maxLines: 4,
+      overflow: TextOverflow.ellipsis,
+      // colorClickableText: logoRed,
+      // trimMode: TrimMode.Line,
+      style: TextStyle(
+      fontSize: headFont - 2,
+      color: Colors.black54,
+      ),
+      ),
+
+      verticalSpaceMedium,
+
+      Row(
+      children: [
+      Icon(
+      Icons.shopping_bag_outlined,
+      color: Colors.black54,
+      size: 17,
+      ),
+      horizontalSpaceSmall,
+      CustomText(
+      "Delivering Across India",
+      fontSize: headFont - 2,
+      fontWeight: FontWeight.w500,
+      fontFamily: textFont,
+      dotsAfterOverFlow: true,
+      color: Colors.black54,
+      ),
+      ],
+      ),
+      Row(
+      children: [
+      Icon(
+      Icons.currency_rupee,
+      color: Colors.black54,
+      size: 17,
+      ),
+      horizontalSpaceSmall,
+      CustomText(
+      "Delivery fee will apply",
+      fontSize: headFont - 2,
+      fontWeight: FontWeight.w500,
+      fontFamily: textFont,
+      dotsAfterOverFlow: true,
+      color: Colors.black54,
+      ),
+      ],
+      ),
+      Row(
+      children: [
+      Icon(
+      Icons.local_shipping_outlined,
+      color: Colors.black54,
+      size: 17,
+      ),
+      horizontalSpaceSmall,
+      CustomText(
+      "All orders will be delivered by Dzor",
+      fontSize: headFont - 2,
+      fontWeight: FontWeight.w500,
+      fontFamily: textFont,
+      dotsAfterOverFlow: true,
+      color: Colors.black54,
+      ),
+      ],
+      )
+      ],
+      ),
+      ),
+      Positioned(
+      left: 15,
+      top: -40,
+      child: Container(
+      // padding: EdgeInsets.all(10),
+      height: 70,
+      width: 70,
+      decoration: BoxDecoration(
+      boxShadow: [
+      BoxShadow(
+      color: Colors.black26,
+      blurRadius: 5,
+      ),
+      ],
+      // color: Colors.red,
+      borderRadius: BorderRadius.circular(20),
+      ),
+      child: ClipRRect(
+      borderRadius: BorderRadius.circular(20),
+      child: FadeInImage.assetNetwork(
+      width: 100 * multiplyer,
+      height: 100 * multiplyer,
+      fadeInCurve: Curves.easeIn,
+      placeholder:
+      "assets/images/product_preloading.png",
+      image: sellerData.key != null
+      ? "$SELLER_PHOTO_BASE_URL/${sellerData.key}"
+          : "https://images.unsplash.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
+      imageErrorBuilder:
+      (context, error, stackTrace) =>
+      Image.asset(
+      "assets/images/product_preloading.png",
+      width: 100 * multiplyer,
+      height: 100 * multiplyer,
+      fit: BoxFit.cover,
+      ),
+      fit: BoxFit.cover,
+      ),
+      ),
+      ),
+      ),
+      ],
+      ),
+      ],
+      ),
+      )
+      ;}}),
                     ),
                     Align(
                       alignment: Alignment.topLeft,
