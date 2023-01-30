@@ -60,7 +60,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
   double? paymentTotal;
   CostEstimateModel? estimatedCost;
   bool isLoading = true;
-  final ErrorHandlingService _errorHandlingService = locator<ErrorHandlingService>();
+  final ErrorHandlingService _errorHandlingService =
+      locator<ErrorHandlingService>();
 
   Map<int, Widget> iconpaymentMethodMap = {
     1: Tab(icon: Image.asset("assets/images/cash_icon.png")),
@@ -99,7 +100,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
     //   });
     // }
     return GetBuilder<CartPaymentMethodController>(
-      init: CartPaymentMethodController(city: widget.customerDetails.city ?? ""),
+      init:
+          CartPaymentMethodController(city: widget.customerDetails.city ?? ""),
       builder: (controller) => Scaffold(
         backgroundColor: newBackgroundColor2,
         appBar: AppBar(
@@ -163,7 +165,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                     width: 80,
                                     height: 5,
                                     decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(20), color: Colors.black),
+                                        borderRadius: BorderRadius.circular(20),
+                                        color: Colors.black),
                                   ),
                                 ),
                                 verticalSpaceSmall,
@@ -174,9 +177,11 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                if ((estimatedCost?.orderCosts?.length ?? 0) > 0)
+                                if ((estimatedCost?.orderCosts?.length ?? 0) >
+                                    0)
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         "Item 1 Cost",
@@ -187,7 +192,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                         ),
                                       ),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text("Product Price : "),
                                           Text(
@@ -195,7 +201,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                         ],
                                       ),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text("Quantity : "),
                                           Text(
@@ -203,7 +210,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                         ],
                                       ),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text("Discount : "),
                                           Text(
@@ -216,7 +224,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                         ],
                                       ),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text("GST Charges : "),
                                           Text(
@@ -229,7 +238,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                         ],
                                       ),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text("Total : "),
                                           Text(
@@ -244,9 +254,11 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                       ),
                                     ],
                                   ),
-                                if ((estimatedCost?.orderCosts?.length ?? 0) > 1)
+                                if ((estimatedCost?.orderCosts?.length ?? 0) >
+                                    1)
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         "Item 2 Cost",
@@ -257,7 +269,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                         ),
                                       ),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text("Product Price : "),
                                           Text(
@@ -265,7 +278,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                         ],
                                       ),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text("Quantity : "),
                                           Text(
@@ -273,7 +287,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                         ],
                                       ),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text("Discount : "),
                                           Text(
@@ -286,7 +301,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                         ],
                                       ),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text("GST Charges : "),
                                           Text(
@@ -299,7 +315,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                         ],
                                       ),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text("Total : "),
                                           Text(
@@ -314,9 +331,11 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                       ),
                                     ],
                                   ),
-                                if ((estimatedCost?.orderCosts?.length ?? 0) > 2)
+                                if ((estimatedCost?.orderCosts?.length ?? 0) >
+                                    2)
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         "Item 3 Cost",
@@ -327,7 +346,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                         ),
                                       ),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text("Product Price : "),
                                           Text(
@@ -335,7 +355,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                         ],
                                       ),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text("Quantity : "),
                                           Text(
@@ -343,7 +364,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                         ],
                                       ),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text("Discount : "),
                                           Text(
@@ -356,7 +378,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                         ],
                                       ),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text("GST Charges : "),
                                           Text(
@@ -369,7 +392,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                         ],
                                       ),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text("Total : "),
                                           Text(
@@ -384,9 +408,11 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                       ),
                                     ],
                                   ),
-                                if ((estimatedCost?.orderCosts?.length ?? 0) > 3)
+                                if ((estimatedCost?.orderCosts?.length ?? 0) >
+                                    3)
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         "Item 4 Cost",
@@ -397,7 +423,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                         ),
                                       ),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text("Product Price : "),
                                           Text(
@@ -405,7 +432,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                         ],
                                       ),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text("Quantity : "),
                                           Text(
@@ -413,7 +441,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                         ],
                                       ),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text("Discount : "),
                                           Text(
@@ -426,7 +455,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                         ],
                                       ),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text("GST Charges : "),
                                           Text(
@@ -439,7 +469,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                         ],
                                       ),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text("Total : "),
                                           Text(
@@ -455,7 +486,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                     ],
                                   ),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       "Convenience Charge : ",
@@ -475,36 +507,44 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                if (estimatedCost!.deliveryChargesList!.length > 0)
+                                if (estimatedCost!.deliveryChargesList!.length >
+                                    0)
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text("Seller 1 Delivery Charge : "),
                                       Text(
                                           "$rupeeUnicode${estimatedCost?.deliveryChargesList?[0].cost.toString() ?? 0}")
                                     ],
                                   ),
-                                if (estimatedCost!.deliveryChargesList!.length > 1)
+                                if (estimatedCost!.deliveryChargesList!.length >
+                                    1)
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text("Seller 2 Delivery Charge : "),
                                       Text(
                                           "$rupeeUnicode${estimatedCost?.deliveryChargesList?[1].cost.toString() ?? 0}")
                                     ],
                                   ),
-                                if (estimatedCost!.deliveryChargesList!.length > 2)
+                                if (estimatedCost!.deliveryChargesList!.length >
+                                    2)
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text("Seller 3 Delivery Charge : "),
                                       Text(
                                           "$rupeeUnicode${estimatedCost?.deliveryChargesList?[2].cost.toString() ?? 0}")
                                     ],
                                   ),
-                                if (estimatedCost!.deliveryChargesList!.length > 3)
+                                if (estimatedCost!.deliveryChargesList!.length >
+                                    3)
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text("Seller 4 Delivery Charge : "),
                                       Text(
@@ -513,7 +553,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                   ),
                                 if (paymentMethodGrpValue == 1)
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
                                         "Pay on Delivery Charge",
@@ -525,22 +566,26 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                       Text("$rupeeUnicode 50")
                                     ],
                                   ),
-                                  verticalSpaceTiny,
-                                  Divider(color: Colors.black45,),
-                                  verticalSpaceTiny_0,
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        "Total Payable Amount",
-                                        style: TextStyle(
-                                          fontSize: titleFontSize + 2,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                verticalSpaceTiny,
+                                Divider(
+                                  color: Colors.black45,
+                                ),
+                                verticalSpaceTiny_0,
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Total Payable Amount",
+                                      style: TextStyle(
+                                        fontSize: titleFontSize + 2,
+                                        fontWeight: FontWeight.bold,
                                       ),
-                                      Text("$rupeeUnicode ${estimatedCost?.cost ?? 0}")
-                                    ],
-                                  ),
+                                    ),
+                                    Text(
+                                        "$rupeeUnicode ${estimatedCost?.cost ?? 0}")
+                                  ],
+                                ),
                               ]),
                         ),
                       );
@@ -551,7 +596,9 @@ class _PaymentMethodState extends State<PaymentMethod> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       CustomText(
-                        rupeeUnicode + (paymentTotal ?? widget.finalTotal)!.toStringAsFixed(2),
+                        rupeeUnicode +
+                            (paymentTotal ?? widget.finalTotal)!
+                                .toStringAsFixed(2),
                         fontSize: 18,
                         isBold: true,
                         color: logoRed,
@@ -578,13 +625,16 @@ class _PaymentMethodState extends State<PaymentMethod> {
                     ),
                     onPressed: controller.busy
                         ? null
-                        : () async => await makePayment(controller, paymentMethodGrpValue),
+                        : () async => await makePayment(
+                            controller, paymentMethodGrpValue),
                     child: Padding(
                       padding: const EdgeInsets.all(10),
                       child: Container(
                         alignment: Alignment.center,
                         child: Text(
-                          paymentMethodGrpValue == 2 ? PROCEED_TO_PAY.tr : PLACE_ORDER.tr,
+                          paymentMethodGrpValue == 2
+                              ? PROCEED_TO_PAY.tr
+                              : PLACE_ORDER.tr,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
@@ -654,12 +704,15 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                   onTap: () {
                                     print(controller.paymentOptions);
                                     setState(() {
-                                      paymentMethodGrpValue = paymentMethodRadioValue = key;
-                                      getOrderCostEstimate(paymentMethodGrpValue);
+                                      paymentMethodGrpValue =
+                                          paymentMethodRadioValue = key;
+                                      getOrderCostEstimate(
+                                          paymentMethodGrpValue);
                                     });
                                   },
                                   child: Container(
-                                    margin: EdgeInsets.only(bottom: spaceBetweenCards),
+                                    margin: EdgeInsets.only(
+                                        bottom: spaceBetweenCards),
                                     decoration: BoxDecoration(
                                       border: Border(
                                         bottom: BorderSide(
@@ -670,10 +723,12 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                     child: Card(
                                       elevation: 0,
                                       shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(curve15),
+                                        borderRadius:
+                                            BorderRadius.circular(curve15),
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.fromLTRB(0, 8, 8, 8),
+                                        padding: const EdgeInsets.fromLTRB(
+                                            0, 8, 8, 8),
                                         child: Row(
                                           children: <Widget>[
                                             Radio(
@@ -682,27 +737,35 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                               onChanged: (val) {
                                                 print(val);
                                                 paymentMethodGrpValue =
-                                                    paymentMethodRadioValue = key;
-                                                getOrderCostEstimate(paymentMethodGrpValue);
+                                                    paymentMethodRadioValue =
+                                                        key;
+                                                getOrderCostEstimate(
+                                                    paymentMethodGrpValue);
 
                                                 setState(() {});
                                               },
                                             ),
                                             Expanded(
                                               child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
                                                   CustomText(
-                                                    controller.paymentOptions[key] ?? "",
-                                                    fontSize: titleFontSizeStyle,
+                                                    controller.paymentOptions[
+                                                            key] ??
+                                                        "",
+                                                    fontSize:
+                                                        titleFontSizeStyle,
                                                     isBold: true,
                                                     color: Colors.grey[700]!,
                                                   ),
-                                                  if (key == 1) verticalSpaceTiny,
+                                                  if (key == 1)
+                                                    verticalSpaceTiny,
                                                   if (key == 1)
                                                     CustomText(
                                                       "No Cash Accepted",
-                                                      fontSize: titleFontSize - 4,
+                                                      fontSize:
+                                                          titleFontSize - 4,
                                                     ),
                                                   if (key == 1)
                                                     CustomText(
@@ -711,11 +774,13 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                                       color: Colors.green,
                                                       isBold: true,
                                                     ),
-                                                  if (key == 2) verticalSpaceTiny,
+                                                  if (key == 2)
+                                                    verticalSpaceTiny,
                                                   if (key == 2)
                                                     CustomText(
                                                       "Debit Card, Credit Card, UPI, \nNetBanking",
-                                                      fontSize: titleFontSize - 4,
+                                                      fontSize:
+                                                          titleFontSize - 4,
                                                     )
                                                 ],
                                               ),
@@ -743,9 +808,13 @@ class _PaymentMethodState extends State<PaymentMethod> {
   }
 
   Future<void> makePayment(controller, paymentOption) async {
-    appVar.previousOrders = (await locator<APIService>().getAllOrders())!.orders!;
+    appVar.previousOrders =
+        (await locator<APIService>().getAllOrders())!.orders!;
     final GroupOrderResponseModel res = await controller.createGroupOrder(
-        (paymentTotal ?? widget.finalTotal)?.toDouble(), widget.customerDetails, widget.products, paymentOption);
+        (paymentTotal ?? widget.finalTotal)?.toDouble(),
+        widget.customerDetails,
+        widget.products,
+        paymentOption);
 
     if (kDebugMode) print("res = $res");
     if (res != null) {

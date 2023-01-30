@@ -306,10 +306,17 @@ class APIService {
     return null;
   }
 
-  Future<GroupOrderByGroupId?> getOrderbyGroupqueueid(
-      {String? groupQueueId}) async {
-    var json = await apiWrapper("v2/orders;groupId=$groupQueueId")
-        as Map<String, dynamic>;
+  Future<String?> getReciptId() async {
+    var json = await apiWrapper("app/info");
+    if (json != null) {
+      return json['payment']['apiKey'];
+    }
+    // log("group order status ${json.toString()}");
+    return null;
+  }
+
+  Future<GroupOrderByGroupId?> getOrderbyGroupqueueid({String? orderID}) async {
+    var json = await apiWrapper("v2/orders/$orderID") as Map<String, dynamic>;
 
     /*var jsonb = {
       "records": 2,
@@ -526,7 +533,7 @@ class APIService {
     } catch (e) {
       print(e.toString());
     }
-    return null;
+    // return null;
   }
 
   Future<AppInfo?> getAppInfo() async {
@@ -1154,8 +1161,10 @@ class APIService {
   Future<SellerBackImageModel?> getImageData(String key) async {
     var res = await apiClient.get("sellers/$key/profile");
     //print(res.data);
-     print(".................. 12343233 ........ ${res.data["photos"]}.................");
-    if (res.data != null && res.data["key"] != null ) return SellerBackImageModel.fromJson(res.data);
+    print(
+        ".................. 12343233 ........ ${res.data["photos"]}.................");
+    if (res.data != null && res.data["key"] != null)
+      return SellerBackImageModel.fromJson(res.data);
     return null;
   }
 }

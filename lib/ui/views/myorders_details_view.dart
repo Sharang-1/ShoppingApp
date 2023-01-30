@@ -42,7 +42,8 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
   }
 
   getProductInfo() async {
-    var productInfo = await _apiService.getProductById(productId: widget.mOrder.productId!);
+    var productInfo =
+        await _apiService.getProductById(productId: widget.mOrder.productId!);
     setState(() {
       productDetail = productInfo;
       isLoading = false;
@@ -103,7 +104,8 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
 
                       await Future.delayed(Duration(milliseconds: 100));
 
-                      refreshController.refreshCompleted(resetFooterState: true);
+                      refreshController.refreshCompleted(
+                          resetFooterState: true);
                     },
                     child: CustomScrollView(
                       slivers: <Widget>[
@@ -122,7 +124,8 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                 children: <Widget>[
                                   verticalSpace(10),
                                   Padding(
-                                    padding: const EdgeInsets.only(left: 10, right: 10),
+                                    padding: const EdgeInsets.only(
+                                        left: 10, right: 10),
                                     child: CustomText(
                                       "Order ID: " + mOrder.key!,
                                       fontSize: titleFontSize,
@@ -133,7 +136,8 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                   ),
                                   verticalSpace(20),
                                   Container(
-                                    margin: EdgeInsets.symmetric(horizontal: 10),
+                                    margin:
+                                        EdgeInsets.symmetric(horizontal: 10),
                                     padding: EdgeInsets.all(5),
                                     decoration: BoxDecoration(
                                       border: Border.all(
@@ -143,7 +147,8 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: <Widget>[
                                         CustomText(
                                           "Shipping To",
@@ -153,8 +158,10 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                         ),
                                         verticalSpaceMedium,
                                         Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Container(
                                               height: 100,
@@ -165,18 +172,22 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                                   color: Colors.black12,
                                                   width: 1,
                                                 ),
-                                                borderRadius: BorderRadius.circular(6),
+                                                borderRadius:
+                                                    BorderRadius.circular(6),
                                               ),
-                                              child: Image.asset("assets/images/order_placed.png"),
+                                              child: Image.asset(
+                                                  "assets/images/order_placed.png"),
                                             ),
                                             horizontalSpaceSmall,
                                             Expanded(
                                               child: Column(
                                                 mainAxisSize: MainAxisSize.min,
-                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
                                                   Row(
-                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
                                                     children: <Widget>[
                                                       Icon(
                                                         Icons.person,
@@ -192,17 +203,24 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                                       horizontalSpaceSmall,
 
                                                       CustomText(
-                                                        (controller as CartController).userName,
+                                                        (controller
+                                                                as CartController)
+                                                            .userName,
                                                         color: Colors.black,
-                                                        fontSize: subtitleFontSize + 1,
+                                                        fontSize:
+                                                            subtitleFontSize +
+                                                                1,
                                                         isBold: false,
                                                       ),
                                                     ],
                                                   ),
                                                   verticalSpaceSmall,
                                                   Row(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    mainAxisSize: MainAxisSize.min,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
                                                     children: <Widget>[
                                                       Icon(
                                                         Icons.map,
@@ -217,16 +235,23 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                                       // ),
                                                       horizontalSpaceSmall,
                                                       Container(
-                                                        constraints: BoxConstraints(
-                                                            maxWidth: Get.width * 0.5),
+                                                        constraints:
+                                                            BoxConstraints(
+                                                                maxWidth:
+                                                                    Get.width *
+                                                                        0.5),
                                                         child: CustomText(
-                                                          mOrder.commonField?.customerDetails
+                                                          mOrder
+                                                                  .commonField
+                                                                  ?.customerDetails
                                                                   ?.address ??
                                                               "",
                                                           // align: TextAlign.start,
                                                           maxLines: 4,
                                                           color: Colors.black,
-                                                          fontSize: subtitleFontSize + 1,
+                                                          fontSize:
+                                                              subtitleFontSize +
+                                                                  1,
                                                           isBold: false,
                                                         ),
                                                       ),
@@ -234,7 +259,9 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                                   ),
                                                   verticalSpaceTiny,
                                                   Row(
-                                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
                                                     children: <Widget>[
                                                       Icon(
                                                         Icons.phone,
@@ -249,13 +276,18 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                                       // ),
                                                       horizontalSpaceSmall,
                                                       CustomText(
-                                                        mOrder.commonField?.customerDetails
-                                                                ?.customerPhone?.display ??
+                                                        mOrder
+                                                                .commonField
+                                                                ?.customerDetails
+                                                                ?.customerPhone
+                                                                ?.display ??
                                                             "",
                                                         align: TextAlign.start,
                                                         maxLines: 4,
                                                         color: Colors.black,
-                                                        fontSize: subtitleFontSize + 1,
+                                                        fontSize:
+                                                            subtitleFontSize +
+                                                                1,
                                                         isBold: false,
                                                       ),
                                                     ],
@@ -269,16 +301,18 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                     ),
                                   ),
                                   verticalSpace(20),
-                                  if (!([6, 8, 9, 10, 11, 12].contains(mOrder.status?.id ?? -1)))
-                                  Container(
-                                    padding: EdgeInsets.all(10),
-                                    decoration: BoxDecoration(
-                                      color: Colors.grey[200],
-                                    ),
-                                    child: Column(
-                                      children: [
+                                  if (!([6, 8, 9, 10, 11, 12]
+                                      .contains(mOrder.status?.id ?? -1)))
+                                    Container(
+                                      padding: EdgeInsets.all(10),
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey[200],
+                                      ),
+                                      child: Column(
+                                        children: [
                                           Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
                                             children: <Widget>[
                                               CustomText(
                                                 "Arriving on",
@@ -287,16 +321,17 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                                 color: Colors.black,
                                               ),
                                               CustomText(
-                                                mOrder.deliveryDate!.substring(0, 10),
+                                                mOrder.deliveryDate!
+                                                    .substring(0, 10),
                                                 fontSize: subtitleFontSize + 1,
                                                 isBold: true,
                                                 color: Colors.black,
                                               ),
                                             ],
                                           ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
-                                  ),
                                   verticalSpace(20),
                                   Container(
                                       padding: EdgeInsets.symmetric(
@@ -304,13 +339,17 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                       ),
                                       decoration: BoxDecoration(
                                           color: Colors.white,
-                                          borderRadius: BorderRadius.circular(curve15)),
+                                          borderRadius:
+                                              BorderRadius.circular(curve15)),
                                       child: Container(
                                         child: Row(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: <Widget>[
                                             ClipRRect(
-                                                borderRadius: BorderRadius.circular(curve15),
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        curve15),
                                                 child: FadeInImage.assetNetwork(
                                                   width: 100,
                                                   height: 100,
@@ -321,7 +360,8 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                                   // todo : add product img here
                                                   image:
                                                       "$PRODUCT_PHOTO_BASE_URL/${productDetail!.key}/${productDetail!.photo!.photos!.first.name}-small.png",
-                                                  imageErrorBuilder: (context, error, stackTrace) =>
+                                                  imageErrorBuilder: (context,
+                                                          error, stackTrace) =>
                                                       Image.asset(
                                                           "assets/images/product_preloading.png",
                                                           width: 100,
@@ -332,11 +372,14 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                             horizontalSpaceSmall,
                                             Expanded(
                                                 child: Column(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: <Widget>[
                                                 CustomText(
-                                                  productDetail?.name ?? "Product Name",
+                                                  productDetail?.name ??
+                                                      "Product Name",
                                                   // todo : add product name here
                                                   // "Product name",
                                                   isBold: true,
@@ -352,18 +395,26 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                                   dotsAfterOverFlow: true,
                                                   fontSize: titleFontSize,
                                                 ),
-                                                if (widget.mOrder.variation!.size != null)
+                                                if (widget.mOrder.variation!
+                                                        .size !=
+                                                    null)
                                                   verticalSpaceSmall,
-                                                if (widget.mOrder.variation!.size != null)
+                                                if (widget.mOrder.variation!
+                                                        .size !=
+                                                    null)
                                                   CustomText(
                                                     "Size: ${widget.mOrder.variation!.size}",
                                                     color: Colors.grey[800]!,
                                                     dotsAfterOverFlow: true,
                                                     fontSize: titleFontSize,
                                                   ),
-                                                if (widget.mOrder.variation!.color != null)
+                                                if (widget.mOrder.variation!
+                                                        .color !=
+                                                    null)
                                                   verticalSpaceSmall,
-                                                if (widget.mOrder.variation!.color != null)
+                                                if (widget.mOrder.variation!
+                                                        .color !=
+                                                    null)
                                                   CustomText(
                                                     "Color: ${widget.mOrder.variation!.color}",
                                                     color: Colors.grey[800]!,
@@ -381,11 +432,14 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                       horizontal: 10,
                                     ),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: <Widget>[
                                         Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
                                           children: [
                                             CustomText(
                                               "Delivery Status",
@@ -405,13 +459,19 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                         if (!([6, 8, 9, 10, 11, 12]
                                             .contains(mOrder.status?.id ?? -1)))
                                           Padding(
-                                            padding: EdgeInsets.only(left: 5, right: 5),
+                                            padding: EdgeInsets.only(
+                                                left: 5, right: 5),
                                             child: LinearPercentIndicator(
                                               lineHeight: 15.0,
-                                              percent: (orderStatuses
-                                                          .contains(mOrder.status?.id ?? -1)
+                                              percent: (orderStatuses.contains(
+                                                          mOrder.status?.id ??
+                                                              -1)
                                                       ? ((orderStatuses.indexOf(
-                                                                    widget.mOrder.status!.id ?? 0,
+                                                                    widget
+                                                                            .mOrder
+                                                                            .status!
+                                                                            .id ??
+                                                                        0,
                                                                   ) +
                                                                   1) *
                                                               100) /
@@ -419,9 +479,13 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                                       : 100) /
                                                   100,
                                               padding: EdgeInsets.zero,
-                                              linearStrokeCap: LinearStrokeCap.roundAll,
-                                              linearGradient:
-                                                  LinearGradient(colors: [textIconOrange, logoRed]),
+                                              linearStrokeCap:
+                                                  LinearStrokeCap.roundAll,
+                                              linearGradient: LinearGradient(
+                                                  colors: [
+                                                    textIconOrange,
+                                                    logoRed
+                                                  ]),
                                             ),
                                           ),
                                         if (!([6, 8, 9, 10, 11, 12]
@@ -430,7 +494,8 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                         if (!([6, 8, 9, 10, 11, 12]
                                             .contains(mOrder.status?.id ?? -1)))
                                           Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
                                             children: <Widget>[
                                               CustomText(
                                                 "Estimated Delivery:",
@@ -439,7 +504,8 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                                 color: Colors.grey,
                                               ),
                                               CustomText(
-                                                mOrder.deliveryDate!.substring(0, 10),
+                                                mOrder.deliveryDate!
+                                                    .substring(0, 10),
                                                 fontSize: subtitleFontSize - 1,
                                                 isBold: true,
                                                 color: Colors.grey[600]!,
@@ -455,7 +521,8 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                       horizontal: 10,
                                     ),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: <Widget>[
                                         CustomText(
                                           "Payment Info",
@@ -465,7 +532,8 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                         ),
                                         verticalSpaceMedium,
                                         Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: <Widget>[
                                             CustomText(
                                               "Payment Method",
@@ -474,7 +542,9 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                               isBold: true,
                                             ),
                                             CustomText(
-                                              mOrder.commonField?.payment!.option!.name ?? "",
+                                              mOrder.commonField?.payment!
+                                                      .option!.name ??
+                                                  "",
                                               color: Colors.grey[600]!,
                                               fontSize: subtitleFontSize - 1,
                                               isBold: true,
@@ -487,7 +557,8 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                           thickness: 1.5,
                                         ),
                                         Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: <Widget>[
                                             CustomText(
                                               "Price",
@@ -505,7 +576,8 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                         ),
                                         verticalSpaceSmall,
                                         Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: <Widget>[
                                             CustomText(
                                               "Quantity",
@@ -521,11 +593,18 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                             ),
                                           ],
                                         ),
-                                        if ((mOrder.itemCost?.productDiscount?.cost ?? 0) != 0)
+                                        if ((mOrder.itemCost?.productDiscount
+                                                    ?.cost ??
+                                                0) !=
+                                            0)
                                           verticalSpaceSmall,
-                                        if ((mOrder.itemCost?.productDiscount?.cost ?? 0) != 0)
+                                        if ((mOrder.itemCost?.productDiscount
+                                                    ?.cost ??
+                                                0) !=
+                                            0)
                                           Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
                                             children: <Widget>[
                                               CustomText(
                                                 "Discount",
@@ -575,7 +654,8 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                           thickness: 1.5,
                                         ),
                                         Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: <Widget>[
                                             CustomText(
                                               "Total",
@@ -593,7 +673,8 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                         ),
                                         verticalSpaceSmall,
                                         Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: <Widget>[
                                             CustomText(
                                               "GST",
@@ -634,7 +715,8 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                           thickness: 1.5,
                                         ),
                                         Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: <Widget>[
                                             CustomText(
                                               "Sub Total",
@@ -642,11 +724,24 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                               isBold: true,
                                               color: Colors.black,
                                             ),
-                                            CustomText(
-                                              '$rupeeUnicode${(mOrder.itemCost?.cost ?? 0)  + (mOrder.itemCost?.gstCharges?.cost ?? 0)}',
-                                              color: logoRed,
-                                              fontSize: titleFontSize + 2,
-                                              isBold: true,
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.end,
+                                              children: [
+                                                CustomText(
+                                                  '$rupeeUnicode${(mOrder.itemCost?.cost ?? 0) + (mOrder.itemCost?.gstCharges?.cost ?? 0)}',
+                                                  color: logoRed,
+                                                  fontSize: titleFontSize + 2,
+                                                  isBold: true,
+                                                ),
+                                                CustomText(
+                                                  "Exclusive of Delivery Charges",
+                                                  fontSize:
+                                                      subtitleFontSize - 1,
+                                                  color: Colors.grey,
+                                                  isBold: true,
+                                                ),
+                                              ],
                                             ),
                                           ],
                                         ),
@@ -674,10 +769,33 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                         //     verticalSpaceSmall,
                                         //   ],
                                         // ),
+                                        verticalSpaceSmall,
+                                        if (mOrder.commonField?.payment!.option!
+                                                .name ==
+                                            'Cash on delivery')
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: <Widget>[
+                                              CustomText(
+                                                "COD Charges",
+                                                isBold: true,
+                                                fontSize: subtitleFontSize - 1,
+                                                color: Colors.grey,
+                                              ),
+                                              CustomText(
+                                                '$rupeeUnicode 50',
+                                                color: green,
+                                                fontSize: subtitleFontSize - 1,
+                                                isBold: true,
+                                              ),
+                                            ],
+                                          ),
                                       ],
                                     ),
                                   ),
-                                  if (!(<int>[9, 12].contains(mOrder.status?.id ?? -1))) ...[
+                                  if (!(<int>[9, 12]
+                                      .contains(mOrder.status?.id ?? -1))) ...[
                                     verticalSpace(50),
                                     Center(
                                       child: ElevatedButton(
@@ -685,10 +803,14 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                           elevation: 0,
                                           backgroundColor: Colors.white,
                                           shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(10),
-                                              side: BorderSide(color: textIconOrange, width: 2)),
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              side: BorderSide(
+                                                  color: textIconOrange,
+                                                  width: 2)),
                                         ),
-                                        onPressed: () async => await showModalBottomSheet(
+                                        onPressed: () async =>
+                                            await showModalBottomSheet(
                                           isScrollControlled: true,
                                           shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.vertical(
@@ -700,12 +822,14 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                           builder: (con) => HelpView(),
                                         ),
                                         child: Padding(
-                                          padding: const EdgeInsets.symmetric(vertical: 12),
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 12),
                                           child: InkWell(
                                             child: Text(
                                               "Returns & Refunds",
                                               style: TextStyle(
-                                                  color: textIconOrange, fontWeight: FontWeight.bold),
+                                                  color: textIconOrange,
+                                                  fontWeight: FontWeight.bold),
                                             ),
                                           ),
                                         ),

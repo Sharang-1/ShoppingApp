@@ -156,22 +156,25 @@ class _CartViewState extends State<CartView> {
                         // ? cart item tile
                         FutureBuilder(
                           future: Future.delayed(Duration(seconds: 1)),
-                          builder: (c, s) => s.connectionState == ConnectionState.done
+                          builder: (c, s) => s.connectionState ==
+                                  ConnectionState.done
                               ? SectionBuilder(
                                   key: uniqueKey ?? UniqueKey(),
                                   context: context,
-                                  filter: CartFilter(productId: widget.productId),
+                                  filter:
+                                      CartFilter(productId: widget.productId),
                                   layoutType: LayoutType.VIEW_CART_LAYOUT,
                                   controller: CartGridViewBuilderController(),
                                   onEmptyList: () {},
                                   scrollDirection: Axis.horizontal,
-                                  tileBuilder:
-                                      (BuildContext context, data, index, onDelete, onUpdate) {
+                                  tileBuilder: (BuildContext context, data,
+                                      index, onDelete, onUpdate) {
                                     Fimber.d("testying");
                                     log((data as Item).toString());
 
                                     final Item dItem = data;
-                                    exceptProductIDs.add(dItem.product!.key ?? "");
+                                    exceptProductIDs
+                                        .add(dItem.product!.key ?? "");
 
                                     return CartTile(
                                       index: index,
@@ -181,11 +184,14 @@ class _CartViewState extends State<CartView> {
                                         print("Delete product index: $index");
                                         if (!value) return;
                                         await controller
-                                            .removeFromCartLocalStore(dItem.productId.toString());
-                                        locator<CartCountController>().decrementCartCount();
+                                            .removeFromCartLocalStore(
+                                                dItem.productId.toString());
+                                        locator<CartCountController>()
+                                            .decrementCartCount();
                                         try {
                                           await controller
-                                              .removeProductFromCartEvent(dItem.product!);
+                                              .removeProductFromCartEvent(
+                                                  dItem.product!);
                                         } catch (e) {
                                           print(e);
                                         }
@@ -205,34 +211,37 @@ class _CartViewState extends State<CartView> {
                   child: FutureBuilder<bool>(
                     initialData: false,
                     future: controller.hasProducts(),
-                    builder: (c, s) => (!controller.isCartEmpty && controller.showPairItWith)
-                        ? Container(
-                            margin: EdgeInsets.only(bottom: 10, right: 20, left : 20),
-                            height: 40,
-                            width: Get.width,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                elevation: 0,
-                                primary: logoRed,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                              onPressed: proccedToOrder,
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 8),
-                                child: Text(
-                                  PROCEED_TO_ORDER.tr,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 12,
+                    builder: (c, s) =>
+                        (!controller.isCartEmpty && controller.showPairItWith)
+                            ? Container(
+                                margin: EdgeInsets.only(
+                                    bottom: 10, right: 20, left: 20),
+                                height: 50,
+                                width: Get.width,
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    elevation: 0,
+                                    primary: logoRed,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                  onPressed: proccedToOrder,
+                                  child: Padding(
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 8),
+                                    child: Text(
+                                      PROCEED_TO_ORDER.tr,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18,
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ),
-                          )
-                        : Container(),
+                              )
+                            : Container(),
                   ),
                 ),
               ],
@@ -254,8 +263,9 @@ class _CartViewState extends State<CartView> {
       // var _cartProducts = [];
       for (var i = 0; i < _cartItems!.length; i++) {
         // ? calculating item cost
-        var finalTotal = _cartItems[i].product!.cost!.costToCustomer!.toDouble() *
-            _cartItems[i].quantity!.toInt();
+        var finalTotal =
+            _cartItems[i].product!.cost!.costToCustomer!.toDouble() *
+                _cartItems[i].quantity!.toInt();
         total = total + finalTotal;
 
         //? seller name to give credit upon purchase
@@ -277,7 +287,8 @@ class _CartViewState extends State<CartView> {
         GroupOrderData.cartProducts.add(cartItem);
 
         // ? items to calculate order cost estimate
-        groupOrder.GroupOrderCostEstimateModel item = groupOrder.GroupOrderCostEstimateModel(
+        groupOrder.GroupOrderCostEstimateModel item =
+            groupOrder.GroupOrderCostEstimateModel(
           productId: _cartItems[i].productId.toString(),
           quantity: _cartItems[i].quantity?.toInt(),
         );

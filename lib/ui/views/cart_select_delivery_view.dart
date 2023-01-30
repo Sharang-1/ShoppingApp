@@ -113,7 +113,9 @@ class _SelectAddressState extends State<SelectAddress> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    onPressed: disabledPayment ? null : () async => await makePayment(controller),
+                    onPressed: disabledPayment
+                        ? null
+                        : () async => await makePayment(controller),
                     child: Padding(
                       padding: const EdgeInsets.all(10),
                       child: Center(
@@ -136,7 +138,8 @@ class _SelectAddressState extends State<SelectAddress> {
           child: SingleChildScrollView(
             physics: ScrollPhysics(),
             child: Padding(
-              padding: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+              padding:
+                  EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -150,7 +153,9 @@ class _SelectAddressState extends State<SelectAddress> {
                     child: Text(
                       "Communication Mail",
                       style: TextStyle(
-                          fontFamily: headingFont, fontWeight: FontWeight.w700, fontSize: 20),
+                          fontFamily: headingFont,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 20),
                     ),
                   ),
                   verticalSpace(10),
@@ -185,7 +190,9 @@ class _SelectAddressState extends State<SelectAddress> {
                       child: Text(
                         MY_ADDRESSES.tr,
                         style: TextStyle(
-                            fontFamily: headingFont, fontWeight: FontWeight.w700, fontSize: 20),
+                            fontFamily: headingFont,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 20),
                       ),
                     ),
                   verticalSpace(15),
@@ -197,8 +204,11 @@ class _SelectAddressState extends State<SelectAddress> {
                       UserDetailsContact address = controller.addresses[index];
                       return GestureDetector(
                         onTap: () {
-                          disabledPayment = false;
-                          addressField = index;
+                          setState(() {
+                            addressGrpValue = address;
+                            disabledPayment = false;
+                            addressField = index;
+                          });
                         },
                         child: Container(
                           margin: EdgeInsets.only(bottom: spaceBetweenCards),
@@ -226,9 +236,10 @@ class _SelectAddressState extends State<SelectAddress> {
                                     onChanged: (val) async {
                                       setState(
                                         () {
-                          addressField = index;
+                                          addressField = index;
 
-                                          addressGrpValue = addressRadioValue = address;
+                                          addressGrpValue =
+                                              addressRadioValue = address;
                                           disabledPayment = false;
                                         },
                                       );
@@ -238,8 +249,10 @@ class _SelectAddressState extends State<SelectAddress> {
                                     child: Stack(
                                       children: [
                                         Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: <Widget>[
                                             CustomText(
                                               MY_ADDRESS.tr,
@@ -277,7 +290,8 @@ class _SelectAddressState extends State<SelectAddress> {
                         ),
                       ),
                       onPressed: () async {
-                        UserDetailsContact userAdd = await showMaterialModalBottomSheet(
+                        UserDetailsContact userAdd =
+                            await showMaterialModalBottomSheet(
                           expand: true,
                           context: context,
                           builder: (_) => BottomSheetForAddress(),
@@ -321,16 +335,17 @@ class _SelectAddressState extends State<SelectAddress> {
     bool success = true;
     List<String> failedItems = [];
 
-    for (var i = 0 ; i < GroupOrderData.cartProducts.length; i++) {
-      var val = await APIService().getProductById(productId: GroupOrderData.cartProducts[i].productId!);
+    for (var i = 0; i < GroupOrderData.cartProducts.length; i++) {
+      var val = await APIService()
+          .getProductById(productId: GroupOrderData.cartProducts[i].productId!);
       if (val != null && widget.products[i].productId! == val.key) {
         if (val.available == false || val.enabled == false) {
           success = false;
           failedItems.add(GroupOrderData.cartProducts[i].productId!);
-          
-          await controller.removeFromCartLocalStore(GroupOrderData.cartProducts[i].productId!);
+
+          await controller.removeFromCartLocalStore(
+              GroupOrderData.cartProducts[i].productId!);
           locator<CartCountController>().decrementCartCount();
-          
         }
       }
     }
@@ -352,14 +367,15 @@ class _SelectAddressState extends State<SelectAddress> {
                 customerId: locator<HomeController>().details!.key.toString(),
                 customerPhone: CustomerPhone(
                   code: locator<HomeController>().details!.contact!.phone!.code,
-                  mobile: locator<HomeController>().details!.contact!.phone!.mobile,
+                  mobile:
+                      locator<HomeController>().details!.contact!.phone!.mobile,
                 ),
                 email: _emailcontroller.text.trim(),
               ),
             ),
             type: PageTransitionType.rightToLeft),
       );
-    }else{
+    } else {
       await NavigationService.off(
         OrderFailedItemUnavailableScreenRoute,
         arguments: failedItems,

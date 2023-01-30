@@ -90,7 +90,10 @@ class _MyOrdersDetailsViewV1State extends State<MyOrdersDetailsViewV1> {
                       // displays the index of the current item.
                       (context, index) => Padding(
                         padding: EdgeInsets.only(
-                            left: screenPadding, right: screenPadding, top: 10, bottom: 10),
+                            left: screenPadding,
+                            right: screenPadding,
+                            top: 10,
+                            bottom: 10),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
@@ -108,21 +111,27 @@ class _MyOrdersDetailsViewV1State extends State<MyOrdersDetailsViewV1> {
                                 child: Container(
                                     decoration: BoxDecoration(
                                         color: Colors.white,
-                                        borderRadius: BorderRadius.circular(curve15)),
+                                        borderRadius:
+                                            BorderRadius.circular(curve15)),
                                     child: Container(
                                       child: Row(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
                                         children: <Widget>[
                                           ClipRRect(
-                                              borderRadius: BorderRadius.circular(curve15),
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                      curve15),
                                               child: FadeInImage.assetNetwork(
                                                 width: 150,
                                                 height: 150,
                                                 fadeInCurve: Curves.easeIn,
-                                                placeholder: "assets/images/product_preloading.png",
+                                                placeholder:
+                                                    "assets/images/product_preloading.png",
                                                 image:
                                                     "$PRODUCT_PHOTO_BASE_URL/${mOrder.product!.key}/${mOrder.product!.photo!.photos!.first.name}-small.png",
-                                                imageErrorBuilder: (context, error, stackTrace) =>
+                                                imageErrorBuilder: (context,
+                                                        error, stackTrace) =>
                                                     Image.asset(
                                                         "assets/images/product_preloading.png",
                                                         width: 150,
@@ -133,8 +142,10 @@ class _MyOrdersDetailsViewV1State extends State<MyOrdersDetailsViewV1> {
                                           horizontalSpaceMedium,
                                           Expanded(
                                               child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: <Widget>[
                                               CustomText(
                                                 widget.mOrder.product!.name!,
@@ -149,14 +160,18 @@ class _MyOrdersDetailsViewV1State extends State<MyOrdersDetailsViewV1> {
                                                 dotsAfterOverFlow: true,
                                                 fontSize: titleFontSize,
                                               ),
-                                              if (widget.mOrder.variation!.size != null)
+                                              if (widget
+                                                      .mOrder.variation!.size !=
+                                                  null)
                                                 CustomText(
                                                   "Size: ${widget.mOrder.variation!.size}",
                                                   color: Colors.grey[800]!,
                                                   dotsAfterOverFlow: true,
                                                   fontSize: titleFontSize,
                                                 ),
-                                              if (widget.mOrder.variation!.color != null)
+                                              if (widget.mOrder.variation!
+                                                      .color !=
+                                                  null)
                                                 CustomText(
                                                   "Color: ${widget.mOrder.variation!.color}",
                                                   color: Colors.grey[800]!,
@@ -164,13 +179,19 @@ class _MyOrdersDetailsViewV1State extends State<MyOrdersDetailsViewV1> {
                                                   fontSize: titleFontSize,
                                                 ),
                                               Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
                                                   Padding(
-                                                    padding: const EdgeInsets.only(right: 8.0),
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            right: 8.0),
                                                     child: CustomText(
-                                                      widget.mOrder.status!.state!,
-                                                      fontSize: subtitleFontSize,
+                                                      widget.mOrder.status!
+                                                          .state!,
+                                                      fontSize:
+                                                          subtitleFontSize,
                                                       isBold: true,
                                                       color: textIconBlue,
                                                     ),
@@ -178,7 +199,8 @@ class _MyOrdersDetailsViewV1State extends State<MyOrdersDetailsViewV1> {
                                                   Expanded(
                                                     child: FittedBox(
                                                       fit: BoxFit.scaleDown,
-                                                      alignment: Alignment.centerRight,
+                                                      alignment:
+                                                          Alignment.centerRight,
                                                       child: CustomText(
                                                         '$rupeeUnicode${mOrder.orderCost?.cost}',
                                                         fontSize: titleFontSize,
@@ -199,7 +221,8 @@ class _MyOrdersDetailsViewV1State extends State<MyOrdersDetailsViewV1> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     CustomText(
@@ -217,14 +240,21 @@ class _MyOrdersDetailsViewV1State extends State<MyOrdersDetailsViewV1> {
                                   ],
                                 ),
                                 verticalSpace(15),
-                                if (!([6, 8, 9, 10, 11, 12].contains(mOrder.status?.id ?? -1)))
+                                if (!([6, 8, 9, 10, 11, 12]
+                                    .contains(mOrder.status?.id ?? -1)))
                                   Padding(
                                     padding: EdgeInsets.only(left: 5, right: 5),
                                     child: LinearPercentIndicator(
                                       lineHeight: 15.0,
-                                      percent: (orderStatuses.contains(mOrder.status?.id ?? -1)
+                                      percent: (orderStatuses.contains(
+                                                  mOrder.status?.id ?? -1)
                                               ? ((orderStatuses.indexOf(
-                                                            widget.mOrder.status!.id as int? ?? 0,
+                                                            widget
+                                                                        .mOrder
+                                                                        .status!
+                                                                        .id
+                                                                    as int? ??
+                                                                0,
                                                           ) +
                                                           1) *
                                                       100) /
@@ -233,15 +263,18 @@ class _MyOrdersDetailsViewV1State extends State<MyOrdersDetailsViewV1> {
                                           100,
                                       padding: EdgeInsets.zero,
                                       linearStrokeCap: LinearStrokeCap.roundAll,
-                                      linearGradient:
-                                          LinearGradient(colors: [textIconOrange, logoRed]),
+                                      linearGradient: LinearGradient(
+                                          colors: [textIconOrange, logoRed]),
                                     ),
                                   ),
-                                if (!([6, 8, 9, 10, 11, 12].contains(mOrder.status?.id ?? -1)))
+                                if (!([6, 8, 9, 10, 11, 12]
+                                    .contains(mOrder.status?.id ?? -1)))
                                   verticalSpace(15),
-                                if (!([6, 8, 9, 10, 11, 12].contains(mOrder.status?.id ?? -1)))
+                                if (!([6, 8, 9, 10, 11, 12]
+                                    .contains(mOrder.status?.id ?? -1)))
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
                                       CustomText(
                                         "Estimated Delivery:",
@@ -271,7 +304,8 @@ class _MyOrdersDetailsViewV1State extends State<MyOrdersDetailsViewV1> {
                                 ),
                                 verticalSpaceMedium,
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     CustomText(
                                       "Shipping To",
@@ -289,7 +323,8 @@ class _MyOrdersDetailsViewV1State extends State<MyOrdersDetailsViewV1> {
                                 ),
                                 verticalSpaceSmall,
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Expanded(
@@ -302,7 +337,8 @@ class _MyOrdersDetailsViewV1State extends State<MyOrdersDetailsViewV1> {
                                     ),
                                     Expanded(
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.end,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
                                         children: <Widget>[
                                           CustomText(
                                             mOrder.billingAddress ?? "",
@@ -330,7 +366,8 @@ class _MyOrdersDetailsViewV1State extends State<MyOrdersDetailsViewV1> {
                                 ),
                                 verticalSpaceMedium,
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     CustomText(
                                       "Payment Method",
@@ -352,7 +389,8 @@ class _MyOrdersDetailsViewV1State extends State<MyOrdersDetailsViewV1> {
                                   thickness: 1.5,
                                 ),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     CustomText(
                                       "Price",
@@ -370,7 +408,8 @@ class _MyOrdersDetailsViewV1State extends State<MyOrdersDetailsViewV1> {
                                 ),
                                 verticalSpaceSmall,
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     CustomText(
                                       "Quantity",
@@ -386,11 +425,16 @@ class _MyOrdersDetailsViewV1State extends State<MyOrdersDetailsViewV1> {
                                     ),
                                   ],
                                 ),
-                                if ((mOrder.orderCost?.productDiscount?.cost ?? 0) != 0)
+                                if ((mOrder.orderCost?.productDiscount?.cost ??
+                                        0) !=
+                                    0)
                                   verticalSpaceSmall,
-                                if ((mOrder.orderCost?.productDiscount?.cost ?? 0) != 0)
+                                if ((mOrder.orderCost?.productDiscount?.cost ??
+                                        0) !=
+                                    0)
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
                                       CustomText(
                                         "Discount",
@@ -406,11 +450,18 @@ class _MyOrdersDetailsViewV1State extends State<MyOrdersDetailsViewV1> {
                                       ),
                                     ],
                                   ),
-                                if ((mOrder.orderCost?.promocodeDiscount?.cost ?? 0) != 0)
+                                if ((mOrder.orderCost?.promocodeDiscount
+                                            ?.cost ??
+                                        0) !=
+                                    0)
                                   verticalSpaceSmall,
-                                if ((mOrder.orderCost?.promocodeDiscount?.cost ?? 0) != 0)
+                                if ((mOrder.orderCost?.promocodeDiscount
+                                            ?.cost ??
+                                        0) !=
+                                    0)
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
                                       CustomText(
                                         "Promocode Discount",
@@ -432,7 +483,8 @@ class _MyOrdersDetailsViewV1State extends State<MyOrdersDetailsViewV1> {
                                   thickness: 1.5,
                                 ),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     CustomText(
                                       "Sub Total",
@@ -450,7 +502,8 @@ class _MyOrdersDetailsViewV1State extends State<MyOrdersDetailsViewV1> {
                                 ),
                                 verticalSpaceSmall,
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     CustomText(
                                       "GST",
@@ -468,7 +521,8 @@ class _MyOrdersDetailsViewV1State extends State<MyOrdersDetailsViewV1> {
                                 ),
                                 verticalSpaceSmall,
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     CustomText(
                                       "Shipping Charge",
@@ -477,7 +531,8 @@ class _MyOrdersDetailsViewV1State extends State<MyOrdersDetailsViewV1> {
                                       color: Colors.grey,
                                     ),
                                     CustomText(
-                                      mOrder.orderCost?.deliveryCharges?.cost == 0
+                                      mOrder.orderCost?.deliveryCharges?.cost ==
+                                              0
                                           ? "Free Delivery"
                                           : '$rupeeUnicode${mOrder.orderCost?.deliveryCharges?.cost?.toStringAsFixed(2)}',
                                       color: green,
@@ -492,7 +547,8 @@ class _MyOrdersDetailsViewV1State extends State<MyOrdersDetailsViewV1> {
                                   thickness: 1.5,
                                 ),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     CustomText(
                                       "Total",
@@ -510,7 +566,8 @@ class _MyOrdersDetailsViewV1State extends State<MyOrdersDetailsViewV1> {
                                 ),
                                 verticalSpaceSmall,
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
                                   children: <Widget>[
                                     Expanded(
                                       child: CustomText(
@@ -534,7 +591,8 @@ class _MyOrdersDetailsViewV1State extends State<MyOrdersDetailsViewV1> {
                                 ),
                               ],
                             ),
-                            if (!(<int>[9, 12].contains(mOrder.status?.id ?? -1))) ...[
+                            if (!(<int>[9, 12]
+                                .contains(mOrder.status?.id ?? -1))) ...[
                               verticalSpace(50),
                               ElevatedButton(
                                 style: ElevatedButton.styleFrom(
@@ -542,9 +600,11 @@ class _MyOrdersDetailsViewV1State extends State<MyOrdersDetailsViewV1> {
                                   primary: Colors.white,
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10),
-                                      side: BorderSide(color: textIconOrange, width: 2)),
+                                      side: BorderSide(
+                                          color: textIconOrange, width: 2)),
                                 ),
-                                onPressed: () async => await showModalBottomSheet(
+                                onPressed: () async =>
+                                    await showModalBottomSheet(
                                   isScrollControlled: true,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.vertical(
@@ -556,12 +616,14 @@ class _MyOrdersDetailsViewV1State extends State<MyOrdersDetailsViewV1> {
                                   builder: (con) => HelpView(),
                                 ),
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 12),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 12),
                                   child: InkWell(
                                     child: Text(
                                       "Returns & Refunds",
                                       style: TextStyle(
-                                          color: textIconOrange, fontWeight: FontWeight.bold),
+                                          color: textIconOrange,
+                                          fontWeight: FontWeight.bold),
                                     ),
                                   ),
                                 ),

@@ -166,7 +166,6 @@ class _SellerIndi2State extends State<SellerIndi2> {
     if (widget.data != null)
       setState(() async {
         sellerBackImageModel = await apiService.getImageData(widget.data.key!);
-
       });
     // if (sellerBackImageModel != null) {
     //   print(
@@ -289,480 +288,514 @@ class _SellerIndi2State extends State<SellerIndi2> {
                         bottomLeft: Radius.circular(20),
                         bottomRight: Radius.circular(20),
                       ),
-                      child:FutureBuilder(
-    future: apiService.getImageData(widget.data.key!),
-    builder: (BuildContext context,AsyncSnapshot<SellerBackImageModel?> snapshot){
-    if( snapshot.hasData && snapshot.data != null ){ return Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: 460,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey.shade100),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black26,
-                              blurRadius: 5,
-                            ),
-                          ],
-                          color: Colors.white,
-                          // workingarea
-                          image:  DecorationImage(
-                            image:
-                             NetworkImage(
-                                "$SELLER_PROFILE_PHOTO_BASE_URL/${sellerData.key}/profile/${snapshot.data!.photos![0].name}"),
-                            //     :AssetImage(
-                            //   "assets/images/product_preloading.png",
-                            // ),
+                      child: FutureBuilder(
+                          future: apiService.getImageData(widget.data.key!),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<SellerBackImageModel?> snapshot) {
+                            if (snapshot.hasData && snapshot.data != null) {
+                              return Container(
+                                width: MediaQuery.of(context).size.width,
+                                height: 460,
+                                decoration: BoxDecoration(
+                                  border:
+                                      Border.all(color: Colors.grey.shade100),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black26,
+                                      blurRadius: 5,
+                                    ),
+                                  ],
+                                  color: Colors.white,
+                                  // workingarea
+                                  image: DecorationImage(
+                                    image: NetworkImage(
+                                        "$SELLER_PROFILE_PHOTO_BASE_URL/${sellerData.key}/profile/${snapshot.data!.photos![0].name}"),
+                                    //     :AssetImage(
+                                    //   "assets/images/product_preloading.png",
+                                    // ),
 
-
-                            fit: BoxFit.cover,
-                          ),
-                          //     :DecorationImage(
-                          //   image:
-                          //       AssetImage(
-                          //     "assets/images/product_preloading.png",
-                          //   ),
-                          //
-                          //
-                          //   fit: BoxFit.cover,
-                          // ),
-                          // border: Border.all(),
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(20),
-                            bottomRight: Radius.circular(20),
-                          ),
-                        ),
-                        child: Column(
-                          children: [
-                            Spacer(),
-                            Stack(
-                              clipBehavior: Clip.none,
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.only(bottom: 20),
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 15, horizontal: 20),
-                                  // height: 280,
-                                  // width: 200,
-                                  width: MediaQuery.of(context).size.width - 40,
-
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(22),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black26,
-                                        blurRadius: 5,
-                                      ),
-                                    ],
+                                    fit: BoxFit.cover,
                                   ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      verticalSpaceMedium,
-                                      CustomText(
-                                        sellerDetails[
-                                                DESIGNER_DETAILS_NAME.tr] ??
-                                            "Seller Name",
-                                        textStyle: TextStyle(
-                                          fontSize: headFont + 6,
-                                          fontFamily: headingFont,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                        dotsAfterOverFlow: true,
-                                      ),
-                                      // verticalSpaceTiny,
+                                  //     :DecorationImage(
+                                  //   image:
+                                  //       AssetImage(
+                                  //     "assets/images/product_preloading.png",
+                                  //   ),
+                                  //
+                                  //
+                                  //   fit: BoxFit.cover,
+                                  // ),
+                                  // border: Border.all(),
+                                  borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(20),
+                                    bottomRight: Radius.circular(20),
+                                  ),
+                                ),
+                                child: Column(
+                                  children: [
+                                    Spacer(),
+                                    Stack(
+                                      clipBehavior: Clip.none,
+                                      children: [
+                                        Container(
+                                          margin: EdgeInsets.only(bottom: 20),
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 15, horizontal: 20),
+                                          // height: 280,
+                                          // width: 200,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width -
+                                              40,
 
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          Icon(
-                                            FontAwesomeIcons.mapMarkerAlt,
-                                            size: 15,
-                                            color: Colors.black54,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(22),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.black26,
+                                                blurRadius: 5,
+                                              ),
+                                            ],
                                           ),
-                                          horizontalSpaceTiny,
-                                          Expanded(
-                                            child: FittedBox(
-                                              fit: BoxFit.scaleDown,
-                                              alignment: Alignment.centerLeft,
-                                              child: Text(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              verticalSpaceMedium,
+                                              CustomText(
                                                 sellerDetails[
-                                                        DESIGNER_DETAILS_CITY
+                                                        DESIGNER_DETAILS_NAME
                                                             .tr] ??
-                                                    "Seller City",
-                                                overflow: TextOverflow.ellipsis,
-                                                textAlign: TextAlign.end,
-                                                style: TextStyle(
-                                                  color: Colors.black54,
-                                                  fontWeight: FontWeight.w400,
-                                                  fontSize: headFont - 3,
+                                                    "Seller Name",
+                                                textStyle: TextStyle(
+                                                  fontSize: headFont + 6,
+                                                  fontFamily: headingFont,
+                                                  fontWeight: FontWeight.w600,
                                                 ),
+                                                dotsAfterOverFlow: true,
+                                              ),
+                                              // verticalSpaceTiny,
+
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  Icon(
+                                                    FontAwesomeIcons
+                                                        .mapMarkerAlt,
+                                                    size: 15,
+                                                    color: Colors.black54,
+                                                  ),
+                                                  horizontalSpaceTiny,
+                                                  Expanded(
+                                                    child: FittedBox(
+                                                      fit: BoxFit.scaleDown,
+                                                      alignment:
+                                                          Alignment.centerLeft,
+                                                      child: Text(
+                                                        sellerDetails[
+                                                                DESIGNER_DETAILS_CITY
+                                                                    .tr] ??
+                                                            "Seller City",
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        textAlign:
+                                                            TextAlign.end,
+                                                        style: TextStyle(
+                                                          color: Colors.black54,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          fontSize:
+                                                              headFont - 3,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  CustomText(
+                                                    "${sellerDetails[DESIGNER_DETAILS_TYPE.tr]}",
+                                                    fontSize: headFont - 3,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontFamily: textFont,
+                                                    dotsAfterOverFlow: true,
+                                                    maxLines: 4,
+                                                    color: Colors.black54,
+                                                  ),
+                                                ],
+                                              ),
+
+                                              Text(
+                                                "${sellerData.bio ?? 'Seller bio'}",
+                                                // "${sellerDetails[DESIGNER_SCREEN_DESIGNES_CREATES.tr]} • ${sellerDetails[DESIGNER_SCREEN_SPECIALITY.tr]} • ${sellerDetails[DESIGNER_SCREEN_WORK_OFFERED.tr]}",
+                                                // trimLines: 2,
+                                                maxLines: 4,
+                                                overflow: TextOverflow.ellipsis,
+                                                // colorClickableText: logoRed,
+                                                // trimMode: TrimMode.Line,
+                                                style: TextStyle(
+                                                  fontSize: headFont - 2,
+                                                  color: Colors.black54,
+                                                ),
+                                              ),
+
+                                              verticalSpaceMedium,
+
+                                              Row(
+                                                children: [
+                                                  Icon(
+                                                    Icons.shopping_bag_outlined,
+                                                    color: Colors.black54,
+                                                    size: 17,
+                                                  ),
+                                                  horizontalSpaceSmall,
+                                                  CustomText(
+                                                    "Delivering Across India",
+                                                    fontSize: headFont - 2,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontFamily: textFont,
+                                                    dotsAfterOverFlow: true,
+                                                    color: Colors.black54,
+                                                  ),
+                                                ],
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Icon(
+                                                    Icons.currency_rupee,
+                                                    color: Colors.black54,
+                                                    size: 17,
+                                                  ),
+                                                  horizontalSpaceSmall,
+                                                  CustomText(
+                                                    "Delivery fee will apply",
+                                                    fontSize: headFont - 2,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontFamily: textFont,
+                                                    dotsAfterOverFlow: true,
+                                                    color: Colors.black54,
+                                                  ),
+                                                ],
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Icon(
+                                                    Icons
+                                                        .local_shipping_outlined,
+                                                    color: Colors.black54,
+                                                    size: 17,
+                                                  ),
+                                                  horizontalSpaceSmall,
+                                                  CustomText(
+                                                    "All orders will be delivered by Dzor",
+                                                    fontSize: headFont - 2,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontFamily: textFont,
+                                                    dotsAfterOverFlow: true,
+                                                    color: Colors.black54,
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        Positioned(
+                                          left: 15,
+                                          top: -40,
+                                          child: Container(
+                                            // padding: EdgeInsets.all(10),
+                                            height: 70,
+                                            width: 70,
+                                            decoration: BoxDecoration(
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.black26,
+                                                  blurRadius: 5,
+                                                ),
+                                              ],
+                                              // color: Colors.red,
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                            ),
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                              child: FadeInImage.assetNetwork(
+                                                width: 100 * multiplyer,
+                                                height: 100 * multiplyer,
+                                                fadeInCurve: Curves.easeIn,
+                                                placeholder:
+                                                    "assets/images/product_preloading.png",
+                                                image: sellerData.key != null
+                                                    ? "$SELLER_PHOTO_BASE_URL/${sellerData.key}"
+                                                    : "https://images.unsplash.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
+                                                imageErrorBuilder: (context,
+                                                        error, stackTrace) =>
+                                                    Image.asset(
+                                                  "assets/images/product_preloading.png",
+                                                  width: 100 * multiplyer,
+                                                  height: 100 * multiplyer,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                                fit: BoxFit.cover,
                                               ),
                                             ),
                                           ),
-                                          CustomText(
-                                            "${sellerDetails[DESIGNER_DETAILS_TYPE.tr]}",
-                                            fontSize: headFont - 3,
-                                            fontWeight: FontWeight.w500,
-                                            fontFamily: textFont,
-                                            dotsAfterOverFlow: true,
-                                            maxLines: 4,
-                                            color: Colors.black54,
-                                          ),
-                                        ],
-                                      ),
-
-                                      Text(
-                                        "${sellerData.bio ?? 'Seller bio'}",
-                                        // "${sellerDetails[DESIGNER_SCREEN_DESIGNES_CREATES.tr]} • ${sellerDetails[DESIGNER_SCREEN_SPECIALITY.tr]} • ${sellerDetails[DESIGNER_SCREEN_WORK_OFFERED.tr]}",
-                                        // trimLines: 2,
-                                        maxLines: 4,
-                                        overflow: TextOverflow.ellipsis,
-                                        // colorClickableText: logoRed,
-                                        // trimMode: TrimMode.Line,
-                                        style: TextStyle(
-                                          fontSize: headFont - 2,
-                                          color: Colors.black54,
-                                        ),
-                                      ),
-
-                                      verticalSpaceMedium,
-
-                                      Row(
-                                        children: [
-                                          Icon(
-                                            Icons.shopping_bag_outlined,
-                                            color: Colors.black54,
-                                            size: 17,
-                                          ),
-                                          horizontalSpaceSmall,
-                                          CustomText(
-                                            "Delivering Across India",
-                                            fontSize: headFont - 2,
-                                            fontWeight: FontWeight.w500,
-                                            fontFamily: textFont,
-                                            dotsAfterOverFlow: true,
-                                            color: Colors.black54,
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        children: [
-                                          Icon(
-                                            Icons.currency_rupee,
-                                            color: Colors.black54,
-                                            size: 17,
-                                          ),
-                                          horizontalSpaceSmall,
-                                          CustomText(
-                                            "Delivery fee will apply",
-                                            fontSize: headFont - 2,
-                                            fontWeight: FontWeight.w500,
-                                            fontFamily: textFont,
-                                            dotsAfterOverFlow: true,
-                                            color: Colors.black54,
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        children: [
-                                          Icon(
-                                            Icons.local_shipping_outlined,
-                                            color: Colors.black54,
-                                            size: 17,
-                                          ),
-                                          horizontalSpaceSmall,
-                                          CustomText(
-                                            "All orders will be delivered by Dzor",
-                                            fontSize: headFont - 2,
-                                            fontWeight: FontWeight.w500,
-                                            fontFamily: textFont,
-                                            dotsAfterOverFlow: true,
-                                            color: Colors.black54,
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                Positioned(
-                                  left: 15,
-                                  top: -40,
-                                  child: Container(
-                                    // padding: EdgeInsets.all(10),
-                                    height: 70,
-                                    width: 70,
-                                    decoration: BoxDecoration(
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black26,
-                                          blurRadius: 5,
                                         ),
                                       ],
-                                      // color: Colors.red,
-                                      borderRadius: BorderRadius.circular(20),
                                     ),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(20),
-                                      child: FadeInImage.assetNetwork(
-                                        width: 100 * multiplyer,
-                                        height: 100 * multiplyer,
-                                        fadeInCurve: Curves.easeIn,
-                                        placeholder:
-                                            "assets/images/product_preloading.png",
-                                        image: sellerData.key != null
-                                            ? "$SELLER_PHOTO_BASE_URL/${sellerData.key}"
-                                            : "https://images.unsplash.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-                                        imageErrorBuilder:
-                                            (context, error, stackTrace) =>
-                                                Image.asset(
-                                          "assets/images/product_preloading.png",
-                                          width: 100 * multiplyer,
-                                          height: 100 * multiplyer,
-                                          fit: BoxFit.cover,
-                                        ),
-                                        fit: BoxFit.cover,
-                                      ),
+                                  ],
+                                ),
+                              );
+                            } else {
+                              return Container(
+                                width: MediaQuery.of(context).size.width,
+                                height: 460,
+                                decoration: BoxDecoration(
+                                  border:
+                                      Border.all(color: Colors.grey.shade100),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black26,
+                                      blurRadius: 5,
                                     ),
+                                  ],
+                                  color: Colors.white,
+                                  // workingarea
+                                  image: DecorationImage(
+                                    image: AssetImage(
+                                      "assets/images/product_preloading.png",
+                                    ),
+                                    fit: BoxFit.cover,
+                                  ),
+                                  // border: Border.all(),
+                                  borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(20),
+                                    bottomRight: Radius.circular(20),
                                   ),
                                 ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      );}else{return Container(
-      width: MediaQuery.of(context).size.width,
-      height: 460,
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey.shade100),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black26,
-            blurRadius: 5,
-          ),
-        ],
-        color: Colors.white,
-        // workingarea
-        image:  DecorationImage(
-            image:
-                  AssetImage(
-                "assets/images/product_preloading.png",
-              ),
-              fit: BoxFit.cover,
-            ),
-            // border: Border.all(),
-            borderRadius: BorderRadius.only(
-        bottomLeft: Radius.circular(20),
-        bottomRight: Radius.circular(20),
-      ),
-    ),
-      child: Column(
-      children: [
-      Spacer(),
-      Stack(
-      clipBehavior: Clip.none,
-      children: [
-      Container(
-      margin: EdgeInsets.only(bottom: 20),
-      padding: EdgeInsets.symmetric(
-      vertical: 15, horizontal: 20),
-      // height: 280,
-      // width: 200,
-      width: MediaQuery.of(context).size.width - 40,
+                                child: Column(
+                                  children: [
+                                    Spacer(),
+                                    Stack(
+                                      clipBehavior: Clip.none,
+                                      children: [
+                                        Container(
+                                          margin: EdgeInsets.only(bottom: 20),
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 15, horizontal: 20),
+                                          // height: 280,
+                                          // width: 200,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width -
+                                              40,
 
-      decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(22),
-      boxShadow: [
-      BoxShadow(
-      color: Colors.black26,
-      blurRadius: 5,
-      ),
-      ],
-      ),
-      child: Column(
-      crossAxisAlignment:
-      CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-      verticalSpaceMedium,
-      CustomText(
-      sellerDetails[
-      DESIGNER_DETAILS_NAME.tr] ??
-      "Seller Name",
-      textStyle: TextStyle(
-      fontSize: headFont + 6,
-      fontFamily: headingFont,
-      fontWeight: FontWeight.w600,
-      ),
-      dotsAfterOverFlow: true,
-      ),
-      // verticalSpaceTiny,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(22),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.black26,
+                                                blurRadius: 5,
+                                              ),
+                                            ],
+                                          ),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              verticalSpaceMedium,
+                                              CustomText(
+                                                sellerDetails[
+                                                        DESIGNER_DETAILS_NAME
+                                                            .tr] ??
+                                                    "Seller Name",
+                                                textStyle: TextStyle(
+                                                  fontSize: headFont + 6,
+                                                  fontFamily: headingFont,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                                dotsAfterOverFlow: true,
+                                              ),
+                                              // verticalSpaceTiny,
 
-      Row(
-      mainAxisAlignment:
-      MainAxisAlignment.start,
-      children: [
-      Icon(
-      FontAwesomeIcons.mapMarkerAlt,
-      size: 15,
-      color: Colors.black54,
-      ),
-      horizontalSpaceTiny,
-      Expanded(
-      child: FittedBox(
-      fit: BoxFit.scaleDown,
-      alignment: Alignment.centerLeft,
-      child: Text(
-      sellerDetails[
-      DESIGNER_DETAILS_CITY
-          .tr] ??
-      "Seller City",
-      overflow: TextOverflow.ellipsis,
-      textAlign: TextAlign.end,
-      style: TextStyle(
-      color: Colors.black54,
-      fontWeight: FontWeight.w400,
-      fontSize: headFont - 3,
-      ),
-      ),
-      ),
-      ),
-      CustomText(
-      "${sellerDetails[DESIGNER_DETAILS_TYPE.tr]}",
-      fontSize: headFont - 3,
-      fontWeight: FontWeight.w500,
-      fontFamily: textFont,
-      dotsAfterOverFlow: true,
-      maxLines: 4,
-      color: Colors.black54,
-      ),
-      ],
-      ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  Icon(
+                                                    FontAwesomeIcons
+                                                        .mapMarkerAlt,
+                                                    size: 15,
+                                                    color: Colors.black54,
+                                                  ),
+                                                  horizontalSpaceTiny,
+                                                  Expanded(
+                                                    child: FittedBox(
+                                                      fit: BoxFit.scaleDown,
+                                                      alignment:
+                                                          Alignment.centerLeft,
+                                                      child: Text(
+                                                        sellerDetails[
+                                                                DESIGNER_DETAILS_CITY
+                                                                    .tr] ??
+                                                            "Seller City",
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        textAlign:
+                                                            TextAlign.end,
+                                                        style: TextStyle(
+                                                          color: Colors.black54,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          fontSize:
+                                                              headFont - 3,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  CustomText(
+                                                    "${sellerDetails[DESIGNER_DETAILS_TYPE.tr]}",
+                                                    fontSize: headFont - 3,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontFamily: textFont,
+                                                    dotsAfterOverFlow: true,
+                                                    maxLines: 4,
+                                                    color: Colors.black54,
+                                                  ),
+                                                ],
+                                              ),
 
-      Text(
-      "${sellerData.bio ?? 'Seller bio'}",
-      // "${sellerDetails[DESIGNER_SCREEN_DESIGNES_CREATES.tr]} • ${sellerDetails[DESIGNER_SCREEN_SPECIALITY.tr]} • ${sellerDetails[DESIGNER_SCREEN_WORK_OFFERED.tr]}",
-      // trimLines: 2,
-      maxLines: 4,
-      overflow: TextOverflow.ellipsis,
-      // colorClickableText: logoRed,
-      // trimMode: TrimMode.Line,
-      style: TextStyle(
-      fontSize: headFont - 2,
-      color: Colors.black54,
-      ),
-      ),
+                                              Text(
+                                                "${sellerData.bio ?? 'Seller bio'}",
+                                                // "${sellerDetails[DESIGNER_SCREEN_DESIGNES_CREATES.tr]} • ${sellerDetails[DESIGNER_SCREEN_SPECIALITY.tr]} • ${sellerDetails[DESIGNER_SCREEN_WORK_OFFERED.tr]}",
+                                                // trimLines: 2,
+                                                maxLines: 4,
+                                                overflow: TextOverflow.ellipsis,
+                                                // colorClickableText: logoRed,
+                                                // trimMode: TrimMode.Line,
+                                                style: TextStyle(
+                                                  fontSize: headFont - 2,
+                                                  color: Colors.black54,
+                                                ),
+                                              ),
 
-      verticalSpaceMedium,
+                                              verticalSpaceMedium,
 
-      Row(
-      children: [
-      Icon(
-      Icons.shopping_bag_outlined,
-      color: Colors.black54,
-      size: 17,
-      ),
-      horizontalSpaceSmall,
-      CustomText(
-      "Delivering Across India",
-      fontSize: headFont - 2,
-      fontWeight: FontWeight.w500,
-      fontFamily: textFont,
-      dotsAfterOverFlow: true,
-      color: Colors.black54,
-      ),
-      ],
-      ),
-      Row(
-      children: [
-      Icon(
-      Icons.currency_rupee,
-      color: Colors.black54,
-      size: 17,
-      ),
-      horizontalSpaceSmall,
-      CustomText(
-      "Delivery fee will apply",
-      fontSize: headFont - 2,
-      fontWeight: FontWeight.w500,
-      fontFamily: textFont,
-      dotsAfterOverFlow: true,
-      color: Colors.black54,
-      ),
-      ],
-      ),
-      Row(
-      children: [
-      Icon(
-      Icons.local_shipping_outlined,
-      color: Colors.black54,
-      size: 17,
-      ),
-      horizontalSpaceSmall,
-      CustomText(
-      "All orders will be delivered by Dzor",
-      fontSize: headFont - 2,
-      fontWeight: FontWeight.w500,
-      fontFamily: textFont,
-      dotsAfterOverFlow: true,
-      color: Colors.black54,
-      ),
-      ],
-      )
-      ],
-      ),
-      ),
-      Positioned(
-      left: 15,
-      top: -40,
-      child: Container(
-      // padding: EdgeInsets.all(10),
-      height: 70,
-      width: 70,
-      decoration: BoxDecoration(
-      boxShadow: [
-      BoxShadow(
-      color: Colors.black26,
-      blurRadius: 5,
-      ),
-      ],
-      // color: Colors.red,
-      borderRadius: BorderRadius.circular(20),
-      ),
-      child: ClipRRect(
-      borderRadius: BorderRadius.circular(20),
-      child: FadeInImage.assetNetwork(
-      width: 100 * multiplyer,
-      height: 100 * multiplyer,
-      fadeInCurve: Curves.easeIn,
-      placeholder:
-      "assets/images/product_preloading.png",
-      image: sellerData.key != null
-      ? "$SELLER_PHOTO_BASE_URL/${sellerData.key}"
-          : "https://images.unsplash.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-      imageErrorBuilder:
-      (context, error, stackTrace) =>
-      Image.asset(
-      "assets/images/product_preloading.png",
-      width: 100 * multiplyer,
-      height: 100 * multiplyer,
-      fit: BoxFit.cover,
-      ),
-      fit: BoxFit.cover,
-      ),
-      ),
-      ),
-      ),
-      ],
-      ),
-      ],
-      ),
-      )
-      ;}}),
+                                              Row(
+                                                children: [
+                                                  Icon(
+                                                    Icons.shopping_bag_outlined,
+                                                    color: Colors.black54,
+                                                    size: 17,
+                                                  ),
+                                                  horizontalSpaceSmall,
+                                                  CustomText(
+                                                    "Delivering Across India",
+                                                    fontSize: headFont - 2,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontFamily: textFont,
+                                                    dotsAfterOverFlow: true,
+                                                    color: Colors.black54,
+                                                  ),
+                                                ],
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Icon(
+                                                    Icons.currency_rupee,
+                                                    color: Colors.black54,
+                                                    size: 17,
+                                                  ),
+                                                  horizontalSpaceSmall,
+                                                  CustomText(
+                                                    "Delivery fee will apply",
+                                                    fontSize: headFont - 2,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontFamily: textFont,
+                                                    dotsAfterOverFlow: true,
+                                                    color: Colors.black54,
+                                                  ),
+                                                ],
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Icon(
+                                                    Icons
+                                                        .local_shipping_outlined,
+                                                    color: Colors.black54,
+                                                    size: 17,
+                                                  ),
+                                                  horizontalSpaceSmall,
+                                                  CustomText(
+                                                    "All orders will be delivered by Dzor",
+                                                    fontSize: headFont - 2,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontFamily: textFont,
+                                                    dotsAfterOverFlow: true,
+                                                    color: Colors.black54,
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        Positioned(
+                                          left: 15,
+                                          top: -40,
+                                          child: Container(
+                                            // padding: EdgeInsets.all(10),
+                                            height: 70,
+                                            width: 70,
+                                            decoration: BoxDecoration(
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.black26,
+                                                  blurRadius: 5,
+                                                ),
+                                              ],
+                                              // color: Colors.red,
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                            ),
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                              child: FadeInImage.assetNetwork(
+                                                width: 100 * multiplyer,
+                                                height: 100 * multiplyer,
+                                                fadeInCurve: Curves.easeIn,
+                                                placeholder:
+                                                    "assets/images/product_preloading.png",
+                                                image: sellerData.key != null
+                                                    ? "$SELLER_PHOTO_BASE_URL/${sellerData.key}"
+                                                    : "https://images.unsplash.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
+                                                imageErrorBuilder: (context,
+                                                        error, stackTrace) =>
+                                                    Image.asset(
+                                                  "assets/images/product_preloading.png",
+                                                  width: 100 * multiplyer,
+                                                  height: 100 * multiplyer,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }
+                          }),
                     ),
                     Align(
                       alignment: Alignment.topLeft,
@@ -965,87 +998,87 @@ class _SellerIndi2State extends State<SellerIndi2> {
                       ),
                       verticalSpaceMedium,
 
-                      if (sellerData.subscriptionTypeId == 1 &&
-                          showExploreSection)
-                        Container(
-                          color: Colors.grey[200],
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 16.0, vertical: 5),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(right: 8.0),
-                                  child: FittedBox(
-                                    fit: BoxFit.scaleDown,
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      DESIGNER_SCREEN_EXPLORE_DESIGNER_COLLECTION
-                                          .tr,
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              InkWell(
-                                child: Padding(
-                                  padding: EdgeInsets.only(right: 8.0),
+                      // if (sellerData.subscriptionTypeId == 1 &&
+                      //     showExploreSection)
+                      Container(
+                        color: Colors.grey[200],
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16.0, vertical: 5),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 8.0),
+                                child: FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  alignment: Alignment.centerLeft,
                                   child: Text(
-                                    'View All',
+                                    DESIGNER_SCREEN_EXPLORE_DESIGNER_COLLECTION
+                                        .tr,
+                                    textAlign: TextAlign.left,
                                     style: TextStyle(
-                                      fontSize: subtitleFontSize - 2,
-                                      color: textIconBlue,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                 ),
-                                onTap: () {
-                                  NavigationService.to(
-                                    ProductsListRoute,
-                                    arguments: ProductPageArg(
-                                      subCategory: sellerData.name,
-                                      queryString:
-                                          "accountKey=${sellerData.key};",
-                                      sellerPhoto:
-                                          "$SELLER_PHOTO_BASE_URL/${sellerData.key}",
-                                    ),
-                                  );
-                                },
                               ),
-                            ],
-                          ),
-                        ),
-                      if (sellerData.subscriptionTypeId == 1 &&
-                          showExploreSection)
-                        verticalSpace(5),
-                      if (sellerData.subscriptionTypeId == 1 &&
-                          showExploreSection)
-                        SectionBuilder(
-                          key: productKey,
-                          context: context,
-                          filter: ProductFilter(
-                            accountKey: sellerData.key,
-                          ),
-                          layoutType: LayoutType.PRODUCT_LAYOUT_2,
-                          controller: ProductsGridViewBuilderController(
-                              randomize: true, limit: 6),
-                          scrollDirection: Axis.horizontal,
-                          onEmptyList: () async {
-                            await Future.delayed(
-                              Duration(milliseconds: 500),
-                              () => setState(
-                                () {
-                                  showExploreSection = false;
-                                },
+                            ),
+                            InkWell(
+                              child: Padding(
+                                padding: EdgeInsets.only(right: 8.0),
+                                child: Text(
+                                  'View All',
+                                  style: TextStyle(
+                                    fontSize: subtitleFontSize - 2,
+                                    color: textIconBlue,
+                                  ),
+                                ),
                               ),
-                            );
-                          },
+                              onTap: () {
+                                NavigationService.to(
+                                  ProductsListRoute,
+                                  arguments: ProductPageArg(
+                                    subCategory: sellerData.name,
+                                    queryString:
+                                        "accountKey=${sellerData.key};",
+                                    sellerPhoto:
+                                        "$SELLER_PHOTO_BASE_URL/${sellerData.key}",
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
                         ),
+                      ),
+                      // if (sellerData.subscriptionTypeId == 1 &&
+                      //     showExploreSection)
+                      verticalSpace(5),
+                      // if (sellerData.subscriptionTypeId == 1 &&
+                      //     showExploreSection)
+                      SectionBuilder(
+                        key: productKey,
+                        context: context,
+                        filter: ProductFilter(
+                          accountKey: sellerData.key,
+                        ),
+                        layoutType: LayoutType.PRODUCT_LAYOUT_2,
+                        controller: ProductsGridViewBuilderController(
+                            randomize: true, limit: 6),
+                        scrollDirection: Axis.horizontal,
+                        onEmptyList: () async {
+                          await Future.delayed(
+                            Duration(milliseconds: 500),
+                            () => setState(
+                              () {
+                                showExploreSection = false;
+                              },
+                            ),
+                          );
+                        },
+                      ),
                       // Container(
                       //   color: Colors.grey[200],
                       //   padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 5),

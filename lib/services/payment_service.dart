@@ -44,13 +44,12 @@ class PaymentService {
       String? email,
       String name = 'Dzor Infotech Pvt Ltd',
       String currency = 'INR',
-      String description = ''}) async {
+      String description = 'Shop at Dzor'}) async {
     log("inside payment api");
     // if (razorPayAPIKey == null) {
     razorPayAPIKey = await getApiKey();
     // }
     if (razorPayAPIKey != null) {
-  
       var options = {
         'key': razorPayAPIKey,
         'amount': int.parse(amount.toStringAsFixed(2).replaceAll(".", "")),
@@ -59,6 +58,8 @@ class PaymentService {
         'receipt': receiptId,
         'name': appInfo?.payment.merchantName ?? name,
         'description': description,
+        'email': email ?? "info@dzor.in",
+        'contact': contactNo,
         // 'prefill': {
         //   'contact': contactNo,
         //   'email': email ?? (appInfo?.payment.email ?? "info@dzor.in")
@@ -71,7 +72,8 @@ class PaymentService {
       if (kDebugMode)
         log("Order Cost: $amount ${int.parse(amount.toStringAsFixed(2).replaceAll(".", ""))}");
 
-      _razorpay?.on(Razorpay.EVENT_PAYMENT_SUCCESS, (PaymentSuccessResponse response) async {
+      _razorpay?.on(Razorpay.EVENT_PAYMENT_SUCCESS,
+          (PaymentSuccessResponse response) async {
         // if (kDebugMode) log("OrderId: " + response.orderId!);
         if (kDebugMode) log("Payment Id: " + response.paymentId!);
         if (kDebugMode) log("Signature: " + response.signature!);
@@ -94,7 +96,8 @@ class PaymentService {
         await NavigationService.off(PaymentFinishedScreenRoute);
       });
 
-      _razorpay?.on(Razorpay.EVENT_PAYMENT_ERROR, (PaymentFailureResponse response) async {
+      _razorpay?.on(Razorpay.EVENT_PAYMENT_ERROR,
+          (PaymentFailureResponse response) async {
         await locator<APIService>().verifyGroupPayment(
           // orderId: dzorOrderId,
           groupId: groupId,
@@ -106,16 +109,19 @@ class PaymentService {
         //   success: false,
         // );
 
-        if (kDebugMode) log("RazorPay Error: Code: ${response.code} Msg: ${response.message}");
+        if (kDebugMode)
+          log("RazorPay Error: Code: ${response.code} Msg: ${response.message}");
         locator<ErrorHandlingService>().showError(Errors.CouldNotPlaceAnOrder);
         await NavigationService.off(
           PaymentErrorScreenRoute,
           arguments: OrderError.PAYMENT_ERROR,
         );
       });
-      
-      _razorpay?.on(Razorpay.EVENT_EXTERNAL_WALLET, (ExternalWalletResponse response) {
-        if (kDebugMode) log("RazorPay External Wallet: " + response.walletName!);
+
+      _razorpay?.on(Razorpay.EVENT_EXTERNAL_WALLET,
+          (ExternalWalletResponse response) {
+        if (kDebugMode)
+          log("RazorPay External Wallet: " + response.walletName!);
       });
 
       try {

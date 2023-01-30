@@ -56,7 +56,15 @@ import '../widgets/wishlist_icon.dart';
 import 'cart_view.dart';
 import 'gallery_view.dart';
 
-const weekday = ["Monday", "Tuesday", "wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+const weekday = [
+  "Monday",
+  "Tuesday",
+  "wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday"
+];
 
 var month = [
   "January",
@@ -99,7 +107,8 @@ Map<String, Color> tagColors = {
 class ProductIndiView extends StatefulWidget {
   final Product data;
   final bool fromCart;
-  const ProductIndiView({Key? key, required this.data, this.fromCart = false}) : super(key: key);
+  const ProductIndiView({Key? key, required this.data, this.fromCart = false})
+      : super(key: key);
   @override
   _ProductIndiViewState createState() => _ProductIndiViewState();
 }
@@ -107,7 +116,8 @@ class ProductIndiView extends StatefulWidget {
 class _ProductIndiViewState extends State<ProductIndiView> {
   final refreshController = RefreshController(initialRefresh: false);
   final DynamicLinkService _dynamicLinkService = locator<DynamicLinkService>();
-  final ErrorHandlingService _errorHandlingService = locator<ErrorHandlingService>();
+  final ErrorHandlingService _errorHandlingService =
+      locator<ErrorHandlingService>();
   late ProductController productController;
 
   UniqueKey key = UniqueKey();
@@ -122,6 +132,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
   Product? productData;
   Product? productInfo;
   bool showMoreFromDesigner = true;
+  bool showRecommendedProducts = true;
   String? productName;
   String? productId;
   double? productDiscount;
@@ -143,6 +154,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
   Product? _promotedProductInfo;
   bool showHeader = false;
   bool showSizechart = false;
+  double multiplyer = 0.8;
   GlobalKey cartKey = GlobalKey();
 
   @override
@@ -182,7 +194,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
   }
 
   Future<Product> getProductInfo(String promotedProduct) async {
-    final product = (await APIService().getProductById(productId: promotedProduct.toString()))!;
+    final product = (await APIService()
+        .getProductById(productId: promotedProduct.toString()))!;
     print("Product details fetched");
     return product;
   }
@@ -226,15 +239,20 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                   ),
                   Text(
                     "Thanks for sharing !",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: logoRed),
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        color: logoRed),
                   ),
                   Lottie.asset('assets/icons/ruffle-gift.json'),
                   verticalSpaceSmall,
                   Text(
                     "You have a chance to win a product for free. Keep Sharing!",
                     textAlign: TextAlign.center,
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Colors.black),
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                        color: Colors.black),
                   ),
                   verticalSpaceSmall,
                   ElevatedButton(
@@ -252,7 +270,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                           context,
                           MaterialPageRoute(
                               builder: (_) => AllConfettiWidget(
-                                  child: PromotionScreen(data: _promotedProductInfo))));
+                                  child: PromotionScreen(
+                                      data: _promotedProductInfo))));
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(10),
@@ -317,8 +336,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                         ),
                         controller: refreshController,
                         onRefresh: () async {
-                          Product? product =
-                              await controller.refreshProduct(productData?.key ?? "");
+                          Product? product = await controller
+                              .refreshProduct(productData?.key ?? "");
                           if (product != null) {
                             setState(() {
                               setupProductDetails(product);
@@ -336,14 +355,16 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                   FutureBuilder(
                                       future: checkshowSizeChart(),
                                       builder: (context, data) {
-                                        if (data.connectionState == ConnectionState.done) {
+                                        if (data.connectionState ==
+                                            ConnectionState.done) {
                                           return HomeSlider(
                                             key: photosKey,
                                             imgList: imageURLs ?? [],
                                             sizeChartUrl: showSizechart == true
                                                 ? "${BASE_URL}sellers/${productData?.account?.key}/categories/${productData?.category?.id}/sizechart"
                                                 : "",
-                                            videoList: productData?.video?.videos
+                                            videoList: productData
+                                                    ?.video?.videos
                                                     .map((e) =>
                                                         "${BASE_URL}products/${productData?.key}/videos/${e.name}")
                                                     .toList() ??
@@ -371,9 +392,12 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                       padding: EdgeInsets.all(8.0),
                                       decoration: BoxDecoration(
                                           color: Colors.white,
-                                          borderRadius: BorderRadius.circular(30),
+                                          borderRadius:
+                                              BorderRadius.circular(30),
                                           boxShadow: [
-                                            BoxShadow(color: Colors.black26, blurRadius: 1)
+                                            BoxShadow(
+                                                color: Colors.black26,
+                                                blurRadius: 1)
                                           ]),
                                       child: Row(
                                         children: [
@@ -382,14 +406,21 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                             height: 20,
                                             child: InkWell(
                                               onTap: () async =>
-                                                  locator<HomeController>().isLoggedIn
-                                                      ? controller.onWishlistBtnClicked(productId!)
-                                                      : await BaseController.showLoginPopup(
-                                                          nextView: WishListRoute,
-                                                          shouldNavigateToNextScreen: true,
+                                                  locator<HomeController>()
+                                                          .isLoggedIn
+                                                      ? controller
+                                                          .onWishlistBtnClicked(
+                                                              productId!)
+                                                      : await BaseController
+                                                          .showLoginPopup(
+                                                          nextView:
+                                                              WishListRoute,
+                                                          shouldNavigateToNextScreen:
+                                                              true,
                                                         ),
                                               child: WishListIcon(
-                                                filled: controller.isWishlistIconFilled,
+                                                filled: controller
+                                                    .isWishlistIconFilled,
                                                 width: 20,
                                                 height: 20,
                                               ),
@@ -403,18 +434,25 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                               onTap: () async {
                                                 await Share.share(
                                                   await _dynamicLinkService
-                                                          .createLink(productLink + productId!) ??
+                                                          .createLink(
+                                                              productLink +
+                                                                  productId!) ??
                                                       "",
                                                 );
-                                                await controller.shareProductEvent(
-                                                    productId: productId!,
-                                                    productName: productName ?? "Product");
+                                                await controller
+                                                    .shareProductEvent(
+                                                        productId: productId!,
+                                                        productName:
+                                                            productName ??
+                                                                "Product");
 
                                                 showCustomDialog(context);
                                                 // Future.delayed(Duration(seconds: 90), showCustomDialog(context));
                                               },
                                               child: Icon(
-                                                Platform.isIOS ? CupertinoIcons.share : Icons.share,
+                                                Platform.isIOS
+                                                    ? CupertinoIcons.share
+                                                    : Icons.share,
                                                 size: 20,
                                               ),
                                             ),
@@ -434,34 +472,51 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Container(
-                                          width: MediaQuery.of(context).size.width * 0.8,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.8,
                                           child: productPriceInfo(
                                             productName: productData?.name,
-                                            designerName: productInfo?.seller?.name ?? "",
+                                            designerName:
+                                                productInfo?.seller?.name ?? "",
                                             productPrice: productPrice,
-                                            actualPrice: (productData!.cost!.cost +
-                                                    productData!.cost!.convenienceCharges!.cost! +
-                                                    productData!.cost!.gstCharges!.cost!)
-                                                .round(),
+                                            actualPrice:
+                                                (productData!.cost!.cost +
+                                                        productData!
+                                                            .cost!
+                                                            .convenienceCharges!
+                                                            .cost! +
+                                                        productData!.cost!
+                                                            .gstCharges!.cost!)
+                                                    .round(),
                                             showPrice: (available!),
-                                            isClothMeterial: (productData?.category?.id == 13),
+                                            isClothMeterial:
+                                                (productData?.category?.id ==
+                                                    13),
                                           ),
                                         ),
-                                        if ((productData?.discount ?? 0.0) != 0.0)
+                                        if ((productData?.discount ?? 0.0) !=
+                                            0.0)
                                           InkWell(
                                             child: Container(
                                               decoration: BoxDecoration(
                                                 color: logoRed,
-                                                borderRadius: BorderRadius.circular(50),
+                                                borderRadius:
+                                                    BorderRadius.circular(50),
                                               ),
                                               width: 40,
                                               height: 40,
                                               child: Center(
                                                 child: Text(
-                                                  productData!.discount!.round().toString() + "%",
+                                                  productData!.discount!
+                                                          .round()
+                                                          .toString() +
+                                                      "%",
                                                   style: TextStyle(
                                                     color: Colors.white,
                                                     fontWeight: FontWeight.bold,
@@ -470,30 +525,38 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                 ),
                                               ),
                                             ),
-                                            onTap: () => NavigationService.back(),
+                                            onTap: () =>
+                                                NavigationService.back(),
                                           ),
                                       ],
                                     ),
                                     elementDivider(),
                                     // ? handmade product card
                                     Container(
-                                      margin: EdgeInsets.symmetric(vertical: 10),
+                                      margin:
+                                          EdgeInsets.symmetric(vertical: 10),
                                       padding: EdgeInsets.all(10),
                                       decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
                                           color: Colors.white,
                                           boxShadow: [
-                                            BoxShadow(color: Colors.black12, blurRadius: 5)
+                                            BoxShadow(
+                                                color: Colors.black12,
+                                                blurRadius: 5)
                                           ]),
                                       child: Row(
                                         children: [
                                           Image.asset(
                                             "assets/icons/hand-made.png",
-                                            height: 75,
+                                            height: 55,
                                           ),
                                           horizontalSpaceSmall,
                                           Container(
-                                            width: MediaQuery.of(context).size.width - 130,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width -
+                                                130,
                                             child: Column(
                                               children: [
                                                 Text(
@@ -502,7 +565,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                   style: TextStyle(
                                                       color: Colors.black,
                                                       fontSize: 14,
-                                                      fontWeight: FontWeight.normal),
+                                                      fontWeight:
+                                                          FontWeight.normal),
                                                 ),
                                                 Text(
                                                   "Creators really appreciate your patience in getting the products from their home to yours.",
@@ -510,7 +574,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                   style: TextStyle(
                                                       color: Colors.grey,
                                                       fontSize: 12,
-                                                      fontWeight: FontWeight.normal),
+                                                      fontWeight:
+                                                          FontWeight.normal),
                                                 ),
                                               ],
                                             ),
@@ -523,10 +588,12 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                     if (available!)
                                       Container(
                                         // decoration: BoxDecoration(border: Border.all()),
-                                        width: MediaQuery.of(context).size.width,
+                                        width:
+                                            MediaQuery.of(context).size.width,
                                         // padding : EdgeInsets.symmetric(horizontal : 10),
                                         child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: <Widget>[
                                             selectedSize == "N/A"
                                                 ? verticalSpace(0)
@@ -534,9 +601,12 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                     children: <Widget>[
                                                       Expanded(
                                                         child: Text(
-                                                          PRODUCTSCREEN_SELECT_SIZE.tr,
+                                                          PRODUCTSCREEN_SELECT_SIZE
+                                                              .tr,
                                                           style: TextStyle(
-                                                            fontWeight: FontWeight.normal,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .normal,
                                                             fontSize: 14,
                                                             letterSpacing: 1.0,
                                                             color: logoRed,
@@ -547,13 +617,20 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                         onTap: () {
                                                           _showDialog(
                                                               context,
-                                                              productInfo?.seller?.key,
-                                                              productData?.category?.id ?? 1);
+                                                              productInfo
+                                                                  ?.seller?.key,
+                                                              productData
+                                                                      ?.category
+                                                                      ?.id ??
+                                                                  1);
                                                         },
                                                         child: Text(
-                                                          PRODUCTSCREEN_SIZE_CHART.tr,
+                                                          PRODUCTSCREEN_SIZE_CHART
+                                                              .tr,
                                                           style: TextStyle(
-                                                            decoration: TextDecoration.underline,
+                                                            decoration:
+                                                                TextDecoration
+                                                                    .underline,
                                                             fontSize: 12,
                                                           ),
                                                         ),
@@ -565,13 +642,16 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                             selectedSize == ""
                                                 ? Container()
                                                 : Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: <Widget>[
                                                       selectedSize == "N/A"
                                                           ? verticalSpace(0)
                                                           : elementDivider(),
                                                       Text(
-                                                        PRODUCTSCREEN_SELECT_COLOR.tr,
+                                                        PRODUCTSCREEN_SELECT_COLOR
+                                                            .tr,
                                                         style: TextStyle(
                                                           fontSize: 14,
                                                           letterSpacing: 1.0,
@@ -586,11 +666,13 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                   ),
                                             selectedColor == ""
                                                 ? Container()
-                                                : (productData!.category!.id != 13)
+                                                : (productData!.category!.id !=
+                                                        13)
                                                     ? Container()
                                                     : Column(
                                                         crossAxisAlignment:
-                                                            CrossAxisAlignment.start,
+                                                            CrossAxisAlignment
+                                                                .start,
                                                         children: <Widget>[
                                                           elementDivider(),
                                                           Text(
@@ -598,38 +680,55 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                                 .toUpperCase(),
                                                             style: TextStyle(
                                                               fontSize: 14,
-                                                              letterSpacing: 1.0,
+                                                              letterSpacing:
+                                                                  1.0,
                                                               color: logoRed,
                                                             ),
                                                           ),
                                                           verticalSpaceSmall,
                                                           FittedBox(
-                                                            fit: BoxFit.scaleDown,
+                                                            fit: BoxFit
+                                                                .scaleDown,
                                                             child: Container(
                                                               height: 30,
-                                                              decoration: BoxDecoration(
-                                                                border: Border.all(
-                                                                  color: darkRedSmooth,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                border:
+                                                                    Border.all(
+                                                                  color:
+                                                                      darkRedSmooth,
                                                                 ),
                                                                 borderRadius:
-                                                                    BorderRadius.circular(5),
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            5),
                                                               ),
                                                               child: Row(
                                                                 crossAxisAlignment:
-                                                                    CrossAxisAlignment.center,
-                                                                children: <Widget>[
+                                                                    CrossAxisAlignment
+                                                                        .center,
+                                                                children: <
+                                                                    Widget>[
                                                                   IconButton(
-                                                                    padding:
-                                                                        const EdgeInsets.symmetric(
-                                                                            vertical: 4.0),
-                                                                    color: selectedQty == 0
-                                                                        ? Colors.grey
+                                                                    padding: const EdgeInsets
+                                                                            .symmetric(
+                                                                        vertical:
+                                                                            4.0),
+                                                                    color: selectedQty ==
+                                                                            0
+                                                                        ? Colors
+                                                                            .grey
                                                                         : darkRedSmooth,
-                                                                    iconSize: 18,
-                                                                    icon: Icon(Icons.remove),
-                                                                    onPressed: () {
-                                                                      if (selectedQty != 0) {
-                                                                        setState(() {
+                                                                    iconSize:
+                                                                        18,
+                                                                    icon: Icon(Icons
+                                                                        .remove),
+                                                                    onPressed:
+                                                                        () {
+                                                                      if (selectedQty !=
+                                                                          0) {
+                                                                        setState(
+                                                                            () {
                                                                           selectedQty =
                                                                               selectedQty - 1;
                                                                         });
@@ -637,27 +736,40 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                                     },
                                                                   ),
                                                                   Text(
-                                                                    selectedQty.toString(),
+                                                                    selectedQty
+                                                                        .toString(),
                                                                     style: TextStyle(
-                                                                        color: darkRedSmooth,
-                                                                        fontSize: 12,
+                                                                        color:
+                                                                            darkRedSmooth,
+                                                                        fontSize:
+                                                                            12,
                                                                         fontWeight:
                                                                             FontWeight.bold),
                                                                   ),
                                                                   IconButton(
-                                                                    padding:
-                                                                        const EdgeInsets.symmetric(
-                                                                            vertical: 4.0),
-                                                                    iconSize: 18,
-                                                                    color: maxQty == selectedQty
-                                                                        ? Colors.grey
+                                                                    padding: const EdgeInsets
+                                                                            .symmetric(
+                                                                        vertical:
+                                                                            4.0),
+                                                                    iconSize:
+                                                                        18,
+                                                                    color: maxQty ==
+                                                                            selectedQty
+                                                                        ? Colors
+                                                                            .grey
                                                                         : darkRedSmooth,
-                                                                    icon: Icon(Icons.add),
-                                                                    onPressed: () {
+                                                                    icon: Icon(
+                                                                        Icons
+                                                                            .add),
+                                                                    onPressed:
+                                                                        () {
                                                                       print("maxQty" +
-                                                                          maxQty.toString());
-                                                                      if (maxQty != selectedQty) {
-                                                                        setState(() {
+                                                                          maxQty
+                                                                              .toString());
+                                                                      if (maxQty !=
+                                                                          selectedQty) {
+                                                                        setState(
+                                                                            () {
                                                                           selectedQty =
                                                                               selectedQty + 1;
                                                                         });
@@ -672,15 +784,20 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                       ),
                                             verticalSpaceTiny,
                                             Padding(
-                                              padding: EdgeInsets.only(top: 8.0),
+                                              padding:
+                                                  EdgeInsets.only(top: 8.0),
                                               child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    PRODUCTSCREEN_SELECTION_GUIDE.tr,
+                                                    PRODUCTSCREEN_SELECTION_GUIDE
+                                                        .tr,
                                                     style: TextStyle(
                                                       color: Colors.grey,
-                                                      fontSize: subtitleFontSizeStyle - 2,
+                                                      fontSize:
+                                                          subtitleFontSizeStyle -
+                                                              2,
                                                     ),
                                                   ),
                                                 ],
@@ -690,225 +807,273 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                         ),
                                       ),
 
-                                    if ((controller.productData?.coupons?.length ?? 0) > 0) ...[
+                                    if ((controller
+                                                .productData?.coupons?.length ??
+                                            0) >
+                                        0) ...[
                                       // sectionDivider(),
                                       elementDivider(),
 
                                       HomeViewListHeader(
-                                        title: PRODUCTSCREEN_AVAILABLE_COUPONS.tr,
+                                        title:
+                                            PRODUCTSCREEN_AVAILABLE_COUPONS.tr,
                                         padding: EdgeInsets.zero,
                                       ),
                                       verticalSpaceTiny,
                                       SingleChildScrollView(
                                         scrollDirection: Axis.horizontal,
                                         child: Row(
-                                            children: controller.productData?.coupons
-                                                    ?.map(
-                                                      (e) => InkWell(
-                                                        onTap: () async {
-                                                          await Get.bottomSheet(
-                                                            Container(
-                                                              padding: EdgeInsets.only(
-                                                                top: 16.0,
-                                                                right: 8.0,
-                                                                left: 8.0,
-                                                                bottom: MediaQuery.of(context)
-                                                                        .padding
-                                                                        .bottom +
-                                                                    16.0,
-                                                              ),
-                                                              color: Colors.white,
-                                                              child: Column(
-                                                                mainAxisSize: MainAxisSize.min,
-                                                                crossAxisAlignment:
-                                                                    CrossAxisAlignment.start,
-                                                                children: [
-                                                                  Row(
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .spaceBetween,
+                                            children:
+                                                controller.productData?.coupons
+                                                        ?.map(
+                                                          (e) => InkWell(
+                                                            onTap: () async {
+                                                              await Get
+                                                                  .bottomSheet(
+                                                                Container(
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .only(
+                                                                    top: 16.0,
+                                                                    right: 8.0,
+                                                                    left: 8.0,
+                                                                    bottom: MediaQuery.of(context)
+                                                                            .padding
+                                                                            .bottom +
+                                                                        16.0,
+                                                                  ),
+                                                                  color: Colors
+                                                                      .white,
+                                                                  child: Column(
+                                                                    mainAxisSize:
+                                                                        MainAxisSize
+                                                                            .min,
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .start,
                                                                     children: [
                                                                       Row(
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.spaceBetween,
                                                                         children: [
-                                                                          Image.asset(
-                                                                            'assets/images/discount_tag.png',
-                                                                            height: 22,
-                                                                            width: 22,
-                                                                            fit: BoxFit.cover,
+                                                                          Row(
+                                                                            children: [
+                                                                              Image.asset(
+                                                                                'assets/images/discount_tag.png',
+                                                                                height: 22,
+                                                                                width: 22,
+                                                                                fit: BoxFit.cover,
+                                                                              ),
+                                                                              horizontalSpaceSmall,
+                                                                              Text(
+                                                                                "Deals",
+                                                                                style: TextStyle(
+                                                                                  fontSize: 18,
+                                                                                  color: logoRed,
+                                                                                ),
+                                                                              ),
+                                                                            ],
                                                                           ),
-                                                                          horizontalSpaceSmall,
-                                                                          Text(
-                                                                            "Deals",
-                                                                            style: TextStyle(
-                                                                              fontSize: 18,
-                                                                              color: logoRed,
-                                                                            ),
+                                                                          IconButton(
+                                                                            tooltip:
+                                                                                "Close",
+                                                                            iconSize:
+                                                                                28,
+                                                                            icon:
+                                                                                Icon(CupertinoIcons.clear_circled_solid),
+                                                                            color:
+                                                                                Colors.grey[500],
+                                                                            onPressed: () =>
+                                                                                NavigationService.back(),
                                                                           ),
                                                                         ],
                                                                       ),
-                                                                      IconButton(
-                                                                        tooltip: "Close",
-                                                                        iconSize: 28,
-                                                                        icon: Icon(CupertinoIcons
-                                                                            .clear_circled_solid),
-                                                                        color: Colors.grey[500],
-                                                                        onPressed: () =>
-                                                                            NavigationService
-                                                                                .back(),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                  verticalSpaceSmall,
-                                                                  Row(
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .spaceBetween,
-                                                                    children: [
-                                                                      Container(
-                                                                        decoration: BoxDecoration(
-                                                                          border: Border.all(
-                                                                            color: logoRed,
-                                                                          ),
-                                                                          borderRadius:
-                                                                              BorderRadius.circular(
-                                                                            5,
-                                                                          ),
-                                                                        ),
-                                                                        padding:
-                                                                            EdgeInsets.symmetric(
-                                                                          vertical: 4.0,
-                                                                          horizontal: 8.0,
-                                                                        ),
-                                                                        child: Text(
-                                                                          e.code!.toUpperCase(),
-                                                                          style: TextStyle(
-                                                                            fontSize: 14,
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                      ElevatedButton(
-                                                                        style: ElevatedButton
-                                                                            .styleFrom(
-                                                                          backgroundColor:
-                                                                              Colors.white,
-                                                                          elevation: 0,
-                                                                        ),
-                                                                        child: Text(
-                                                                          "COPY",
-                                                                          style: TextStyle(
-                                                                            color: logoRed,
-                                                                            fontWeight:
-                                                                                FontWeight.bold,
-                                                                          ),
-                                                                        ),
-                                                                        onPressed: () async {
-                                                                          await Clipboard.setData(
-                                                                            ClipboardData(
-                                                                              text: e.code,
+                                                                      verticalSpaceSmall,
+                                                                      Row(
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.spaceBetween,
+                                                                        children: [
+                                                                          Container(
+                                                                            decoration:
+                                                                                BoxDecoration(
+                                                                              border: Border.all(
+                                                                                color: logoRed,
+                                                                              ),
+                                                                              borderRadius: BorderRadius.circular(
+                                                                                5,
+                                                                              ),
                                                                             ),
-                                                                          );
+                                                                            padding:
+                                                                                EdgeInsets.symmetric(
+                                                                              vertical: 4.0,
+                                                                              horizontal: 8.0,
+                                                                            ),
+                                                                            child:
+                                                                                Text(
+                                                                              e.code!.toUpperCase(),
+                                                                              style: TextStyle(
+                                                                                fontSize: 14,
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                          ElevatedButton(
+                                                                            style:
+                                                                                ElevatedButton.styleFrom(
+                                                                              backgroundColor: Colors.white,
+                                                                              elevation: 0,
+                                                                            ),
+                                                                            child:
+                                                                                Text(
+                                                                              "COPY",
+                                                                              style: TextStyle(
+                                                                                color: logoRed,
+                                                                                fontWeight: FontWeight.bold,
+                                                                              ),
+                                                                            ),
+                                                                            onPressed:
+                                                                                () async {
+                                                                              await Clipboard.setData(
+                                                                                ClipboardData(
+                                                                                  text: e.code,
+                                                                                ),
+                                                                              );
 
-                                                                          Get.snackbar(
-                                                                            "Coupon Code Copied",
-                                                                            "Use this code while placing order.",
-                                                                            snackPosition:
-                                                                                SnackPosition
-                                                                                    .BOTTOM,
-                                                                          );
-                                                                        },
+                                                                              Get.snackbar(
+                                                                                "Coupon Code Copied",
+                                                                                "Use this code while placing order.",
+                                                                                snackPosition: SnackPosition.BOTTOM,
+                                                                              );
+                                                                            },
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                      verticalSpaceMedium,
+                                                                      Text(
+                                                                        "Get FLAT Rs. ${e.discount} off",
+                                                                        style:
+                                                                            TextStyle(
+                                                                          fontSize:
+                                                                              14,
+                                                                          fontWeight:
+                                                                              FontWeight.bold,
+                                                                        ),
+                                                                      ),
+                                                                      verticalSpaceTiny,
+                                                                      Center(
+                                                                        child:
+                                                                            Divider(
+                                                                          color:
+                                                                              Colors.grey[500],
+                                                                        ),
+                                                                      ),
+                                                                      verticalSpaceTiny,
+                                                                      Text(
+                                                                        "Use Code ${e.code!.toUpperCase()} and get FLAT Rs.${e.discount} off on order above Rs.${e.minimumOrderValue}.",
+                                                                        style:
+                                                                            TextStyle(
+                                                                          fontSize:
+                                                                              12,
+                                                                        ),
                                                                       ),
                                                                     ],
                                                                   ),
-                                                                  verticalSpaceMedium,
-                                                                  Text(
-                                                                    "Get FLAT Rs. ${e.discount} off",
-                                                                    style: TextStyle(
-                                                                      fontSize: 14,
-                                                                      fontWeight: FontWeight.bold,
-                                                                    ),
+                                                                ),
+                                                              );
+                                                            },
+                                                            child: Container(
+                                                              margin: EdgeInsets
+                                                                  .all(8.0),
+                                                              child:
+                                                                  DottedBorder(
+                                                                color: logoRed,
+                                                                borderType:
+                                                                    BorderType
+                                                                        .RRect,
+                                                                radius: Radius
+                                                                    .circular(
+                                                                        5),
+                                                                child: Padding(
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .symmetric(
+                                                                    vertical:
+                                                                        4.0,
+                                                                    horizontal:
+                                                                        8.0,
                                                                   ),
-                                                                  verticalSpaceTiny,
-                                                                  Center(
-                                                                    child: Divider(
-                                                                      color: Colors.grey[500],
-                                                                    ),
+                                                                  child: Row(
+                                                                    children: [
+                                                                      Image
+                                                                          .asset(
+                                                                        'assets/images/discount_tag.png',
+                                                                        height:
+                                                                            16,
+                                                                        width:
+                                                                            16,
+                                                                        fit: BoxFit
+                                                                            .cover,
+                                                                      ),
+                                                                      horizontalSpaceTiny,
+                                                                      Text(
+                                                                        e.name ??
+                                                                            "",
+                                                                        style:
+                                                                            TextStyle(
+                                                                          fontSize:
+                                                                              10.0,
+                                                                          color:
+                                                                              logoRed,
+                                                                        ),
+                                                                      ),
+                                                                    ],
                                                                   ),
-                                                                  verticalSpaceTiny,
-                                                                  Text(
-                                                                    "Use Code ${e.code!.toUpperCase()} and get FLAT Rs.${e.discount} off on order above Rs.${e.minimumOrderValue}.",
-                                                                    style: TextStyle(
-                                                                      fontSize: 12,
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                          );
-                                                        },
-                                                        child: Container(
-                                                          margin: EdgeInsets.all(8.0),
-                                                          child: DottedBorder(
-                                                            color: logoRed,
-                                                            borderType: BorderType.RRect,
-                                                            radius: Radius.circular(5),
-                                                            child: Padding(
-                                                              padding: EdgeInsets.symmetric(
-                                                                vertical: 4.0,
-                                                                horizontal: 8.0,
-                                                              ),
-                                                              child: Row(
-                                                                children: [
-                                                                  Image.asset(
-                                                                    'assets/images/discount_tag.png',
-                                                                    height: 16,
-                                                                    width: 16,
-                                                                    fit: BoxFit.cover,
-                                                                  ),
-                                                                  horizontalSpaceTiny,
-                                                                  Text(
-                                                                    e.name ?? "",
-                                                                    style: TextStyle(
-                                                                      fontSize: 10.0,
-                                                                      color: logoRed,
-                                                                    ),
-                                                                  ),
-                                                                ],
+                                                                ),
                                                               ),
                                                             ),
                                                           ),
-                                                        ),
-                                                      ),
-                                                    )
-                                                    .toList() ??
-                                                []),
+                                                        )
+                                                        .toList() ??
+                                                    []),
                                       ),
                                     ],
                                     if (available!) elementDivider(),
                                     if (available!)
                                       Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           productPriceDetail2(
                                             productName: productData?.name,
-                                            designerName: productInfo!.seller?.name ?? "No Name",
+                                            designerName:
+                                                productInfo!.seller?.name ??
+                                                    "No Name",
                                             productPrice: productPrice,
-                                            actualPrice: (productData!.cost!.cost +
-                                                    productData!.cost!.convenienceCharges!.cost! +
-                                                    productData!.cost!.gstCharges!.cost!)
-                                                .round(),
+                                            actualPrice:
+                                                (productData!.cost!.cost +
+                                                        productData!
+                                                            .cost!
+                                                            .convenienceCharges!
+                                                            .cost! +
+                                                        productData!.cost!
+                                                            .gstCharges!.cost!)
+                                                    .round(),
                                             showPrice: (available!),
-                                            isClothMeterial: (productData!.category!.id == 13),
+                                            isClothMeterial:
+                                                (productData!.category!.id ==
+                                                    13),
                                           ),
 
                                           if (!widget.fromCart)
                                             GestureDetector(
                                               onTap: () async {
                                                 print("buy now clicked");
-                                                if (locator<HomeController>().isLoggedIn) {
+                                                if (locator<HomeController>()
+                                                    .isLoggedIn) {
                                                   if (selectedQty == 0 ||
                                                       selectedColor == "" ||
                                                       selectedSize == "") {
-                                                    await DialogService.showCustomDialog(
+                                                    await DialogService
+                                                        .showCustomDialog(
                                                       AlertDialog(
                                                         title: FittedBox(
                                                           fit: BoxFit.scaleDown,
@@ -918,33 +1083,44 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                         ),
                                                         actions: [
                                                           TextButton(
-                                                              onPressed: () async {
-                                                                DialogService.popDialog();
-                                                                await Scrollable.ensureVisible(
+                                                              onPressed:
+                                                                  () async {
+                                                                DialogService
+                                                                    .popDialog();
+                                                                await Scrollable
+                                                                    .ensureVisible(
                                                                   variationSelectionCardKey
                                                                       .currentContext!,
-                                                                  alignment: 0.50,
+                                                                  alignment:
+                                                                      0.50,
                                                                 );
                                                               },
-                                                              child: Text("OK")),
+                                                              child:
+                                                                  Text("OK")),
                                                         ],
                                                       ),
                                                     );
                                                   } else {
-                                                    var res = await controller.buyNow(
-                                                        productData!,
-                                                        selectedQty,
-                                                        context,
-                                                        selectedSize,
-                                                        selectedColor);
-                                                    if (res != null && res == true) {
-                                                      final cartRes = await locator<APIService>()
+                                                    var res =
+                                                        await controller.buyNow(
+                                                            productData!,
+                                                            selectedQty,
+                                                            context,
+                                                            selectedSize,
+                                                            selectedColor);
+                                                    if (res != null &&
+                                                        res == true) {
+                                                      final cartRes = await locator<
+                                                              APIService>()
                                                           .getCartProductItemList();
                                                       if (cartRes != null) {
-                                                        await locator<CartLocalStoreService>()
-                                                            .setCartList(cartRes);
+                                                        await locator<
+                                                                CartLocalStoreService>()
+                                                            .setCartList(
+                                                                cartRes);
                                                         locator<CartCountController>()
-                                                            .setCartCount(cartRes.length);
+                                                            .setCartCount(
+                                                                cartRes.length);
                                                       }
 
                                                       print(
@@ -954,92 +1130,135 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                               .details
                                                               ?.measure ==
                                                           null) {
-                                                        await BaseController.showSizePopup();
+                                                        await BaseController
+                                                            .showSizePopup();
                                                       }
 
                                                       Navigator.push(
                                                         context,
                                                         PageTransition(
                                                           child: CartView(
-                                                            productId: productData!.key!,
+                                                            productId:
+                                                                productData!
+                                                                    .key!,
                                                           ),
-                                                          type: PageTransitionType.rightToLeft,
+                                                          type:
+                                                              PageTransitionType
+                                                                  .rightToLeft,
                                                         ),
                                                       );
                                                     }
                                                   }
                                                 } else {
-                                                  await BaseController.showLoginPopup(
+                                                  await BaseController
+                                                      .showLoginPopup(
                                                     nextView: "buynow",
-                                                    shouldNavigateToNextScreen: false,
+                                                    shouldNavigateToNextScreen:
+                                                        false,
                                                   );
                                                 }
                                               },
-                                              child: Container(
-                                                width: double.maxFinite,
-                                                padding: EdgeInsets.symmetric(
-                                                  vertical: 10,
-                                                ),
-                                                decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                    color: lightGreen,
-                                                  ),
-                                                  color: lightGreen,
-                                                  borderRadius: BorderRadius.circular(5),
-                                                ),
-                                                child: Center(
-                                                  child: Text(
-                                                    PRODUCTSCREEN_BUY_NOW.tr,
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontWeight: FontWeight.bold,
-                                                      fontSize: subtitleFontSizeStyle,
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Container(
+                                                    width: double.maxFinite,
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                      vertical: 10,
+                                                    ),
+                                                    decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                        color: lightGreen,
+                                                      ),
+                                                      color: lightGreen,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5),
+                                                    ),
+                                                    child: Center(
+                                                      child: Text(
+                                                        PRODUCTSCREEN_BUY_NOW
+                                                            .tr,
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize:
+                                                              subtitleFontSizeStyle,
+                                                        ),
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
+                                                  // verticalSpaceTiny,
+                                                  // Text("Buy Now Pay Later",
+                                                  //     style: TextStyle(
+                                                  //         fontSize: 12,
+                                                  //         fontWeight:
+                                                  //             FontWeight.w700,
+                                                  //         color: Colors.blue)),
+                                                ],
                                               ),
                                             ),
                                           verticalSpaceTiny,
                                           Text(
                                             "${PRODUCTSCREEN_DELIVERY_BY.tr} : $shipment",
-                                            style: TextStyle(fontSize: 12, color: Colors.black54),
+                                            style: TextStyle(
+                                                fontSize: 12,
+                                                color: Colors.black54),
                                           ),
                                           verticalSpaceTiny,
                                           //? seller shipment and replacement policy
-                                          if (productInfo?.seller?.replacementPolicy == null &&
-                                              productInfo?.seller?.returnPolicy != null)
+                                          if (productInfo?.seller
+                                                      ?.replacementPolicy ==
+                                                  null &&
+                                              productInfo
+                                                      ?.seller?.returnPolicy !=
+                                                  null)
                                             GestureDetector(
                                               onTap: () async {
-                                                if (await canLaunch(RETURN_POLICY_URL))
-                                                  await launch(RETURN_POLICY_URL);
+                                                if (await canLaunch(
+                                                    RETURN_POLICY_URL))
+                                                  await launch(
+                                                      RETURN_POLICY_URL);
                                               },
                                               child: Text(
                                                 "View Seller Shipment Policy",
                                                 style: TextStyle(
                                                     color: Colors.black,
-                                                    fontSize: subtitleFontSizeStyle,
-                                                    decoration: TextDecoration.underline),
+                                                    fontSize:
+                                                        subtitleFontSizeStyle,
+                                                    decoration: TextDecoration
+                                                        .underline),
                                               ),
                                             ),
-                                          if (productInfo?.seller?.replacementPolicy != null)
+                                          if (productInfo
+                                                  ?.seller?.replacementPolicy !=
+                                              null)
                                             Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: [
                                                 verticalSpaceSmall,
                                                 Row(
                                                   children: [
                                                     Icon(
-                                                      Icons.production_quantity_limits_rounded,
+                                                      Icons
+                                                          .production_quantity_limits_rounded,
                                                       color: Colors.black54,
                                                     ),
                                                     horizontalSpaceSmall,
-                                                    Text("Replacement Policy",
-                                                        style: TextStyle(
-                                                          color: Colors.black54,
-                                                          fontWeight: FontWeight.bold,
-                                                          fontSize: titleFontSize + 2,
-                                                        ),
-                                                        ),
+                                                    Text(
+                                                      "Replacement Policy",
+                                                      style: TextStyle(
+                                                        color: Colors.black54,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize:
+                                                            titleFontSize + 2,
+                                                      ),
+                                                    ),
                                                   ],
                                                 ),
                                                 verticalSpaceTiny,
@@ -1047,29 +1266,37 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                     "${productInfo?.seller?.replacementPolicy?.note}"),
                                               ],
                                             ),
-                                          if (productInfo?.seller?.returnPolicy != null)
+                                          if (productInfo
+                                                  ?.seller?.returnPolicy !=
+                                              null)
                                             Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: [
                                                 verticalSpaceSmall,
                                                 Row(
                                                   children: [
                                                     Icon(
-                                                      Icons.assignment_return_rounded,
+                                                      Icons
+                                                          .assignment_return_rounded,
                                                       color: Colors.black54,
                                                     ),
                                                     horizontalSpaceSmall,
-                                                    Text("Return Policy",
-                                                    style: TextStyle(
+                                                    Text(
+                                                      "Return Policy",
+                                                      style: TextStyle(
                                                         color: Colors.black54,
-                                                        fontWeight: FontWeight.bold,
-                                                        fontSize: titleFontSize + 2,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize:
+                                                            titleFontSize + 2,
                                                       ),
                                                     ),
                                                   ],
                                                 ),
                                                 verticalSpaceTiny,
-                                                Text("${productInfo?.seller?.returnPolicy?.note}"),
+                                                Text(
+                                                    "${productInfo?.seller?.returnPolicy?.note}"),
                                               ],
                                             ),
                                         ],
@@ -1091,18 +1318,23 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                       elevation: 0,
                                       child: Container(
                                         decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(5),
+                                            borderRadius:
+                                                BorderRadius.circular(5),
                                             color: Colors.grey[100]),
                                         padding: EdgeInsets.all(5),
-                                        width: MediaQuery.of(context).size.width,
+                                        width:
+                                            MediaQuery.of(context).size.width,
                                         child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             verticalSpace(5),
                                             Padding(
-                                              padding: const EdgeInsets.all(10.0),
+                                              padding:
+                                                  const EdgeInsets.all(10.0),
                                               child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
                                                     'Description',
@@ -1114,8 +1346,10 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                   ),
                                                   verticalSpaceTiny,
                                                   Text(
-                                                    productData?.description ?? "",
-                                                    textAlign: TextAlign.justify,
+                                                    productData?.description ??
+                                                        "",
+                                                    textAlign:
+                                                        TextAlign.justify,
                                                     style: TextStyle(
                                                       fontSize: 12,
                                                       color: Colors.black,
@@ -1124,7 +1358,10 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                 ],
                                               ),
                                             ),
-                                            Divider(color: Colors.grey.withOpacity(0.5), height: 1),
+                                            Divider(
+                                                color: Colors.grey
+                                                    .withOpacity(0.5),
+                                                height: 1),
                                             ProductDescriptionTable(
                                               product: productData!,
                                               controller: controller,
@@ -1139,7 +1376,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                       key: knowDesignerKey,
                                       children: [
                                         Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
                                             Text(
                                               "Know the Creator",
@@ -1151,144 +1389,237 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                               ),
                                             ),
                                             Padding(
-                                              padding: const EdgeInsets.only(right: 20.0),
+                                              padding: const EdgeInsets.only(
+                                                  right: 20.0),
                                               child: FutureBuilder<Reviews?>(
-                                                future: locator<APIService>().getReviews(
-                                                    productInfo?.account?.key ?? "",
-                                                    isSellerReview: true),
-                                                builder: (context, snapshot) => ((snapshot
-                                                                .connectionState ==
-                                                            ConnectionState.done) &&
-                                                        ((snapshot.data?.ratingAverage?.rating ??
-                                                                0) >
-                                                            0))
-                                                    ? FittedBox(
-                                                        fit: BoxFit.scaleDown,
-                                                        child: Container(
-                                                          padding: EdgeInsets.symmetric(
-                                                            vertical: 2,
-                                                            horizontal: 5,
-                                                          ),
-                                                          decoration: BoxDecoration(
-                                                            border: Border.all(
-                                                              color:
-                                                                  Tools.getColorAccordingToRattings(
-                                                                snapshot
-                                                                    .data!.ratingAverage!.rating!,
+                                                future: locator<APIService>()
+                                                    .getReviews(
+                                                        productInfo?.account
+                                                                ?.key ??
+                                                            "",
+                                                        isSellerReview: true),
+                                                builder: (context, snapshot) =>
+                                                    ((snapshot.connectionState ==
+                                                                ConnectionState
+                                                                    .done) &&
+                                                            ((snapshot
+                                                                        .data
+                                                                        ?.ratingAverage
+                                                                        ?.rating ??
+                                                                    0) >
+                                                                0))
+                                                        ? FittedBox(
+                                                            fit: BoxFit
+                                                                .scaleDown,
+                                                            child: Container(
+                                                              padding: EdgeInsets
+                                                                  .symmetric(
+                                                                vertical: 2,
+                                                                horizontal: 5,
+                                                              ),
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                border:
+                                                                    Border.all(
+                                                                  color: Tools
+                                                                      .getColorAccordingToRattings(
+                                                                    snapshot
+                                                                        .data!
+                                                                        .ratingAverage!
+                                                                        .rating!,
+                                                                  ),
+                                                                ),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            5),
+                                                              ),
+                                                              child: Row(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .center,
+                                                                children: <
+                                                                    Widget>[
+                                                                  CustomText(
+                                                                    snapshot
+                                                                        .data!
+                                                                        .ratingAverage!
+                                                                        .rating!
+                                                                        .toString(),
+                                                                    color: Tools
+                                                                        .getColorAccordingToRattings(
+                                                                      snapshot
+                                                                          .data!
+                                                                          .ratingAverage!
+                                                                          .rating!,
+                                                                    ),
+                                                                    isBold:
+                                                                        true,
+                                                                    fontSize:
+                                                                        12,
+                                                                  ),
+                                                                  horizontalSpaceTiny,
+                                                                  Icon(
+                                                                    Icons.star,
+                                                                    color: Tools
+                                                                        .getColorAccordingToRattings(
+                                                                      snapshot
+                                                                          .data!
+                                                                          .ratingAverage!
+                                                                          .rating!,
+                                                                    ),
+                                                                    size: 12,
+                                                                  )
+                                                                ],
                                                               ),
                                                             ),
-                                                            borderRadius: BorderRadius.circular(5),
-                                                          ),
-                                                          child: Row(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment.center,
-                                                            children: <Widget>[
-                                                              CustomText(
-                                                                snapshot
-                                                                    .data!.ratingAverage!.rating!
-                                                                    .toString(),
-                                                                color: Tools
-                                                                    .getColorAccordingToRattings(
-                                                                  snapshot
-                                                                      .data!.ratingAverage!.rating!,
-                                                                ),
-                                                                isBold: true,
-                                                                fontSize: 12,
-                                                              ),
-                                                              horizontalSpaceTiny,
-                                                              Icon(
-                                                                Icons.star,
-                                                                color: Tools
-                                                                    .getColorAccordingToRattings(
-                                                                  snapshot
-                                                                      .data!.ratingAverage!.rating!,
-                                                                ),
-                                                                size: 12,
-                                                              )
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      )
-                                                    : Container(),
+                                                          )
+                                                        : Container(),
                                               ),
                                             ),
                                           ],
                                         ),
-                                        if (productData?.seller?.subscriptionTypeId != 2)
+                                        if (productData
+                                                ?.seller?.subscriptionTypeId !=
+                                            2)
                                           verticalSpace(5),
                                         //? seller detail card
                                         GestureDetector(
-                                          onTap: () async => await goToSellerProfile(controller),
+                                          onTap: () async =>
+                                              await goToSellerProfile(
+                                                  controller),
                                           child: Card(
                                             shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(5),
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
                                             ),
                                             elevation: 0,
                                             child: Container(
                                               padding: EdgeInsets.all(8.0),
                                               child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
                                                   Expanded(
                                                     child: Row(
-                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
                                                       children: [
                                                         Column(
                                                           children: [
                                                             Container(
-                                                              decoration: BoxDecoration(
-                                                                color: Color.fromRGBO(
-                                                                    255, 255, 255, 1),
-                                                                shape: BoxShape.circle,
-                                                                border: Border.all(
-                                                                  color: Colors.black38,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color: Color
+                                                                    .fromRGBO(
+                                                                        255,
+                                                                        255,
+                                                                        255,
+                                                                        1),
+                                                                shape: BoxShape
+                                                                    .circle,
+                                                                border:
+                                                                    Border.all(
+                                                                  color: Colors
+                                                                      .black38,
                                                                   width: 0.5,
                                                                 ),
                                                               ),
                                                               child: ClipOval(
-                                                                child: FadeInImage(
-                                                                    width: 50,
-                                                                    height: 50,
-                                                                    fadeInCurve: Curves.easeIn,
-                                                                    fit: BoxFit.cover,
-                                                                    placeholder: AssetImage(
-                                                                        "assets/images/user.png"),
-                                                                    image: NetworkImage(
-                                                                      "$DESIGNER_PROFILE_PHOTO_BASE_URL/${productInfo?.seller?.key}",
-                                                                      headers: {
-                                                                        "Authorization":
-                                                                            "Bearer ${locator<HomeController>().prefs?.getString(Authtoken) ?? ''}",
-                                                                      },
-                                                                    ),
-                                                                    imageErrorBuilder: (context,
-                                                                        error, stackTrace) {
-                                                                      print(
-                                                                          "Image Error: $error $stackTrace");
-                                                                      return Image.asset(
-                                                                        "assets/images/user.png",
-                                                                        width: 50,
-                                                                        height: 50,
-                                                                        fit: BoxFit.cover,
-                                                                      );
-                                                                    }),
+                                                                child: FadeInImage
+                                                                    .assetNetwork(
+                                                                  width: 100 *
+                                                                      multiplyer,
+                                                                  height: 100 *
+                                                                      multiplyer,
+                                                                  fadeInCurve:
+                                                                      Curves
+                                                                          .easeIn,
+                                                                  placeholder:
+                                                                      "assets/images/product_preloading.png",
+                                                                  image:
+                                                                      "$SELLER_PHOTO_BASE_URL/${productInfo?.seller?.key}",
+                                                                  imageErrorBuilder: (context,
+                                                                          error,
+                                                                          stackTrace) =>
+                                                                      Image
+                                                                          .asset(
+                                                                    "assets/images/product_preloading.png",
+                                                                    width: 100 *
+                                                                        multiplyer,
+                                                                    height: 100 *
+                                                                        multiplyer,
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                  ),
+                                                                  fit: BoxFit
+                                                                      .cover,
+                                                                ),
+                                                                // child:
+                                                                //     FadeInImage(
+                                                                //         width:
+                                                                //             50,
+                                                                //         height:
+                                                                //             50,
+                                                                //         fadeInCurve:
+                                                                //             Curves
+                                                                //                 .easeIn,
+                                                                //         fit: BoxFit
+                                                                //             .cover,
+                                                                //         placeholder:
+                                                                //             AssetImage(
+                                                                //                 "assets/images/user.png"),
+                                                                //         image:
+                                                                //             NetworkImage(
+                                                                //           "$DESIGNER_PROFILE_PHOTO_BASE_URL/${productInfo?.seller?.key}",
+                                                                //           headers: {
+                                                                //             "Authorization":
+                                                                //                 "Bearer ${locator<HomeController>().prefs?.getString(Authtoken) ?? ''}",
+                                                                //           },
+                                                                //         ),
+                                                                //         imageErrorBuilder: (context,
+                                                                //             error,
+                                                                //             stackTrace) {
+                                                                //           print(
+                                                                //               "Image Error: $error $stackTrace");
+                                                                //           return Image
+                                                                //               .asset(
+                                                                //             "assets/images/user.png",
+                                                                //             width:
+                                                                //                 50,
+                                                                //             height:
+                                                                //                 50,
+                                                                //             fit:
+                                                                //                 BoxFit.cover,
+                                                                //           );
+                                                                //         }),
                                                               ),
                                                             ),
                                                             verticalSpaceTiny,
                                                             Row(
                                                               mainAxisAlignment:
-                                                                  MainAxisAlignment.center,
+                                                                  MainAxisAlignment
+                                                                      .center,
                                                               children: [
                                                                 Icon(
-                                                                  FontAwesomeIcons.mapMarkerAlt,
-                                                                  color: logoRed,
+                                                                  FontAwesomeIcons
+                                                                      .mapMarkerAlt,
+                                                                  color:
+                                                                      logoRed,
                                                                   size: 10,
                                                                 ),
                                                                 CustomText(
-                                                                    productInfo?.seller?.contact
+                                                                    productInfo
+                                                                            ?.seller
+                                                                            ?.contact
                                                                             ?.city ??
                                                                         "Ahemdabad",
-                                                                    fontSize: 10,
-                                                                    color: textIconBlue),
+                                                                    fontSize:
+                                                                        10,
+                                                                    color:
+                                                                        textIconBlue),
                                                               ],
                                                             ),
                                                           ],
@@ -1297,21 +1628,31 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                         Expanded(
                                                           child: Column(
                                                             crossAxisAlignment:
-                                                                CrossAxisAlignment.start,
+                                                                CrossAxisAlignment
+                                                                    .start,
                                                             mainAxisAlignment:
-                                                                MainAxisAlignment.center,
+                                                                MainAxisAlignment
+                                                                    .center,
                                                             children: [
                                                               CustomText(
                                                                 "${productInfo?.seller?.owner?.name ?? "Seller Name"}",
-                                                                fontWeight: FontWeight.w500,
-                                                                fontSize: titleFontSize,
-                                                                dotsAfterOverFlow: true,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                fontSize:
+                                                                    titleFontSize,
+                                                                dotsAfterOverFlow:
+                                                                    true,
                                                               ),
                                                               CustomText(
                                                                 "(${productInfo?.seller?.name ?? 'Brand Name'})",
-                                                                fontWeight: FontWeight.w500,
-                                                                fontSize: subtitleFontSize,
-                                                                dotsAfterOverFlow: true,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                fontSize:
+                                                                    subtitleFontSize,
+                                                                dotsAfterOverFlow:
+                                                                    true,
                                                               ),
                                                               // if ((productData?.seller?.education !=
                                                               //         null) ||
@@ -1331,13 +1672,24 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                               //     ],
                                                               //   ),
                                                               ReadMoreText(
-                                                                productInfo?.seller?.bio ?? "",
+                                                                productInfo
+                                                                        ?.seller
+                                                                        ?.bio ??
+                                                                    "",
                                                                 trimLines: 2,
-                                                                colorClickableText: logoRed,
-                                                                trimMode: TrimMode.Line,
-                                                                style: TextStyle(
-                                                                  fontSize: subtitleFontSize - 2,
-                                                                  color: Colors.grey[600],
+                                                                colorClickableText:
+                                                                    logoRed,
+                                                                trimMode:
+                                                                    TrimMode
+                                                                        .Line,
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize:
+                                                                      subtitleFontSize -
+                                                                          2,
+                                                                  color: Colors
+                                                                          .grey[
+                                                                      600],
                                                                 ),
                                                               ),
                                                             ],
@@ -1363,46 +1715,63 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                     //   onSubmit: () {},
                                     //   id: productId,
                                     // ),
-
-                                    Container(
-                                      margin: EdgeInsets.symmetric(vertical: 5),
-                                      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-                                      width: double.maxFinite,
-                                      decoration: BoxDecoration(color: Colors.grey[300]),
-                                      child: Text(
-                                        "Recommended Products",
-                                        // PRODUCTSCREEN_RECOMMENDED_PRODUCTS.tr,
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 14,
-                                          letterSpacing: 0.4,
-                                          fontWeight: FontWeight.w600,
+                                    if (showRecommendedProducts)
+                                      Container(
+                                        margin:
+                                            EdgeInsets.symmetric(vertical: 5),
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 10, horizontal: 5),
+                                        width: double.maxFinite,
+                                        decoration: BoxDecoration(
+                                            color: Colors.grey[300]),
+                                        child: Text(
+                                          "Recommended Products",
+                                          // PRODUCTSCREEN_RECOMMENDED_PRODUCTS.tr,
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 14,
+                                            letterSpacing: 0.4,
+                                            fontWeight: FontWeight.w600,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    SectionBuilder(
-                                      key: uniqueKey ?? UniqueKey(),
-                                      context: context,
-                                      onEmptyList: () {},
-                                      filter: ProductFilter(
-                                        subCategories: ["${productData?.category?.id}"],
+                                    if (showRecommendedProducts)
+                                      SectionBuilder(
+                                        key: uniqueKey ?? UniqueKey(),
+                                        context: context,
+                                        onEmptyList: () async {
+                                          await Future.delayed(
+                                              Duration(milliseconds: 500),
+                                              () => setState(() {
+                                                    showRecommendedProducts =
+                                                        false;
+                                                  }));
+                                        },
+                                        filter: ProductFilter(
+                                          subCategories: [
+                                            "${productData?.category?.id}"
+                                          ],
+                                        ),
+                                        // existingQueryString:
+                                        //     "subCategory=${productData?.category?.id};"),
+                                        layoutType: LayoutType.PRODUCT_LAYOUT_2,
+                                        controller:
+                                            ProductsGridViewBuilderController(
+                                          filteredProductKey: productData?.key,
+                                          randomize: true,
+                                        ),
+                                        scrollDirection: Axis.horizontal,
                                       ),
-                                      // existingQueryString:
-                                      //     "subCategory=${productData?.category?.id};"),
-                                      layoutType: LayoutType.PRODUCT_LAYOUT_2,
-                                      controller: ProductsGridViewBuilderController(
-                                        filteredProductKey: productData?.key,
-                                        randomize: true,
-                                      ),
-                                      scrollDirection: Axis.horizontal,
-                                    ),
                                     // if (showMoreFromDesigner) sectionDivider(),
                                     if (showMoreFromDesigner)
                                       Container(
-                                        margin: EdgeInsets.symmetric(vertical: 5),
-                                        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                                        margin:
+                                            EdgeInsets.symmetric(vertical: 5),
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 10, horizontal: 5),
                                         width: double.maxFinite,
-                                        decoration: BoxDecoration(color: Colors.grey[300]),
+                                        decoration: BoxDecoration(
+                                            color: Colors.grey[300]),
                                         child: Text(
                                           "More from Designer",
                                           // PRODUCTSCREEN_MORE_FROM_DESIGNER.tr,
@@ -1420,11 +1789,14 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                         key: uniqueKey ?? UniqueKey(),
                                         context: context,
                                         filter: ProductFilter(
-                                            existingQueryString: productData?.account?.key != null
+                                            existingQueryString: productData
+                                                        ?.account?.key !=
+                                                    null
                                                 ? "accountKey=${productData?.account?.key};"
                                                 : ""),
                                         layoutType: LayoutType.PRODUCT_LAYOUT_2,
-                                        controller: ProductsGridViewBuilderController(
+                                        controller:
+                                            ProductsGridViewBuilderController(
                                           filteredProductKey: productData?.key,
                                           randomize: true,
                                         ),
@@ -1433,7 +1805,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                           await Future.delayed(
                                               Duration(milliseconds: 500),
                                               () => setState(() {
-                                                    showMoreFromDesigner = false;
+                                                    showMoreFromDesigner =
+                                                        false;
                                                   }));
                                         },
                                       ),
@@ -1492,15 +1865,17 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                               children: [
                                 productPriceDetail(
                                   productName: productData?.name,
-                                  designerName:
-                                      productData?.seller?.name ?? productData?.seller?.key,
+                                  designerName: productData?.seller?.name ??
+                                      productData?.seller?.key,
                                   productPrice: productPrice,
                                   actualPrice: (productData!.cost!.cost +
-                                          productData!.cost!.convenienceCharges!.cost! +
+                                          productData!
+                                              .cost!.convenienceCharges!.cost! +
                                           productData!.cost!.gstCharges!.cost!)
                                       .round(),
                                   showPrice: (available!),
-                                  isClothMeterial: (productData?.category?.id == 13),
+                                  isClothMeterial:
+                                      (productData?.category?.id == 13),
                                 ),
                                 GestureDetector(
                                   onTap: () async {
@@ -1513,14 +1888,18 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                           AlertDialog(
                                             title: FittedBox(
                                               fit: BoxFit.scaleDown,
-                                              child: Text(PRODUCTSCREEN_SELECT_SIZE_COLOR_QTY.tr),
+                                              child: Text(
+                                                  PRODUCTSCREEN_SELECT_SIZE_COLOR_QTY
+                                                      .tr),
                                             ),
                                             actions: [
                                               TextButton(
                                                   onPressed: () async {
                                                     DialogService.popDialog();
-                                                    await Scrollable.ensureVisible(
-                                                      variationSelectionCardKey.currentContext!,
+                                                    await Scrollable
+                                                        .ensureVisible(
+                                                      variationSelectionCardKey
+                                                          .currentContext!,
                                                       alignment: 0.50,
                                                     );
                                                   },
@@ -1533,17 +1912,23 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                           disabledAddToCartBtn = true;
                                         });
 
-                                        var res = await controller.addToCart(productData!,
-                                            selectedQty, context, selectedSize, selectedColor,
+                                        var res = await controller.addToCart(
+                                            productData!,
+                                            selectedQty,
+                                            context,
+                                            selectedSize,
+                                            selectedColor,
                                             fromCart: widget.fromCart,
                                             onProductAdded: widget.fromCart
                                                 ? () => Navigator.pop(context)
                                                 : null);
 
                                         if (res == 0)
-                                          _errorHandlingService.showError(Errors.CouldNotAddToCart);
+                                          _errorHandlingService.showError(
+                                              Errors.CouldNotAddToCart);
                                         else if (res == 1) {
-                                          locator<CartCountController>().incrementCartCount();
+                                          locator<CartCountController>()
+                                              .incrementCartCount();
                                         }
 
                                         setState(() {
@@ -1570,17 +1955,21 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                       horizontal: 4.0,
                                     ),
                                     decoration: BoxDecoration(
-                                      color: widget.fromCart ? lightGreen : logoRed,
+                                      color: widget.fromCart
+                                          ? lightGreen
+                                          : logoRed,
                                       borderRadius: BorderRadius.circular(5),
                                     ),
                                     child: Center(
                                       child: Text(
                                         PRODUCTSCREEN_ADD_TO_BAG.tr,
                                         style: TextStyle(
-                                          color: widget.fromCart ? Colors.white : Colors.white,
+                                          color: widget.fromCart
+                                              ? Colors.white
+                                              : Colors.white,
                                           fontWeight: FontWeight.bold,
-                                          fontSize:
-                                              subtitleFontSizeStyle + (widget.fromCart ? 2 : 0),
+                                          fontSize: subtitleFontSizeStyle +
+                                              (widget.fromCart ? 2 : 0),
                                         ),
                                       ),
                                     ),
@@ -1596,14 +1985,14 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                           alignment: Alignment.bottomCenter,
                           child: Container(
                             color: Colors.red,
-                             height: screenHeight(context)*0.05,
-                             width: MediaQuery.of(context).size.width,
+                            height: screenHeight(context) * 0.05,
+                            width: MediaQuery.of(context).size.width,
                             // alignment: Alignment.center,
-                             padding: EdgeInsets.only(
-                              left: screenWidth(context)*0.4,
+                            padding: EdgeInsets.only(
+                              left: screenWidth(context) * 0.4,
                               right: 10,
                               top: 8.0,
-                              bottom:   10.0,
+                              bottom: 10.0,
                             ),
                             child: Text(
                               "SOLD OUT",
@@ -1632,15 +2021,17 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                           // margin: EdgeInsets.symmetric(horizontal: 4.0),
                           child: InkWell(
                             key: cartKey,
-                            onTap: () async => locator<HomeController>().isLoggedIn
-                                ? await BaseController.cart()
-                                : await BaseController.showLoginPopup(
-                                    nextView: CartViewRoute,
-                                    shouldNavigateToNextScreen: true,
-                                  ),
+                            onTap: () async =>
+                                locator<HomeController>().isLoggedIn
+                                    ? await BaseController.cart()
+                                    : await BaseController.showLoginPopup(
+                                        nextView: CartViewRoute,
+                                        shouldNavigateToNextScreen: true,
+                                      ),
                             child: Obx(
                               () => CartIconWithBadge(
-                                count: locator<CartCountController>().count.value,
+                                count:
+                                    locator<CartCountController>().count.value,
                                 iconColor: appBarIconColor,
                               ),
                             ),
@@ -1679,7 +2070,9 @@ class _ProductIndiViewState extends State<ProductIndiView> {
       context,
       MaterialPageRoute(
         builder: (context) => GalleryPhotoViewWrapper(
-          galleryItems: ["${BASE_URL}sellers/$sellerId/categories/$cid/sizechart"],
+          galleryItems: [
+            "${BASE_URL}sellers/$sellerId/categories/$cid/sizechart"
+          ],
           scrollDirection: Axis.horizontal,
           initialIndex: 0,
           showImageLabel: false,
@@ -1715,7 +2108,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
       //   );
       // } else {
       log(productInfo!.seller.toString());
-      await NavigationService.to(SellerIndiViewRoute, arguments: productInfo?.seller);
+      await NavigationService.to(SellerIndiViewRoute,
+          arguments: productInfo?.seller);
       // }
     } else {
       await BaseController.showLoginPopup(
@@ -1898,6 +2292,23 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                   ],
                 ),
                 if (available!)
+                  Row(
+                    children: [
+                      Text(
+                        "Easy EMI options Available",
+                        style: TextStyle(
+                            fontSize: 13,
+                            color: Colors.blue,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(width: 5),
+                      Image.asset(
+                        "assets/icons/razor-pay.png",
+                        height: 15,
+                      ),
+                    ],
+                  ),
+                if (available!)
                   Text(
                     "(${PRODUCTSCREEN_TAXES_AND_CHARGES.tr})",
                     style: TextStyle(fontSize: 10, color: Colors.black54),
@@ -1915,26 +2326,37 @@ class _ProductIndiViewState extends State<ProductIndiView> {
     List<Widget> allChips = [];
     List<String> sizes = [];
     for (int i = 0; i < variations.length; i++) {
-      if (!sizes.contains(variations[i].size) && (variations[i].quantity != 0)) {
+      if (!sizes.contains(variations[i].size) &&
+          (variations[i].quantity != 0)) {
         allChips.add(ChoiceChip(
           backgroundColor: Colors.white,
           selectedShadowColor: Colors.white,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
               side: BorderSide(
-                color: selectedSize == variations[i].size ? darkRedSmooth : Colors.black,
+                color: selectedSize == variations[i].size
+                    ? darkRedSmooth
+                    : Colors.black,
                 width: 0.5,
               )),
           labelStyle: TextStyle(
             fontSize: 12,
-            fontWeight: selectedSize == variations[i].size ? FontWeight.w600 : FontWeight.normal,
-            color: selectedSize == variations[i].size ? darkRedSmooth : Colors.black,
+            fontWeight: selectedSize == variations[i].size
+                ? FontWeight.w600
+                : FontWeight.normal,
+            color: selectedSize == variations[i].size
+                ? darkRedSmooth
+                : Colors.black,
           ),
           selectedColor: Colors.white,
           label: Text(variations[i].size),
           selected: selectedSize == variations[i].size,
           onSelected: (val) {
-            setState(() => {selectedSize = variations[i].size, selectedIndex = i, selectedQty = 0});
+            setState(() => {
+                  selectedSize = variations[i].size,
+                  selectedIndex = i,
+                  selectedQty = 0
+                });
           },
         ));
         sizes.add(variations[i].size);
@@ -1963,7 +2385,9 @@ class _ProductIndiViewState extends State<ProductIndiView> {
     List<Widget> allColorChips = [];
     var uniqueColor = new Map();
     for (var color in colors) {
-      print("check this" + (uniqueColor.containsKey(color.color)).toString() + color.color);
+      print("check this" +
+          (uniqueColor.containsKey(color.color)).toString() +
+          color.color);
       if (selectedSize != color.size) {
         continue;
       }
@@ -1978,12 +2402,15 @@ class _ProductIndiViewState extends State<ProductIndiView> {
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5),
             side: BorderSide(
-              color: selectedColor == color.color ? darkRedSmooth : Colors.black,
+              color:
+                  selectedColor == color.color ? darkRedSmooth : Colors.black,
               width: 0.5,
             )),
         labelStyle: TextStyle(
             fontSize: 12,
-            fontWeight: selectedColor == color.color ? FontWeight.w600 : FontWeight.normal,
+            fontWeight: selectedColor == color.color
+                ? FontWeight.w600
+                : FontWeight.normal,
             color: selectedColor == color.color ? darkRedSmooth : Colors.black),
         selectedColor: Colors.white,
         label: Text(color.color),
@@ -2020,7 +2447,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
   }
 
   int calculateSavedCost(Cost cost) {
-    num actualCost = (cost.cost + cost.convenienceCharges!.cost! + cost.gstCharges!.cost!);
+    num actualCost =
+        (cost.cost + cost.convenienceCharges!.cost! + cost.gstCharges!.cost!);
     return (actualCost - cost.costToCustomer).round();
   }
 
@@ -2036,8 +2464,12 @@ class _ProductIndiViewState extends State<ProductIndiView> {
     date = DateTime.now().toString();
     uniqueKey = UniqueKey();
     dateParse = DateTime.parse(date!);
-    newDate = new DateTime(dateParse!.year, dateParse!.month,
-        dateParse!.day + (data.shipment?.days == null ? 0 : data.shipment!.days! + 1) as int);
+    newDate = new DateTime(
+        dateParse!.year,
+        dateParse!.month,
+        dateParse!.day +
+                (data.shipment?.days == null ? 0 : data.shipment!.days! + 1)
+            as int);
     dateParse = DateTime.parse(newDate.toString());
     formattedDate =
         "${weekday[dateParse!.weekday - 1]} , ${dateParse!.day + 4} ${month[dateParse!.month - 1]}";
@@ -2059,7 +2491,9 @@ class _ProductIndiViewState extends State<ProductIndiView> {
   void showTutorial(BuildContext context,
       {GlobalKey? photosKey, GlobalKey? knowDesignerKey, GlobalKey? cartKey}) {
     SharedPreferences.getInstance().then((prefs) {
-      if (prefs.getBool(cartKey == null ? ShouldShowProductPageTutorial : ShouldShowCartTutorial) ??
+      if (prefs.getBool(cartKey == null
+              ? ShouldShowProductPageTutorial
+              : ShouldShowCartTutorial) ??
           true) {
         late TutorialCoachMark tutorialCoachMark;
         List<TargetFocus> targets = <TargetFocus>[
@@ -2173,9 +2607,15 @@ class _ProductIndiViewState extends State<ProductIndiView> {
               });
             },
             onSkip: () async => await prefs.setBool(
-                cartKey == null ? ShouldShowProductPageTutorial : ShouldShowCartTutorial, false),
+                cartKey == null
+                    ? ShouldShowProductPageTutorial
+                    : ShouldShowCartTutorial,
+                false),
             onFinish: () async => await prefs.setBool(
-                cartKey == null ? ShouldShowProductPageTutorial : ShouldShowCartTutorial, false),
+                cartKey == null
+                    ? ShouldShowProductPageTutorial
+                    : ShouldShowCartTutorial,
+                false),
           )..show(context: context);
         });
       }
