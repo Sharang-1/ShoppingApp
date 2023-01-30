@@ -61,7 +61,9 @@ class CartPaymentMethodController extends BaseController {
   ) async {
     setBusy(true);
     final GroupOrderResponseModel? order = await _apiService.createGroupOrder(
-        customerDetails: customerDetails, products: products, paymentOption: paymentOption);
+        customerDetails: customerDetails,
+        products: products,
+        paymentOption: paymentOption);
     if (order != null) {
       // if (order.payment!.option!.id != 2) {
       //   setBusy(false);
@@ -72,42 +74,46 @@ class CartPaymentMethodController extends BaseController {
         setBusy(false);
         return order;
       }
+      final getGroupOrderStatus = await _apiService.getGroupOrderStatus(
+        groupQueueId: order.groupQueueId,
+      );
 
       final gId.GroupOrderByGroupId? groupOrderbyId =
-          await _apiService.getOrderbyGroupqueueid(groupQueueId: order.groupQueueId);
+          await _apiService.getOrderbyGroupqueueid(
+              orderID: getGroupOrderStatus!.requestedOrders!.first.orderId);
 
+      final receiptId = await _apiService.getReciptId();
       bool success = true;
       List<String> failedId = [];
 
       for (var i = 0; i < (groupOrderbyId?.records ?? 0); i++) {
-        if (groupOrderbyId?.orders?[i].statusFlow?.id == -1) {
+        if (groupOrderbyId?.statusFlow?.id == -1) {
           success = false;
-          failedId.add(groupOrderbyId!.orders![i].productId!.toString());
+          failedId.add(groupOrderbyId!.productId!.toString());
         }
       }
 
-      if(success == false){
+      if (success == false) {
         await NavigationService.off(
           OrderFailedItemUnavailableScreenRoute,
           arguments: failedId,
         );
-      }else{
-
-      if (groupOrderbyId != null) {
-        log("payment api called");
-        log("order id ${groupOrderbyId.orders!.first.commonField!.payment!.orderId!}");
-        log("receipt id ${groupOrderbyId.orders!.first.commonField!.payment!.receiptId!}");
-        // ? razorpay payment redirect
-        await _paymentService.makePayment(
-          amount: orderCost,
-          groupId: groupOrderbyId.orders![0].commonField!.groupQueueId!,
-          contactNo: customerDetails.customerPhone!.mobile.toString(),
-          orderId: groupOrderbyId.orders![0].commonField!.payment!.orderId!,
-          receiptId: groupOrderbyId.orders![0].commonField!.payment!.receiptId!,
-          dzorOrderId: groupOrderbyId.orders![0].commonField!.payment!.orderId!,
-        );
+      } else {
+        if (groupOrderbyId != null) {
+          log("payment api called");
+          log("order id ${groupOrderbyId.commonField!.payment!.orderId!}");
+          log("receipt id ${receiptId!}");
+          // ? razorpay payment redirect
+          await _paymentService.makePayment(
+            amount: orderCost,
+            groupId: getGroupOrderStatus.groupQueueId!,
+            contactNo: customerDetails.customerPhone!.mobile.toString(),
+            orderId: groupOrderbyId.commonField!.payment!.orderId!,
+            receiptId: receiptId,
+            dzorOrderId: groupOrderbyId.commonField!.payment!.orderId!,
+          );
+        }
       }
-    }
     }
     setBusy(false);
     return null;

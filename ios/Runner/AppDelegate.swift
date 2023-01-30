@@ -1,10 +1,7 @@
 import UIKit
 import Flutter
-<<<<<<< Updated upstream
-//import GoogleMaps
-=======
+
 // import GoogleMaps
->>>>>>> Stashed changes
 import Firebase
 
 @UIApplicationMain
