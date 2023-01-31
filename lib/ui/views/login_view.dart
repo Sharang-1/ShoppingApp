@@ -114,8 +114,9 @@ class LoginView extends StatelessWidget {
                                 e.name ?? "",
                                 fontSize: subtitleFontSize,
                                 isBold: e.id == controller.selectedAgeId,
-                                color:
-                                    e.id == controller.selectedAgeId ? logoRed : Colors.grey[500]!,
+                                color: e.id == controller.selectedAgeId
+                                    ? logoRed
+                                    : Colors.grey[500]!,
                               ),
                             ),
                           ),
@@ -142,11 +143,13 @@ class LoginView extends StatelessWidget {
                                 ),
                                 margin: EdgeInsets.only(right: 16.0),
                                 child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Image.asset(
                                       "assets/images/${e.id == 0 ? "man" : e.id == 1 ? "woman" : "other"}.png",
-                                      package: e.id == 2 ? 'gender_picker' : null,
+                                      package:
+                                          e.id == 2 ? 'gender_picker' : null,
                                       height: 30,
                                       width: 30,
                                     ),
@@ -154,7 +157,8 @@ class LoginView extends StatelessWidget {
                                     CustomText(
                                       e.name ?? "",
                                       fontSize: subtitleFontSize,
-                                      isBold: e.id == controller.selectedGenderId,
+                                      isBold:
+                                          e.id == controller.selectedGenderId,
                                       color: e.id == controller.selectedGenderId
                                           ? logoRed
                                           : Colors.grey[500]!,
@@ -176,7 +180,9 @@ class LoginView extends StatelessWidget {
                     "Prefer not to say",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: controller.selectedGenderId == 3 ? logoRed : Colors.black87,
+                      color: controller.selectedGenderId == 3
+                          ? logoRed
+                          : Colors.black87,
                       fontSize: subtitleFontSize,
                     ),
                     textAlign: TextAlign.center,
@@ -202,6 +208,8 @@ class LoginView extends StatelessWidget {
           // ),
           backgroundColor: Colors.white,
           body: SafeArea(
+            top: false,
+            bottom: false,
             child: Stack(
               children: [
                 Container(
@@ -211,99 +219,112 @@ class LoginView extends StatelessWidget {
                       "assets/icons/abstract-bg2.jpg",
                       fit: BoxFit.cover,
                     )),
-                SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(16, 30, 16, 0),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Center(
-                              child: Container(
-                                margin: EdgeInsets.only(top: 8.0),
-                                child: Image.asset(
-                                  "assets/images/logo.png",
-                                  // color: logoRed,
-                                  width: MediaQuery.of(context).size.width / 3.2,
+                Center(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 30, 16, 0),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Center(
+                                child: Container(
+                                  margin: EdgeInsets.only(top: 8.0),
+                                  child: Image.asset(
+                                    "assets/images/logo.png",
+                                    // color: logoRed,
+                                    width:
+                                        MediaQuery.of(context).size.width / 3.2,
+                                  ),
                                 ),
                               ),
-                            ),
-                            verticalSpaceMedium,
-                            inputFields(controller, context),
-                            Center(
-                              child: GestureDetector(
-                                onTap: (controller.phoneNoValidationMessage == "" &&
-                                        phoneNoController.text != "" &&
-                                        controller.nameValidationMessage == "" &&
-                                        nameController.text != "" &&
-                                        controller.selectedAgeId != -1 &&
-                                        controller.selectedGenderId != -1)
-                                    ? () async {
-                                        await controller.login(
-                                            phoneNo: (phoneNoController.text).replaceAll(" ", ""),
-                                            name: nameController.text);
-                                      }
-                                    : () async {},
-                                child: Container(
-                                  height: 40,
-                                  padding: EdgeInsets.symmetric(horizontal: 15,),
-                                  // margin: EdgeInsets.,
-                                  decoration: BoxDecoration(
-                                    color: (controller.phoneNoValidationMessage == "" &&
-                                            phoneNoController.text != "" &&
-                                            controller.nameValidationMessage == "" &&
-                                            nameController.text != "" &&
-                                            controller.selectedAgeId != -1 &&
-                                            controller.selectedGenderId != -1)
-                                        ? logoRed
-                                        : Colors.grey,
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      horizontalSpaceSmall,
-                                      Text(
-                                        "Get OTP",
-                                        style: TextStyle(
-                                          fontSize: headingFontSizeStyle,
-                                          fontWeight: FontWeight.w500,
+                              verticalSpaceMedium,
+                              inputFields(controller, context),
+                              Center(
+                                child: GestureDetector(
+                                  onTap: (controller.phoneNoValidationMessage ==
+                                              "" &&
+                                          phoneNoController.text != "" &&
+                                          controller.nameValidationMessage ==
+                                              "" &&
+                                          nameController.text != "" &&
+                                          controller.selectedAgeId != -1 &&
+                                          controller.selectedGenderId != -1)
+                                      ? () async {
+                                          await controller.login(
+                                              phoneNo: (phoneNoController.text)
+                                                  .replaceAll(" ", ""),
+                                              name: nameController.text);
+                                        }
+                                      : () async {},
+                                  child: Container(
+                                    height: 40,
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 15,
+                                    ),
+                                    // margin: EdgeInsets.,
+                                    decoration: BoxDecoration(
+                                      color: (controller
+                                                      .phoneNoValidationMessage ==
+                                                  "" &&
+                                              phoneNoController.text != "" &&
+                                              controller
+                                                      .nameValidationMessage ==
+                                                  "" &&
+                                              nameController.text != "" &&
+                                              controller.selectedAgeId != -1 &&
+                                              controller.selectedGenderId != -1)
+                                          ? logoRed
+                                          : Colors.grey,
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        horizontalSpaceSmall,
+                                        Text(
+                                          "Get OTP",
+                                          style: TextStyle(
+                                            fontSize: headingFontSizeStyle,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        horizontalSpaceSmall,
+                                        Icon(
+                                          Icons.arrow_forward,
                                           color: Colors.white,
                                         ),
-                                      ),
-                                      horizontalSpaceSmall,
-                                      Icon(
-                                        Icons.arrow_forward,
-                                        color: Colors.white,
-                                      ),
-                                      // BusyButtonCicular(
-                                      //   enabled: controller.phoneNoValidationMessage == "" &&
-                                      //       phoneNoController.text != "" &&
-                                      //       controller.nameValidationMessage == "" &&
-                                      //       nameController.text != "" &&
-                                      //       controller.selectedAgeId != -1 &&
-                                      //       controller.selectedGenderId != -1,
-                                      //   title: 'Next',
-                                      //   busy: controller.busy,
-                                      //   onPressed: () async {
-                                      //     await controller.login(
-                                      //         phoneNo: (phoneNoController.text).replaceAll(" ", ""),
-                                      //         name: nameController.text);
-                                      //   },
-                                      // ),
-                                    ],
+                                        // BusyButtonCicular(
+                                        //   enabled: controller.phoneNoValidationMessage == "" &&
+                                        //       phoneNoController.text != "" &&
+                                        //       controller.nameValidationMessage == "" &&
+                                        //       nameController.text != "" &&
+                                        //       controller.selectedAgeId != -1 &&
+                                        //       controller.selectedGenderId != -1,
+                                        //   title: 'Next',
+                                        //   busy: controller.busy,
+                                        //   onPressed: () async {
+                                        //     await controller.login(
+                                        //         phoneNo: (phoneNoController.text).replaceAll(" ", ""),
+                                        //         name: nameController.text);
+                                        //   },
+                                        // ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
                 // Positioned(
@@ -354,7 +375,7 @@ class LoginView extends StatelessWidget {
                 //   ),
                 // ),
                 Positioned(
-                  top: 0,
+                  top: Get.height * 0.06,
                   right: 0,
                   child: TextButton(
                     onPressed: controller.skipLogin,

@@ -58,9 +58,9 @@ class StartUpController extends BaseController {
           content: Text("Please, Update App to New Version."),
           actions: [
             TextButton(
-              child : Text("Update App"),
-              onPressed: ()  {
-                 Platform.isAndroid
+              child: Text("Update App"),
+              onPressed: () {
+                Platform.isAndroid
                     ? launch(
                         "https://play.google.com/store/apps/details?id=in.dzor.dzor_app&hl=en_IN&gl=US")
                     : launch("https://apps.apple.com/in/app/dzor/id1562083632");
@@ -80,7 +80,8 @@ class StartUpController extends BaseController {
         var pref = await SharedPreferences.getInstance();
         bool skipLogin = pref.getBool(SkipLogin) ?? false;
         await NavigationService.off(
-            (hasLoggedInUser || skipLogin) ? HomeViewRoute : IntroPageRoute,
+            // (hasLoggedInUser || skipLogin) ? HomeViewRoute : IntroPageRoute,
+            (hasLoggedInUser || skipLogin) ? HomeViewRoute : LoginViewRoute,
             preventDuplicates: true);
       },
     );

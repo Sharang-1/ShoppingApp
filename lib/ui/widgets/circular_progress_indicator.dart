@@ -35,7 +35,8 @@ class _CircularProgressIndicatorWidgetState
         animation: _animation,
         builder: (context, child) {
           return CircularPercentIndicator(
-            radius: ((MediaQuery.of(context).size.width / 2.5) + 40),
+            // radius: ((MediaQuery.of(context).size.width / 2.5) + 40),
+            radius: (MediaQuery.of(context).size.width / 3.5),
             lineWidth: 5.0,
             backgroundColor: Colors.transparent,
             percent: _animation.value,
