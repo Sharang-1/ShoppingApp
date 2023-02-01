@@ -178,7 +178,9 @@ class _SelectPromocodeState extends State<SelectPromocode> {
                           onPressed: applyPromoCode,
                           child: Text(
                             APPLY.tr,
-                            style: TextStyle(color: darkRedSmooth, fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                                color: darkRedSmooth,
+                                fontWeight: FontWeight.bold),
                           ),
                         ),
                       ],
@@ -246,7 +248,8 @@ class _SelectPromocodeState extends State<SelectPromocode> {
                                   groupValue: couponGrpValue,
                                   onChanged: (val) {
                                     setState(() {
-                                      couponGrpValue = couponRadioValue = val as String;
+                                      couponGrpValue =
+                                          couponRadioValue = val as String;
                                       _controller.text = val;
                                       // applyPromoCode();
                                     });
@@ -255,7 +258,8 @@ class _SelectPromocodeState extends State<SelectPromocode> {
                                 ),
                                 Expanded(
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
                                       CustomText(
@@ -296,7 +300,8 @@ class _SelectPromocodeState extends State<SelectPromocode> {
 
       OrderDetails orderDetails = widget.orderDetails;
       orderDetails.promocode = res.promocodeDiscount!.promocode ?? "";
-      orderDetails.promocodeDiscount = '$rupeeUnicode${res.promocodeDiscount!.cost}';
+      orderDetails.promocodeDiscount =
+          '$rupeeUnicode${res.promocodeDiscount!.cost}';
       orderDetails.total = res.cost!.toStringAsFixed(2);
 
       ScaffoldMessenger.of(context).showSnackBar(
@@ -316,9 +321,10 @@ class _SelectPromocodeState extends State<SelectPromocode> {
           // quantity: widget.quantity?.toInt(),
           color: widget.color.toString(),
         ),
-        orderQueue: OrderQueue(
-          clientQueueId: (idx + 1).toString(),
-        ),
+        // orderQueue: OrderQueue(
+        //   clientQueueId: (idx + 1).toString(),
+        // ),
+        clientQueueId: (idx + 1).toString(),
         promocode: _controller.text.trim(),
       );
       GroupOrderData.cartProducts.add(cartItem);

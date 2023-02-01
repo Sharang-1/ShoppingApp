@@ -1,13 +1,18 @@
 class GroupOrderModel {
   String? productId;
   Variation? variation;
-  OrderQueue? orderQueue;
+  String? clientQueueId;
+  // OrderQueue? orderQueue;
   String? promocode;
 
-  GroupOrderModel({this.productId, this.orderQueue, this.variation, this.promocode});
+  // GroupOrderModel({this.productId, this.orderQueue, this.variation, this.promocode});
+  GroupOrderModel(
+      {this.productId, this.variation, this.clientQueueId, this.promocode});
 
-  factory GroupOrderModel.fromJson(Map<String, dynamic> json) => GroupOrderModel(
-        orderQueue: json['orderQueue'],
+  factory GroupOrderModel.fromJson(Map<String, dynamic> json) =>
+      GroupOrderModel(
+        // orderQueue: json['orderQueue'],
+        clientQueueId: json['clientQueueId'],
         productId: json['productId'],
         variation: json['variation'],
         promocode: json['promocode'],
@@ -15,9 +20,10 @@ class GroupOrderModel {
 
   Map<String, dynamic> toJson() => {
         'productId': productId,
-        'orderQueue': orderQueue,
+        // 'orderQueue': orderQueue,
+        'clientQueueId': clientQueueId,
         'variation': variation,
-        'promocode' : promocode,
+        'promocode': promocode,
       };
 }
 
@@ -41,16 +47,16 @@ class Variation {
       };
 }
 
-class OrderQueue {
-  String? clientQueueId;
+// class OrderQueue {
+//   String? clientQueueId;
 
-  OrderQueue({this.clientQueueId});
+//   OrderQueue({this.clientQueueId});
 
-  factory OrderQueue.fromJson(Map<String, dynamic> json) =>
-      OrderQueue(clientQueueId: json['clientQueueId']);
+//   factory OrderQueue.fromJson(Map<String, dynamic> json) =>
+//       OrderQueue(clientQueueId: json['clientQueueId']);
 
-  Map<String, dynamic> toJson() => {'clientQueueId': clientQueueId};
-}
+//   Map<String, dynamic> toJson() => {'clientQueueId': clientQueueId};
+// }
 
 class GroupOrderCostEstimateModel {
   String? productId;
@@ -66,6 +72,9 @@ class GroupOrderCostEstimateModel {
         quantity: json['quantity'],
       );
 
-  Map<String, dynamic> toJson() =>
-      {'productId': productId, 'quantity': quantity, 'promocode': promoCode ?? null};
+  Map<String, dynamic> toJson() => {
+        'productId': productId,
+        'quantity': quantity,
+        'promocode': promoCode ?? null
+      };
 }

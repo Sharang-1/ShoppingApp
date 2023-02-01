@@ -279,7 +279,7 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                                         mOrder
                                                                 .commonField
                                                                 ?.customerDetails
-                                                                ?.customerPhone
+                                                                ?.phone
                                                                 ?.display ??
                                                             "",
                                                         align: TextAlign.start,

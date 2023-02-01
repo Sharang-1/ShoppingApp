@@ -173,7 +173,7 @@ class CustomerDetails {
   CustomerDetails({
     this.name,
     this.customerId,
-    this.customerPhone,
+    // this.customerPhone,
     this.customerMeasure,
     this.phone,
     this.address,
@@ -185,7 +185,7 @@ class CustomerDetails {
 
   String? name;
   String? customerId;
-  Phone? customerPhone;
+  // Phone? customerPhone;
   CustomerMeasure? customerMeasure;
   Phone? phone;
   String? address;
@@ -198,7 +198,7 @@ class CustomerDetails {
       CustomerDetails(
         name: json["name"],
         customerId: json["customerId"],
-        customerPhone: Phone.fromJson(json["customerPhone"]),
+        // customerPhone: Phone.fromJson(json["customerPhone"]),
         customerMeasure: json["customerMeasure"] == null
             ? null
             : CustomerMeasure.fromJson(json["customerMeasure"]),
@@ -213,7 +213,7 @@ class CustomerDetails {
   Map<String, dynamic> toJson() => {
         "name": name,
         "customerId": customerId,
-        "customerPhone": customerPhone?.toJson(),
+        // "customerPhone": customerPhone?.toJson(),
         "customerMeasure": customerMeasure?.toJson(),
         "phone": phone?.toJson(),
         "address": address,

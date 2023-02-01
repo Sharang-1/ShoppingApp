@@ -253,7 +253,13 @@ class APIService {
       try {
         bool isGroupOrder = products?.length == 1;
         var orderBody = {
-          "customerDetails": customerDetails,
+          "customerDetails": {
+            "address": customerDetails?.address,
+            "city": customerDetails?.city,
+            "state": customerDetails?.state,
+            "country": customerDetails?.country,
+            "pincode": customerDetails?.pincode,
+          },
           "orders": products,
           "groupOrder": isGroupOrder,
           "payment": {
@@ -261,7 +267,7 @@ class APIService {
           }
         };
         var orderJson = jsonEncode(orderBody);
-        // log("order body ${orderJson.toString()}");
+        log("order body ${orderJson.toString()}");
 
         if (kDebugMode) print("--------- api testing ----------");
 
@@ -300,6 +306,7 @@ class APIService {
   }) async {
     var json = await apiWrapper("v2/orders/groupqueue/$groupQueueId/status");
     if (json != null) {
+      log(json.toString());
       return GroupOrderResponseModel.fromJson(json);
     }
     // log("group order status ${json.toString()}");
@@ -309,6 +316,7 @@ class APIService {
   Future<String?> getReciptId() async {
     var json = await apiWrapper("app/info");
     if (json != null) {
+      log(json.toString());
       return json['payment']['apiKey'];
     }
     // log("group order status ${json.toString()}");
@@ -518,9 +526,8 @@ class APIService {
       ]
     };*/
     try {
+      log(json.toString());
       var response = GroupOrderByGroupId.fromJson(json);
-
-      // log(json.toString());
 
       // // var jsonc = await apiWrapper("v2/orders/${response.orders?.first.key}") as Map<String, dynamic>;
       // //   log(jsonc.toString());

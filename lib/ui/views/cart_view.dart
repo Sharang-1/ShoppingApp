@@ -280,9 +280,10 @@ class _CartViewState extends State<CartView> {
             quantity: _cartItems[i].quantity?.toInt(),
             color: _cartItems[i].color.toString(),
           ),
-          orderQueue: groupOrder.OrderQueue(
-            clientQueueId: (i + 1).toString(),
-          ),
+          // orderQueue: groupOrder.OrderQueue(
+          //   clientQueueId: (i + 1).toString(),
+          // ),
+          clientQueueId: (i + 1).toString(),
         );
         GroupOrderData.cartProducts.add(cartItem);
 

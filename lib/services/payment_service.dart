@@ -65,7 +65,7 @@ class PaymentService {
         //   'email': email ?? (appInfo?.payment.email ?? "info@dzor.in")
         // },
         'theme': {
-          'color': '#bE505F',
+          'color': '#FD673A',
         }
       };
 
