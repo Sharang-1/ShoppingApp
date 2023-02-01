@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'package:compound/models/groupOrderByGoupId.dart';
-import 'package:compound/models/groupOrderModel.dart';
+// import 'package:compound/models/groupOrderModel.dart';
 import 'package:compound/models/ordersV2.dart';
 import 'package:dio/dio.dart' as dio;
 // import 'package:dio/dio.dart';
@@ -325,7 +325,9 @@ class APIService {
 
   Future<GroupOrderByGroupId?> getOrderbyGroupqueueid({String? orderID}) async {
     var json = await apiWrapper("v2/orders/$orderID") as Map<String, dynamic>;
-
+    while (json['commonField']['payment']['orderId'] == null) {
+      json = await apiWrapper("v2/orders/$orderID") as Map<String, dynamic>;
+    }
     /*var jsonb = {
       "records": 2,
       "startIndex": 0,
