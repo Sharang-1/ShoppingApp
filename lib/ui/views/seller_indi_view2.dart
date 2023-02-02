@@ -985,7 +985,7 @@ class _SellerIndi2State extends State<SellerIndi2> {
                             Container(
                               width: Get.width * 0.8,
                               child: Text(
-                                sellerDetails[DESIGNER_DETAILS_ADDRESS.tr]!,
+                                sellerDetails[DESIGNER_DETAILS_CITY.tr]!,
                                 maxLines: 3,
                                 style: TextStyle(
                                   fontSize: subtitleFontSize,

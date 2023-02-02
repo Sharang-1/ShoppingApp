@@ -11,8 +11,8 @@ const Map<String, String> enUS = {
   NAVBAR_ORDERS: "Orders",
   NAVBAR_APPOINTMENTS: "Appointments",
   NAVBAR_MAPS: "Maps",
-  NAVBAR_PROFILE : "Profile",
-  NAVBAR_WISHLIST : "Wishlist",
+  NAVBAR_PROFILE: "Profile",
+  NAVBAR_WISHLIST: "Wishlist",
 
   // LoginScreen
   LOGIN_PHONE_NO_VALIDATION_MSG:
@@ -94,10 +94,10 @@ const Map<String, String> enUS = {
   DESIGNER_EXPLORE_COLLECTION: "Explore Collection",
   DESIGNER_OPEN_NOW: "Open Now",
   DESIGNER_CLOSED_NOW: "Closed Now",
-  DESIGNER_SCREEN_KNOW_THE_DESIGNER: "Know the designer",
+  DESIGNER_SCREEN_KNOW_THE_DESIGNER: "Know the Creator",
   DESIGNER_SCREEN_LOCATION: "Location",
   DESIGNER_SCREEN_DIRECTION: "Direction",
-  DESIGNER_SCREEN_EXPLORE_DESIGNER_COLLECTION: "Explore Designer's collection",
+  DESIGNER_SCREEN_EXPLORE_DESIGNER_COLLECTION: "Explore Collection",
   DESIGNER_SCREEN_SIMILAR_DESIGNERS: 'Similar Designers',
   DESIGNER_SCREEN_REVIEWS: 'Ratings and Reviews',
   RECOMMENDED_DESIGNERS: "Reccommended Designers",
@@ -107,7 +107,7 @@ const Map<String, String> enUS = {
   SETTINGS_APPBAR_TITLE: "Settings",
   SETTINGS_MY_CITY: "My City",
   SETTINGS_MY_ORDER: "My Orders",
-  SETTINGS_MY_WISHLIST : "My Wishlist",
+  SETTINGS_MY_WISHLIST: "My Wishlist",
   SETTINGS_MY_APPOINTMENT: "My Appointments",
   SETTINGS_CONNECT_WITH_US: "Connect With Us",
   SETTINGS_SEND_FEEDBACK: "Send Feedback",

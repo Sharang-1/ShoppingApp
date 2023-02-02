@@ -3,9 +3,12 @@ import 'dart:io';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:overlay_support/overlay_support.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 // import 'package:image_picker/image_picker.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-
+import './profile_delete_view.dart';
 import '../../constants/server_urls.dart';
 import '../../controllers/home_controller.dart';
 import '../../controllers/user_details_controller.dart';
@@ -73,7 +76,8 @@ class _ProfileViewState extends State<ProfileView> {
 
           return DialogService.showCustomDialog(
             AlertDialog(
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(15))),
               content: Padding(
                 padding: EdgeInsets.only(top: 12.0),
                 child: Text(
@@ -146,6 +150,38 @@ class _ProfileViewState extends State<ProfileView> {
               Padding(
                 padding: EdgeInsets.symmetric(
                   vertical: 10,
+                  horizontal: 0,
+                ),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    elevation: 0,
+                    primary: Colors.redAccent,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  onPressed: () => Get.bottomSheet(
+                    ProfilDeleteView(),
+                    backgroundColor: Colors.white,
+                    isScrollControlled: true,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(curve10),
+                      ),
+                    ),
+                    clipBehavior: Clip.antiAlias,
+                  ),
+                  child: CustomText(
+                    "Delete Account",
+                    fontSize: titleFontSizeStyle,
+                    isBold: true,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  vertical: 10,
                   horizontal: 20,
                 ),
                 child: ElevatedButton(
@@ -213,21 +249,37 @@ class _ProfileViewState extends State<ProfileView> {
                                           width: 100,
                                           height: 100,
                                           fadeInCurve: Curves.easeIn,
-                                          placeholder: locator<HomeController>().details!.gender?.name == "Male" ? AssetImage("assets/icons/maleUser.png"):AssetImage("assets/icons/femaleUser.png"),
+                                          placeholder: locator<HomeController>()
+                                                      .details!
+                                                      .gender
+                                                      ?.name ==
+                                                  "Male"
+                                              ? AssetImage(
+                                                  "assets/icons/maleUser.png")
+                                              : AssetImage(
+                                                  "assets/icons/femaleUser.png"),
                                           image: NetworkImage(
                                               "$USER_PROFILE_PHOTO_BASE_URL/${controller.mUserDetails?.key}?v=${controller.dateTimeString}",
                                               headers: {
-                                                "Authorization": "Bearer ${controller.token ?? ''}",
+                                                "Authorization":
+                                                    "Bearer ${controller.token ?? ''}",
                                               }),
-                                          imageErrorBuilder: (context, error, stackTrace) {
+                                          imageErrorBuilder:
+                                              (context, error, stackTrace) {
                                             print(
                                                 "User Photo: $USER_PROFILE_PHOTO_BASE_URL/${controller.mUserDetails?.photo?.name} $error $stackTrace");
-                                            return locator<HomeController>().details!.gender?.name == "Male" ? Image.asset(
-                                              "assets/icons/maleUser.png",
-                                              width: 100,
-                                              height: 100,
-                                              fit: BoxFit.cover,
-                                            ): Image.asset(
+                                            return locator<HomeController>()
+                                                        .details!
+                                                        .gender
+                                                        ?.name ==
+                                                    "Male"
+                                                ? Image.asset(
+                                                    "assets/icons/maleUser.png",
+                                                    width: 100,
+                                                    height: 100,
+                                                    fit: BoxFit.cover,
+                                                  )
+                                                : Image.asset(
                                                     "assets/icons/femaleUser.png",
                                                     width: 100,
                                                     height: 100,
@@ -256,7 +308,7 @@ class _ProfileViewState extends State<ProfileView> {
                               //   bottom: 8,
                               //   right: 8,
                               //   child: Container(
-                                  
+
                               //     padding: EdgeInsets.all(4.0),
                               //     decoration: BoxDecoration(
                               //       shape: BoxShape.circle,
@@ -286,7 +338,8 @@ class _ProfileViewState extends State<ProfileView> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     CustomText(
                                       SETTINGS_PERSONAL_DETAILS.tr,
@@ -299,7 +352,8 @@ class _ProfileViewState extends State<ProfileView> {
                                           CustomText(
                                             SETTINGS_EDIT.tr,
                                             textStyle: TextStyle(
-                                              decoration: TextDecoration.underline,
+                                              decoration:
+                                                  TextDecoration.underline,
                                               fontSize: 8,
                                               letterSpacing: 0.4,
                                             ),
@@ -340,9 +394,11 @@ class _ProfileViewState extends State<ProfileView> {
                                           color: Colors.grey[800],
                                         ),
                                         readOnly: !isEditable,
-                                        initialValue: controller.mUserDetails?.name,
+                                        initialValue:
+                                            controller.mUserDetails?.name,
                                         validator: (text) {
-                                          if (text!.isEmpty || text.trim().length == 0)
+                                          if (text!.isEmpty ||
+                                              text.trim().length == 0)
                                             return SETTINGS_ADD_YOUR_NAME.tr;
                                           return null;
                                         },
@@ -356,10 +412,11 @@ class _ProfileViewState extends State<ProfileView> {
                                           controller.mUserDetails!.name = text;
                                         },
                                         decoration: InputDecoration(
-                                          contentPadding:
-                                              EdgeInsets.symmetric(vertical: 10, horizontal: 8.0),
-                                          border:
-                                              isEditable ? OutlineInputBorder() : InputBorder.none,
+                                          contentPadding: EdgeInsets.symmetric(
+                                              vertical: 10, horizontal: 8.0),
+                                          border: isEditable
+                                              ? OutlineInputBorder()
+                                              : InputBorder.none,
                                         ),
                                         maxLines: 1,
                                       ),
@@ -385,8 +442,8 @@ class _ProfileViewState extends State<ProfileView> {
                                           color: Colors.grey[800],
                                         ),
                                         readOnly: true,
-                                        initialValue: controller
-                                            .mUserDetails?.contact?.phone?.mobile
+                                        initialValue: controller.mUserDetails
+                                            ?.contact?.phone?.mobile
                                             ?.replaceRange(5, 10, 'XXXXX')
                                             .toString(),
                                         decoration: const InputDecoration(
@@ -416,20 +473,26 @@ class _ProfileViewState extends State<ProfileView> {
                                     Expanded(
                                       flex: 7,
                                       child: Padding(
-                                        padding: const EdgeInsets.only(left: 8.0),
+                                        padding:
+                                            const EdgeInsets.only(left: 8.0),
                                         child: FittedBox(
                                           fit: BoxFit.scaleDown,
                                           alignment: Alignment.centerLeft,
                                           child: DropdownButton<String>(
-                                            value: "${controller.mUserDetails?.age?.id ?? 0}",
+                                            value:
+                                                "${controller.mUserDetails?.age?.id ?? 0}",
                                             items: controller.ageLookup!
                                                 .map(
-                                                  (e) => DropdownMenuItem<String>(
+                                                  (e) =>
+                                                      DropdownMenuItem<String>(
                                                     child: Text(e.name!,
                                                         style: TextStyle(
-                                                          fontSize: subtitleFontSizeStyle,
-                                                          fontWeight: FontWeight.w500,
-                                                          color: Colors.grey[800],
+                                                          fontSize:
+                                                              subtitleFontSizeStyle,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          color:
+                                                              Colors.grey[800],
                                                         )),
                                                     value: e.id.toString(),
                                                   ),
@@ -438,12 +501,17 @@ class _ProfileViewState extends State<ProfileView> {
                                             onChanged: isEditable
                                                 ? (value) {
                                                     setState(() {
-                                                      controller.mUserDetails!.age = Age(
-                                                          id: int.parse(value ?? "0"), name: "");
+                                                      controller.mUserDetails!
+                                                              .age =
+                                                          Age(
+                                                              id: int.parse(
+                                                                  value ?? "0"),
+                                                              name: "");
                                                       //  ! add age values
                                                       isButtonActive = true;
                                                     });
-                                                    _formKey.currentState!.validate();
+                                                    _formKey.currentState!
+                                                        .validate();
                                                   }
                                                 : null,
                                           ),
@@ -466,20 +534,25 @@ class _ProfileViewState extends State<ProfileView> {
                                     Expanded(
                                       flex: 7,
                                       child: Padding(
-                                        padding: const EdgeInsets.only(left: 8.0),
+                                        padding:
+                                            const EdgeInsets.only(left: 8.0),
                                         child: FittedBox(
                                           fit: BoxFit.scaleDown,
                                           alignment: Alignment.centerLeft,
                                           child: DropdownButton<String>(
-                                            value: "${controller.mUserDetails?.gender?.id ?? 0}",
+                                            value:
+                                                "${controller.mUserDetails?.gender?.id ?? 0}",
                                             items: controller.genderLookup!
                                                 .map(
-                                                  (e) => DropdownMenuItem<String>(
+                                                  (e) =>
+                                                      DropdownMenuItem<String>(
                                                     child: Text(
                                                       e.name!,
                                                       style: TextStyle(
-                                                        fontSize: subtitleFontSizeStyle,
-                                                        fontWeight: FontWeight.w500,
+                                                        fontSize:
+                                                            subtitleFontSizeStyle,
+                                                        fontWeight:
+                                                            FontWeight.w500,
                                                         color: Colors.grey[800],
                                                       ),
                                                     ),
@@ -490,15 +563,18 @@ class _ProfileViewState extends State<ProfileView> {
                                             onChanged: isEditable
                                                 ? (value) {
                                                     setState(() {
-                                                      controller.mUserDetails!.gender = Gender(
-                                                          id: int.parse(
-                                                            value ?? "0",
-                                                          ),
-                                                          name: '');
+                                                      controller
+                                                              .mUserDetails!.gender =
+                                                          Gender(
+                                                              id: int.parse(
+                                                                value ?? "0",
+                                                              ),
+                                                              name: '');
                                                       // ! add  gender values
                                                       isButtonActive = true;
                                                     });
-                                                    _formKey.currentState!.validate();
+                                                    _formKey.currentState!
+                                                        .validate();
                                                   }
                                                 : null,
                                           ),
@@ -528,18 +604,21 @@ class _ProfileViewState extends State<ProfileView> {
                                               context: context,
                                               bounce: true,
                                               expand: true,
-                                              builder: (_) => BottomSheetForAddress(),
+                                              builder: (_) =>
+                                                  BottomSheetForAddress(),
                                             );
                                             if (userAdd != null) {
-                                              controller.mUserDetails!.contact!.googleAddress =
+                                              controller.mUserDetails!.contact!
+                                                      .googleAddress =
                                                   userAdd.googleAddress;
-                                              controller.mUserDetails!.contact!.address =
-                                                  userAdd.address;
-                                              controller.mUserDetails!.contact!.pincode =
-                                                  userAdd.pincode;
-                                              controller.mUserDetails!.contact!.state =
-                                                  userAdd.state;
-                                              controller.mUserDetails!.contact!.city = userAdd.city;
+                                              controller.mUserDetails!.contact!
+                                                  .address = userAdd.address;
+                                              controller.mUserDetails!.contact!
+                                                  .pincode = userAdd.pincode;
+                                              controller.mUserDetails!.contact!
+                                                  .state = userAdd.state;
+                                              controller.mUserDetails!.contact!
+                                                  .city = userAdd.city;
                                               setState(() {
                                                 isButtonActive = true;
                                               });
@@ -556,36 +635,54 @@ class _ProfileViewState extends State<ProfileView> {
                                                           color: Colors.grey,
                                                           width: 1.0,
                                                         ),
-                                                        borderRadius: BorderRadius.circular(5))
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(5))
                                                     : BoxDecoration(),
                                                 padding: const EdgeInsets.only(
-                                                    left: 8.0, top: 10, bottom: 10),
-                                                child: (controller.mUserDetails?.contact?.address
+                                                    left: 8.0,
+                                                    top: 10,
+                                                    bottom: 10),
+                                                child: (controller
+                                                                .mUserDetails
+                                                                ?.contact
+                                                                ?.address
                                                                 ?.length ??
                                                             0) >
                                                         0
                                                     ? CustomText(
                                                         "${controller.mUserDetails!.contact!.address ?? ""}, ${controller.mUserDetails!.contact!.city ?? ""}, ${controller.mUserDetails!.contact!.state ?? ""}",
-                                                        color: Colors.grey[800]!,
-                                                        fontWeight: FontWeight.w400,
-                                                        fontSize: subtitleFontSizeStyle,
+                                                        color:
+                                                            Colors.grey[800]!,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        fontSize:
+                                                            subtitleFontSizeStyle,
                                                       )
                                                     : CustomText(
                                                         ADD_ADDRESS.tr,
                                                         color: logoRed,
-                                                        fontWeight: FontWeight.w600,
-                                                        fontSize: subtitleFontSizeStyle,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        fontSize:
+                                                            subtitleFontSizeStyle,
                                                       ),
                                               ),
                                             ),
                                             if (isEditable &&
-                                                ((controller.mUserDetails?.contact?.address
+                                                ((controller
+                                                            .mUserDetails
+                                                            ?.contact
+                                                            ?.address
                                                             ?.length ??
                                                         0) >
                                                     0))
                                               horizontalSpaceTiny,
                                             if (isEditable &&
-                                                ((controller.mUserDetails?.contact?.address
+                                                ((controller
+                                                            .mUserDetails
+                                                            ?.contact
+                                                            ?.address
                                                             ?.length ??
                                                         0) >
                                                     0))
@@ -615,57 +712,81 @@ class _ProfileViewState extends State<ProfileView> {
                                       ),
                                       horizontalSpaceMedium,
                                       Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
                                           getSizeWidget(
-                                            initialValue:
-                                                (controller.mUserDetails?.measure?.shoulders ?? '')
-                                                    .toString(),
+                                            initialValue: (controller
+                                                        .mUserDetails
+                                                        ?.measure
+                                                        ?.shoulders ??
+                                                    '')
+                                                .toString(),
                                             hint: "*Shoulders",
                                             onSaved: (text) {
-                                              controller.mUserDetails!.measure!.shoulders =
-                                                  num.parse(text);
+                                              controller.mUserDetails!.measure!
+                                                  .shoulders = num.parse(text);
                                             },
                                           ),
                                           verticalSpaceSmall,
                                           getSizeWidget(
                                               hint: "*Chest",
-                                              initialValue:
-                                                  (controller.mUserDetails?.measure?.chest ?? '')
-                                                      .toString(),
+                                              initialValue: (controller
+                                                          .mUserDetails
+                                                          ?.measure
+                                                          ?.chest ??
+                                                      '')
+                                                  .toString(),
                                               onSaved: (text) {
-                                                controller.mUserDetails!.measure!.chest =
-                                                    num.parse(text);
+                                                controller
+                                                    .mUserDetails!
+                                                    .measure!
+                                                    .chest = num.parse(text);
                                               }),
                                           verticalSpaceSmall,
                                           getSizeWidget(
                                               hint: "*Waist",
-                                              initialValue:
-                                                  (controller.mUserDetails?.measure?.waist ?? '')
-                                                      .toString(),
+                                              initialValue: (controller
+                                                          .mUserDetails
+                                                          ?.measure
+                                                          ?.waist ??
+                                                      '')
+                                                  .toString(),
                                               onSaved: (text) {
-                                                controller.mUserDetails!.measure!.waist =
-                                                    num.parse(text);
+                                                controller
+                                                    .mUserDetails!
+                                                    .measure!
+                                                    .waist = num.parse(text);
                                               }),
                                           verticalSpaceSmall,
                                           getSizeWidget(
                                               hint: "*Hips",
-                                              initialValue:
-                                                  (controller.mUserDetails?.measure?.hips ?? '')
-                                                      .toString(),
+                                              initialValue: (controller
+                                                          .mUserDetails
+                                                          ?.measure
+                                                          ?.hips ??
+                                                      '')
+                                                  .toString(),
                                               onSaved: (text) {
-                                                controller.mUserDetails!.measure!.hips =
-                                                    num.parse(text);
+                                                controller
+                                                    .mUserDetails!
+                                                    .measure!
+                                                    .hips = num.parse(text);
                                               }),
                                           verticalSpaceSmall,
                                           getSizeWidget(
                                               hint: "*Height",
-                                              initialValue:
-                                                  (controller.mUserDetails?.measure?.height ?? '')
-                                                      .toString(),
+                                              initialValue: (controller
+                                                          .mUserDetails
+                                                          ?.measure
+                                                          ?.height ??
+                                                      '')
+                                                  .toString(),
                                               onSaved: (text) {
-                                                controller.mUserDetails!.measure!.height =
-                                                    num.parse(text);
+                                                controller
+                                                    .mUserDetails!
+                                                    .measure!
+                                                    .height = num.parse(text);
                                               }),
                                           verticalSpaceSmall,
                                           FittedBox(
@@ -697,7 +818,10 @@ class _ProfileViewState extends State<ProfileView> {
     );
   }
 
-  getSizeWidget({String hint = '', String initialValue = '', required Function(String) onSaved}) {
+  getSizeWidget(
+      {String hint = '',
+      String initialValue = '',
+      required Function(String) onSaved}) {
     return SizedBox(
       width: 120,
       child: Row(
@@ -718,10 +842,10 @@ class _ProfileViewState extends State<ProfileView> {
               ),
               readOnly: !isEditable,
               initialValue: initialValue,
-              validator: (text) =>
-                  (GetUtils.isNum(text!)) && (num.parse(text) > 0 && num.parse(text) < 100)
-                      ? null
-                      : "",
+              validator: (text) => (GetUtils.isNum(text!)) &&
+                      (num.parse(text) > 0 && num.parse(text) < 100)
+                  ? null
+                  : "",
               onChanged: (value) {
                 setState(() {
                   isButtonActive = true;
