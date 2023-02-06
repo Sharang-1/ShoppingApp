@@ -48,14 +48,17 @@ class MyordersTileState extends State<MyOrdersTile> {
   }
 
   Widget build(BuildContext context) {
-    List<Widget> myOrderShimmerEffect() => List<Widget>.generate(5, (index) => MyOrdersShimmer());
+    List<Widget> myOrderShimmerEffect() =>
+        List<Widget>.generate(5, (index) => MyOrdersShimmer());
     return SingleChildScrollView(
       child: Padding(
-        padding: EdgeInsets.only(left: screenPadding, right: screenPadding, top: 10, bottom: 10),
+        padding: EdgeInsets.only(
+            left: screenPadding, right: screenPadding, top: 10, bottom: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            if (widget.controller.busy) Column(children: myOrderShimmerEffect()),
+            if (widget.controller.busy)
+              Column(children: myOrderShimmerEffect()),
             // if (widget.controller.mOrders == null) EmptyListWidget(),
             if (!widget.controller.busy && widget.controller.mOrders != null)
               ListView.builder(
@@ -63,7 +66,8 @@ class MyordersTileState extends State<MyOrdersTile> {
                 physics: NeverScrollableScrollPhysics(),
                 itemCount: widget.controller.mOrders.orders.length,
                 itemBuilder: (context, index) {
-                  return OrderTileDetail(order: widget.controller.mOrders.orders[index]);
+                  return OrderTileDetail(
+                      order: widget.controller.mOrders.orders[index]);
                 },
               ),
 
@@ -71,7 +75,9 @@ class MyordersTileState extends State<MyOrdersTile> {
               Column(
                 children: [
                   verticalSpaceSmall,
-                  Divider(color : Colors.black45,),
+                  Divider(
+                    color: Colors.black45,
+                  ),
                   verticalSpaceTiny,
                   Text(
                     "Previous Orders",
@@ -320,9 +326,11 @@ class MyordersTileState extends State<MyOrdersTile> {
             //   },
             // ),
 
-            if (!widget.controller.busy && widget.controller.mOrders?.orders?.length == 0)
+            if (!widget.controller.busy &&
+                widget.controller.mOrders?.orders?.length == 0)
               verticalSpaceLarge,
-            if (!widget.controller.busy && widget.controller?.mOrders?.orders?.length == 0)
+            if (!widget.controller.busy &&
+                widget.controller?.mOrders?.orders?.length == 0)
               EmptyListWidget(),
             verticalSpaceMedium,
           ],

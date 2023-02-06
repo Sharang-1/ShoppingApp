@@ -37,7 +37,8 @@ class _OrderTileDetailV1State extends State<OrderTileDetailV1> {
   }
 
   getProductInfo() async {
-    var productInfo = await _apiService.getProductById(productId: widget.order.productId!);
+    var productInfo =
+        await _apiService.getProductById(productId: widget.order.productId!);
     setState(() {
       productDetail = productInfo;
       isLoading = false;
@@ -51,7 +52,8 @@ class _OrderTileDetailV1State extends State<OrderTileDetailV1> {
         : GestureDetector(
             child: Container(
               height: 110,
-              padding: EdgeInsets.only(top: 10, left: 10, bottom: 10, right: 10),
+              padding:
+                  EdgeInsets.only(top: 10, left: 10, bottom: 10, right: 10),
               margin: EdgeInsets.symmetric(vertical: 5),
               decoration: BoxDecoration(
                   color: Colors.white,
@@ -73,8 +75,9 @@ class _OrderTileDetailV1State extends State<OrderTileDetailV1> {
                         // image: "",
                         // todo : img url
                         image:
-                            "$PRODUCT_PHOTO_BASE_URL/${productDetail!.key}/${productDetail?.photo?.photos?.first.name ?? 'photo'}-small.png",
-                        imageErrorBuilder: (context, error, stackTrace) => Image.asset(
+                            "$PRODUCT_PHOTO_BASE_URL/${productDetail?.key}/${productDetail?.photo?.photos?.first.name ?? 'photo'}-small.png",
+                        imageErrorBuilder: (context, error, stackTrace) =>
+                            Image.asset(
                           "assets/images/product_preloading.png",
                           width: 90,
                           height: 90,
@@ -109,10 +112,10 @@ class _OrderTileDetailV1State extends State<OrderTileDetailV1> {
                             Text(
                               widget.order.status!.state ?? "",
                               style: TextStyle(
-                                color:
-                                    (<int>[0, 1, 2, 3, 4, 5, 7].contains(widget.order.status!.id))
-                                        ? Colors.green
-                                        : logoRed,
+                                color: (<int>[0, 1, 2, 3, 4, 5, 7]
+                                        .contains(widget.order.status!.id))
+                                    ? Colors.green
+                                    : logoRed,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 12.0,
                               ),
@@ -211,7 +214,11 @@ class _OrderTileDetailV1State extends State<OrderTileDetailV1> {
                     "order_id": widget.order.productId,
                     "user_id": locator<HomeController>().details!.key,
                     "user_name": locator<HomeController>().details!.name,
-                    "user_contact": locator<HomeController>().details!.contact!.phone!.mobile,
+                    "user_contact": locator<HomeController>()
+                        .details!
+                        .contact!
+                        .phone!
+                        .mobile,
                   });
               Navigator.push(
                 context,
