@@ -58,12 +58,12 @@ class PaymentService {
         'receipt': receiptId,
         'name': appInfo?.payment.merchantName ?? name,
         'description': description,
-        'email': email ?? "info@dzor.in",
-        'contact': contactNo,
-        // 'prefill': {
-        //   'contact': contactNo,
-        //   'email': email ?? (appInfo?.payment.email ?? "info@dzor.in")
-        // },
+        // 'email': email ?? "info@dzor.in",
+        // 'contact': contactNo,
+        'prefill': {
+          'contact': contactNo,
+          'email': email ?? (appInfo?.payment.email ?? "info@dzor.in")
+        },
         'theme': {
           'color': '#FD673A',
         }
@@ -125,6 +125,7 @@ class PaymentService {
       });
 
       try {
+        print("RazorPay : $options");
         _razorpay?.open(options);
       } catch (e) {
         if (kDebugMode) log("RazorPay : ${e.toString()}");

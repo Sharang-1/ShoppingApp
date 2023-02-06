@@ -33,7 +33,8 @@ class _HomeScreenState extends State<HomeScreen> {
       init: controller,
       initState: (state) {
         controller.onRefresh(context: context, args: widget.args);
-        controller.showTutorial(context, searchKey: searchKey, logoKey: logoKey);
+        controller.showTutorial(context,
+            searchKey: searchKey, logoKey: logoKey);
       },
       builder: (controller) {
         return Scaffold(
@@ -83,7 +84,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                   "assets/images/search.png",
                                   color: Colors.black,
                                 ),
-                                
                                 SizedBox(
                                   width: 10,
                                 ),
@@ -108,11 +108,16 @@ class _HomeScreenState extends State<HomeScreen> {
                             padding: EdgeInsets.all(4.0),
                             // height: 35,
                             // width: 35,
-                            decoration: BoxDecoration(shape: BoxShape.circle, gradient: RadialGradient(radius: 0.7,colors: [Colors.white, logoRed])),
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                gradient: RadialGradient(
+                                    radius: 0.7,
+                                    colors: [Colors.white, logoRed])),
                             child: Center(
                               child: CartIconWithBadge(
                                 iconColor: Colors.black,
-                                count: locator<CartCountController>().count.value,
+                                count:
+                                    locator<CartCountController>().count.value,
                               ),
                             ),
                           ),

@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:compound/ui/views/dynamic_section_builder2.dart';
 import 'package:compound/ui/views/dynamic_section_builder3.dart';
 import 'package:compound/ui/views/dynamic_section_builder4.dart';
+import 'package:compound/ui/views/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -72,6 +73,8 @@ class _HomeViewListState extends State<HomeViewList> {
           return FutureBuilder(
               future: getDynamicKeys(),
               builder: (context, data) {
+                // data.connectionState == ConnectionState.done
+                //     ? Container(
                 if (data.connectionState == ConnectionState.done)
                   return Container(
                     // height: MediaQuery.of(context).size.height,
@@ -84,7 +87,8 @@ class _HomeViewListState extends State<HomeViewList> {
                           // Text(counter.toString()),
                           // Text(DzorConst().promotedProduct.toString()),
                           if ((controller.topPromotion.length) > 0) ...[
-                            HomeViewListHeader(title: "Featured Home Grown Brands!"),
+                            HomeViewListHeader(
+                                title: "Featured Home Grown Brands!"),
                             // title: controller.remoteConfig!
                             //     .getString(TOP_PROMOTION_TITLE_EN)),
                             verticalSpaceTiny,
@@ -124,7 +128,6 @@ class _HomeViewListState extends State<HomeViewList> {
                                   header: SectionHeader(
                                     title: "Amazing Products for you",
                                     subTitle: "Scroll right to see more",
-                                    
                                   ),
                                 ),
                               ],
@@ -134,9 +137,11 @@ class _HomeViewListState extends State<HomeViewList> {
                           if (appVar.dynamicSectionKeys.length > i &&
                               appVar.dynamicSectionKeys[i] != "67409233")
                             FutureBuilder(
-                                future: getProducts(appVar.dynamicSectionKeys[i++]),
+                                future:
+                                    getProducts(appVar.dynamicSectionKeys[i++]),
                                 builder: (context, data) {
-                                  if (data.connectionState == ConnectionState.active) {
+                                  if (data.connectionState ==
+                                      ConnectionState.active) {
                                     return Container(
                                       height: 200,
                                     );
@@ -154,7 +159,6 @@ class _HomeViewListState extends State<HomeViewList> {
                                             child: Container(
                                               height: 240,
                                               width: Get.width * 0.7,
-
                                               child: Image.asset(
                                                 "assets/images/bg-1.jpg",
                                                 fit: BoxFit.cover,
@@ -167,7 +171,6 @@ class _HomeViewListState extends State<HomeViewList> {
                                             child: Container(
                                               height: 200,
                                               width: Get.width * 0.7,
-
                                               child: Image.asset(
                                                 "assets/images/bg-1.jpg",
                                                 fit: BoxFit.cover,
@@ -177,26 +180,32 @@ class _HomeViewListState extends State<HomeViewList> {
                                           Container(
                                             height: 255,
                                             width: double.infinity,
-                                            padding:
-                                                EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                                            margin:
-                                                EdgeInsets.symmetric(horizontal: 30, vertical: 2),
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 10, horizontal: 15),
+                                            margin: EdgeInsets.symmetric(
+                                                horizontal: 30, vertical: 2),
                                             decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(curve15),
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                      curve15),
                                               color: Colors.white,
                                               boxShadow: [
-                                                BoxShadow(color: Colors.black26, blurRadius: 2)
+                                                BoxShadow(
+                                                    color: Colors.black26,
+                                                    blurRadius: 2)
                                               ],
                                             ),
                                             child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: [
                                                 Text(
                                                   "Editor's Pick",
                                                   style: TextStyle(
                                                     color: Colors.black45,
                                                     letterSpacing: 0.4,
-                                                    fontSize: titleFontSizeStyle - 2,
+                                                    fontSize:
+                                                        titleFontSizeStyle - 2,
                                                     fontWeight: FontWeight.w600,
                                                   ),
                                                 ),
@@ -215,12 +224,17 @@ class _HomeViewListState extends State<HomeViewList> {
                                                 Spacer(),
                                                 GestureDetector(
                                                   onTap: () {
-                                                    BaseController.goToProductListPage(
-                                                        ProductPageArg(
-                                                      promotionKey: (data.data as Promotion).key,
+                                                    BaseController
+                                                        .goToProductListPage(
+                                                            ProductPageArg(
+                                                      promotionKey: (data.data
+                                                              as Promotion)
+                                                          .key,
                                                       subCategory: 'Designer',
                                                       queryString: "",
-                                                      title: (data.data as Promotion).name,
+                                                      title: (data.data
+                                                              as Promotion)
+                                                          .name,
                                                       sellerPhoto: "",
                                                     ));
                                                   },
@@ -231,8 +245,11 @@ class _HomeViewListState extends State<HomeViewList> {
                                                         style: TextStyle(
                                                           color: Colors.black,
                                                           // letterSpacing: 0.4,
-                                                          fontSize: titleFontSizeStyle - 2,
-                                                          fontWeight: FontWeight.w600,
+                                                          fontSize:
+                                                              titleFontSizeStyle -
+                                                                  2,
+                                                          fontWeight:
+                                                              FontWeight.w600,
                                                         ),
                                                       ),
                                                       horizontalSpaceTiny,
@@ -253,20 +270,30 @@ class _HomeViewListState extends State<HomeViewList> {
                                               margin: EdgeInsets.only(left: 15),
                                               child: DynamicSectionBuilder2(
                                                 header: SectionHeader(
-                                                  title: (data.data as Promotion).name,
+                                                  title:
+                                                      (data.data as Promotion)
+                                                          .name,
                                                   subTitle: "",
                                                   viewAll: () {
-                                                    BaseController.goToProductListPage(
-                                                        ProductPageArg(
-                                                      promotionKey: (data.data as Promotion).key,
+                                                    BaseController
+                                                        .goToProductListPage(
+                                                            ProductPageArg(
+                                                      promotionKey: (data.data
+                                                              as Promotion)
+                                                          .key,
                                                       subCategory: 'Designer',
                                                       queryString: "",
-                                                      title: (data.data as Promotion).name,
+                                                      title: (data.data
+                                                              as Promotion)
+                                                          .name,
                                                       sellerPhoto: "",
                                                     ));
                                                   },
                                                 ),
-                                                products: (data.data as Promotion).products ?? [],
+                                                products:
+                                                    (data.data as Promotion)
+                                                            .products ??
+                                                        [],
                                               ),
                                             ),
                                           ),
@@ -282,30 +309,43 @@ class _HomeViewListState extends State<HomeViewList> {
                               children: [
                                 SectionDivider(),
                                 FutureBuilder(
-                                    future: getProducts(appVar.dynamicSectionKeys[i++]),
+                                    future: getProducts(
+                                        appVar.dynamicSectionKeys[i++]),
                                     builder: (context, data) {
-                                      if (data.connectionState == ConnectionState.active) {
-                                        return ShimmerWidget(type: LayoutType.PRODUCT_LAYOUT_2);
+                                      if (data.connectionState ==
+                                          ConnectionState.active) {
+                                        return ShimmerWidget(
+                                            type: LayoutType.PRODUCT_LAYOUT_2);
                                       }
                                       if (data.hasData)
                                         return Container(
                                           width: double.infinity,
-                                          margin: EdgeInsets.symmetric(horizontal: 5),
+                                          margin: EdgeInsets.symmetric(
+                                              horizontal: 5),
                                           child: DynamicSectionBuilder3(
                                             header: SectionHeader(
-                                              title: (data.data as Promotion).name,
+                                              title:
+                                                  (data.data as Promotion).name,
                                               subTitle: "",
                                               viewAll: () {
-                                                BaseController.goToProductListPage(ProductPageArg(
-                                                  title: (data.data as Promotion).name,
-                                                  promotionKey: (data.data as Promotion).key,
+                                                BaseController
+                                                    .goToProductListPage(
+                                                        ProductPageArg(
+                                                  title:
+                                                      (data.data as Promotion)
+                                                          .name,
+                                                  promotionKey:
+                                                      (data.data as Promotion)
+                                                          .key,
                                                   subCategory: 'Designer',
                                                   queryString: "",
                                                   sellerPhoto: "",
                                                 ));
                                               },
                                             ),
-                                            products: (data.data as Promotion).products ?? [],
+                                            products: (data.data as Promotion)
+                                                    .products ??
+                                                [],
                                           ),
                                         );
                                       return Container();
@@ -356,10 +396,13 @@ class _HomeViewListState extends State<HomeViewList> {
                           if (appVar.dynamicSectionKeys.length > i &&
                               appVar.dynamicSectionKeys[i] != "67409233")
                             FutureBuilder(
-                                future: getProducts(appVar.dynamicSectionKeys[i++]),
+                                future:
+                                    getProducts(appVar.dynamicSectionKeys[i++]),
                                 builder: (context, data) {
-                                  if (data.connectionState == ConnectionState.active) {
-                                    return ShimmerWidget(type: LayoutType.PRODUCT_LAYOUT_2);
+                                  if (data.connectionState ==
+                                      ConnectionState.active) {
+                                    return ShimmerWidget(
+                                        type: LayoutType.PRODUCT_LAYOUT_2);
                                   }
 
                                   if (data.hasData)
@@ -370,26 +413,34 @@ class _HomeViewListState extends State<HomeViewList> {
                                           title: (data.data as Promotion).name,
                                           subTitle: "",
                                           viewAll: () {
-                                            BaseController.goToProductListPage(ProductPageArg(
-                                              title: (data.data as Promotion).name,
-                                              promotionKey: (data.data as Promotion).key,
+                                            BaseController.goToProductListPage(
+                                                ProductPageArg(
+                                              title:
+                                                  (data.data as Promotion).name,
+                                              promotionKey:
+                                                  (data.data as Promotion).key,
                                               subCategory: 'Designer',
                                               queryString: "",
                                               sellerPhoto: "",
                                             ));
                                           },
                                         ),
-                                        products: (data.data as Promotion).products ?? [],
+                                        products:
+                                            (data.data as Promotion).products ??
+                                                [],
                                       ),
                                     ]);
                                   return Container();
                                 }),
                           FutureBuilder(
-                              future: getProducts(
-                                  (releaseMode ? 67409233.toString() : 86798078.toString())),
+                              future: getProducts((releaseMode
+                                  ? 67409233.toString()
+                                  : 86798078.toString())),
                               builder: (context, data) {
-                                if (data.connectionState == ConnectionState.active) {
-                                  return ShimmerWidget(type: LayoutType.PRODUCT_LAYOUT_2);
+                                if (data.connectionState ==
+                                    ConnectionState.active) {
+                                  return ShimmerWidget(
+                                      type: LayoutType.PRODUCT_LAYOUT_2);
                                 }
 
                                 if (data.hasData)
@@ -400,19 +451,27 @@ class _HomeViewListState extends State<HomeViewList> {
                                         SectionDivider(),
                                         DynamicSectionBuilder4(
                                           header: SectionHeader(
-                                            title: (data.data as Promotion).name,
+                                            title:
+                                                (data.data as Promotion).name,
                                             subTitle: "",
                                             viewAll: () {
-                                              BaseController.goToProductListPage(ProductPageArg(
-                                                promotionKey: (data.data as Promotion).key,
-                                                title: (data.data as Promotion).name,
+                                              BaseController
+                                                  .goToProductListPage(
+                                                      ProductPageArg(
+                                                promotionKey:
+                                                    (data.data as Promotion)
+                                                        .key,
+                                                title: (data.data as Promotion)
+                                                    .name,
                                                 subCategory: 'Designer',
                                                 queryString: "",
                                                 sellerPhoto: "",
                                               ));
                                             },
                                           ),
-                                          products: (data.data as Promotion).products ?? [],
+                                          products: (data.data as Promotion)
+                                                  .products ??
+                                              [],
                                         ),
                                         // SectionDivider(),
                                       ],
@@ -445,7 +504,8 @@ class _HomeViewListState extends State<HomeViewList> {
                                     // subTitle: controller.remoteConfig!
                                     //     .getString(HOMESCREEN_SECTION_2_SUBTITLE_EN),
                                     viewAll: () {
-                                      BaseController.goToProductListPage(ProductPageArg(
+                                      BaseController.goToProductListPage(
+                                          ProductPageArg(
                                         title: "Best deals all day long",
                                         queryString: 'minDiscount=5;',
                                         subCategory: '',
@@ -475,7 +535,8 @@ class _HomeViewListState extends State<HomeViewList> {
                                   ),
                                   scrollDirection: Axis.horizontal,
                                   header: SectionHeader(
-                                      title: "BEST DESIGNERS AROUND YOU", subTitle: " "
+                                      title: "BEST DESIGNERS AROUND YOU",
+                                      subTitle: " "
                                       // title: controller.remoteConfig!
                                       //     .getString(HOMESCREEN_SECTION_3_TITLE_EN),
                                       // subTitle: controller.remoteConfig!
@@ -492,10 +553,13 @@ class _HomeViewListState extends State<HomeViewList> {
                               children: [
                                 // SectionDivider(),
                                 FutureBuilder(
-                                    future: getProducts(appVar.dynamicSectionKeys[i++]),
+                                    future: getProducts(
+                                        appVar.dynamicSectionKeys[i++]),
                                     builder: (context, data) {
-                                      if (data.connectionState == ConnectionState.active) {
-                                        return ShimmerWidget(type: LayoutType.PRODUCT_LAYOUT_2);
+                                      if (data.connectionState ==
+                                          ConnectionState.active) {
+                                        return ShimmerWidget(
+                                            type: LayoutType.PRODUCT_LAYOUT_2);
                                       }
 
                                       if (data.hasData)
@@ -540,27 +604,37 @@ class _HomeViewListState extends State<HomeViewList> {
                                                   height: 255,
                                                   width: double.infinity,
                                                   padding: EdgeInsets.symmetric(
-                                                      vertical: 10, horizontal: 15),
+                                                      vertical: 10,
+                                                      horizontal: 15),
                                                   margin: EdgeInsets.symmetric(
-                                                      horizontal: 30, vertical: 2),
+                                                      horizontal: 30,
+                                                      vertical: 2),
                                                   decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.circular(curve15),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            curve15),
                                                     color: Colors.white,
                                                     boxShadow: [
                                                       BoxShadow(
-                                                          color: Colors.black26, blurRadius: 2)
+                                                          color: Colors.black26,
+                                                          blurRadius: 2)
                                                     ],
                                                   ),
                                                   child: Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
                                                       Text(
                                                         "Editor's Pick",
                                                         style: TextStyle(
                                                           color: Colors.black45,
                                                           letterSpacing: 0.4,
-                                                          fontSize: titleFontSizeStyle - 2,
-                                                          fontWeight: FontWeight.w600,
+                                                          fontSize:
+                                                              titleFontSizeStyle -
+                                                                  2,
+                                                          fontWeight:
+                                                              FontWeight.w600,
                                                         ),
                                                       ),
                                                       AutoSizeText(
@@ -568,23 +642,31 @@ class _HomeViewListState extends State<HomeViewList> {
                                                         maxLines: 1,
                                                         style: TextStyle(
                                                           // color: Colors.black45,
-                                                          color: Colors.grey[800],
+                                                          color:
+                                                              Colors.grey[800],
 
                                                           // letterSpacing: 0.4,
                                                           fontSize: 20,
-                                                          fontWeight: FontWeight.w600,
+                                                          fontWeight:
+                                                              FontWeight.w600,
                                                         ),
                                                       ),
                                                       Spacer(),
                                                       GestureDetector(
                                                         onTap: () {
-                                                          BaseController.goToProductListPage(
-                                                              ProductPageArg(
-                                                            promotionKey:
-                                                                (data.data as Promotion).key,
-                                                            subCategory: 'Designer',
+                                                          BaseController
+                                                              .goToProductListPage(
+                                                                  ProductPageArg(
+                                                            promotionKey: (data
+                                                                        .data
+                                                                    as Promotion)
+                                                                .key,
+                                                            subCategory:
+                                                                'Designer',
                                                             queryString: "",
-                                                            title: (data.data as Promotion).name,
+                                                            title: (data.data
+                                                                    as Promotion)
+                                                                .name,
                                                             sellerPhoto: "",
                                                           ));
                                                         },
@@ -593,15 +675,21 @@ class _HomeViewListState extends State<HomeViewList> {
                                                             Text(
                                                               "View All",
                                                               style: TextStyle(
-                                                                color: Colors.black,
+                                                                color: Colors
+                                                                    .black,
                                                                 // letterSpacing: 0.4,
-                                                                fontSize: titleFontSizeStyle - 2,
-                                                                fontWeight: FontWeight.w600,
+                                                                fontSize:
+                                                                    titleFontSizeStyle -
+                                                                        2,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
                                                               ),
                                                             ),
                                                             horizontalSpaceTiny,
                                                             Icon(
-                                                              Icons.arrow_forward,
+                                                              Icons
+                                                                  .arrow_forward,
                                                               size: 12,
                                                             ),
                                                           ],
@@ -614,25 +702,37 @@ class _HomeViewListState extends State<HomeViewList> {
                                                   // alignment: Alignment.bottomCenter,
                                                   bottom: 40,
                                                   child: Container(
-                                                    margin: EdgeInsets.only(left: 15),
-                                                    child: DynamicSectionBuilder2(
+                                                    margin: EdgeInsets.only(
+                                                        left: 15),
+                                                    child:
+                                                        DynamicSectionBuilder2(
                                                       header: SectionHeader(
-                                                        title: (data.data as Promotion).name,
+                                                        title: (data.data
+                                                                as Promotion)
+                                                            .name,
                                                         subTitle: "",
                                                         viewAll: () {
-                                                          BaseController.goToProductListPage(
-                                                              ProductPageArg(
-                                                            promotionKey:
-                                                                (data.data as Promotion).key,
-                                                            subCategory: 'Designer',
+                                                          BaseController
+                                                              .goToProductListPage(
+                                                                  ProductPageArg(
+                                                            promotionKey: (data
+                                                                        .data
+                                                                    as Promotion)
+                                                                .key,
+                                                            subCategory:
+                                                                'Designer',
                                                             queryString: "",
-                                                            title: (data.data as Promotion).name,
+                                                            title: (data.data
+                                                                    as Promotion)
+                                                                .name,
                                                             sellerPhoto: "",
                                                           ));
                                                         },
                                                       ),
-                                                      products:
-                                                          (data.data as Promotion).products ?? [],
+                                                      products: (data.data
+                                                                  as Promotion)
+                                                              .products ??
+                                                          [],
                                                     ),
                                                   ),
                                                 ),
@@ -714,15 +814,18 @@ class _HomeViewListState extends State<HomeViewList> {
                                   ),
                                   scrollDirection: Axis.horizontal,
                                   header: SectionHeader(
-                                    title: "SHOP DESIGNER COLLECTION BELOW ₹999",
+                                    title:
+                                        "SHOP DESIGNER COLLECTION BELOW ₹999",
                                     subTitle: "",
                                     // title: controller.remoteConfig!
                                     //     .getString(HOMESCREEN_SECTION_1_TITLE_EN),
                                     // subTitle: controller.remoteConfig!
                                     //     .getString(HOMESCREEN_SECTION_1_SUBTITLE_EN),
                                     viewAll: () {
-                                      BaseController.goToProductListPage(ProductPageArg(
-                                        title: "SHOP DESIGNER COLLECTION BELOW ₹999",
+                                      BaseController.goToProductListPage(
+                                          ProductPageArg(
+                                        title:
+                                            "SHOP DESIGNER COLLECTION BELOW ₹999",
                                         queryString: 'maxPrice=750;',
                                         subCategory: '',
                                       ));
@@ -804,10 +907,13 @@ class _HomeViewListState extends State<HomeViewList> {
                           if (appVar.dynamicSectionKeys.length > i &&
                               appVar.dynamicSectionKeys[i] != "67409233")
                             FutureBuilder(
-                                future: getProducts(appVar.dynamicSectionKeys[i++]),
+                                future:
+                                    getProducts(appVar.dynamicSectionKeys[i++]),
                                 builder: (context, data) {
-                                  if (data.connectionState == ConnectionState.active) {
-                                    return ShimmerWidget(type: LayoutType.PRODUCT_LAYOUT_2);
+                                  if (data.connectionState ==
+                                      ConnectionState.active) {
+                                    return ShimmerWidget(
+                                        type: LayoutType.PRODUCT_LAYOUT_2);
                                   }
 
                                   if (data.hasData)
@@ -818,16 +924,21 @@ class _HomeViewListState extends State<HomeViewList> {
                                           title: (data.data as Promotion).name,
                                           subTitle: "",
                                           viewAll: () {
-                                            BaseController.goToProductListPage(ProductPageArg(
-                                              title: (data.data as Promotion).name,
-                                              promotionKey: (data.data as Promotion).key,
+                                            BaseController.goToProductListPage(
+                                                ProductPageArg(
+                                              title:
+                                                  (data.data as Promotion).name,
+                                              promotionKey:
+                                                  (data.data as Promotion).key,
                                               subCategory: 'Designer',
                                               queryString: "",
                                               sellerPhoto: "",
                                             ));
                                           },
                                         ),
-                                        products: (data.data as Promotion).products ?? [],
+                                        products:
+                                            (data.data as Promotion).products ??
+                                                [],
                                       ),
                                     ]);
                                   return Container();
@@ -835,10 +946,13 @@ class _HomeViewListState extends State<HomeViewList> {
                           if (appVar.dynamicSectionKeys.length > i &&
                               appVar.dynamicSectionKeys[i] != "67409233")
                             FutureBuilder(
-                                future: getProducts(appVar.dynamicSectionKeys[i++]),
+                                future:
+                                    getProducts(appVar.dynamicSectionKeys[i++]),
                                 builder: (context, data) {
-                                  if (data.connectionState == ConnectionState.active) {
-                                    return ShimmerWidget(type: LayoutType.PRODUCT_LAYOUT_2);
+                                  if (data.connectionState ==
+                                      ConnectionState.active) {
+                                    return ShimmerWidget(
+                                        type: LayoutType.PRODUCT_LAYOUT_2);
                                   }
 
                                   if (data.hasData)
@@ -847,19 +961,27 @@ class _HomeViewListState extends State<HomeViewList> {
                                         SectionDivider(),
                                         DynamicSectionBuilder(
                                           header: SectionHeader(
-                                            title: (data.data as Promotion).name,
+                                            title:
+                                                (data.data as Promotion).name,
                                             subTitle: "",
                                             viewAll: () {
-                                              BaseController.goToProductListPage(ProductPageArg(
-                                                title: (data.data as Promotion).name,
-                                                promotionKey: (data.data as Promotion).key,
+                                              BaseController
+                                                  .goToProductListPage(
+                                                      ProductPageArg(
+                                                title: (data.data as Promotion)
+                                                    .name,
+                                                promotionKey:
+                                                    (data.data as Promotion)
+                                                        .key,
                                                 subCategory: 'Designer',
                                                 queryString: "",
                                                 sellerPhoto: "",
                                               ));
                                             },
                                           ),
-                                          products: (data.data as Promotion).products ?? [],
+                                          products: (data.data as Promotion)
+                                                  .products ??
+                                              [],
                                         ),
                                       ],
                                     );
@@ -868,10 +990,13 @@ class _HomeViewListState extends State<HomeViewList> {
                           if (appVar.dynamicSectionKeys.length > i &&
                               appVar.dynamicSectionKeys[i] != "67409233")
                             FutureBuilder(
-                                future: getProducts(appVar.dynamicSectionKeys[i++]),
+                                future:
+                                    getProducts(appVar.dynamicSectionKeys[i++]),
                                 builder: (context, data) {
-                                  if (data.connectionState == ConnectionState.active) {
-                                    return ShimmerWidget(type: LayoutType.PRODUCT_LAYOUT_2);
+                                  if (data.connectionState ==
+                                      ConnectionState.active) {
+                                    return ShimmerWidget(
+                                        type: LayoutType.PRODUCT_LAYOUT_2);
                                   }
 
                                   if (data.hasData)
@@ -880,19 +1005,27 @@ class _HomeViewListState extends State<HomeViewList> {
                                         SectionDivider(),
                                         DynamicSectionBuilder(
                                           header: SectionHeader(
-                                            title: (data.data as Promotion).name,
+                                            title:
+                                                (data.data as Promotion).name,
                                             subTitle: "",
                                             viewAll: () {
-                                              BaseController.goToProductListPage(ProductPageArg(
-                                                title: (data.data as Promotion).name,
-                                                promotionKey: (data.data as Promotion).key,
+                                              BaseController
+                                                  .goToProductListPage(
+                                                      ProductPageArg(
+                                                title: (data.data as Promotion)
+                                                    .name,
+                                                promotionKey:
+                                                    (data.data as Promotion)
+                                                        .key,
                                                 subCategory: 'Designer',
                                                 queryString: "",
                                                 sellerPhoto: "",
                                               ));
                                             },
                                           ),
-                                          products: (data.data as Promotion).products ?? [],
+                                          products: (data.data as Promotion)
+                                                  .products ??
+                                              [],
                                         ),
                                       ],
                                     );
@@ -901,10 +1034,13 @@ class _HomeViewListState extends State<HomeViewList> {
                           if (appVar.dynamicSectionKeys.length > i &&
                               appVar.dynamicSectionKeys[i] != "67409233")
                             FutureBuilder(
-                                future: getProducts(appVar.dynamicSectionKeys[i++]),
+                                future:
+                                    getProducts(appVar.dynamicSectionKeys[i++]),
                                 builder: (context, data) {
-                                  if (data.connectionState == ConnectionState.active) {
-                                    return ShimmerWidget(type: LayoutType.PRODUCT_LAYOUT_2);
+                                  if (data.connectionState ==
+                                      ConnectionState.active) {
+                                    return ShimmerWidget(
+                                        type: LayoutType.PRODUCT_LAYOUT_2);
                                   }
 
                                   if (data.hasData)
@@ -913,19 +1049,27 @@ class _HomeViewListState extends State<HomeViewList> {
                                         SectionDivider(),
                                         DynamicSectionBuilder(
                                           header: SectionHeader(
-                                            title: (data.data as Promotion).name,
+                                            title:
+                                                (data.data as Promotion).name,
                                             subTitle: "",
                                             viewAll: () {
-                                              BaseController.goToProductListPage(ProductPageArg(
-                                                title: (data.data as Promotion).name,
-                                                promotionKey: (data.data as Promotion).key,
+                                              BaseController
+                                                  .goToProductListPage(
+                                                      ProductPageArg(
+                                                title: (data.data as Promotion)
+                                                    .name,
+                                                promotionKey:
+                                                    (data.data as Promotion)
+                                                        .key,
                                                 subCategory: 'Designer',
                                                 queryString: "",
                                                 sellerPhoto: "",
                                               ));
                                             },
                                           ),
-                                          products: (data.data as Promotion).products ?? [],
+                                          products: (data.data as Promotion)
+                                                  .products ??
+                                              [],
                                         ),
                                       ],
                                     );
@@ -1075,7 +1219,8 @@ class _HomeViewListState extends State<HomeViewList> {
                                     limit: 7,
                                   ),
                                   scrollDirection: Axis.horizontal,
-                                  header: SectionHeader(title: "EXPLORE BOUTIQUES", subTitle: " "
+                                  header: SectionHeader(
+                                      title: "EXPLORE BOUTIQUES", subTitle: " "
                                       // title: controller.remoteConfig!
                                       //     .getString(HOMESCREEN_SECTION_11_TITLE_EN),
                                       // subTitle: controller.remoteConfig!
@@ -1141,7 +1286,8 @@ class _HomeViewListState extends State<HomeViewList> {
                                     // subTitle: controller.remoteConfig!
                                     //     .getString(HOMESCREEN_SECTION_13_SUBTITLE_EN),
                                     viewAll: () {
-                                      BaseController.goToProductListPage(ProductPageArg(
+                                      BaseController.goToProductListPage(
+                                          ProductPageArg(
                                         title: "Explore Designer collection",
                                         queryString: '',
                                         subCategory: '',
@@ -1193,7 +1339,8 @@ class _HomeViewListState extends State<HomeViewList> {
                                   children: <Widget>[
                                     Container(
                                       height: 50,
-                                      width: MediaQuery.of(context).size.width * 0.6,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.6,
                                       child: TextButton(
                                         onPressed: () {
                                           controller.showSellers();
@@ -1201,10 +1348,12 @@ class _HomeViewListState extends State<HomeViewList> {
                                         style: TextButton.styleFrom(
                                           primary: Colors.white,
                                           backgroundColor: logoRed,
-                                          textStyle:
-                                              TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                                          textStyle: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16),
                                           shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(10),
+                                            borderRadius:
+                                                BorderRadius.circular(10),
                                           ),
                                         ),
                                         child: Text(
@@ -1224,8 +1373,8 @@ class _HomeViewListState extends State<HomeViewList> {
                                     ),
                                   ),
                                   height: 80,
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: screenPadding, vertical: 10),
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: screenPadding, vertical: 10),
                                   child: Row(
                                     children: <Widget>[
                                       Image.asset(
@@ -1239,8 +1388,10 @@ class _HomeViewListState extends State<HomeViewList> {
                                         child: Container(
                                           padding: EdgeInsets.only(left: 20),
                                           child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.stretch,
                                             children: <Widget>[
                                               FittedBox(
                                                 fit: BoxFit.fitWidth,
@@ -1267,6 +1418,8 @@ class _HomeViewListState extends State<HomeViewList> {
                       ),
                     ),
                   );
+                // )
+                // : CircularProgressIndicator();
                 return Container();
               });
         });
@@ -1290,7 +1443,8 @@ class SectionDivider extends StatelessWidget {
 class DynamicSectionBuilder extends StatelessWidget {
   final SectionHeader? header;
   List<num> products = [];
-  DynamicSectionBuilder({Key? key, this.header, required this.products}) : super(key: key);
+  DynamicSectionBuilder({Key? key, this.header, required this.products})
+      : super(key: key);
   int i = 0;
 
   @override
@@ -1325,7 +1479,8 @@ class DynamicSectionBuilder extends StatelessWidget {
                           child: ProductTileUI(
                             data: _product!,
                             cardPadding: EdgeInsets.zero,
-                            onClick: () => BaseController.goToProductPage(_product),
+                            onClick: () =>
+                                BaseController.goToProductPage(_product),
                             index: i,
                           ),
                         );
@@ -1344,7 +1499,8 @@ class DynamicSectionBuilder extends StatelessWidget {
                             child: ProductTileUI(
                               data: _product!,
                               cardPadding: EdgeInsets.zero,
-                              onClick: () => BaseController.goToProductPage(_product),
+                              onClick: () =>
+                                  BaseController.goToProductPage(_product),
                               index: i,
                             ),
                           );
@@ -1363,7 +1519,8 @@ class DynamicSectionBuilder extends StatelessWidget {
                             child: ProductTileUI(
                               data: _product!,
                               cardPadding: EdgeInsets.zero,
-                              onClick: () => BaseController.goToProductPage(_product),
+                              onClick: () =>
+                                  BaseController.goToProductPage(_product),
                               index: i,
                             ),
                           );
@@ -1382,7 +1539,8 @@ class DynamicSectionBuilder extends StatelessWidget {
                             child: ProductTileUI(
                               data: _product!,
                               cardPadding: EdgeInsets.zero,
-                              onClick: () => BaseController.goToProductPage(_product),
+                              onClick: () =>
+                                  BaseController.goToProductPage(_product),
                               index: i,
                             ),
                           );
@@ -1401,7 +1559,8 @@ class DynamicSectionBuilder extends StatelessWidget {
                             child: ProductTileUI(
                               data: _product!,
                               cardPadding: EdgeInsets.zero,
-                              onClick: () => BaseController.goToProductPage(_product),
+                              onClick: () =>
+                                  BaseController.goToProductPage(_product),
                               index: i,
                             ),
                           );
@@ -1420,7 +1579,8 @@ class DynamicSectionBuilder extends StatelessWidget {
                             child: ProductTileUI(
                               data: _product!,
                               cardPadding: EdgeInsets.zero,
-                              onClick: () => BaseController.goToProductPage(_product),
+                              onClick: () =>
+                                  BaseController.goToProductPage(_product),
                               index: i,
                             ),
                           );
@@ -1439,7 +1599,8 @@ class DynamicSectionBuilder extends StatelessWidget {
                             child: ProductTileUI(
                               data: _product!,
                               cardPadding: EdgeInsets.zero,
-                              onClick: () => BaseController.goToProductPage(_product),
+                              onClick: () =>
+                                  BaseController.goToProductPage(_product),
                               index: i,
                             ),
                           );
@@ -1458,7 +1619,8 @@ class DynamicSectionBuilder extends StatelessWidget {
                             child: ProductTileUI(
                               data: _product!,
                               cardPadding: EdgeInsets.zero,
-                              onClick: () => BaseController.goToProductPage(_product),
+                              onClick: () =>
+                                  BaseController.goToProductPage(_product),
                               index: i,
                             ),
                           );
@@ -1477,7 +1639,8 @@ class DynamicSectionBuilder extends StatelessWidget {
                             child: ProductTileUI(
                               data: _product!,
                               cardPadding: EdgeInsets.zero,
-                              onClick: () => BaseController.goToProductPage(_product),
+                              onClick: () =>
+                                  BaseController.goToProductPage(_product),
                               index: i,
                             ),
                           );
@@ -1496,7 +1659,8 @@ class DynamicSectionBuilder extends StatelessWidget {
                             child: ProductTileUI(
                               data: _product!,
                               cardPadding: EdgeInsets.zero,
-                              onClick: () => BaseController.goToProductPage(_product),
+                              onClick: () =>
+                                  BaseController.goToProductPage(_product),
                               index: i,
                             ),
                           );
@@ -1515,7 +1679,8 @@ class DynamicSectionBuilder extends StatelessWidget {
                             child: ProductTileUI(
                               data: _product!,
                               cardPadding: EdgeInsets.zero,
-                              onClick: () => BaseController.goToProductPage(_product),
+                              onClick: () =>
+                                  BaseController.goToProductPage(_product),
                               index: i,
                             ),
                           );
@@ -1534,7 +1699,8 @@ class DynamicSectionBuilder extends StatelessWidget {
                             child: ProductTileUI(
                               data: _product!,
                               cardPadding: EdgeInsets.zero,
-                              onClick: () => BaseController.goToProductPage(_product),
+                              onClick: () =>
+                                  BaseController.goToProductPage(_product),
                               index: i,
                             ),
                           );
@@ -1553,7 +1719,8 @@ class DynamicSectionBuilder extends StatelessWidget {
                             child: ProductTileUI(
                               data: product!,
                               cardPadding: EdgeInsets.zero,
-                              onClick: () => BaseController.goToProductPage(product),
+                              onClick: () =>
+                                  BaseController.goToProductPage(product),
                               index: i,
                             ),
                           );
