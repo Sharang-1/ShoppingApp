@@ -129,7 +129,7 @@ class _MyOrdersDetailsViewV1State extends State<MyOrdersDetailsViewV1> {
                                                 placeholder:
                                                     "assets/images/product_preloading.png",
                                                 image:
-                                                    "$PRODUCT_PHOTO_BASE_URL/${mOrder.product!.key}/${mOrder.product!.photo!.photos!.first.name}-small.png",
+                                                    "$PRODUCT_PHOTO_BASE_URL/${mOrder.product?.key}/${mOrder.product?.photo?.photos?.first.name}-small.png",
                                                 imageErrorBuilder: (context,
                                                         error, stackTrace) =>
                                                     Image.asset(
@@ -148,7 +148,8 @@ class _MyOrdersDetailsViewV1State extends State<MyOrdersDetailsViewV1> {
                                                 CrossAxisAlignment.start,
                                             children: <Widget>[
                                               CustomText(
-                                                widget.mOrder.product!.name!,
+                                                widget.mOrder.product?.name ??
+                                                    '',
                                                 isBold: true,
                                                 color: Colors.grey[800]!,
                                                 dotsAfterOverFlow: true,

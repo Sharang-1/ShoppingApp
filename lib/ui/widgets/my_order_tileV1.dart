@@ -198,35 +198,35 @@ class _OrderTileDetailV1State extends State<OrderTileDetailV1> {
                     ),
                   ),
                   horizontalSpaceSmall,
-                  Icon(
-                    Icons.chevron_right,
-                    size: 25,
-                    color: Colors.black54,
-                  ),
+                  //  Icon(
+                  //     Icons.chevron_right,
+                  //     size: 25,
+                  //      color: Colors.black54,
+                  //   ),
                 ],
               ),
             ),
-            onTap: () async {
-              print("order history");
-              await _analyticsService.sendAnalyticsEvent(
-                  eventName: "order_history_view",
-                  parameters: <String, dynamic>{
-                    "order_id": widget.order.productId,
-                    "user_id": locator<HomeController>().details!.key,
-                    "user_name": locator<HomeController>().details!.name,
-                    "user_contact": locator<HomeController>()
-                        .details!
-                        .contact!
-                        .phone!
-                        .mobile,
-                  });
-              Navigator.push(
-                context,
-                new MaterialPageRoute(
-                  builder: (context) => MyOrdersDetailsViewV1(widget.order),
-                ),
-              );
-            },
+            // onTap: () async {
+            //   print("order history");
+            //   await _analyticsService.sendAnalyticsEvent(
+            //       eventName: "order_history_view",
+            //       parameters: <String, dynamic>{
+            //         "order_id": widget.order.productId,
+            //         "user_id": locator<HomeController>().details!.key,
+            //         "user_name": locator<HomeController>().details!.name,
+            //         "user_contact": locator<HomeController>()
+            //             .details!
+            //             .contact!
+            //             .phone!
+            //             .mobile,
+            //       });
+            //   Navigator.push(
+            //     context,
+            //     new MaterialPageRoute(
+            //       builder: (context) => MyOrdersDetailsViewV1(widget.order),
+            //     ),
+            //   );
+            // },
           );
   }
 }
