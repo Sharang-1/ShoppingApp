@@ -1773,7 +1773,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                         decoration: BoxDecoration(
                                             color: Colors.grey[300]),
                                         child: Text(
-                                          "More from Designer",
+                                          "More from Creator",
                                           // PRODUCTSCREEN_MORE_FROM_DESIGNER.tr,
                                           style: TextStyle(
                                             color: Colors.black,

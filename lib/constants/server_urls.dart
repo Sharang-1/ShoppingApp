@@ -3,7 +3,7 @@
 const bool releaseMode = false;
 
 const String BASE_URL =
-    releaseMode ? "https://dzor.in/api/" : "https://dev.dzor.in/api/";
+    releaseMode ? "https://www.dzor.in/api/" : "https://dev.dzor.in/api/";
 const String PRODUCT_PHOTO_BASE_URL = "${BASE_URL}photos/products";
 const String PROMOTION_PHOTO_BASE_URL = "${BASE_URL}photos/promotions";
 const String CATEGORY_PHOTO_BASE_URL = "${BASE_URL}photos/categories";

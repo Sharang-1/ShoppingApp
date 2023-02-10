@@ -998,87 +998,87 @@ class _SellerIndi2State extends State<SellerIndi2> {
                       ),
                       verticalSpaceMedium,
 
-                      // if (sellerData.subscriptionTypeId == 1 &&
-                      //     showExploreSection)
-                      Container(
-                        color: Colors.grey[200],
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16.0, vertical: 5),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.only(right: 8.0),
-                                child: FittedBox(
-                                  fit: BoxFit.scaleDown,
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    DESIGNER_SCREEN_EXPLORE_DESIGNER_COLLECTION
-                                        .tr,
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
+                      if (sellerData.subscriptionTypeId == 1 &&
+                          showExploreSection)
+                        Container(
+                          color: Colors.grey[200],
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16.0, vertical: 5),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(right: 8.0),
+                                  child: FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      DESIGNER_SCREEN_EXPLORE_DESIGNER_COLLECTION
+                                          .tr,
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                            InkWell(
-                              child: Padding(
-                                padding: EdgeInsets.only(right: 8.0),
-                                child: Text(
-                                  'View All',
-                                  style: TextStyle(
-                                    fontSize: subtitleFontSize - 2,
-                                    color: textIconBlue,
+                              InkWell(
+                                child: Padding(
+                                  padding: EdgeInsets.only(right: 8.0),
+                                  child: Text(
+                                    'View All',
+                                    style: TextStyle(
+                                      fontSize: subtitleFontSize - 2,
+                                      color: textIconBlue,
+                                    ),
                                   ),
                                 ),
+                                onTap: () {
+                                  NavigationService.to(
+                                    ProductsListRoute,
+                                    arguments: ProductPageArg(
+                                      subCategory: sellerData.name,
+                                      queryString:
+                                          "accountKey=${sellerData.key};",
+                                      sellerPhoto:
+                                          "$SELLER_PHOTO_BASE_URL/${sellerData.key}",
+                                    ),
+                                  );
+                                },
                               ),
-                              onTap: () {
-                                NavigationService.to(
-                                  ProductsListRoute,
-                                  arguments: ProductPageArg(
-                                    subCategory: sellerData.name,
-                                    queryString:
-                                        "accountKey=${sellerData.key};",
-                                    sellerPhoto:
-                                        "$SELLER_PHOTO_BASE_URL/${sellerData.key}",
-                                  ),
-                                );
-                              },
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                      // if (sellerData.subscriptionTypeId == 1 &&
-                      //     showExploreSection)
-                      verticalSpace(5),
-                      // if (sellerData.subscriptionTypeId == 1 &&
-                      //     showExploreSection)
-                      SectionBuilder(
-                        key: productKey,
-                        context: context,
-                        filter: ProductFilter(
-                          accountKey: sellerData.key,
+                      if (sellerData.subscriptionTypeId == 1 &&
+                          showExploreSection)
+                        verticalSpace(5),
+                      if (sellerData.subscriptionTypeId == 1 &&
+                          showExploreSection)
+                        SectionBuilder(
+                          key: productKey,
+                          context: context,
+                          filter: ProductFilter(
+                            accountKey: sellerData.key,
+                          ),
+                          layoutType: LayoutType.PRODUCT_LAYOUT_2,
+                          controller: ProductsGridViewBuilderController(
+                              randomize: true, limit: 6),
+                          scrollDirection: Axis.horizontal,
+                          onEmptyList: () async {
+                            await Future.delayed(
+                              Duration(milliseconds: 00),
+                              () => setState(
+                                () {
+                                  showExploreSection = false;
+                                },
+                              ),
+                            );
+                          },
                         ),
-                        layoutType: LayoutType.PRODUCT_LAYOUT_2,
-                        controller: ProductsGridViewBuilderController(
-                            randomize: true, limit: 6),
-                        scrollDirection: Axis.horizontal,
-                        onEmptyList: () async {
-                          await Future.delayed(
-                            Duration(milliseconds: 500),
-                            () => setState(
-                              () {
-                                showExploreSection = false;
-                              },
-                            ),
-                          );
-                        },
-                      ),
                       // Container(
                       //   color: Colors.grey[200],
                       //   padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 5),

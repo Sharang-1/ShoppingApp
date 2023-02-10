@@ -4,7 +4,7 @@ import 'translation_keys.dart';
 const Map<String, String> enUS = {
   //HomeScreen
   HOMESCREEN_LOCATION: "YOU ARE IN",
-  HOMESCREEN_SEARCH_DESIGNERS: "Search Designers",
+  HOMESCREEN_SEARCH_DESIGNERS: "Search Creators",
 
   //Bottom NavBar
   NAVBAR_CATEGORIES: "Categories",
@@ -44,10 +44,10 @@ const Map<String, String> enUS = {
   PRODUCTSCREEN_SIZE_CHART: "size chart",
   PRODUCTSCREEN_SELECT_COLOR: "SELECT COLOR",
   PRODUCTSCREEN_DELIVERY_BY: "Delivery By",
-  PRODUCTSCREEN_KNOW_YOUR_DESIGNER: "KNOW YOUR DESIGNER",
+  PRODUCTSCREEN_KNOW_YOUR_DESIGNER: "KNOW YOUR CREATOR",
   PRODUCTSCREEN_ITEM_DETAILS: "ITEM DETAILS",
   PRODUCTSCREEN_RECOMMENDED_PRODUCTS: "RECOMMENDED PRODUCTS",
-  PRODUCTSCREEN_MORE_FROM_DESIGNER: "MORE FROM DESIGNER",
+  PRODUCTSCREEN_MORE_FROM_DESIGNER: "MORE FROM CREATOR",
   PRODUCTSCREEN_SELECT_SIZE_COLOR_QTY: "Please select size, color & quantity",
   PRODUCTSCREEN_SELECTION_GUIDE:
       "*Please select size, color, quantity carefully by referring to the size chart.",
@@ -71,13 +71,13 @@ const Map<String, String> enUS = {
       "We do not provide service to your location as of now.",
 
   //DesignerScreen
-  DESIGNERS: "Designers",
+  DESIGNERS: "Creators",
   DESIGNER_SCREEN_SPECIALITY: "Speciality",
   DESIGNER_SCREEN_DESIGNES_CREATES: "Designs & Creates",
   DESIGNER_SCREEN_SERVICES_OFFERED: "Services offered",
   DESIGNER_SCREEN_WORK_OFFERED: "Works Offered",
   DESIGNER_SCREEN_TYPE: "Type",
-  DESIGNER_DETAILS: "Designer Details",
+  DESIGNER_DETAILS: "Creator Details",
   DESIGNER_DETAILS_KEY: "key",
   DESIGNER_DETAILS_NAME: "name",
   DESIGNER_DETAILS_TYPE: "type",
@@ -98,9 +98,9 @@ const Map<String, String> enUS = {
   DESIGNER_SCREEN_LOCATION: "Location",
   DESIGNER_SCREEN_DIRECTION: "Direction",
   DESIGNER_SCREEN_EXPLORE_DESIGNER_COLLECTION: "Explore Collection",
-  DESIGNER_SCREEN_SIMILAR_DESIGNERS: 'Similar Designers',
+  DESIGNER_SCREEN_SIMILAR_DESIGNERS: 'Similar Creators',
   DESIGNER_SCREEN_REVIEWS: 'Ratings and Reviews',
-  RECOMMENDED_DESIGNERS: "Reccommended Designers",
+  RECOMMENDED_DESIGNERS: "Reccommended Creators",
   ORDER_DETAILS: "Order Details",
 
   //Settings Screen
@@ -146,7 +146,7 @@ const Map<String, String> enUS = {
   // DIALOGS
   CART_ALERT_DIALOG_TITLE: 'Check Size, Color and Quantity',
   CART_ALERT_DIALOG_DESCRIPTION:
-      'Designers on Dzor work hard to create garments and items for you. Please make sure you’re making an informed buying decision so that we don’t have to return or cancel the order.',
+      'Creators on Dzor work hard to create garments and items for you. Please make sure you’re making an informed buying decision so that we don’t have to return or cancel the order.',
 
   PAYMENT: "Payment",
   PROCEED_TO_PAY: "Proceed to Pay",

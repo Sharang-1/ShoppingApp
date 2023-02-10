@@ -14,8 +14,7 @@ class IntroPage extends StatelessWidget {
     return IntroSlider(
         slides: [
           Slide(
-            description:
-                "Discover Unique Home Grown Brands around you",
+            description: "Discover Unique Home Grown Brands around you",
             marginDescription: EdgeInsets.only(left: 10, right: 10, top: 20),
             styleDescription: TextStyle(
                 fontWeight: FontWeight.bold,
@@ -33,8 +32,7 @@ class IntroPage extends StatelessWidget {
             backgroundColor: backgroundColor,
           ),
           Slide(
-              description:
-                  "Get Unique and Special products delivered Home",
+              description: "Get Unique and Special products delivered Home",
               marginDescription: EdgeInsets.only(left: 10, right: 10, top: 20),
               marginTitle: EdgeInsets.only(top: 100),
               styleDescription: TextStyle(
@@ -51,7 +49,7 @@ class IntroPage extends StatelessWidget {
               backgroundColor: backgroundColor),
           Slide(
               description:
-                  "Book appointments with designers that fit your needs.",
+                  "Book appointments with creators that fit your needs.",
               marginDescription: EdgeInsets.only(left: 10, right: 10, top: 20),
               styleDescription: TextStyle(
                   fontWeight: FontWeight.bold,
@@ -72,12 +70,10 @@ class IntroPage extends StatelessWidget {
         colorDot: Colors.black,
         colorActiveDot: logoRed,
         doneButtonStyle: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all<Color>(
-              logoRed),
+          backgroundColor: MaterialStateProperty.all<Color>(logoRed),
         ),
         skipButtonStyle: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all<Color>(
-              logoRed),
+          backgroundColor: MaterialStateProperty.all<Color>(logoRed),
         ));
     // colorDoneBtn: Color.fromARGB(255, 235, 105, 105),
     // colorSkipBtn: Color.fromARGB(255, 235, 105, 105));

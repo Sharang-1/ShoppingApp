@@ -290,7 +290,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                               await DialogService.showCustomDialog(AlertDialog(
                             title: Center(
                                 child: Text(
-                              "Message From Designer",
+                              "Message From Creator",
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: headingFontSizeStyle,

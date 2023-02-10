@@ -11,8 +11,12 @@ import 'shimmer/shimmer_widget.dart';
 // Type and Enum declarations
 enum LoadMoreStatus { LOADING, STABLE }
 
-typedef TileFunctionBuilder = Widget Function(BuildContext context, dynamic data, int index,
-    Future<bool> Function(int) onDelete, Future<bool>? Function(int, dynamic)? onUpdate);
+typedef TileFunctionBuilder = Widget Function(
+    BuildContext context,
+    dynamic data,
+    int index,
+    Future<bool> Function(int) onDelete,
+    Future<bool>? Function(int, dynamic)? onUpdate);
 
 class GridListWidget<P, I> extends StatelessWidget {
   final BaseFilterModel? filter;
@@ -57,7 +61,9 @@ class GridListWidget<P, I> extends StatelessWidget {
               childAspectRatio: childAspectRatio,
               disablePagination: disablePagination,
               scrollDirection: scrollDirection,
-              emptyListWidget: emptyListWidget == null ? EmptyListWidget() : emptyListWidget!,
+              emptyListWidget: emptyListWidget == null
+                  ? EmptyListWidget()
+                  : emptyListWidget!,
               loadingWidget: loadingWidget,
               onEmptyList: () {
                 onEmptyList();
@@ -101,7 +107,8 @@ class CustomGridViewFutureBuilder<P, I> extends StatefulWidget {
       _CustomGridViewFutureBuilderState<P, I>();
 }
 
-class _CustomGridViewFutureBuilderState<P, I> extends State<CustomGridViewFutureBuilder<P, I>> {
+class _CustomGridViewFutureBuilderState<P, I>
+    extends State<CustomGridViewFutureBuilder<P, I>> {
   late Future<P> future;
   late BaseFilterModel filter;
 
@@ -233,14 +240,16 @@ class _PaginatedGridViewState<I> extends State<PaginatedGridView> {
               shrinkWrap: widget.scrollDirection == Axis.vertical,
               scrollDirection: widget.scrollDirection,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: widget.scrollDirection == Axis.vertical ? widget.gridCount : 1,
+                crossAxisCount: widget.scrollDirection == Axis.vertical
+                    ? widget.gridCount
+                    : 1,
                 childAspectRatio: widget.childAspectRatio,
               ),
               controller: _scrollController,
               itemCount: items.length,
               physics: ScrollPhysics(),
-              itemBuilder: (_, index) =>
-                  widget.tileBuilder(context, items[index], index, onDelete, null),
+              itemBuilder: (_, index) => widget.tileBuilder(
+                  context, items[index], index, onDelete, null),
             )
           : widget.emptyListWidget!,
     );
@@ -263,11 +272,16 @@ class _PaginatedGridViewState<I> extends State<PaginatedGridView> {
   }
 
   bool onNotification(ScrollNotification notification) {
-    if (notification is ScrollUpdateNotification && _scrollController.hasClients) {
-      if (_scrollController.position.maxScrollExtent > _scrollController.offset &&
-          _scrollController.position.maxScrollExtent - _scrollController.offset <= 50) {
+    if (notification is ScrollUpdateNotification &&
+        _scrollController.hasClients) {
+      if (_scrollController.position.maxScrollExtent >
+              _scrollController.offset &&
+          _scrollController.position.maxScrollExtent -
+                  _scrollController.offset <=
+              50) {
         if (loadMoreStatus != null && loadMoreStatus == LoadMoreStatus.STABLE) {
-          Fimber.d("calling again.................................................");
+          Fimber.d(
+              "calling again.................................................");
           loadMoreStatus = LoadMoreStatus.LOADING;
           itemOperation = CancelableOperation.fromFuture(widget.controller
               .getData(filterModel: widget.filter, pageNumber: currentPage + 1)

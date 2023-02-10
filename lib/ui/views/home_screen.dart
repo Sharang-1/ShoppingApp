@@ -88,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   width: 10,
                                 ),
                                 Text(
-                                  "Search for products, designers..",
+                                  "Search for products, creators..",
                                   style: TextStyle(color: Colors.black54),
                                 ),
                                 SizedBox(

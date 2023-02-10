@@ -22,6 +22,7 @@ import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
 import '../widgets/home_view_list_header.dart';
 import '../widgets/product_tile_ui.dart';
+import '../widgets/product_tile_ui_2.dart';
 import '../widgets/promotion_slider.dart';
 import '../widgets/section_builder.dart';
 import '../widgets/shimmer/shimmer_widget.dart';
@@ -47,7 +48,7 @@ class HomeViewList extends StatefulWidget {
 class _HomeViewListState extends State<HomeViewList> {
   final Map<String, Duration> sectionDelay = {
     "SECTION1": Duration(seconds: 0),
-    "SECTION2": Duration(seconds: 0),
+    "SECTION2": Duration(seconds: 1),
     "SECTION3": Duration(seconds: 2),
     "SECTION4": Duration(seconds: 4),
     "SECTION5": Duration(seconds: 4),
@@ -90,7 +91,7 @@ class _HomeViewListState extends State<HomeViewList> {
                             HomeViewListHeader(
                                 title: "Featured Home Grown Brands!"),
                             // title: controller.remoteConfig!
-                            //     .getString(TOP_PROMOTION_TITLE_EN)),
+                            //     .getString(TOP_PROMOTION_TITLE_EN),
                             verticalSpaceTiny,
                             PromotionSlider(
                               aspectRatio: 4.0,
@@ -100,13 +101,13 @@ class _HomeViewListState extends State<HomeViewList> {
                             // SectionDivider(),
                             verticalSpaceSmall,
                           ],
-                          Container(
-                              color: Colors.white,
-                              child: Image.asset(
-                                'assets/images/delivery_upi.png',
-                                fit: BoxFit.fill,
-                              )),
-                          verticalSpaceSmall,
+                          // Container(
+                          //     color: Colors.white,
+                          //     child: Image.asset(
+                          //       'assets/images/delivery_upi.png',
+                          //       fit: BoxFit.fill,
+                          //     )),
+                          // verticalSpaceSmall,
 
                           FutureSectionBuilder(
                             duration: sectionDelay['SECTION1']!,
@@ -435,7 +436,7 @@ class _HomeViewListState extends State<HomeViewList> {
                           FutureBuilder(
                               future: getProducts((releaseMode
                                   ? 67409233.toString()
-                                  : 86798078.toString())),
+                                  : 39241274.toString())),
                               builder: (context, data) {
                                 if (data.connectionState ==
                                     ConnectionState.active) {
@@ -535,7 +536,7 @@ class _HomeViewListState extends State<HomeViewList> {
                                   ),
                                   scrollDirection: Axis.horizontal,
                                   header: SectionHeader(
-                                      title: "BEST DESIGNERS AROUND YOU",
+                                      title: "BEST CREATORS AROUND YOU",
                                       subTitle: " "
                                       // title: controller.remoteConfig!
                                       //     .getString(HOMESCREEN_SECTION_3_TITLE_EN),
@@ -814,8 +815,7 @@ class _HomeViewListState extends State<HomeViewList> {
                                   ),
                                   scrollDirection: Axis.horizontal,
                                   header: SectionHeader(
-                                    title:
-                                        "SHOP DESIGNER COLLECTION BELOW ₹999",
+                                    title: "SHOP CREATOR COLLECTION BELOW ₹999",
                                     subTitle: "",
                                     // title: controller.remoteConfig!
                                     //     .getString(HOMESCREEN_SECTION_1_TITLE_EN),
@@ -825,7 +825,7 @@ class _HomeViewListState extends State<HomeViewList> {
                                       BaseController.goToProductListPage(
                                           ProductPageArg(
                                         title:
-                                            "SHOP DESIGNER COLLECTION BELOW ₹999",
+                                            "SHOP CREATOR COLLECTION BELOW ₹999",
                                         queryString: 'maxPrice=750;',
                                         subCategory: '',
                                       ));
@@ -845,7 +845,7 @@ class _HomeViewListState extends State<HomeViewList> {
                           //       SectionBuilder(
                           //         key: widget.sellerUniqueKey ?? UniqueKey(),
                           //         context: context,
-                          //         layoutType: LayoutType.DESIGNER_ID_3_LAYOUT,
+                          //         layoutType: LayoutType.Creator_ID_3_LAYOUT,
                           //         fromHome: true,
                           //         onEmptyList: () {},
                           //         controller: SellersGridViewBuilderController(
@@ -904,6 +904,7 @@ class _HomeViewListState extends State<HomeViewList> {
                           //     ],
                           //   ),
                           // ),
+
                           if (appVar.dynamicSectionKeys.length > i &&
                               appVar.dynamicSectionKeys[i] != "67409233")
                             FutureBuilder(
@@ -1279,7 +1280,7 @@ class _HomeViewListState extends State<HomeViewList> {
                                   ),
                                   scrollDirection: Axis.horizontal,
                                   header: SectionHeader(
-                                    title: "Explore Designer collection",
+                                    title: "Explore Creator collection",
                                     subTitle: "",
                                     // title: controller.remoteConfig!
                                     //     .getString(HOMESCREEN_SECTION_13_TITLE_EN),
@@ -1288,7 +1289,7 @@ class _HomeViewListState extends State<HomeViewList> {
                                     viewAll: () {
                                       BaseController.goToProductListPage(
                                           ProductPageArg(
-                                        title: "Explore Designer collection",
+                                        title: "Explore Creator collection",
                                         queryString: '',
                                         subCategory: '',
                                       ));
