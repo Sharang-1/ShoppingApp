@@ -47,7 +47,7 @@ class _ProductTileUI3State extends State<ProductTileUI3> {
   @override
   void initState() {
     super.initState();
-    getProductDetailInfo();
+    // getProductDetailInfo();
     setState(() {
       isWishlistIconFilled =
           locator<WishListController>().list.indexOf(widget.data.key ?? "") !=
@@ -130,6 +130,7 @@ class _ProductTileUI3State extends State<ProductTileUI3> {
             : 0.0;
     final int productPrice = widget.data.cost?.costToCustomer.round() ?? 0;
     final int actualCost;
+    getProductDetailInfo();
     if (widget.data.cost != null && widget.data.cost!.gstCharges != null) {
       actualCost = (widget.data.cost!.cost +
               widget.data.cost!.convenienceCharges!.cost! +

@@ -23,7 +23,8 @@ class CategoryIndiView extends StatefulWidget {
   final String? subCategory;
   final String? categoryPhoto;
 
-  const CategoryIndiView({Key? key, this.queryString, this.subCategory, this.categoryPhoto})
+  const CategoryIndiView(
+      {Key? key, this.queryString, this.subCategory, this.categoryPhoto})
       : super(key: key);
 
   @override
@@ -128,12 +129,15 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
                   actions: [
                     IconButton(
                       iconSize: 50,
-                      icon: Icon(FontAwesomeIcons.slidersH, color: Colors.black, size: 20),
+                      icon: Icon(FontAwesomeIcons.slidersH,
+                          color: Colors.black, size: 20),
                       onPressed: () async {
-                        ProductFilter filterDialogResponse = await showModalBottomSheet(
+                        ProductFilter filterDialogResponse =
+                            await showModalBottomSheet(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20)),
                           ),
                           isScrollControlled: true,
                           clipBehavior: Clip.antiAlias,
@@ -143,8 +147,9 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
                                 heightFactor: 0.75,
                                 child: ProductFilterDialog(
                                   category: categoryNo,
-                                  oldFilter:
-                                      ProductFilter(existingQueryString: widget.queryString! + ";"),
+                                  oldFilter: ProductFilter(
+                                      existingQueryString:
+                                          widget.queryString! + ";"),
                                   showCategories: false,
                                 ));
                           },
@@ -176,7 +181,8 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
                           image: widget.categoryPhoto != null
                               ? '$CATEGORY_PHOTO_BASE_URL/${widget.categoryPhoto}'
                               : 'assets/images/category_preloading.png',
-                          imageErrorBuilder: (context, error, stackTrace) => Image.asset(
+                          imageErrorBuilder: (context, error, stackTrace) =>
+                              Image.asset(
                             "assets/images/category_preloading.png",
                             fit: BoxFit.fill,
                           ),
@@ -202,7 +208,8 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
                       children: <Widget>[
                         FutureBuilder(
                           future: Future.delayed(Duration(milliseconds: 500)),
-                          builder: (c, s) => s.connectionState == ConnectionState.done
+                          builder: (c, s) => s.connectionState ==
+                                  ConnectionState.done
                               ? GridListWidget2<Products, Product>(
                                   key: key,
                                   context: context,
@@ -214,16 +221,17 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
                                           "We're out of all ${widget.subCategory}.\nCheck Back Later!"),
                                   controller: ProductsGridViewBuilderController(
                                     randomize: showRandomProducts,
-                                    limit: 1000,
+                                    limit: 300,
                                   ),
                                   childAspectRatio: 3,
-                                  tileBuilder:
-                                      (BuildContext context, data, index, onUpdate, onDelete) {
+                                  tileBuilder: (BuildContext context, data,
+                                      index, onUpdate, onDelete) {
                                     debugPrint("category data $data");
                                     return ProductTileUI3(
                                       data: data,
                                       cardPadding: EdgeInsets.zero,
-                                      onClick: () => BaseController.goToProductPage(data),
+                                      onClick: () =>
+                                          BaseController.goToProductPage(data),
                                       index: index,
                                     );
                                   },
