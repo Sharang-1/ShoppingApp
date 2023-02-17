@@ -308,8 +308,10 @@ class _SellerIndi2State extends State<SellerIndi2> {
                                   color: Colors.white,
                                   // workingarea
                                   image: DecorationImage(
-                                    image: NetworkImage(
-                                        "$SELLER_PROFILE_PHOTO_BASE_URL/${sellerData.key}/profile/${snapshot.data!.photos![0].name}"),
+                                    image: NetworkImage(snapshot
+                                            .data!.photos!.isNotEmpty
+                                        ? "$SELLER_PROFILE_PHOTO_BASE_URL/${sellerData.key}/profile/${snapshot.data?.photos![0].name}"
+                                        : 'assets/images/category_preloading.png'),
                                     //     :AssetImage(
                                     //   "assets/images/product_preloading.png",
                                     // ),
