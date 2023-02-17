@@ -8,7 +8,7 @@ class NavigationService {
       {dynamic arguments,
       bool popNavbar = false,
       bool preventDuplicates = false}) {
-    if (popNavbar) pop();
+    // if (popNavbar) pop();
     return to(routeName,
         arguments: arguments, preventDuplicates: preventDuplicates);
   }
@@ -28,7 +28,7 @@ class NavigationService {
       int? id,
       bool popNavbar = false,
       bool preventDuplicates = false}) async {
-    if (popNavbar) back();
+    // if (popNavbar) back();
     return await Get.toNamed<T>(page,
         arguments: arguments, id: id, preventDuplicates: preventDuplicates);
   }

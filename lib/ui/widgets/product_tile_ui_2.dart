@@ -48,7 +48,8 @@ class _ProductTileUI2State extends State<ProductTileUI2> {
     super.initState();
     setState(() {
       isWishlistIconFilled =
-          locator<WishListController>().list.indexOf(widget.data.key ?? "") != -1;
+          locator<WishListController>().list.indexOf(widget.data.key ?? "") !=
+              -1;
     });
   }
 
@@ -61,8 +62,10 @@ class _ProductTileUI2State extends State<ProductTileUI2> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(18),
         ),
-        margin:
-            EdgeInsets.only(bottom: MediaQuery.of(context).size.height - 130, right: 20, left: 20),
+        margin: EdgeInsets.only(
+            bottom: MediaQuery.of(context).size.height - 130,
+            right: 20,
+            left: 20),
         content: Row(
           children: [
             Icon(
@@ -104,16 +107,18 @@ class _ProductTileUI2State extends State<ProductTileUI2> {
     EdgeInsetsGeometry paddingCard = widget.index % 2 == 0
         ? const EdgeInsets.fromLTRB(screenPadding, 0, 0, 10)
         : const EdgeInsets.fromLTRB(0, 0, screenPadding, 10);
-    paddingCard = widget.cardPadding == null ? paddingCard : widget.cardPadding!;
+    paddingCard =
+        widget.cardPadding == null ? paddingCard : widget.cardPadding!;
 
     final photo = widget.data.photo ?? null;
     final photos = photo != null ? photo.photos ?? null : null;
     final String photoURL = photos != null ? photos[0].name ?? "" : "";
     // final String productName = widget.data.name ?? "No name";
-    final double? productDiscount = (widget.data.cost!.productDiscount != null &&
-            widget.data.cost!.productDiscount!.rate != null)
-        ? widget.data.cost!.productDiscount!.rate as double?
-        : 0.0;
+    final double? productDiscount =
+        (widget.data.cost!.productDiscount != null &&
+                widget.data.cost!.productDiscount!.rate != null)
+            ? widget.data.cost!.productDiscount!.rate as double?
+            : 0.0;
     // final int productPrice = widget.data.cost?.costToCustomer.round() ?? 0;
     // final int actualCost;
     // if (widget.data.cost != null && widget.data.cost!.gstCharges != null) {
@@ -150,7 +155,8 @@ class _ProductTileUI2State extends State<ProductTileUI2> {
             ),
 
             Positioned(
-              top: 10, right: 10,
+              top: 10,
+              right: 10,
               child: widget.onAddToCartClicked == null
                   ? InkWell(
                       child: WishListIcon(
@@ -183,8 +189,10 @@ class _ProductTileUI2State extends State<ProductTileUI2> {
                             },
                     )
                   : InkWell(
-                      child: Icon(FontAwesomeIcons.heart, color: Colors.white,)
-                    ),
+                      child: Icon(
+                      FontAwesomeIcons.heart,
+                      color: Colors.white,
+                    )),
             ),
 
             // Expanded(
@@ -261,7 +269,8 @@ class _ProductTileUI2State extends State<ProductTileUI2> {
     );
   }
 
-  Widget _imageStackview(photoURL, discount, priceFontSize, {bool handcrafted = false}) {
+  Widget _imageStackview(photoURL, discount, priceFontSize,
+      {bool handcrafted = false}) {
     return Stack(
       fit: StackFit.loose,
       children: <Widget>[
@@ -274,10 +283,9 @@ class _ProductTileUI2State extends State<ProductTileUI2> {
               child: ClipRRect(
                 clipBehavior: Clip.antiAlias,
                 borderRadius: BorderRadius.circular(8),
-            
                 child: ColorFiltered(
-                  colorFilter:
-                      ColorFilter.mode(Colors.transparent.withOpacity(0.12), BlendMode.srcATop),
+                  colorFilter: ColorFilter.mode(
+                      Colors.transparent.withOpacity(0.12), BlendMode.srcATop),
                   child: CachedNetworkImage(
                     errorWidget: (context, url, error) => Image.asset(
                       'assets/images/product_preloading.png',
@@ -298,14 +306,26 @@ class _ProductTileUI2State extends State<ProductTileUI2> {
             ),
           ),
         ),
+        widget.data.isCustomisable
+            ? Positioned(
+                bottom: 2,
+                right: 2,
+                child: Image.asset(
+                  'assets/icons/custom.png',
+                  height: 30,
+                  width: 30,
+                ),
+              )
+            : Container(),
         discount != 0.0
             ? Positioned(
                 top: 0,
-                left: 0,
+                left: 8,
                 child: Container(
                   decoration: BoxDecoration(
                       color: logoRed,
-                      borderRadius: BorderRadius.only(bottomRight: Radius.circular(10))),
+                      borderRadius:
+                          BorderRadius.only(bottomRight: Radius.circular(10))),
                   width: 40,
                   height: 20,
                   child: Center(

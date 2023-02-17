@@ -97,6 +97,7 @@ class Product {
   List<Coupon>? coupons;
   Video? video;
   List<dynamic>? demographics;
+  bool isCustomisable = false;
 
   Product({
     this.key,
@@ -167,12 +168,9 @@ class Product {
       enabled: json["enabled"] ?? false,
       created: json["created"],
       modified: json["modified"],
-      account: json["account"] == null
-          ? null
-          : Account.fromJson(json["account"]),
-      owner: json["owner"] == null
-          ? null
-          : Account.fromJson(json["owner"]),
+      account:
+          json["account"] == null ? null : Account.fromJson(json["account"]),
+      owner: json["owner"] == null ? null : Account.fromJson(json["owner"]),
       price: json["price"] ?? 0,
       whoMadeIt: json["whoMadeIt"] == null
           ? null

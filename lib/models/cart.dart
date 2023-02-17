@@ -109,6 +109,7 @@ class Product {
   num? length;
   String? dimensions;
   Cost? cost;
+  bool isCustom = false;
 
   Product({
     this.key,

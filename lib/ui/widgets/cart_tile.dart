@@ -45,7 +45,8 @@ class _CartTileState extends State<CartTile> {
     item = widget.item;
     quantity = item.quantity! >= 1 ? item.quantity as int : 1;
     item.quantity = item.quantity! >= 1 ? item.quantity : 1;
-    finalTotal = (item.product!.cost!.costToCustomer! * item.quantity!).toDouble();
+    finalTotal =
+        (item.product!.cost!.costToCustomer! * item.quantity!).toDouble();
     setUpOrderDetails();
     super.initState();
   }
@@ -70,17 +71,23 @@ class _CartTileState extends State<CartTile> {
       size: widget.item.size != null && widget.item.size != ""
           ? (widget.item.size == 'N/A' ? '-' : widget.item.size)
           : "No Size given",
-      color: widget.item.color != null && widget.item.color != "" ? widget.item.color : "-",
+      color: widget.item.color != null && widget.item.color != ""
+          ? widget.item.color
+          : "-",
       promocode: promoCode,
       promocodeDiscount: '$rupeeUnicode$promoCodeDiscount',
-      price: rupeeUnicode + (widget.item.quantity! * widget.item.product!.cost!.cost!).toString(),
+      price: rupeeUnicode +
+          (widget.item.quantity! * widget.item.product!.cost!.cost!).toString(),
       discount: "${widget.item.product!.discount.toString()} %",
       discountedPrice: rupeeUnicode +
           (((widget.item.product!.price! -
-                      (widget.item.product!.price! * widget.item.product!.discount! / 100)) *
+                      (widget.item.product!.price! *
+                          widget.item.product!.discount! /
+                          100)) *
                   (widget.item.quantity ?? 0))
               .toString()),
-      convenienceCharges: '${widget.item.product?.cost?.convenienceCharges?.rate} %',
+      convenienceCharges:
+          '${widget.item.product?.cost?.convenienceCharges?.rate} %',
       gst:
           '$rupeeUnicode${((widget.item.quantity ?? 1) * (widget.item.product?.cost?.gstCharges?.cost ?? 0)).toStringAsFixed(2)} (${widget.item.product?.cost?.gstCharges?.rate}%)',
       deliveryCharges: "-",
@@ -99,8 +106,8 @@ class _CartTileState extends State<CartTile> {
       quantity++;
       print(quantity);
       setUpProductPrices();
-      APIService().addToCart(
-          item.productId.toString(), quantity, item.size.toString(), item.color.toString());
+      APIService().addToCart(item.productId.toString(), quantity,
+          item.size.toString(), item.color.toString());
     });
   }
 
@@ -109,8 +116,8 @@ class _CartTileState extends State<CartTile> {
       item.quantity = item.quantity! - 1;
       quantity--;
       setUpProductPrices();
-      APIService().addToCart(
-          item.productId.toString(), quantity, item.size.toString(), item.color.toString());
+      APIService().addToCart(item.productId.toString(), quantity,
+          item.size.toString(), item.color.toString());
     });
   }
 
@@ -125,7 +132,7 @@ class _CartTileState extends State<CartTile> {
               color: Colors.white,
               borderRadius: BorderRadius.circular(15),
               boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 2)]),
-          height: 160,
+          height: item.product!.isCustom ? 210 : 162,
           child: CartProductTileUI(
             index: widget.index,
             item: item,
@@ -215,7 +222,8 @@ class _CartTileState extends State<CartTile> {
 
   void proceedToOrder({int? qty, String? total}) async {
     BaseController.vibrate(duration: 50);
-    final product = await _apiService.getProductById(productId: item.productId.toString());
+    final product =
+        await _apiService.getProductById(productId: item.productId.toString());
     if ((product!.available ?? false) && (product.enabled ?? false))
       // Navigator.push(
       //   context,
@@ -248,8 +256,8 @@ class _CartTileState extends State<CartTile> {
 
   void applyCoupon({int? qty, String? total}) async {
     BaseController.vibrate(duration: 50);
-    final product =
-        await _apiService.getProductById(productId: item.productId.toString(), withCoupons: true);
+    final product = await _apiService.getProductById(
+        productId: item.productId.toString(), withCoupons: true);
     if ((product?.available ?? false) && (product!.enabled ?? false))
       Navigator.push(
         context,

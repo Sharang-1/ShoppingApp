@@ -51,7 +51,8 @@ class _ProductTileUIState extends State<ProductTileUI> {
     getProductDetailInfo();
     setState(() {
       isWishlistIconFilled =
-          locator<WishListController>().list.indexOf(widget.data.key ?? "") != -1;
+          locator<WishListController>().list.indexOf(widget.data.key ?? "") !=
+              -1;
     });
   }
 
@@ -71,8 +72,10 @@ class _ProductTileUIState extends State<ProductTileUI> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(18),
         ),
-        margin:
-            EdgeInsets.only(bottom: MediaQuery.of(context).size.height - 130, right: 20, left: 20),
+        margin: EdgeInsets.only(
+            bottom: MediaQuery.of(context).size.height - 130,
+            right: 20,
+            left: 20),
         content: Row(
           children: [
             Icon(
@@ -114,16 +117,18 @@ class _ProductTileUIState extends State<ProductTileUI> {
     EdgeInsetsGeometry paddingCard = widget.index % 2 == 0
         ? const EdgeInsets.fromLTRB(screenPadding, 0, 0, 10)
         : const EdgeInsets.fromLTRB(0, 0, screenPadding, 10);
-    paddingCard = widget.cardPadding == null ? paddingCard : widget.cardPadding!;
+    paddingCard =
+        widget.cardPadding == null ? paddingCard : widget.cardPadding!;
 
     final photo = widget.data.photo ?? null;
     final photos = photo != null ? photo.photos ?? null : null;
     final String photoURL = photos != null ? photos[0].name ?? "" : "";
     final String productName = widget.data.name ?? "No name";
-    final double? productDiscount = (widget.data.cost!.productDiscount != null &&
-            widget.data.cost!.productDiscount!.rate != null)
-        ? widget.data.cost!.productDiscount!.rate as double?
-        : 0.0;
+    final double? productDiscount =
+        (widget.data.cost!.productDiscount != null &&
+                widget.data.cost!.productDiscount!.rate != null)
+            ? widget.data.cost!.productDiscount!.rate as double?
+            : 0.0;
     final int productPrice = widget.data.cost?.costToCustomer.round() ?? 0;
     final int actualCost;
     if (widget.data.cost != null && widget.data.cost!.gstCharges != null) {
@@ -196,7 +201,8 @@ class _ProductTileUIState extends State<ProductTileUI> {
                                       ? () async {
                                           if (locator<WishListController>()
                                                   .list
-                                                  .indexOf(widget.data.key ?? "") !=
+                                                  .indexOf(
+                                                      widget.data.key ?? "") !=
                                               -1) {
                                             removeFromWishList(widget.data.key);
                                             setState(() {
@@ -222,7 +228,16 @@ class _ProductTileUIState extends State<ProductTileUI> {
                                     height: 20,
                                     width: 20,
                                   ),
+                                ),
+                          widget.data.isCustomisable
+                              ? InkWell(
+                                  child: Image.asset(
+                                    'assets/icons/custom.png',
+                                    height: 30,
+                                    width: 30,
+                                  ),
                                 )
+                              : Container()
                         ],
                       ),
                       Text(
@@ -251,7 +266,8 @@ class _ProductTileUIState extends State<ProductTileUI> {
                               ),
                             ),
                           ),
-                          if ((productDiscount != null) && (productDiscount != 0.0))
+                          if ((productDiscount != null) &&
+                              (productDiscount != 0.0))
                             Text(
                               "${BaseController.formatPrice(actualCost)}",
                               overflow: TextOverflow.ellipsis,
@@ -276,7 +292,8 @@ class _ProductTileUIState extends State<ProductTileUI> {
     );
   }
 
-  Widget _imageStackview(photoURL, discount, priceFontSize, {bool handcrafted = false}) {
+  Widget _imageStackview(photoURL, discount, priceFontSize,
+      {bool handcrafted = false}) {
     return Stack(
       fit: StackFit.loose,
       children: <Widget>[
@@ -286,8 +303,8 @@ class _ProductTileUIState extends State<ProductTileUI> {
             child: ClipRRect(
               clipBehavior: Clip.antiAlias,
               child: ColorFiltered(
-                colorFilter:
-                    ColorFilter.mode(Colors.transparent.withOpacity(0.12), BlendMode.srcATop),
+                colorFilter: ColorFilter.mode(
+                    Colors.transparent.withOpacity(0.12), BlendMode.srcATop),
                 child: CachedNetworkImage(
                   errorWidget: (context, url, error) => Image.asset(
                     'assets/images/product_preloading.png',
@@ -314,7 +331,8 @@ class _ProductTileUIState extends State<ProductTileUI> {
                 child: Container(
                   decoration: BoxDecoration(
                       color: logoRed,
-                      borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10))),
+                      borderRadius:
+                          BorderRadius.only(bottomLeft: Radius.circular(10))),
                   width: 40,
                   height: 20,
                   child: Center(

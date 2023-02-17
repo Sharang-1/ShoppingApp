@@ -43,7 +43,8 @@ class _ProductTileUI4State extends State<ProductTileUI4> {
     super.initState();
     setState(() {
       isWishlistIconFilled =
-          locator<WishListController>().list.indexOf(widget.data.key ?? "") != -1;
+          locator<WishListController>().list.indexOf(widget.data.key ?? "") !=
+              -1;
     });
   }
 
@@ -56,8 +57,10 @@ class _ProductTileUI4State extends State<ProductTileUI4> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(18),
         ),
-        margin:
-            EdgeInsets.only(bottom: MediaQuery.of(context).size.height - 130, right: 20, left: 20),
+        margin: EdgeInsets.only(
+            bottom: MediaQuery.of(context).size.height - 130,
+            right: 20,
+            left: 20),
         content: Row(
           children: [
             Icon(
@@ -109,16 +112,18 @@ class _ProductTileUI4State extends State<ProductTileUI4> {
     EdgeInsetsGeometry paddingCard = widget.index % 2 == 0
         ? const EdgeInsets.fromLTRB(screenPadding, 0, 0, 10)
         : const EdgeInsets.fromLTRB(0, 0, screenPadding, 10);
-    paddingCard = widget.cardPadding == null ? paddingCard : widget.cardPadding!;
+    paddingCard =
+        widget.cardPadding == null ? paddingCard : widget.cardPadding!;
 
     final photo = widget.data.photo ?? null;
     final photos = photo != null ? photo.photos ?? null : null;
     final String photoURL = photos != null ? photos[0].name ?? "" : "";
     // final String productName = widget.data.name ?? "No name";
-    final double? productDiscount = (widget.data.cost!.productDiscount != null &&
-            widget.data.cost!.productDiscount!.rate != null)
-        ? widget.data.cost!.productDiscount!.rate as double?
-        : 0.0;
+    final double? productDiscount =
+        (widget.data.cost!.productDiscount != null &&
+                widget.data.cost!.productDiscount!.rate != null)
+            ? widget.data.cost!.productDiscount!.rate as double?
+            : 0.0;
     // final int productPrice = widget.data.cost?.costToCustomer.round() ?? 0;
     // final int actualCost;
     // if (widget.data.cost != null && widget.data.cost!.gstCharges != null) {
@@ -219,12 +224,18 @@ class _ProductTileUI4State extends State<ProductTileUI4> {
                     hoursTextLong: " Hr ",
                     minutesTextLong: " Min ",
                     secondsTextLong: " S ",
-                    style: TextStyle(color: Colors.grey, fontSize: 12, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold),
                   ),
                   horizontalSpaceTiny,
                   Text(
                     "until winners are announced!",
-                    style: TextStyle(color: Colors.grey, fontSize: 12, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -269,7 +280,8 @@ class _ProductTileUI4State extends State<ProductTileUI4> {
     );
   }
 
-  Widget _imageStackview(photoURL, discount, priceFontSize, {bool handcrafted = false}) {
+  Widget _imageStackview(photoURL, discount, priceFontSize,
+      {bool handcrafted = false}) {
     return Stack(
       fit: StackFit.loose,
       children: <Widget>[
@@ -286,8 +298,8 @@ class _ProductTileUI4State extends State<ProductTileUI4> {
                   topRight: Radius.circular(12),
                 ),
                 child: ColorFiltered(
-                  colorFilter:
-                      ColorFilter.mode(Colors.transparent.withOpacity(0.12), BlendMode.srcATop),
+                  colorFilter: ColorFilter.mode(
+                      Colors.transparent.withOpacity(0.12), BlendMode.srcATop),
                   child: CachedNetworkImage(
                     errorWidget: (context, url, error) => Image.asset(
                       'assets/images/product_preloading.png',
@@ -308,6 +320,17 @@ class _ProductTileUI4State extends State<ProductTileUI4> {
             ),
           ),
         ),
+        widget.data.isCustomisable
+            ? Positioned(
+                bottom: 2,
+                right: 2,
+                child: Image.asset(
+                  'assets/icons/custom.png',
+                  height: 30,
+                  width: 30,
+                ),
+              )
+            : Container(),
         // discount != 0.0
         //     ? Positioned(
         //         top: 0,

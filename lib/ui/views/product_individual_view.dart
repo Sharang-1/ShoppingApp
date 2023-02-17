@@ -457,6 +457,16 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                               ),
                                             ),
                                           ),
+                                          horizontalSpaceSmall,
+                                          widget.data.isCustomisable
+                                              ? Container(
+                                                  width: 20,
+                                                  height: 20,
+                                                  child: Image.asset(
+                                                    "assets/icons/custom.png",
+                                                  ),
+                                                )
+                                              : Container(),
                                         ],
                                       ),
                                     ),

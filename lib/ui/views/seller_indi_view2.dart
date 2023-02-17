@@ -998,8 +998,7 @@ class _SellerIndi2State extends State<SellerIndi2> {
                       ),
                       verticalSpaceMedium,
 
-                      if (sellerData.subscriptionTypeId == 1 &&
-                          showExploreSection)
+                      if (showExploreSection)
                         Container(
                           color: Colors.grey[200],
                           padding: const EdgeInsets.symmetric(
@@ -1053,11 +1052,8 @@ class _SellerIndi2State extends State<SellerIndi2> {
                             ],
                           ),
                         ),
-                      if (sellerData.subscriptionTypeId == 1 &&
-                          showExploreSection)
-                        verticalSpace(5),
-                      if (sellerData.subscriptionTypeId == 1 &&
-                          showExploreSection)
+                      if (showExploreSection) verticalSpace(5),
+                      if (showExploreSection)
                         SectionBuilder(
                           key: productKey,
                           context: context,
