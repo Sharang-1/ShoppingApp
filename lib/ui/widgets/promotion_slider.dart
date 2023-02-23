@@ -1,4 +1,5 @@
-import 'package:cached_network_image/cached_network_image.dart';
+// import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fast_cached_network_image/fast_cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
@@ -34,7 +35,7 @@ class _PromotionSliderState extends State<PromotionSlider> {
   void initState() {
     defaultCacheManager = DefaultCacheManager();
     // _timeOut = widget.promotions.isEmpty;
-
+    FastCachedImageConfig.init(clearCacheAfter: const Duration(days: 15));
     if (widget.promotions.isNotEmpty) {
       _timeOut = widget.promotions.first.time! as int;
     } else {
@@ -135,16 +136,20 @@ class _PromotionSliderState extends State<PromotionSlider> {
                             borderRadius: BorderRadius.circular(curve15),
                           ),
                           width: MediaQuery.of(context).size.width - 10,
-                          child: CachedNetworkImage(
-                            cacheManager: defaultCacheManager,
+                          // child: CachedNetworkImage(
+                          child: FastCachedImage(
+                            // cacheManager: defaultCacheManager,
                             fit: BoxFit.cover,
-                            placeholder: (context, url) => ShimmerWidget(),
+                            // placeholder:
+                            loadingBuilder: (context, url) => ShimmerWidget(),
                             // Image.asset(
                             //   "assets/images/promotion_preloading.png",
                             //   fit: BoxFit.cover,
                             // ),
-                            imageUrl: "$PROMOTION_PHOTO_BASE_URL/${i.key}",
-                            errorWidget: (context, url, error) =>
+                            // imageUrl:
+                            url: "$PROMOTION_PHOTO_BASE_URL/${i.key}",
+                            // errorWidget:
+                            errorBuilder: (context, url, error) =>
                                 ShimmerWidget(),
                           ),
                         ),
@@ -241,15 +246,19 @@ class BottomPromotion extends StatelessWidget {
             width: MediaQuery.of(context).size.width,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(curve5),
-              child: CachedNetworkImage(
+              // child: CachedNetworkImage(
+              child: FastCachedImage(
                 fit: BoxFit.cover,
-                placeholder: (context, url) => ShimmerWidget(),
+                // placeholder:
+                loadingBuilder: (context, url) => ShimmerWidget(),
                 // Image.asset(
                 //   "assets/images/designer_preloading.png",
                 //   fit: BoxFit.cover,
                 // ),
-                imageUrl: "$PROMOTION_PHOTO_BASE_URL/${promotion.key}",
-                errorWidget: (context, url, error) => ShimmerWidget(),
+                // imageUrl:
+                url: "$PROMOTION_PHOTO_BASE_URL/${promotion.key}",
+                // errorWidget:
+                errorBuilder: (context, url, error) => ShimmerWidget(),
               ),
             ),
           ),

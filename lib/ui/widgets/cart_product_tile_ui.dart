@@ -514,7 +514,7 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
           ),
           type: PageTransitionType.rightToLeft,
         ),
-      );
+      ).then((value) => setState(() {}));
     else
       DialogService.showCustomDialog(AlertDialog(
         content: FittedBox(

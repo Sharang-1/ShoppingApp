@@ -42,7 +42,7 @@ class Item {
   num? productId;
   String? size;
   String? color;
-  num? quantity;
+  num quantity;
   String? inserted;
   Product? product;
 
@@ -50,7 +50,7 @@ class Item {
     this.productId,
     this.size,
     this.color,
-    this.quantity,
+    required this.quantity,
     this.inserted,
     this.product,
   });

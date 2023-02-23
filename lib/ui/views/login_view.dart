@@ -35,7 +35,7 @@ class LoginView extends StatelessWidget {
               placeholder: 'Enter your name',
               fontSize: 14,
               controller: nameController,
-              textInputType: TextInputType.text,
+              textInputType: TextInputType.name,
               validationMessage: controller.nameValidationMessage,
               onChanged: controller.validateName,
             ),

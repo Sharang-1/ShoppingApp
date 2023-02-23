@@ -1,6 +1,7 @@
 import 'dart:math';
 
-import 'package:cached_network_image/cached_network_image.dart';
+// import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fast_cached_network_image/fast_cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/server_urls.dart';
@@ -25,12 +26,15 @@ class ExploreDesignerTileUI extends StatelessWidget {
       child: Column(
         children: <Widget>[
           ClipOval(
-            child: CachedNetworkImage(
+            child: FastCachedImage(
+              //child: CachedNetworkImage(
               width: 75,
               height: 75,
-              fadeInCurve: Curves.easeIn,
-              imageUrl: '$SELLER_PHOTO_BASE_URL/${data.key}',
-              errorWidget: (context, error, stackTrace) => Container(
+              // fadeInCurve: Curves.easeIn,
+              // imageUrl:
+              url: '$SELLER_PHOTO_BASE_URL/${data.key}',
+              // errorWidget:
+              errorBuilder: (context, error, stackTrace) => Container(
                 width: 75,
                 height: 75,
                 color:

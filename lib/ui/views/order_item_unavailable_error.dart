@@ -1,4 +1,5 @@
-import 'package:cached_network_image/cached_network_image.dart';
+// import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fast_cached_network_image/fast_cached_network_image.dart';
 import 'package:compound/services/api/api_service.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +30,7 @@ class _OrderItemUnavailableErrorViewState
   @override
   void initState() {
     getItemDetails();
+    FastCachedImageConfig.init(clearCacheAfter: const Duration(days: 15));
     super.initState();
   }
 
@@ -232,17 +234,23 @@ class _OrderItemUnavailableErrorViewState
                 child: ColorFiltered(
                   colorFilter: ColorFilter.mode(
                       Colors.transparent.withOpacity(0.12), BlendMode.srcATop),
-                  child: CachedNetworkImage(
-                    errorWidget: (context, url, error) => Image.asset(
+                  child: FastCachedImage(
+                    // child: CachedNetworkImage(
+                    errorBuilder:
+                        // errorWidget:
+                        (context, url, error) => Image.asset(
                       'assets/images/product_preloading.png',
                       fit: BoxFit.cover,
                     ),
-                    imageUrl: photoURL == null
-                        ? 'https://images.pexels.com/photos/157675/fashion-men-s-individuality-black-and-white-157675.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
-                        : '$PRODUCT_PHOTO_BASE_URL/${product?.key}/$photoURL-small.png',
+                    url:
+                        // imageUrl:
+                        photoURL == null
+                            ? 'https://images.pexels.com/photos/157675/fashion-men-s-individuality-black-and-white-157675.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
+                            : '$PRODUCT_PHOTO_BASE_URL/${product?.key}/$photoURL-small.png',
                     fit: BoxFit.cover,
-                    fadeInCurve: Curves.easeIn,
-                    placeholder: (context, url) => Image.asset(
+                    // fadeInCurve: Curves.easeIn,
+                    // placeholder:
+                    loadingBuilder: (context, url) => Image.asset(
                       'assets/images/product_preloading.png',
                       fit: BoxFit.cover,
                     ),

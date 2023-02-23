@@ -1,4 +1,5 @@
-import 'package:cached_network_image/cached_network_image.dart';
+// import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fast_cached_network_image/fast_cached_network_image.dart';
 import 'package:compound/models/products.dart';
 import 'package:compound/ui/shared/app_colors.dart';
 import 'package:compound/ui/shared/ui_helpers.dart';
@@ -23,11 +24,11 @@ class _PromotionScreenState extends State<PromotionScreen> {
   // String? promotedProduct;
   // Product _productInfo = Product();
   // Product? data;
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   getPromotedProduct();
-  // }
+  @override
+  void initState() {
+    super.initState();
+    FastCachedImageConfig.init(clearCacheAfter: const Duration(days: 15));
+  }
 
   // getPromotedProduct() async {
   //   final prefs = await SharedPreferences.getInstance();
@@ -67,9 +68,12 @@ class _PromotionScreenState extends State<PromotionScreen> {
         child: Stack(
           children: [
             Container(
-              width: Get.width,
-              height: Get.height,
-              child: Image.asset("assets/icons/abstract-bg2.jpg", fit: BoxFit.cover,)),
+                width: Get.width,
+                height: Get.height,
+                child: Image.asset(
+                  "assets/icons/abstract-bg2.jpg",
+                  fit: BoxFit.cover,
+                )),
             Center(
               child: Container(
                 child: Column(
@@ -99,9 +103,12 @@ class _PromotionScreenState extends State<PromotionScreen> {
                     // Text(data!.name.toString()),
                     verticalSpaceSmall,
                     Text(
-                       "Stand a chance to win this!",
+                      "Stand a chance to win this!",
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: logoRed),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          color: logoRed),
                     ),
                     verticalSpaceSmall,
                     Container(
@@ -117,15 +124,19 @@ class _PromotionScreenState extends State<PromotionScreen> {
                       ),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20),
-                        child: CachedNetworkImage(
-                          imageUrl: '$PRODUCT_PHOTO_BASE_URL/${widget.data?.key}/$photoUrl-small.png',
+                        child: FastCachedImage(
+                          // child: CachedNetworkImage(
+                          url:
+                              // imageUrl:
+                              '$PRODUCT_PHOTO_BASE_URL/${widget.data?.key}/$photoUrl-small.png',
                           fit: BoxFit.cover,
                         ),
                       ),
                     ),
                     verticalSpaceLarge,
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           color: Colors.white,
@@ -134,9 +145,7 @@ class _PromotionScreenState extends State<PromotionScreen> {
                               color: Colors.black26,
                               blurRadius: 5,
                             ),
-                          ]
-                          
-                          ),
+                          ]),
                       child: CountDownText(
                         due: nextSat,
                         finishedText: "Done",
@@ -147,7 +156,9 @@ class _PromotionScreenState extends State<PromotionScreen> {
                         minutesTextLong: " Min ",
                         secondsTextLong: " S ",
                         style: TextStyle(
-                            color: Colors.black, fontSize: 30, fontWeight: FontWeight.bold),
+                            color: Colors.black,
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
 
@@ -155,7 +166,9 @@ class _PromotionScreenState extends State<PromotionScreen> {
                     Text(
                       "Until we announce the Lucky winner!",
                       style: TextStyle(
-                          color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
+                          color: Colors.black,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold),
                       textAlign: TextAlign.center,
                     ),
                     verticalSpaceSmall,

@@ -296,7 +296,7 @@ class _SelectPromocodeState extends State<SelectPromocode> {
       "",
     );
     if (res != null) {
-      _controller.text = "";
+      // _controller.text = "";
 
       OrderDetails orderDetails = widget.orderDetails;
       orderDetails.promocode = res.promocodeDiscount!.promocode ?? "";

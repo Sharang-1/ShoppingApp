@@ -1,4 +1,5 @@
-import 'package:cached_network_image/cached_network_image.dart';
+// import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fast_cached_network_image/fast_cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
@@ -65,14 +66,18 @@ class SellerProfilePhotos extends StatelessWidget {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(curve15)),
                       width: MediaQuery.of(context).size.width,
-                      child: CachedNetworkImage(
+                      // child: CachedNetworkImage(
+                      child: FastCachedImage(
                         // maxHeightDiskCache: 200,
                         // maxWidthDiskCache: 200,
                         fit: BoxFit.cover,
-                        placeholder: (context, url) =>
+                        // placeholder:
+                        loadingBuilder: (context, url) =>
                             Center(child: CircularProgressIndicator()),
-                        imageUrl: i,
-                        errorWidget: (context, url, error) =>
+                        // imageUrl: i,
+                        url: i,
+                        // errorWidget:
+                        errorBuilder: (context, url, error) =>
                             new Icon(Icons.error),
                       ),
                     ),

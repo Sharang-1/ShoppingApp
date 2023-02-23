@@ -358,7 +358,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                         if (data.connectionState ==
                                             ConnectionState.done) {
                                           return HomeSlider(
-                                            key: photosKey,
+                                            // key: photosKey,
                                             imgList: imageURLs ?? [],
                                             sizeChartUrl: showSizechart == true
                                                 ? "${BASE_URL}sellers/${productData?.account?.key}/categories/${productData?.category?.id}/sizechart"
@@ -1243,9 +1243,15 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                         .underline),
                                               ),
                                             ),
-                                          if (productInfo
-                                                  ?.seller?.replacementPolicy !=
-                                              null)
+                                          if (productInfo?.seller
+                                                      ?.replacementPolicy !=
+                                                  null &&
+                                              (productInfo
+                                                      ?.seller
+                                                      ?.replacementPolicy
+                                                      ?.note
+                                                      ?.isNotEmpty ==
+                                                  true))
                                             Column(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
@@ -1277,8 +1283,11 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                               ],
                                             ),
                                           if (productInfo
-                                                  ?.seller?.returnPolicy !=
-                                              null)
+                                                      ?.seller?.returnPolicy !=
+                                                  null &&
+                                              (productInfo?.seller?.returnPolicy
+                                                      ?.note?.isNotEmpty ==
+                                                  true))
                                             Column(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,

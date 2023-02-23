@@ -1,4 +1,5 @@
-import 'package:cached_network_image/cached_network_image.dart';
+// import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fast_cached_network_image/fast_cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/server_urls.dart';
@@ -31,21 +32,31 @@ class CategoryTileUI extends StatelessWidget {
       child: Stack(
         children: <Widget>[
           Positioned.fill(
-              child: ColorFiltered(
-            colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.3), BlendMode.srcATop),
-            child: CachedNetworkImage(
-                errorWidget: (context, url, error) => Image.asset(
+            child: ColorFiltered(
+              colorFilter: ColorFilter.mode(
+                  Colors.black.withOpacity(0.3), BlendMode.srcATop),
+              child: FastCachedImage(
+                // child: CachedNetworkImage(
+                errorBuilder:
+                    // errorWidget:
+                    (context, url, error) => Image.asset(
                   'assets/images/category_preloading.png',
                   fit: BoxFit.cover,
-                ) ,
-                imageUrl: data.id != null
-                  ? '$CATEGORY_PHOTO_BASE_URL/${data.id}'
-                  : 'https://images.pexels.com/photos/934070/pexels-photo-934070.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
+                ),
+                url:
+                    // imageUrl:
+                    data.id != null
+                        ? '$CATEGORY_PHOTO_BASE_URL/${data.id}'
+                        : 'https://images.pexels.com/photos/934070/pexels-photo-934070.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
                 fit: BoxFit.fill,
-                fadeInCurve: Curves.easeIn,
-                placeholder: (context,url)=>Image.asset('assets/images/category_preloading.png', fit: BoxFit.cover,),
+                // fadeInCurve: Curves.easeIn,
+                // placeholder:
+                loadingBuilder: (context, url) => Image.asset(
+                  'assets/images/category_preloading.png',
+                  fit: BoxFit.cover,
+                ),
               ),
-          ),
+            ),
           ),
           Positioned.fill(
             child: Column(
@@ -96,15 +107,27 @@ class NewCategoryTile extends StatelessWidget {
           child: AspectRatio(
             aspectRatio: 1.0,
             child: ClipOval(
-              child: CachedNetworkImage(
-                errorWidget: (context, url, error) => Image.asset(
+              // child: CachedNetworkImage(
+              child: FastCachedImage(
+                errorBuilder: (context, url, error) => Image.asset(
                   'assets/images/category_preloading.png',
                   fit: BoxFit.cover,
-                ) ,
-                imageUrl: '$CATEGORY_PHOTO_BASE_URL/${data.id}',
+                ),
+                // errorWidget: (context, url, error) => Image.asset(
+                //   'assets/images/category_preloading.png',
+                //   fit: BoxFit.cover,
+                // ),
+                url:
+                    // imageUrl:
+                    '$CATEGORY_PHOTO_BASE_URL/${data.id}',
                 fit: BoxFit.fill,
-                fadeInCurve: Curves.easeIn,
-                placeholder: (context,url)=>Image.asset('assets/images/category_preloading.png', fit: BoxFit.cover,),
+                // fadeInCurve: Curves.easeIn,
+                loadingBuilder:
+                    // placeholder:
+                    (context, url) => Image.asset(
+                  'assets/images/category_preloading.png',
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           ),

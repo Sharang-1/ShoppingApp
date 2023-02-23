@@ -147,10 +147,10 @@ class APIService {
       }
 
       return resJSON;
-    } on dio.DioError catch (e) {
-      if (e.type == dio.DioErrorType.connectTimeout) {
-        _errorHandlingService.showError(Errors.PoorConnection);
-      }
+      // } on dio.DioError catch (e) {
+      //   if (e.type == dio.DioErrorType.connectTimeout) {
+      //     _errorHandlingService.showError(Errors.PoorConnection);
+      //   }
     } catch (e, stacktrace) {
       Fimber.e("Api Service error", ex: e, stacktrace: stacktrace);
       if (e.toString().contains("Unauthorized")) {
@@ -809,12 +809,11 @@ class APIService {
     return null;
   }
 
-  Future<CalculatedPrice?> calculateProductPrice(
-      String productId, int qty, String pincode,
-      {String? promocode}) async {
+  Future<CalculatedPrice?> calculateProductPrice(String productId, int qty,
+      {String? pincode, String? promocode}) async {
     final quantity = qty >= 1 ? qty : 1;
     final calculatedPriceData = await apiWrapper(
-        "orders​/cost?productKey=$productId&quantity=$quantity&pincode=$pincode&${(promocode?.isNotEmpty ?? false) ? "promocode=$promocode" : ""}",
+        "orders​/cost?productKey=$productId&quantity=$quantity&${(pincode?.isNotEmpty ?? false) ? "pincode=$pincode&" : ""}${(promocode?.isNotEmpty ?? false) ? "promocode=$promocode" : ""}",
         authenticated: true,
         options: dio.Options(headers: {'excludeToken': false}));
     if (calculatedPriceData != null) {

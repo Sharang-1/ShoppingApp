@@ -1,6 +1,7 @@
 import 'dart:io';
 
-import 'package:cached_network_image/cached_network_image.dart';
+// import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fast_cached_network_image/fast_cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -53,6 +54,7 @@ class _ExploreProductTileUIState extends State<ExploreProductTileUI> {
   @override
   void initState() {
     super.initState();
+    FastCachedImageConfig.init(clearCacheAfter: const Duration(days: 15));
     setState(() {
       isWishlistIconFilled =
           locator<WishListController>().list.indexOf(widget.data.key ?? "") !=
@@ -101,12 +103,10 @@ class _ExploreProductTileUIState extends State<ExploreProductTileUI> {
         widget.data.video?.videos.map((e) => e.name ?? "").toList() ?? [];
     final String fontFamily = "Poppins";
 
-
     return InkWell(
       onTap: () {
         widget.onClick(fontFamily);
       },
-
       child: Container(
         padding: EdgeInsets.only(top: 8.0),
         decoration: BoxDecoration(
@@ -118,19 +118,21 @@ class _ExploreProductTileUIState extends State<ExploreProductTileUI> {
             InkWell(
               onTap: () {
                 BaseController.goToSellerPage(widget.data.account!.key ?? "");
-              }
-                  ,
+              },
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Row(
                   children: [
                     ClipOval(
-                      child: CachedNetworkImage(
+                      child: FastCachedImage(
+                        // child: CachedNetworkImage(
                         width: 50,
                         height: 50,
-                        fadeInCurve: Curves.easeIn,
-                        imageUrl: '$SELLER_PHOTO_BASE_URL/$designerKey',
-                        errorWidget: (context, error, stackTrace) =>
+                        // fadeInCurve: Curves.easeIn,
+                        // imageUrl:
+                        url: '$SELLER_PHOTO_BASE_URL/$designerKey',
+                        // errorWidget:
+                        errorBuilder: (context, error, stackTrace) =>
                             Image.asset(
                           "assets/images/product_preloading.png",
                           width: 50,

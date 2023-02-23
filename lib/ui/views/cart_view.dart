@@ -19,6 +19,7 @@ import '../../controllers/grid_view_builder/cart_grid_view_builder_controller.da
 import '../../locator.dart';
 import '../../models/cart.dart';
 import '../../models/grid_view_builder_filter_models/cartFilter.dart';
+import '../../models/groupOrderModel.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
@@ -253,6 +254,8 @@ class _CartViewState extends State<CartView> {
   }
 
   proccedToOrder() async {
+    List<GroupOrderModel> promodata = [];
+    promodata.addAll(GroupOrderData.cartProducts);
     GroupOrderData.cartProducts.clear();
     GroupOrderData.sellersList.clear();
     GroupOrderData.cartEstimateItems.clear();
@@ -262,12 +265,19 @@ class _CartViewState extends State<CartView> {
       var _cartItems = data.items;
       // var _cartProducts = [];
       for (var i = 0; i < _cartItems!.length; i++) {
+        var prod = promodata.where((element) =>
+            element.productId == _cartItems[i].productId.toString());
+        var promocode = prod.isNotEmpty ? prod.first.promocode : null;
         // ? calculating item cost
-        var finalTotal =
-            _cartItems[i].product!.cost!.costToCustomer!.toDouble() *
-                _cartItems[i].quantity!.toInt();
-        total = total + finalTotal;
-
+        var price = await locator<APIService>().calculateProductPrice(
+            _cartItems[i].productId.toString(), _cartItems[i].quantity.toInt(),
+            promocode: promocode);
+        // // ? calculating item cost
+        // var finalTotal =
+        //     _cartItems[i].product!.cost!.costToCustomer!.toDouble() *
+        //         _cartItems[i].quantity!.toInt();
+        // total = total + finalTotal;
+        total += price!.cost!.toDouble();
         //? seller name to give credit upon purchase
         // var sellerName = _cartItems[i].product!;
         // GroupOrderData.sellersList.add(sellerName);
@@ -290,9 +300,9 @@ class _CartViewState extends State<CartView> {
         // ? items to calculate order cost estimate
         groupOrder.GroupOrderCostEstimateModel item =
             groupOrder.GroupOrderCostEstimateModel(
-          productId: _cartItems[i].productId.toString(),
-          quantity: _cartItems[i].quantity?.toInt(),
-        );
+                productId: _cartItems[i].productId.toString(),
+                quantity: _cartItems[i].quantity?.toInt(),
+                promoCode: promocode);
         GroupOrderData.cartEstimateItems.add(item);
 
         // GroupOrderData.sellersList.add(sellerName);
@@ -302,6 +312,7 @@ class _CartViewState extends State<CartView> {
       }
 
       GroupOrderData.orderTotal = total;
+      promodata.clear();
       Navigator.push(
         context,
         PageTransition(

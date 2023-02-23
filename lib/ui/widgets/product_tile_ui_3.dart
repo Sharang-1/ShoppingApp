@@ -1,4 +1,5 @@
-import 'package:cached_network_image/cached_network_image.dart';
+// import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fast_cached_network_image/fast_cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -47,6 +48,7 @@ class _ProductTileUI3State extends State<ProductTileUI3> {
   @override
   void initState() {
     super.initState();
+    FastCachedImageConfig.init(clearCacheAfter: const Duration(days: 15));
     // getProductDetailInfo();
     setState(() {
       isWishlistIconFilled =
@@ -337,17 +339,21 @@ class _ProductTileUI3State extends State<ProductTileUI3> {
                 child: ColorFiltered(
                   colorFilter: ColorFilter.mode(
                       Colors.transparent.withOpacity(0.12), BlendMode.srcATop),
-                  child: CachedNetworkImage(
-                    errorWidget: (context, url, error) => Image.asset(
+                  // child: CachedNetworkImage(
+                  child: FastCachedImage(
+                    // errorWidget:
+                    errorBuilder: (context, url, error) => Image.asset(
                       'assets/images/product_preloading.png',
                       fit: BoxFit.cover,
                     ),
-                    imageUrl: photoURL == null
+                    // imageUrl:
+                    url: photoURL == null
                         ? 'https://images.pexels.com/photos/157675/fashion-men-s-individuality-black-and-white-157675.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
                         : '$PRODUCT_PHOTO_BASE_URL/${widget.data.key}/$photoURL-small.png',
                     fit: BoxFit.cover,
-                    fadeInCurve: Curves.easeIn,
-                    placeholder: (context, url) => Image.asset(
+                    // fadeInCurve: Curves.easeIn,
+                    // placeholder:
+                    loadingBuilder: (context, url) => Image.asset(
                       'assets/images/product_preloading.png',
                       fit: BoxFit.cover,
                     ),

@@ -258,7 +258,7 @@ class _CartTileState extends State<CartTile> {
     BaseController.vibrate(duration: 50);
     final product = await _apiService.getProductById(
         productId: item.productId.toString(), withCoupons: true);
-    if ((product?.available ?? false) && (product!.enabled ?? false))
+    if ((product?.available ?? false) && (product!.enabled ?? false)) {
       Navigator.push(
         context,
         PageTransition(
@@ -277,7 +277,7 @@ class _CartTileState extends State<CartTile> {
           type: PageTransitionType.rightToLeft,
         ),
       );
-    else
+    } else
       DialogService.showCustomDialog(AlertDialog(
         content: FittedBox(
           fit: BoxFit.scaleDown,

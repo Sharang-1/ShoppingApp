@@ -1,4 +1,5 @@
-import 'package:cached_network_image/cached_network_image.dart';
+// import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fast_cached_network_image/fast_cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +40,7 @@ class _HomeSliderState extends State<HomeSlider> {
   @override
   void initState() {
     print("Videos: ${widget.videoList.toString()}");
-
+    FastCachedImageConfig.init(clearCacheAfter: const Duration(days: 15));
     widget.videoList.forEach((videoUrl) {
       videoControllers.add(VideoPlayerController.network(
         videoUrl,
@@ -112,14 +113,18 @@ class _HomeSliderState extends State<HomeSlider> {
                                   //     borderRadius:
                                   //         BorderRadius.circular(curve15)),
                                   width: MediaQuery.of(context).size.width,
-                                  child: CachedNetworkImage(
+                                  child: FastCachedImage(
+                                    // child: CachedNetworkImage(
                                     key: Key(i),
                                     // maxHeightDiskCache: 200,
                                     // maxWidthDiskCache: 200,
                                     fit: BoxFit.contain,
-                                    imageUrl: i,
-                                    placeholder: (context, e) =>
-                                        ShimmerWidget(),
+                                    // imageUrl: i,
+                                    url: i,
+                                    loadingBuilder:
+                                        // placeholder:
+                                        (context, e) => ShimmerWidget(),
+                                    //     ShimmerWidget(),
                                     //  Center(
                                     //   child: Image.asset(
                                     //     "assets/images/loading_img.gif",
@@ -127,8 +132,10 @@ class _HomeSliderState extends State<HomeSlider> {
                                     //     width: 50,
                                     //   ),
                                     // ),
-                                    errorWidget: (context, url, error) =>
-                                        ShimmerWidget(),
+                                    errorBuilder:
+                                        // errorWidget:
+                                        (context, url, error) =>
+                                            ShimmerWidget(),
                                     //     Center(
                                     //   child: Image.asset(
                                     //     "assets/images/product_preloading.png",
@@ -167,12 +174,11 @@ class _HomeSliderState extends State<HomeSlider> {
                       if (widget.sizeChartUrl.isNotEmpty)
                         Builder(
                           builder: (BuildContext context) {
-
                             print("123 ${widget.sizeChartUrl}");
 
-                            print("123 ${Uri.parse(widget.sizeChartUrl).isAbsolute}");
+                            print(
+                                "123 ${Uri.parse(widget.sizeChartUrl).isAbsolute}");
                             return GestureDetector(
-
                               onTap: widget.fromExplore
                                   ? () {}
                                   : () {
@@ -188,13 +194,16 @@ class _HomeSliderState extends State<HomeSlider> {
                                   //     borderRadius:
                                   //         BorderRadius.circular(curve15)),
                                   width: MediaQuery.of(context).size.width,
-                                  child: CachedNetworkImage(
+                                  child: FastCachedImage(
+                                    // child: CachedNetworkImage(
                                     // maxHeightDiskCache: 200,
                                     // maxWidthDiskCache: 200,
                                     fit: BoxFit.contain,
-                                    imageUrl: widget.sizeChartUrl,
-                                    placeholder: (context, e) =>
-                                        ShimmerWidget(),
+                                    // imageUrl:
+                                    url: widget.sizeChartUrl,
+                                    loadingBuilder:
+                                        // placeholder:
+                                        (context, e) => ShimmerWidget(),
                                     // Center(
                                     //   child: Image.asset(
                                     //     "assets/images/loading_img.gif",
@@ -202,8 +211,9 @@ class _HomeSliderState extends State<HomeSlider> {
                                     //     width: 50,
                                     //   ),
                                     // ),
-                                    errorWidget: (context, url, error) =>
-                                        Center(
+                                    errorBuilder:
+                                        // errorWidget:
+                                        (context, url, error) => Center(
                                       child: CustomText("No SizeChart"),
                                     ),
                                   ),

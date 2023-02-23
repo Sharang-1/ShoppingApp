@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+// import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fast_cached_network_image/fast_cached_network_image.dart';
 import '../../utils/lang/translation_keys.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -328,7 +329,7 @@ class DesignerTileUi extends StatelessWidget {
             //     ),
             //   );
             // else
-              return NavigationService.to(SellerIndiViewRoute, arguments: data);
+            return NavigationService.to(SellerIndiViewRoute, arguments: data);
           } else {
             await BaseController.showLoginPopup(
               nextView: SellerIndiViewRoute,
@@ -343,7 +344,7 @@ class DesignerTileUi extends StatelessWidget {
           clipBehavior: Clip.antiAlias,
           elevation: 0,
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 8, vertical : 5),
+            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
             child: Column(
               children: [
                 Row(
@@ -368,7 +369,8 @@ class DesignerTileUi extends StatelessWidget {
                                 height: 48,
                                 fadeInCurve: Curves.easeIn,
                                 fit: BoxFit.cover,
-                                image: CachedNetworkImageProvider(
+                                // image: CachedNetworkImageProvider(
+                                image: FastCachedImageProvider(
                                     "$SELLER_PHOTO_BASE_URL/${data.key}"),
                                 placeholder: AssetImage(
                                     "assets/images/product_preloading.png"),
@@ -436,8 +438,9 @@ class DesignerTileUi extends StatelessWidget {
                       children: [
                         FutureBuilder<Reviews?>(
                           //! seller key null arhi
-                          future: locator<APIService>()
-                              .getReviews(data.key ?? "ST2276", isSellerReview: true),
+                          future: locator<APIService>().getReviews(
+                              data.key ?? "ST2276",
+                              isSellerReview: true),
                           builder: (context, snapshot) => ((snapshot
                                           .connectionState ==
                                       ConnectionState.done) &&
@@ -593,7 +596,8 @@ class DesignerTileUi extends StatelessWidget {
                                         width: 100,
                                         placeholder: AssetImage(
                                             'assets/images/product_preloading.png'),
-                                        image: CachedNetworkImageProvider(
+                                        // image: CachedNetworkImageProvider(
+                                        image: FastCachedImageProvider(
                                           (product.photo?.photos?.length ??
                                                       0) ==
                                                   0
