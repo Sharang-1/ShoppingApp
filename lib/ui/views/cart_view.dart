@@ -293,6 +293,7 @@ class _CartViewState extends State<CartView> {
           // orderQueue: groupOrder.OrderQueue(
           //   clientQueueId: (i + 1).toString(),
           // ),
+          promocode: promocode,
           clientQueueId: (i + 1).toString(),
         );
         GroupOrderData.cartProducts.add(cartItem);
