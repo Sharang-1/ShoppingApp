@@ -170,336 +170,351 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                   ),
                                 ),
                                 verticalSpaceSmall,
-                                Text(
-                                  "Order Costs",
-                                  style: TextStyle(
-                                    fontSize: titleFontSize + 2,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                if ((estimatedCost?.orderCosts?.length ?? 0) >
-                                    0)
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Item 1 Cost",
-                                        style: TextStyle(
-                                          fontSize: titleFontSize + 2,
-                                          color: Colors.grey,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text("Product Price : "),
-                                          Text(
-                                              "$rupeeUnicode${estimatedCost?.orderCosts?[0].productPrice ?? 0}"),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text("Quantity : "),
-                                          Text(
-                                              "${estimatedCost?.orderCosts?[0].quantity ?? 0}"),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text("Discount : "),
-                                          Text(
-                                            "$rupeeUnicode${estimatedCost?.orderCosts?[0].productDiscount?.cost ?? 0}",
-                                            style: TextStyle(
-                                              color: Colors.green,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text("GST Charges : "),
-                                          Text(
-                                            "$rupeeUnicode${estimatedCost?.orderCosts?[0].gstCharges?.cost ?? 0}",
-                                            // style: TextStyle(
-                                            //   color: logoRed,
-                                            //   fontWeight: FontWeight.bold,
-                                            // ),
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text("Total : "),
-                                          Text(
-                                            "$rupeeUnicode${estimatedCost?.orderCosts?[0].cost ?? 0}",
-                                            style: TextStyle(
-                                              color: logoRed,
-                                              fontSize: titleFontSize + 2,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                if ((estimatedCost?.orderCosts?.length ?? 0) >
-                                    1)
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Item 2 Cost",
-                                        style: TextStyle(
-                                          fontSize: titleFontSize + 2,
-                                          color: Colors.grey,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text("Product Price : "),
-                                          Text(
-                                              "$rupeeUnicode${estimatedCost?.orderCosts?[1].productPrice ?? 1}"),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text("Quantity : "),
-                                          Text(
-                                              "${estimatedCost?.orderCosts?[1].quantity ?? 1}"),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text("Discount : "),
-                                          Text(
-                                            "$rupeeUnicode${estimatedCost?.orderCosts?[1].productDiscount?.cost ?? 1}",
-                                            style: TextStyle(
-                                              color: Colors.green,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text("GST Charges : "),
-                                          Text(
-                                            "$rupeeUnicode${estimatedCost?.orderCosts?[1].gstCharges?.cost ?? 1}",
-                                            // style: TextStyle(
-                                            //   color: logoRed,
-                                            //   fontWeight: FontWeight.bold,
-                                            // ),
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text("Total : "),
-                                          Text(
-                                            "$rupeeUnicode${estimatedCost?.orderCosts?[1].cost ?? 1}",
-                                            style: TextStyle(
-                                              color: logoRed,
-                                              fontSize: titleFontSize + 2,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                if ((estimatedCost?.orderCosts?.length ?? 0) >
-                                    2)
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Item 3 Cost",
-                                        style: TextStyle(
-                                          fontSize: titleFontSize + 2,
-                                          color: Colors.grey,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text("Product Price : "),
-                                          Text(
-                                              "$rupeeUnicode${estimatedCost?.orderCosts?[2].productPrice ?? 2}"),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text("Quantity : "),
-                                          Text(
-                                              "${estimatedCost?.orderCosts?[2].quantity ?? 2}"),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text("Discount : "),
-                                          Text(
-                                            "$rupeeUnicode${estimatedCost?.orderCosts?[2].productDiscount?.cost ?? 2}",
-                                            style: TextStyle(
-                                              color: Colors.green,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text("GST Charges : "),
-                                          Text(
-                                            "$rupeeUnicode${estimatedCost?.orderCosts?[2].gstCharges?.cost ?? 2}",
-                                            // style: TextStyle(
-                                            //   color: logoRed,
-                                            //   fontWeight: FontWeight.bold,
-                                            // ),
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text("Total : "),
-                                          Text(
-                                            "$rupeeUnicode${estimatedCost?.orderCosts?[2].cost ?? 2}",
-                                            style: TextStyle(
-                                              color: logoRed,
-                                              fontSize: titleFontSize + 2,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                if ((estimatedCost?.orderCosts?.length ?? 0) >
-                                    3)
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Item 4 Cost",
-                                        style: TextStyle(
-                                          fontSize: titleFontSize + 2,
-                                          color: Colors.grey,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text("Product Price : "),
-                                          Text(
-                                              "$rupeeUnicode${estimatedCost?.orderCosts?[3].productPrice ?? 3}"),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text("Quantity : "),
-                                          Text(
-                                              "${estimatedCost?.orderCosts?[3].quantity ?? 3}"),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text("Discount : "),
-                                          Text(
-                                            "$rupeeUnicode${estimatedCost?.orderCosts?[3].productDiscount?.cost ?? 3}",
-                                            style: TextStyle(
-                                              color: Colors.green,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text("GST Charges : "),
-                                          Text(
-                                            "$rupeeUnicode${estimatedCost?.orderCosts?[3].gstCharges?.cost ?? 3}",
-                                            // style: TextStyle(
-                                            //   color: logoRed,
-                                            //   fontWeight: FontWeight.bold,
-                                            // ),
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text("Total : "),
-                                          Text(
-                                            "$rupeeUnicode${estimatedCost?.orderCosts?[3].cost ?? 3}",
-                                            style: TextStyle(
-                                              color: logoRed,
-                                              fontSize: titleFontSize + 2,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
+                                // Text(
+                                //   "Order Costs",
+                                //   style: TextStyle(
+                                //     fontSize: titleFontSize + 2,
+                                //     fontWeight: FontWeight.bold,
+                                //   ),
+                                // ),
+                                // if ((estimatedCost?.orderCosts?.length ?? 0) >
+                                //     0)
+                                //   Column(
+                                //     crossAxisAlignment:
+                                //         CrossAxisAlignment.start,
+                                //     children: [
+                                //       Text(
+                                //         "Item 1 Cost",
+                                //         style: TextStyle(
+                                //           fontSize: titleFontSize + 2,
+                                //           color: Colors.grey,
+                                //           fontWeight: FontWeight.bold,
+                                //         ),
+                                //       ),
+                                //       Row(
+                                //         mainAxisAlignment:
+                                //             MainAxisAlignment.spaceBetween,
+                                //         children: [
+                                //           Text("Product Price : "),
+                                //           Text(
+                                //               "$rupeeUnicode${estimatedCost?.orderCosts?[0].productPrice ?? 0}"),
+                                //         ],
+                                //       ),
+                                //       Row(
+                                //         mainAxisAlignment:
+                                //             MainAxisAlignment.spaceBetween,
+                                //         children: [
+                                //           Text("Quantity : "),
+                                //           Text(
+                                //               "${estimatedCost?.orderCosts?[0].quantity ?? 0}"),
+                                //         ],
+                                //       ),
+                                //       Row(
+                                //         mainAxisAlignment:
+                                //             MainAxisAlignment.spaceBetween,
+                                //         children: [
+                                //           Text("Discount : "),
+                                //           Text(
+                                //             "$rupeeUnicode${estimatedCost?.orderCosts?[0].productDiscount?.cost ?? 0}",
+                                //             style: TextStyle(
+                                //               color: Colors.green,
+                                //               fontWeight: FontWeight.bold,
+                                //             ),
+                                //           ),
+                                //         ],
+                                //       ),
+                                //       Row(
+                                //         mainAxisAlignment:
+                                //             MainAxisAlignment.spaceBetween,
+                                //         children: [
+                                //           Text("GST Charges : "),
+                                //           Text(
+                                //             "$rupeeUnicode${estimatedCost?.orderCosts?[0].gstCharges?.cost ?? 0}",
+                                //             // style: TextStyle(
+                                //             //   color: logoRed,
+                                //             //   fontWeight: FontWeight.bold,
+                                //             // ),
+                                //           ),
+                                //         ],
+                                //       ),
+                                //       Row(
+                                //         mainAxisAlignment:
+                                //             MainAxisAlignment.spaceBetween,
+                                //         children: [
+                                //           Text("Total : "),
+                                //           Text(
+                                //             "$rupeeUnicode${estimatedCost?.orderCosts?[0].cost ?? 0}",
+                                //             style: TextStyle(
+                                //               color: logoRed,
+                                //               fontSize: titleFontSize + 2,
+                                //               fontWeight: FontWeight.bold,
+                                //             ),
+                                //           ),
+                                //         ],
+                                //       ),
+                                //     ],
+                                //   ),
+                                // if ((estimatedCost?.orderCosts?.length ?? 0) >
+                                //     1)
+                                //   Column(
+                                //     crossAxisAlignment:
+                                //         CrossAxisAlignment.start,
+                                //     children: [
+                                //       Text(
+                                //         "Item 2 Cost",
+                                //         style: TextStyle(
+                                //           fontSize: titleFontSize + 2,
+                                //           color: Colors.grey,
+                                //           fontWeight: FontWeight.bold,
+                                //         ),
+                                //       ),
+                                //       Row(
+                                //         mainAxisAlignment:
+                                //             MainAxisAlignment.spaceBetween,
+                                //         children: [
+                                //           Text("Product Price : "),
+                                //           Text(
+                                //               "$rupeeUnicode${estimatedCost?.orderCosts?[1].productPrice ?? 1}"),
+                                //         ],
+                                //       ),
+                                //       Row(
+                                //         mainAxisAlignment:
+                                //             MainAxisAlignment.spaceBetween,
+                                //         children: [
+                                //           Text("Quantity : "),
+                                //           Text(
+                                //               "${estimatedCost?.orderCosts?[1].quantity ?? 1}"),
+                                //         ],
+                                //       ),
+                                //       Row(
+                                //         mainAxisAlignment:
+                                //             MainAxisAlignment.spaceBetween,
+                                //         children: [
+                                //           Text("Discount : "),
+                                //           Text(
+                                //             "$rupeeUnicode${estimatedCost?.orderCosts?[1].productDiscount?.cost ?? 1}",
+                                //             style: TextStyle(
+                                //               color: Colors.green,
+                                //               fontWeight: FontWeight.bold,
+                                //             ),
+                                //           ),
+                                //         ],
+                                //       ),
+                                //       Row(
+                                //         mainAxisAlignment:
+                                //             MainAxisAlignment.spaceBetween,
+                                //         children: [
+                                //           Text("GST Charges : "),
+                                //           Text(
+                                //             "$rupeeUnicode${estimatedCost?.orderCosts?[1].gstCharges?.cost ?? 1}",
+                                //             // style: TextStyle(
+                                //             //   color: logoRed,
+                                //             //   fontWeight: FontWeight.bold,
+                                //             // ),
+                                //           ),
+                                //         ],
+                                //       ),
+                                //       Row(
+                                //         mainAxisAlignment:
+                                //             MainAxisAlignment.spaceBetween,
+                                //         children: [
+                                //           Text("Total : "),
+                                //           Text(
+                                //             "$rupeeUnicode${estimatedCost?.orderCosts?[1].cost ?? 1}",
+                                //             style: TextStyle(
+                                //               color: logoRed,
+                                //               fontSize: titleFontSize + 2,
+                                //               fontWeight: FontWeight.bold,
+                                //             ),
+                                //           ),
+                                //         ],
+                                //       ),
+                                //     ],
+                                //   ),
+                                // if ((estimatedCost?.orderCosts?.length ?? 0) >
+                                //     2)
+                                //   Column(
+                                //     crossAxisAlignment:
+                                //         CrossAxisAlignment.start,
+                                //     children: [
+                                //       Text(
+                                //         "Item 3 Cost",
+                                //         style: TextStyle(
+                                //           fontSize: titleFontSize + 2,
+                                //           color: Colors.grey,
+                                //           fontWeight: FontWeight.bold,
+                                //         ),
+                                //       ),
+                                //       Row(
+                                //         mainAxisAlignment:
+                                //             MainAxisAlignment.spaceBetween,
+                                //         children: [
+                                //           Text("Product Price : "),
+                                //           Text(
+                                //               "$rupeeUnicode${estimatedCost?.orderCosts?[2].productPrice ?? 2}"),
+                                //         ],
+                                //       ),
+                                //       Row(
+                                //         mainAxisAlignment:
+                                //             MainAxisAlignment.spaceBetween,
+                                //         children: [
+                                //           Text("Quantity : "),
+                                //           Text(
+                                //               "${estimatedCost?.orderCosts?[2].quantity ?? 2}"),
+                                //         ],
+                                //       ),
+                                //       Row(
+                                //         mainAxisAlignment:
+                                //             MainAxisAlignment.spaceBetween,
+                                //         children: [
+                                //           Text("Discount : "),
+                                //           Text(
+                                //             "$rupeeUnicode${estimatedCost?.orderCosts?[2].productDiscount?.cost ?? 2}",
+                                //             style: TextStyle(
+                                //               color: Colors.green,
+                                //               fontWeight: FontWeight.bold,
+                                //             ),
+                                //           ),
+                                //         ],
+                                //       ),
+                                //       Row(
+                                //         mainAxisAlignment:
+                                //             MainAxisAlignment.spaceBetween,
+                                //         children: [
+                                //           Text("GST Charges : "),
+                                //           Text(
+                                //             "$rupeeUnicode${estimatedCost?.orderCosts?[2].gstCharges?.cost ?? 2}",
+                                //             // style: TextStyle(
+                                //             //   color: logoRed,
+                                //             //   fontWeight: FontWeight.bold,
+                                //             // ),
+                                //           ),
+                                //         ],
+                                //       ),
+                                //       Row(
+                                //         mainAxisAlignment:
+                                //             MainAxisAlignment.spaceBetween,
+                                //         children: [
+                                //           Text("Total : "),
+                                //           Text(
+                                //             "$rupeeUnicode${estimatedCost?.orderCosts?[2].cost ?? 2}",
+                                //             style: TextStyle(
+                                //               color: logoRed,
+                                //               fontSize: titleFontSize + 2,
+                                //               fontWeight: FontWeight.bold,
+                                //             ),
+                                //           ),
+                                //         ],
+                                //       ),
+                                //     ],
+                                //   ),
+                                // if ((estimatedCost?.orderCosts?.length ?? 0) >
+                                //     3)
+                                //   Column(
+                                //     crossAxisAlignment:
+                                //         CrossAxisAlignment.start,
+                                //     children: [
+                                //       Text(
+                                //         "Item 4 Cost",
+                                //         style: TextStyle(
+                                //           fontSize: titleFontSize + 2,
+                                //           color: Colors.grey,
+                                //           fontWeight: FontWeight.bold,
+                                //         ),
+                                //       ),
+                                //       Row(
+                                //         mainAxisAlignment:
+                                //             MainAxisAlignment.spaceBetween,
+                                //         children: [
+                                //           Text("Product Price : "),
+                                //           Text(
+                                //               "$rupeeUnicode${estimatedCost?.orderCosts?[3].productPrice ?? 3}"),
+                                //         ],
+                                //       ),
+                                //       Row(
+                                //         mainAxisAlignment:
+                                //             MainAxisAlignment.spaceBetween,
+                                //         children: [
+                                //           Text("Quantity : "),
+                                //           Text(
+                                //               "${estimatedCost?.orderCosts?[3].quantity ?? 3}"),
+                                //         ],
+                                //       ),
+                                //       Row(
+                                //         mainAxisAlignment:
+                                //             MainAxisAlignment.spaceBetween,
+                                //         children: [
+                                //           Text("Discount : "),
+                                //           Text(
+                                //             "$rupeeUnicode${estimatedCost?.orderCosts?[3].productDiscount?.cost ?? 3}",
+                                //             style: TextStyle(
+                                //               color: Colors.green,
+                                //               fontWeight: FontWeight.bold,
+                                //             ),
+                                //           ),
+                                //         ],
+                                //       ),
+                                //       Row(
+                                //         mainAxisAlignment:
+                                //             MainAxisAlignment.spaceBetween,
+                                //         children: [
+                                //           Text("GST Charges : "),
+                                //           Text(
+                                //             "$rupeeUnicode${estimatedCost?.orderCosts?[3].gstCharges?.cost ?? 3}",
+                                //             // style: TextStyle(
+                                //             //   color: logoRed,
+                                //             //   fontWeight: FontWeight.bold,
+                                //             // ),
+                                //           ),
+                                //         ],
+                                //       ),
+                                //       Row(
+                                //         mainAxisAlignment:
+                                //             MainAxisAlignment.spaceBetween,
+                                //         children: [
+                                //           Text("Total : "),
+                                //           Text(
+                                //             "$rupeeUnicode${estimatedCost?.orderCosts?[3].cost ?? 3}",
+                                //             style: TextStyle(
+                                //               color: logoRed,
+                                //               fontSize: titleFontSize + 2,
+                                //               fontWeight: FontWeight.bold,
+                                //             ),
+                                //           ),
+                                //         ],
+                                //       ),
+                                //     ],
+                                //   ),
+                                // Row(
+                                //   mainAxisAlignment:
+                                //       MainAxisAlignment.spaceBetween,
+                                //   children: [
+                                //     Text(
+                                //       "Convenience Charge : ",
+                                //       style: TextStyle(
+                                //         fontSize: titleFontSize + 2,
+                                //         fontWeight: FontWeight.bold,
+                                //       ),
+                                //     ),
+                                //     Text(
+                                //         "$rupeeUnicode${estimatedCost?.convenienceCharges?.cost ?? 0}")
+                                //   ],
+                                // ),
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      "Convenience Charge : ",
+                                      "Sub Total",
                                       style: TextStyle(
                                         fontSize: titleFontSize + 2,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    Text(
-                                        "$rupeeUnicode${estimatedCost?.convenienceCharges?.cost ?? 0}")
+                                    Text("$rupeeUnicode${widget.finalTotal}")
                                   ],
                                 ),
+                                verticalSpaceTiny,
                                 Text(
                                   "Seller Delivery Charge",
                                   style: TextStyle(
@@ -759,14 +774,14 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                                     isBold: true,
                                                     color: Colors.grey[700]!,
                                                   ),
-                                                  if (key == 1)
-                                                    verticalSpaceTiny,
-                                                  if (key == 1)
-                                                    CustomText(
-                                                      "No Cash Accepted",
-                                                      fontSize:
-                                                          titleFontSize - 4,
-                                                    ),
+                                                  // if (key == 1)
+                                                  //   verticalSpaceTiny,
+                                                  // if (key == 1)
+                                                  //   CustomText(
+                                                  //     "No Cash Accepted",
+                                                  //     fontSize:
+                                                  //         titleFontSize - 4,
+                                                  //   ),
                                                   if (key == 1)
                                                     CustomText(
                                                       "+ $rupeeUnicode 50",

@@ -37,7 +37,7 @@ class CartPaymentMethodController extends BaseController {
 
     paymentOptions.addAll(
       {
-        1: "Pay Online on Delivery",
+        1: "Cash on Delivery",
         2: "Pay Now",
       },
     );

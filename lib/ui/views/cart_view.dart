@@ -46,6 +46,13 @@ class _CartViewState extends State<CartView> {
   List<String> exceptProductIDs = [];
 
   @override
+  void initState() {
+    // TODO: implement initState
+    GroupOrderData.cartProducts.clear();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GetBuilder<CartController>(
       init: CartController(),

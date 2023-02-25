@@ -240,34 +240,45 @@ class _SelectPromocodeState extends State<SelectPromocode> {
                               ),
                             ),
                             padding: const EdgeInsets.fromLTRB(0, 4, 8, 4),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                Radio<String>(
-                                  value: c.code ?? "",
-                                  groupValue: couponGrpValue,
-                                  onChanged: (val) {
-                                    setState(() {
-                                      couponGrpValue =
-                                          couponRadioValue = val as String;
-                                      _controller.text = val;
-                                      // applyPromoCode();
-                                    });
-                                    print(val);
-                                  },
-                                ),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      CustomText(
-                                        c.name.toString(),
-                                        color: Colors.grey[700]!,
-                                        isBold: true,
+                            child: Column(
+                              children: [
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    Radio<String>(
+                                      value: c.code ?? "",
+                                      groupValue: couponGrpValue,
+                                      onChanged: (val) {
+                                        setState(() {
+                                          couponGrpValue =
+                                              couponRadioValue = val as String;
+                                          _controller.text = val;
+                                          // applyPromoCode();
+                                        });
+                                        print(val);
+                                      },
+                                    ),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          CustomText(
+                                            c.name.toString(),
+                                            color: Colors.grey[700]!,
+                                            isBold: true,
+                                          ),
+                                        ],
                                       ),
-                                    ],
+                                    ),
+                                  ],
+                                ),
+                                Text(
+                                  "Get FLAT Rs.${c.discount} off on order above Rs.${c.minimumOrderValue}.",
+                                  style: TextStyle(
+                                    fontSize: 12,
                                   ),
                                 ),
                               ],
@@ -304,9 +315,12 @@ class _SelectPromocodeState extends State<SelectPromocode> {
           '$rupeeUnicode${res.promocodeDiscount!.cost}';
       orderDetails.total = res.cost!.toStringAsFixed(2);
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        new SnackBar(content: Text(COUPON_APPLIED.tr)),
-      );
+      ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
+        content: Text(
+          "🎉 Congratulation, You Saved Rs ${res.promocodeDiscount!.cost}",
+          style: TextStyle(fontSize: 15),
+        ),
+      ));
 
       var idx = widget.index;
 
