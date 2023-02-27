@@ -139,7 +139,8 @@ class _CustomGridViewFutureBuilderState<P, I>
       builder: (context, snapshots) {
         if (snapshots.hasError) {
           print(snapshots.error);
-          return Center(child: Text(snapshots.error.toString()));
+          // return Center(child: Text(snapshots.error.toString()));
+          return Container();
         }
         switch (snapshots.connectionState) {
           case ConnectionState.waiting:

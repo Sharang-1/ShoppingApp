@@ -179,11 +179,14 @@ class APIService {
   }
 
   Future verifyOTP(
-      {required String phoneNo, required String otp, required String fcm}) {
+      {required String phoneNo,
+      required String otp,
+      required String name,
+      required String fcm}) {
     return apiWrapper(
       "message/verifyOtpToLogin",
       data: {"mobile": phoneNo},
-      queryParameters: {"otp": otp, "device": fcm},
+      queryParameters: {"otp": otp, "device": fcm, "name": name},
     );
   }
 

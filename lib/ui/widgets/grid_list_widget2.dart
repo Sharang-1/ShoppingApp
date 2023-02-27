@@ -12,8 +12,12 @@ import 'shimmer/shimmer_widget.dart';
 // Type and Enum declarations
 enum LoadMoreStatus { LOADING, STABLE }
 
-typedef TileFunctionBuilder = Widget Function(BuildContext context, dynamic data, int index,
-    Future<bool> Function(int) onDelete, Future<bool>? Function(int, dynamic)? onUpdate);
+typedef TileFunctionBuilder = Widget Function(
+    BuildContext context,
+    dynamic data,
+    int index,
+    Future<bool> Function(int) onDelete,
+    Future<bool>? Function(int, dynamic)? onUpdate);
 
 class GridListWidget2<P, I> extends StatelessWidget {
   final BaseFilterModel? filter;
@@ -58,7 +62,9 @@ class GridListWidget2<P, I> extends StatelessWidget {
               childAspectRatio: childAspectRatio,
               disablePagination: disablePagination,
               scrollDirection: scrollDirection,
-              emptyListWidget: emptyListWidget == null ? EmptyListWidget() : emptyListWidget!,
+              emptyListWidget: emptyListWidget == null
+                  ? EmptyListWidget()
+                  : emptyListWidget!,
               loadingWidget: loadingWidget,
               onEmptyList: () {
                 onEmptyList();
@@ -102,7 +108,8 @@ class CustomGridViewFutureBuilder<P, I> extends StatefulWidget {
       _CustomGridViewFutureBuilderState<P, I>();
 }
 
-class _CustomGridViewFutureBuilderState<P, I> extends State<CustomGridViewFutureBuilder<P, I>> {
+class _CustomGridViewFutureBuilderState<P, I>
+    extends State<CustomGridViewFutureBuilder<P, I>> {
   late Future<P> future;
   late BaseFilterModel filter;
 
@@ -133,7 +140,8 @@ class _CustomGridViewFutureBuilderState<P, I> extends State<CustomGridViewFuture
       builder: (context, snapshots) {
         if (snapshots.hasError) {
           print(snapshots.error);
-          return Center(child: Text(snapshots.error.toString()));
+          // return Center(child: Text(snapshots.error.toString()));
+          return Container();
         }
         switch (snapshots.connectionState) {
           case ConnectionState.waiting:
@@ -221,7 +229,7 @@ class _PaginatedGridViewState<I> extends State<PaginatedGridView> {
     items = widget.data.items;
     pages = (widget.data.items.length / itemsPerPage).ceil();
     currentPage = 1;
-    if(items.length > 0) mapItems();
+    if (items.length > 0) mapItems();
     _rangeSet();
     super.initState();
   }
@@ -305,124 +313,135 @@ class _PaginatedGridViewState<I> extends State<PaginatedGridView> {
 
   @override
   Widget build(BuildContext context) {
-    if ((widget.onEmptyList != null) && (items.isEmpty))
-      widget.onEmptyList!();
+    if ((widget.onEmptyList != null) && (items.isEmpty)) widget.onEmptyList!();
     return NotificationListener(
       onNotification: !(widget.disablePagination) ? onNotification : null,
       child: (items.isNotEmpty) && paginatedItems[currentPage]?.length != 0
           ? SingleChildScrollView(
-            physics: ScrollPhysics(),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              // mainAxisSize: MainAxisSize.min,
-              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                GridView.builder(
-                  shrinkWrap: widget.scrollDirection == Axis.vertical,
-                  scrollDirection: widget.scrollDirection,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount:
-                        widget.scrollDirection == Axis.vertical ? widget.gridCount : 1,
-                    childAspectRatio: widget.childAspectRatio,
+              physics: ScrollPhysics(),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                // mainAxisSize: MainAxisSize.min,
+                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  GridView.builder(
+                    shrinkWrap: widget.scrollDirection == Axis.vertical,
+                    scrollDirection: widget.scrollDirection,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: widget.scrollDirection == Axis.vertical
+                          ? widget.gridCount
+                          : 1,
+                      childAspectRatio: widget.childAspectRatio,
+                    ),
+                    // controller: _scrollController,
+                    itemCount: paginatedItems[currentPage]?.length,
+                    physics: NeverScrollableScrollPhysics(),
+                    // physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: (_, index) => widget.tileBuilder(
+                        context,
+                        paginatedItems[currentPage]?[index],
+                        index,
+                        onDelete,
+                        null),
                   ),
-                  // controller: _scrollController,
-                  itemCount: paginatedItems[currentPage]?.length,
-                  physics: NeverScrollableScrollPhysics(),
-                  // physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (_, index) => widget.tileBuilder(
-                      context, paginatedItems[currentPage]?[index], index, onDelete, null),
-                ),
-                (widget.disablePagination || pages! < 2)
-                    ? Container()
-                    : Container(
-                      color: Colors.white,
-                      margin: EdgeInsets.symmetric(vertical: 5),
-                      padding: const EdgeInsets.symmetric(horizontal : 10.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          InkWell(
-                            onTap: () => navigatePages(1),
-                            child: _defaultControlButton(iconToFirst),
-                          ),
-                          SizedBox(
-                            width: 4,
-                          ),
-                          InkWell(
-                            onTap: () => prevPage(),
-                            child: _defaultControlButton(iconPrevious),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          ...List.generate(
-                            rangeEnd <= pages! ? threshold : pages! % threshold,
-                            (idx) => Flexible(
-                              child: InkWell(
-                                splashColor: Colors.transparent,
-                                highlightColor: Colors.transparent,
-                                onTap: () => navigatePages(idx + 1 + rangeStart),
-                                child: Container(
-                                  margin: const EdgeInsets.all(4),
-                                  height: 40,
-                                  width: 40,
-          
-                                  // padding:
-                                  // const EdgeInsets.symmetric(vertical: 10, horizontal: ),
-                                  decoration: BoxDecoration(
-                                    color: (currentPage - 1) % threshold == idx
-                                        ? logoRed
-                                        : Colors.white,
-                                    borderRadius: BorderRadius.all(Radius.circular(4)),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey,
-                                        offset: Offset(0.0, 1.0), //(x,y)
-                                        blurRadius: 6.0,
+                  (widget.disablePagination || pages! < 2)
+                      ? Container()
+                      : Container(
+                          color: Colors.white,
+                          margin: EdgeInsets.symmetric(vertical: 5),
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              InkWell(
+                                onTap: () => navigatePages(1),
+                                child: _defaultControlButton(iconToFirst),
+                              ),
+                              SizedBox(
+                                width: 4,
+                              ),
+                              InkWell(
+                                onTap: () => prevPage(),
+                                child: _defaultControlButton(iconPrevious),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              ...List.generate(
+                                rangeEnd <= pages!
+                                    ? threshold
+                                    : pages! % threshold,
+                                (idx) => Flexible(
+                                  child: InkWell(
+                                    splashColor: Colors.transparent,
+                                    highlightColor: Colors.transparent,
+                                    onTap: () =>
+                                        navigatePages(idx + 1 + rangeStart),
+                                    child: Container(
+                                      margin: const EdgeInsets.all(4),
+                                      height: 40,
+                                      width: 40,
+
+                                      // padding:
+                                      // const EdgeInsets.symmetric(vertical: 10, horizontal: ),
+                                      decoration: BoxDecoration(
+                                        color:
+                                            (currentPage - 1) % threshold == idx
+                                                ? logoRed
+                                                : Colors.white,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(4)),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.grey,
+                                            offset: Offset(0.0, 1.0), //(x,y)
+                                            blurRadius: 6.0,
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      '${idx + 1 + rangeStart}',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: (currentPage - 1) % threshold == idx
-                                            ? Colors.white
-                                            : logoRed,
+                                      child: Center(
+                                        child: Text(
+                                          '${idx + 1 + rangeStart}',
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color:
+                                                (currentPage - 1) % threshold ==
+                                                        idx
+                                                    ? Colors.white
+                                                    : logoRed,
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              InkWell(
+                                onTap: () => nextPage(),
+                                child: _defaultControlButton(iconNext),
+                              ),
+                              SizedBox(
+                                width: 4,
+                              ),
+                              InkWell(
+                                onTap: () => navigatePages(pages!),
+                                child: _defaultControlButton(iconToLast),
+                              ),
+                            ],
                           ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          InkWell(
-                            onTap: () => nextPage(),
-                            child: _defaultControlButton(iconNext),
-                          ),
-                          SizedBox(
-                            width: 4,
-                          ),
-                          InkWell(
-                            onTap: () => navigatePages(pages!),
-                            child: _defaultControlButton(iconToLast),
-                          ),
-                        ],
-                      ),
-                    ),
-                // Row(
-                //   children: [
-                //     // button for prev
-                //     // button for next
-                //   ],
-                // )
-              ],
-            ),
-          )
+                        ),
+                  // Row(
+                  //   children: [
+                  //     // button for prev
+                  //     // button for next
+                  //   ],
+                  // )
+                ],
+              ),
+            )
           : widget.emptyListWidget!,
     );
   }
@@ -444,11 +463,16 @@ class _PaginatedGridViewState<I> extends State<PaginatedGridView> {
   }
 
   bool onNotification(ScrollNotification notification) {
-    if (notification is ScrollUpdateNotification && _scrollController.hasClients) {
-      if (_scrollController.position.maxScrollExtent > _scrollController.offset &&
-          _scrollController.position.maxScrollExtent - _scrollController.offset <= 50) {
+    if (notification is ScrollUpdateNotification &&
+        _scrollController.hasClients) {
+      if (_scrollController.position.maxScrollExtent >
+              _scrollController.offset &&
+          _scrollController.position.maxScrollExtent -
+                  _scrollController.offset <=
+              50) {
         if (loadMoreStatus != null && loadMoreStatus == LoadMoreStatus.STABLE) {
-          Fimber.d("calling again.................................................");
+          Fimber.d(
+              "calling again.................................................");
           loadMoreStatus = LoadMoreStatus.LOADING;
           itemOperation = CancelableOperation.fromFuture(widget.controller
               .getData(filterModel: widget.filter, pageNumber: currentPage + 1)

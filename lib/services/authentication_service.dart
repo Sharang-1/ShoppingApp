@@ -27,12 +27,14 @@ class AuthenticationService {
 
   Future<dynamic> verifyOTP({
     required otp,
+    required name,
   }) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String phoneNo = prefs.getString(PhoneNo) ?? "";
     return _apiService.verifyOTP(
       phoneNo: phoneNo,
       otp: otp,
+      name: name,
       fcm: locator<PushNotificationService>().fcmToken,
     );
   }

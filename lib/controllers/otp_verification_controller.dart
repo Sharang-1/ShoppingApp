@@ -32,10 +32,14 @@ class OtpVerificationController extends BaseController {
   String ageVal;
   String genderVal;
 
-  OtpVerificationController({required this.ageId, required this.genderId, required this.genderVal, required
-   this.ageVal});
+  OtpVerificationController(
+      {required this.ageId,
+      required this.genderId,
+      required this.genderVal,
+      required this.ageVal});
 
-  final AuthenticationService _authenticationService = locator<AuthenticationService>();
+  final AuthenticationService _authenticationService =
+      locator<AuthenticationService>();
   final APIService _apiService = locator<APIService>();
   final AddressService _addressService = locator<AddressService>();
   final AnalyticsService _analyticsService = locator<AnalyticsService>();
@@ -98,8 +102,8 @@ class OtpVerificationController extends BaseController {
   Future<void> resendOTP() async {
     // resend otp here.
     setBusy(true);
-    final result =
-        await _authenticationService.loginWithPhoneNo(phoneNo: phoneNo, name: name, resend: true);
+    final result = await _authenticationService.loginWithPhoneNo(
+        phoneNo: phoneNo, name: name, resend: true);
     print("Reset OTP Results : ");
     print(result);
     setBusy(false);
@@ -129,7 +133,7 @@ class OtpVerificationController extends BaseController {
   }) async {
     setBusy(true);
 
-    var result = await _authenticationService.verifyOTP(otp: otp);
+    var result = await _authenticationService.verifyOTP(otp: otp, name: name);
 
     setBusy(false);
 
@@ -145,7 +149,8 @@ class OtpVerificationController extends BaseController {
       await _apiService.updateUserData(mUserDetails);
 
       try {
-        await _analyticsService.sendAnalyticsEvent(eventName: "login", parameters: {});
+        await _analyticsService
+            .sendAnalyticsEvent(eventName: "login", parameters: {});
       } catch (e) {}
 
       NavigationService.off(OtpVerifiedRoute);

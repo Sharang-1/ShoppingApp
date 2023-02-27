@@ -104,8 +104,8 @@ class BottomsheetLoginController extends BaseController {
     }
     setBusy(true);
 
-    var result =
-        await _authenticationService.verifyOTP(otp: otpController.text.trim());
+    var result = await _authenticationService.verifyOTP(
+        otp: otpController.text.trim(), name: (nameController.text).trim());
 
     setBusy(false);
 

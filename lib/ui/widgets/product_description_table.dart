@@ -42,10 +42,10 @@ class ProductDescriptionTable extends StatelessWidget {
         if (s.connectionState == ConnectionState.done) {
           if (s.error != null) {
             return Container(
-              child: Text(
-                s.error.toString(),
-              ),
-            );
+                // child: Text(
+                //   s.error.toString(),
+                // ),
+                );
           }
 
           var lookups = s.data;
@@ -62,23 +62,29 @@ class ProductDescriptionTable extends StatelessWidget {
           return Table(
             children: [
               // divider
-              if (((product.art?.length ?? 0) > 0) && product.art!.trim() != "N/A")
+              if (((product.art?.length ?? 0) > 0) &&
+                  product.art!.trim() != "N/A")
                 getProductDetailsRow("Art", product.art),
               // divider,
-              if (product.fabricDetails != null && product.fabricDetails != "" && product.fabricDetails!.trim() != 'N/A')
+              if (product.fabricDetails != null &&
+                  product.fabricDetails != "" &&
+                  product.fabricDetails!.trim() != 'N/A')
                 getProductDetailsRow(
                   "Fabric Feel",
                   product.fabricDetails,
                 ),
               // divider
-              if (((product.weaveType?.length ?? 0) > 0) && product.weaveType!.trim() != 'N/A')
+              if (((product.weaveType?.length ?? 0) > 0) &&
+                  product.weaveType!.trim() != 'N/A')
                 getProductDetailsRow("Weave Type", product.weaveType),
               // divider,
-              if (product.pricePerMeter != null && product.pricePerMeter != 0 )
+              if (product.pricePerMeter != null && product.pricePerMeter != 0)
                 getProductDetailsRow(
                     "Price Per Meter", product.pricePerMeter?.toString()),
               // divider,
-              if (product.typeOfWork != null && product.typeOfWork != "" && product.typeOfWork!.trim() != 'N/A')
+              if (product.typeOfWork != null &&
+                  product.typeOfWork != "" &&
+                  product.typeOfWork!.trim() != 'N/A')
                 getProductDetailsRow(
                   "Type Of Work",
                   product.typeOfWork,
@@ -121,13 +127,16 @@ class ProductDescriptionTable extends StatelessWidget {
                   product.style,
                 ),
               // divider
-              if ((product.bottomStyle?.length ?? 0) > 0 && product.bottomStyle!.trim() != 'N/A')
+              if ((product.bottomStyle?.length ?? 0) > 0 &&
+                  product.bottomStyle!.trim() != 'N/A')
                 getProductDetailsRow("Bottom Style", product.bottomStyle),
               // divider
-              if ((product.fittingType?.length ?? 0) > 0 && product.fittingType!.trim() != 'N/A')
+              if ((product.fittingType?.length ?? 0) > 0 &&
+                  product.fittingType!.trim() != 'N/A')
                 getProductDetailsRow("Fitting Type", product.fittingType),
               // divider
-              if ((product.riseStyle?.length ?? 0) > 0 && product.riseStyle!.trim() != 'N/A')
+              if ((product.riseStyle?.length ?? 0) > 0 &&
+                  product.riseStyle!.trim() != 'N/A')
                 getProductDetailsRow("Rise Style", product.riseStyle),
               // divider,
               if (product.flair != null && product.flair != 0)
@@ -162,29 +171,39 @@ class ProductDescriptionTable extends StatelessWidget {
                       product.sleeveLength?.id ?? 0),
                 ),
               // divider,
-              if (product.neck != null && product.neck != "" && product.neck!.trim() != "N/A")
+              if (product.neck != null &&
+                  product.neck != "" &&
+                  product.neck!.trim() != "N/A")
                 getProductDetailsRow("Neck Type", product.neck?.toString()),
               // divider,
-              if (product.neckCut != null && product.neckCut != "" && product.neckCut!.trim() != "N/A")
+              if (product.neckCut != null &&
+                  product.neckCut != "" &&
+                  product.neckCut!.trim() != "N/A")
                 getProductDetailsRow(
                   "Neck Cut",
                   product.neckCut,
                 ),
               // divider,
-              if (product.backCut != null && product.backCut != "" && product.backCut!.trim() != "N/A")
+              if (product.backCut != null &&
+                  product.backCut != "" &&
+                  product.backCut!.trim() != "N/A")
                 getProductDetailsRow(
                   "Back Type",
                   product.backCut,
                 ),
               // divider
-              if ((product.closureType?.length ?? 0) > 0 && product.closureType!.trim() != 'N/A')
+              if ((product.closureType?.length ?? 0) > 0 &&
+                  product.closureType!.trim() != 'N/A')
                 getProductDetailsRow("ClosureType", product.closureType),
               // divider,
-              if ((product.washing != null) && (product.washing != '') && product.washing!.trim() != "N/A")
+              if ((product.washing != null) &&
+                  (product.washing != '') &&
+                  product.washing!.trim() != "N/A")
                 getProductDetailsRow("Washing", product.washing?.toString()),
               // divider,
               if ((product.occasionToWearIn != null) &&
-                  (product.occasionToWearIn != '') && product.occasionToWearIn!.trim() != "N/A")
+                  (product.occasionToWearIn != '') &&
+                  product.occasionToWearIn!.trim() != "N/A")
                 getProductDetailsRow(
                   "Occasion To Wear In",
                   product.occasionToWearIn?.toString(),
@@ -200,7 +219,9 @@ class ProductDescriptionTable extends StatelessWidget {
                   ),
                 ),
               // divider,
-              if (product.typeOfSaree != null && product.typeOfSaree != "" && product.typeOfSaree!.trim() != "N/A")
+              if (product.typeOfSaree != null &&
+                  product.typeOfSaree != "" &&
+                  product.typeOfSaree!.trim() != "N/A")
                 getProductDetailsRow("Type of Saree", product.typeOfSaree),
               // divider,
               //changed on 21 jan '23
@@ -237,7 +258,9 @@ class ProductDescriptionTable extends StatelessWidget {
                       product.blousePadding?.id ?? 0),
                 ),
               // divider,
-              if (product.dimensions != null && product.dimensions != "" && product.dimensions!.trim() != "N/A")
+              if (product.dimensions != null &&
+                  product.dimensions != "" &&
+                  product.dimensions!.trim() != "N/A")
                 getProductDetailsRow(
                   "Dimensions",
                   product.dimensions,
