@@ -30,6 +30,7 @@ class CartGridViewBuilderController
           .toList();
       res.items = filteredItems;
       print(res);
+      // ignore: unnecessary_null_comparison
       if (res == null) throw "Could not load";
       return res;
     }

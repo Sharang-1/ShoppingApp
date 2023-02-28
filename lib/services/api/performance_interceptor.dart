@@ -26,6 +26,7 @@ class PerformanceInterceptor extends Interceptor {
       _map[requestKey] = metric;
       final requestContentLength = requestContentLengthMethod(options);
       await metric.start();
+      // ignore: unnecessary_null_comparison
       if (requestContentLength != null) {
         metric.requestPayloadSize = requestContentLength;
       }
@@ -89,10 +90,12 @@ int defaultResponseContentLength(Response response) {
 extension _ResponseHttpMetric on HttpMetric {
   void setResponse(
       Response value, ResponseContentLengthMethod responseContentLengthMethod) {
+    // ignore: unnecessary_null_comparison
     if (value == null) {
       return;
     }
     final responseContentLength = responseContentLengthMethod(value);
+    // ignore: unnecessary_null_comparison
     if (responseContentLength != null) {
       responsePayloadSize = responseContentLength;
     }

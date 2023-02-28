@@ -28,6 +28,7 @@ class BottomsheetSizeController extends BaseController {
   init() async {
     UserDetails? _userDetails = await locator<APIService>().getUserData();
     Measure _measure = _userDetails!.measure!;
+    // ignore: unnecessary_null_comparison
     if (_measure != null) {
       if (_measure.shoulders != null)
         size1Controller.text = _measure.shoulders.toString();

@@ -470,6 +470,7 @@ class _PaginatedGridViewState<I> extends State<PaginatedGridView> {
           _scrollController.position.maxScrollExtent -
                   _scrollController.offset <=
               50) {
+        // ignore: unnecessary_null_comparison
         if (loadMoreStatus != null && loadMoreStatus == LoadMoreStatus.STABLE) {
           Fimber.d(
               "calling again.................................................");

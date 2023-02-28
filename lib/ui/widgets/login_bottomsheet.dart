@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:pin_code_text_field/pin_code_text_field.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../constants/route_names.dart';
 import '../../constants/server_urls.dart';
@@ -159,8 +159,8 @@ class LoginBottomsheet extends StatelessWidget {
                           InkWell(
                             onTap: () async {
                               const url = TERMS_AND_CONDITIONS_URL;
-                              if (await canLaunch(url)) {
-                                await launch(url);
+                              if (await canLaunchUrlString(url)) {
+                                await launchUrlString(url);
                               }
                             },
                             child: Text(
@@ -186,8 +186,8 @@ class LoginBottomsheet extends StatelessWidget {
                               )
                           : controller.login,
                   style: ElevatedButton.styleFrom(
-                    primary: lightGreen,
-                    onPrimary: Colors.white,
+                    foregroundColor: Colors.white,
+                    backgroundColor: lightGreen,
                     elevation: 0,
                   ),
                   child:

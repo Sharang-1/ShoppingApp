@@ -42,6 +42,7 @@ class DynamicContentController extends BaseController {
       case "seller":
         if (data["id"] == null) return;
         Seller seller = await locator<APIService>().getSellerByID(data["id"]);
+        // ignore: unnecessary_null_comparison
         if (seller == null) return;
         await wait();
         if (seller.subscriptionTypeId == 2) {
@@ -70,6 +71,7 @@ class DynamicContentController extends BaseController {
         Promotion promotion = promotions.promotions!
             .where((element) => element.key == data["id"])
             .toList()[0];
+        // ignore: unnecessary_null_comparison
         if (promotion == null) return;
         await wait();
         await Navigator.push(

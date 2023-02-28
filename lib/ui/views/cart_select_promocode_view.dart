@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:page_transition/page_transition.dart';
 
 import '../../app/groupOrderData.dart';
-import '../../controllers/base_controller.dart';
 import '../../locator.dart';
 import '../../models/coupon.dart';
 import '../../models/groupOrderModel.dart';
@@ -15,8 +13,6 @@ import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
 import '../widgets/custom_stepper.dart';
 import '../widgets/custom_text.dart';
-import '../widgets/order_details_bottomsheet.dart';
-import 'cart_select_delivery_view.dart';
 
 class SelectPromocode extends StatefulWidget {
   final double finalTotal;
@@ -97,7 +93,7 @@ class _SelectPromocodeState extends State<SelectPromocode> {
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     elevation: 0,
-                    primary: lightGreen,
+                    backgroundColor: lightGreen,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -169,8 +165,8 @@ class _SelectPromocodeState extends State<SelectPromocode> {
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             elevation: 0,
+                            backgroundColor: Colors.white,
                             padding: EdgeInsets.all(0),
-                            primary: Colors.white,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30),
                             ),

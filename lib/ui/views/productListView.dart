@@ -173,7 +173,7 @@ class _ProductListViewState extends State<ProductListView> {
                       ));
                 },
               );
-
+              // ignore: unnecessary_null_comparison
               if (filterDialogResponse != null) {
                 setState(() {
                   showRandomProducts = false;

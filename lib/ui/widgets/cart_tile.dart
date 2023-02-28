@@ -43,10 +43,10 @@ class _CartTileState extends State<CartTile> {
   @override
   void initState() {
     item = widget.item;
-    quantity = item.quantity! >= 1 ? item.quantity as int : 1;
-    item.quantity = item.quantity! >= 1 ? item.quantity : 1;
+    quantity = item.quantity >= 1 ? item.quantity as int : 1;
+    item.quantity = item.quantity >= 1 ? item.quantity : 1;
     finalTotal =
-        (item.product!.cost!.costToCustomer! * item.quantity!).toDouble();
+        (item.product!.cost!.costToCustomer! * item.quantity).toDouble();
     setUpOrderDetails();
     super.initState();
   }
@@ -77,32 +77,32 @@ class _CartTileState extends State<CartTile> {
       promocode: promoCode,
       promocodeDiscount: '$rupeeUnicode$promoCodeDiscount',
       price: rupeeUnicode +
-          (widget.item.quantity! * widget.item.product!.cost!.cost!).toString(),
+          (widget.item.quantity * widget.item.product!.cost!.cost!).toString(),
       discount: "${widget.item.product!.discount.toString()} %",
       discountedPrice: rupeeUnicode +
           (((widget.item.product!.price! -
                       (widget.item.product!.price! *
                           widget.item.product!.discount! /
                           100)) *
-                  (widget.item.quantity ?? 0))
+                  (widget.item.quantity))
               .toString()),
       convenienceCharges:
           '${widget.item.product?.cost?.convenienceCharges?.rate} %',
       gst:
-          '$rupeeUnicode${((widget.item.quantity ?? 1) * (widget.item.product?.cost?.gstCharges?.cost ?? 0)).toStringAsFixed(2)} (${widget.item.product?.cost?.gstCharges?.rate}%)',
+          '$rupeeUnicode${((widget.item.quantity) * (widget.item.product?.cost?.gstCharges?.cost ?? 0)).toStringAsFixed(2)} (${widget.item.product?.cost?.gstCharges?.rate}%)',
       deliveryCharges: "-",
       actualPrice:
-          "$rupeeUnicode ${((widget.item.quantity ?? 1) * ((widget.item.product?.cost?.cost ?? 0) + (widget.item.product?.cost?.gstCharges?.cost ?? 0)) + (widget.item.product?.cost?.convenienceCharges?.cost ?? 0)).toStringAsFixed(2)}",
+          "$rupeeUnicode ${((widget.item.quantity) * ((widget.item.product?.cost?.cost ?? 0) + (widget.item.product?.cost?.gstCharges?.cost ?? 0)) + (widget.item.product?.cost?.convenienceCharges?.cost ?? 0)).toStringAsFixed(2)}",
       saved:
           // ignore: deprecated_member_use
-          "$rupeeUnicode ${(((widget.item.quantity ?? 1) * ((widget.item.product?.cost?.cost ?? 0) + (widget.item.product?.cost?.gstCharges?.cost ?? 0)) + (widget.item.product?.cost?.convenienceCharges?.cost ?? 0)) - finalTotal).toStringAsFixed(0)}",
+          "$rupeeUnicode ${(((widget.item.quantity) * ((widget.item.product?.cost?.cost ?? 0) + (widget.item.product?.cost?.gstCharges?.cost ?? 0)) + (widget.item.product?.cost?.convenienceCharges?.cost ?? 0)) - finalTotal).toStringAsFixed(0)}",
       total: rupeeUnicode + finalTotal.toStringAsFixed(2),
     );
   }
 
   void increseQty() {
     setState(() {
-      item.quantity = item.quantity! + 1;
+      item.quantity = item.quantity + 1;
       quantity++;
       print(quantity);
       setUpProductPrices();
@@ -113,7 +113,7 @@ class _CartTileState extends State<CartTile> {
 
   void decreaseQty() {
     setState(() {
-      item.quantity = item.quantity! - 1;
+      item.quantity = item.quantity - 1;
       quantity--;
       setUpProductPrices();
       APIService().addToCart(item.productId.toString(), quantity,

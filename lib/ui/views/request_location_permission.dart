@@ -23,14 +23,14 @@ class RequestLocationPermission extends StatelessWidget {
                   Get.lazyPut(() => LocationService());
                 },
                 style: ElevatedButton.styleFrom(
-                    elevation: 0,
-                    primary: logoRed,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
+                  elevation: 0,
+                  backgroundColor: logoRed,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
                   ),
+                ),
                 child: Text("Allow")),
-                ElevatedButton(
+            ElevatedButton(
                 onPressed: () {
                   Future.delayed(const Duration(milliseconds: 1000), () {
                     SystemChannels.platform.invokeMethod('SystemNavigator.pop');
@@ -38,7 +38,7 @@ class RequestLocationPermission extends StatelessWidget {
                 },
                 style: ElevatedButton.styleFrom(
                   elevation: 0,
-                  primary: logoRed,
+                  backgroundColor: logoRed,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),

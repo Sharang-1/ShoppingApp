@@ -3,9 +3,11 @@ import 'package:compound/ui/views/home_screen.dart';
 import 'package:compound/ui/views/myorders_view.dart';
 import 'package:compound/ui/views/settings_page_view.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
+// import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:video_player/video_player.dart';
 
 import '../../constants/route_names.dart';
 import '../../controllers/base_controller.dart';
@@ -34,7 +36,16 @@ class _HomeViewState extends State<HomeView> {
 
   final GlobalKey logoKey = GlobalKey();
 
+  late final VideoPlayerController videoController;
+
   int _activeIndex = 2;
+
+  @override
+  void initState() {
+    videoController = VideoPlayerController.asset('assets/videos/test.mp4')
+      ..setVolume(0.5);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +73,19 @@ class _HomeViewState extends State<HomeView> {
                 top: true,
                 bottom: false,
                 child: Scaffold(
+                  // floatingActionButton: Container(
+                  //     height: 200,
+                  //     width: 150,
+                  //     child: FlickVideoPlayer(
+                  //       flickVideoWithControls: FlickVideoWithControls(
+                  //         backgroundColor: Colors.white,
+                  //         controls: FlickPortraitControls(),
+                  //       ),
+                  //       flickManager: FlickManager(
+                  //         videoPlayerController: videoController,
+                  //         autoPlay: true,
+                  //       ),
+                  //     )),
                   drawerEdgeDragWidth: 0,
                   primary: true,
                   backgroundColor: Colors.white,
@@ -127,6 +151,7 @@ class _HomeViewState extends State<HomeView> {
                         });
                         if (i == 1 || i == 3) {
                           controller.isLoggedIn
+                              // ignore: unnecessary_statements
                               ? () {}
                               : await BaseController.showLoginPopup(
                                   nextView: HomeViewRoute,

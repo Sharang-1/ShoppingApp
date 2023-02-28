@@ -68,6 +68,7 @@ class Item {
         "productId": productId,
         "size": size == null ? null : size,
         "color": color == null ? null : color,
+        // ignore: unnecessary_null_comparison
         "quantity": quantity == null ? null : quantity,
         "inserted": inserted,
         "product": product?.toJson(),

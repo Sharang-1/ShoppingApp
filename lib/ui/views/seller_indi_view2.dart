@@ -11,7 +11,7 @@ import 'package:readmore/readmore.dart';
 import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../constants/dynamic_links.dart';
 import '../../constants/route_names.dart';
@@ -21,7 +21,6 @@ import '../../controllers/grid_view_builder/products_grid_view_builder_controlle
 import '../../controllers/home_controller.dart';
 import '../../locator.dart';
 import '../../models/grid_view_builder_filter_models/productFilter.dart';
-import '../../models/newSellers.dart';
 import '../../models/productPageArg.dart';
 import '../../models/sellers.dart';
 import '../../services/analytics_service.dart';
@@ -107,7 +106,7 @@ class _SellerIndi2State extends State<SellerIndi2> {
     Day today = Day.fromJson(
         timingJson[DateFormat('EEEE').format(_dateTime).toLowerCase()]);
     if (today.start == 0 && today.end == 0) return "";
-    return "${getTime(today.start as int? ?? 0)} - ${getTime(today.end as int? ?? 0)}";
+    return "${getTime(today.start ?? 0)} - ${getTime(today.end ?? 0)}";
   }
 
   bool isOpenNow(Timing timing) {
@@ -163,6 +162,7 @@ class _SellerIndi2State extends State<SellerIndi2> {
   getImageName() async {
     // print(
     //     ".................. ggggggggggg ........ ${widget.key.toString()}.................");
+    // ignore: unnecessary_null_comparison
     if (widget.data != null)
       setState(() async {
         sellerBackImageModel = await apiService.getImageData(widget.data.key!);
@@ -1133,6 +1133,7 @@ class _SellerIndi2State extends State<SellerIndi2> {
         ));
   }
 
+  // ignore: unused_element
   void _showBottomSheet(context, sellerDetails) {
     print("check this " + MediaQuery.of(context).size.height.toString());
     showModalBottomSheet(
@@ -1177,8 +1178,8 @@ class MapUtils {
   static Future<void> openMap(double latitude, double longitude) async {
     String googleUrl =
         'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
-    if (await canLaunch(googleUrl)) {
-      await launch(googleUrl);
+    if (await canLaunchUrlString(googleUrl)) {
+      await launchUrlString(googleUrl);
     } else {
       throw 'Could not open the map.';
     }

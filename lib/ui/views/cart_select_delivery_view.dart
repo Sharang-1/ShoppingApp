@@ -108,7 +108,7 @@ class _SelectAddressState extends State<SelectAddress> {
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       elevation: 0,
-                      primary: lightGreen,
+                      backgroundColor: lightGreen,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -284,7 +284,7 @@ class _SelectAddressState extends State<SelectAddress> {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         elevation: 5,
-                        primary: darkRedSmooth,
+                        backgroundColor: darkRedSmooth,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -296,6 +296,7 @@ class _SelectAddressState extends State<SelectAddress> {
                           context: context,
                           builder: (_) => BottomSheetForAddress(),
                         );
+                        // ignore: unnecessary_null_comparison
                         if (userAdd != null) {
                           controller.addAddress(userAdd);
                         }

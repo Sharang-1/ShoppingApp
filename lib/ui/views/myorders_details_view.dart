@@ -480,6 +480,7 @@ class _MyOrdersDetailsViewState extends State<MyOrdersDetailsView> {
                                                   100,
                                               padding: EdgeInsets.zero,
                                               linearStrokeCap:
+                                                  // ignore: deprecated_member_use
                                                   LinearStrokeCap.roundAll,
                                               linearGradient: LinearGradient(
                                                   colors: [

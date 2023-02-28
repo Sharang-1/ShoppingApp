@@ -7,7 +7,6 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:vibration/vibration.dart';
 
 import '../constants/route_names.dart';
-import '../constants/server_urls.dart';
 import '../constants/shared_pref.dart';
 import '../locator.dart';
 import '../models/productPageArg.dart';
@@ -61,8 +60,8 @@ class BaseController extends GetxController {
   }
 
   static Future<void> launchURL(url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url);
     }
   }
 
@@ -117,7 +116,7 @@ class BaseController extends GetxController {
       //     ),
       //   );
       // } else {
-        return NavigationService.to(SellerIndiViewRoute, arguments: seller);
+      return NavigationService.to(SellerIndiViewRoute, arguments: seller);
       // }
     } else {
       // if (seller.subscriptionTypeId == 2) {
@@ -131,11 +130,11 @@ class BaseController extends GetxController {
       //     ),
       //   );
       // } else {
-        await showLoginPopup(
-          nextView: SellerIndiViewRoute,
-          shouldNavigateToNextScreen: true,
-          arguments: seller,
-        );
+      await showLoginPopup(
+        nextView: SellerIndiViewRoute,
+        shouldNavigateToNextScreen: true,
+        arguments: seller,
+      );
       // }
     }
   }

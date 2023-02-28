@@ -25,9 +25,9 @@ class CategoriesGridViewBuilderController
         "startIndex=${pageSize * (pageNumber - 1)};limit=$pageSize;" +
             filterModel.queryString;
     Categorys res = await _apiService.getCategory(queryString: _queryString);
-    if (res == null) {
+    if (res.items == null) {
       res = await _apiService.getCategory(queryString: _queryString);
-      if (res == null) throw "Could not load";
+      if (res.items == null) throw "Could not load";
     }
 
     res.items = res.items!.where((element) => element.forApp!).toList();

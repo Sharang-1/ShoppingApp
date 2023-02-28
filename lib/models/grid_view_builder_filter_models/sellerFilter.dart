@@ -9,7 +9,7 @@ class SellerFilter implements BaseFilterModel {
     required this.name,
   }) {
     _queryString = "";
-    if (name != null) _queryString += "name=$name;";
+    if (name.isNotEmpty) _queryString += "name=$name;";
   }
 
   @override

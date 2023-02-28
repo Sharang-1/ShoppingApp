@@ -119,8 +119,8 @@ class SizeBottomsheet extends StatelessWidget {
                           child: ElevatedButton(
                             onPressed: controller.submit,
                             style: ElevatedButton.styleFrom(
-                              primary: lightGreen,
-                              onPrimary: Colors.white,
+                              foregroundColor: Colors.white,
+                              backgroundColor: lightGreen,
                               elevation: 0,
                             ),
                             child: Text("Continue To Bag"),
@@ -131,8 +131,8 @@ class SizeBottomsheet extends StatelessWidget {
                           child: ElevatedButton(
                             onPressed: controller.skip,
                             style: ElevatedButton.styleFrom(
-                              onPrimary: Colors.black,
-                              primary: Colors.white,
+                              foregroundColor: Colors.black,
+                              backgroundColor: Colors.white,
                               elevation: 0,
                             ),
                             child: Text("Skip"),

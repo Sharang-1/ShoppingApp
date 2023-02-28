@@ -9,7 +9,6 @@ import '../../models/grid_view_builder_filter_models/wishlist_filter_model.dart'
 import '../../models/products.dart';
 import '../shared/ui_helpers.dart';
 import '../widgets/grid_list_widget.dart';
-import '../widgets/product_tile_ui.dart';
 
 class WishList extends StatefulWidget {
   WishList({Key? key}) : super(key: key);
@@ -75,8 +74,7 @@ class _WishListState extends State<WishList> {
                           filter: filter,
                           onEmptyList: () {},
                           emptyListWidget: EmptyListWidget(
-                                      text:
-                                          "Add items to wishlist to see them here!"),
+                              text: "Add items to wishlist to see them here!"),
                           gridCount: 1,
                           disablePagination: true,
                           controller: WishListGridViewBuilderController(),

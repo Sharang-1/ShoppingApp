@@ -164,7 +164,7 @@ class _VerifyOTPViewState extends State<VerifyOTPView> {
     return GetBuilder<OtpVerificationController>(
       init: OtpVerificationController(
         ageId: widget.ageId,
-        ageVal: ageValues[widget.ageId],
+        ageVal: ageValues[1],
         genderId: widget.genderId,
         genderVal: genderValues[widget.genderId],
       ),

@@ -4,11 +4,9 @@ import 'package:flutter/material.dart';
 
 import '../constants/route_names.dart';
 import '../locator.dart';
-import '../models/orders.dart';
 import '../services/api/api_service.dart';
 import '../services/navigation_service.dart';
 import '../ui/views/home_view.dart';
-import '../ui/views/myorders_details_view.dart';
 import 'base_controller.dart';
 import 'cart_controller.dart';
 
@@ -28,7 +26,9 @@ class OrdersController extends BaseController {
 
   static Future orderPlaced(context) async {
     Future.delayed(Duration(milliseconds: 2500), () async {
-      List<ov2.Order> allOrders = (await locator<APIService>().getAllOrders())!.orders!;
+      List<ov2.Order> allOrders =
+          (await locator<APIService>().getAllOrders())!.orders!;
+      // ignore: unused_local_variable
       late ov2.Order o;
       if (appVar.previousOrders.length != 0) {
         for (int i = 0; i < appVar.previousOrders.length; i++) {
@@ -51,7 +51,8 @@ class OrdersController extends BaseController {
         ),
         ModalRoute.withName(HomeViewRoute),
       );
-      if (await CartController().hasProducts()) await NavigationService.to(CartViewRoute);
+      if (await CartController().hasProducts())
+        await NavigationService.to(CartViewRoute);
     });
   }
 

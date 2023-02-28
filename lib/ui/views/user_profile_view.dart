@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../constants/server_urls.dart';
 import '../../controllers/base_controller.dart';
@@ -37,11 +37,13 @@ class SettingsView extends StatelessWidget {
 
   final Map<int, void Function()> settingOnTapMap = {
     1: () => Platform.isAndroid
-        ? launch("https://play.google.com/store/apps/details?id=in.dzor.dzor_app&hl=en_IN&gl=US")
-        : launch("https://apps.apple.com/in/app/dzor/id1562083632"),
+        ? launchUrlString(
+            "https://play.google.com/store/apps/details?id=in.dzor.dzor_app&hl=en_IN&gl=US")
+        : launchUrlString("https://apps.apple.com/in/app/dzor/id1562083632"),
     2: () => Platform.isAndroid
-        ? launch("https://play.google.com/store/apps/details?id=in.dzor.dzor_app&hl=en_IN&gl=US")
-        : launch("https://apps.apple.com/in/app/dzor/id1562083632"),
+        ? launchUrlString(
+            "https://play.google.com/store/apps/details?id=in.dzor.dzor_app&hl=en_IN&gl=US")
+        : launchUrlString("https://apps.apple.com/in/app/dzor/id1562083632"),
     // 1: () => OpenAppstore.launch(
     //     androidAppId: "in.dzor.dzor_app", iOSAppId: "1562083632"),
     // 2: () => OpenAppstore.launch(

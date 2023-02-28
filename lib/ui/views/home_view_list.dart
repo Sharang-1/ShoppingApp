@@ -2,7 +2,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:compound/ui/views/dynamic_section_builder2.dart';
 import 'package:compound/ui/views/dynamic_section_builder3.dart';
 import 'package:compound/ui/views/dynamic_section_builder4.dart';
-import 'package:compound/ui/views/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -22,7 +21,6 @@ import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
 import '../widgets/home_view_list_header.dart';
 import '../widgets/product_tile_ui.dart';
-import '../widgets/product_tile_ui_2.dart';
 import '../widgets/promotion_slider.dart';
 import '../widgets/section_builder.dart';
 import '../widgets/shimmer/shimmer_widget.dart';
@@ -1347,7 +1345,7 @@ class _HomeViewListState extends State<HomeViewList> {
                                           controller.showSellers();
                                         },
                                         style: TextButton.styleFrom(
-                                          primary: Colors.white,
+                                          foregroundColor: Colors.white,
                                           backgroundColor: logoRed,
                                           textStyle: TextStyle(
                                               fontWeight: FontWeight.bold,

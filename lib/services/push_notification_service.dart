@@ -1,4 +1,3 @@
-
 import 'package:fimber/fimber.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
@@ -26,6 +25,7 @@ class PushNotificationService {
     //   ),
     // );
 
+    // ignore: unused_local_variable
     NotificationSettings settings = await _fcm.requestPermission(
       alert: true,
       announcement: false,
@@ -104,6 +104,7 @@ class PushNotificationService {
     print('onBackgroundMessage: $message');
   }
 
+  // ignore: unused_element
   void _serialiseAndNavigate(Map<String, dynamic> message) {
     try {
       var notificationData = message['data'];
@@ -111,7 +112,7 @@ class PushNotificationService {
       String id = notificationData['id'];
 
       print("Push Notification Data : $contentType $id");
-      if (contentType != null) {
+      if (contentType.isNotEmpty) {
         Map<String, String> data = {
           "contentType": contentType,
           "id": id,

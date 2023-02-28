@@ -263,6 +263,7 @@ class _MyOrdersDetailsViewV1State extends State<MyOrdersDetailsViewV1> {
                                               : 100) /
                                           100,
                                       padding: EdgeInsets.zero,
+                                      // ignore: deprecated_member_use
                                       linearStrokeCap: LinearStrokeCap.roundAll,
                                       linearGradient: LinearGradient(
                                           colors: [textIconOrange, logoRed]),
@@ -598,7 +599,7 @@ class _MyOrdersDetailsViewV1State extends State<MyOrdersDetailsViewV1> {
                               ElevatedButton(
                                 style: ElevatedButton.styleFrom(
                                   elevation: 0,
-                                  primary: Colors.white,
+                                  backgroundColor: Colors.white,
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10),
                                       side: BorderSide(

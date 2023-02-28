@@ -3,8 +3,6 @@ import 'dart:io';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:overlay_support/overlay_support.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 // import 'package:image_picker/image_picker.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -155,7 +153,7 @@ class _ProfileViewState extends State<ProfileView> {
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     elevation: 0,
-                    primary: Colors.redAccent,
+                    backgroundColor: Colors.redAccent,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -187,7 +185,8 @@ class _ProfileViewState extends State<ProfileView> {
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     elevation: 0,
-                    primary: isButtonActive ? lightGreen : Colors.grey[400],
+                    backgroundColor:
+                        isButtonActive ? lightGreen : Colors.grey[400],
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -607,6 +606,7 @@ class _ProfileViewState extends State<ProfileView> {
                                               builder: (_) =>
                                                   BottomSheetForAddress(),
                                             );
+                                            // ignore: unnecessary_null_comparison
                                             if (userAdd != null) {
                                               controller.mUserDetails!.contact!
                                                       .googleAddress =

@@ -283,6 +283,7 @@ class _ExploreProductTileUIState extends State<ExploreProductTileUI> {
                               ),
                             ),
                           ),
+                          // ignore: unnecessary_null_comparison
                           if ((productDiscount != null) &&
                               (productDiscount != 0.0))
                             Text(

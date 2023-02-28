@@ -17,13 +17,15 @@ class LocationService {
   late UserLocation currentLocation;
   Location location = Location();
   // Continuously emit location updates
-  StreamController<UserLocation> _locationController = StreamController<UserLocation>.broadcast();
+  StreamController<UserLocation> _locationController =
+      StreamController<UserLocation>.broadcast();
 
   LocationService() {
     // getUserLocation();
     location.requestPermission().then((granted) {
       if (granted == PermissionStatus.granted) {
         location.onLocationChanged.listen(((locationData) {
+          // ignore: unnecessary_null_comparison
           if (locationData != null) {
             currentLocation = UserLocation(
               latitude: locationData.latitude,

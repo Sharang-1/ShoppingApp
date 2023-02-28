@@ -5,7 +5,6 @@ import 'package:intl/intl.dart';
 
 import '../../constants/server_urls.dart';
 import '../../controllers/appointments_controller.dart';
-import '../../models/newSellers.dart';
 import '../../models/sellers.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
@@ -466,7 +465,7 @@ class _SellerBottomSheetViewState extends State<SellerBottomSheetView> {
                           child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 elevation: 5,
-                                primary: logoRed,
+                                backgroundColor: logoRed,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(30),
                                 ),

@@ -10,9 +10,8 @@ import 'package:intl/intl.dart';
 import 'package:readmore/readmore.dart';
 import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../constants/dynamic_links.dart';
 import '../../constants/route_names.dart';
@@ -36,7 +35,6 @@ import '../shared/ui_helpers.dart';
 import '../widgets/custom_text.dart';
 import '../widgets/reviews.dart';
 import '../widgets/section_builder.dart';
-import '../widgets/sellerAppointmentBottomSheet.dart';
 import '../widgets/seller_profile_slider.dart';
 
 class SellerIndi extends StatefulWidget {
@@ -106,15 +104,17 @@ class _SellerIndiState extends State<SellerIndi> {
   String getTimeString(Timing timing) {
     DateTime _dateTime = DateTime.now();
     Map<String, dynamic> timingJson = timing.toJson();
-    Day today = Day.fromJson(timingJson[DateFormat('EEEE').format(_dateTime).toLowerCase()]);
+    Day today = Day.fromJson(
+        timingJson[DateFormat('EEEE').format(_dateTime).toLowerCase()]);
     if (today.start == 0 && today.end == 0) return "";
-    return "${getTime(today.start as int? ?? 0)} - ${getTime(today.end as int? ?? 0)}";
+    return "${getTime(today.start ?? 0)} - ${getTime(today.end ?? 0)}";
   }
 
   bool isOpenNow(Timing timing) {
     DateTime _dateTime = DateTime.now();
     Map<String, dynamic> timingJson = timing.toJson();
-    Day today = Day.fromJson(timingJson[DateFormat('EEEE').format(_dateTime).toLowerCase()]);
+    Day today = Day.fromJson(
+        timingJson[DateFormat('EEEE').format(_dateTime).toLowerCase()]);
     if (today.open ?? false) {
       if ((_dateTime.hour >= today.start!) && (_dateTime.hour < today.end!))
         return true;
@@ -128,16 +128,18 @@ class _SellerIndiState extends State<SellerIndi> {
   void initState() {
     super.initState();
     try {
-      _analyticsService.sendAnalyticsEvent(eventName: "seller_view", parameters: <String, dynamic>{
-        "seller_id": widget.data.key,
-        "seller_name": widget.data.name,
-        "subscription_id": widget.data.subscriptionType?.id?.toString(),
-        "subscription_name": widget.data.subscriptionType?.name,
-        "establishment_id": widget.data.establishmentType?.id?.toString(),
-        "establishment_name": widget.data.establishmentType?.name,
-        "user_id": locator<HomeController>().details!.key,
-        "user_name": locator<HomeController>().details!.name,
-      });
+      _analyticsService.sendAnalyticsEvent(
+          eventName: "seller_view",
+          parameters: <String, dynamic>{
+            "seller_id": widget.data.key,
+            "seller_name": widget.data.name,
+            "subscription_id": widget.data.subscriptionType?.id?.toString(),
+            "subscription_name": widget.data.subscriptionType?.name,
+            "establishment_id": widget.data.establishmentType?.id?.toString(),
+            "establishment_name": widget.data.establishmentType?.name,
+            "user_id": locator<HomeController>().details!.key,
+            "user_name": locator<HomeController>().details!.name,
+          });
     } catch (e) {}
     showTutorial(
       context,
@@ -155,9 +157,12 @@ class _SellerIndiState extends State<SellerIndi> {
       DESIGNER_DETAILS_KEY.tr: data.key ?? "",
       DESIGNER_DETAILS_NAME.tr: data.name ?? "",
       DESIGNER_DETAILS_TYPE.tr: data.establishmentType?.name?.toString() ?? "",
-      DESIGNER_DETAILS_RATTINGS.tr: data.ratingAverage?.rating?.toString() ?? "",
-      DESIGNER_DETAILS_LAT.tr: data.contact?.geoLocation?.latitude?.toString() ?? "",
-      DESIGNER_DETAILS_LON.tr: data.contact?.geoLocation?.longitude?.toString() ?? "",
+      DESIGNER_DETAILS_RATTINGS.tr:
+          data.ratingAverage?.rating?.toString() ?? "",
+      DESIGNER_DETAILS_LAT.tr:
+          data.contact?.geoLocation?.latitude?.toString() ?? "",
+      DESIGNER_DETAILS_LON.tr:
+          data.contact?.geoLocation?.longitude?.toString() ?? "",
       DESIGNER_DETAILS_APPOINTMENT.tr: "false",
       DESIGNER_DETAILS_ADDRESS.tr: data.contact?.address ?? "",
       DESIGNER_DETAILS_CITY.tr: data.contact?.city ?? "",
@@ -219,13 +224,13 @@ class _SellerIndiState extends State<SellerIndi> {
           ];
 
           tutorialCoachMark = TutorialCoachMark(
-            
             targets: targets,
             colorShadow: Colors.black45,
             paddingFocus: 5,
             onClickOverlay: (targetFocus) => tutorialCoachMark.next(),
             onClickTarget: (targetFocus) => tutorialCoachMark.next(),
-            onFinish: () async => await prefs.setBool(ShouldShowDesignerProfileTutorial, false),
+            onFinish: () async =>
+                await prefs.setBool(ShouldShowDesignerProfileTutorial, false),
             hideSkip: true,
           );
         }
@@ -240,7 +245,8 @@ class _SellerIndiState extends State<SellerIndi> {
 
     setupSellerDetails(widget.data);
 
-    String designerProfilePicUrl = "$DESIGNER_PROFILE_PHOTO_BASE_URL/${sellerData.owner?.key}";
+    String designerProfilePicUrl =
+        "$DESIGNER_PROFILE_PHOTO_BASE_URL/${sellerData.owner?.key}";
 
     Timing _timing = sellerData.timing!;
 
@@ -250,7 +256,8 @@ class _SellerIndiState extends State<SellerIndi> {
         bottomNavigationBar: Container(
           color: Colors.grey[200],
           child: Padding(
-            padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom + 4.0, top: 4.0),
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).padding.bottom + 4.0, top: 4.0),
             child: Container(
               key: appointmentBtnKey,
               color: Colors.grey[200],
@@ -265,9 +272,11 @@ class _SellerIndiState extends State<SellerIndi> {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         elevation: 0,
-                        primary: sellerDetails[DESIGNER_DETAILS_APPOINTMENT.tr] != "true"
-                            ? logoRed
-                            : textIconOrange,
+                        backgroundColor:
+                            sellerDetails[DESIGNER_DETAILS_APPOINTMENT.tr] !=
+                                    "true"
+                                ? logoRed
+                                : textIconOrange,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5),
                         ),
@@ -275,11 +284,13 @@ class _SellerIndiState extends State<SellerIndi> {
                       onPressed: () {
                         BaseController.vibrate(duration: 50);
                         // _showBottomSheet(context, sellerDetails);
-                        if (sellerDetails[DESIGNER_DETAILS_APPOINTMENT.tr] != "true") {}
+                        if (sellerDetails[DESIGNER_DETAILS_APPOINTMENT.tr] !=
+                            "true") {}
                       },
                       child: Container(
                         padding: const EdgeInsets.symmetric(vertical: 12),
-                        child: sellerDetails[DESIGNER_DETAILS_APPOINTMENT.tr] != "true"
+                        child: sellerDetails[DESIGNER_DETAILS_APPOINTMENT.tr] !=
+                                "true"
                             ? CustomText(
                                 DESIGNER_DETAILS_BOOK_APPOINTMENT.tr,
                                 align: TextAlign.center,
@@ -310,22 +321,26 @@ class _SellerIndiState extends State<SellerIndi> {
                     ),
                   ),
                   horizontalSpaceSmall,
-                  if (widget.data.subscriptionType != null && widget.data.subscriptionType!.id != 3)
+                  if (widget.data.subscriptionType != null &&
+                      widget.data.subscriptionType!.id != 3)
                     Expanded(
                       flex: 5,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           elevation: 0,
-                          primary: Colors.white,
+                          backgroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5),
                           ),
                         ),
-                        onPressed: () async => await BaseController.goToProductListPage(ProductPageArg(
-                            subCategory: sellerDetails[DESIGNER_DETAILS_NAME.tr],
-                            queryString: "accountKey=${sellerDetails[DESIGNER_DETAILS_KEY.tr]};",
-                            sellerPhoto:
-                                "$SELLER_PHOTO_BASE_URL/${sellerDetails[DESIGNER_DETAILS_KEY.tr]}")),
+                        onPressed: () async => await BaseController
+                            .goToProductListPage(ProductPageArg(
+                                subCategory:
+                                    sellerDetails[DESIGNER_DETAILS_NAME.tr],
+                                queryString:
+                                    "accountKey=${sellerDetails[DESIGNER_DETAILS_KEY.tr]};",
+                                sellerPhoto:
+                                    "$SELLER_PHOTO_BASE_URL/${sellerDetails[DESIGNER_DETAILS_KEY.tr]}")),
                         child: Container(
                           padding: const EdgeInsets.symmetric(vertical: 12),
                           child: CustomText(
@@ -408,20 +423,26 @@ class _SellerIndiState extends State<SellerIndi> {
                   ),
                   child: InkWell(
                     onTap: () async {
-                      await Share.share(
-                          await _dynamicLinkService.createLink(sellerLink + sellerData.key!) ?? "");
+                      await Share.share(await _dynamicLinkService
+                              .createLink(sellerLink + sellerData.key!) ??
+                          "");
                       try {
                         await _analyticsService.sendAnalyticsEvent(
                             eventName: "seller_shared",
                             parameters: <String, dynamic>{
                               "seller_id": sellerData.key,
                               "seller_name": sellerData.name,
-                              "subscription_id": widget.data.subscriptionType?.id?.toString(),
-                              "subscription_name": widget.data.subscriptionType?.name,
-                              "establishment_id": widget.data.establishmentType?.id?.toString(),
-                              "establishment_name": widget.data.establishmentType?.name,
+                              "subscription_id":
+                                  widget.data.subscriptionType?.id?.toString(),
+                              "subscription_name":
+                                  widget.data.subscriptionType?.name,
+                              "establishment_id":
+                                  widget.data.establishmentType?.id?.toString(),
+                              "establishment_name":
+                                  widget.data.establishmentType?.name,
                               "user_id": locator<HomeController>().details!.key,
-                              "user_name": locator<HomeController>().details!.name,
+                              "user_name":
+                                  locator<HomeController>().details!.name,
                             });
                       } catch (e) {}
                     },
@@ -474,7 +495,8 @@ class _SellerIndiState extends State<SellerIndi> {
                                           fit: BoxFit.scaleDown,
                                           alignment: Alignment.centerLeft,
                                           child: Text(
-                                            sellerDetails[DESIGNER_DETAILS_CITY.tr]!,
+                                            sellerDetails[
+                                                DESIGNER_DETAILS_CITY.tr]!,
                                             overflow: TextOverflow.ellipsis,
                                             textAlign: TextAlign.end,
                                             style: TextStyle(
@@ -490,12 +512,15 @@ class _SellerIndiState extends State<SellerIndi> {
                                   verticalSpaceTiny,
                                   Wrap(
                                     direction: Axis.horizontal,
-                                    crossAxisAlignment: WrapCrossAlignment.center,
+                                    crossAxisAlignment:
+                                        WrapCrossAlignment.center,
                                     children: [
                                       Icon(
                                         Icons.circle,
                                         size: 14,
-                                        color: isOpenNow(_timing) ? Colors.green : Colors.grey,
+                                        color: isOpenNow(_timing)
+                                            ? Colors.green
+                                            : Colors.grey,
                                       ),
                                       horizontalSpaceTiny,
                                       Text(
@@ -508,7 +533,8 @@ class _SellerIndiState extends State<SellerIndi> {
                                           fontSize: 12,
                                         ),
                                       ),
-                                      if (isOpenNow(_timing)) horizontalSpaceTiny,
+                                      if (isOpenNow(_timing))
+                                        horizontalSpaceTiny,
                                       if (isOpenNow(_timing))
                                         Text(
                                           "(${getTimeString(_timing)})",
@@ -578,13 +604,16 @@ class _SellerIndiState extends State<SellerIndi> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 6.0),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Expanded(
                                         child: CustomText(
-                                          sellerDetails[DESIGNER_DETAILS_NAME.tr]!,
+                                          sellerDetails[
+                                              DESIGNER_DETAILS_NAME.tr]!,
                                           textStyle: TextStyle(
                                             fontSize: headFont + 2,
                                             fontFamily: headingFont,
@@ -594,7 +623,8 @@ class _SellerIndiState extends State<SellerIndi> {
                                         ),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsets.only(left: 8.0),
+                                        padding:
+                                            const EdgeInsets.only(left: 8.0),
                                         child: Row(
                                           children: [
                                             Image.asset(
@@ -622,7 +652,8 @@ class _SellerIndiState extends State<SellerIndi> {
                                 Container(
                                   width: double.infinity,
                                   margin: EdgeInsets.all(2),
-                                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 10, horizontal: 10),
                                   decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(5),
@@ -655,7 +686,8 @@ class _SellerIndiState extends State<SellerIndi> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Container(
-                            padding: EdgeInsets.symmetric(vertical: 5, horizontal: 16),
+                            padding: EdgeInsets.symmetric(
+                                vertical: 5, horizontal: 16),
                             width: double.infinity,
                             color: Colors.grey[200],
                             child: CustomText(
@@ -668,7 +700,8 @@ class _SellerIndiState extends State<SellerIndi> {
                           ),
                           verticalSpace(10),
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 16.0),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
@@ -678,13 +711,18 @@ class _SellerIndiState extends State<SellerIndi> {
                                       height: 50,
                                       fadeInCurve: Curves.easeIn,
                                       fit: BoxFit.cover,
-                                      placeholder: AssetImage("assets/images/user.png"),
-                                      image: NetworkImage("$designerProfilePicUrl", headers: {
-                                        "Authorization":
-                                            "Bearer ${locator<HomeController>().prefs!.getString(Authtoken) ?? ''}",
-                                      }),
-                                      imageErrorBuilder: (context, error, stackTrace) {
-                                        print("Image Error: $error $stackTrace");
+                                      placeholder:
+                                          AssetImage("assets/images/user.png"),
+                                      image: NetworkImage(
+                                          "$designerProfilePicUrl",
+                                          headers: {
+                                            "Authorization":
+                                                "Bearer ${locator<HomeController>().prefs!.getString(Authtoken) ?? ''}",
+                                          }),
+                                      imageErrorBuilder:
+                                          (context, error, stackTrace) {
+                                        print(
+                                            "Image Error: $error $stackTrace");
                                         return Image.asset(
                                           "assets/images/user.png",
                                           width: 50,
@@ -696,11 +734,13 @@ class _SellerIndiState extends State<SellerIndi> {
                                 horizontalSpaceSmall,
                                 Expanded(
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       CustomText(
-                                        sellerDetails[DESIGNER_DETAILS_OWNER_NAME.tr]!,
+                                        sellerDetails[
+                                            DESIGNER_DETAILS_OWNER_NAME.tr]!,
                                         fontWeight: FontWeight.normal,
                                         fontSize: headFont,
                                         dotsAfterOverFlow: true,
@@ -722,11 +762,15 @@ class _SellerIndiState extends State<SellerIndi> {
                                         ),
                                       ReadMoreText(
                                         sellerData.intro ??
-                                            sellerDetails[DESIGNER_DETAILS_NOTE_FROM_DESIGNER.tr]!,
-                                        trimLines: ((sellerData.education == null) &&
-                                                (sellerData.designation == null))
-                                            ? 3
-                                            : 2,
+                                            sellerDetails[
+                                                DESIGNER_DETAILS_NOTE_FROM_DESIGNER
+                                                    .tr]!,
+                                        trimLines:
+                                            ((sellerData.education == null) &&
+                                                    (sellerData.designation ==
+                                                        null))
+                                                ? 3
+                                                : 2,
                                         colorClickableText: logoRed,
                                         trimMode: TrimMode.Line,
                                         style: TextStyle(
@@ -755,7 +799,7 @@ class _SellerIndiState extends State<SellerIndi> {
                                   width: 15,
                                 ),
                                 Container(
-                                  width: Get.width*0.8,
+                                  width: Get.width * 0.8,
                                   child: Text(
                                     sellerDetails[DESIGNER_DETAILS_ADDRESS.tr]!,
                                     maxLines: 3,
@@ -763,7 +807,6 @@ class _SellerIndiState extends State<SellerIndi> {
                                       fontSize: subtitleFontSize,
                                       color: Colors.grey,
                                     ),
-                                    
                                   ),
                                 ),
                               ],
@@ -819,7 +862,8 @@ class _SellerIndiState extends State<SellerIndi> {
                     ),
                     verticalSpaceMedium,
                     Container(
-                      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 16),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 5, horizontal: 16),
                       width: double.infinity,
                       color: Colors.grey[200],
                       child: CustomText(
@@ -831,7 +875,8 @@ class _SellerIndiState extends State<SellerIndi> {
                     ),
                     Container(
                       height: 220,
-                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 15),
                       child: Center(
                         child: Wrap(
                           runSpacing: 10,
@@ -843,11 +888,13 @@ class _SellerIndiState extends State<SellerIndi> {
                                 height: 100,
                                 width: Get.width / 3 - 15,
                                 padding: EdgeInsets.all(8),
-                                decoration: BoxDecoration(color: Colors.white, boxShadow: [
-                                  BoxShadow(color: Colors.black12, blurRadius: 1),
-                                ],
-                                borderRadius: BorderRadius.circular(8)
-                                ),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: Colors.black12, blurRadius: 1),
+                                    ],
+                                    borderRadius: BorderRadius.circular(8)),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisSize: MainAxisSize.min,
@@ -869,8 +916,10 @@ class _SellerIndiState extends State<SellerIndi> {
                                     ),
                                     Expanded(
                                       child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
                                         children: <Widget>[
                                           verticalSpace(5),
                                           CustomText(
@@ -886,7 +935,9 @@ class _SellerIndiState extends State<SellerIndi> {
                                             color: Colors.black45,
                                             align: TextAlign.center,
                                           ),
-                                          key == DESIGNER_SCREEN_TYPE.tr ? Container() : Container()
+                                          key == DESIGNER_SCREEN_TYPE.tr
+                                              ? Container()
+                                              : Container()
                                         ],
                                       ),
                                     ),
@@ -912,10 +963,12 @@ class _SellerIndiState extends State<SellerIndi> {
                             });
                           }),
                     ),
-                    if (sellerData.subscriptionTypeId == 1 && showExploreSection)
+                    if (sellerData.subscriptionTypeId == 1 &&
+                        showExploreSection)
                       Container(
                         color: Colors.grey[200],
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 5),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16.0, vertical: 5),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -927,7 +980,8 @@ class _SellerIndiState extends State<SellerIndi> {
                                   fit: BoxFit.scaleDown,
                                   alignment: Alignment.centerLeft,
                                   child: Text(
-                                    DESIGNER_SCREEN_EXPLORE_DESIGNER_COLLECTION.tr,
+                                    DESIGNER_SCREEN_EXPLORE_DESIGNER_COLLECTION
+                                        .tr,
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
                                       fontSize: 16,
@@ -953,8 +1007,10 @@ class _SellerIndiState extends State<SellerIndi> {
                                   ProductsListRoute,
                                   arguments: ProductPageArg(
                                     subCategory: sellerData.name,
-                                    queryString: "accountKey=${sellerData.key};",
-                                    sellerPhoto: "$SELLER_PHOTO_BASE_URL/${sellerData.key}",
+                                    queryString:
+                                        "accountKey=${sellerData.key};",
+                                    sellerPhoto:
+                                        "$SELLER_PHOTO_BASE_URL/${sellerData.key}",
                                   ),
                                 );
                               },
@@ -962,8 +1018,11 @@ class _SellerIndiState extends State<SellerIndi> {
                           ],
                         ),
                       ),
-                    if (sellerData.subscriptionTypeId == 1 && showExploreSection) verticalSpace(5),
-                    if (sellerData.subscriptionTypeId == 1 && showExploreSection)
+                    if (sellerData.subscriptionTypeId == 1 &&
+                        showExploreSection)
+                      verticalSpace(5),
+                    if (sellerData.subscriptionTypeId == 1 &&
+                        showExploreSection)
                       SectionBuilder(
                         key: productKey,
                         context: context,
@@ -971,7 +1030,8 @@ class _SellerIndiState extends State<SellerIndi> {
                           accountKey: sellerData.key,
                         ),
                         layoutType: LayoutType.PRODUCT_LAYOUT_2,
-                        controller: ProductsGridViewBuilderController(randomize: true, limit: 6),
+                        controller: ProductsGridViewBuilderController(
+                            randomize: true, limit: 6),
                         scrollDirection: Axis.horizontal,
                         onEmptyList: () async {
                           await Future.delayed(
@@ -985,9 +1045,9 @@ class _SellerIndiState extends State<SellerIndi> {
                         },
                       ),
                     Container(
-                      
                       color: Colors.grey[200],
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 5),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16.0, vertical: 5),
                       child: Row(
                         children: <Widget>[
                           Expanded(
@@ -996,8 +1056,9 @@ class _SellerIndiState extends State<SellerIndi> {
                               child: Text(
                                 DESIGNER_SCREEN_SIMILAR_DESIGNERS.tr,
                                 style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black
-                                ),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black),
                               ),
                             ),
                           )
@@ -1068,9 +1129,10 @@ class MapUtils {
   MapUtils._();
 
   static Future<void> openMap(double latitude, double longitude) async {
-    String googleUrl = 'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
-    if (await canLaunch(googleUrl)) {
-      await launch(googleUrl);
+    String googleUrl =
+        'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
+    if (await canLaunchUrlString(googleUrl)) {
+      await launchUrlString(googleUrl);
     } else {
       throw 'Could not open the map.';
     }

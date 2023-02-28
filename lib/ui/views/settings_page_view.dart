@@ -6,8 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../constants/route_names.dart';
 import '../../constants/server_urls.dart';
@@ -115,10 +114,14 @@ class _SettingsViewState extends State<SettingsView> {
     };
 
     settingOnTapMap = {
-      1: () => Platform.isAndroid ? launch("https://play.google.com/store/apps/details?id=in.dzor.dzor_app&hl=en_IN&gl=US") : launch("https://apps.apple.com/in/app/dzor/id1562083632"),
+      1: () => Platform.isAndroid
+          ? launchUrlString(
+              "https://play.google.com/store/apps/details?id=in.dzor.dzor_app&hl=en_IN&gl=US")
+          : launchUrlString("https://apps.apple.com/in/app/dzor/id1562083632"),
       2: () => Platform.isAndroid
-          ? launch("https://play.google.com/store/apps/details?id=in.dzor.dzor_app&hl=en_IN&gl=US")
-          : launch("https://apps.apple.com/in/app/dzor/id1562083632"),
+          ? launchUrlString(
+              "https://play.google.com/store/apps/details?id=in.dzor.dzor_app&hl=en_IN&gl=US")
+          : launchUrlString("https://apps.apple.com/in/app/dzor/id1562083632"),
       3: () => Get.bottomSheet(
             HelpView(),
             backgroundColor: Colors.white,
@@ -132,7 +135,7 @@ class _SettingsViewState extends State<SettingsView> {
           ),
       4: () => BaseController.launchURL(TERMS_AND_CONDITIONS_URL),
       5: BaseController.shareApp,
-      6: () => launch("https://dzor.in/main/about-us.html"),
+      6: () => launchUrlString("https://dzor.in/main/about-us.html"),
     };
 
     sectionsSettingsMap = {
@@ -241,39 +244,43 @@ class _SettingsViewState extends State<SettingsView> {
                                       Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
-                                        children: locator<HomeController>()
-                                                .isLoggedIn
-                                            ? [
-                                                CustomText(
-                                                  controller
-                                                          .mUserDetails?.name ??
-                                                      '',
-                                                  isTitle: true,
-                                                  fontSize: 16,
-                                                  isBold: true,
-                                                ),
-                                                CustomText(
-                                                  controller
-                                                      .mUserDetails != null ? controller
-                                                      .mUserDetails!
-                                                      .contact
-                                                      ?.phone
-                                                      ?.mobile
-                                                      ?.replaceRange(
-                                                      5, 10, 'XXXXX')
-                                                      .toString() ?? '' :
-                                                      '',
-                                                  fontSize: 14,
-                                                ),
-                                              ]
-                                            : [
-                                                CustomText(
-                                                  SETTINGS_LOG_IN.tr,
-                                                  isTitle: true,
-                                                  fontSize: 16,
-                                                  isBold: true,
-                                                ),
-                                              ],
+                                        children:
+                                            locator<HomeController>().isLoggedIn
+                                                ? [
+                                                    CustomText(
+                                                      controller.mUserDetails
+                                                              ?.name ??
+                                                          '',
+                                                      isTitle: true,
+                                                      fontSize: 16,
+                                                      isBold: true,
+                                                    ),
+                                                    CustomText(
+                                                      controller.mUserDetails !=
+                                                              null
+                                                          ? controller
+                                                                  .mUserDetails!
+                                                                  .contact
+                                                                  ?.phone
+                                                                  ?.mobile
+                                                                  ?.replaceRange(
+                                                                      5,
+                                                                      10,
+                                                                      'XXXXX')
+                                                                  .toString() ??
+                                                              ''
+                                                          : '',
+                                                      fontSize: 14,
+                                                    ),
+                                                  ]
+                                                : [
+                                                    CustomText(
+                                                      SETTINGS_LOG_IN.tr,
+                                                      isTitle: true,
+                                                      fontSize: 16,
+                                                      isBold: true,
+                                                    ),
+                                                  ],
                                       ),
                                     ],
                                   ),
@@ -343,11 +350,11 @@ class _SettingsViewState extends State<SettingsView> {
                             print("123");
                             locator<HomeController>().isLoggedIn
                                 ? await NavigationService.to(
-                                MyAppointmentViewRoute)
+                                    MyAppointmentViewRoute)
                                 : await BaseController.showLoginPopup(
-                              nextView: MyAppointmentViewRoute,
-                              shouldNavigateToNextScreen: true,
-                            );
+                                    nextView: MyAppointmentViewRoute,
+                                    shouldNavigateToNextScreen: true,
+                                  );
                           },
                           icon: Icons.event,
                         ),
@@ -355,13 +362,12 @@ class _SettingsViewState extends State<SettingsView> {
                           name: "${SETTINGS_MY_WISHLIST.tr}",
                           color: Colors.black87,
                           iconColor: Colors.black54,
-                          onTap: ()=> BaseController.gotoWishlist(),
+                          onTap: () => BaseController.gotoWishlist(),
                           icon: FontAwesomeIcons.heart,
                         ),
                         verticalSpaceSmall,
                         Padding(
-                          padding: EdgeInsets.symmetric(
-                               vertical: 10),
+                          padding: EdgeInsets.symmetric(vertical: 10),
                           child: Column(
                             children: <Widget>[
                               verticalSpaceTiny_0,
@@ -419,7 +425,6 @@ class _SettingsViewState extends State<SettingsView> {
                                 ],
                               )
                             : verticalSpaceLarge,
-                            
                       ],
                     ),
                   ),
@@ -475,8 +480,7 @@ class SettingsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-          padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-
+        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
         decoration: BoxDecoration(
           border: Border(
             bottom: BorderSide(
@@ -485,7 +489,8 @@ class SettingsCard extends StatelessWidget {
           ),
         ),
         child: Container(
-          decoration: BoxDecoration(color: Colors.grey[100], borderRadius: BorderRadius.circular(15)),
+          decoration: BoxDecoration(
+              color: Colors.grey[100], borderRadius: BorderRadius.circular(15)),
           child: ListTile(
             leading: Icon(icon),
             title: CustomText(
@@ -499,7 +504,9 @@ class SettingsCard extends StatelessWidget {
               color: iconColor ?? Colors.grey[500],
               size: 30,
             ),
-            onTap: () { onTap();},
+            onTap: () {
+              onTap();
+            },
           ),
         ),
       );

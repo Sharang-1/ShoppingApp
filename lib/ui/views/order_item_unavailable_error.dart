@@ -1,16 +1,12 @@
 // import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fast_cached_network_image/fast_cached_network_image.dart';
 import 'package:compound/services/api/api_service.dart';
-import 'package:compound/ui/shared/ui_helpers.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/route_names.dart';
 import '../../constants/server_urls.dart';
-import '../../controllers/base_controller.dart';
 import '../../models/products.dart';
 import '../../services/navigation_service.dart';
-import '../../utils/stringUtils.dart';
-import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 
 class OrderItemUnavailableErrorView extends StatefulWidget {
@@ -218,6 +214,7 @@ class _OrderItemUnavailableErrorViewState
     );
   }
 
+  // ignore: unused_element
   Widget _imageStackview(Product? product, photoURL) {
     return Stack(
       fit: StackFit.loose,

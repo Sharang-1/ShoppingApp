@@ -6,6 +6,7 @@ import 'base_controller.dart';
 class LookupController extends BaseController {
   LookupController({
     Key? key,
+    // ignore: unnecessary_null_comparison
   }) : assert(List != null);
 
   List<Lookups> lookups = [];

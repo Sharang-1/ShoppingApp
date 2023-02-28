@@ -28,10 +28,14 @@ class SliverFab extends StatefulWidget {
     this.expandedHeight = 256.0,
     this.topScalingEdge = 96.0,
   }) {
-    assert(slivers != null);
+    assert(slivers.isNotEmpty);
+    // ignore: unnecessary_null_comparison
     assert(floatingWidget != null);
+    // ignore: unnecessary_null_comparison
     assert(floatingPosition != null);
+    // ignore: unnecessary_null_comparison
     assert(expandedHeight != null);
+    // ignore: unnecessary_null_comparison
     assert(topScalingEdge != null);
   }
 

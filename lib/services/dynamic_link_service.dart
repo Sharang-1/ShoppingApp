@@ -8,16 +8,17 @@ class DynamicLinkService {
   Future handleDynamicLink() async {
     FirebaseDynamicLinks.instance.onLink.listen((linkData) {
       final Uri deepLink = linkData.link;
-        if (deepLink != null) {
-          List<String> segments = deepLink.pathSegments;
-          Map<String, String> data = {
-            "contentType": segments[0],
-            "id": segments[1],
-          };
-          NavigationService.to(DynamicContentViewRoute, arguments: data);
-        }
-    }).onError((error){
-        Fimber.e("Dynamic Link Failed : ${error.toString()}");
+      // ignore: unnecessary_null_comparison
+      if (deepLink != null) {
+        List<String> segments = deepLink.pathSegments;
+        Map<String, String> data = {
+          "contentType": segments[0],
+          "id": segments[1],
+        };
+        NavigationService.to(DynamicContentViewRoute, arguments: data);
+      }
+    }).onError((error) {
+      Fimber.e("Dynamic Link Failed : ${error.toString()}");
     });
     //   (
     //     onSuccess: (PendingDynamicLinkData linkData) async {
@@ -69,7 +70,8 @@ class DynamicLinkService {
             minimumVersion: '1.0.0',
             appStoreId: '1562083632'));
 
-    final ShortDynamicLink shortDynamicLink = await FirebaseDynamicLinks.instance.buildShortLink(parameters);
+    final ShortDynamicLink shortDynamicLink =
+        await FirebaseDynamicLinks.instance.buildShortLink(parameters);
     final Uri uri = shortDynamicLink.shortUrl;
     return uri.toString();
 

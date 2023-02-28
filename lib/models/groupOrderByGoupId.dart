@@ -4,8 +4,6 @@
 
 import 'dart:convert';
 
-import 'package:compound/models/products.dart';
-
 GroupOrderByGroupId groupOrderByGroupIdFromJson(String str) =>
     GroupOrderByGroupId.fromJson(json.decode(str));
 

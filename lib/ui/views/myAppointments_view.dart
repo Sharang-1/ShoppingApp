@@ -111,6 +111,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                           padding: EdgeInsets.only(top: 16.0),
                           child: EmptyListWidget(),
                         ),
+                      // ignore: unnecessary_null_comparison
                       if (!controller.busy && controller.data != null)
                         ...controller.data.appointments.map(
                             (data) => productCard(context, data!, controller)),
@@ -331,7 +332,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                       ),
                   style: ElevatedButton.styleFrom(
                     elevation: 5,
-                    primary: textIconOrange,
+                    backgroundColor: textIconOrange,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -364,7 +365,7 @@ class _MyAppointmentsState extends State<MyAppointments> {
                     child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                             elevation: 0,
-                            primary: backgroundWhiteCreamColor,
+                            backgroundColor: backgroundWhiteCreamColor,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
                                 side: BorderSide(color: logoRed, width: 2))),

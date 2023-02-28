@@ -280,7 +280,7 @@ class _HomeSliderState extends State<HomeSlider> {
         ),
         if (((widget.imgList.length) +
                     (widget.videoList.length) +
-                    (widget.sizeChartUrl == null ? 0 : 1)) >
+                    (widget.sizeChartUrl.isEmpty ? 0 : 1)) >
                 1 &&
             !(widget.fromExplore))
           Row(

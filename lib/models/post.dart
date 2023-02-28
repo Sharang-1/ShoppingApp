@@ -23,7 +23,7 @@ class Post {
   }
 
   static Post? fromMap(Map<String, dynamic> map, String documentId) {
-    if (map == null) return null;
+    if (map.isEmpty) return null;
 
     return Post(
       title: map['title'],

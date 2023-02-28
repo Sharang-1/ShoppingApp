@@ -47,7 +47,6 @@ class _CartViewState extends State<CartView> {
 
   @override
   void initState() {
-    // TODO: implement initState
     GroupOrderData.cartProducts.clear();
     super.initState();
   }
@@ -229,7 +228,7 @@ class _CartViewState extends State<CartView> {
                                 child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
                                     elevation: 0,
-                                    primary: logoRed,
+                                    backgroundColor: logoRed,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10),
                                     ),
@@ -294,7 +293,7 @@ class _CartViewState extends State<CartView> {
           productId: _cartItems[i].productId.toString(),
           variation: groupOrder.Variation(
             size: _cartItems[i].size.toString(),
-            quantity: _cartItems[i].quantity?.toInt(),
+            quantity: _cartItems[i].quantity.toInt(),
             color: _cartItems[i].color.toString(),
           ),
           // orderQueue: groupOrder.OrderQueue(
@@ -309,7 +308,7 @@ class _CartViewState extends State<CartView> {
         groupOrder.GroupOrderCostEstimateModel item =
             groupOrder.GroupOrderCostEstimateModel(
                 productId: _cartItems[i].productId.toString(),
-                quantity: _cartItems[i].quantity?.toInt(),
+                quantity: _cartItems[i].quantity.toInt(),
                 promoCode: promocode);
         GroupOrderData.cartEstimateItems.add(item);
 

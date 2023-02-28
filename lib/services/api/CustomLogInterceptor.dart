@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 
 class CustomLogInterceptor extends Interceptor {
   CustomLogInterceptor() {
-    if(kDebugMode) print("interceptor called");
+    if (kDebugMode) print("interceptor called");
   }
 
   @override
@@ -12,12 +12,12 @@ class CustomLogInterceptor extends Interceptor {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    if(kDebugMode) print("On req");
+    if (kDebugMode) print("On req");
     Fimber.d(
-        "--> ${options.method != null ? options.method.toUpperCase() : 'METHOD'} ${"" + (options.baseUrl) + (options.path)}");
+        "--> ${options.method.isNotEmpty ? options.method.toUpperCase() : 'METHOD'} ${"" + (options.baseUrl) + (options.path)}");
     Fimber.d("Headers:");
     options.headers.forEach((k, v) => Fimber.d('$k: $v'));
-    if (options.queryParameters != null) {
+    if (options.queryParameters.isNotEmpty) {
       Fimber.d("queryParameters:");
       options.queryParameters.forEach((k, v) => Fimber.d('$k: $v'));
     }
@@ -25,14 +25,14 @@ class CustomLogInterceptor extends Interceptor {
       Fimber.d("Body: ${options.data}");
     }
     Fimber.d(
-        "--> END ${options.method != null ? options.method.toUpperCase() : 'METHOD'}");
+        "--> END ${options.method.isNotEmpty ? options.method.toUpperCase() : 'METHOD'}");
 
     return handler.next(options);
   }
 
   @override
   Future onError(DioError dioError, ErrorInterceptorHandler handle) async {
-    if(kDebugMode) print("On err");
+    if (kDebugMode) print("On err");
     // Fimber.e(
     //     "<-- ${dioError.message} ${(dioError.response.request != null ? (dioError.response.request.baseUrl + dioError.response.request.path) : 'URL')}");
     // Fimber.e(
@@ -46,7 +46,7 @@ class CustomLogInterceptor extends Interceptor {
   @override
   Future onResponse(
       Response response, ResponseInterceptorHandler handler) async {
-    if(kDebugMode) print("On resp");
+    if (kDebugMode) print("On resp");
     // Fimber.d(
     //     "<-- ${response.statusCode} ${(response.request != null ? (response.request.baseUrl + response.request.path) : 'URL')}");
     // Fimber.d("Headers:");

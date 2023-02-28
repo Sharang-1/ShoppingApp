@@ -39,9 +39,10 @@ class _NewCartTileState extends State<NewCartTile> {
   @override
   void initState() {
     item = widget.item;
-    quantity = item.quantity! >= 1 ? item.quantity as int : 1;
-    item.quantity = item.quantity! >= 1 ? item.quantity : 1;
-    finalTotal = (item.product!.cost!.costToCustomer! * item.quantity!).toString();
+    quantity = item.quantity >= 1 ? item.quantity as int : 1;
+    item.quantity = item.quantity >= 1 ? item.quantity : 1;
+    finalTotal =
+        (item.product!.cost!.costToCustomer! * item.quantity).toString();
     setUpOrderDetails();
     super.initState();
   }
@@ -54,7 +55,8 @@ class _NewCartTileState extends State<NewCartTile> {
 
   void setUpProductPrices() async {
     setState(() {
-      finalTotal = (item.product!.cost!.costToCustomer! * quantity).toStringAsFixed(2);
+      finalTotal =
+          (item.product!.cost!.costToCustomer! * quantity).toStringAsFixed(2);
     });
     orderDetails.total = rupeeUnicode + finalTotal;
   }
@@ -66,32 +68,38 @@ class _NewCartTileState extends State<NewCartTile> {
       size: widget.item.size != null && widget.item.size != ""
           ? (widget.item.size == 'N/A' ? '-' : widget.item.size)
           : "No Size given",
-      color: widget.item.color != null && widget.item.color != "" ? widget.item.color : "-",
+      color: widget.item.color != null && widget.item.color != ""
+          ? widget.item.color
+          : "-",
       promocode: promoCode,
       promocodeDiscount: '$rupeeUnicode$promoCodeDiscount',
-      price: rupeeUnicode + (widget.item.quantity! * widget.item.product!.cost!.cost!).toString(),
+      price: rupeeUnicode +
+          (widget.item.quantity * widget.item.product!.cost!.cost!).toString(),
       discount: "${widget.item.product!.discount.toString()} %",
       discountedPrice: rupeeUnicode +
           (((widget.item.product!.price! -
-                      (widget.item.product!.price! * widget.item.product!.discount! / 100)) *
-                  (widget.item.quantity ?? 0))
+                      (widget.item.product!.price! *
+                          widget.item.product!.discount! /
+                          100)) *
+                  (widget.item.quantity))
               .toString()),
-      convenienceCharges: '${widget.item.product?.cost?.convenienceCharges?.rate} %',
+      convenienceCharges:
+          '${widget.item.product?.cost?.convenienceCharges?.rate} %',
       gst:
-          '$rupeeUnicode${((widget.item.quantity ?? 1) * (widget.item.product?.cost?.gstCharges?.cost ?? 0)).toStringAsFixed(2)} (${widget.item.product?.cost?.gstCharges?.rate}%)',
+          '$rupeeUnicode${((widget.item.quantity) * (widget.item.product?.cost?.gstCharges?.cost ?? 0)).toStringAsFixed(2)} (${widget.item.product?.cost?.gstCharges?.rate}%)',
       deliveryCharges: "-",
       actualPrice:
-          "$rupeeUnicode ${((widget.item.quantity ?? 1) * ((widget.item.product?.cost?.cost ?? 0) + (widget.item.product?.cost?.gstCharges?.cost ?? 0)) + (widget.item.product?.cost?.convenienceCharges?.cost ?? 0)).toStringAsFixed(2)}",
+          "$rupeeUnicode ${((widget.item.quantity) * ((widget.item.product?.cost?.cost ?? 0) + (widget.item.product?.cost?.gstCharges?.cost ?? 0)) + (widget.item.product?.cost?.convenienceCharges?.cost ?? 0)).toStringAsFixed(2)}",
       saved:
           // ignore: deprecated_member_use
-          "$rupeeUnicode ${(((widget.item.quantity ?? 1) * ((widget.item.product?.cost?.cost ?? 0) + (widget.item.product?.cost?.gstCharges?.cost ?? 0)) + (widget.item.product?.cost?.convenienceCharges?.cost ?? 0)) - (double.parse(finalTotal, (s) => 0))).toStringAsFixed(0)}",
+          "$rupeeUnicode ${(((widget.item.quantity) * ((widget.item.product?.cost?.cost ?? 0) + (widget.item.product?.cost?.gstCharges?.cost ?? 0)) + (widget.item.product?.cost?.convenienceCharges?.cost ?? 0)) - (double.parse(finalTotal, (s) => 0))).toStringAsFixed(0)}",
       total: rupeeUnicode + finalTotal,
     );
   }
 
   void increseQty() {
     setState(() {
-      item.quantity = item.quantity! + 1;
+      item.quantity = item.quantity + 1;
       quantity++;
       setUpProductPrices();
     });
@@ -99,7 +107,7 @@ class _NewCartTileState extends State<NewCartTile> {
 
   void decreaseQty() {
     setState(() {
-      item.quantity = item.quantity! - 1;
+      item.quantity = item.quantity - 1;
       quantity--;
       setUpProductPrices();
     });
@@ -177,23 +185,27 @@ class _CartProductTileNewState extends State<CartProductTileNew> {
       size: widget.item.size != null && widget.item.size != ""
           ? (widget.item.size == 'N/A' ? '-' : widget.item.size)
           : "No Size given",
-      color: widget.item.color != null && widget.item.color != "" ? widget.item.color : "-",
+      color: widget.item.color != null && widget.item.color != ""
+          ? widget.item.color
+          : "-",
       promocode: widget.promoCode,
       promocodeDiscount: '$rupeeUnicode${widget.promoCodeDiscount}',
       price: rupeeUnicode +
-          ((qty ?? widget.item.quantity)! * widget.item.product!.cost!.cost!).toString(),
+          ((qty ?? widget.item.quantity) * widget.item.product!.cost!.cost!)
+              .toString(),
       discount: discount.toString() + "%",
-      discountedPrice:
-          rupeeUnicode + ((discountedPrice * (qty ?? widget.item.quantity!))).toString(),
-      convenienceCharges: '${widget.item.product?.cost?.convenienceCharges?.rate} %',
+      discountedPrice: rupeeUnicode +
+          ((discountedPrice * (qty ?? widget.item.quantity))).toString(),
+      convenienceCharges:
+          '${widget.item.product?.cost?.convenienceCharges?.rate} %',
       gst:
-          '$rupeeUnicode${(((qty ?? widget.item.quantity) ?? 1) * (widget.item.product?.cost?.gstCharges?.cost ?? 0)).toStringAsFixed(2)} (${widget.item.product?.cost?.gstCharges?.rate}%)',
+          '$rupeeUnicode${(((qty ?? widget.item.quantity)) * (widget.item.product?.cost?.gstCharges?.cost ?? 0)).toStringAsFixed(2)} (${widget.item.product?.cost?.gstCharges?.rate}%)',
       deliveryCharges: "-",
       actualPrice:
-          "$rupeeUnicode ${(((qty ?? widget.item.quantity) ?? 1) * ((widget.item.product?.cost?.cost ?? 0) + (widget.item.product?.cost?.gstCharges?.cost ?? 0)) + (widget.item.product?.cost?.convenienceCharges?.cost ?? 0)).toStringAsFixed(2)}",
+          "$rupeeUnicode ${(((qty ?? widget.item.quantity)) * ((widget.item.product?.cost?.cost ?? 0) + (widget.item.product?.cost?.gstCharges?.cost ?? 0)) + (widget.item.product?.cost?.convenienceCharges?.cost ?? 0)).toStringAsFixed(2)}",
       saved:
           // ignore: deprecated_member_use
-          "$rupeeUnicode ${((((qty ?? widget.item.quantity) ?? 1) * ((widget.item.product?.cost?.cost ?? 0) + (widget.item.product?.cost?.gstCharges?.cost ?? 0)) + (widget.item.product?.cost?.convenienceCharges?.cost ?? 0)) - (double.parse(widget.finalTotal, (s) => 0))).toStringAsFixed(2)}",
+          "$rupeeUnicode ${((((qty ?? widget.item.quantity)) * ((widget.item.product?.cost?.cost ?? 0) + (widget.item.product?.cost?.gstCharges?.cost ?? 0)) + (widget.item.product?.cost?.convenienceCharges?.cost ?? 0)) - (double.parse(widget.finalTotal, (s) => 0))).toStringAsFixed(2)}",
       total: qty == null ? rupeeUnicode + widget.finalTotal : '-',
     );
   }
@@ -217,22 +229,22 @@ class _CartProductTileNewState extends State<CartProductTileNew> {
         children: [
           Container(
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(curve10),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black12,
-                    blurRadius: 5,
-                  ),
-                ],
-                color: Color(0xffeeeeee),
+              borderRadius: BorderRadius.circular(curve10),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black12,
+                  blurRadius: 5,
                 ),
+              ],
+              color: Color(0xffeeeeee),
+            ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(curve10),
               child: FadeInImage.assetNetwork(
                 width: 100,
                 fadeInCurve: Curves.easeIn,
                 placeholder: "assets/images/product_preloading.png",
-                image: productImage != null
+                image: productImage.isNotEmpty
                     ? '$PRODUCT_PHOTO_BASE_URL/${widget.item.productId}/$productImage-small.png'
                     : "https://images.unsplashr.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
                 imageErrorBuilder: (context, error, stackTrace) => Image.asset(
@@ -246,44 +258,45 @@ class _CartProductTileNewState extends State<CartProductTileNew> {
           ),
           horizontalSpaceSmall,
           Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-              SizedBox(
-                width: MediaQuery.of(context).size.width - 190,
-                child: CustomText(
-                    capitalizeString(
-                      orderDetails.productName ?? "",
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width - 190,
+                      child: CustomText(
+                        capitalizeString(
+                          orderDetails.productName ?? "",
+                        ),
+                        maxLines: 2,
+                        dotsAfterOverFlow: true,
+                        isTitle: true,
+                        isBold: true,
+                        fontSize: titleFontSize,
+                      ),
                     ),
-                    maxLines: 2,
-                    dotsAfterOverFlow: true,
-                    isTitle: true,
-                    isBold: true,
-                    fontSize: titleFontSize,
-                  ),
-              ),
-                InkWell(
-                  onTap: () {
-                    widget.onRemove();
-                  },
-                  child: Container(
-                    padding: EdgeInsets.all(2),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: logoRed,
+                    InkWell(
+                      onTap: () {
+                        widget.onRemove();
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(2),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: logoRed,
+                        ),
+                        child: Icon(
+                          Icons.delete_outline_rounded,
+                          color: Colors.white,
+                          size: 20,
+                        ),
+                      ),
                     ),
-                    child: Icon(
-                      Icons.delete_outline_rounded,
-                      color: Colors.white,
-                      size: 20,
-                    ),
-                  ),
-                ),
-            ],)
-          ]),
+                  ],
+                )
+              ]),
         ],
       ),
     );

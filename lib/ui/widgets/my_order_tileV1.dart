@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../constants/server_urls.dart';
-import '../../controllers/home_controller.dart';
 import '../../locator.dart';
 import '../../models/orders.dart';
 import '../../models/products.dart';
@@ -12,8 +11,6 @@ import '../../services/analytics_service.dart';
 import '../../services/api/api_service.dart';
 import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
-import '../views/myorders_details_view.dart';
-import '../views/myorders_details_viewV1.dart';
 import 'shimmer/my_orders_shimmer.dart';
 
 class OrderTileDetailV1 extends StatefulWidget {
@@ -25,6 +22,7 @@ class OrderTileDetailV1 extends StatefulWidget {
 }
 
 class _OrderTileDetailV1State extends State<OrderTileDetailV1> {
+  // ignore: unused_field
   final AnalyticsService _analyticsService = locator<AnalyticsService>();
   bool isLoading = true;
   Product? productDetail;

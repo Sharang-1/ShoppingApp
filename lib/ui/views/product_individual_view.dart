@@ -18,7 +18,7 @@ import 'package:readmore/readmore.dart';
 import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../constants/dynamic_links.dart';
 import '../../constants/route_names.dart';
@@ -1118,6 +1118,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                             context,
                                                             selectedSize,
                                                             selectedColor);
+                                                    // ignore: unnecessary_null_comparison
                                                     if (res != null &&
                                                         res == true) {
                                                       final cartRes = await locator<
@@ -1228,9 +1229,9 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                   null)
                                             GestureDetector(
                                               onTap: () async {
-                                                if (await canLaunch(
+                                                if (await canLaunchUrlString(
                                                     RETURN_POLICY_URL))
-                                                  await launch(
+                                                  await launchUrlString(
                                                       RETURN_POLICY_URL);
                                               },
                                               child: Text(

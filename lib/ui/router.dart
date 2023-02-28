@@ -4,7 +4,6 @@ import 'package:page_transition/page_transition.dart';
 
 import '../controllers/user_details_controller.dart';
 import '../constants/route_names.dart';
-import '../models/newSellers.dart';
 import '../models/reviews.dart';
 import '../models/sellers.dart';
 import '../models/ordersV2.dart';
@@ -22,7 +21,6 @@ import 'views/home_view.dart';
 import 'views/intro.dart';
 import 'views/loader.dart';
 import 'views/login_view.dart';
-import 'views/map_view.dart';
 import 'views/myAppointments_view.dart';
 import 'views/myorders_details_view.dart';
 import 'views/myorders_view.dart';
@@ -113,7 +111,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case SearchViewRoute:
       return _getPageRoute(
         routeName: settings.name!,
-        viewToShow: SearchView(showSellers: pageArguments == null ? false : true),
+        viewToShow:
+            SearchView(showSellers: pageArguments == null ? false : true),
         pageArguments: pageArguments,
         pageTransitionType: transitionType,
       );
@@ -196,7 +195,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
 
     case OrderFailedItemUnavailableScreenRoute:
       return _getPageRoute(
-        pageArguments: pageArguments,
+          pageArguments: pageArguments,
           routeName: settings.name!,
           viewToShow: OrderItemUnavailableErrorView(
             products: pageArguments as List<String>,
@@ -306,7 +305,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     default:
       return MaterialPageRoute(
           builder: (_) => Scaffold(
-                body: Center(child: Text('No route defined for ${settings.name}')),
+                body: Center(
+                    child: Text('No route defined for ${settings.name}')),
               ));
   }
 }

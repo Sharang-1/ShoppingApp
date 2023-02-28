@@ -1,5 +1,4 @@
 // import 'package:fimber/fimber_base.dart';
-import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 // import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -21,6 +20,7 @@ class AddressInputPage extends StatefulWidget {
 }
 
 class _AddressInputPageState extends State<AddressInputPage> {
+  // ignore: unused_field
   final LocationService _locationService = locator<LocationService>();
 
   @override
@@ -135,8 +135,13 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
 
       print("pickedCity12 : $pickedCity");
 
-      googleAddresString =
-          userInputAddressString + ", " + pickedCity + ", " + state + ", " + pinCode.toString();
+      googleAddresString = userInputAddressString +
+          ", " +
+          pickedCity +
+          ", " +
+          state +
+          ", " +
+          pinCode.toString();
       Navigator.of(context).pop<UserDetailsContact>(new UserDetailsContact(
         address: userInputAddressString,
         googleAddress: googleAddresString,
@@ -161,9 +166,13 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
               children: <Widget>[
                 verticalSpaceSmall,
                 Align(
-                  alignment: Alignment.topRight,
-                  child : Container(margin: EdgeInsets.only(right: 10, top: 5),child: GestureDetector(onTap: ()=> Get.back(),child: Icon(Icons.cancel),))
-                ),
+                    alignment: Alignment.topRight,
+                    child: Container(
+                        margin: EdgeInsets.only(right: 10, top: 5),
+                        child: GestureDetector(
+                          onTap: () => Get.back(),
+                          child: Icon(Icons.cancel),
+                        ))),
                 verticalSpaceMedium,
                 Align(
                   alignment: Alignment.center,
@@ -172,7 +181,9 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
                     child: Text(
                       ADD_ADDRESS.tr,
                       style: TextStyle(
-                          fontFamily: headingFont, fontWeight: FontWeight.w700, fontSize: 20),
+                          fontFamily: headingFont,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 20),
                     ),
                   ),
                 ),
@@ -235,14 +246,17 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
                           decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(15),
-                                  borderSide: BorderSide(color: secondaryColor)),
+                                  borderSide:
+                                      BorderSide(color: secondaryColor)),
                               labelText: "Address line 1",
                               hintText: HOUSE_NAME_LABEL.tr,
                               isDense: true,
                               hintStyle: TextStyle(
-                                  fontSize: subtitleFontSizeStyle, fontFamily: textFont),
-                              labelStyle:
-                                  TextStyle(fontSize: titleFontSizeStyle, fontFamily: textFont)),
+                                  fontSize: subtitleFontSizeStyle,
+                                  fontFamily: textFont),
+                              labelStyle: TextStyle(
+                                  fontSize: titleFontSizeStyle,
+                                  fontFamily: textFont)),
                           autofocus: false,
                           enabled: true,
                           style: TextStyle(
@@ -278,9 +292,11 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
                               isDense: true,
                               // border: InputBorder.none,
                               hintStyle: TextStyle(
-                                  fontSize: subtitleFontSizeStyle, fontFamily: textFont),
-                              labelStyle:
-                                  TextStyle(fontSize: titleFontSizeStyle, fontFamily: textFont)),
+                                  fontSize: subtitleFontSizeStyle,
+                                  fontFamily: textFont),
+                              labelStyle: TextStyle(
+                                  fontSize: titleFontSizeStyle,
+                                  fontFamily: textFont)),
                           autofocus: false,
                           enabled: true,
                           style: TextStyle(
@@ -289,7 +305,6 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
                         ),
                         verticalSpaceSmall,
                         verticalSpaceSmall,
-
 
                         /// City and PINCODE
                         Row(
@@ -307,10 +322,12 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
                                 decoration: InputDecoration(
                                   // prefixIcon: Icon(Icons.location_city_rounded),
                                   hintStyle: TextStyle(
-                                      fontSize: subtitleFontSizeStyle, fontFamily: textFont),
+                                      fontSize: subtitleFontSizeStyle,
+                                      fontFamily: textFont),
                                   border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(15),
-                                      borderSide: BorderSide(color: secondaryColor)),
+                                      borderSide:
+                                          BorderSide(color: secondaryColor)),
 
                                   hintText: "City",
                                   labelText: "City",
@@ -336,22 +353,26 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
                                 validator: (text) {
                                   if (text!.isEmpty || text.trim().length == 0)
                                     return "Enter proper Pin";
-                                  if (!text.isNumericOnly) return "Invalid Pincode";
+                                  if (!text.isNumericOnly)
+                                    return "Invalid Pincode";
                                   return null;
                                 },
                                 controller: _pinCodeController,
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(15),
-                                      borderSide: BorderSide(color: secondaryColor)),
+                                      borderSide:
+                                          BorderSide(color: secondaryColor)),
 
                                   hintText: "Pincode",
                                   labelText: "Pincode",
                                   // border: InputBorder.none,
                                   hintStyle: TextStyle(
-                                      fontSize: subtitleFontSizeStyle, fontFamily: textFont),
+                                      fontSize: subtitleFontSizeStyle,
+                                      fontFamily: textFont),
                                   labelStyle: TextStyle(
-                                      fontSize: titleFontSizeStyle, fontFamily: textFont),
+                                      fontSize: titleFontSizeStyle,
+                                      fontFamily: textFont),
                                 ),
                                 autofocus: false,
                                 enabled: true,
@@ -386,10 +407,12 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
                             hintText: "State",
                             labelText: "State",
                             // border: InputBorder.none,
-                            hintStyle:
-                                TextStyle(fontSize: subtitleFontSizeStyle, fontFamily: textFont),
-                            labelStyle:
-                                TextStyle(fontSize: titleFontSizeStyle, fontFamily: textFont),
+                            hintStyle: TextStyle(
+                                fontSize: subtitleFontSizeStyle,
+                                fontFamily: textFont),
+                            labelStyle: TextStyle(
+                                fontSize: titleFontSizeStyle,
+                                fontFamily: textFont),
                           ),
                           autofocus: false,
                           enabled: true,
@@ -405,14 +428,15 @@ class _BottomSheetForAddressState extends State<BottomSheetForAddress> {
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 elevation: 5,
-                                primary: lightGreen,
+                                backgroundColor: lightGreen,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
                               onPressed: _submit,
                               child: Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 12),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 12),
                                 child: CustomText(
                                   SAVE_AND_PROCEED.tr,
                                   isBold: true,

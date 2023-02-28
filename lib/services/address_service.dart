@@ -9,6 +9,7 @@ class AddressService {
   Future<void> setUpAddress(UserDetailsContact address) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final List<String> addArr = [];
+    // ignore: unnecessary_null_comparison
     if (address != null && address.googleAddress != null) {
       addArr.add(jsonEncode(address.toJson()));
     }

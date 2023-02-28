@@ -82,51 +82,51 @@ class LoginView extends StatelessWidget {
               ),
             ),
             verticalSpaceMedium,
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CustomText("Age"),
-                verticalSpaceTiny,
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: controller.ageLookup!
-                        .map(
-                          (e) => InkWell(
-                            onTap: () {
-                              controller.onAgeChanged(e.id!);
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(
-                                    color: e.id == controller.selectedAgeId
-                                        ? logoRed
-                                        : Colors.grey[500]!),
-                              ),
-                              padding: EdgeInsets.symmetric(
-                                vertical: 4.0,
-                                horizontal: 8.0,
-                              ),
-                              margin: EdgeInsets.only(right: 8.0),
-                              child: CustomText(
-                                e.name ?? "",
-                                fontSize: subtitleFontSize,
-                                isBold: e.id == controller.selectedAgeId,
-                                color: e.id == controller.selectedAgeId
-                                    ? logoRed
-                                    : Colors.grey[500]!,
-                              ),
-                            ),
-                          ),
-                        )
-                        .toList(),
-                  ),
-                ),
-              ],
-            ),
-            verticalSpaceMedium,
+            // Column(
+            //   crossAxisAlignment: CrossAxisAlignment.start,
+            //   children: [
+            //     CustomText("Age"),
+            //     verticalSpaceTiny,
+            //     SingleChildScrollView(
+            //       scrollDirection: Axis.horizontal,
+            //       child: Row(
+            //         mainAxisAlignment: MainAxisAlignment.center,
+            //         children: controller.ageLookup!
+            //             .map(
+            //               (e) => InkWell(
+            //                 onTap: () {
+            //                   controller.onAgeChanged(e.id!);
+            //                 },
+            //                 child: Container(
+            //                   decoration: BoxDecoration(
+            //                     borderRadius: BorderRadius.circular(10),
+            //                     border: Border.all(
+            //                         color: e.id == controller.selectedAgeId
+            //                             ? logoRed
+            //                             : Colors.grey[500]!),
+            //                   ),
+            //                   padding: EdgeInsets.symmetric(
+            //                     vertical: 4.0,
+            //                     horizontal: 8.0,
+            //                   ),
+            //                   margin: EdgeInsets.only(right: 8.0),
+            //                   child: CustomText(
+            //                     e.name ?? "",
+            //                     fontSize: subtitleFontSize,
+            //                     isBold: e.id == controller.selectedAgeId,
+            //                     color: e.id == controller.selectedAgeId
+            //                         ? logoRed
+            //                         : Colors.grey[500]!,
+            //                   ),
+            //                 ),
+            //               ),
+            //             )
+            //             .toList(),
+            //       ),
+            //     ),
+            //   ],
+            // ),
+            // verticalSpaceMedium,
             SingleChildScrollView(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -251,9 +251,10 @@ class LoginView extends StatelessWidget {
                                           controller.nameValidationMessage ==
                                               "" &&
                                           nameController.text != "" &&
-                                          controller.selectedAgeId != -1 &&
+                                          // controller.selectedAgeId != -1 &&
                                           controller.selectedGenderId != -1)
                                       ? () async {
+                                          controller.selectedAgeId = 19;
                                           await controller.login(
                                               phoneNo: (phoneNoController.text)
                                                   .replaceAll(" ", ""),
@@ -275,7 +276,7 @@ class LoginView extends StatelessWidget {
                                                       .nameValidationMessage ==
                                                   "" &&
                                               nameController.text != "" &&
-                                              controller.selectedAgeId != -1 &&
+                                              // controller.selectedAgeId != -1 &&
                                               controller.selectedGenderId != -1)
                                           ? logoRed
                                           : Colors.grey,

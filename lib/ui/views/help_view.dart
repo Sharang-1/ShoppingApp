@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../constants/server_urls.dart';
 import '../../utils/lang/translation_keys.dart';
@@ -99,13 +99,13 @@ class HelpView extends StatelessWidget {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         elevation: 3,
-                        primary: Color.fromRGBO(37, 211, 102, 1),
+                        backgroundColor: Color.fromRGBO(37, 211, 102, 1),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
-                      onPressed: () async =>
-                          await launch("https://wa.me/message/V4N3MEQB4BOHC1"),
+                      onPressed: () async => await launchUrlString(
+                          "https://wa.me/message/V4N3MEQB4BOHC1"),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8),
                         child: Row(

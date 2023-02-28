@@ -177,7 +177,7 @@ class _PromotionScreenState extends State<PromotionScreen> {
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           elevation: 0,
-                          primary: lightGreen,
+                          backgroundColor: lightGreen,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),

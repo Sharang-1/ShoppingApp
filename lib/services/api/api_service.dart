@@ -47,7 +47,7 @@ import '../../models/tailors.dart';
 import '../../models/user_details.dart';
 import '../cache_service.dart';
 import '../dialog_service.dart';
-import '../error_handling_service.dart';
+// import '../error_handling_service.dart';
 import 'AppInterceptor.dart';
 import 'CustomLogInterceptor.dart';
 
@@ -76,8 +76,7 @@ class APIService {
       }));
 
   // final excludeToken = dio.Options(headers: {"excludeToken": true});
-  final ErrorHandlingService _errorHandlingService =
-      locator<ErrorHandlingService>();
+  // final ErrorHandlingService _errorHandlingService = locator<ErrorHandlingService>();
 
   APIService() {
     apiClient
@@ -545,7 +544,7 @@ class APIService {
     } catch (e) {
       print(e.toString());
     }
-    // return null;
+    return null;
   }
 
   Future<AppInfo?> getAppInfo() async {
@@ -624,7 +623,7 @@ class APIService {
 
   Future<Product?> getProductById(
       {required String productId, bool withCoupons = false}) async {
-    if (productId == null) return null;
+    if (productId.isEmpty) return null;
     var productData = withCoupons
         ? await apiWrapper(
             "products/$productId;seller=true;active=true;promocode=true")
@@ -649,6 +648,7 @@ class APIService {
 
     final resolvedList = await Future.wait(futureList);
     final filteredList =
+        // ignore: unnecessary_null_comparison
         resolvedList.where((element) => element != null).toList();
 
     Products data = Products(

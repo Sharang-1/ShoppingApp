@@ -8,7 +8,8 @@ import '../../services/api/api_service.dart';
 import '../../services/cache_service.dart';
 import 'base_grid_view_builder_controller.dart';
 
-class SellersGridViewBuilderController extends BaseGridViewBuilderController<Sellers, Seller> {
+class SellersGridViewBuilderController
+    extends BaseGridViewBuilderController<Sellers, Seller> {
   final APIService _apiService = locator<APIService>();
   final bool profileOnly;
   final bool sellerOnly;
@@ -45,7 +46,9 @@ class SellersGridViewBuilderController extends BaseGridViewBuilderController<Sel
 
   @override
   Future<Sellers> getData(
-      {required BaseFilterModel filterModel, required int pageNumber, int pageSize = 10}) async {
+      {required BaseFilterModel filterModel,
+      required int pageNumber,
+      int pageSize = 10}) async {
     if ((subscriptionType != null) || (subscriptionTypes != null)) {
       pageSize = 30;
     }
@@ -60,44 +63,54 @@ class SellersGridViewBuilderController extends BaseGridViewBuilderController<Sel
         ? await locator<CacheService>().getSellers()
         : (await _apiService.getSellers(queryString: _queryString)).items;
 
-    if (res == null) {
+    if (res.items == null) {
       res = await _apiService.getSellers(queryString: _queryString);
-      if (res == null) throw "Could not load";
+      if (res.items == null) throw "Could not load";
     }
 
     if (this.removeId != null) {
-      res.items = res.items!.where((element) => element.key != this.removeId).toList();
+      res.items =
+          res.items!.where((element) => element.key != this.removeId).toList();
     }
 
     if (this.subscriptionType != null) {
       res.items = res.items!
-          .where((element) => element.subscriptionTypeId == this.subscriptionType)
+          .where(
+              (element) => element.subscriptionTypeId == this.subscriptionType)
           .toList();
     }
 
     if (this.subscriptionTypes != null) {
       res.items = res.items!
-          .where((element) => subscriptionTypes!.contains(element.subscriptionTypeId))
+          .where((element) =>
+              subscriptionTypes!.contains(element.subscriptionTypeId))
           .toList();
     }
 
     if (this.sellerDeliveringToYou) {
       res.items = res.items!
-          .where((element) => element.subscriptionTypeId == 1 || element.subscriptionTypeId == 2)
+          .where((element) =>
+              element.subscriptionTypeId == 1 ||
+              element.subscriptionTypeId == 2)
           .toList();
     }
 
-    if (this.profileOnly != null && this.profileOnly == true) {
-      res.items = res.items!.where((element) => element.subscriptionTypeId != 2).toList();
+    if (this.profileOnly == true) {
+      res.items = res.items!
+          .where((element) => element.subscriptionTypeId != 2)
+          .toList();
     }
 
-    if ((this.profileOnly == null || this.profileOnly == false) &&
-        (this.sellerOnly != null && this.sellerOnly == true)) {
-      res.items = res.items!.where((element) => element.subscriptionTypeId == 2).toList();
+    if ((this.profileOnly == false) && (this.sellerOnly == true)) {
+      res.items = res.items!
+          .where((element) => element.subscriptionTypeId == 2)
+          .toList();
     }
 
     if (this.boutiquesOnly) {
-      res.items = res.items!.where((element) => element.establishmentTypeId == 1).toList();
+      res.items = res.items!
+          .where((element) => element.establishmentTypeId == 1)
+          .toList();
     }
 
     if (this.random) {
@@ -114,18 +127,18 @@ class SellersGridViewBuilderController extends BaseGridViewBuilderController<Sel
         if (!((products?.items?.length ?? 0) < 3)) {
           e.products = products!.items;
           sellers.add(e);
-          if (limit != null && sellers.length == limit) {
+          if (sellers.length == limit) {
             res.items = sellers;
             return res;
           }
         }
       });
       res.items = sellers;
-      if (limit != null && res.items!.length > limit) res.items = res.items!.sublist(0, limit);
+      if (res.items!.length > limit) res.items = res.items!.sublist(0, limit);
       return res;
     }
 
-    if (limit != null && res.items!.length > limit) res.items = res.items!.sublist(0, limit);
+    if (res.items!.length > limit) res.items = res.items!.sublist(0, limit);
 
     return res;
   }

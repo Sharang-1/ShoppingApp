@@ -154,7 +154,7 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
                                 ));
                           },
                         );
-
+                        // ignore: unnecessary_null_comparison
                         if (filterDialogResponse != null) {
                           setState(() {
                             showRandomProducts = false;

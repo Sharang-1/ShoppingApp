@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../shared/ui_helpers.dart';
 
@@ -21,10 +21,11 @@ class LinkWidget extends StatelessWidget {
       child: GestureDetector(
         onTap: () async {
           if (linkType == LinkType.webLink)
-            await launch(data);
+            await launchUrlString(data);
           else if (linkType == LinkType.email)
-            await launch("mailto:$data");
-          else if (linkType == LinkType.contactNo) await launch("tel://$data");
+            await launchUrlString("mailto:$data");
+          else if (linkType == LinkType.contactNo)
+            await launchUrlString("tel://$data");
         },
         child: Text(
           name,

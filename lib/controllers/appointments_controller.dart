@@ -59,7 +59,7 @@ class AppointmentsController extends BaseController {
     setBusy(true);
 
     var adds = await _addressService.getAddresses();
-    if (adds == null || adds.length == 0) {
+    if (adds.isEmpty || adds.length == 0) {
       await DialogService.showConfirmationDialog(
         title: "Hey there!",
         description: "Please add your address before booking an appointment.",

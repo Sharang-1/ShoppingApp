@@ -1,5 +1,4 @@
 import 'package:compound/ui/views/cart_select_promocode_view.dart';
-import 'package:compound/ui/widgets/input_field.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:page_transition/page_transition.dart';
@@ -96,21 +95,21 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
       promocode: widget.promoCode,
       promocodeDiscount: '$rupeeUnicode${widget.promoCodeDiscount}',
       price: rupeeUnicode +
-          ((qty ?? widget.item.quantity)! * widget.item.product!.cost!.cost!)
+          ((qty ?? widget.item.quantity) * widget.item.product!.cost!.cost!)
               .toString(),
       discount: discount.toString() + "%",
       discountedPrice: rupeeUnicode +
-          ((discountedPrice * (qty ?? widget.item.quantity!))).toString(),
+          ((discountedPrice * (qty ?? widget.item.quantity))).toString(),
       convenienceCharges:
           '${widget.item.product?.cost?.convenienceCharges?.rate} %',
       gst:
-          '$rupeeUnicode${(((qty ?? widget.item.quantity) ?? 1) * (widget.item.product?.cost?.gstCharges?.cost ?? 0)).toStringAsFixed(2)} (${widget.item.product?.cost?.gstCharges?.rate}%)',
+          '$rupeeUnicode${(((qty ?? widget.item.quantity)) * (widget.item.product?.cost?.gstCharges?.cost ?? 0)).toStringAsFixed(2)} (${widget.item.product?.cost?.gstCharges?.rate}%)',
       deliveryCharges: "-",
       actualPrice:
-          "$rupeeUnicode ${(((qty ?? widget.item.quantity) ?? 1) * ((widget.item.product?.cost?.cost ?? 0) + (widget.item.product?.cost?.gstCharges?.cost ?? 0)) + (widget.item.product?.cost?.convenienceCharges?.cost ?? 0)).toStringAsFixed(2)}",
+          "$rupeeUnicode ${(((qty ?? widget.item.quantity)) * ((widget.item.product?.cost?.cost ?? 0) + (widget.item.product?.cost?.gstCharges?.cost ?? 0)) + (widget.item.product?.cost?.convenienceCharges?.cost ?? 0)).toStringAsFixed(2)}",
       saved:
           // ignore: deprecated_member_use
-          "$rupeeUnicode ${((((qty ?? widget.item.quantity) ?? 1) * ((widget.item.product?.cost?.cost ?? 0) + (widget.item.product?.cost?.gstCharges?.cost ?? 0)) + (widget.item.product?.cost?.convenienceCharges?.cost ?? 0)) - widget.finalTotal).toStringAsFixed(2)}",
+          "$rupeeUnicode ${((((qty ?? widget.item.quantity)) * ((widget.item.product?.cost?.cost ?? 0) + (widget.item.product?.cost?.gstCharges?.cost ?? 0)) + (widget.item.product?.cost?.convenienceCharges?.cost ?? 0)) - widget.finalTotal).toStringAsFixed(2)}",
       total: qty == null ? rupeeUnicode + widget.finalTotal.toString() : '-',
     );
   }
@@ -137,7 +136,7 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                       width: 100,
                       fadeInCurve: Curves.easeIn,
                       placeholder: "assets/images/product_preloading.png",
-                      image: productImage != null
+                      image: productImage.isNotEmpty
                           ? '$PRODUCT_PHOTO_BASE_URL/${widget.item.productId}/$productImage-small.png'
                           : "https://images.unsplashr.com/photo-1567098260939-5d9cee055592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
                       imageErrorBuilder: (context, error, stackTrace) =>
@@ -324,7 +323,7 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                 child: OutlinedButton(
                   style: ElevatedButton.styleFrom(
                     elevation: 0,
-                    primary: Colors.white,
+                    backgroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                       side: BorderSide(
@@ -363,7 +362,7 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                 child: OutlinedButton(
                   style: ElevatedButton.styleFrom(
                     elevation: 0,
-                    primary: Colors.white,
+                    backgroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                       side: BorderSide(
@@ -404,7 +403,7 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
                   child: OutlinedButton(
                     style: ElevatedButton.styleFrom(
                       elevation: 0,
-                      primary: Colors.white,
+                      backgroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                         side: BorderSide(

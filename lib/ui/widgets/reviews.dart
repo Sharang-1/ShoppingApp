@@ -32,7 +32,6 @@ class ReviewWidget extends StatelessWidget {
             Container(
               color: Colors.grey[200],
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-              
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -61,8 +60,8 @@ class ReviewWidget extends StatelessWidget {
                                 border: Border.all(
                                   color: Tools.getColorAccordingToRattings(
                                     controller.reviews!.items!.isNotEmpty
-                                        ? controller
-                                                .reviews!.ratingAverage?.rating ??
+                                        ? controller.reviews!.ratingAverage
+                                                ?.rating ??
                                             5
                                         : 5,
                                   ),
@@ -71,7 +70,8 @@ class ReviewWidget extends StatelessWidget {
                                 color: Colors.white,
                               ),
                               child: Text(
-                                controller.reviews!.ratingAverage!.rating != null
+                                controller.reviews!.ratingAverage!.rating !=
+                                        null
                                     ? '${controller.reviews!.ratingAverage!.rating!.toStringAsFixed(1)}'
                                     : "0",
                                 style: TextStyle(
@@ -79,8 +79,8 @@ class ReviewWidget extends StatelessWidget {
                                   fontWeight: FontWeight.bold,
                                   color: Tools.getColorAccordingToRattings(
                                     controller.reviews!.items!.isNotEmpty
-                                        ? controller
-                                                .reviews!.ratingAverage?.rating ??
+                                        ? controller.reviews!.ratingAverage
+                                                ?.rating ??
                                             5
                                         : 5,
                                   ),
@@ -156,13 +156,13 @@ class ReviewWidget extends StatelessWidget {
                                     isScrollControlled: true);
                               },
                               style: TextButton.styleFrom(
-                                primary: Colors.white,
+                                foregroundColor: Colors.white,
                                 backgroundColor: logoRed,
                                 textStyle: TextStyle(
                                   fontSize: subtitleFontSize,
                                 ),
                               ),
-                              child : Row(
+                              child: Row(
                                 children: [
                                   Icon(
                                     Icons.edit,
@@ -177,7 +177,8 @@ class ReviewWidget extends StatelessWidget {
                             ),
                           if ((controller.reviews!.items?.length ?? 0) > 3)
                             InkWell(
-                              onTap: () => NavigationService.to(ReviewScreenRoute,
+                              onTap: () => NavigationService.to(
+                                  ReviewScreenRoute,
                                   arguments: controller.reviews),
                               child: CustomText(
                                 VIEW_ALL.tr,

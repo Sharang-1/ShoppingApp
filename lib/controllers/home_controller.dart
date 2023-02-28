@@ -2,7 +2,6 @@ import 'dart:convert';
 
 // import 'package:compound/models/cart.dart';
 import 'package:compound/app/app.dart';
-import '../models/ordersV2.dart' as ov2;
 import 'package:compound/models/products.dart';
 import 'package:compound/models/sellers.dart';
 // import 'package:firebase_remote_config/firebase_remote_config.dart';
@@ -13,7 +12,6 @@ import 'package:get/get.dart';
 import 'package:location/location.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:rate_my_app/rate_my_app.dart';
-import 'package:rating_dialog/rating_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import 'package:http/http.dart' as http;
@@ -24,19 +22,16 @@ import '../constants/shared_pref.dart';
 import '../controllers/cart_count_controller.dart';
 import '../controllers/wishlist_controller.dart';
 import '../locator.dart';
-import '../models/orders.dart';
 import '../models/productPageArg.dart';
 import '../models/promotions.dart';
 import '../models/user_details.dart';
 import '../services/api/api_service.dart';
 import '../services/authentication_service.dart';
 import '../services/cart_local_store_service.dart';
-import '../services/dialog_service.dart';
 import '../services/localization_service.dart';
 import '../services/location_service.dart';
 import '../services/navigation_service.dart';
 import '../services/wishlist_service.dart';
-import '../ui/shared/app_colors.dart';
 import 'base_controller.dart';
 import 'dynamic_content_controller.dart';
 
@@ -110,9 +105,12 @@ class HomeController extends BaseController {
     // }
 
     List<Promotion> promotions = await getPromotions();
-    topPromotion = promotions.where((element) => element.position!.toLowerCase() == "top").toList();
-    bottomPromotion =
-        promotions.where((element) => element.position!.toLowerCase() == "bottom").toList();
+    topPromotion = promotions
+        .where((element) => element.position!.toLowerCase() == "top")
+        .toList();
+    bottomPromotion = promotions
+        .where((element) => element.position!.toLowerCase() == "bottom")
+        .toList();
 
     await updateUserDetails();
     update();
@@ -148,8 +146,10 @@ class HomeController extends BaseController {
   }
 
   setup() async {
-    locator<CartCountController>().setCartCount(await setUpCartListAndGetCount());
-    locator<WishListController>().setUpWishList(await _wishListService.getWishList());
+    locator<CartCountController>()
+        .setCartCount(await setUpCartListAndGetCount());
+    locator<WishListController>()
+        .setUpWishList(await _wishListService.getWishList());
 
     if (prefs == null) prefs = await SharedPreferences.getInstance();
     currentLanguage = prefs!.getString(CurrentLanguage) ?? "";
@@ -173,7 +173,6 @@ class HomeController extends BaseController {
     await updateIsLoggedIn();
 
     if (isLoggedIn) {
-
       // ? get review of last delivered products
       // final lastDeliveredProduct = await getLastDeliveredProduct();
       // if (lastDeliveredProduct != null)
@@ -222,9 +221,13 @@ class HomeController extends BaseController {
           await rateMyApp.init();
           if (prefs == null) prefs = await SharedPreferences.getInstance();
           int launches = prefs!.getInt('rateMyApp_launches') ?? 0;
-          bool doNotOpenAgain = prefs!.getBool('rateMyApp_doNotOpenAgain') ?? false;
+          bool doNotOpenAgain =
+              prefs!.getBool('rateMyApp_doNotOpenAgain') ?? false;
 
-          if (!doNotOpenAgain && (launches > 0) && (launches % 2 == 0) && (launches % 5 == 0)) {
+          if (!doNotOpenAgain &&
+              (launches > 0) &&
+              (launches % 2 == 0) &&
+              (launches % 5 == 0)) {
             await rateMyApp.showRateDialog(
               Get.context!,
               title: 'Dzor',
@@ -289,30 +292,33 @@ class HomeController extends BaseController {
       PermissionStatus permissionStatus = await location.requestPermission();
       if (permissionStatus == PermissionStatus.granted) {
         location.onLocationChanged.listen((locationData) {
-          if (cityName == "Add Location" && locationData != null) {
+          if (cityName == "Add Location" &&
+              locationData.latitude != null &&
+              locationData.longitude != null) {
+            // ignore: unused_local_variable
             UserLocation currentLocation = UserLocation(
               latitude: locationData.latitude,
               longitude: locationData.longitude,
             );
 
-            if (currentLocation != null) {
-              // Geocoder.local
-              //     .findAddressesFromCoordinates(
-              //   Coordinates(
-              //     currentLocation.latitude,
-              //     currentLocation.longitude,
-              //   ),
-              // )
+            // if (currentLocation != null) {
+            // Geocoder.local
+            //     .findAddressesFromCoordinates(
+            //   Coordinates(
+            //     currentLocation.latitude,
+            //     currentLocation.longitude,
+            //   ),
+            // )
 
-              // placemarkFromCoordinates(
-              //   currentLocation.latitude!,
-              //   currentLocation.longitude!,
-              // ).then((addresses) {
-              //   cityName = addresses[0].locality!;
-              //   if (cityName.contains("null")) cityName = "Add Location";
-              //   update();
-              // });
-            }
+            // placemarkFromCoordinates(
+            //   currentLocation.latitude!,
+            //   currentLocation.longitude!,
+            // ).then((addresses) {
+            //   cityName = addresses[0].locality!;
+            //   if (cityName.contains("null")) cityName = "Add Location";
+            //   update();
+            // });
+            // }
           }
         });
       }
@@ -401,7 +407,8 @@ class HomeController extends BaseController {
 
   String getCurrentLang() => currentLanguage ?? "English";
 
-  void showTutorial(BuildContext context, {GlobalKey? searchKey, GlobalKey? logoKey}) async {
+  void showTutorial(BuildContext context,
+      {GlobalKey? searchKey, GlobalKey? logoKey}) async {
     if (prefs == null) prefs = await SharedPreferences.getInstance();
     if (prefs?.getBool(ShouldShowHomeTutorial) ?? true) {
       late TutorialCoachMark tutorialCoachMark;
@@ -425,7 +432,9 @@ class HomeController extends BaseController {
                       Text(
                         "Dzor Search",
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.white, fontSize: 20.0),
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 20.0),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 10.0),
@@ -480,14 +489,14 @@ class HomeController extends BaseController {
         ),
       ];
       tutorialCoachMark = TutorialCoachMark(
-        
         targets: targets,
         colorShadow: Colors.black45,
         paddingFocus: 5,
         onClickOverlay: (targetFocus) => tutorialCoachMark.next(),
         onClickTarget: (targetFocus) => tutorialCoachMark.next(),
         onSkip: () async => await prefs!.setBool(ShouldShowHomeTutorial, false),
-        onFinish: () async => await prefs!.setBool(ShouldShowHomeTutorial, false),
+        onFinish: () async =>
+            await prefs!.setBool(ShouldShowHomeTutorial, false),
       )..show(context: context);
       try {
         await prefs!.setBool(ShouldShowHomeTutorial, false);
@@ -506,9 +515,11 @@ Future getProducts(String promotionKey) async {
 
   final resBody = await jsonDecode(res.body);
   var promotion = Promotion.fromJson(resBody);
-  if (promotionKey == (releaseMode ? 67409233.toString() : 86798078.toString())) {
+  if (promotionKey ==
+      (releaseMode ? 67409233.toString() : 86798078.toString())) {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('promoted_product', promotion.products![0].toString());
+    await prefs.setString(
+        'promoted_product', promotion.products![0].toString());
     DzorConst().promotedProduct = promotion.products?[1];
     print("abcdefg ${promotion.products?[1]}");
   }
@@ -558,7 +569,8 @@ Future getDynamicKeys() async {
   final resBody = await jsonDecode(res.body);
   for (var each in resBody['promotions']) {
     try {
-      if (each['products'].length > 0) if (each['position'] == 'Bottom' && each['enabled']) {
+      if (each['products'].length > 0) if (each['position'] == 'Bottom' &&
+          each['enabled']) {
         appVar.dynamicSectionKeys.add(each['key']);
         mylist.add(each['key']);
       }

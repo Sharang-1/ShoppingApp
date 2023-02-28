@@ -87,7 +87,7 @@ class _SearchViewState extends State<SearchView>
                           oldFilter: _controller.productFilter.value),
                     ),
                   );
-
+                  // ignore: unnecessary_null_comparison
                   if (filterDialogResponse != null) {
                     _controller.setProductFilter(filterDialogResponse);
                     _controller.setShowTopProducts(false);

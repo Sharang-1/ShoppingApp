@@ -19,7 +19,7 @@ class LoginController extends BaseController {
   String phoneNoValidationMessage = "";
   String nameValidationMessage = "";
   Gender selectedGender = Gender.Male;
-  int selectedAgeId = -1;
+  int selectedAgeId = 19;
   int selectedGenderId = -1;
 
   final ageLookup = locator<LookupController>()

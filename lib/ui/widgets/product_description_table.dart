@@ -56,6 +56,7 @@ class ProductDescriptionTable extends StatelessWidget {
               .where(
                   (element) => element.sectionName!.toLowerCase() == "product")
               .first;
+          // ignore: unnecessary_null_comparison
           if (productSection == null) {
             return Container();
           }

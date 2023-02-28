@@ -66,8 +66,8 @@ class _MyOrdersViewState extends State<MyOrdersView> {
                       Image.asset("assets/images/empty_cart.png"),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          primary: lightGreen,
-                          onPrimary: Colors.white,
+                          foregroundColor: Colors.white,
+                          backgroundColor: lightGreen,
                           elevation: 0,
                         ),
                         onPressed: () async {
@@ -80,32 +80,33 @@ class _MyOrdersViewState extends State<MyOrdersView> {
                       ),
                     ]),
                   )
-                :  SmartRefresher(
-              enablePullDown: true,
-              footer: null,
-              header: WaterDropHeader(
-                waterDropColor: logoRed,
-                refresh: Center(
-                  child: Center(
-                    child: Image.asset(
-                      "assets/images/loading_img.gif",
-                      height: 25,
-                      width: 25,
+                : SmartRefresher(
+                    enablePullDown: true,
+                    footer: null,
+                    header: WaterDropHeader(
+                      waterDropColor: logoRed,
+                      refresh: Center(
+                        child: Center(
+                          child: Image.asset(
+                            "assets/images/loading_img.gif",
+                            height: 25,
+                            width: 25,
+                          ),
+                        ),
+                      ),
+                      complete: Container(),
                     ),
+                    controller: refreshController,
+                    onRefresh: () async {
+                      setState(() {
+                        key = UniqueKey();
+                      });
+                      await Future.delayed(Duration(milliseconds: 100));
+                      refreshController.refreshCompleted(
+                          resetFooterState: true);
+                    },
+                    child: MyOrdersTile(controller: controller),
                   ),
-                ),
-                complete: Container(),
-              ),
-              controller: refreshController,
-              onRefresh: () async {
-                setState(() {
-                  key = UniqueKey();
-                });
-                await Future.delayed(Duration(milliseconds: 100));
-                refreshController.refreshCompleted(resetFooterState: true);
-              },
-              child: MyOrdersTile(controller: controller),
-            ),
           ),
         ),
       );

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../constants/route_names.dart';
 import '../constants/server_urls.dart';
@@ -94,8 +94,8 @@ class OtpVerificationController extends BaseController {
 
   openTermsAndConditions() async {
     const url = TERMS_AND_CONDITIONS_URL;
-    if (await canLaunch(url)) {
-      await launch(url);
+    if (await canLaunchUrlString(url)) {
+      await launchUrlString(url);
     }
   }
 

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:compound/app/app.dart';
 import 'package:compound/models/groupOrderCostEstimateModel.dart';
 import 'package:compound/models/orderV2.dart';
@@ -9,6 +7,7 @@ import 'package:compound/utils/lang/translation_keys.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import '../../app/groupOrderData.dart';
 import '../../constants/route_names.dart';
 import '../../controllers/cart_payment_method_controller.dart';
@@ -633,7 +632,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       elevation: 0,
-                      primary: lightGreen,
+                      backgroundColor: lightGreen,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -832,6 +831,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
         paymentOption);
 
     if (kDebugMode) print("res = $res");
+    // ignore: unnecessary_null_comparison
     if (res != null) {
       NavigationService.off(PaymentFinishedScreenRoute);
       // GroupOrderData.cartProducts.clear();
