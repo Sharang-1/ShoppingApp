@@ -531,6 +531,30 @@ Future getProducts(String promotionKey) async {
   return promotion;
 }
 
+Future getSeller(String sellerId) async {
+  var headersList = {'Accept': '*/*'};
+  var url = Uri.parse('${appVar.currentUrl}sellers/$sellerId');
+  var res = await http.get(url, headers: headersList);
+
+  final resBody = await jsonDecode(res.body);
+  var seller = Seller.fromJson(resBody);
+
+  url = Uri.parse(
+      '${appVar.currentUrl}products;startIndex=0;limit=3;accountKey=$sellerId;seller=true;active=true');
+  var resProduct = await http.get(url, headers: headersList);
+  final resProductBody = await jsonDecode(resProduct.body);
+  seller.products = resProductBody["products"] == null
+      ? null
+      : List<Product>.from(
+          resProductBody["products"].map((x) => Product.fromJson(x)));
+  if (res.statusCode >= 200 && res.statusCode < 300) {
+    print("$resBody");
+  } else {
+    print("${res.reasonPhrase}");
+  }
+  return seller;
+}
+
 Future<Product> getProductFromKey(String key) async {
   var headersList = {'Accept': '*/*'};
   var url = Uri.parse('${appVar.currentUrl}products/$key');

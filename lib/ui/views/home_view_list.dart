@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../app/app.dart';
+import '../../constants/route_names.dart';
 import '../../constants/server_urls.dart';
 import '../../controllers/base_controller.dart';
 import '../../controllers/grid_view_builder/products_grid_view_builder_controller.dart';
@@ -15,12 +16,15 @@ import '../../models/grid_view_builder_filter_models/productFilter.dart';
 import '../../models/productPageArg.dart';
 import '../../models/products.dart';
 import '../../models/promotions.dart';
+import '../../models/sellers.dart';
+import '../../services/navigation_service.dart';
 import '../../utils/lang/translation_keys.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
 import '../widgets/home_view_list_header.dart';
 import '../widgets/product_tile_ui.dart';
+import '../widgets/product_tile_ui_2.dart';
 import '../widgets/promotion_slider.dart';
 import '../widgets/section_builder.dart';
 import '../widgets/shimmer/shimmer_widget.dart';
@@ -134,7 +138,8 @@ class _HomeViewListState extends State<HomeViewList> {
                           ),
                           SectionDivider(),
                           if (appVar.dynamicSectionKeys.length > i &&
-                              appVar.dynamicSectionKeys[i] != "67409233")
+                              appVar.dynamicSectionKeys[i] != "67409233" &&
+                              appVar.dynamicSectionKeys[i] != "67409243")
                             FutureBuilder(
                                 future:
                                     getProducts(appVar.dynamicSectionKeys[i++]),
@@ -303,7 +308,8 @@ class _HomeViewListState extends State<HomeViewList> {
                                 }),
 
                           if (appVar.dynamicSectionKeys.length > i &&
-                              appVar.dynamicSectionKeys[i] != "67409233")
+                              appVar.dynamicSectionKeys[i] != "67409233" &&
+                              appVar.dynamicSectionKeys[i] != "67409243")
                             Column(
                               children: [
                                 SectionDivider(),
@@ -393,7 +399,8 @@ class _HomeViewListState extends State<HomeViewList> {
                           //   BottomPromotion(promotion: controller.bottomPromotion[0])
                           // ],
                           if (appVar.dynamicSectionKeys.length > i &&
-                              appVar.dynamicSectionKeys[i] != "67409233")
+                              appVar.dynamicSectionKeys[i] != "67409233" &&
+                              appVar.dynamicSectionKeys[i] != "67409243")
                             FutureBuilder(
                                 future:
                                     getProducts(appVar.dynamicSectionKeys[i++]),
@@ -515,6 +522,266 @@ class _HomeViewListState extends State<HomeViewList> {
                               ],
                             ),
                           ),
+                          FutureBuilder(
+                              future: getProducts((releaseMode
+                                  ? 67409243.toString()
+                                  : 86798079.toString())),
+                              builder: (context, data) {
+                                if (data.connectionState ==
+                                    ConnectionState.active) {
+                                  return Container(
+                                    height: 200,
+                                  );
+                                }
+                                if (data.hasData)
+                                  return FutureBuilder(
+                                      future: getSeller(
+                                          (data.data as Promotion).filter ??
+                                              ""),
+                                      builder: (context, data) {
+                                        if (data.connectionState ==
+                                            ConnectionState.active) {
+                                          return Container(
+                                            height: 200,
+                                          );
+                                        }
+                                        if (data.hasData)
+                                          return Container(
+                                            height: 260,
+                                            width: double.infinity,
+                                            child: Stack(
+                                              children: [
+                                                Positioned(
+                                                  bottom: 5,
+                                                  left: -80,
+                                                  child: Container(
+                                                    height: 240,
+                                                    width: Get.width * 0.7,
+                                                    child: Image.asset(
+                                                      "assets/images/bg-2.jpeg",
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Positioned(
+                                                  bottom: 60,
+                                                  right: -80,
+                                                  child: Container(
+                                                    height: 200,
+                                                    width: Get.width * 0.7,
+                                                    child: Image.asset(
+                                                      "assets/images/bg-2.jpeg",
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  height: 255,
+                                                  width: double.infinity,
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 10,
+                                                      horizontal: 15),
+                                                  margin: EdgeInsets.symmetric(
+                                                      horizontal: 30,
+                                                      vertical: 2),
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            curve15),
+                                                    color: Colors.white,
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                          color: Colors.black26,
+                                                          blurRadius: 2)
+                                                    ],
+                                                  ),
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(
+                                                        "Creator in Spotlight",
+                                                        style: TextStyle(
+                                                          color: Colors.black45,
+                                                          letterSpacing: 0.4,
+                                                          fontSize:
+                                                              titleFontSizeStyle -
+                                                                  2,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                        ),
+                                                      ),
+                                                      SizedBox(height: 5),
+                                                      Row(
+                                                        children: [
+                                                          Container(
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              border: Border.all(
+                                                                  color: Colors
+                                                                      .grey
+                                                                      .shade100),
+                                                              boxShadow: [
+                                                                BoxShadow(
+                                                                  color: Colors
+                                                                      .black12,
+                                                                  blurRadius: 5,
+                                                                ),
+                                                              ],
+                                                              color:
+                                                                  Colors.white,
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .all(
+                                                                Radius.circular(
+                                                                    30),
+                                                              ),
+                                                            ),
+                                                            child:
+                                                                Image.network(
+                                                              "$SELLER_PROFILE_PHOTO_BASE_URL/${(data.data as Seller).key}/profile/${(data.data as Seller).photo?.name}",
+                                                              fit: BoxFit.cover,
+                                                              height: 35,
+                                                            ),
+                                                          ),
+                                                          SizedBox(width: 10),
+                                                          Column(
+                                                            children: [
+                                                              AutoSizeText(
+                                                                "${(data.data as Seller).name}",
+                                                                maxLines: 1,
+                                                                style:
+                                                                    TextStyle(
+                                                                  // color: Colors.black45,
+                                                                  color: Colors
+                                                                          .grey[
+                                                                      800],
+
+                                                                  // letterSpacing: 0.4,
+                                                                  fontSize: 20,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                ),
+                                                              ),
+                                                              AutoSizeText(
+                                                                "${(data.data as Seller).bio}",
+                                                                maxLines: 1,
+                                                                style:
+                                                                    TextStyle(
+                                                                  // color: Colors.black45,
+                                                                  color: Colors
+                                                                          .grey[
+                                                                      800],
+
+                                                                  // letterSpacing: 0.4,
+                                                                  fontSize: 10,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w300,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      Spacer(),
+                                                      GestureDetector(
+                                                        onTap: () {
+                                                          NavigationService.to(
+                                                            ProductsListRoute,
+                                                            arguments:
+                                                                ProductPageArg(
+                                                              subCategory: (data
+                                                                          .data
+                                                                      as Seller)
+                                                                  .name,
+                                                              queryString:
+                                                                  "accountKey=${(data.data as Seller).key};",
+                                                              sellerPhoto:
+                                                                  "$SELLER_PHOTO_BASE_URL/${(data.data as Seller).key}",
+                                                            ),
+                                                          );
+                                                        },
+                                                        child: Row(
+                                                          children: [
+                                                            Text(
+                                                              "View All",
+                                                              style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                // letterSpacing: 0.4,
+                                                                fontSize:
+                                                                    titleFontSizeStyle -
+                                                                        2,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                              ),
+                                                            ),
+                                                            horizontalSpaceTiny,
+                                                            Icon(
+                                                              Icons
+                                                                  .arrow_forward,
+                                                              size: 12,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                Positioned(
+                                                  left: 30,
+                                                  bottom: 30,
+                                                  child: Container(
+                                                    height: 150,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.9,
+                                                    margin: EdgeInsets.only(
+                                                        left: 15),
+                                                    child: ListView.builder(
+                                                        scrollDirection:
+                                                            Axis.horizontal,
+                                                        itemCount: (data.data
+                                                                as Seller)
+                                                            .products
+                                                            ?.length,
+                                                        itemBuilder:
+                                                            (context, i) {
+                                                          return Container(
+                                                            height: 100,
+                                                            width: 200,
+                                                            child:
+                                                                ProductTileUI2(
+                                                              data: (data.data
+                                                                      as Seller)
+                                                                  .products![i],
+                                                              cardPadding:
+                                                                  EdgeInsets
+                                                                      .zero,
+                                                              onClick: () => BaseController
+                                                                  .goToProductPage(
+                                                                      (data.data
+                                                                              as Seller)
+                                                                          .products![i]),
+                                                              index: i,
+                                                            ),
+                                                          );
+                                                        }),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          );
+                                        return Container();
+                                      });
+                                return Container();
+                              }),
                           FutureSectionBuilder(
                             duration: sectionDelay['SECTION3']!,
                             child: Column(
@@ -547,7 +814,8 @@ class _HomeViewListState extends State<HomeViewList> {
                           ),
 
                           if (appVar.dynamicSectionKeys.length > i &&
-                              appVar.dynamicSectionKeys[i] != "67409233")
+                              appVar.dynamicSectionKeys[i] != "67409233" &&
+                              appVar.dynamicSectionKeys[i] != "67409243")
                             Column(
                               children: [
                                 // SectionDivider(),
@@ -904,7 +1172,8 @@ class _HomeViewListState extends State<HomeViewList> {
                           // ),
 
                           if (appVar.dynamicSectionKeys.length > i &&
-                              appVar.dynamicSectionKeys[i] != "67409233")
+                              appVar.dynamicSectionKeys[i] != "67409233" &&
+                              appVar.dynamicSectionKeys[i] != "67409243")
                             FutureBuilder(
                                 future:
                                     getProducts(appVar.dynamicSectionKeys[i++]),
@@ -943,7 +1212,8 @@ class _HomeViewListState extends State<HomeViewList> {
                                   return Container();
                                 }),
                           if (appVar.dynamicSectionKeys.length > i &&
-                              appVar.dynamicSectionKeys[i] != "67409233")
+                              appVar.dynamicSectionKeys[i] != "67409233" &&
+                              appVar.dynamicSectionKeys[i] != "67409243")
                             FutureBuilder(
                                 future:
                                     getProducts(appVar.dynamicSectionKeys[i++]),
@@ -987,7 +1257,8 @@ class _HomeViewListState extends State<HomeViewList> {
                                   return Container();
                                 }),
                           if (appVar.dynamicSectionKeys.length > i &&
-                              appVar.dynamicSectionKeys[i] != "67409233")
+                              appVar.dynamicSectionKeys[i] != "67409233" &&
+                              appVar.dynamicSectionKeys[i] != "67409243")
                             FutureBuilder(
                                 future:
                                     getProducts(appVar.dynamicSectionKeys[i++]),
@@ -1031,7 +1302,8 @@ class _HomeViewListState extends State<HomeViewList> {
                                   return Container();
                                 }),
                           if (appVar.dynamicSectionKeys.length > i &&
-                              appVar.dynamicSectionKeys[i] != "67409233")
+                              appVar.dynamicSectionKeys[i] != "67409233" &&
+                              appVar.dynamicSectionKeys[i] != "67409243")
                             FutureBuilder(
                                 future:
                                     getProducts(appVar.dynamicSectionKeys[i++]),
