@@ -489,7 +489,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                           width: MediaQuery.of(context)
                                                   .size
                                                   .width *
-                                              0.8,
+                                              0.7,
                                           child: productPriceInfo(
                                             productName: productData?.name,
                                             designerName:
@@ -538,6 +538,26 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                             onTap: () =>
                                                 NavigationService.back(),
                                           ),
+                                        // if ((productData?.discount ?? 0.0) !=
+                                        //     0.0)
+                                        //   InkWell(
+                                        //     child: Container(
+                                        //       decoration: BoxDecoration(
+                                        //         borderRadius:
+                                        //             BorderRadius.circular(50),
+                                        //       ),
+                                        //       width: 55,
+                                        //       height: 55,
+                                        //       child: Center(
+                                        //         child: Image.asset(
+                                        //           "assets/images/1-removebg-preview.png",
+                                        //           fit: BoxFit.cover,
+                                        //         ),
+                                        //       ),
+                                        //     ),
+                                        //     onTap: () =>
+                                        //         NavigationService.back(),
+                                        //   ),
                                       ],
                                     ),
                                     elementDivider(),
@@ -593,8 +613,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                         ],
                                       ),
                                     ),
-
-                                    elementDivider(),
+                                    if (available!) elementDivider(),
                                     if (available!)
                                       Container(
                                         // decoration: BoxDecoration(border: Border.all()),
@@ -605,7 +624,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: <Widget>[
-                                            selectedSize == "N/A"
+                                            selectedSize == "N/A" ||
+                                                    selectedSize.isEmpty
                                                 ? verticalSpace(0)
                                                 : Row(
                                                     children: <Widget>[

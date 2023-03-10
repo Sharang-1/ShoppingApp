@@ -13,25 +13,20 @@ import 'package:page_transition/page_transition.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../app/groupOrderData.dart';
-import '../../constants/server_urls.dart';
 import '../../controllers/cart_controller.dart';
 import '../../controllers/cart_count_controller.dart';
 import '../../controllers/grid_view_builder/cart_grid_view_builder_controller.dart';
-import '../../controllers/home_controller.dart';
 import '../../locator.dart';
 import '../../models/cart.dart';
 import '../../models/grid_view_builder_filter_models/cartFilter.dart';
 import '../../models/groupOrderModel.dart';
-import '../../models/promotions.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
 import '../widgets/cart_tile.dart';
 import '../widgets/custom_stepper.dart';
 import '../widgets/custom_text.dart';
-import '../widgets/shimmer/shimmer_widget.dart';
 import 'cart_select_delivery_view.dart';
-import 'home_view_list.dart';
 
 class CartView extends StatefulWidget {
   final String productId;
@@ -183,7 +178,6 @@ class _CartViewState extends State<CartView> {
                                       index, onDelete, onUpdate) {
                                     Fimber.d("testying");
                                     log((data as Item).toString());
-
                                     final Item dItem = data;
                                     exceptProductIDs
                                         .add(dItem.product!.key ?? "");
@@ -213,7 +207,32 @@ class _CartViewState extends State<CartView> {
                                 )
                               : Container(),
                         ),
-                        // Spacer(),
+                        // FutureBuilder(
+                        //   future: getProducts((releaseMode
+                        //       ? 44644641.toString()
+                        //       : 86798080.toString())),
+                        //   builder: (context, data) {
+                        //     if (data.connectionState ==
+                        //         ConnectionState.active) {
+                        //       return ShimmerWidget(
+                        //           type: LayoutType.PRODUCT_LAYOUT_2);
+                        //     }
+                        //     if (data.hasData)
+                        //       return Column(children: [
+                        //         SizedBox(height: 5),
+                        //         DynamicSectionBuilder(
+                        //           header: SectionHeader(
+                        //             title:
+                        //                 "Some Sugestion for you", //(data.data as Promotion).name,
+                        //             subTitle: "Scroll right to see more",
+                        //           ),
+                        //           products:
+                        //               (data.data as Promotion).products ?? [],
+                        //         ),
+                        //       ]);
+                        //     return Container();
+                        //   },
+                        // ),
                       ],
                     ),
                   ),
@@ -223,54 +242,9 @@ class _CartViewState extends State<CartView> {
                   child: FutureBuilder<bool>(
                     initialData: false,
                     future: controller.hasProducts(),
-                    builder: (c, s) => (!controller.isCartEmpty &&
-                            controller.showPairItWith)
-                        ? Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  color: Colors.white,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.5),
-                                      spreadRadius: 5,
-                                      blurRadius: 7,
-                                      offset: Offset(0, 3),
-                                    ),
-                                  ],
-                                ),
-                                child: FutureBuilder(
-                                  future: getProducts((releaseMode
-                                      ? 44644641.toString()
-                                      : 86798080.toString())),
-                                  builder: (context, data) {
-                                    if (data.connectionState ==
-                                        ConnectionState.active) {
-                                      return ShimmerWidget(
-                                          type: LayoutType.PRODUCT_LAYOUT_2);
-                                    }
-                                    if (data.hasData)
-                                      return Column(children: [
-                                        SizedBox(height: 5),
-                                        DynamicSectionBuilder(
-                                          header: SectionHeader(
-                                            title:
-                                                "Some Sugestion for you", //(data.data as Promotion).name,
-                                            subTitle:
-                                                "Scroll right to see more",
-                                          ),
-                                          products: (data.data as Promotion)
-                                                  .products ??
-                                              [],
-                                        ),
-                                      ]);
-                                    return Container();
-                                  },
-                                ),
-                              ),
-                              Container(
+                    builder: (c, s) =>
+                        (!controller.isCartEmpty && controller.showPairItWith)
+                            ? Container(
                                 margin: EdgeInsets.only(
                                     bottom: 10, right: 20, left: 20),
                                 height: 50,
@@ -297,11 +271,11 @@ class _CartViewState extends State<CartView> {
                                     ),
                                   ),
                                 ),
-                              ),
-                              SizedBox(height: 5)
-                            ],
-                          )
-                        : Container(),
+                              )
+                            // SizedBox(height: 5)
+                            // ],
+                            // )
+                            : Container(),
                   ),
                 ),
               ],
