@@ -139,7 +139,7 @@ class _HomeViewListState extends State<HomeViewList> {
                           SectionDivider(),
                           if (appVar.dynamicSectionKeys.length > i &&
                               appVar.dynamicSectionKeys[i] != "67409233" &&
-                              appVar.dynamicSectionKeys[i] != "67409243")
+                              appVar.dynamicSectionKeys[i] != "77816306")
                             FutureBuilder(
                                 future:
                                     getProducts(appVar.dynamicSectionKeys[i++]),
@@ -309,7 +309,7 @@ class _HomeViewListState extends State<HomeViewList> {
 
                           if (appVar.dynamicSectionKeys.length > i &&
                               appVar.dynamicSectionKeys[i] != "67409233" &&
-                              appVar.dynamicSectionKeys[i] != "67409243")
+                              appVar.dynamicSectionKeys[i] != "77816306")
                             Column(
                               children: [
                                 SectionDivider(),
@@ -400,7 +400,7 @@ class _HomeViewListState extends State<HomeViewList> {
                           // ],
                           if (appVar.dynamicSectionKeys.length > i &&
                               appVar.dynamicSectionKeys[i] != "67409233" &&
-                              appVar.dynamicSectionKeys[i] != "67409243")
+                              appVar.dynamicSectionKeys[i] != "77816306")
                             FutureBuilder(
                                 future:
                                     getProducts(appVar.dynamicSectionKeys[i++]),
@@ -524,7 +524,7 @@ class _HomeViewListState extends State<HomeViewList> {
                           ),
                           FutureBuilder(
                               future: getProducts((releaseMode
-                                  ? 67409243.toString()
+                                  ? 77816306.toString()
                                   : 86798079.toString())),
                               builder: (context, data) {
                                 if (data.connectionState ==
@@ -533,7 +533,8 @@ class _HomeViewListState extends State<HomeViewList> {
                                     height: 200,
                                   );
                                 }
-                                if (data.hasData)
+                                if (data.hasData &&
+                                    (data.data as Promotion).enabled == true)
                                   return FutureBuilder(
                                       future: getSeller(
                                           (data.data as Promotion).filter ??
@@ -733,7 +734,6 @@ class _HomeViewListState extends State<HomeViewList> {
                                                   ),
                                                 ),
                                                 Positioned(
-                                                  left: 30,
                                                   bottom: 30,
                                                   child: Container(
                                                     height: 150,
@@ -741,7 +741,7 @@ class _HomeViewListState extends State<HomeViewList> {
                                                         MediaQuery.of(context)
                                                                 .size
                                                                 .width *
-                                                            0.9,
+                                                            0.96,
                                                     margin: EdgeInsets.only(
                                                         left: 15),
                                                     child: ListView.builder(
@@ -815,7 +815,7 @@ class _HomeViewListState extends State<HomeViewList> {
 
                           if (appVar.dynamicSectionKeys.length > i &&
                               appVar.dynamicSectionKeys[i] != "67409233" &&
-                              appVar.dynamicSectionKeys[i] != "67409243")
+                              appVar.dynamicSectionKeys[i] != "77816306")
                             Column(
                               children: [
                                 // SectionDivider(),
@@ -1173,7 +1173,7 @@ class _HomeViewListState extends State<HomeViewList> {
 
                           if (appVar.dynamicSectionKeys.length > i &&
                               appVar.dynamicSectionKeys[i] != "67409233" &&
-                              appVar.dynamicSectionKeys[i] != "67409243")
+                              appVar.dynamicSectionKeys[i] != "77816306")
                             FutureBuilder(
                                 future:
                                     getProducts(appVar.dynamicSectionKeys[i++]),
@@ -1213,7 +1213,7 @@ class _HomeViewListState extends State<HomeViewList> {
                                 }),
                           if (appVar.dynamicSectionKeys.length > i &&
                               appVar.dynamicSectionKeys[i] != "67409233" &&
-                              appVar.dynamicSectionKeys[i] != "67409243")
+                              appVar.dynamicSectionKeys[i] != "77816306")
                             FutureBuilder(
                                 future:
                                     getProducts(appVar.dynamicSectionKeys[i++]),
@@ -1258,7 +1258,7 @@ class _HomeViewListState extends State<HomeViewList> {
                                 }),
                           if (appVar.dynamicSectionKeys.length > i &&
                               appVar.dynamicSectionKeys[i] != "67409233" &&
-                              appVar.dynamicSectionKeys[i] != "67409243")
+                              appVar.dynamicSectionKeys[i] != "77816306")
                             FutureBuilder(
                                 future:
                                     getProducts(appVar.dynamicSectionKeys[i++]),
@@ -1303,7 +1303,7 @@ class _HomeViewListState extends State<HomeViewList> {
                                 }),
                           if (appVar.dynamicSectionKeys.length > i &&
                               appVar.dynamicSectionKeys[i] != "67409233" &&
-                              appVar.dynamicSectionKeys[i] != "67409243")
+                              appVar.dynamicSectionKeys[i] != "77816306")
                             FutureBuilder(
                                 future:
                                     getProducts(appVar.dynamicSectionKeys[i++]),

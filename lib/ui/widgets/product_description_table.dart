@@ -261,6 +261,7 @@ class ProductDescriptionTable extends StatelessWidget {
               // divider,
               if (product.dimensions != null &&
                   product.dimensions != "" &&
+                  product.dimensions != "0" &&
                   product.dimensions!.trim() != "N/A")
                 getProductDetailsRow(
                   "Dimensions",
