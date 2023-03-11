@@ -139,6 +139,7 @@ class _HomeViewListState extends State<HomeViewList> {
                           SectionDivider(),
                           if (appVar.dynamicSectionKeys.length > i &&
                               appVar.dynamicSectionKeys[i] != "67409233" &&
+                              appVar.dynamicSectionKeys[i] != "44644641" &&
                               appVar.dynamicSectionKeys[i] != "77816306")
                             FutureBuilder(
                                 future:
@@ -309,6 +310,7 @@ class _HomeViewListState extends State<HomeViewList> {
 
                           if (appVar.dynamicSectionKeys.length > i &&
                               appVar.dynamicSectionKeys[i] != "67409233" &&
+                              appVar.dynamicSectionKeys[i] != "44644641" &&
                               appVar.dynamicSectionKeys[i] != "77816306")
                             Column(
                               children: [
@@ -400,6 +402,7 @@ class _HomeViewListState extends State<HomeViewList> {
                           // ],
                           if (appVar.dynamicSectionKeys.length > i &&
                               appVar.dynamicSectionKeys[i] != "67409233" &&
+                              appVar.dynamicSectionKeys[i] != "44644641" &&
                               appVar.dynamicSectionKeys[i] != "77816306")
                             FutureBuilder(
                                 future:
@@ -815,6 +818,7 @@ class _HomeViewListState extends State<HomeViewList> {
 
                           if (appVar.dynamicSectionKeys.length > i &&
                               appVar.dynamicSectionKeys[i] != "67409233" &&
+                              appVar.dynamicSectionKeys[i] != "44644641" &&
                               appVar.dynamicSectionKeys[i] != "77816306")
                             Column(
                               children: [
@@ -1173,6 +1177,7 @@ class _HomeViewListState extends State<HomeViewList> {
 
                           if (appVar.dynamicSectionKeys.length > i &&
                               appVar.dynamicSectionKeys[i] != "67409233" &&
+                              appVar.dynamicSectionKeys[i] != "44644641" &&
                               appVar.dynamicSectionKeys[i] != "77816306")
                             FutureBuilder(
                                 future:
@@ -1213,6 +1218,7 @@ class _HomeViewListState extends State<HomeViewList> {
                                 }),
                           if (appVar.dynamicSectionKeys.length > i &&
                               appVar.dynamicSectionKeys[i] != "67409233" &&
+                              appVar.dynamicSectionKeys[i] != "44644641" &&
                               appVar.dynamicSectionKeys[i] != "77816306")
                             FutureBuilder(
                                 future:
@@ -1258,6 +1264,7 @@ class _HomeViewListState extends State<HomeViewList> {
                                 }),
                           if (appVar.dynamicSectionKeys.length > i &&
                               appVar.dynamicSectionKeys[i] != "67409233" &&
+                              appVar.dynamicSectionKeys[i] != "44644641" &&
                               appVar.dynamicSectionKeys[i] != "77816306")
                             FutureBuilder(
                                 future:
@@ -1303,6 +1310,7 @@ class _HomeViewListState extends State<HomeViewList> {
                                 }),
                           if (appVar.dynamicSectionKeys.length > i &&
                               appVar.dynamicSectionKeys[i] != "67409233" &&
+                              appVar.dynamicSectionKeys[i] != "44644641" &&
                               appVar.dynamicSectionKeys[i] != "77816306")
                             FutureBuilder(
                                 future:

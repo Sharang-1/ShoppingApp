@@ -71,7 +71,8 @@ class ProductDescriptionTable extends StatelessWidget {
                   product.fabricDetails != "" &&
                   product.fabricDetails!.trim() != 'N/A')
                 getProductDetailsRow(
-                  "Fabric Feel",
+                  "Material",
+                  // "Fabric Feel",
                   product.fabricDetails,
                 ),
               // divider

@@ -291,27 +291,41 @@ class SectionBuilder extends StatelessWidget {
                 ),
                 tileBuilder: tileBuilder!,
               ),
-              FutureBuilder(
-                future: getProducts(
-                    (releaseMode ? 44644641.toString() : 86798080.toString())),
-                builder: (context, data) {
-                  if (data.connectionState == ConnectionState.active) {
-                    return ShimmerWidget(type: LayoutType.PRODUCT_LAYOUT_2);
-                  }
-                  if (data.hasData)
-                    return Column(children: [
-                      SizedBox(height: 5),
-                      DynamicSectionBuilder(
-                        header: SectionHeader(
-                          title:
-                              "Some Sugestion for you", //(data.data as Promotion).name,
-                          subTitle: "Scroll right to see more",
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.2),
+                      spreadRadius: 1,
+                      blurRadius: 7,
+                      offset: Offset(0, 3), // changes position of shadow
+                    ),
+                  ],
+                ),
+                child: FutureBuilder(
+                  future: getProducts((releaseMode
+                      ? 44644641.toString()
+                      : 86798080.toString())),
+                  builder: (context, data) {
+                    if (data.connectionState == ConnectionState.active) {
+                      return ShimmerWidget(type: LayoutType.PRODUCT_LAYOUT_2);
+                    }
+                    if (data.hasData)
+                      return Column(children: [
+                        SizedBox(height: 5),
+                        DynamicSectionBuilder(
+                          header: SectionHeader(
+                            title:
+                                "Some Sugestion for you", //(data.data as Promotion).name,
+                            subTitle: "Scroll right to see more",
+                          ),
+                          products: (data.data as Promotion).products ?? [],
                         ),
-                        products: (data.data as Promotion).products ?? [],
-                      ),
-                    ]);
-                  return Container();
-                },
+                      ]);
+                    return Container();
+                  },
+                ),
               ),
             ],
           ),
