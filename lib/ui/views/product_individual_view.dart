@@ -522,27 +522,23 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                         if ((productInfo
                                                 ?.seller?.communityTypes?.id) !=
                                             null)
-                                          InkWell(
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(50),
-                                              ),
-                                              width: 75,
-                                              height: 70,
-                                              child: Center(
-                                                child: Image.asset(
-                                                  communityImages[productInfo
-                                                          ?.seller
-                                                          ?.communityTypes
-                                                          ?.id] ??
-                                                      "",
-                                                  fit: BoxFit.cover,
-                                                ),
+                                          Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(50),
+                                            ),
+                                            width: 75,
+                                            height: 70,
+                                            child: Center(
+                                              child: Image.asset(
+                                                communityImages[productInfo
+                                                        ?.seller
+                                                        ?.communityTypes
+                                                        ?.id] ??
+                                                    "",
+                                                fit: BoxFit.cover,
                                               ),
                                             ),
-                                            onTap: () =>
-                                                NavigationService.back(),
                                           ),
                                         if ((productData?.discount ?? 0.0) !=
                                             0.0)

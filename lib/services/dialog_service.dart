@@ -105,7 +105,7 @@ class SnackBarService {
         ],
       ),
       backgroundColor: Color(0xFF5da588),
-      duration: Duration(milliseconds: 100),
+      duration: Duration(milliseconds: 300),
     ));
   }
 }
