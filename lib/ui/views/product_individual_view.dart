@@ -97,6 +97,15 @@ const Map<int, String> workOnMap = {
   12: "Borders and Buttas throughout the Saree",
 };
 
+const Map<int, String> communityImages = {
+  1: "assets/images/student.png",
+  2: "assets/images/ruralArtisan.png",
+  3: "assets/images/houseMom.png",
+  4: "assets/images/professionalArtist.png",
+  5: "assets/images/workingMom.png",
+  6: "assets/images/lgbtqa.png",
+};
+
 Map<String, Color> tagColors = {
   PRODUCTSCREEN_ASSURED.tr: Colors.blueAccent,
   PRODUCTSCREEN_RETURNS.tr: Colors.grey[700]!,
@@ -489,7 +498,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                           width: MediaQuery.of(context)
                                                   .size
                                                   .width *
-                                              0.7,
+                                              0.65,
                                           child: productPriceInfo(
                                             productName: productData?.name,
                                             designerName:
@@ -510,6 +519,31 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                     13),
                                           ),
                                         ),
+                                        if ((productInfo
+                                                ?.seller?.communityTypes?.id) !=
+                                            null)
+                                          InkWell(
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(50),
+                                              ),
+                                              width: 75,
+                                              height: 70,
+                                              child: Center(
+                                                child: Image.asset(
+                                                  communityImages[productInfo
+                                                          ?.seller
+                                                          ?.communityTypes
+                                                          ?.id] ??
+                                                      "",
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                            ),
+                                            onTap: () =>
+                                                NavigationService.back(),
+                                          ),
                                         if ((productData?.discount ?? 0.0) !=
                                             0.0)
                                           InkWell(
@@ -538,26 +572,6 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                             onTap: () =>
                                                 NavigationService.back(),
                                           ),
-                                        // if ((productData?.discount ?? 0.0) !=
-                                        //     0.0)
-                                        //   InkWell(
-                                        //     child: Container(
-                                        //       decoration: BoxDecoration(
-                                        //         borderRadius:
-                                        //             BorderRadius.circular(50),
-                                        //       ),
-                                        //       width: 55,
-                                        //       height: 55,
-                                        //       child: Center(
-                                        //         child: Image.asset(
-                                        //           "assets/images/1-removebg-preview.png",
-                                        //           fit: BoxFit.cover,
-                                        //         ),
-                                        //       ),
-                                        //     ),
-                                        //     onTap: () =>
-                                        //         NavigationService.back(),
-                                        //   ),
                                       ],
                                     ),
                                     elementDivider(),

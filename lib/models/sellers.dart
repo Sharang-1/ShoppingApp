@@ -36,40 +36,42 @@ class Sellers {
         "records": records == null ? null : records,
         "startIndex": startIndex == null ? null : startIndex,
         "limit": limit == null ? null : limit,
-        "sellers": items == null ? null : List<dynamic>.from(items!.map((x) => x.toJson())),
+        "sellers": items == null
+            ? null
+            : List<dynamic>.from(items!.map((x) => x.toJson())),
       };
 }
 
 class Seller {
-  Seller({
-    this.documentId,
-    this.key,
-    this.accountType,
-    this.name,
-    this.created,
-    this.modified,
-    this.approved,
-    this.enabled,
-    this.intro,
-    this.establishmentTypeId,
-    this.subscriptionTypeId,
-    this.photo,
-    this.contact,
-    this.owner,
-    this.replacementPolicy,
-    this.returnPolicy,
-    this.subscriptionType,
-    this.establishmentType,
-    this.bio,
-    this.known,
-    this.designs,
-    this.works,
-    this.operations,
-    this.timing,
-    this.ratingAverage,
-    this.designation,
-    this.education,
-  }); 
+  Seller(
+      {this.documentId,
+      this.key,
+      this.accountType,
+      this.name,
+      this.created,
+      this.modified,
+      this.approved,
+      this.enabled,
+      this.intro,
+      this.establishmentTypeId,
+      this.subscriptionTypeId,
+      this.photo,
+      this.contact,
+      this.owner,
+      this.replacementPolicy,
+      this.returnPolicy,
+      this.subscriptionType,
+      this.establishmentType,
+      this.bio,
+      this.known,
+      this.designs,
+      this.works,
+      this.operations,
+      this.timing,
+      this.ratingAverage,
+      this.designation,
+      this.education,
+      this.communityTypes});
 
   String? documentId;
   String? key;
@@ -89,6 +91,7 @@ class Seller {
   Policy? returnPolicy;
   Type? subscriptionType;
   Type? establishmentType;
+  Type? communityTypes;
   String? bio;
   String? designation;
   String? education;
@@ -103,43 +106,58 @@ class Seller {
   factory Seller.fromJson(Map<String, dynamic> json) => Seller(
         documentId: json["documentId"] == null ? null : json["documentId"],
         key: json["key"] == null ? null : json["key"],
-        accountType:
-            json["accountType"] == null ? null : accountTypeValues.map![json["accountType"]],
+        accountType: json["accountType"] == null
+            ? null
+            : accountTypeValues.map![json["accountType"]],
         name: json["name"] == null ? null : json["name"],
         created: json["created"] == null ? null : json["created"],
         modified: json["modified"] == null ? null : json["modified"],
         approved: json["approved"] == null ? null : json["approved"],
         enabled: json["enabled"] == null ? null : json["enabled"],
         intro: json["intro"] == null ? null : json["intro"],
-         designation: json["designation"] == null ? null : json["designation"],
+        designation: json["designation"] == null ? null : json["designation"],
         education: json["education"] == null ? null : json["education"],
-        establishmentTypeId:
-            json["establishmentTypeId"] == null ? null : json["establishmentTypeId"],
-        subscriptionTypeId: json["subscriptionTypeId"] == null ? null : json["subscriptionTypeId"],
+        establishmentTypeId: json["establishmentTypeId"] == null
+            ? null
+            : json["establishmentTypeId"],
+        subscriptionTypeId: json["subscriptionTypeId"] == null
+            ? null
+            : json["subscriptionTypeId"],
         photo: json["photo"] == null ? null : Photo.fromJson(json["photo"]),
-        contact: json["contact"] == null ? null : Contact.fromJson(json["contact"]),
+        contact:
+            json["contact"] == null ? null : Contact.fromJson(json["contact"]),
         owner: json["owner"] == null ? null : Owner.fromJson(json["owner"]),
-        replacementPolicy:
-            json["replacementPolicy"] == null ? null : Policy.fromJson(json["replacementPolicy"]),
-        returnPolicy: json["returnPolicy"] == null ? null : Policy.fromJson(json["returnPolicy"]),
-        subscriptionType:
-            json["subscriptionType"] == null ? null : Type.fromJson(json["subscriptionType"]),
-        establishmentType:
-            json["establishmentType"] == null ? null : Type.fromJson(json["establishmentType"]),
+        replacementPolicy: json["replacementPolicy"] == null
+            ? null
+            : Policy.fromJson(json["replacementPolicy"]),
+        returnPolicy: json["returnPolicy"] == null
+            ? null
+            : Policy.fromJson(json["returnPolicy"]),
+        subscriptionType: json["subscriptionType"] == null
+            ? null
+            : Type.fromJson(json["subscriptionType"]),
+        establishmentType: json["establishmentType"] == null
+            ? null
+            : Type.fromJson(json["establishmentType"]),
         bio: json["bio"] == null ? null : json["bio"],
         known: json["known"] == null ? null : json["known"],
         designs: json["designs"] == null ? null : json["designs"],
         works: json["works"] == null ? null : json["works"],
         operations: json["operations"] == null ? null : json["operations"],
         timing: json["timing"] == null ? null : Timing.fromJson(json["timing"]),
-        ratingAverage:
-            json["ratingAverage"] == null ? null : RatingAverage.fromJson(json["ratingAverage"]),
+        ratingAverage: json["ratingAverage"] == null
+            ? null
+            : RatingAverage.fromJson(json["ratingAverage"]),
+        communityTypes: json["communityTypes"] == null
+            ? null
+            : Type.fromJson(json["communityTypes"][0]),
       );
 
   Map<String, dynamic> toJson() => {
         "documentId": documentId == null ? null : documentId,
         "key": key == null ? null : key,
-        "accountType": accountType == null ? null : accountTypeValues.reverse[accountType],
+        "accountType":
+            accountType == null ? null : accountTypeValues.reverse[accountType],
         "name": name == null ? null : name,
         "created": created == null ? null : created,
         "modified": modified == null ? null : modified,
@@ -148,15 +166,20 @@ class Seller {
         "intro": intro == null ? null : intro,
         "designation": designation == null ? null : designation,
         "education": education == null ? null : education,
-        "establishmentTypeId": establishmentTypeId == null ? null : establishmentTypeId,
-        "subscriptionTypeId": subscriptionTypeId == null ? null : subscriptionTypeId,
+        "establishmentTypeId":
+            establishmentTypeId == null ? null : establishmentTypeId,
+        "subscriptionTypeId":
+            subscriptionTypeId == null ? null : subscriptionTypeId,
         "photo": photo == null ? null : photo?.toJson(),
         "contact": contact == null ? null : contact?.toJson(),
         "owner": owner == null ? null : owner?.toJson(),
-        "replacementPolicy": replacementPolicy == null ? null : replacementPolicy?.toJson(),
+        "replacementPolicy":
+            replacementPolicy == null ? null : replacementPolicy?.toJson(),
         "returnPolicy": returnPolicy == null ? null : returnPolicy?.toJson(),
-        "subscriptionType": subscriptionType == null ? null : subscriptionType?.toJson(),
-        "establishmentType": establishmentType == null ? null : establishmentType?.toJson(),
+        "subscriptionType":
+            subscriptionType == null ? null : subscriptionType?.toJson(),
+        "establishmentType":
+            establishmentType == null ? null : establishmentType?.toJson(),
         "bio": bio == null ? null : bio,
         "known": known == null ? null : known,
         "designs": designs == null ? null : designs,
@@ -164,6 +187,8 @@ class Seller {
         "ratingAverage": ratingAverage == null ? null : ratingAverage?.toJson(),
         "operations": operations == null ? null : operations,
         "timing": timing == null ? null : timing?.toJson(),
+        "communityTypes":
+            communityTypes == null ? null : communityTypes?.toJson(),
       };
 }
 
@@ -198,11 +223,15 @@ class Contact {
         state: json["state"] == null ? null : json["state"],
         pincode: json["pincode"] == null ? null : json["pincode"],
         email: json["email"] == null ? null : json["email"],
-        primaryNumber:
-            json["primaryNumber"] == null ? null : PrimaryNumber.fromJson(json["primaryNumber"]),
-        secondaryNumber:
-            json["secondaryNumber"] == null ? null : PrimaryNumber.fromJson(json["secondaryNumber"]),
-        geoLocation: json["geoLocation"] == null ? null : GeoLocation.fromJson(json["geoLocation"]),
+        primaryNumber: json["primaryNumber"] == null
+            ? null
+            : PrimaryNumber.fromJson(json["primaryNumber"]),
+        secondaryNumber: json["secondaryNumber"] == null
+            ? null
+            : PrimaryNumber.fromJson(json["secondaryNumber"]),
+        geoLocation: json["geoLocation"] == null
+            ? null
+            : GeoLocation.fromJson(json["geoLocation"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -212,7 +241,8 @@ class Contact {
         "pincode": pincode == null ? null : pincode,
         "email": email == null ? null : email,
         "primaryNumber": primaryNumber == null ? null : primaryNumber?.toJson(),
-        "secondaryNumber": secondaryNumber == null ? null : secondaryNumber?.toJson(),
+        "secondaryNumber":
+            secondaryNumber == null ? null : secondaryNumber?.toJson(),
         "geoLocation": geoLocation == null ? null : geoLocation?.toJson(),
       };
 }
@@ -228,7 +258,8 @@ class GeoLocation {
 
   factory GeoLocation.fromJson(Map<String, dynamic> json) => GeoLocation(
         latitude: json["latitude"] == null ? null : json["latitude"].toDouble(),
-        longitude: json["longitude"] == null ? null : json["longitude"].toDouble(),
+        longitude:
+            json["longitude"] == null ? null : json["longitude"].toDouble(),
       );
 
   Map<String, dynamic> toJson() => {
@@ -314,7 +345,8 @@ class Photo {
 
   factory Photo.fromJson(Map<String, dynamic> json) => Photo(
         name: json["name"] == null ? null : json["name"],
-        originalName: json["originalName"] == null ? null : json["originalName"],
+        originalName:
+            json["originalName"] == null ? null : json["originalName"],
         created: json["created"] == null ? null : json["created"],
       );
 
@@ -404,10 +436,13 @@ class Timing {
         sunday: json["sunday"] == null ? null : Day.fromJson(json["sunday"]),
         monday: json["monday"] == null ? null : Day.fromJson(json["monday"]),
         tuesday: json["tuesday"] == null ? null : Day.fromJson(json["tuesday"]),
-        wednesday: json["wednesday"] == null ? null : Day.fromJson(json["wednesday"]),
-        thursday: json["thursday"] == null ? null : Day.fromJson(json["thursday"]),
+        wednesday:
+            json["wednesday"] == null ? null : Day.fromJson(json["wednesday"]),
+        thursday:
+            json["thursday"] == null ? null : Day.fromJson(json["thursday"]),
         friday: json["friday"] == null ? null : Day.fromJson(json["friday"]),
-        saturday: json["saturday"] == null ? null : Day.fromJson(json["saturday"]),
+        saturday:
+            json["saturday"] == null ? null : Day.fromJson(json["saturday"]),
       );
 
   Map<String, dynamic> toJson() => {
