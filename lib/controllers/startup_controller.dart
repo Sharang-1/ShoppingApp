@@ -75,7 +75,7 @@ class StartUpController extends BaseController {
     }
 
     Future.delayed(
-      Duration(milliseconds: 1000),
+      Duration(milliseconds: 10),
       () async {
         var hasLoggedInUser = await _authenticationService.isUserLoggedIn();
         var pref = await SharedPreferences.getInstance();

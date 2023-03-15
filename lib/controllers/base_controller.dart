@@ -66,7 +66,7 @@ class BaseController extends GetxController {
   }
 
   static Future vibrate(
-          {int duration = 500,
+          {int duration = 50,
           List<int> pattern = const [],
           int repeat = -1,
           List<int> intensities = const [],

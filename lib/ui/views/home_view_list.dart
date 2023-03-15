@@ -49,21 +49,21 @@ class HomeViewList extends StatefulWidget {
 
 class _HomeViewListState extends State<HomeViewList> {
   final Map<String, Duration> sectionDelay = {
-    "SECTION1": Duration(seconds: 0),
-    "SECTION2": Duration(seconds: 1),
-    "SECTION3": Duration(seconds: 2),
-    "SECTION4": Duration(seconds: 4),
-    "SECTION5": Duration(seconds: 4),
-    "SECTION6": Duration(seconds: 6),
-    "SECTION7": Duration(seconds: 6),
-    "SECTION8": Duration(seconds: 8),
-    "SECTION9": Duration(seconds: 8),
-    "SECTION10": Duration(seconds: 8),
-    "SECTION11": Duration(seconds: 10),
-    "SECTION12": Duration(seconds: 10),
-    "SECTION13": Duration(seconds: 10),
-    "SECTION14": Duration(seconds: 10),
-    "LAST_SECTION": Duration(seconds: 10),
+    "SECTION1": Duration(milliseconds: 0),
+    "SECTION2": Duration(milliseconds: 10),
+    "SECTION3": Duration(milliseconds: 20),
+    "SECTION4": Duration(milliseconds: 40),
+    "SECTION5": Duration(milliseconds: 40),
+    "SECTION6": Duration(milliseconds: 60),
+    "SECTION7": Duration(milliseconds: 60),
+    "SECTION8": Duration(milliseconds: 80),
+    "SECTION9": Duration(milliseconds: 80),
+    "SECTION10": Duration(milliseconds: 80),
+    "SECTION11": Duration(milliseconds: 100),
+    "SECTION12": Duration(milliseconds: 100),
+    "SECTION13": Duration(milliseconds: 100),
+    "SECTION14": Duration(milliseconds: 100),
+    "LAST_SECTION": Duration(milliseconds: 100),
   };
 
   @override

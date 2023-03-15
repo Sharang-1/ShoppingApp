@@ -168,7 +168,7 @@ class HomeController extends BaseController {
 
     // remoteConfig = _remoteConfigService.remoteConfig;
 
-    setup();
+    // setup();
 
     await updateIsLoggedIn();
 
