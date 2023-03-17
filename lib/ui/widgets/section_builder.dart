@@ -317,11 +317,12 @@ class SectionBuilder extends StatelessWidget {
                         DynamicSectionBuilder(
                           header: SectionHeader(
                             title:
-                                "Some Sugestion for you", //(data.data as Promotion).name,
+                                "Some Sugestion for You!", //(data.data as Promotion).name,
                             subTitle: "Scroll right to see more",
                           ),
                           products: (data.data as Promotion).products ?? [],
                         ),
+                        SizedBox(height: 45),
                       ]);
                     return Container();
                   },

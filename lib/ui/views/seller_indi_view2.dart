@@ -972,9 +972,7 @@ class _SellerIndi2State extends State<SellerIndi2> {
                       ),
                       verticalSpaceSmall,
                       Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 16,
-                        ),
+                        padding: EdgeInsets.symmetric(horizontal: 16),
                         child: Row(
                           children: [
                             Icon(
@@ -998,8 +996,70 @@ class _SellerIndi2State extends State<SellerIndi2> {
                           ],
                         ),
                       ),
+                      if (sellerData.replacementPolicy != null &&
+                          (sellerData.replacementPolicy?.note?.isNotEmpty ==
+                              true))
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              verticalSpaceSmall,
+                              elementDivider(),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.production_quantity_limits_rounded,
+                                    color: Colors.black54,
+                                  ),
+                                  horizontalSpaceSmall,
+                                  Text(
+                                    "Replacement Policy",
+                                    style: TextStyle(
+                                      color: Colors.black54,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: titleFontSize + 2,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              verticalSpaceTiny,
+                              Text("${sellerData.replacementPolicy?.note}"),
+                            ],
+                          ),
+                        ),
+                      if (sellerData.returnPolicy != null &&
+                          (sellerData.returnPolicy?.note?.isNotEmpty == true))
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              verticalSpaceSmall,
+                              elementDivider(),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.assignment_return_rounded,
+                                    color: Colors.black54,
+                                  ),
+                                  horizontalSpaceSmall,
+                                  Text(
+                                    "Return Policy",
+                                    style: TextStyle(
+                                      color: Colors.black54,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: titleFontSize + 2,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              verticalSpaceTiny,
+                              Text("${sellerData.returnPolicy?.note}"),
+                            ],
+                          ),
+                        ),
                       verticalSpaceMedium,
-
                       if (showExploreSection)
                         Container(
                           color: Colors.grey[200],
