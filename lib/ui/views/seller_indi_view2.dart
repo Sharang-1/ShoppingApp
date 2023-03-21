@@ -996,16 +996,54 @@ class _SellerIndi2State extends State<SellerIndi2> {
                           ],
                         ),
                       ),
+                      verticalSpaceMedium,
+                      if (sellerData.replacementPolicy != null &&
+                          sellerData.returnPolicy != null)
+                        Container(
+                          color: Colors.grey[200],
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16.0, vertical: 5),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(right: 8.0),
+                                  child: FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      "Shipment Policy",
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(right: 8.0),
+                                child: Text(
+                                  "${sellerData.replacementPolicy?.days.toString()} days",
+                                  style: TextStyle(
+                                    fontSize: subtitleFontSize,
+                                    color: textIconBlue,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       if (sellerData.replacementPolicy != null &&
                           (sellerData.replacementPolicy?.note?.isNotEmpty ==
                               true))
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          padding: EdgeInsets.symmetric(horizontal: 20),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               verticalSpaceSmall,
-                              elementDivider(),
                               Row(
                                 children: [
                                   Icon(
@@ -1031,11 +1069,10 @@ class _SellerIndi2State extends State<SellerIndi2> {
                       if (sellerData.returnPolicy != null &&
                           (sellerData.returnPolicy?.note?.isNotEmpty == true))
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          padding: EdgeInsets.symmetric(horizontal: 20),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              verticalSpaceSmall,
                               elementDivider(),
                               Row(
                                 children: [
@@ -1059,7 +1096,7 @@ class _SellerIndi2State extends State<SellerIndi2> {
                             ],
                           ),
                         ),
-                      verticalSpaceMedium,
+                      verticalSpaceSmall,
                       if (showExploreSection)
                         Container(
                           color: Colors.grey[200],
