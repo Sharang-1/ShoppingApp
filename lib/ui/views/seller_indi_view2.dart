@@ -997,8 +997,12 @@ class _SellerIndi2State extends State<SellerIndi2> {
                         ),
                       ),
                       verticalSpaceMedium,
-                      if (sellerData.replacementPolicy != null &&
-                          sellerData.returnPolicy != null)
+                      if ((sellerData.replacementPolicy != null &&
+                              (sellerData.replacementPolicy?.note?.isNotEmpty ==
+                                  true)) ||
+                          (sellerData.returnPolicy != null &&
+                              (sellerData.returnPolicy?.note?.isNotEmpty ==
+                                  true)))
                         Container(
                           color: Colors.grey[200],
                           padding: const EdgeInsets.symmetric(
@@ -1019,16 +1023,6 @@ class _SellerIndi2State extends State<SellerIndi2> {
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(right: 8.0),
-                                child: Text(
-                                  "${sellerData.replacementPolicy?.days.toString()} days",
-                                  style: TextStyle(
-                                    fontSize: subtitleFontSize,
-                                    color: textIconBlue,
                                   ),
                                 ),
                               ),
@@ -1054,15 +1048,23 @@ class _SellerIndi2State extends State<SellerIndi2> {
                                   Text(
                                     "Replacement Policy",
                                     style: TextStyle(
-                                      color: Colors.black54,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: titleFontSize + 2,
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: headFont,
+                                      // color: Colors.black54,
+                                      // fontWeight: FontWeight.bold,
+                                      // fontSize: titleFontSize + 2,
                                     ),
                                   ),
                                 ],
                               ),
                               verticalSpaceTiny,
-                              Text("${sellerData.replacementPolicy?.note}"),
+                              Text(
+                                "${sellerData.replacementPolicy?.note}",
+                                style: TextStyle(
+                                  fontSize: subHeadFont - 2,
+                                  color: Colors.black54,
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -1084,15 +1086,23 @@ class _SellerIndi2State extends State<SellerIndi2> {
                                   Text(
                                     "Return Policy",
                                     style: TextStyle(
-                                      color: Colors.black54,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: titleFontSize + 2,
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: headFont,
+                                      // color: Colors.black54,
+                                      // fontWeight: FontWeight.bold,
+                                      // fontSize: titleFontSize + 2,
                                     ),
                                   ),
                                 ],
                               ),
                               verticalSpaceTiny,
-                              Text("${sellerData.returnPolicy?.note}"),
+                              Text(
+                                "${sellerData.returnPolicy?.note}",
+                                style: TextStyle(
+                                  fontSize: subHeadFont - 2,
+                                  color: Colors.black54,
+                                ),
+                              ),
                             ],
                           ),
                         ),

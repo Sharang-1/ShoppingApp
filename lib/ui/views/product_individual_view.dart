@@ -99,11 +99,11 @@ const Map<int, String> workOnMap = {
 
 const Map<int, String> communityImages = {
   1: "assets/images/student.png",
-  2: "assets/images/ruralArtisan.png",
-  3: "assets/images/houseMom.png",
-  4: "assets/images/professionalArtist.png",
-  5: "assets/images/workingMom.png",
-  6: "assets/images/lgbtqa.png",
+  3: "assets/images/ruralArtisan.png",
+  4: "assets/images/houseMom.png",
+  6: "assets/images/workingMom.png",
+  5: "assets/images/professionalArtist.png",
+  12: "assets/images/lgbtqa.png",
 };
 
 Map<String, Color> tagColors = {
@@ -519,26 +519,42 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                                     13),
                                           ),
                                         ),
-                                        if ((productInfo
-                                                ?.seller?.communityTypes?.id) !=
-                                            null)
-                                          Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(50),
-                                            ),
-                                            width: 75,
-                                            height: 70,
-                                            child: Center(
-                                              child: Image.asset(
-                                                communityImages[productInfo
+                                        if ((productInfo?.seller?.communityTypes
+                                                    ?.id) !=
+                                                null &&
+                                            ((productInfo?.seller
+                                                        ?.communityTypes?.id)! <
+                                                    7 ||
+                                                (productInfo
                                                         ?.seller
                                                         ?.communityTypes
-                                                        ?.id] ??
-                                                    "",
-                                                fit: BoxFit.cover,
+                                                        ?.id)! ==
+                                                    12))
+                                          InkWell(
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(50),
+                                              ),
+                                              width: 75,
+                                              height: 70,
+                                              child: Center(
+                                                child: Image.asset(
+                                                  communityImages[productInfo
+                                                          ?.seller
+                                                          ?.communityTypes
+                                                          ?.id] ??
+                                                      "",
+                                                  fit: BoxFit.cover,
+                                                ),
                                               ),
                                             ),
+                                            onTap: () => Get.snackbar(
+                                                "We Tag products with the community the creator is a part of. You directly support such unique communities when you purchase from them",
+                                                "",
+                                                snackPosition:
+                                                    SnackPosition.BOTTOM,
+                                                duration: Duration(seconds: 1)),
                                           ),
                                         if ((productData?.discount ?? 0.0) !=
                                             0.0)

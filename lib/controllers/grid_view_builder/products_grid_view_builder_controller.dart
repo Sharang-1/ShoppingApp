@@ -1,4 +1,3 @@
-
 import '../../locator.dart';
 import '../../models/grid_view_builder_filter_models/base_filter_model.dart';
 import '../../models/products.dart';
@@ -32,7 +31,7 @@ class ProductsGridViewBuilderController
   Future<Products> getData(
       {required BaseFilterModel filterModel,
       required int pageNumber,
-      int pageSize = 10}) async {
+      int pageSize = 100}) async {
     if (this.limit != null && this.limit! > pageSize) {
       pageSize = this.limit!;
     }
