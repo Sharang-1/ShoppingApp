@@ -1553,7 +1553,8 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                         GestureDetector(
                                           onTap: () async =>
                                               await goToSellerProfile(
-                                                  controller),
+                                                  controller.productData ??
+                                                      Product()),
                                           child: Card(
                                             shape: RoundedRectangleBorder(
                                               borderRadius:
@@ -2160,13 +2161,13 @@ class _ProductIndiViewState extends State<ProductIndiView> {
       showSizechart = true;
   }
 
-  Future<void> goToSellerProfile(controller) async {
+  Future<void> goToSellerProfile(Product product) async {
     if (locator<HomeController>().isLoggedIn) {
       //? Navigate to seller profile based on subscription type
       // if (productData?.seller?.subscriptionTypeId == 2) {
       //   await NavigationService.to(
       //     ProductsListRoute,
-      //     arguments: ProductPageArg(
+      // arguments: ProductPageArg(
       //       subCategory: productData?.seller?.name,
       //       queryString: "accountKey=${productData?.seller?.key};",
       //       sellerPhoto: "$SELLER_PHOTO_BASE_URL/${productData?.seller?.key}",
@@ -2174,8 +2175,14 @@ class _ProductIndiViewState extends State<ProductIndiView> {
       //   );
       // } else {
       log(productInfo!.seller.toString());
-      await NavigationService.to(SellerIndiViewRoute,
-          arguments: productInfo?.seller);
+      productData = product;
+      productData?.seller = productInfo?.seller;
+      // if (productData?.coupons?.length == 0) {
+      //   final product = (await APIService()
+      //       .getProductById(productId: productData!.key.toString()))!;
+      //   productData?.coupons = product.coupons;
+      // }
+      await NavigationService.to(SellerIndiViewRoute, arguments: productData);
       // }
     } else {
       await BaseController.showLoginPopup(
