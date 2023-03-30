@@ -1026,7 +1026,7 @@ class _SellerIndi2State extends State<SellerIndi2> {
                                               ),
                                               verticalSpaceMedium,
                                               Text(
-                                                "Get FLAT Rs. ${coupon.discount} off",
+                                                "Get FLAT Rs.${coupon.discount!.toInt()} off",
                                                 style: TextStyle(
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.bold,
@@ -1040,7 +1040,7 @@ class _SellerIndi2State extends State<SellerIndi2> {
                                               ),
                                               verticalSpaceTiny,
                                               Text(
-                                                "Use Code ${coupon.code!.toUpperCase()} and get FLAT Rs.${coupon.discount} off on order above Rs.${coupon.minimumOrderValue}.",
+                                                "Use Code ${coupon.code!.toUpperCase()} and get FLAT Rs.${coupon.discount!.toInt()} off on order above Rs.${coupon.minimumOrderValue!.toInt()}.",
                                                 style: TextStyle(
                                                   fontSize: 12,
                                                 ),
@@ -1078,7 +1078,7 @@ class _SellerIndi2State extends State<SellerIndi2> {
                                               MainAxisAlignment.spaceEvenly,
                                           children: [
                                             Text(
-                                              "₹ ${coupon.discount} off",
+                                              "₹${coupon.discount!.toInt()} off",
                                               style: TextStyle(
                                                 color: Colors.orange,
                                                 fontStyle: FontStyle.italic,
@@ -1096,7 +1096,7 @@ class _SellerIndi2State extends State<SellerIndi2> {
                                                   MainAxisAlignment.center,
                                               children: [
                                                 Text(
-                                                  "Get FLAT Rs. ${coupon.discount} off",
+                                                  "Get FLAT Rs.${coupon.discount!.toInt()} off",
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 12.0,
@@ -1104,7 +1104,7 @@ class _SellerIndi2State extends State<SellerIndi2> {
                                                 ),
                                                 SizedBox(height: 4.0),
                                                 Text(
-                                                  "Valid on all order above Rs.${coupon.minimumOrderValue}",
+                                                  "Valid on all order above Rs.${coupon.minimumOrderValue!.toInt()}",
                                                   // 'Use code SWIGGY50 to get 50% off',
                                                   style: TextStyle(
                                                     fontSize: 9.0,
