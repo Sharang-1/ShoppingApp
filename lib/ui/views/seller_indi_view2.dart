@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:compound/models/coupon.dart';
 import 'package:compound/models/products.dart';
 import 'package:compound/models/sellerBackgroundImageModel.dart';
 import 'package:compound/services/api/api_service.dart';
@@ -39,7 +40,7 @@ import '../widgets/section_builder.dart';
 import '../widgets/sellerAppointmentBottomSheet.dart';
 
 class SellerIndi2 extends StatefulWidget {
-  final Product data;
+  final Seller data;
   const SellerIndi2({Key? key, required this.data}) : super(key: key);
 
   @override
@@ -50,7 +51,7 @@ class _SellerIndi2State extends State<SellerIndi2> {
   final productKey = new UniqueKey();
   Key reviewKey = UniqueKey();
   bool showExploreSection = true;
-
+  List<Coupon> coupons = [];
   GlobalKey sellerAboutKey = GlobalKey();
   GlobalKey appointmentBtnKey = GlobalKey();
 
@@ -129,18 +130,17 @@ class _SellerIndi2State extends State<SellerIndi2> {
   @override
   void initState() {
     super.initState();
+    getCoupons();
     try {
       _analyticsService.sendAnalyticsEvent(
           eventName: "seller_view",
           parameters: <String, dynamic>{
-            "seller_id": widget.data.seller?.key,
-            "seller_name": widget.data.seller?.name,
-            "subscription_id":
-                widget.data.seller?.subscriptionType?.id?.toString(),
-            "subscription_name": widget.data.seller?.subscriptionType?.name,
-            "establishment_id":
-                widget.data.seller?.establishmentType?.id?.toString(),
-            "establishment_name": widget.data.seller?.establishmentType?.name,
+            "seller_id": widget.data.key,
+            "seller_name": widget.data.name,
+            "subscription_id": widget.data.subscriptionType?.id?.toString(),
+            "subscription_name": widget.data.subscriptionType?.name,
+            "establishment_id": widget.data.establishmentType?.id?.toString(),
+            "establishment_name": widget.data.establishmentType?.name,
             "user_id": locator<HomeController>().details!.key,
             "user_name": locator<HomeController>().details!.name,
           });
@@ -148,7 +148,7 @@ class _SellerIndi2State extends State<SellerIndi2> {
       print(e);
     }
     print(
-        ".................. ggggggggggg ........ ${widget.data.seller?.toString()}.................");
+        ".................. ggggggggggg ........ ${widget.data.toString()}.................");
 
     getImageName();
     // var data2 = apiService.getSellerBackgroundImage();
@@ -164,6 +164,18 @@ class _SellerIndi2State extends State<SellerIndi2> {
     );
   }
 
+  getCoupons() async {
+    var product = await apiService.getProducts(
+        queryString: 'accountKey=${widget.data.key};');
+    var couponData = await apiService.getProductById(
+        productId: product?.items?.first.key ?? "",
+        withCoupons: true) as Product;
+    coupons = couponData.coupons!;
+    if (coupons.length > 0) {
+      setState(() {});
+    }
+  }
+
   getImageName() async {
     // print(
     //     ".................. ggggggggggg ........ ${widget.key.toString()}.................");
@@ -171,7 +183,7 @@ class _SellerIndi2State extends State<SellerIndi2> {
     if (widget.data != null)
       setState(() async {
         sellerBackImageModel =
-            await apiService.getImageData(widget.data.seller?.key ?? "");
+            await apiService.getImageData(widget.data.key ?? "");
       });
     // if (sellerBackImageModel != null) {
     //   print(
@@ -271,7 +283,7 @@ class _SellerIndi2State extends State<SellerIndi2> {
   @override
   Widget build(BuildContext context) {
     double multiplyer = 0.8;
-    setupSellerDetails(widget.data.seller ?? Seller());
+    setupSellerDetails(widget.data);
 
     String designerProfilePicUrl =
         "$DESIGNER_PROFILE_PHOTO_BASE_URL/${sellerData.owner?.key}";
@@ -834,15 +846,15 @@ class _SellerIndi2State extends State<SellerIndi2> {
                                     "seller_id": sellerData.key,
                                     "seller_name": sellerData.name,
                                     "subscription_id": widget
-                                        .data.seller?.subscriptionType?.id
+                                        .data.subscriptionType?.id
                                         ?.toString(),
-                                    "subscription_name": widget
-                                        .data.seller?.subscriptionType?.name,
+                                    "subscription_name":
+                                        widget.data.subscriptionType?.name,
                                     "establishment_id": widget
-                                        .data.seller?.establishmentType?.id
+                                        .data.establishmentType?.id
                                         ?.toString(),
-                                    "establishment_name": widget
-                                        .data.seller?.establishmentType?.name,
+                                    "establishment_name":
+                                        widget.data.establishmentType?.name,
                                     "user_id":
                                         locator<HomeController>().details!.key,
                                     "user_name":
@@ -867,7 +879,7 @@ class _SellerIndi2State extends State<SellerIndi2> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       // verticalSpace(10),
-                      if ((widget.data.coupons?.length ?? 0) > 0) ...[
+                      if (coupons.length > 0) ...[
                         Container(
                           padding:
                               EdgeInsets.symmetric(vertical: 5, horizontal: 16),
@@ -890,7 +902,7 @@ class _SellerIndi2State extends State<SellerIndi2> {
                             enlargeCenterPage: true,
                             autoPlay: true,
                           ),
-                          items: widget.data.coupons?.map((coupon) {
+                          items: coupons.map((coupon) {
                             // coupons.map((coupon) {
                             return Builder(
                               builder: (BuildContext context) {

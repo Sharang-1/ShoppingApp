@@ -2175,14 +2175,15 @@ class _ProductIndiViewState extends State<ProductIndiView> {
       //   );
       // } else {
       log(productInfo!.seller.toString());
-      productData = product;
-      productData?.seller = productInfo?.seller;
+      // productData = product;
+      // productData?.seller = productInfo?.seller;
       // if (productData?.coupons?.length == 0) {
       //   final product = (await APIService()
       //       .getProductById(productId: productData!.key.toString()))!;
       //   productData?.coupons = product.coupons;
       // }
-      await NavigationService.to(SellerIndiViewRoute, arguments: productData);
+      await NavigationService.to(SellerIndiViewRoute,
+          arguments: productInfo!.seller);
       // }
     } else {
       await BaseController.showLoginPopup(

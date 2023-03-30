@@ -1,3 +1,4 @@
+import 'package:compound/models/sellers.dart';
 import 'package:compound/ui/views/order_item_unavailable_error.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
@@ -257,7 +258,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return _getPageRoute(
           pageArguments: pageArguments,
           routeName: settings.name!,
-          viewToShow: SellerIndi2(data: pageArguments as Product),
+          viewToShow: SellerIndi2(data: pageArguments as Seller),
           pageTransitionType: PageTransitionType.rightToLeft);
 
     case MyAppointmentViewRoute:
