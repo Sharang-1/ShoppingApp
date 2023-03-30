@@ -56,11 +56,11 @@ class OrderDetailsBottomsheet extends StatelessWidget {
   ];
   static const orderSummaryDetails3 = [
     "Price",
-    "Discount",
-    "Discounted Price",
-    "Convenience Charges",
+    // "Discount",
+    // "Discounted Price",
+    // "Convenience Charges",
     "GST",
-    "Delivery Charges",
+    // "Delivery Charges",
     "Total"
   ];
 
@@ -69,9 +69,9 @@ class OrderDetailsBottomsheet extends StatelessWidget {
     return FractionallySizedBox(
       heightFactor: MediaQuery.of(context).size.height > 600
           ? MediaQuery.of(context).size.height > 800
-              ? 0.60
-              : 0.70
-          : 0.80,
+              ? 0.45
+              : 0.55
+          : 0.65,
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,

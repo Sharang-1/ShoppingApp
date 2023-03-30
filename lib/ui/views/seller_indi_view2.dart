@@ -1065,10 +1065,19 @@ class _SellerIndi2State extends State<SellerIndi2> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceEvenly,
                                           children: [
-                                            Image.asset(
-                                              "assets/icons/coupon.png",
-                                              width: 60,
+                                            Text(
+                                              "₹ ${coupon.discount} off",
+                                              style: TextStyle(
+                                                color: Colors.orange,
+                                                fontStyle: FontStyle.italic,
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 20.0,
+                                              ),
                                             ),
+                                            // Image.asset(
+                                            //   "assets/icons/coupon.png",
+                                            //   width: 60,
+                                            // ),
                                             Column(
                                               mainAxisSize: MainAxisSize.min,
                                               mainAxisAlignment:

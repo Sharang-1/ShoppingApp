@@ -310,7 +310,11 @@ class _CartViewState extends State<CartView> {
         //     _cartItems[i].product!.cost!.costToCustomer!.toDouble() *
         //         _cartItems[i].quantity!.toInt();
         // total = total + finalTotal;
-        total += price!.cost!.toDouble();
+        total += (price!.cost! +
+                ((price.productPrice! * price.gstCharges!.rate) / 100) -
+                price.gstCharges!.cost)
+            .toDouble();
+        // total += price!.cost!.toDouble();
         //? seller name to give credit upon purchase
         // var sellerName = _cartItems[i].product!;
         // GroupOrderData.sellersList.add(sellerName);
