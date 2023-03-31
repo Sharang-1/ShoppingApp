@@ -7,6 +7,8 @@ import 'package:compound/ui/widgets/section_builder.dart';
 import 'package:compound/utils/lang/translation_keys.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/src/material/refresh_indicator.dart'
+    as RefreshIndicator;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:page_transition/page_transition.dart';
@@ -41,7 +43,7 @@ class _CartViewState extends State<CartView> {
   UniqueKey key = UniqueKey();
   Key? uniqueKey;
 
-  final refreshController = RefreshController(initialRefresh: false);
+  final _refreshController = RefreshController(initialRefresh: false);
   bool isPromocodeApplied = false;
   List<String> exceptProductIDs = [];
 
@@ -118,167 +120,163 @@ class _CartViewState extends State<CartView> {
               ),
               complete: Container(),
             ),
-            controller: refreshController,
-            onRefresh: () async {
-              setState(() {
-                key = new UniqueKey();
-              });
-
-              await Future.delayed(Duration(milliseconds: 100));
-
-              refreshController.refreshCompleted(resetFooterState: true);
-            },
-            child: Stack(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: screenPadding,
-                    right: screenPadding,
-                    top: 10,
-                    bottom: 10,
-                  ),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        verticalSpace(10),
-                        const CutomStepper(
-                          step: 1,
-                        ),
-                        verticalSpace(20),
-                        Obx(
-                          () => locator<CartCountController>().count.value > 0
-                              ? CustomText(
-                                  "${ITEMS_IN_BAG.tr}: ${locator<CartCountController>().count.value}",
-                                  isBold: true,
-                                )
-                              : Container(),
-                        ),
-                        Center(
-                          child: Divider(
-                            color: Colors.black,
+            controller: _refreshController,
+            onRefresh: _onrefresh,
+            child: RefreshIndicator.RefreshIndicator(
+              onRefresh: _onrefresh,
+              color: Color.fromARGB(255, 255, 180, 59),
+              child: Stack(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(
+                      left: screenPadding,
+                      right: screenPadding,
+                      top: 10,
+                      bottom: 10,
+                    ),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          verticalSpace(10),
+                          const CutomStepper(
+                            step: 1,
                           ),
-                        ),
-                        // ? cart item tile
-                        FutureBuilder(
-                          future: Future.delayed(Duration(seconds: 1)),
-                          builder: (c, s) => s.connectionState ==
-                                  ConnectionState.done
-                              ? SectionBuilder(
-                                  key: uniqueKey ?? UniqueKey(),
-                                  context: context,
-                                  filter:
-                                      CartFilter(productId: widget.productId),
-                                  layoutType: LayoutType.VIEW_CART_LAYOUT,
-                                  controller: CartGridViewBuilderController(),
-                                  onEmptyList: () {},
-                                  scrollDirection: Axis.horizontal,
-                                  tileBuilder: (BuildContext context, data,
-                                      index, onDelete, onUpdate) {
-                                    Fimber.d("testying");
-                                    log((data as Item).toString());
-                                    final Item dItem = data;
-                                    exceptProductIDs
-                                        .add(dItem.product!.key ?? "");
+                          verticalSpace(20),
+                          Obx(
+                            () => locator<CartCountController>().count.value > 0
+                                ? CustomText(
+                                    "${ITEMS_IN_BAG.tr}: ${locator<CartCountController>().count.value}",
+                                    isBold: true,
+                                  )
+                                : Container(),
+                          ),
+                          Center(
+                            child: Divider(
+                              color: Colors.black,
+                            ),
+                          ),
+                          // ? cart item tile
+                          FutureBuilder(
+                            future: Future.delayed(Duration(seconds: 1)),
+                            builder: (c, s) => s.connectionState ==
+                                    ConnectionState.done
+                                ? SectionBuilder(
+                                    key: uniqueKey ?? UniqueKey(),
+                                    context: context,
+                                    filter:
+                                        CartFilter(productId: widget.productId),
+                                    layoutType: LayoutType.VIEW_CART_LAYOUT,
+                                    controller: CartGridViewBuilderController(),
+                                    onEmptyList: () {},
+                                    scrollDirection: Axis.horizontal,
+                                    tileBuilder: (BuildContext context, data,
+                                        index, onDelete, onUpdate) {
+                                      Fimber.d("testying");
+                                      log((data as Item).toString());
+                                      final Item dItem = data;
+                                      exceptProductIDs
+                                          .add(dItem.product!.key ?? "");
 
-                                    return CartTile(
-                                      index: index,
-                                      item: dItem,
-                                      onDelete: (int index) async {
-                                        final value = await onDelete(index);
-                                        print("Delete product index: $index");
-                                        if (!value) return;
-                                        await controller
-                                            .removeFromCartLocalStore(
-                                                dItem.productId.toString());
-                                        locator<CartCountController>()
-                                            .decrementCartCount();
-                                        try {
+                                      return CartTile(
+                                        index: index,
+                                        item: dItem,
+                                        onDelete: (int index) async {
+                                          final value = await onDelete(index);
+                                          print("Delete product index: $index");
+                                          if (!value) return;
                                           await controller
-                                              .removeProductFromCartEvent(
-                                                  dItem.product!);
-                                        } catch (e) {
-                                          print(e);
-                                        }
-                                      },
-                                    );
-                                  },
-                                )
-                              : Container(),
-                        ),
-                        // FutureBuilder(
-                        //   future: getProducts((releaseMode
-                        //       ? 44644641.toString()
-                        //       : 86798080.toString())),
-                        //   builder: (context, data) {
-                        //     if (data.connectionState ==
-                        //         ConnectionState.active) {
-                        //       return ShimmerWidget(
-                        //           type: LayoutType.PRODUCT_LAYOUT_2);
-                        //     }
-                        //     if (data.hasData)
-                        //       return Column(children: [
-                        //         SizedBox(height: 5),
-                        //         DynamicSectionBuilder(
-                        //           header: SectionHeader(
-                        //             title:
-                        //                 "Some Sugestion for you", //(data.data as Promotion).name,
-                        //             subTitle: "Scroll right to see more",
-                        //           ),
-                        //           products:
-                        //               (data.data as Promotion).products ?? [],
-                        //         ),
-                        //       ]);
-                        //     return Container();
-                        //   },
-                        // ),
-                      ],
+                                              .removeFromCartLocalStore(
+                                                  dItem.productId.toString());
+                                          locator<CartCountController>()
+                                              .decrementCartCount();
+                                          try {
+                                            await controller
+                                                .removeProductFromCartEvent(
+                                                    dItem.product!);
+                                          } catch (e) {
+                                            print(e);
+                                          }
+                                        },
+                                      );
+                                    },
+                                  )
+                                : Container(),
+                          ),
+                          // FutureBuilder(
+                          //   future: getProducts((releaseMode
+                          //       ? 44644641.toString()
+                          //       : 86798080.toString())),
+                          //   builder: (context, data) {
+                          //     if (data.connectionState ==
+                          //         ConnectionState.active) {
+                          //       return ShimmerWidget(
+                          //           type: LayoutType.PRODUCT_LAYOUT_2);
+                          //     }
+                          //     if (data.hasData)
+                          //       return Column(children: [
+                          //         SizedBox(height: 5),
+                          //         DynamicSectionBuilder(
+                          //           header: SectionHeader(
+                          //             title:
+                          //                 "Some Sugestion for you", //(data.data as Promotion).name,
+                          //             subTitle: "Scroll right to see more",
+                          //           ),
+                          //           products:
+                          //               (data.data as Promotion).products ?? [],
+                          //         ),
+                          //       ]);
+                          //     return Container();
+                          //   },
+                          // ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: FutureBuilder<bool>(
-                    initialData: false,
-                    future: controller.hasProducts(),
-                    builder: (c, s) =>
-                        (!controller.isCartEmpty && controller.showPairItWith)
-                            ? Container(
-                                margin: EdgeInsets.only(
-                                    bottom: 10, right: 20, left: 20),
-                                height: 50,
-                                width: Get.width,
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    elevation: 0,
-                                    backgroundColor: logoRed,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: FutureBuilder<bool>(
+                      initialData: false,
+                      future: controller.hasProducts(),
+                      builder: (c, s) => (!controller.isCartEmpty &&
+                              controller.showPairItWith)
+                          ? Container(
+                              margin: EdgeInsets.only(
+                                  bottom: 10, right: 20, left: 20),
+                              height: 50,
+                              width: Get.width,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  elevation: 0,
+                                  backgroundColor: logoRed,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
                                   ),
-                                  onPressed: proccedToOrder,
-                                  child: Padding(
-                                    padding:
-                                        const EdgeInsets.symmetric(vertical: 8),
-                                    child: Text(
-                                      PROCEED_TO_ORDER.tr,
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18,
-                                      ),
+                                ),
+                                onPressed: proccedToOrder,
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 8),
+                                  child: Text(
+                                    PROCEED_TO_ORDER.tr,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
                                     ),
                                   ),
                                 ),
-                              )
-                            // SizedBox(height: 5)
-                            // ],
-                            // )
-                            : Container(),
+                              ),
+                            )
+                          // SizedBox(height: 5)
+                          // ],
+                          // )
+                          : Container(),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -311,7 +309,8 @@ class _CartViewState extends State<CartView> {
         //         _cartItems[i].quantity!.toInt();
         // total = total + finalTotal;
         total += (price!.cost! +
-                ((price.productPrice! * price.gstCharges!.rate) / 100) -
+                (((price.productPrice! * price.gstCharges!.rate) / 100) *
+                    price.quantity!) -
                 price.gstCharges!.cost)
             .toDouble();
         // total += price!.cost!.toDouble();
@@ -368,5 +367,14 @@ class _CartViewState extends State<CartView> {
     if (kDebugMode) print("cart products");
     String cartJson = jsonEncode(GroupOrderData.cartProducts);
     if (kDebugMode) print(cartJson);
+  }
+
+  Future<void> _onrefresh() async {
+    setState(() {
+      key = new UniqueKey();
+    });
+    GroupOrderData.cartProducts.clear();
+    await Future.delayed(Duration(milliseconds: 100));
+    _refreshController.refreshCompleted(resetFooterState: true);
   }
 }

@@ -676,7 +676,7 @@ class _SellerIndi2State extends State<SellerIndi2> {
                                           ),
 
                                           Text(
-                                            "${sellerData.bio ?? 'Seller bio'}",
+                                            "${sellerData.bio ?? ''}",
                                             // "${sellerDetails[DESIGNER_SCREEN_DESIGNES_CREATES.tr]} • ${sellerDetails[DESIGNER_SCREEN_SPECIALITY.tr]} • ${sellerDetails[DESIGNER_SCREEN_WORK_OFFERED.tr]}",
                                             // trimLines: 2,
                                             maxLines: 2,

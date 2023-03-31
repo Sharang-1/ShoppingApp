@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:page_transition/page_transition.dart';
 
+import '../../app/groupOrderData.dart';
 import '../../constants/server_urls.dart';
 import '../../controllers/base_controller.dart';
 import '../../locator.dart';
@@ -495,7 +496,18 @@ class _CartProductTileUIState extends State<CartProductTileUI> {
     BaseController.vibrate(duration: 50);
     final product = await _apiService.getProductById(
         productId: widget.item.productId.toString(), withCoupons: true);
-    if ((product?.available ?? false) && (product!.enabled ?? false))
+    if ((product?.available ?? false) &&
+        (product!.enabled ?? false)) if (GroupOrderData.cartProducts.length > 0)
+      DialogService.showCustomDialog(AlertDialog(
+        content: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Text(
+            "Sorry, only one Coupon is allowed per order",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
+      ));
+    else
       Navigator.push(
         context,
         PageTransition(
