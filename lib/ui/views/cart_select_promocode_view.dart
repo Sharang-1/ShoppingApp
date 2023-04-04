@@ -309,11 +309,11 @@ class _SelectPromocodeState extends State<SelectPromocode> {
       orderDetails.promocode = res.promocodeDiscount!.promocode ?? "";
       orderDetails.promocodeDiscount =
           '$rupeeUnicode${res.promocodeDiscount!.cost}';
-      // orderDetails.total = res.cost!.toStringAsFixed(2);
-      orderDetails.total = (res.cost! +
-              ((res.productPrice! * res.gstCharges!.rate) / 100) -
-              res.gstCharges!.cost)
-          .toStringAsFixed(2);
+      orderDetails.total = res.cost!.toStringAsFixed(2);
+      // orderDetails.total = (res.cost! +
+      //         ((res.productPrice! * res.gstCharges!.rate) / 100) -
+      //         res.gstCharges!.cost)
+      //     .toStringAsFixed(2);
       ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
         content: Text(
           "🎉 Congratulation, You Saved Rs ${res.promocodeDiscount!.cost}",
