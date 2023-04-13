@@ -96,7 +96,8 @@ class Product {
   String? typeOfWork;
   bool? margin;
   Category? productFor;
-  Category? category;
+  // Category? category;
+  CategoryData? category;
   Category? pieces;
   Category? sleeveLength;
   Category? stitchingType;
@@ -180,7 +181,7 @@ class Product {
             : Category.fromJson(json["productFor"]),
         category: json["category"] == null
             ? null
-            : Category.fromJson(json["category"]),
+            : CategoryData.fromJson(json["category"]),
         pieces:
             json["pieces"] == null ? null : Category.fromJson(json["pieces"]),
         sleeveLength: json["sleeveLength"] == null
@@ -246,6 +247,26 @@ class Product {
         "length": length == null ? null : length,
         "dimensions": dimensions == null ? null : dimensions,
         "cost": cost == null ? null : cost?.toJson(),
+      };
+}
+
+class CategoryData {
+  String? id;
+  String? name;
+
+  CategoryData({
+    this.id,
+    this.name,
+  });
+
+  factory CategoryData.fromJson(Map<String, dynamic> json) => CategoryData(
+        id: json["id"],
+        name: json["name"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
       };
 }
 

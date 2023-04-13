@@ -4,6 +4,7 @@ import 'package:compound/ui/views/dynamic_section_builder3.dart';
 import 'package:compound/ui/views/dynamic_section_builder4.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 import '../../app/app.dart';
 import '../../constants/route_names.dart';
@@ -22,10 +23,11 @@ import '../../utils/lang/translation_keys.dart';
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 import '../shared/ui_helpers.dart';
+import '../widgets/customProduct.dart';
 import '../widgets/home_view_list_header.dart';
 import '../widgets/product_tile_ui.dart';
 import '../widgets/product_tile_ui_2.dart';
-import '../widgets/promotion_slider.dart';
+// import '../widgets/promotion_slider.dart';
 import '../widgets/section_builder.dart';
 import '../widgets/shimmer/shimmer_widget.dart';
 
@@ -65,6 +67,7 @@ class _HomeViewListState extends State<HomeViewList> {
     "SECTION14": Duration(milliseconds: 100),
     "LAST_SECTION": Duration(milliseconds: 100),
   };
+  // bool _visible = true;
 
   @override
   Widget build(BuildContext context) {
@@ -89,20 +92,20 @@ class _HomeViewListState extends State<HomeViewList> {
                         children: [
                           // Text(counter.toString()),
                           // Text(DzorConst().promotedProduct.toString()),
-                          if ((controller.topPromotion.length) > 0) ...[
-                            HomeViewListHeader(
-                                title: "Featured Home Grown Brands!"),
-                            // title: controller.remoteConfig!
-                            //     .getString(TOP_PROMOTION_TITLE_EN),
-                            verticalSpaceTiny,
-                            PromotionSlider(
-                              aspectRatio: 4.0,
-                              key: controller.promotionKey,
-                              promotions: controller.topPromotion,
-                            ),
-                            // SectionDivider(),
-                            verticalSpaceSmall,
-                          ],
+                          // if ((controller.topPromotion.length) > 0) ...[
+                          //   HomeViewListHeader(
+                          //       title: "Featured Home Grown Brands!"),
+                          //   // title: controller.remoteConfig!
+                          //   //     .getString(TOP_PROMOTION_TITLE_EN),
+                          //   verticalSpaceTiny,
+                          //   PromotionSlider(
+                          //     aspectRatio: 4.0,
+                          //     key: controller.promotionKey,
+                          //     promotions: controller.topPromotion,
+                          //   ),
+                          //   // SectionDivider(),
+                          //   verticalSpaceSmall,
+                          // ],
                           // Container(
                           //     color: Colors.white,
                           //     child: Image.asset(
@@ -136,7 +139,169 @@ class _HomeViewListState extends State<HomeViewList> {
                               ],
                             ),
                           ),
-                          SectionDivider(),
+                          SizedBox(height: 25),
+                          // SectionDivider(),
+                          // Container(
+                          //   height: 300,
+                          //   child: Center(
+                          //     child: _visible
+                          //         ? AnimatedOpacity(
+                          //             opacity: _visible ? 1.0 : 0.0,
+                          //             duration:
+                          //                 const Duration(milliseconds: 500),
+                          //             child: Text(
+                          //                 "Tried of Scrollling and Searching"),
+                          //           )
+                          //         : AnimatedOpacity(
+                          //             opacity: _visible ? 0.0 : 1.0,
+                          //             duration:
+                          //                 const Duration(milliseconds: 500),
+                          //             child: Text(
+                          //                 "Why not ask for Specially Your product"),
+                          //           ),
+                          //   ),
+                          // ),
+                          Container(
+                            margin: EdgeInsets.symmetric(horizontal: 20),
+                            height: 65,
+                            child: FloatingActionButton.extended(
+                              backgroundColor: Colors.transparent,
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(80),
+                                side: BorderSide(color: logoRed, width: 2.5),
+                              ),
+                              onPressed: () async {
+                                if (controller.isLoggedIn) {
+                                  Get.bottomSheet(
+                                    CustomProduct(details: controller.details!),
+                                  );
+                                } else {
+                                  await BaseController.showLoginPopup(
+                                    nextView: HomeViewRoute,
+                                    shouldNavigateToNextScreen: true,
+                                  );
+                                }
+                              },
+                              label: Container(
+                                height: 60,
+                                width: MediaQuery.of(context).size.width,
+                                margin: EdgeInsets.only(left: 38),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      child: Image.asset(
+                                        "assets/images/customProduct.gif",
+                                        alignment: Alignment.centerLeft,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 35),
+                                        child: DefaultTextStyle(
+                                          style: TextStyle(
+                                              fontSize: 18.0,
+                                              color: logoRed,
+                                              fontWeight: FontWeight.w500,
+                                              fontFamily: 'Poppins'),
+                                          child: AnimatedTextKit(
+                                              repeatForever: true,
+                                              isRepeatingAnimation: true,
+                                              animatedTexts: [
+                                                TypewriterAnimatedText(
+                                                    'Send us what you wish to purchase! 🌸',
+                                                    speed: Duration(
+                                                        milliseconds: 150),
+                                                    textAlign:
+                                                        TextAlign.center),
+                                                TypewriterAnimatedText(
+                                                    'Customise your product 🎨',
+                                                    speed: Duration(
+                                                        milliseconds: 150),
+                                                    textAlign:
+                                                        TextAlign.center),
+                                                TypewriterAnimatedText(
+                                                    'Tap here! 😇',
+                                                    speed: Duration(
+                                                        milliseconds: 150),
+                                                    textAlign:
+                                                        TextAlign.center),
+                                              ]),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          // InkWell(
+                          //   onTap: () {
+                          //     if (controller.isLoggedIn) {
+                          //       Get.bottomSheet(
+                          //         CustomProduct(details: controller.details!),
+                          //       );
+                          //     } else {
+                          //       Get.bottomSheet(
+                          //         Text("Please Login"),
+                          //       );
+                          //     }
+                          //   },
+                          //   child: Container(
+                          //     child: Center(
+                          //       child: Column(
+                          //         crossAxisAlignment: CrossAxisAlignment.center,
+                          //         mainAxisAlignment: MainAxisAlignment.center,
+                          //         children: [
+                          //           Container(
+                          //             decoration: BoxDecoration(
+                          //                 image: DecorationImage(
+                          //                     image: AssetImage(
+                          //                         "assets/images/bg-2.jpeg"),
+                          //                     fit: BoxFit.cover)),
+                          //             height: 300.0,
+                          //             child: Center(
+                          //               child: DefaultTextStyle(
+                          //                 style: TextStyle(
+                          //                     fontSize: 28.0,
+                          //                     color: lightGrey,
+                          //                     fontWeight: FontWeight.w600,
+                          //                     fontFamily: 'Poppins'),
+                          //                 child: AnimatedTextKit(
+                          //                     repeatForever: true,
+                          //                     isRepeatingAnimation: true,
+                          //                     animatedTexts: [
+                          //                      TypewriterAnimatedText(
+                          //     'Send us what you wish to purchase! 🌸',
+                          //     speed: Duration(
+                          //         milliseconds: 150),
+                          //     textAlign:
+                          //         TextAlign.center),
+                          // TypewriterAnimatedText(
+                          //     'Customise your product 🎨',
+                          //     speed: Duration(
+                          //         milliseconds: 150),
+                          //     textAlign:
+                          //         TextAlign.center),
+                          // TypewriterAnimatedText(
+                          //     'Tap here! 😇',
+                          //     speed: Duration(
+                          //         milliseconds: 150),
+                          //     textAlign:
+                          //         TextAlign.center),
+                          //                     ]),
+                          //               ),
+                          //             ),
+                          //           ),
+                          //         ],
+                          //       ),
+                          //     ),
+                          //   ),
+                          // ),
+                          // SectionDivider(),
+                          SizedBox(height: 25),
                           if (appVar.dynamicSectionKeys.length > i &&
                               appVar.dynamicSectionKeys[i] != "67409233" &&
                               appVar.dynamicSectionKeys[i] != "44644641" &&

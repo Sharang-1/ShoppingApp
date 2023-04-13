@@ -61,7 +61,7 @@ class Product {
   String? weaveType;
   bool? margin;
   BlousePadding? productFor;
-  BlousePadding? category;
+  CategoryData? category;
   BlousePadding? lengthOfKurta;
   bool? hangings;
   num? breadth;
@@ -197,7 +197,7 @@ class Product {
           : BlousePadding.fromJson(json["productFor"]),
       category: json["category"] == null
           ? null
-          : BlousePadding.fromJson(json["category"]),
+          : CategoryData.fromJson(json["category"]),
       whatDoesItHave: json["whatDoesItHave"] == null
           ? null
           : BlousePadding.fromJson(json["whatDoesItHave"]),
@@ -338,6 +338,26 @@ class Account {
 
   Map<String, dynamic> toJson() => {
         "key": key,
+      };
+}
+
+class CategoryData {
+  String? id;
+  String? name;
+
+  CategoryData({
+    this.id,
+    this.name,
+  });
+
+  factory CategoryData.fromJson(Map<String, dynamic> json) => CategoryData(
+        id: json["id"],
+        name: json["name"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
       };
 }
 

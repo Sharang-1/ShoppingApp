@@ -173,6 +173,7 @@ class HomeController extends BaseController {
     await updateIsLoggedIn();
 
     if (isLoggedIn) {
+      await updateUserDetails();
       // ? get review of last delivered products
       // final lastDeliveredProduct = await getLastDeliveredProduct();
       // if (lastDeliveredProduct != null)
