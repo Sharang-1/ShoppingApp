@@ -16,7 +16,8 @@ const String IntroPageRoute = "IntroPage";
 const String CartViewRoute = "CartView";
 const String CategoriesRoute = "CategoriesView";
 const String OrderSucess = "OrderSuccessView";
-const String OrderFailedItemUnavailableScreenRoute = "OrderFailedItemUnavailableView";
+const String OrderFailedItemUnavailableScreenRoute =
+    "OrderFailedItemUnavailableView";
 const String PaymentFinishedScreenRoute = "PaymentFinishedScreenView";
 const String PaymentErrorScreenRoute = "PaymentErrorScreenView";
 const String MyOrdersRoute = "MyOrdersView";
@@ -30,6 +31,7 @@ const String WishListRoute = "WishListView";
 const String ProductIndividualRoute = "ProductIndividualView";
 const String Product1IndividualRoute = "ProductIndiView";
 const String CategoryIndiViewRoute = "CategoryIndiView";
+const String SubCategoryIndiViewRoute = "SubCategoryIndiView";
 
 // Sellers Routes
 const String WishlistRoute = "WishlistView";

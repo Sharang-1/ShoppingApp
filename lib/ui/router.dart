@@ -37,6 +37,7 @@ import 'views/reviews_screen.dart';
 import 'views/search_view.dart';
 import 'views/seller_indi_view2.dart';
 import 'views/settings_page_view.dart';
+import 'views/subCategory_list_page.dart';
 import 'views/verify_otp.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
@@ -165,6 +166,17 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         pageArguments: pageArguments,
         pageTransitionType: PageTransitionType.rightToLeft,
       );
+
+    case SubCategoryIndiViewRoute:
+      var pargs = pageArguments as CategoryPageArg;
+      return _getPageRoute(
+          pageArguments: pageArguments,
+          routeName: settings.name!,
+          viewToShow: SubCategoryIndiView(
+            category: pargs.subCategory,
+            address: pargs.address,
+          ),
+          pageTransitionType: PageTransitionType.rightToLeft);
 
     case ProductIndividualRoute:
       return _getPageRoute(

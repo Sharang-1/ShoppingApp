@@ -103,7 +103,7 @@ class NewCategoryTile extends StatelessWidget {
 
 class CategoryCard extends StatefulWidget {
   final RootCategory category;
-  double height = 150;
+  double height = 100;
   double itemHeight = 0;
   double subCategoryHeight = 0;
   double categoryHeight = 0;
@@ -133,7 +133,7 @@ class _CategoryCardState extends State<CategoryCard> {
           borderRadius: BorderRadius.all(Radius.circular(10))),
       padding: const EdgeInsets.all(16.0),
       child: Column(
-        mainAxisAlignment: widget.height == 150
+        mainAxisAlignment: widget.height == 100
             ? MainAxisAlignment.center
             : MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
@@ -175,12 +175,12 @@ class _CategoryCardState extends State<CategoryCard> {
                     child: TextButton(
                       onPressed: () {
                         setState(() {
-                          if (widget.height == 150) {
-                            widget.height = 350;
+                          if (widget.height == 100) {
+                            widget.height = 400;
                             widget.itemHeight = 150;
-                            widget.categoryHeight = 100;
+                            widget.categoryHeight = 150;
                           } else {
-                            widget.height = 150;
+                            widget.height = 100;
                             widget.itemHeight = 0;
                             widget.categoryHeight = 0;
                             widget.subCategoryHeight = 0;
@@ -190,7 +190,7 @@ class _CategoryCardState extends State<CategoryCard> {
                         });
                       },
                       child: Text(
-                        'View more',
+                        widget.height == 100 ? 'View more' : 'View less',
                         style: TextStyle(
                             color: lightRedSmooth, fontWeight: FontWeight.bold),
                       ),
@@ -220,171 +220,66 @@ class _CategoryCardState extends State<CategoryCard> {
                           TextButton(
                             onPressed: () {
                               if (data1!.children != null) {
-                                setState(() {
-                                  if (widget.height == 350) {
-                                    widget.height = 550;
-                                    widget.categoryHeight = 300;
-                                    widget.subCategoryHeight = 100;
-                                  } else {
-                                    widget.height = 350;
-                                    widget.categoryHeight = 100;
-                                    widget.subCategoryHeight = 0;
-                                    widget.subSubCategoryHeight = 0;
-                                    widget.subSubSubCategoryHeight = 0;
-                                  }
-                                });
-                              } else {
-                                NavigationService.to(CategoryIndiViewRoute,
-                                    arguments: ProductPageArg(
-                                      queryString: data1.filter,
-                                      subCategory: data1.name,
+                                NavigationService.to(SubCategoryIndiViewRoute,
+                                    arguments: CategoryPageArg(
+                                      address:
+                                          "${widget.category.name}>${data1.name}",
+                                      subCategory: data1,
                                     ));
                               }
                             },
-                            child: AnimatedContainer(
-                              duration: Duration(milliseconds: 500),
-                              alignment: (widget.subCategoryHeight > 0 &&
-                                      (data1!.children != null))
-                                  ? Alignment.centerLeft
-                                  : Alignment.center,
-                              child: Text(data1?.name ?? "",
-                                  textAlign: TextAlign.start,
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold)),
-                            ),
-                          ),
-                          if (data1!.children != null)
-                            AnimatedContainer(
-                              duration: Duration(milliseconds: 300),
-                              padding: EdgeInsets.only(top: 4.0),
-                              height: widget.subCategoryHeight > 0
-                                  ? widget.subCategoryHeight
-                                  : 0,
-                              child: ListView.builder(
-                                itemCount: data1.children?.length,
-                                itemBuilder: (context, index) {
-                                  var data2 = data1.children?[index];
-                                  return AnimatedContainer(
-                                      duration: Duration(milliseconds: 300),
-                                      margin: EdgeInsets.only(right: 8.0),
-                                      child: Column(
-                                        children: [
-                                          TextButton(
-                                            onPressed: () {
-                                              if (data2?.children != null) {
-                                                setState(() {
-                                                  if (widget.height == 550) {
-                                                    widget.height = 750;
-                                                    widget.categoryHeight = 500;
-                                                    widget.subCategoryHeight =
-                                                        300;
-                                                    widget.subSubCategoryHeight =
-                                                        100;
-                                                  } else {
-                                                    widget.height = 550;
-                                                    widget.categoryHeight = 300;
-                                                    widget.subCategoryHeight =
-                                                        100;
-                                                    widget.subSubCategoryHeight =
-                                                        0;
-                                                    widget.subSubSubCategoryHeight =
-                                                        0;
-                                                  }
-                                                });
-                                              } else {
-                                                NavigationService.to(
-                                                    CategoryIndiViewRoute,
-                                                    arguments: ProductPageArg(
-                                                      queryString:
-                                                          data2?.filter,
-                                                      subCategory: data2?.name,
-                                                    ));
-                                              }
-                                            },
-                                            child: AnimatedContainer(
-                                              duration:
-                                                  Duration(milliseconds: 500),
-                                              margin: EdgeInsets.only(
-                                                  right:
-                                                      widget.subSubCategoryHeight >
-                                                                  0 &&
-                                                              (data2?.children !=
-                                                                  null)
-                                                          ? 90
-                                                          : 0.0),
-                                              child: Text(data2?.name ?? "",
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontWeight:
-                                                          FontWeight.bold)),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                    Tools.getTruncatedString(
+                                      12,
+                                      data1?.name ?? "",
+                                    ),
+                                    textAlign: TextAlign.start,
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold)),
+                                (data1!.children != null)
+                                    ? Icon(
+                                        Icons.arrow_forward_ios_rounded,
+                                        color: Colors.white,
+                                        size: 20,
+                                      )
+                                    : InkWell(
+                                        onTap: () => NavigationService.to(
+                                            CategoryIndiViewRoute,
+                                            arguments: ProductPageArg(
+                                              queryString: data1.filter,
+                                              subCategory: data1.name,
+                                            )),
+                                        child: ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            primary: Colors.white,
+                                            onPrimary: lightRedSmooth,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20.0),
                                             ),
                                           ),
-                                          if (data2!.children != null)
-                                            AnimatedContainer(
-                                              duration:
-                                                  Duration(milliseconds: 300),
-                                              padding:
-                                                  EdgeInsets.only(top: 4.0),
-                                              height:
-                                                  widget.subSubCategoryHeight >
-                                                          0
-                                                      ? widget
-                                                          .subSubCategoryHeight
-                                                      : 0,
-                                              child: ListView.builder(
-                                                itemCount:
-                                                    data2.children?.length,
-                                                itemBuilder: (context, index) {
-                                                  var data3 =
-                                                      data2.children?[index];
-                                                  return AnimatedContainer(
-                                                      duration: Duration(
-                                                          milliseconds: 300),
-                                                      margin: EdgeInsets.only(
-                                                          right: 8.0),
-                                                      child: Column(
-                                                        children: [
-                                                          TextButton(
-                                                            onPressed: () =>
-                                                                NavigationService.to(
-                                                                    CategoryIndiViewRoute,
-                                                                    arguments:
-                                                                        ProductPageArg(
-                                                                      queryString:
-                                                                          data3
-                                                                              ?.filter,
-                                                                      subCategory:
-                                                                          data3
-                                                                              ?.name,
-                                                                    )),
-                                                            child:
-                                                                AnimatedContainer(
-                                                              duration: Duration(
-                                                                  milliseconds:
-                                                                      500),
-                                                              child: Text(
-                                                                  data3?.name ??
-                                                                      "",
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .white,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold)),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ));
-                                                },
-                                              ),
-                                            )
-                                        ],
-                                      ));
-                                },
-                              ),
-                            )
+                                          onPressed: () => NavigationService.to(
+                                              CategoryIndiViewRoute,
+                                              arguments: ProductPageArg(
+                                                queryString: data1.filter,
+                                                subCategory: data1.name,
+                                              )),
+                                          child: Text(
+                                            'View Products',
+                                            style: TextStyle(
+                                              color: lightRedSmooth,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                              ],
+                            ),
+                          ),
                         ],
                       ));
                 },

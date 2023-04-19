@@ -1,25 +1,16 @@
-import 'package:compound/ui/shared/app_colors.dart';
-import 'package:compound/ui/widgets/shimmer/shimmer_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
-import '../../controllers/grid_view_builder/categories_view_builder_controller.dart';
+import '../../constants/route_names.dart';
 import '../../locator.dart';
 import '../../models/categorys.dart';
-import '../../models/grid_view_builder_filter_models/base_filter_model.dart';
-import '../../models/grid_view_builder_filter_models/categoryFilter.dart';
+import '../../models/productPageArg.dart';
 import '../../services/api/api_service.dart';
+import '../../services/navigation_service.dart';
 import '../widgets/categoryTileUI.dart';
+import '../widgets/shimmer/shimmer_widget.dart';
 
 class CategoryListPage extends StatelessWidget {
-  TextEditingController searchController = TextEditingController();
-
-  final CategoriesGridViewBuilderController controller =
-      CategoriesGridViewBuilderController();
-
-  final BaseFilterModel filter = CategoryFilter();
-
   final APIService _apiService = locator<APIService>();
 
   @override
@@ -40,7 +31,7 @@ class CategoryListPage extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 22,
+                    fontSize: 30,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -55,12 +46,35 @@ class CategoryListPage extends StatelessWidget {
                       itemCount: snapshot.data!.children!.length,
                       itemBuilder: (context, index) {
                         return Padding(
-                          padding: EdgeInsets.symmetric(vertical: 16.0),
-                          child: NewCategoryTile(
-                            data: snapshot.data!.children![index],
-                            fromCategory: false,
-                          ),
-                        );
+                            padding: EdgeInsets.symmetric(vertical: 16.0),
+                            // child: NewCategoryTile(
+                            //   data: snapshot.data!.children![index],
+                            //   fromCategory: false,
+                            // ),
+                            child: InkWell(
+                              onTap: () {
+                                NavigationService.to(SubCategoryIndiViewRoute,
+                                    arguments: CategoryPageArg(
+                                      address:
+                                          "${snapshot.data!.children![index].name}",
+                                      subCategory:
+                                          snapshot.data!.children![index],
+                                    ));
+                              },
+                              child: Row(children: [
+                                Expanded(
+                                  child: Text(
+                                    snapshot.data!.children![index].name!,
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                                Icon(Icons.arrow_forward_ios),
+                              ]),
+                            ));
                       },
                     ),
                   );

@@ -1,3 +1,5 @@
+import 'categorys.dart';
+
 class ProductPageArg {
   final String? title;
   final String? queryString;
@@ -20,4 +22,11 @@ class ProductPageArg {
 class PromotionProductsPageArg {
   final String promoTitle;
   PromotionProductsPageArg({required this.promoTitle});
+}
+
+class CategoryPageArg {
+  final String address;
+  final RootCategory subCategory;
+
+  CategoryPageArg({required this.address, required this.subCategory});
 }
