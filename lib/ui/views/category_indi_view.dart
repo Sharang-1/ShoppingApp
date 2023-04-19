@@ -1,14 +1,14 @@
 import 'dart:math';
 
-import 'package:compound/constants/server_urls.dart';
-import 'package:compound/services/navigation_service.dart';
-import 'package:compound/ui/widgets/product_tile_ui_3.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/state_manager.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../../constants/server_urls.dart';
+import '../../services/navigation_service.dart';
+import '../widgets/product_tile_ui_3.dart';
 import '../../controllers/base_controller.dart';
 import '../../controllers/categories_controller.dart';
 import '../../controllers/grid_view_builder/products_grid_view_builder_controller.dart';

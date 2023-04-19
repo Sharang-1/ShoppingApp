@@ -16,6 +16,7 @@ import '../../locator.dart';
 import '../../utils/lang/translation_keys.dart';
 import '../shared/app_colors.dart';
 import 'bottom_nav_style.dart';
+import 'category_list_page.dart';
 import 'product_wishlist_view.dart';
 
 class HomeView extends StatefulWidget {
@@ -77,7 +78,7 @@ class _HomeViewState extends State<HomeView> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     List _screens = [
-      CategoriesView(),
+      CategoryListPage(),
       MyOrdersView(),
       // AllConfettiWidget(child: HomeScreen(args: widget.args)),
       HomeScreen(args: widget.args),

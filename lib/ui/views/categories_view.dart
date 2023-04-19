@@ -74,13 +74,12 @@ class _CategoriesViewState extends State<CategoriesView> {
                       child: SectionBuilder(
                         key: categoriesGridKey,
                         context: context,
-                        
                         layoutType: LayoutType.CATEGORY_LAYOUT_4,
                         onEmptyList: () {},
                         controller: CategoriesGridViewBuilderController(),
                         filter: categoryFilter,
                         scrollDirection: Axis.vertical,
-                        gridCount: 3,
+                        gridCount: 1,
                       ),
                     )
                   : Container(),

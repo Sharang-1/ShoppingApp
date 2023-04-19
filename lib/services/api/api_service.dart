@@ -679,6 +679,17 @@ class APIService {
     return Promotions();
   }
 
+  Future<RootCategory> getRootCategory({String queryString = ""}) async {
+    var category = await apiWrapper("categories/root");
+    if (category != null) {
+      RootCategory categoryData = RootCategory.fromJson(category);
+      Fimber.d("Subcategories : " +
+          categoryData.children!.map((o) => o.name).toString());
+      return categoryData;
+    }
+    return RootCategory();
+  }
+
   Future<Categorys> getCategory({String queryString = ""}) async {
     var category = await apiWrapper("categories?context=subCategory");
     if (category != null) {

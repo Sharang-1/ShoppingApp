@@ -15,6 +15,7 @@ import 'views/appointment_booked_view.dart';
 import 'views/cart_view.dart';
 import 'views/categories_view.dart';
 import 'views/category_indi_view.dart';
+import 'views/category_list_page.dart';
 import 'views/dynamic_content_loading_view.dart';
 import 'views/dzor_explore_view.dart';
 import 'views/home_view.dart';
@@ -159,7 +160,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case CategoriesRoute:
       return _getPageRoute(
         routeName: settings.name!,
-        viewToShow: CategoriesView(),
+        // viewToShow: CategoriesView(),
+        viewToShow: CategoryListPage(),
         pageArguments: pageArguments,
         pageTransitionType: PageTransitionType.rightToLeft,
       );

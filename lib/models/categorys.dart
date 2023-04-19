@@ -34,7 +34,7 @@ class Categorys {
 }
 
 class Category {
-  int? id;
+  String? id;
   String? name;
   bool? enabled;
   int? order;
@@ -80,6 +80,63 @@ class Category {
         "forApp": forApp,
         "banner": banner == null ? null : banner?.toJson(),
         "productFor": productFor == null ? null : productFor?.toJson(),
+      };
+}
+
+class RootCategory {
+  String? id;
+  String? name;
+  bool? enabled;
+  int? order;
+  String? filter;
+  String? caption;
+  bool? forApp;
+  bool? supportSizeChart;
+  Banner? banner;
+  List<RootCategory>? children;
+
+  RootCategory({
+    this.id,
+    this.name,
+    this.enabled,
+    this.order,
+    this.filter,
+    this.caption,
+    this.forApp,
+    this.supportSizeChart,
+    this.banner,
+    this.children,
+  });
+
+  factory RootCategory.fromJson(Map<String, dynamic> json) => RootCategory(
+        id: json["id"],
+        name: json["name"],
+        enabled: json["enabled"],
+        order: json["order"],
+        filter: json["filter"],
+        caption: json["caption"],
+        forApp: json["forApp"],
+        supportSizeChart: json["supportSizeChart"],
+        banner: json["banner"] == null ? null : Banner.fromJson(json["banner"]),
+        children: json["children"] == null
+            ? null
+            : List<RootCategory>.from(
+                json["children"].map((x) => RootCategory.fromJson(x))),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "enabled": enabled,
+        "order": order,
+        "filter": filter,
+        "caption": caption,
+        "forApp": forApp,
+        "supportSizeChart": supportSizeChart,
+        "banner": banner == null ? null : banner?.toJson(),
+        "children": children == null
+            ? null
+            : List<dynamic>.from(children!.map((x) => x.toJson())),
       };
 }
 
