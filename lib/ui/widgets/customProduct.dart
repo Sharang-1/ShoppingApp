@@ -42,8 +42,8 @@ class _CustomProductState extends State<CustomProduct> {
   }
 
   Future<void> addProductDetails() async {
-    final url = Uri.https(
-        'test-1a01a-default-rtdb.firebaseio.com', '/customProduct.json');
+    final url =
+        Uri.https('dzor-application.firebaseio.com', '/customProduct.json');
     try {
       // var details = await _apiService.getUserData();
       await http.post(url,
@@ -66,7 +66,7 @@ class _CustomProductState extends State<CustomProduct> {
     String uniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
 
     Reference referenceRoot =
-        FirebaseStorage.instanceFor(bucket: "gs://test-1a01a.appspot.com")
+        FirebaseStorage.instanceFor(bucket: "gs://dzor-application.appspot.com")
             .ref();
     Reference referenceDirImages = referenceRoot.child('images');
     Reference referenceImageToUpload = referenceDirImages.child(uniqueFileName);
@@ -290,14 +290,14 @@ class _CustomProductState extends State<CustomProduct> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
-                      onPressed: () {
+                      onPressed: () async {
                         if (description.isEmpty) {
                           return;
                         } else {
                           setState(() {
                             showProgressIndicator = true;
                           });
-                          uploadImage();
+                          await uploadImage();
                           addProductDetails()
                               .then((value) => Navigator.of(context).pop())
                               .then((value) => Get.snackbar("Yayy 🎉",
