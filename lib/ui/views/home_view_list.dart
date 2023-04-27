@@ -169,7 +169,7 @@ class _HomeViewListState extends State<HomeViewList> {
                               elevation: 0,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(80),
-                                side: BorderSide(color: logoRed, width: 2.5),
+                                side: BorderSide(color: logoRed, width: 1.0),
                               ),
                               onPressed: () async {
                                 if (controller.isLoggedIn) {

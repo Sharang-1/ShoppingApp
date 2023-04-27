@@ -172,22 +172,22 @@ class _CategoryIndiViewState extends State<CategoryIndiView> {
                       SizedBox(
                         height: 10,
                       ),
-                      SizedBox(
-                        height: 60,
-                        child: FadeInImage.assetNetwork(
-                          fit: BoxFit.fill,
-                          fadeInCurve: Curves.easeIn,
-                          placeholder: 'assets/images/category_preloading.png',
-                          image: widget.categoryPhoto != null
-                              ? '$CATEGORY_PHOTO_BASE_URL/${widget.categoryPhoto}'
-                              : 'assets/images/category_preloading.png',
-                          imageErrorBuilder: (context, error, stackTrace) =>
-                              Image.asset(
-                            "assets/images/category_preloading.png",
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                      ),
+                      // SizedBox(
+                      //   height: 60,
+                      //   child: FadeInImage.assetNetwork(
+                      //     fit: BoxFit.fill,
+                      //     fadeInCurve: Curves.easeIn,
+                      //     placeholder: 'assets/images/category_preloading.png',
+                      //     image: widget.categoryPhoto != null
+                      //         ? '$CATEGORY_PHOTO_BASE_URL/${widget.categoryPhoto}'
+                      //         : 'assets/images/category_preloading.png',
+                      //     imageErrorBuilder: (context, error, stackTrace) =>
+                      //         Image.asset(
+                      //       "assets/images/category_preloading.png",
+                      //       fit: BoxFit.fill,
+                      //     ),
+                      //   ),
+                      // ),
                       Text(
                         widget.subCategory ?? "",
                         style: TextStyle(

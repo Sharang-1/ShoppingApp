@@ -7,7 +7,7 @@ import '../../models/categorys.dart';
 import '../../models/productPageArg.dart';
 import '../../services/api/api_service.dart';
 import '../../services/navigation_service.dart';
-import '../widgets/categoryTileUI.dart';
+// import '../widgets/categoryTileUI.dart';
 import '../widgets/shimmer/shimmer_widget.dart';
 
 class CategoryListPage extends StatelessWidget {
@@ -16,27 +16,52 @@ class CategoryListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Align(
+          alignment: Alignment.center,
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              vertical: 16.0,
+            ),
+            child: Column(
+              children: [
+                SizedBox(height: 10),
+                Text(
+                  'Categories',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.black54,
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: 16.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            SizedBox(height: 10),
-            Align(
-              alignment: Alignment.center,
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 16.0),
-                child: Text(
-                  'Categories',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
+            // Align(
+            //   alignment: Alignment.center,
+            //   child: Padding(
+            //     padding: EdgeInsets.symmetric(vertical: 16.0),
+            //     child: Text(
+            //       'Categories',
+            //       textAlign: TextAlign.center,
+            //       style: TextStyle(
+            //         color: Colors.black54,
+            //         fontSize: 30,
+            //         fontWeight: FontWeight.bold,
+            //       ),
+            //     ),
+            //   ),
+            // ),
             FutureBuilder(
               future: _apiService.getRootCategory(),
               builder: (context, AsyncSnapshot<RootCategory> snapshot) {
@@ -45,6 +70,9 @@ class CategoryListPage extends StatelessWidget {
                     child: ListView.builder(
                       itemCount: snapshot.data!.children!.length,
                       itemBuilder: (context, index) {
+                        // if (snapshot.data?.children?[index].forApp == false) {
+                        //   return Container();
+                        // }
                         return Padding(
                             padding: EdgeInsets.symmetric(vertical: 16.0),
                             // child: NewCategoryTile(
@@ -67,12 +95,15 @@ class CategoryListPage extends StatelessWidget {
                                     snapshot.data!.children![index].name!,
                                     style: TextStyle(
                                       color: Colors.black,
-                                      fontSize: 24,
+                                      fontSize: 20,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
                                 ),
-                                Icon(Icons.arrow_forward_ios),
+                                Icon(
+                                  Icons.arrow_forward_ios,
+                                  size: 18,
+                                ),
                               ]),
                             ));
                       },

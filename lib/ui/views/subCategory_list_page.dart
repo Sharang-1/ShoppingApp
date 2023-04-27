@@ -22,7 +22,7 @@ class SubCategoryIndiView extends StatelessWidget {
             SizedBox(height: 10),
             Text(address,
                 style: TextStyle(
-                  color: Colors.black,
+                  color: Colors.black54,
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
                 )),
@@ -32,7 +32,7 @@ class SubCategoryIndiView extends StatelessWidget {
         elevation: 0,
         backgroundColor: Colors.transparent,
         leading: const BackButton(
-          color: Colors.black,
+          color: Colors.black54,
         ),
       ),
       body: Container(
@@ -40,6 +40,9 @@ class SubCategoryIndiView extends StatelessWidget {
         child: ListView.builder(
           itemCount: category.children!.length,
           itemBuilder: (context, index) {
+            if (category.children![index].forApp == false) {
+              return Container();
+            }
             return Padding(
                 padding: EdgeInsets.symmetric(vertical: 16.0),
                 child: InkWell(
@@ -64,7 +67,7 @@ class SubCategoryIndiView extends StatelessWidget {
                         category.children![index].name!,
                         style: TextStyle(
                           color: Colors.black54,
-                          fontSize: 24,
+                          fontSize: 20,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -73,6 +76,7 @@ class SubCategoryIndiView extends StatelessWidget {
                       Icon(
                         Icons.arrow_forward_ios,
                         color: Colors.black54,
+                        size: 18,
                       ),
                   ]),
                 ));
