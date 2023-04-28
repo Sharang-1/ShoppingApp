@@ -70,9 +70,9 @@ class CategoryListPage extends StatelessWidget {
                     child: ListView.builder(
                       itemCount: snapshot.data!.children!.length,
                       itemBuilder: (context, index) {
-                        // if (snapshot.data?.children?[index].forApp == false) {
-                        //   return Container();
-                        // }
+                        if (snapshot.data?.children?[index].forApp == false) {
+                          return Container();
+                        }
                         return Padding(
                             padding: EdgeInsets.symmetric(vertical: 16.0),
                             // child: NewCategoryTile(
