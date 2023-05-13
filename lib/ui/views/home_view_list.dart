@@ -52,20 +52,20 @@ class HomeViewList extends StatefulWidget {
 class _HomeViewListState extends State<HomeViewList> {
   final Map<String, Duration> sectionDelay = {
     "SECTION1": Duration(milliseconds: 0),
-    "SECTION2": Duration(milliseconds: 10),
-    "SECTION3": Duration(milliseconds: 20),
-    "SECTION4": Duration(milliseconds: 40),
-    "SECTION5": Duration(milliseconds: 40),
-    "SECTION6": Duration(milliseconds: 60),
-    "SECTION7": Duration(milliseconds: 60),
-    "SECTION8": Duration(milliseconds: 80),
-    "SECTION9": Duration(milliseconds: 80),
-    "SECTION10": Duration(milliseconds: 80),
-    "SECTION11": Duration(milliseconds: 100),
-    "SECTION12": Duration(milliseconds: 100),
-    "SECTION13": Duration(milliseconds: 100),
-    "SECTION14": Duration(milliseconds: 100),
-    "LAST_SECTION": Duration(milliseconds: 100),
+    "SECTION2": Duration(milliseconds: 2),
+    "SECTION3": Duration(milliseconds: 4),
+    "SECTION4": Duration(milliseconds: 6),
+    "SECTION5": Duration(milliseconds: 8),
+    "SECTION6": Duration(milliseconds: 10),
+    "SECTION7": Duration(milliseconds: 12),
+    "SECTION8": Duration(milliseconds: 14),
+    "SECTION9": Duration(milliseconds: 14),
+    "SECTION10": Duration(milliseconds: 14),
+    "SECTION11": Duration(milliseconds: 16),
+    "SECTION12": Duration(milliseconds: 16),
+    "SECTION13": Duration(milliseconds: 16),
+    "SECTION14": Duration(milliseconds: 16),
+    "LAST_SECTION": Duration(milliseconds: 16),
   };
   // bool _visible = true;
 
@@ -477,20 +477,20 @@ class _HomeViewListState extends State<HomeViewList> {
                               appVar.dynamicSectionKeys[i] != "67409233" &&
                               appVar.dynamicSectionKeys[i] != "44644641" &&
                               appVar.dynamicSectionKeys[i] != "77816306")
-                            Column(
-                              children: [
-                                SectionDivider(),
-                                FutureBuilder(
-                                    future: getProducts(
-                                        appVar.dynamicSectionKeys[i++]),
-                                    builder: (context, data) {
-                                      if (data.connectionState ==
-                                          ConnectionState.active) {
-                                        return ShimmerWidget(
-                                            type: LayoutType.PRODUCT_LAYOUT_2);
-                                      }
-                                      if (data.hasData)
-                                        return Container(
+                            FutureBuilder(
+                                future:
+                                    getProducts(appVar.dynamicSectionKeys[i++]),
+                                builder: (context, data) {
+                                  if (data.connectionState ==
+                                      ConnectionState.active) {
+                                    return ShimmerWidget(
+                                        type: LayoutType.PRODUCT_LAYOUT_2);
+                                  }
+                                  if (data.hasData)
+                                    return Column(
+                                      children: [
+                                        SectionDivider(),
+                                        Container(
                                           width: double.infinity,
                                           margin: EdgeInsets.symmetric(
                                               horizontal: 5),
@@ -519,11 +519,11 @@ class _HomeViewListState extends State<HomeViewList> {
                                                     .products ??
                                                 [],
                                           ),
-                                        );
-                                      return Container();
-                                    }),
-                              ],
-                            ),
+                                        ),
+                                      ],
+                                    );
+                                  return Container();
+                                }),
                           // FutureSectionBuilder(
                           //   duration: sectionDelay['SECTION1']!,
                           //   child: Column(
