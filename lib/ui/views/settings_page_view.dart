@@ -45,46 +45,7 @@ class _SettingsViewState extends State<SettingsView> {
   @override
   void initState() {
     selectedLang = locator<HomeController>().getCurrentLang();
-
     setupSettings();
-
-    appbar = AppBar(
-        elevation: 0,
-        title: Text(
-          SETTINGS_APPBAR_TITLE.tr,
-          style: TextStyle(
-            fontFamily: headingFont,
-            fontWeight: FontWeight.w700,
-            fontSize: 18,
-            color: Colors.black,
-          ),
-        ),
-        iconTheme: IconThemeData(
-          color: appBarIconColor,
-        ),
-        backgroundColor: Colors.white,
-        actions: [
-          DropdownButton(
-              icon: Icon(Icons.arrow_drop_down),
-              value: selectedLang,
-              elevation: 0,
-              items: LocalizationService.langs
-                  .map(
-                    (e) => DropdownMenuItem(
-                      value: e,
-                      child: Text(e),
-                    ),
-                  )
-                  .toList(),
-              onChanged: (e) async {
-                await locator<HomeController>().changeLocale(e as String);
-                setState(() {
-                  selectedLang = e;
-                  setupSettings();
-                });
-              }),
-        ]);
-
     super.initState();
   }
 
@@ -151,7 +112,44 @@ class _SettingsViewState extends State<SettingsView> {
         builder: (controller) {
           return Scaffold(
             backgroundColor: newBackgroundColor2,
-            appBar: appbar,
+            // appBar: appbar,
+            appBar: AppBar(
+                elevation: 0,
+                title: Text(
+                  SETTINGS_APPBAR_TITLE.tr,
+                  style: TextStyle(
+                    fontFamily: headingFont,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 18,
+                    color: Colors.black,
+                  ),
+                ),
+                iconTheme: IconThemeData(
+                  color: appBarIconColor,
+                ),
+                backgroundColor: Colors.white,
+                actions: [
+                  DropdownButton(
+                      icon: Icon(Icons.arrow_drop_down),
+                      value: selectedLang,
+                      elevation: 0,
+                      items: LocalizationService.langs
+                          .map(
+                            (e) => DropdownMenuItem(
+                              value: e,
+                              child: Text(e),
+                            ),
+                          )
+                          .toList(),
+                      onChanged: (e) async {
+                        await locator<HomeController>()
+                            .changeLocale(e as String);
+                        setState(() {
+                          selectedLang = e;
+                          setupSettings();
+                        });
+                      }),
+                ]),
             body: SafeArea(
               top: false,
               left: false,
