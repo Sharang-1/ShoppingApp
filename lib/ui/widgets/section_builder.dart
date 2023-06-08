@@ -256,7 +256,7 @@ class SectionBuilder extends StatelessWidget {
           loadingWidget: ShimmerWidget(
             type: type,
             scrollDirection: scrollDirection,
-            childAspectRatio: getChildAspectRatio(layoutType),
+            childAspectRatio: 0.2,
           ),
           tileBuilder:
               (BuildContext context, productData, index, onDelete, onUpdate) {

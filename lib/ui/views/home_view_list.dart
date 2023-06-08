@@ -113,30 +113,20 @@ class _HomeViewListState extends State<HomeViewList> {
                           //       fit: BoxFit.fill,
                           //     )),
                           // verticalSpaceSmall,
-
-                          FutureSectionBuilder(
-                            duration: sectionDelay['SECTION1']!,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                // SectionDivider(),
-                                SectionBuilder(
-                                  key: widget.productUniqueKey ?? UniqueKey(),
-                                  context: context,
-                                  layoutType: LayoutType.PRODUCT_LAYOUT_4,
-                                  filter: ProductFilter(explore: true),
-                                  onEmptyList: () {},
-                                  controller: ProductsGridViewBuilderController(
-                                    randomize: true,
-                                    limit: 10,
-                                  ),
-                                  scrollDirection: Axis.horizontal,
-                                  header: SectionHeader(
-                                    title: "Amazing Products for you",
-                                    subTitle: "Scroll right to see more",
-                                  ),
-                                ),
-                              ],
+                          SectionBuilder(
+                            key: widget.productUniqueKey ?? UniqueKey(),
+                            context: context,
+                            layoutType: LayoutType.PRODUCT_LAYOUT_4,
+                            filter: ProductFilter(explore: true),
+                            onEmptyList: () {},
+                            controller: ProductsGridViewBuilderController(
+                              randomize: true,
+                              limit: 10,
+                            ),
+                            scrollDirection: Axis.horizontal,
+                            header: SectionHeader(
+                              title: "Amazing Products for you",
+                              subTitle: "Scroll right to see more",
                             ),
                           ),
                           SizedBox(height: 25),
