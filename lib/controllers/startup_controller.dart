@@ -10,18 +10,11 @@ import '../constants/route_names.dart';
 import '../constants/server_urls.dart';
 import '../constants/shared_pref.dart';
 import '../locator.dart';
-import '../services/analytics_service.dart';
 import '../services/api/api_service.dart';
 import '../services/authentication_service.dart';
 import '../services/dialog_service.dart';
-import '../services/dynamic_link_service.dart';
-import '../services/error_handling_service.dart';
 import '../services/navigation_service.dart';
-import '../services/payment_service.dart';
-import '../services/push_notification_service.dart';
-import '../services/remote_config_service.dart';
 import 'base_controller.dart';
-import 'lookup_controller.dart';
 
 class StartUpController extends BaseController {
   final _authenticationService = locator<AuthenticationService>();
@@ -36,17 +29,6 @@ class StartUpController extends BaseController {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     Version currentVersion = Version.parse(packageInfo.version);
     Version latestVersion = Version.parse(updateDetails!.version);
-
-    await Future.wait([
-      locator<ErrorHandlingService>().init(),
-      locator<PaymentService>().init(),
-      locator<AnalyticsService>().setup(),
-      locator<PushNotificationService>().initialise(),
-      locator<RemoteConfigService>().init(),
-      locator<DynamicLinkService>().handleDynamicLink(),
-    ]);
-
-    locator<LookupController>().setUpLookups(await _apiService.getLookups());
 
     if (releaseMode && (latestVersion > currentVersion)) {
       await DialogService.showCustomDialog(

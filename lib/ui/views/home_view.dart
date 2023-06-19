@@ -1,4 +1,3 @@
-import 'package:compound/ui/views/categories_view.dart';
 import 'package:compound/ui/views/home_screen.dart';
 import 'package:compound/ui/views/myorders_view.dart';
 import 'package:compound/ui/views/settings_page_view.dart';
