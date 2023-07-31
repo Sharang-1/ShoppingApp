@@ -108,7 +108,7 @@ class MyApp extends StatelessWidget {
     );
 
     return GetMaterialApp(
-      title: 'host',
+      title: 'DZOR',
       debugShowCheckedModeBanner: false,
       navigatorObservers: [],
       builder: (context, child) => ScrollConfiguration(
