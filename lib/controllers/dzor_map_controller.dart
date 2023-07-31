@@ -19,7 +19,7 @@
 // import 'base_controller.dart';
 // import 'home_controller.dart';
 
-// class DzorMapController extends BaseController {
+// class hostMapController extends BaseController {
 //   final LocationService _locationService = locator<LocationService>();
 //   final APIService _apiService = locator<APIService>();
 //   final AnalyticsService _analyticsService = locator<AnalyticsService>();
@@ -49,7 +49,7 @@
 
 //   GlobalKey get cardsKey => _cardsKey;
 
-//   DzorMapController(this.context,
+//   hostMapController(this.context,
 //       {required this.sellerKey,
 //       this.sData,
 //       this.tData,
@@ -121,7 +121,7 @@
 //         NavigationService.to(MyOrdersRoute);
 //         break;
 //       case 2:
-//         // NavigationService.to(DzorExploreViewRoute);
+//         // NavigationService.to(hostExploreViewRoute);
 //         break;
 //       case 3:
 //         NavigationService.to(MyAppointmentViewRoute);
@@ -354,7 +354,7 @@
 //                     crossAxisAlignment: CrossAxisAlignment.start,
 //                     children: <Widget>[
 //                       Text(
-//                         "Dzor Map",
+//                         "host Map",
 //                         style: TextStyle(
 //                           fontWeight: FontWeight.bold,
 //                           color: Colors.white,

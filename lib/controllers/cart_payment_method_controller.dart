@@ -106,7 +106,7 @@ class CartPaymentMethodController extends BaseController {
             contactNo: customerDetails.customerPhone!.mobile.toString(),
             orderId: groupOrderbyId.commonField!.payment!.orderId!,
             receiptId: receiptId,
-            dzorOrderId: groupOrderbyId.commonField!.payment!.orderId!,
+            hostOrderId: groupOrderbyId.commonField!.payment!.orderId!,
           );
         }
       }
@@ -139,7 +139,7 @@ class CartPaymentMethodController extends BaseController {
   //       contactNo: order.billingPhone!.mobile!,
   //       orderId: order.payment!.orderId!,
   //       receiptId: order.payment!.receiptId!,
-  //       dzorOrderId: order.key!,
+  //       hostOrderId: order.key!,
   //     );
   //   }
   //   setBusy(false);

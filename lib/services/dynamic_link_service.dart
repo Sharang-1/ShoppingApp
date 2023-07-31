@@ -61,12 +61,12 @@ class DynamicLinkService {
   //// NEED TO SOLVE
   Future<String?> createLink(String url) async {
     final DynamicLinkParameters parameters = DynamicLinkParameters(
-        uriPrefix: "https://dzor.page.link",
+        uriPrefix: "https://host.page.link",
         link: Uri.parse(url),
         androidParameters: AndroidParameters(
-            packageName: "in.dzor.dzor_app", minimumVersion: 0),
+            packageName: "in.host.host_app", minimumVersion: 0),
         iosParameters: IOSParameters(
-            bundleId: "in.dzor.dzor-app",
+            bundleId: "in.host.host-app",
             minimumVersion: '1.0.0',
             appStoreId: '1562083632'));
 

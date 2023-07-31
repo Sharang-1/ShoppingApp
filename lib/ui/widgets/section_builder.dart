@@ -41,7 +41,7 @@ enum LayoutType {
   //Product Layouts
   PRODUCT_LAYOUT_1,
   PRODUCT_LAYOUT_2,
-  PRODUCT_LAYOUT_3, // Explore Dzor Product Layout
+  PRODUCT_LAYOUT_3, // Explore host Product Layout
   PRODUCT_LAYOUT_4, // Etsy like product view
   PRODUCT_LAYOUT_5, // Check error in Layout 3
 

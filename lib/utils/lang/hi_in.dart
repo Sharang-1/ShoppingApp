@@ -118,7 +118,7 @@ Map<String, String> hiIN = {
   SETTINGS_RATE_APP: "रेट करे",
   SETTINGS_ABOUT_US: "हमें जाने",
   SETTINGS_TERMS_AND_CONDITIONS: "नियम और शर्ते",
-  SETTINGS_ABOUT_DZOR: "डज़ोर को जाने",
+  SETTINGS_ABOUT_host: "डज़ोर को जाने",
   SETTINGS_LOG_IN: "लोग इन",
   SETTINGS_LOG_OUT: "लोग आउट",
   SETTINGS_PROFILE: "प्रोफाइल",

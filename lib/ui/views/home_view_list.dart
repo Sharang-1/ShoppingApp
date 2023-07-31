@@ -91,7 +91,7 @@ class _HomeViewListState extends State<HomeViewList> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           // Text(counter.toString()),
-                          // Text(DzorConst().promotedProduct.toString()),
+                          // Text(hostConst().promotedProduct.toString()),
                           // if ((controller.topPromotion.length) > 0) ...[
                           //   HomeViewListHeader(
                           //       title: "Featured Home Grown Brands!"),
@@ -1813,7 +1813,7 @@ class _HomeViewListState extends State<HomeViewList> {
                                     children: <Widget>[
                                       Image.asset(
                                         "assets/images/logo.png",
-                                        // "assets/svg/dzor_logo.svg",
+                                        // "assets/svg/host_logo.svg",
                                         color: Colors.grey[800],
                                         height: 35,
                                         width: 35,

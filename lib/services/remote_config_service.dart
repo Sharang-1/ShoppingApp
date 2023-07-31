@@ -71,5 +71,5 @@ const String HOMESCREEN_SECTION_14_TITLE_EN = 'homescreen_section_14_title_en';
 const String HOMESCREEN_SECTION_14_SUBTITLE_EN =
     'homescreen_section_14_subtitle_en';
 
-//Dzor HomePage Appbar text
+//host HomePage Appbar text
 const String HOMESCREEN_APPBAR_TEXT = "homescreen_appbar_text";

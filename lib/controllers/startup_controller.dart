@@ -44,9 +44,9 @@ class StartUpController extends BaseController {
               onPressed: () {
                 Platform.isAndroid
                     ? launchUrlString(
-                        "https://play.google.com/store/apps/details?id=in.dzor.dzor_app&hl=en_IN&gl=US")
+                        "https://play.google.com/store/apps/details?id=in.host.host_app&hl=en_IN&gl=US")
                     : launchUrlString(
-                        "https://apps.apple.com/in/app/dzor/id1562083632");
+                        "https://apps.apple.com/in/app/host/id1562083632");
               },
             )
           ],

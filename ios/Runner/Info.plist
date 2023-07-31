@@ -11,7 +11,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>Dzor</string>
+	<string>host</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -26,9 +26,9 @@
 	<false/>
 	<key>FirebaseDynamicLinksCustomDomains</key>
 	<array>
-		<string>https://dzor.in/product</string>
-		<string>https://dzor.in/seller</string>
-		<string>https://dzor.in/promotion</string>
+		<string>https://host.in/product</string>
+		<string>https://host.in/seller</string>
+		<string>https://host.in/promotion</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
@@ -38,21 +38,21 @@
 		<true/>
 	</dict>
 	<key>NSAppleMusicUsageDescription</key>
-	<string>Dzor App does not require access to Apple Music.</string>
+	<string>host App does not require access to Apple Music.</string>
 	<key>NSCalendarsUsageDescription</key>
-	<string>Dzor App does not require access to calender. </string>
+	<string>host App does not require access to calender. </string>
 	<key>NSContactsUsageDescription</key>
-	<string>Dzor App does not require access to contacts.</string>
+	<string>host App does not require access to contacts.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Dzor App uses your location to show designers around you</string>
+	<string>host App uses your location to show designers around you</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Dzor App uses your location to show designers around you.</string>
+	<string>host App uses your location to show designers around you.</string>
 	<key>NSMotionUsageDescription</key>
-	<string>Dzor App does not require access to motion sensors.</string>
+	<string>host App does not require access to motion sensors.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Dzor App does not require access to photo library.</string>
+	<string>host App does not require access to photo library.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>Dzor App does not require access speech recognition.</string>
+	<string>host App does not require access speech recognition.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>

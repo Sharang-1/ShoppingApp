@@ -17,7 +17,7 @@ import 'views/categories_view.dart';
 import 'views/category_indi_view.dart';
 import 'views/category_list_page.dart';
 import 'views/dynamic_content_loading_view.dart';
-import 'views/dzor_explore_view.dart';
+import 'views/host_explore_view.dart';
 import 'views/home_view.dart';
 import 'views/intro.dart';
 import 'views/loader.dart';
@@ -119,10 +119,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         pageTransitionType: transitionType,
       );
 
-    case DzorExploreViewRoute:
+    case hostExploreViewRoute:
       return _getPageRoute(
         routeName: settings.name!,
-        viewToShow: DzorExploreView(),
+        viewToShow: hostExploreView(),
         pageArguments: pageArguments,
         pageTransitionType: PageTransitionType.bottomToTop,
       );

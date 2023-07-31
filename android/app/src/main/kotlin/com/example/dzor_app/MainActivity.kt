@@ -1,4 +1,4 @@
-package com.example.dzor_app
+package com.example.host_app
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity

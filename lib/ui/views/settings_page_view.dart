@@ -53,7 +53,7 @@ class _SettingsViewState extends State<SettingsView> {
     sections = {
       1: SETTINGS_CONNECT_WITH_US.tr,
       2: SETTINGS_LEAVE_REVIEW.tr,
-      3: SETTINGS_ABOUT_DZOR.tr,
+      3: SETTINGS_ABOUT_host.tr,
     };
 
     settingNameMap = {
@@ -62,7 +62,7 @@ class _SettingsViewState extends State<SettingsView> {
       3: SETTINGS_CUSTOMER_SUPPORT.tr,
       4: SETTINGS_TERMS_AND_CONDITIONS.tr,
       5: SETTINGS_SHARE_WITH_FRIENDS.tr,
-      6: SETTINGS_ABOUT_DZOR.tr,
+      6: SETTINGS_ABOUT_host.tr,
     };
 
     settingIconMap = {
@@ -77,12 +77,12 @@ class _SettingsViewState extends State<SettingsView> {
     settingOnTapMap = {
       1: () => Platform.isAndroid
           ? launchUrlString(
-              "https://play.google.com/store/apps/details?id=in.dzor.dzor_app&hl=en_IN&gl=US")
-          : launchUrlString("https://apps.apple.com/in/app/dzor/id1562083632"),
+              "https://play.google.com/store/apps/details?id=in.host.host_app&hl=en_IN&gl=US")
+          : launchUrlString("https://apps.apple.com/in/app/host/id1562083632"),
       2: () => Platform.isAndroid
           ? launchUrlString(
-              "https://play.google.com/store/apps/details?id=in.dzor.dzor_app&hl=en_IN&gl=US")
-          : launchUrlString("https://apps.apple.com/in/app/dzor/id1562083632"),
+              "https://play.google.com/store/apps/details?id=in.host.host_app&hl=en_IN&gl=US")
+          : launchUrlString("https://apps.apple.com/in/app/host/id1562083632"),
       3: () => Get.bottomSheet(
             HelpView(),
             backgroundColor: Colors.white,
@@ -96,7 +96,7 @@ class _SettingsViewState extends State<SettingsView> {
           ),
       4: () => BaseController.launchURL(TERMS_AND_CONDITIONS_URL),
       5: BaseController.shareApp,
-      6: () => launchUrlString("https://dzor.in/main/about-us.html"),
+      6: () => launchUrlString("https://host.in/main/about-us.html"),
     };
 
     sectionsSettingsMap = {

@@ -10,7 +10,7 @@
 
 // import '../../controllers/base_controller.dart';
 // import '../../controllers/cart_count_controller.dart';
-// import '../../controllers/dzor_map_controller.dart';
+// import '../../controllers/host_map_controller.dart';
 // import '../../locator.dart';
 // import '../../models/reviews.dart';
 // import '../../models/sellers.dart';
@@ -31,12 +31,12 @@
 //   MapView({required this.sellerKey});
 
 //   onCardTap(
-//       {required DzorMapController dzorMapController,
+//       {required hostMapController hostMapController,
 //       required int index,
 //       dynamic client}) {
-//     dzorMapController.currentClient = client;
-//     dzorMapController.currentBearing = 90.0;
-//     dzorMapController.zoomInMarker(client.contact.geoLocation.latitude,
+//     hostMapController.currentClient = client;
+//     hostMapController.currentBearing = 90.0;
+//     hostMapController.zoomInMarker(client.contact.geoLocation.latitude,
 //         client.contact.geoLocation.longitude);
 //     carouselController.animateToPage(index);
 //   }
@@ -50,7 +50,7 @@
 //   }
 
 //   Widget clientCardSeller(
-//       DzorMapController dzorMapController, context, Seller client, int index) {
+//       hostMapController hostMapController, context, Seller client, int index) {
 //     List<String> tempSplitName = client.name!.split(" ");
 //     String shortName = tempSplitName[0].substring(0, 1);
 //     print(client.operations ?? "No data");
@@ -124,9 +124,9 @@
 //                                         horizontalSpaceTiny,
 //                                         Text(
 //                                           // formatUnit(Geolocator.distanceBetween(
-//                                           //   dzorMapController
+//                                           //   hostMapController
 //                                           //       .currentLocation.latitude,
-//                                           //   dzorMapController
+//                                           //   hostMapController
 //                                           //       .currentLocation.longitude,
 //                                           //   client.contact.geoLocation.latitude,
 //                                           //   client
@@ -187,12 +187,12 @@
 //   }
 
 //   Widget clientCardTailor(
-//       DzorMapController dzorMapController, context, Tailor client, int index) {
+//       hostMapController hostMapController, context, Tailor client, int index) {
 //     List<String> tempSplitName = client.name!.split(" ");
 //     String shortName = tempSplitName[0].substring(0, 1);
 //     return InkWell(
 //       onTap: () => onCardTap(
-//           dzorMapController: dzorMapController, index: index, client: client),
+//           hostMapController: hostMapController, index: index, client: client),
 //       child: Card(
 //         clipBehavior: Clip.antiAlias,
 //         shape: RoundedRectangleBorder(
@@ -270,7 +270,7 @@
 //   }
 
 //   Set<Marker> getMarkers(
-//       context, DzorMapController dzorMapController, showSailors) {
+//       context, hostMapController hostMapController, showSailors) {
 //     void createMarker(client, {bool isSeller = true}) {
 //       if (client.contact.geoLocation == null ||
 //           client.contact.geoLocation.latitude == null ||
@@ -283,13 +283,13 @@
 
 //       final Marker marker = Marker(
 //         markerId: markerId,
-//         icon: isSeller ? dzorMapController.iconS! : dzorMapController.iconT!,
+//         icon: isSeller ? hostMapController.iconS! : hostMapController.iconT!,
 //         position: LatLng(client.contact.geoLocation.latitude,
 //             client.contact.geoLocation.longitude),
 //         draggable: false,
 //         infoWindow: InfoWindow(title: client.name),
 //         onTap: () {
-//           dzorMapController.currentClient = client;
+//           hostMapController.currentClient = client;
 //           try {
 //             if ((showSailors && isSeller) || (!showSailors && !isSeller))
 //               carouselController.animateToPage(carouselMap[client.key]!);
@@ -298,26 +298,26 @@
 //           }
 //         },
 //       );
-//       dzorMapController.markers[markerId] = marker;
+//       hostMapController.markers[markerId] = marker;
 //     }
 
-//     if (dzorMapController.tData != null)
-//       dzorMapController.tData!.items!.forEach((t) {
+//     if (hostMapController.tData != null)
+//       hostMapController.tData!.items!.forEach((t) {
 //         createMarker(t, isSeller: false);
 //       });
 
-//     if (dzorMapController.sData != null)
-//       dzorMapController.sData!.items!.forEach((s) {
+//     if (hostMapController.sData != null)
+//       hostMapController.sData!.items!.forEach((s) {
 //         createMarker(s);
 //       });
-//     return Set<Marker>.of(dzorMapController.markers.values);
+//     return Set<Marker>.of(hostMapController.markers.values);
 //   }
 
 //   @override
 //   Widget build(BuildContext context) {
-//     return GetBuilder<DzorMapController>(
-//       init: DzorMapController(context, sellerKey: sellerKey),
-//       builder: (dzorMapController) => Scaffold(
+//     return GetBuilder<hostMapController>(
+//       init: hostMapController(context, sellerKey: sellerKey),
+//       builder: (hostMapController) => Scaffold(
 //         body: SafeArea(
 //           top: true,
 //           left: false,
@@ -328,7 +328,7 @@
 //               backgroundColor: Colors.white,
 //               iconTheme: IconThemeData(color: appBarIconColor),
 //               title: InkWell(
-//                 onTap: () => dzorMapController.onCityNameTap(),
+//                 onTap: () => hostMapController.onCityNameTap(),
 //                 child: Column(
 //                   mainAxisAlignment: MainAxisAlignment.center,
 //                   children: [
@@ -340,7 +340,7 @@
 //                       ),
 //                     ),
 //                     Text(
-//                       "${dzorMapController.cityName.capitalize ?? ''}",
+//                       "${hostMapController.cityName.capitalize ?? ''}",
 //                       style: TextStyle(
 //                         fontSize: 16,
 //                         color: textIconBlue,
@@ -366,13 +366,13 @@
 //               style: BottomNavigationStyle(),
 //               child: ConvexAppBar(
 //                 style: TabStyle.fixedCircle,
-//                 items: dzorMapController.navigationItems,
+//                 items: hostMapController.navigationItems,
 //                 backgroundColor: logoRed,
 
 //                 activeColor: backgroundWhiteCreamColor,
 //                 disableDefaultTabController: true,
 //                 initialActiveIndex: 2,
-//                 onTabNotify: dzorMapController.bottomNavigationOnTap,
+//                 onTabNotify: hostMapController.bottomNavigationOnTap,
 //                 elevation: 5,
 //               ),
 //             ),
@@ -380,16 +380,16 @@
 //               children: <Widget>[
 //                 GoogleMap(
 //                   padding: EdgeInsets.only(bottom: 150),
-//                   onMapCreated: dzorMapController.onMapCreated,
+//                   onMapCreated: hostMapController.onMapCreated,
 //                   myLocationEnabled: true,
 //                   myLocationButtonEnabled: false,
 //                   mapType: MapType.normal,
-//                   markers: getMarkers(context, dzorMapController,
-//                       dzorMapController.showSailors),
+//                   markers: getMarkers(context, hostMapController,
+//                       hostMapController.showSailors),
 //                   initialCameraPosition: CameraPosition(
 //                     target: new LatLng(
-//                       dzorMapController.currentLocation.latitude ?? 23.0204975,
-//                       dzorMapController.currentLocation.longitude ?? 72.43931,
+//                       hostMapController.currentLocation.latitude ?? 23.0204975,
+//                       hostMapController.currentLocation.longitude ?? 72.43931,
 //                     ),
 //                     zoom: 12,
 //                   ),
@@ -399,9 +399,9 @@
 //                 ),
 //                 Positioned(
 //                   bottom: 20.0,
-//                   child: dzorMapController.clientsToggle
+//                   child: hostMapController.clientsToggle
 //                       ? Container(
-//                           key: dzorMapController.cardsKey,
+//                           key: hostMapController.cardsKey,
 //                           height: 140.0,
 //                           width: MediaQuery.of(context).size.width,
 //                           child: Column(
@@ -431,7 +431,7 @@
 //                                               children: [
 //                                                 InkWell(
 //                                                   onTap: () =>
-//                                                       dzorMapController.zoomIn,
+//                                                       hostMapController.zoomIn,
 //                                                   child: Icon(
 //                                                     Icons.add,
 //                                                     size: 18,
@@ -445,7 +445,7 @@
 //                                                 ),
 //                                                 InkWell(
 //                                                   onTap: () =>
-//                                                       dzorMapController.zoomOut,
+//                                                       hostMapController.zoomOut,
 //                                                   child: Icon(
 //                                                     Icons.remove,
 //                                                     size: 18,
@@ -456,24 +456,24 @@
 //                                         horizontalSpaceMedium,
 //                                         InkWell(
 //                                             onTap: () {
-//                                               dzorMapController
+//                                               hostMapController
 //                                                   .setClientCardsToSeller(true);
 //                                             },
 //                                             child: CustomCategoryChip(
 //                                                 "assets/images/shop.png",
 //                                                 "Designers",
-//                                                 dzorMapController.showSailors)),
+//                                                 hostMapController.showSailors)),
 //                                         SizedBox(width: 12),
 //                                         InkWell(
 //                                             onTap: () {
-//                                               dzorMapController
+//                                               hostMapController
 //                                                   .setClientCardsToSeller(
 //                                                       false);
 //                                             },
 //                                             child: CustomCategoryChip(
 //                                                 "assets/images/sewing.png",
 //                                                 "Tailors",
-//                                                 !dzorMapController
+//                                                 !hostMapController
 //                                                     .showSailors)),
 //                                       ],
 //                                     ),
@@ -481,7 +481,7 @@
 //                                       padding:
 //                                           const EdgeInsets.only(right: 8.0),
 //                                       child: InkWell(
-//                                         onTap: () => dzorMapController
+//                                         onTap: () => hostMapController
 //                                             .onLocationIconClicked(),
 //                                         child: Container(
 //                                           padding: EdgeInsets.all(8.0),
@@ -501,8 +501,8 @@
 //                                 width: MediaQuery.of(context).size.width,
 //                                 child: CarouselSlider(
 //                                   carouselController: carouselController,
-//                                   items: dzorMapController.showSailors
-//                                       ? dzorMapController.sData!.items!
+//                                   items: hostMapController.showSailors
+//                                       ? hostMapController.sData!.items!
 //                                           .asMap()
 //                                           .entries
 //                                           .map((element) {
@@ -514,12 +514,12 @@
 //                                             element.key: element.value,
 //                                           });
 //                                           return clientCardSeller(
-//                                               dzorMapController,
+//                                               hostMapController,
 //                                               context,
 //                                               element.value,
 //                                               element.key);
 //                                         }).toList()
-//                                       : dzorMapController.tData!.items!
+//                                       : hostMapController.tData!.items!
 //                                           .asMap()
 //                                           .entries
 //                                           .map((element) {
@@ -528,7 +528,7 @@
 //                                                 element.key
 //                                           });
 //                                           return clientCardTailor(
-//                                               dzorMapController,
+//                                               hostMapController,
 //                                               context,
 //                                               element.value,
 //                                               element.key);
@@ -541,9 +541,9 @@
 //                                     enlargeCenterPage: false,
 //                                     viewportFraction: 0.7,
 //                                     onPageChanged: (index, reason) {
-//                                       if (dzorMapController.showSailors)
+//                                       if (hostMapController.showSailors)
 //                                         onCardTap(
-//                                           dzorMapController: dzorMapController,
+//                                           hostMapController: hostMapController,
 //                                           index: index,
 //                                           client: carouselSellerMap[index],
 //                                         );
@@ -556,7 +556,7 @@
 //                         )
 //                       : Container(height: 1.0, width: 1.0),
 //                 ),
-//                 if (dzorMapController.showBottomSheet)
+//                 if (hostMapController.showBottomSheet)
 //                   Container(
 //                     color: Colors.red,
 //                     height: 50,
@@ -566,7 +566,7 @@
 //                             context: context,
 //                             builder: (context) {
 //                               return Column(children: <Widget>[
-//                                 Text(dzorMapController.currentClient.name),
+//                                 Text(hostMapController.currentClient.name),
 //                                 Container(
 //                                   height: 200,
 //                                   color: Colors.blue,
@@ -619,8 +619,8 @@
 // }
 
 // class TailorIndiView extends StatelessWidget {
-//   final DzorMapController dzorMapController;
-//   const TailorIndiView(this.dzorMapController, {Key? key}) : super(key: key);
+//   final hostMapController hostMapController;
+//   const TailorIndiView(this.hostMapController, {Key? key}) : super(key: key);
 
 //   @override
 //   Widget build(BuildContext context) {
@@ -628,7 +628,7 @@
 //         onClosing: () => {},
 //         builder: (context) {
 //           return Column(children: <Widget>[
-//             Text(dzorMapController.currentClient.name),
+//             Text(hostMapController.currentClient.name),
 //             Container(
 //               height: 200,
 //               color: Colors.blue,

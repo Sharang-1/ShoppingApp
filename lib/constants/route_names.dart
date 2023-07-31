@@ -40,7 +40,7 @@ const String MyAppointmentViewRoute = "MyAppointmentView";
 
 // Other Routes
 const String ProfileViewRoute = "ProfileView";
-const String DzorExploreViewRoute = "DzorExploreView";
+const String hostExploreViewRoute = "hostExploreView";
 const String AddressInputPageRoute = "AddressInputPageRoute";
 const String SettingsRoute = "SettingsView";
 const String NotifcationViewRoute = "NotificationView";

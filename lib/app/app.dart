@@ -8,11 +8,11 @@ class App {
   List<String> dynamicSectionKeys = [];
   static bool isUserLoggedIn = false;
   static bool isDeleteRequested = false;
-  String devUrl = "https://dev.dzor.in/api/";
-  String liveUrl = "https://www.dzor.in/api/";
+  String devUrl = "https://dev.host.in/api/";
+  String liveUrl = "https://www.host.in/api/";
   String currentUrl = "";
 }
 
-class DzorConst {
+class hostConst {
   num? promotedProduct;
 }

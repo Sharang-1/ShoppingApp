@@ -43,7 +43,7 @@ class _CustomProductState extends State<CustomProduct> {
 
   Future<void> addProductDetails() async {
     final url =
-        Uri.https('dzor-application.firebaseio.com', '/customProduct.json');
+        Uri.https('host-application.firebaseio.com', '/customProduct.json');
     try {
       // var details = await _apiService.getUserData();
       await http.post(url,
@@ -66,7 +66,7 @@ class _CustomProductState extends State<CustomProduct> {
     String uniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
 
     Reference referenceRoot =
-        FirebaseStorage.instanceFor(bucket: "gs://dzor-application.appspot.com")
+        FirebaseStorage.instanceFor(bucket: "gs://host-application.appspot.com")
             .ref();
     Reference referenceDirImages = referenceRoot.child('images');
     Reference referenceImageToUpload = referenceDirImages.child(uniqueFileName);

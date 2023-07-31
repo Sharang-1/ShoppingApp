@@ -117,7 +117,7 @@ Map<String, String> guIN = {
   SETTINGS_RATE_APP: "રેટ કરો",
   SETTINGS_ABOUT_US: "અમને જાણો",
   SETTINGS_TERMS_AND_CONDITIONS: "નિયમો અને શરતો",
-  SETTINGS_ABOUT_DZOR: "ડ્જોર ને જાણો",
+  SETTINGS_ABOUT_host: "ડ્જોર ને જાણો",
   SETTINGS_LOG_IN: "લૉગ ઇન",
   SETTINGS_LOG_OUT: "લૉગ આઉટ",
   SETTINGS_PROFILE: "પ્રોફાઇલ",

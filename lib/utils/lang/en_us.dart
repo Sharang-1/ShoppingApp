@@ -117,7 +117,7 @@ const Map<String, String> enUS = {
   SETTINGS_RATE_APP: "Rate The App",
   SETTINGS_ABOUT_US: "About Us",
   SETTINGS_TERMS_AND_CONDITIONS: "Terms & Conditions",
-  SETTINGS_ABOUT_DZOR: "About Dzor",
+  SETTINGS_ABOUT_host: "About host",
   SETTINGS_LOG_IN: "Login",
   SETTINGS_LOG_OUT: "Logout",
   SETTINGS_PROFILE: "Profile",
@@ -146,7 +146,7 @@ const Map<String, String> enUS = {
   // DIALOGS
   CART_ALERT_DIALOG_TITLE: 'Check Size, Color and Quantity',
   CART_ALERT_DIALOG_DESCRIPTION:
-      'Creators on Dzor work hard to create garments and items for you. Please make sure you’re making an informed buying decision so that we don’t have to return or cancel the order.',
+      'Creators on host work hard to create garments and items for you. Please make sure you’re making an informed buying decision so that we don’t have to return or cancel the order.',
 
   PAYMENT: "Payment",
   PROCEED_TO_PAY: "Proceed to Pay",

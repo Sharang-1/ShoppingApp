@@ -1,3 +1,3 @@
 import 'base_controller.dart';
 
-class DzorExploreController extends BaseController {}
+class hostExploreController extends BaseController {}

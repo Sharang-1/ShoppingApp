@@ -38,16 +38,16 @@ class SettingsView extends StatelessWidget {
   final Map<int, void Function()> settingOnTapMap = {
     1: () => Platform.isAndroid
         ? launchUrlString(
-            "https://play.google.com/store/apps/details?id=in.dzor.dzor_app&hl=en_IN&gl=US")
-        : launchUrlString("https://apps.apple.com/in/app/dzor/id1562083632"),
+            "https://play.google.com/store/apps/details?id=in.host.host_app&hl=en_IN&gl=US")
+        : launchUrlString("https://apps.apple.com/in/app/host/id1562083632"),
     2: () => Platform.isAndroid
         ? launchUrlString(
-            "https://play.google.com/store/apps/details?id=in.dzor.dzor_app&hl=en_IN&gl=US")
-        : launchUrlString("https://apps.apple.com/in/app/dzor/id1562083632"),
+            "https://play.google.com/store/apps/details?id=in.host.host_app&hl=en_IN&gl=US")
+        : launchUrlString("https://apps.apple.com/in/app/host/id1562083632"),
     // 1: () => OpenAppstore.launch(
-    //     androidAppId: "in.dzor.dzor_app", iOSAppId: "1562083632"),
+    //     androidAppId: "in.host.host_app", iOSAppId: "1562083632"),
     // 2: () => OpenAppstore.launch(
-    //     androidAppId: "in.dzor.dzor_app", iOSAppId: "1562083632"),
+    //     androidAppId: "in.host.host_app", iOSAppId: "1562083632"),
     3: () => BaseController.launchURL(CONTACT_US_URL),
     4: () => BaseController.launchURL(TERMS_AND_CONDITIONS_URL),
   };

@@ -497,7 +497,7 @@ class _SellerIndi2State extends State<SellerIndi2> {
                                               ),
                                               horizontalSpaceSmall,
                                               CustomText(
-                                                "All orders will be delivered by Dzor",
+                                                "All orders will be delivered by host",
                                                 fontSize: headFont - 2,
                                                 fontWeight: FontWeight.w500,
                                                 fontFamily: textFont,
@@ -734,7 +734,7 @@ class _SellerIndi2State extends State<SellerIndi2> {
                                               ),
                                               horizontalSpaceSmall,
                                               CustomText(
-                                                "All orders will be delivered by Dzor",
+                                                "All orders will be delivered by host",
                                                 fontSize: headFont - 2,
                                                 fontWeight: FontWeight.w500,
                                                 fontFamily: textFont,

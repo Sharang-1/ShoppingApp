@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -6,7 +5,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../constants/route_names.dart';
 import '../../controllers/base_controller.dart';
 import '../../controllers/cart_count_controller.dart';
-import '../../controllers/dzor_explore_controller.dart';
+import '../../controllers/host_explore_controller.dart';
 import '../../controllers/grid_view_builder/products_grid_view_builder_controller.dart';
 import '../../controllers/grid_view_builder/sellers_grid_view_builder_controller.dart';
 import '../../controllers/home_controller.dart';
@@ -19,12 +18,12 @@ import '../widgets/cart_icon_badge.dart';
 import '../widgets/custom_text.dart';
 import '../widgets/section_builder.dart';
 
-class DzorExploreView extends StatefulWidget {
+class hostExploreView extends StatefulWidget {
   @override
-  _DzorExploreViewState createState() => _DzorExploreViewState();
+  _hostExploreViewState createState() => _hostExploreViewState();
 }
 
-class _DzorExploreViewState extends State<DzorExploreView> {
+class _hostExploreViewState extends State<hostExploreView> {
   UniqueKey key = UniqueKey();
   final refreshController = RefreshController(initialRefresh: false);
 
@@ -34,7 +33,7 @@ class _DzorExploreViewState extends State<DzorExploreView> {
 
     // try {
     //   locator<AnalyticsService>().sendAnalyticsEvent(
-    //       eventName: "dzor_explore_view",
+    //       eventName: "host_explore_view",
     //       parameters: <String, dynamic>{
     //         "user_id": locator<HomeController>().details!.key,
     //         "user_name": locator<HomeController>().details!.name,
@@ -44,9 +43,9 @@ class _DzorExploreViewState extends State<DzorExploreView> {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<DzorExploreController>(
+    return GetBuilder<hostExploreController>(
       global: false,
-      init: DzorExploreController(),
+      init: hostExploreController(),
       builder: (controller) => Scaffold(
         appBar: AppBar(
           elevation: 0,
@@ -97,7 +96,7 @@ class _DzorExploreViewState extends State<DzorExploreView> {
                   ),
                   horizontalSpaceSmall,
                   Text(
-                    "Dzor Explore",
+                    "host Explore",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 18,
@@ -107,7 +106,7 @@ class _DzorExploreViewState extends State<DzorExploreView> {
                 ],
               ),
               CustomText(
-                "Explore Best Listings on Dzor",
+                "Explore Best Listings on host",
                 fontSize: 10,
               ),
             ],
@@ -147,13 +146,12 @@ class _DzorExploreViewState extends State<DzorExploreView> {
                 refreshController.refreshCompleted(resetFooterState: true);
               },
               child: SingleChildScrollView(
-
                 child: Column(
                   children: [
-
                     SectionBuilder(
                       context: context,
-                      header: SectionHeader(title: RECOMMENDED_DESIGNERS.tr, subTitle: " "),
+                      header: SectionHeader(
+                          title: RECOMMENDED_DESIGNERS.tr, subTitle: " "),
                       onEmptyList: () {},
                       layoutType: LayoutType.EXPLORE_DESIGNER_LAYOUT,
                       scrollDirection: Axis.horizontal,
@@ -161,7 +159,6 @@ class _DzorExploreViewState extends State<DzorExploreView> {
                           random: true, removeId: ''),
                     ),
                     verticalSpaceSmall,
-
                     SectionBuilder(
                       context: context,
                       // header: SectionHeader(title: " ", subTitle: " "),

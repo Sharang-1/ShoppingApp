@@ -51,7 +51,7 @@ class _ProfileViewState extends State<ProfileView> {
 
   void initState() {
     super.initState();
-    initialString = "Dzor";
+    initialString = "host";
     isButtonActive = false;
     isEditable = false;
   }

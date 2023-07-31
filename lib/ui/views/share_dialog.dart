@@ -14,7 +14,7 @@ class ShareDialog extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            "Enjoying Dzor, Share It With Your Best Friends",
+            "Enjoying host, Share It With Your Best Friends",
             textAlign: TextAlign.center,
             style: TextStyle(
               fontFamily: headingFont,
@@ -25,7 +25,7 @@ class ShareDialog extends StatelessWidget {
           ),
           ElevatedButton(
             onPressed: () async =>
-                await Share.share("https://dzor.page.link/App"),
+                await Share.share("https://host.page.link/App"),
             child: Text(
               "Share",
               style: TextStyle(

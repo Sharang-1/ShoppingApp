@@ -39,12 +39,12 @@ class PaymentService {
       required String contactNo,
       required String orderId,
       required String receiptId,
-      required String dzorOrderId,
+      required String hostOrderId,
       required String groupId,
       String? email,
-      String name = 'Dzor Infotech Pvt Ltd',
+      String name = 'host Infotech Pvt Ltd',
       String currency = 'INR',
-      String description = 'Shop at Dzor'}) async {
+      String description = 'Shop at host'}) async {
     log("inside payment api");
     // if (razorPayAPIKey == null) {
     razorPayAPIKey = await getApiKey();
@@ -58,11 +58,11 @@ class PaymentService {
         'receipt': receiptId,
         'name': appInfo?.payment.merchantName ?? name,
         'description': description,
-        // 'email': email ?? "info@dzor.in",
+        // 'email': email ?? "info@host.in",
         // 'contact': contactNo,
         'prefill': {
           'contact': contactNo,
-          'email': email ?? (appInfo?.payment.email ?? "info@dzor.in")
+          'email': email ?? (appInfo?.payment.email ?? "info@host.in")
         },
         'theme': {
           'color': '#FD673A',
@@ -79,14 +79,14 @@ class PaymentService {
         if (kDebugMode) log("Signature: " + response.signature!);
 
         await locator<APIService>().verifyGroupPayment(
-          // orderId: dzorOrderId,
+          // orderId: hostOrderId,
           groupId: groupId,
           paymentId: response.paymentId,
           signature: response.signature,
           success: true,
         );
         // await locator<APIService>().verifyPayment(
-        //   orderId: dzorOrderId,
+        //   orderId: hostOrderId,
         //   paymentId: response.paymentId,
         //   signature: response.signature,
         //   msg: "Success",
@@ -99,12 +99,12 @@ class PaymentService {
       _razorpay?.on(Razorpay.EVENT_PAYMENT_ERROR,
           (PaymentFailureResponse response) async {
         await locator<APIService>().verifyGroupPayment(
-          // orderId: dzorOrderId,
+          // orderId: hostOrderId,
           groupId: groupId,
           success: false,
         );
         // await locator<APIService>().verifyPayment(
-        //   orderId: dzorOrderId,
+        //   orderId: hostOrderId,
         //   msg: response.message,
         //   success: false,
         // );

@@ -10,5 +10,6 @@
     "indi"
   ],
   "cSpell.enabled": false,
-  "dart.flutterSdkPath": "D:\\app dev\\flutter2.10.5"
+  "dart.flutterSdkPath": "D:\\app dev\\flutter2.10.5",
+  "java.configuration.updateBuildConfiguration": "disabled"
 }

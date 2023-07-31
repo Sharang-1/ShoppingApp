@@ -1,16 +1,16 @@
 {
   "project_info": {
     "project_number": "355322320933",
-    "firebase_url": "https://dzor-application.firebaseio.com",
-    "project_id": "dzor-application",
-    "storage_bucket": "dzor-application.appspot.com"
+    "firebase_url": "https://host-application.firebaseio.com",
+    "project_id": "host-application",
+    "storage_bucket": "host-application.appspot.com"
   },
   "client": [
     {
       "client_info": {
         "mobilesdk_app_id": "1:355322320933:android:edfbc7f2dacaad242cc7cc",
         "android_client_info": {
-          "package_name": "com.example.dzor_app"
+          "package_name": "com.example.host_app"
         }
       },
       "oauth_client": [
@@ -39,7 +39,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:355322320933:android:349297aefc1e60f52cc7cc",
         "android_client_info": {
-          "package_name": "in.dzor.dzor_app"
+          "package_name": "in.host.host_app"
         }
       },
       "oauth_client": [

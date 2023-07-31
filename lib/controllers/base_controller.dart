@@ -174,7 +174,7 @@ class BaseController extends GetxController {
   }
 
   static Future<dynamic> shareApp() async =>
-      await Share.share("https://dzor.page.link/App");
+      await Share.share("https://host.page.link/App");
 
   static String formatPrice(n) {
     return NumberFormat.simpleCurrency(name: 'INR').format(n);

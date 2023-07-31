@@ -43,10 +43,10 @@ android {
     }
 
     defaultConfig {
-        applicationId "in.dzor.dzor_app"
+        applicationId "in.host.host_app"
         minSdkVersion 21
         targetSdkVersion 33
-        versionCode flutterVersionCode.toInteger()
+        versionCode flutterVersionCode.toInteger() + 56
         versionName flutterVersionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true

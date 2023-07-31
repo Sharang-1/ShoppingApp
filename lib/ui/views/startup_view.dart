@@ -64,9 +64,9 @@ class _StartUpViewState extends State<StartUpView>
               onPressed: () {
                 Platform.isAndroid
                     ? launchUrlString(
-                        "https://play.google.com/store/apps/details?id=in.dzor.dzor_app&hl=en_IN&gl=US")
+                        "https://play.google.com/store/apps/details?id=in.host.host_app&hl=en_IN&gl=US")
                     : launchUrlString(
-                        "https://apps.apple.com/in/app/dzor/id1562083632");
+                        "https://apps.apple.com/in/app/host/id1562083632");
               },
             )
           ],
@@ -90,7 +90,7 @@ class _StartUpViewState extends State<StartUpView>
   //     ),
   //     Center(
   //       child: Image.asset(
-  //         "assets/images/dzor_logo.png",
+  //         "assets/images/host_logo.png",
   //         // color: logoRed,
   //         width: MediaQuery.of(context).size.width / 2,
   //         fit: BoxFit.contain,
@@ -106,7 +106,7 @@ class _StartUpViewState extends State<StartUpView>
   //   //       padding: const EdgeInsets.only(bottom: 50),
   //   //       child: Center(
   //   //         child: Image.asset(
-  //   //           "assets/images/dzor_logo.png",
+  //   //           "assets/images/host_logo.png",
   //   //           // color: logoRed,
   //   //           width: MediaQuery.of(context).size.width / 2,
   //   //           fit: BoxFit.contain,

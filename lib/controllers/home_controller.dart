@@ -213,7 +213,7 @@ class HomeController extends BaseController {
         minLaunches: 0,
         remindDays: 2,
         remindLaunches: 2,
-        googlePlayIdentifier: 'in.dzor.dzor_app',
+        googlePlayIdentifier: 'in.host.host_app',
         appStoreIdentifier: '1562083632',
       );
 
@@ -231,7 +231,7 @@ class HomeController extends BaseController {
               (launches % 5 == 0)) {
             await rateMyApp.showRateDialog(
               Get.context!,
-              title: 'Dzor',
+              title: 'host',
               onDismissed: () async {
                 await prefs!.setBool('rateMyApp_doNotOpenAgain', true);
               },
@@ -259,7 +259,7 @@ class HomeController extends BaseController {
           );
         break;
       case 2:
-        NavigationService.to(DzorExploreViewRoute);
+        NavigationService.to(hostExploreViewRoute);
         break;
       case 3:
         if (isLoggedIn)
@@ -431,7 +431,7 @@ class HomeController extends BaseController {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        "Dzor Search",
+                        "host Search",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
@@ -452,7 +452,7 @@ class HomeController extends BaseController {
           ],
         ),
         TargetFocus(
-          identify: "Dzor Explore Target",
+          identify: "host Explore Target",
           keyTarget: logoKey,
           contents: [
             TargetContent(
@@ -467,7 +467,7 @@ class HomeController extends BaseController {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        "Explore Dzor",
+                        "Explore host",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
@@ -477,7 +477,7 @@ class HomeController extends BaseController {
                       Padding(
                         padding: const EdgeInsets.only(top: 10.0),
                         child: Text(
-                          "Explore Best Listings on Dzor.",
+                          "Explore Best Listings on host.",
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
@@ -521,7 +521,7 @@ Future getProducts(String promotionKey) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(
         'promoted_product', promotion.products![0].toString());
-    DzorConst().promotedProduct = promotion.products?[1];
+    hostConst().promotedProduct = promotion.products?[1];
     print("abcdefg ${promotion.products?[1]}");
   }
   if (res.statusCode >= 200 && res.statusCode < 300) {
@@ -585,7 +585,7 @@ Future<Product> getProductFromKey(String key) async {
 
 Future getDynamicKeys() async {
   var headersList = {'Accept': '*/*'};
-  // var url = Uri.parse('https://dev.dzor.in/api/promotions');
+  // var url = Uri.parse('https://dev.host.in/api/promotions');
   var url = Uri.parse('${appVar.currentUrl}promotions');
 
   var res = await http.get(url, headers: headersList);

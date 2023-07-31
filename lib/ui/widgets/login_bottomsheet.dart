@@ -212,7 +212,7 @@ class LoginBottomsheet extends StatelessWidget {
       case WishListRoute:
         return "$prefix see Wishlist";
       case MapViewRoute:
-        return "$prefix open Dzor Map";
+        return "$prefix open host Map";
       case SellerIndiViewRoute:
         return "$prefix see Designer's Profile";
       default:

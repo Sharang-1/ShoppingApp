@@ -1,10 +1,10 @@
-import 'package:compound/utils/lang/translation_keys.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
+import '../../utils/lang/translation_keys.dart';
 import '../../models/reviews.dart';
 import '../shared/shared_styles.dart';
 import '../widgets/reviews.dart';
-import 'package:get/get.dart';
 
 class ReviewsScreen extends StatelessWidget {
   final Reviews reviews;

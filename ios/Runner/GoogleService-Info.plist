@@ -13,11 +13,11 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>in.dzor.dzor-app</string>
+	<string>in.host.host-app</string>
 	<key>PROJECT_ID</key>
-	<string>dzor-application</string>
+	<string>host-application</string>
 	<key>STORAGE_BUCKET</key>
-	<string>dzor-application.appspot.com</string>
+	<string>host-application.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,6 +31,6 @@
 	<key>GOOGLE_APP_ID</key>
 	<string>1:355322320933:ios:27aa86f5671e43982cc7cc</string>
 	<key>DATABASE_URL</key>
-	<string>https://dzor-application.firebaseio.com</string>
+	<string>https://host-application.firebaseio.com</string>
 </dict>
 </plist>

@@ -616,7 +616,7 @@ class _ProductIndiViewState extends State<ProductIndiView> {
                                             child: Column(
                                               children: [
                                                 Text(
-                                                  "All products on Dzor are handmade and made to order.",
+                                                  "All products on host are handmade and made to order.",
                                                   maxLines: 5,
                                                   style: TextStyle(
                                                       color: Colors.black,
